@@ -20,7 +20,29 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - run: python -m pip install --upgrade pip
-      - run: python -m pip install -e .
-      - run: python -m py_compile odsp/__init__.py odsp/patches.py case_studies/campanula_microdonta/run_case.py
-      - run: python -m unittest discover -v
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python - <<'PY'
+          import numpy, pandas, sys
+          print(sys.version)
+          print("numpy", numpy.__version__)
+          print("pandas", pandas.__version__)
+          PY
+      - name: Compile sources
+        run: python -m py_compile odsp/__init__.py odsp/patches.py case_studies/campanula_microdonta/run_case.py
+      - name: Test occurrence components
+        run: python -m unittest -v tests.test_patches.PatchTests.test_occurrence_components
+      - name: Test connectivity classes
+        run: python -m unittest -v tests.test_patches.PatchTests.test_connectivity_classes
+      - name: Test incremental recovery
+        run: python -m unittest -v tests.test_patches.PatchTests.test_incremental_recovery
+      - name: Test detection clustering
+        run: python -m unittest -v tests.test_patches.PatchTests.test_detection_clustering_respects_group
+      - name: Test sensitivity frequencies
+        run: python -m unittest -v tests.test_patches.PatchTests.test_sensitivity_frequencies_sum_to_one
+      - name: Test invalid and empty inputs
+        run: python -m unittest -v tests.test_patches.PatchTests.test_invalid_and_empty_inputs
+      - name: Full test discovery
+        run: python -m unittest discover -v
