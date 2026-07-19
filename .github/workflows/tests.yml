@@ -45,4 +45,4 @@ jobs:
       - name: Test invalid and empty inputs
         run: python -m unittest -v tests.test_patches.PatchTests.test_invalid_and_empty_inputs
       - name: Full test discovery
-        run: python -m unittest discover -v
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
