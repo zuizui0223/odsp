@@ -1,4 +1,11 @@
 """Occurrence-Defined Survey Patches."""
+from .benchmark import (
+    BenchmarkConfig,
+    BenchmarkUnit,
+    benchmark_status_table,
+    evaluate_benchmark_unit,
+    summarize_benchmark_cohort,
+)
 from .patches import (
     DEFAULT_RECOVERY_RADII_KM,
     CandidatePatchConfig,
@@ -16,6 +23,11 @@ from .patches import (
 )
 
 __all__ = [
+    "BenchmarkConfig",
+    "BenchmarkUnit",
+    "benchmark_status_table",
+    "evaluate_benchmark_unit",
+    "summarize_benchmark_cohort",
     "DEFAULT_RECOVERY_RADII_KM",
     "CandidatePatchConfig",
     "OccurrenceConnectivityConfig",
