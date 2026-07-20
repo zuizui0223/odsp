@@ -31,6 +31,28 @@ The method was defined after the first ACSP field result was inspected. Conseque
 7. Retain failures and empty candidate sets in the intention-to-evaluate denominator.
 8. Reserve at least one future field season for prospective confirmation.
 
+## Frozen independent cohort
+
+`validation/frozen_taxon_region_manifest.csv` contains 48 predeclared taxon-region pairs copied from the two independent ACSP confirmation cohorts:
+
+- 24 mixed plant/animal pairs frozen on 2026-07-05;
+- 24 non-overlapping plant pairs frozen on 2026-07-06.
+
+These pairs are reused as an independent sampling frame, not as evidence that ODSP already works. ODSP requires a new graph-patch endpoint and therefore must reconstruct fold inputs under its own frozen protocol.
+
+`odsp.acsp_adapter` converts complete ACSP fold exports into ODSP benchmark inputs. It explicitly blocks legacy exports that lack training and held-out coordinates. Coverage IDs, candidate IDs, or post hoc coordinate reconstruction are not accepted as substitutes.
+
+## Current data blocker
+
+The historical ACSP exports were optimized for Top-k recovery and may contain held-out coverage IDs without explicit training/held-out coordinate tables. Therefore the next executable data task is to rerun or extend the ACSP fold exporter so every fold writes:
+
+- `training_occurrences.csv` with stable source IDs and coordinates;
+- `held_out_occurrences.csv` with complete cluster membership and coordinates;
+- `candidate_support.csv` generated from training occurrences only;
+- a manifest containing source commit, GBIF query date, species key, region bounds, random seed, fold assignment, and support configuration.
+
+Until those files exist, affected units remain `blocked_incomplete_legacy_export` rather than being silently omitted.
+
 ## Required baselines
 
 - fixed-radius buffers around known occurrences;

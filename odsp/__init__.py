@@ -1,4 +1,17 @@
 """Occurrence-Defined Survey Patches."""
+from .acsp_adapter import (
+    ACSPExportLayout,
+    AdaptedBenchmarkInput,
+    inputs_from_acsp_export,
+    load_frozen_manifest,
+)
+from .benchmark import (
+    BenchmarkConfig,
+    BenchmarkUnit,
+    benchmark_status_table,
+    evaluate_benchmark_unit,
+    summarize_benchmark_cohort,
+)
 from .patches import (
     DEFAULT_RECOVERY_RADII_KM,
     CandidatePatchConfig,
@@ -16,18 +29,27 @@ from .patches import (
 )
 
 __all__ = [
+    "ACSPExportLayout",
+    "AdaptedBenchmarkInput",
+    "BenchmarkConfig",
+    "BenchmarkUnit",
     "DEFAULT_RECOVERY_RADII_KM",
     "CandidatePatchConfig",
     "OccurrenceConnectivityConfig",
     "annotate_occurrence_connectivity",
+    "benchmark_status_table",
     "build_candidate_patches",
     "build_occurrence_patches",
     "cluster_detections",
     "connected_components",
     "connectivity_sensitivity",
+    "evaluate_benchmark_unit",
     "haversine_distance_m",
     "incremental_recovery_summary",
+    "inputs_from_acsp_export",
+    "load_frozen_manifest",
     "patch_recovery_table",
+    "summarize_benchmark_cohort",
     "summarize_candidate_patches",
 ]
 

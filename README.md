@@ -39,7 +39,9 @@ The package now provides:
 - observed-medoid clustering of field detections;
 - nearest-member multi-radius recovery;
 - extension-only versus extension-plus-near-disconnected incremental recall;
-- connectivity-label sensitivity and class-frequency summaries.
+- connectivity-label sensitivity and class-frequency summaries;
+- pair-first confirmatory benchmark summaries;
+- frozen taxon-region manifests and ACSP export adapters.
 
 ## Relationship to ACSP
 
@@ -63,9 +65,13 @@ python case_studies/campanula_microdonta/run_case.py \
   --occurrences historical_occurrences_through_2025.csv
 ```
 
-## Confirmatory target
+## Confirmatory benchmark
 
-The primary future endpoint is:
+`validation/frozen_taxon_region_manifest.csv` freezes 48 independent taxon-region pairs inherited from two ACSP confirmation cohorts: 24 mixed plant/animal pairs and 24 non-overlapping plant pairs.
+
+The `odsp.acsp_adapter` module accepts only complete fold exports containing explicit training occurrences, held-out occurrences, and training-only candidate support. Legacy ACSP exports that retain coverage IDs without the corresponding coordinates are marked `blocked_incomplete_legacy_export`; coordinates are not guessed or reconstructed post hoc.
+
+The primary endpoint is:
 
 ```text
 recall(extension + near-disconnected) - recall(extension only)
@@ -75,4 +81,4 @@ Required baselines include occurrence buffers, nearest-known outward search, sin
 
 ## Status
 
-Research implementation migrated from `zuizui0223/acsp` PR #39. Corridor/barrier inference and survey-budget ranking are not part of the ODSP headline method. Multi-taxon and independent prospective confirmation remain future empirical work rather than migration tasks.
+Research implementation migrated from `zuizui0223/acsp` PR #39. The benchmark contract, frozen independent cohort, and export adapter are now implemented. The next data-producing task is to extend or rerun the ACSP fold exporter so every frozen fold writes explicit training, held-out, and candidate-support coordinate tables. Corridor/barrier inference and survey-budget ranking are not part of the ODSP headline method.
