@@ -41,7 +41,8 @@ The package now provides:
 - extension-only versus extension-plus-near-disconnected incremental recall;
 - connectivity-label sensitivity and class-frequency summaries;
 - pair-first confirmatory benchmark summaries;
-- frozen taxon-region manifests and ACSP export adapters.
+- frozen taxon-region manifests and ACSP export adapters;
+- an auditable batch runner for the complete frozen cohort.
 
 ## Relationship to ACSP
 
@@ -71,6 +72,17 @@ python case_studies/campanula_microdonta/run_case.py \
 
 The `odsp.acsp_adapter` module accepts only complete fold exports containing explicit training occurrences, held-out occurrences, and training-only candidate support. Legacy ACSP exports that retain coverage IDs without the corresponding coordinates are marked `blocked_incomplete_legacy_export`; coordinates are not guessed or reconstructed post hoc.
 
+Complete exports can be evaluated in one batch:
+
+```bash
+python validation/run_frozen_benchmark.py \
+  --layout mixed_20260705=/path/to/mixed_exports \
+  --layout plants_20260706=/path/to/plant_exports \
+  --output validation/results
+```
+
+The runner writes `adapter_audit.csv` for every adapted or blocked fold, plus unit metrics, unit status, pair-first cohort summaries, and `run_manifest.json` when evaluable inputs exist. `intention_to_evaluate_complete` is false whenever any frozen unit is missing or blocked.
+
 The primary endpoint is:
 
 ```text
@@ -81,4 +93,4 @@ Required baselines include occurrence buffers, nearest-known outward search, sin
 
 ## Status
 
-Research implementation migrated from `zuizui0223/acsp` PR #39. The benchmark contract, frozen independent cohort, and export adapter are now implemented. The next data-producing task is to extend or rerun the ACSP fold exporter so every frozen fold writes explicit training, held-out, and candidate-support coordinate tables. Corridor/barrier inference and survey-budget ranking are not part of the ODSP headline method.
+Research implementation migrated from `zuizui0223/acsp` PR #39. The method, benchmark contract, frozen independent cohort, export adapter, and batch execution/audit path are implemented. The remaining data-producing dependency is to extend or rerun the ACSP fold exporter so every frozen fold writes explicit training, held-out, and candidate-support coordinate tables. Corridor/barrier inference and survey-budget ranking are not part of the ODSP headline method.
