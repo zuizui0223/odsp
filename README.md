@@ -1,84 +1,58 @@
-# ODSP — Occurrence-Defined Survey Patches
+# ODSP — Superseded research repository
 
-ODSP constructs operational survey patches in geographical space relative to known occurrence patches.
+> **Superseded on 2026-07-22.** The scientifically defensible support-field component work from ODSP has been integrated into [`zuizui0223/eog`](https://github.com/zuizui0223/eog) as the **spatial support topology** layer at EOG merge commit `023261f4cac6d70973d097634807472976df749b` (PR #61, “Integrate spatial support topology into EOG”).
 
-The central question is not which raster cell has the highest suitability. It is whether a supported candidate patch is:
+ODSP is no longer an independent method, package, or publication target. New development should occur in EOG.
 
-1. a continuous extension of a known occurrence patch;
-2. a nearby but disconnected candidate patch; or
-3. a remote candidate patch.
+## What moved to EOG
 
-ODSP is designed for bounded, fragmented, or island survey systems where sparse occurrences, small accessible areas, coarse environmental grids, and strong geographic boundaries can make ordinary cell ranking difficult to interpret.
+EOG now provides a tested, model-agnostic raster support-topology layer for:
 
-## Scientific scope
+- frozen pointwise support fields;
+- explicit multi-threshold superlevel sets;
+- four- or eight-neighbour connected components;
+- hard unavailable-cell masks such as sea;
+- explicit occurrence-anchor assignment;
+- deterministic component lineages and fingerprints;
+- occurrence-anchored, persistent detached, transient detached, and unresolved classes;
+- component summaries and held-out detection recovery;
+- threshold and neighbourhood sensitivity audits.
 
-ODSP does **not** estimate occupancy probability, prove population isolation, infer barriers, or replace SDMs. It accepts any defensible candidate-support layer and changes the downstream survey object from ranked points to geographical patches.
+The canonical implementation is `src/eog/support_topology.py`, with positioning and migration documentation in:
 
-```text
-known occurrences -> occurrence radius graph -> occurrence patches
-candidate support -> thresholded radius graphs -> persistent candidate patches
-candidate patches x occurrence patches -> edge-to-edge connectivity classes
-held-out or future detections -> member-level patch recovery
-```
+- `docs/sdm_support_topology_positioning.md`;
+- `docs/odsp_migration_map.md`;
+- `examples/support_topology/synthetic_islands.py`.
 
-Connectivity classes:
+## What was deliberately not migrated
 
-- `occurrence_patch_extension`
-- `near_disconnected_occurrence_patch`
-- `remote_candidate_patch`
+ODSP PR #5 proposed maximum-bottleneck environmental-continuity paths. EOG already implements cumulative-cost paths, minimax bottleneck paths, redundancy, sensitivity, hypothesis-family aggregation, and hypothesis-discriminating survey ranking. A second ODSP path implementation would be scientifically and technically duplicative, so it was not retained.
 
-“Disconnected” is an operational graph label under predeclared distance rules. It does not imply genetic, demographic, habitat, or dispersal isolation.
+The following are retired as headline concepts:
 
-## Implemented workflow
+- distance-only `occurrence_patch_extension`;
+- `near_disconnected_occurrence_patch`;
+- `remote_candidate_patch`;
+- ODSP-specific widest-path or minimax continuity classes;
+- duplicated ACSP export adapters;
+- a second hypothesis-ranking workflow.
 
-The package now provides:
+Historical ODSP outputs do not establish occupancy, colonisation probability, demographic or genetic isolation, causal barriers, or historical dispersal.
 
-- threshold-persistent candidate-patch construction;
-- occurrence radius-graph patch construction;
-- occurrence-relative edge-to-edge classification;
-- observed-medoid clustering of field detections;
-- nearest-member multi-radius recovery;
-- extension-only versus extension-plus-near-disconnected incremental recall;
-- connectivity-label sensitivity and class-frequency summaries;
-- pair-first confirmatory benchmark summaries;
-- frozen taxon-region manifests and ACSP export adapters.
+## Migration boundary
 
-## Relationship to ACSP
-
-ODSP was motivated by a later island application of ACSP. The validated ACSP study asks how finite survey selections should be constructed and compared with same-pool counterfactuals. ODSP asks a different question: what spatial object should be surveyed when an undiscovered population may lie near, but outside, a known occurrence patch?
-
-ACSP remains one possible source of candidate-support layers, but ODSP is support-model agnostic.
-
-## Relationship to EOG
-
-EOG describes observed point-cloud geometry in environmental feature space. ODSP constructs survey patches in geographical space and evaluates them using withheld or future detection clusters. ODSP does not use environmental gaps as proof of fragmentation or barriers.
-
-## Campanula microdonta development case
-
-The repository includes the corrected 2026 positive field GPS inventory and `case_studies/campanula_microdonta/run_case.py`. The runner accepts frozen historical-occurrence and candidate-support CSVs, constructs ODSP patches without reading field outcomes, and then writes detection clusters, class-specific recovery, incremental recall, sensitivity labels, and an audit manifest.
-
-Because ODSP was defined after the first ACSP field result was inspected, this is a method-development and preliminary external case, not untouched confirmatory evidence.
-
-```bash
-python case_studies/campanula_microdonta/run_case.py \
-  --candidates frozen_candidate_support.csv \
-  --occurrences historical_occurrences_through_2025.csv
-```
-
-## Confirmatory benchmark
-
-`validation/frozen_taxon_region_manifest.csv` freezes 48 independent taxon-region pairs inherited from two ACSP confirmation cohorts: 24 mixed plant/animal pairs and 24 non-overlapping plant pairs.
-
-The `odsp.acsp_adapter` module accepts only complete fold exports containing explicit training occurrences, held-out occurrences, and training-only candidate support. Legacy ACSP exports that retain coverage IDs without the corresponding coordinates are marked `blocked_incomplete_legacy_export`; coordinates are not guessed or reconstructed post hoc.
-
-The primary endpoint is:
+The layered workflow is now:
 
 ```text
-recall(extension + near-disconnected) - recall(extension only)
+SDM, environmental-similarity model, or expert support generator
+    -> frozen pointwise support field
+    -> EOG spatial support topology
+    -> occurrence-anchored and detached support components
+    -> existing EOG bridge and reachability inference
+    -> existing EOG hypothesis-discrimination survey workflow
+    -> optional external finite-site optimization by ACSP
 ```
 
-Required baselines include occurrence buffers, nearest-known outward search, single-threshold clustering, DBSCAN or an equivalent simple clustering rule, support-only patches, and same-pool random patches.
+The `Campanula microdonta` development case remains exploratory because outcomes were inspected during method development. Any future confirmatory analysis must freeze historical anchors, training-only support, thresholds, neighbourhood, mask, raster resolution, and held-out detections before evaluation.
 
-## Status
-
-Research implementation migrated from `zuizui0223/acsp` PR #39. The benchmark contract, frozen independent cohort, and export adapter are now implemented. The next data-producing task is to extend or rerun the ACSP fold exporter so every frozen fold writes explicit training, held-out, and candidate-support coordinate tables. Corridor/barrier inference and survey-budget ranking are not part of the ODSP headline method.
+This repository is retained only as migration history and should be archived after repository settings are updated.
