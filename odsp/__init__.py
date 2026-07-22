@@ -12,6 +12,11 @@ from .benchmark import (
     evaluate_benchmark_unit,
     summarize_benchmark_cohort,
 )
+from .continuity import (
+    EnvironmentalContinuityConfig,
+    environmental_continuity,
+    summarize_continuity,
+)
 from .patches import (
     DEFAULT_RECOVERY_RADII_KM,
     CandidatePatchConfig,
@@ -35,6 +40,7 @@ __all__ = [
     "BenchmarkUnit",
     "DEFAULT_RECOVERY_RADII_KM",
     "CandidatePatchConfig",
+    "EnvironmentalContinuityConfig",
     "OccurrenceConnectivityConfig",
     "annotate_occurrence_connectivity",
     "benchmark_status_table",
@@ -43,6 +49,7 @@ __all__ = [
     "cluster_detections",
     "connected_components",
     "connectivity_sensitivity",
+    "environmental_continuity",
     "evaluate_benchmark_unit",
     "haversine_distance_m",
     "incremental_recovery_summary",
@@ -51,6 +58,7 @@ __all__ = [
     "patch_recovery_table",
     "summarize_benchmark_cohort",
     "summarize_candidate_patches",
+    "summarize_continuity",
 ]
 
 __version__ = "0.1.0-dev"
