@@ -1,84 +1,109 @@
-# ODSP — Occurrence-Defined Survey Patches
+# ODSP — Occurrence-Defined Support Patterns
 
-ODSP constructs operational survey patches in geographical space relative to known occurrence patches.
+ODSP reconstructs how occurrence-conditioned environmental support extends, narrows, breaks, and reappears in geographical space.
 
-The central question is not which raster cell has the highest suitability. It is whether a supported candidate patch is:
+The central question is not which raster cell has the highest suitability and not which finite set of sites should be visited. It is:
 
-1. a continuous extension of a known occurrence patch;
-2. a nearby but disconnected candidate patch; or
-3. a remote candidate patch.
-
-ODSP is designed for bounded, fragmented, or island survey systems where sparse occurrences, small accessible areas, coarse environmental grids, and strong geographic boundaries can make ordinary cell ranking difficult to interpret.
+> Can a supported location be reached from a known occurrence through a continuously supported environmental path, only through a weak bottleneck, or only as a detached high-support component?
 
 ## Scientific scope
 
-ODSP does **not** estimate occupancy probability, prove population isolation, infer barriers, or replace SDMs. It accepts any defensible candidate-support layer and changes the downstream survey object from ranked points to geographical patches.
+ODSP accepts a frozen geographical support field and known occurrences. It treats the support field as a weighted graph and calculates the strongest bottleneck path from occurrence anchors to every supported node.
 
 ```text
-known occurrences -> occurrence radius graph -> occurrence patches
-candidate support -> thresholded radius graphs -> persistent candidate patches
-candidate patches x occurrence patches -> edge-to-edge connectivity classes
-held-out or future detections -> member-level patch recovery
+known occurrences -> occurrence anchors
+support field -> geographical weighted graph
+anchors x graph -> maximum-bottleneck continuity
+continuity -> extensions, weak necks, detached analogues
+held-out detections -> structural validation
 ```
 
-Connectivity classes:
+Environmental continuity classes:
 
-- `occurrence_patch_extension`
-- `near_disconnected_occurrence_patch`
-- `remote_candidate_patch`
+- `continuous_environmental_extension`
+- `weak_neck_extension`
+- `detached_environmental_analogue`
+- `unsupported_or_low_support`
 
-“Disconnected” is an operational graph label under predeclared distance rules. It does not imply genetic, demographic, habitat, or dispersal isolation.
+These are operational structural labels. They do not prove genetic isolation, demographic independence, absence between patches, dispersal barriers, or occupancy probability.
 
 ## Implemented workflow
 
-The package now provides:
+The package provides:
 
 - threshold-persistent candidate-patch construction;
-- occurrence radius-graph patch construction;
-- occurrence-relative edge-to-edge classification;
+- occurrence-conditioned maximum-bottleneck continuity;
+- explicit weak-neck and detached-analogue classes;
+- bottleneck-depth summaries;
+- occurrence radius-graph utilities;
 - observed-medoid clustering of field detections;
 - nearest-member multi-radius recovery;
-- extension-only versus extension-plus-near-disconnected incremental recall;
-- connectivity-label sensitivity and class-frequency summaries;
 - pair-first confirmatory benchmark summaries;
-- frozen taxon-region manifests and ACSP export adapters.
+- producer-agnostic benchmark inputs and provenance checks.
 
-## Relationship to ACSP
+## Difference from species distribution models
 
-ODSP was motivated by a later island application of ACSP. The validated ACSP study asks how finite survey selections should be constructed and compared with same-pool counterfactuals. ODSP asks a different question: what spatial object should be surveyed when an undiscovered population may lie near, but outside, a known occurrence patch?
+Species distribution models generally estimate a pointwise quantity such as relative suitability, occurrence intensity, or occurrence probability, depending on the model and data. ODSP does not fit another pointwise predictor.
 
-ACSP remains one possible source of candidate-support layers, but ODSP is support-model agnostic.
+ODSP asks a structural question about an already frozen support field:
 
-## Relationship to EOG
+```text
+SDM or analogue model: how high is support at location x?
+ODSP: is x connected to known occurrences without crossing a low-support bottleneck?
+```
 
-EOG describes observed point-cloud geometry in environmental feature space. ODSP constructs survey patches in geographical space and evaluates them using withheld or future detection clusters. ODSP does not use environmental gaps as proof of fragmentation or barriers.
+Two locations with the same local support can therefore receive different ODSP labels: one may be a continuous environmental extension, while the other is a detached environmental analogue.
+
+An SDM surface may be used as one possible input, alongside environmental-analogue scores, kernels, expert maps, or other support fields. ODSP remains a distinct downstream structural analysis. See `docs/SDM_POSITIONING.md`.
+
+## Difference from ACSP
+
+ACSP is a survey decision tool:
+
+> Select a finite set of survey sites under evidence, complementarity, accessibility, and budget constraints.
+
+ODSP is an environmental-structure tool:
+
+> Reconstruct continuity, bottlenecks, breaks, and detached re-emergence in occurrence-conditioned support.
+
+ODSP does not optimize Top-k site sets, route budgets, evidence weights, or geographical complementarity. ACSP may later choose among ODSP-derived patches, but the estimands are different.
+
+## Core continuity quantity
+
+For support value `s(v)` on graph node `v`, ODSP calculates
+
+```text
+C(v) = max over paths from occurrence anchors to v
+       of the minimum support encountered along the path.
+```
+
+A high `C(v)` indicates a strongly supported extension. A large difference between local support and `C(v)` indicates that the node is locally suitable-looking but separated by a weak environmental neck or complete support break.
 
 ## Campanula microdonta development case
 
-The repository includes the corrected 2026 positive field GPS inventory and `case_studies/campanula_microdonta/run_case.py`. The runner accepts frozen historical-occurrence and candidate-support CSVs, constructs ODSP patches without reading field outcomes, and then writes detection clusters, class-specific recovery, incremental recall, sensitivity labels, and an audit manifest.
+The corrected 2026 field GPS inventory remains a method-development illustration. Historical occurrences and a candidate-support field must be frozen before field detections are read.
 
-Because ODSP was defined after the first ACSP field result was inspected, this is a method-development and preliminary external case, not untouched confirmatory evidence.
+The next case-study revision will compare:
 
-```bash
-python case_studies/campanula_microdonta/run_case.py \
-  --candidates frozen_candidate_support.csv \
-  --occurrences historical_occurrences_through_2025.csv
-```
+1. local support alone;
+2. geographic distance from known occurrences;
+3. conventional SDM output when available;
+4. ODSP continuity, weak-neck, and detached-component classes.
 
-## Confirmatory benchmark
+Because the method was motivated after inspection of the first field result, this case cannot by itself serve as untouched confirmation.
 
-`validation/frozen_taxon_region_manifest.csv` freezes 48 independent taxon-region pairs inherited from two ACSP confirmation cohorts: 24 mixed plant/animal pairs and 24 non-overlapping plant pairs.
+## Confirmatory target
 
-The `odsp.acsp_adapter` module accepts only complete fold exports containing explicit training occurrences, held-out occurrences, and training-only candidate support. Legacy ACSP exports that retain coverage IDs without the corresponding coordinates are marked `blocked_incomplete_legacy_export`; coordinates are not guessed or reconstructed post hoc.
+The key empirical question is not whether ODSP has higher AUC than an SDM. It is whether environmental path structure distinguishes held-out populations after matching or controlling for local support and geographic distance.
 
-The primary endpoint is:
+Candidate endpoints include:
 
-```text
-recall(extension + near-disconnected) - recall(extension only)
-```
-
-Required baselines include occurrence buffers, nearest-known outward search, single-threshold clustering, DBSCAN or an equivalent simple clustering rule, support-only patches, and same-pool random patches.
+- held-out recovery by continuity class;
+- incremental recovery of detached analogues beyond continuous extensions;
+- recovery after matching on local support;
+- recovery after matching on distance to known occurrences;
+- stability across graph distances, support thresholds, occurrence subsampling, and support producers.
 
 ## Status
 
-Research implementation migrated from `zuizui0223/acsp` PR #39. The benchmark contract, frozen independent cohort, and export adapter are now implemented. The next data-producing task is to extend or rerun the ACSP fold exporter so every frozen fold writes explicit training, held-out, and candidate-support coordinate tables. Corridor/barrier inference and survey-budget ranking are not part of the ODSP headline method.
+The first environmental-continuity implementation is under development. Earlier distance-only `extension / near-disconnected / remote` classes remain available for backward compatibility but are no longer the intended headline method.
