@@ -2,7 +2,11 @@
 
 > **Superseded on 2026-07-22.** The scientifically defensible support-field component work from ODSP has been integrated into [`zuizui0223/eog`](https://github.com/zuizui0223/eog) as the **spatial support topology** layer at EOG merge commit `023261f4cac6d70973d097634807472976df749b` (PR #61, “Integrate spatial support topology into EOG”).
 
-ODSP is no longer an independent method, package, or publication target. New development should occur in EOG.
+ODSP is no longer an independent method, package, data source, or publication
+target. New development should occur in EOG. The current default branch is a
+tombstone only: the former package, tests, workflows, case-study data, and
+validation artifacts remain recoverable from Git history but are absent from the
+current tree so they cannot be mistaken for a second active implementation.
 
 ## What moved to EOG
 
@@ -53,6 +57,12 @@ SDM, environmental-similarity model, or expert support generator
     -> optional external finite-site optimization by ACSP
 ```
 
-The `Campanula microdonta` development case remains exploratory because outcomes were inspected during method development. Any future confirmatory analysis must freeze historical anchors, training-only support, thresholds, neighbourhood, mask, raster resolution, and held-out detections before evaluation.
+The retired `Campanula microdonta` development case was exploratory because
+outcomes were inspected during method development. Its duplicated locations file
+is not retained here; the active field-planning source remains ACSP. Any future
+confirmatory analysis must freeze historical anchors, training-only support,
+thresholds, neighbourhood, mask, raster resolution, and held-out detections
+before evaluation.
 
-This repository is retained only as migration history and should be archived after repository settings are updated.
+This repository is retained only as migration history. See `SUPERSEDED.json` for
+the machine-readable successor and frozen migration commit.
