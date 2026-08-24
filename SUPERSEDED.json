@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "repository": "zuizui0223/odsp",
+  "status": "superseded_tombstone",
+  "superseded_on": "2026-07-22",
+  "successor_repository": "zuizui0223/eog",
+  "successor_merge_commit": "023261f4cac6d70973d097634807472976df749b",
+  "successor_pull_request": 61,
+  "active_code_ownership": false,
+  "active_data_ownership": false,
+  "active_publication_target": false,
+  "historical_material_location": "git_history_before_tombstone",
+  "new_development_policy": "use_successor_repository"
+}
