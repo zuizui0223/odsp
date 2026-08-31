@@ -1,84 +1,63 @@
-# ODSP — Superseded research repository
+# ODSP — occurrence information layers
 
-> **Superseded on 2026-07-22.** The scientifically defensible support-field component work from ODSP has been integrated into [`zuizui0223/eog`](https://github.com/zuizui0223/eog) as the **spatial support topology** layer at EOG merge commit `023261f4cac6d70973d097634807472976df749b` (PR #61, “Integrate spatial support topology into EOG”).
+ODSP's **historical spatial-patch method remains superseded**. Its defensible support-topology work was migrated to [`zuizui0223/eog`](https://github.com/zuizui0223/eog) at EOG merge `023261f4cac6d70973d097634807472976df749b` (PR #61). Those spatial algorithms should not be reimplemented here.
 
-ODSP is no longer an independent method, package, data source, or publication
-target. New development should occur in EOG. The current default branch is a
-tombstone only: the former package, tests, workflows, case-study data, and
-validation artifacts remain recoverable from Git history but are absent from the
-current tree so they cannot be mistaken for a second active implementation.
+ODSP now has one narrow active scope: **source-preserving information attached to biodiversity occurrences before any downstream niche, support, or connectivity model is fitted**.
 
-## What moved to EOG
+## Active layer: observation time
 
-EOG now provides a tested, model-agnostic raster support-topology layer for:
+Tracks issue [#8](https://github.com/zuizui0223/odsp/issues/8).
 
-- frozen pointwise support fields;
-- explicit multi-threshold superlevel sets;
-- four- or eight-neighbour connected components;
-- hard unavailable-cell masks such as sea;
-- explicit occurrence-anchor assignment;
-- deterministic component lineages and fingerprints;
-- occurrence-anchored, persistent detached, transient detached, and unresolved classes;
-- component summaries and held-out detection recovery;
-- threshold and neighbourhood sensitivity audits.
+`odsp.temporal_information` standardizes the observation-time metadata already present in sources such as GBIF and iNaturalist while retaining the source fields and their actual precision.
 
-The canonical implementation is `src/eog/support_topology.py`, with positioning and migration documentation in:
+Canonical output includes:
 
-- `docs/sdm_support_topology_positioning.md`;
-- `docs/odsp_migration_map.md`;
-- `examples/support_topology/synthetic_islands.py`.
+- source and source occurrence ID;
+- observed date and/or datetime;
+- source-provided UTC representation when available;
+- time-zone name and UTC offset when supplied;
+- explicit precision: year, month, day, minute, second, interval, or unknown;
+- year/month/day/day-of-year and clock fields only when the source supports them;
+- source-specific raw observation-time fields;
+- fail-closed quality flags.
 
-## Future concept routed to EOG
+Key rules:
 
-A new axis-resolved support idea asks whether apparent overlap on the same planar
-raster cells is created by marginalizing activity time or a vertical/depth axis.
-Two taxa can have nearly identical `x × y` projections while using different
-`z`, `t`, or joint `z × t` states. Planar co-occurrence then does not imply
-simultaneous co-use, encounter, competition, predation, or a shared realized
-niche.
+- upload/creation/update timestamps are **never** substituted for observation time;
+- date-only records do not become ecological midnight observations;
+- a timezone is not inferred from coordinates at ingestion;
+- conflicting duplicate date/UTC fields are flagged rather than silently resolved;
+- missing or partial time remains missing/partial instead of being fabricated.
 
-ODSP records the concept only in
-[`AXIS_RESOLVED_TEMPORAL_VERTICAL_SUPPORT.md`](AXIS_RESOLVED_TEMPORAL_VERTICAL_SUPPORT.md).
-Active design and code are routed to EOG issue
-[`#323`](https://github.com/zuizui0223/eog/issues/323) and draft PR
-[`#324`](https://github.com/zuizui0223/eog/pull/324). This does not reactivate
-ODSP as a package or publication identity.
+See [`TEMPORAL_INFORMATION_LAYER.md`](TEMPORAL_INFORMATION_LAYER.md).
 
-## What was deliberately not migrated
+## Example
 
-ODSP PR #5 proposed maximum-bottleneck environmental-continuity paths. EOG already implements cumulative-cost paths, minimax bottleneck paths, redundancy, sensitivity, hypothesis-family aggregation, and hypothesis-discriminating survey ranking. A second ODSP path implementation would be scientifically and technically duplicative, so it was not retained.
+```python
+from odsp import normalize_occurrence_time
 
-The following are retired as headline concepts:
+row = normalize_occurrence_time(
+    "gbif",
+    {
+        "key": 123,
+        "eventDate": "2026-05-17T21:34:12+09:00",
+        "year": 2026,
+        "month": 5,
+        "day": 17,
+    },
+)
 
-- distance-only `occurrence_patch_extension`;
-- `near_disconnected_occurrence_patch`;
-- `remote_candidate_patch`;
-- ODSP-specific widest-path or minimax continuity classes;
-- duplicated ACSP export adapters;
-- a second hypothesis-ranking workflow.
-
-Historical ODSP outputs do not establish occupancy, colonisation probability, demographic or genetic isolation, causal barriers, or historical dispersal.
-
-## Migration boundary
-
-The layered workflow is now:
-
-```text
-SDM, environmental-similarity model, or expert support generator
-    -> frozen pointwise support field
-    -> EOG spatial support topology
-    -> occurrence-anchored and detached support components
-    -> existing EOG bridge and reachability inference
-    -> existing EOG hypothesis-discrimination survey workflow
-    -> optional external finite-site optimization by ACSP
+print(row.observed_datetime)      # 2026-05-17T21:34:12+09:00
+print(row.observed_datetime_utc)  # 2026-05-17T12:34:12Z
+print(row.temporal_precision)     # second
 ```
 
-The retired `Campanula microdonta` development case was exploratory because
-outcomes were inspected during method development. Its duplicated locations file
-is not retained here; the active field-planning source remains ACSP. Any future
-confirmatory analysis must freeze historical anchors, training-only support,
-thresholds, neighbourhood, mask, raster resolution, and held-out detections
-before evaluation.
+## Scientific boundary
 
-This repository is retained only as migration history. See `SUPERSEDED.json` for
-the machine-readable successor and frozen migration commit.
+This layer does **not** modify SDMR Product A and is not a new environmental-variable selector, SDM objective, or validation endpoint. Product A remains scientifically closed.
+
+Time is stored as an information layer so later work can ask questions such as season-aware occurrence support or diel use **only under a separate design that accounts for sampling effort and detectability**. Timestamp availability alone does not establish a temporal niche, phenology, coexistence mechanism, causal partition, or fundamental niche.
+
+## Historical ODSP material
+
+The former ODSP package, patch methods, ACSP adapters, case study and validation artifacts remain recoverable from Git history before the 2026-07-22 tombstone. Their active spatial successor is EOG. This repository should not grow a second support-topology or reachability implementation.
