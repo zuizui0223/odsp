@@ -28,6 +28,22 @@ The canonical implementation is `src/eog/support_topology.py`, with positioning 
 - `docs/odsp_migration_map.md`;
 - `examples/support_topology/synthetic_islands.py`.
 
+## Future concept routed to EOG
+
+A new axis-resolved support idea asks whether apparent overlap on the same planar
+raster cells is created by marginalizing activity time or a vertical/depth axis.
+Two taxa can have nearly identical `x × y` projections while using different
+`z`, `t`, or joint `z × t` states. Planar co-occurrence then does not imply
+simultaneous co-use, encounter, competition, predation, or a shared realized
+niche.
+
+ODSP records the concept only in
+[`AXIS_RESOLVED_TEMPORAL_VERTICAL_SUPPORT.md`](AXIS_RESOLVED_TEMPORAL_VERTICAL_SUPPORT.md).
+Active design and code are routed to EOG issue
+[`#323`](https://github.com/zuizui0223/eog/issues/323) and draft PR
+[`#324`](https://github.com/zuizui0223/eog/pull/324). This does not reactivate
+ODSP as a package or publication identity.
+
 ## What was deliberately not migrated
 
 ODSP PR #5 proposed maximum-bottleneck environmental-continuity paths. EOG already implements cumulative-cost paths, minimax bottleneck paths, redundancy, sensitivity, hypothesis-family aggregation, and hypothesis-discriminating survey ranking. A second ODSP path implementation would be scientifically and technically duplicative, so it was not retained.
