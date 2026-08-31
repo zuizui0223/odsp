@@ -1,8 +1,7 @@
 """Source-preserving temporal information for biodiversity occurrences.
 
-This module normalizes observation-time metadata without turning it into a new
-niche model or silently increasing temporal precision. GBIF and iNaturalist
-record-management timestamps are deliberately not used as observation time.
+Observation time is normalized without turning upload/ingestion timestamps into
+biological time and without silently increasing temporal precision.
 """
 from __future__ import annotations
 
@@ -12,17 +11,9 @@ import re
 from typing import Any, Mapping
 
 
-_PRECISION_ORDER = {
-    "unknown": 0,
-    "year": 1,
-    "month": 2,
-    "day": 3,
-    "minute": 4,
-    "second": 5,
-    "interval": 6,
-}
+PRECISIONS = {"unknown", "year", "month", "day", "minute", "second", "interval"}
 
-_GBIF_TIME_FIELDS = (
+GBIF_TIME_FIELDS = (
     "eventDate",
     "eventTime",
     "year",
@@ -32,8 +23,7 @@ _GBIF_TIME_FIELDS = (
     "endDayOfYear",
     "verbatimEventDate",
 )
-
-_INAT_TIME_FIELDS = (
+INAT_TIME_FIELDS = (
     "observed_on",
     "observed_on_string",
     "time_observed_at",
@@ -41,8 +31,7 @@ _INAT_TIME_FIELDS = (
     "time_zone",
     "zic_time_zone",
 )
-
-_INAT_RECORD_MANAGEMENT_FIELDS = (
+INAT_MANAGEMENT_FIELDS = (
     "created_at",
     "updated_at",
     "created_at_utc",
@@ -52,8 +41,6 @@ _INAT_RECORD_MANAGEMENT_FIELDS = (
 
 @dataclass(frozen=True)
 class TemporalObservation:
-    """Canonical occurrence-time record with explicit source precision."""
-
     source: str
     source_occurrence_id: str | None
     observed_date: str | None
@@ -76,17 +63,15 @@ class TemporalObservation:
     temporal_quality_flags: tuple[str, ...]
 
     def __post_init__(self) -> None:
-        if self.temporal_precision not in _PRECISION_ORDER:
+        if self.temporal_precision not in PRECISIONS:
             raise ValueError(f"unknown temporal precision: {self.temporal_precision}")
 
     def as_dict(self) -> dict[str, Any]:
-        """Return a JSON-serializable dictionary."""
-
         return asdict(self)
 
 
 @dataclass(frozen=True)
-class _ParsedTemporal:
+class _Parsed:
     observed_date: str | None = None
     observed_datetime: str | None = None
     observed_datetime_utc: str | None = None
@@ -112,71 +97,75 @@ def _text(value: Any) -> str | None:
 
 
 def _integer(value: Any) -> int | None:
-    if value is None or value == "":
-        return None
     try:
-        return int(value)
+        return None if value in (None, "") else int(value)
     except (TypeError, ValueError):
         return None
 
 
-def _iso_for_python(value: str) -> str:
-    return value[:-1] + "+00:00" if value.endswith("Z") else value
+def _python_iso(raw: str) -> str:
+    return raw[:-1] + "+00:00" if raw.endswith("Z") else raw
 
 
-def _datetime_precision(raw: str) -> str:
-    match = re.search(r"[T ](\d{2}):(\d{2})(?::(\d{2})(?:\.\d+)?)?", raw)
+def _clock_precision(raw: str) -> str:
+    match = re.search(r"[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?", raw)
     if not match:
         return "unknown"
-    return "second" if match.group(3) is not None else "minute"
+    return "second" if re.search(r"[T ]\d{2}:\d{2}:\d{2}", raw) else "minute"
 
 
 def _offset_minutes(value: datetime) -> int | None:
     offset = value.utcoffset()
-    if offset is None:
-        return None
-    return int(offset.total_seconds() // 60)
+    return None if offset is None else int(offset.total_seconds() // 60)
 
 
-def _from_datetime(value: datetime, raw: str, *, clock_basis: str) -> _ParsedTemporal:
+def _format_datetime(value: datetime, precision: str, *, utc: bool = False) -> str:
+    timespec = "seconds" if precision == "second" else "minutes"
+    text = value.isoformat(timespec=timespec)
+    return text.replace("+00:00", "Z") if utc else text
+
+
+def _parsed_datetime(value: datetime, raw: str, clock_basis: str) -> _Parsed:
+    precision = _clock_precision(raw)
+    if precision == "unknown":
+        return _Parsed()
     aware = value.utcoffset() is not None
     utc_value = value.astimezone(timezone.utc) if aware else None
-    return _ParsedTemporal(
+    basis = clock_basis
+    if not aware:
+        basis = "source_local_unknown_timezone"
+    elif _offset_minutes(value) == 0:
+        basis = "utc"
+    return _Parsed(
         observed_date=value.date().isoformat(),
-        observed_datetime=value.isoformat(),
+        observed_datetime=_format_datetime(value, precision),
         observed_datetime_utc=(
-            utc_value.isoformat().replace("+00:00", "Z") if utc_value is not None else None
+            _format_datetime(utc_value, precision, utc=True) if utc_value is not None else None
         ),
         utc_offset_minutes=_offset_minutes(value),
-        precision=_datetime_precision(raw),
-        clock_basis=clock_basis,
+        precision=precision,
+        clock_basis=basis,
         year=value.year,
         month=value.month,
         day=value.day,
         day_of_year=value.timetuple().tm_yday,
         hour=value.hour,
         minute=value.minute,
-        second=value.second if _datetime_precision(raw) == "second" else None,
+        second=value.second if precision == "second" else None,
     )
 
 
-def _parse_single_temporal(value: Any, *, clock_basis: str = "source") -> _ParsedTemporal:
+def _parse_single(value: Any, *, clock_basis: str = "source") -> _Parsed:
     raw = _text(value)
     if raw is None:
-        return _ParsedTemporal()
-
+        return _Parsed()
     if re.fullmatch(r"\d{4}", raw):
-        return _ParsedTemporal(
-            observed_date=raw,
-            precision="year",
-            clock_basis="date_only",
-            year=int(raw),
-        )
+        return _Parsed(observed_date=raw, precision="year", clock_basis="date_only", year=int(raw))
     if re.fullmatch(r"\d{4}-\d{2}", raw):
-        year, month = (int(x) for x in raw.split("-"))
+        year, month = map(int, raw.split("-"))
         if not 1 <= month <= 12:
-            return _ParsedTemporal()
-        return _ParsedTemporal(
+            return _Parsed()
+        return _Parsed(
             observed_date=raw,
             precision="month",
             clock_basis="date_only",
@@ -187,8 +176,8 @@ def _parse_single_temporal(value: Any, *, clock_basis: str = "source") -> _Parse
         try:
             parsed = date.fromisoformat(raw)
         except ValueError:
-            return _ParsedTemporal()
-        return _ParsedTemporal(
+            return _Parsed()
+        return _Parsed(
             observed_date=raw,
             precision="day",
             clock_basis="date_only",
@@ -197,224 +186,106 @@ def _parse_single_temporal(value: Any, *, clock_basis: str = "source") -> _Parse
             day=parsed.day,
             day_of_year=parsed.timetuple().tm_yday,
         )
-
     try:
-        parsed_dt = datetime.fromisoformat(_iso_for_python(raw))
+        parsed = datetime.fromisoformat(_python_iso(raw))
     except ValueError:
-        return _ParsedTemporal()
-    basis = "utc" if parsed_dt.utcoffset() is not None and _offset_minutes(parsed_dt) == 0 else clock_basis
-    if parsed_dt.utcoffset() is None:
-        basis = "source_local_unknown_timezone"
-    return _from_datetime(parsed_dt, raw, clock_basis=basis)
+        return _Parsed()
+    return _parsed_datetime(parsed, raw, clock_basis)
 
 
-def _parse_interval(value: Any) -> _ParsedTemporal | None:
+def _parse(value: Any, *, clock_basis: str = "source") -> _Parsed:
     raw = _text(value)
-    if raw is None or "/" not in raw:
-        return None
-    left, right = raw.split("/", 1)
-    start = _parse_single_temporal(left)
-    end = _parse_single_temporal(right)
-    if start.precision == "unknown" or end.precision == "unknown":
-        return _ParsedTemporal(
-            interval_start=_text(left),
-            interval_end=_text(right),
+    if raw is None:
+        return _Parsed()
+    if "/" in raw:
+        left, right = raw.split("/", 1)
+        start = _parse_single(left)
+        end = _parse_single(right)
+        return _Parsed(
+            interval_start=start.observed_datetime or start.observed_date or _text(left),
+            interval_end=end.observed_datetime or end.observed_date or _text(right),
             precision="interval",
             clock_basis="interval",
         )
-    return _ParsedTemporal(
-        interval_start=start.observed_datetime or start.observed_date,
-        interval_end=end.observed_datetime or end.observed_date,
-        precision="interval",
-        clock_basis="interval",
-    )
+    return _parse_single(raw, clock_basis=clock_basis)
 
 
-def _parse_temporal(value: Any, *, clock_basis: str = "source") -> _ParsedTemporal:
-    interval = _parse_interval(value)
-    if interval is not None:
-        return interval
-    return _parse_single_temporal(value, clock_basis=clock_basis)
-
-
-def _parse_event_time(value: Any) -> tuple[time | None, str]:
+def _event_time(value: Any) -> tuple[time | None, str]:
     raw = _text(value)
     if raw is None or "/" in raw:
         return None, "unknown"
-    candidate = _iso_for_python(raw)
     try:
-        parsed = time.fromisoformat(candidate)
+        parsed = time.fromisoformat(_python_iso(raw))
     except ValueError:
         return None, "unknown"
-    precision = "second" if re.fullmatch(r"\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})?", raw) else "minute"
+    precision = "second" if re.match(r"^\d{2}:\d{2}:\d{2}", raw) else "minute"
     return parsed, precision
 
 
-def _with_event_time(base: _ParsedTemporal, event_time: Any) -> _ParsedTemporal:
-    if base.precision != "day" or base.year is None or base.month is None or base.day is None:
+def _add_event_time(base: _Parsed, value: Any) -> _Parsed:
+    if base.precision != "day" or None in (base.year, base.month, base.day):
         return base
-    parsed_time, precision = _parse_event_time(event_time)
+    parsed_time, precision = _event_time(value)
     if parsed_time is None:
         return base
     combined = datetime.combine(date(base.year, base.month, base.day), parsed_time)
+    raw = _format_datetime(combined, precision)
     basis = "source_local_unknown_timezone"
     if parsed_time.utcoffset() is not None:
         basis = "utc" if int(parsed_time.utcoffset().total_seconds()) == 0 else "source_offset"
-    raw = combined.isoformat(timespec="seconds" if precision == "second" else "minutes")
-    return _from_datetime(combined, raw, clock_basis=basis)
+    return _parsed_datetime(combined, raw, basis)
 
 
-def _component_date(year: int | None, month: int | None, day: int | None) -> _ParsedTemporal:
+def _from_components(year: int | None, month: int | None, day: int | None) -> _Parsed:
     if year is None:
-        return _ParsedTemporal()
+        return _Parsed()
     if month is None:
-        return _parse_single_temporal(f"{year:04d}")
+        return _parse_single(f"{year:04d}")
     if day is None:
-        return _parse_single_temporal(f"{year:04d}-{month:02d}")
-    return _parse_single_temporal(f"{year:04d}-{month:02d}-{day:02d}")
+        return _parse_single(f"{year:04d}-{month:02d}")
+    return _parse_single(f"{year:04d}-{month:02d}-{day:02d}")
 
 
-def _date_tuple(parsed: _ParsedTemporal) -> tuple[int | None, int | None, int | None]:
-    return parsed.year, parsed.month, parsed.day
+def _date_tuple(value: _Parsed) -> tuple[int | None, int | None, int | None]:
+    return value.year, value.month, value.day
 
 
-def _source_id(record: Mapping[str, Any], fields: tuple[str, ...]) -> str | None:
-    for field in fields:
-        value = _text(record.get(field))
+def _source_id(record: Mapping[str, Any], names: tuple[str, ...]) -> str | None:
+    for name in names:
+        value = _text(record.get(name))
         if value is not None:
             return value
     return None
 
 
-def _raw_fields(record: Mapping[str, Any], fields: tuple[str, ...]) -> dict[str, Any]:
-    return {field: record[field] for field in fields if field in record and record[field] not in (None, "")}
+def _raw(record: Mapping[str, Any], names: tuple[str, ...]) -> dict[str, Any]:
+    return {name: record[name] for name in names if record.get(name) not in (None, "")}
 
 
-def normalize_gbif_time(record: Mapping[str, Any]) -> TemporalObservation:
-    """Normalize GBIF Darwin Core observation-event time fields."""
-
-    flags: set[str] = set()
-    raw = _raw_fields(record, _GBIF_TIME_FIELDS)
-    event_date = _text(record.get("eventDate"))
-    parsed = _parse_temporal(event_date, clock_basis="source_offset") if event_date else _ParsedTemporal()
-
-    component = _component_date(
-        _integer(record.get("year")),
-        _integer(record.get("month")),
-        _integer(record.get("day")),
-    )
-    if parsed.precision == "unknown" and component.precision != "unknown":
-        parsed = component
-    elif (
-        parsed.precision not in {"unknown", "interval"}
-        and component.precision == "day"
-        and _date_tuple(parsed) != _date_tuple(component)
-    ):
-        flags.add("date_field_mismatch")
-
-    event_time = record.get("eventTime")
-    if event_time not in (None, ""):
-        if parsed.precision == "day":
-            enriched = _with_event_time(parsed, event_time)
-            if enriched.precision != "day":
-                parsed = enriched
-            else:
-                flags.add("unparsed_event_time")
-        elif parsed.precision in {"year", "month", "unknown"}:
-            flags.add("time_without_complete_date")
-
+def _to_observation(
+    *,
+    source: str,
+    occurrence_id: str | None,
+    parsed: _Parsed,
+    timezone_name: str | None,
+    raw_fields: dict[str, Any],
+    flags: set[str],
+    explicit_utc: str | None = None,
+) -> TemporalObservation:
     if parsed.precision == "interval":
         flags.add("interval")
     elif parsed.precision in {"year", "month", "day"}:
         flags.add("date_only")
     if parsed.precision == "unknown":
         flags.add("missing_or_unparsed_observation_time")
-    if parsed.hour is not None and parsed.utc_offset_minutes is None:
+    if parsed.hour is not None and parsed.utc_offset_minutes is None and explicit_utc is None:
         flags.add("timezone_missing")
-
     return TemporalObservation(
-        source="gbif",
-        source_occurrence_id=_source_id(record, ("key", "gbifID", "occurrenceID")),
+        source=source,
+        source_occurrence_id=occurrence_id,
         observed_date=parsed.observed_date,
         observed_datetime=parsed.observed_datetime,
-        observed_datetime_utc=parsed.observed_datetime_utc,
-        interval_start=parsed.interval_start,
-        interval_end=parsed.interval_end,
-        timezone_name=None,
-        utc_offset_minutes=parsed.utc_offset_minutes,
-        temporal_precision=parsed.precision,
-        clock_basis=parsed.clock_basis,
-        year=parsed.year,
-        month=parsed.month,
-        day=parsed.day,
-        day_of_year=parsed.day_of_year,
-        hour=parsed.hour,
-        minute=parsed.minute,
-        second=parsed.second,
-        raw_time_fields=raw,
-        temporal_quality_flags=tuple(sorted(flags)),
-    )
-
-
-def normalize_inaturalist_time(record: Mapping[str, Any]) -> TemporalObservation:
-    """Normalize iNaturalist observation time without using upload timestamps."""
-
-    flags: set[str] = set()
-    raw = _raw_fields(record, _INAT_TIME_FIELDS)
-    local_raw = _text(record.get("time_observed_at"))
-    utc_raw = _text(record.get("time_observed_at_utc"))
-    date_raw = _text(record.get("observed_on"))
-
-    local = _parse_temporal(local_raw, clock_basis="source_offset") if local_raw else _ParsedTemporal()
-    utc = _parse_temporal(utc_raw, clock_basis="utc") if utc_raw else _ParsedTemporal()
-    observed_date = _parse_temporal(date_raw) if date_raw else _ParsedTemporal()
-
-    if local.precision != "unknown":
-        parsed = local
-    elif observed_date.precision != "unknown":
-        parsed = observed_date
-    elif utc.precision != "unknown":
-        parsed = utc
-    else:
-        parsed = _ParsedTemporal()
-
-    if (
-        parsed.precision not in {"unknown", "interval"}
-        and observed_date.precision == "day"
-        and _date_tuple(parsed) != _date_tuple(observed_date)
-    ):
-        flags.add("date_field_mismatch")
-
-    explicit_utc = utc.observed_datetime_utc or utc.observed_datetime
-    if local.observed_datetime_utc and explicit_utc:
-        try:
-            left = datetime.fromisoformat(_iso_for_python(local.observed_datetime_utc))
-            right = datetime.fromisoformat(_iso_for_python(explicit_utc))
-            if abs((left - right).total_seconds()) > 1:
-                flags.add("utc_timestamp_mismatch")
-        except ValueError:
-            flags.add("unparsed_utc_timestamp")
-
-    if parsed.precision == "interval":
-        flags.add("interval")
-    elif parsed.precision in {"year", "month", "day"}:
-        flags.add("date_only")
-    if parsed.precision == "unknown":
-        flags.add("missing_or_unparsed_observation_time")
-        if any(record.get(field) not in (None, "") for field in _INAT_RECORD_MANAGEMENT_FIELDS):
-            flags.add("record_management_timestamp_present_not_used")
-    if parsed.hour is not None and parsed.utc_offset_minutes is None and not explicit_utc:
-        flags.add("timezone_missing")
-
-    timezone_name = _text(record.get("zic_time_zone")) or _text(record.get("time_zone"))
-    observed_datetime_utc = local.observed_datetime_utc or explicit_utc
-
-    return TemporalObservation(
-        source="inaturalist",
-        source_occurrence_id=_source_id(record, ("id", "uuid")),
-        observed_date=parsed.observed_date,
-        observed_datetime=parsed.observed_datetime,
-        observed_datetime_utc=observed_datetime_utc,
+        observed_datetime_utc=parsed.observed_datetime_utc or explicit_utc,
         interval_start=parsed.interval_start,
         interval_end=parsed.interval_end,
         timezone_name=timezone_name,
@@ -428,13 +299,96 @@ def normalize_inaturalist_time(record: Mapping[str, Any]) -> TemporalObservation
         hour=parsed.hour,
         minute=parsed.minute,
         second=parsed.second,
-        raw_time_fields=raw,
+        raw_time_fields=raw_fields,
         temporal_quality_flags=tuple(sorted(flags)),
     )
 
 
+def normalize_gbif_time(record: Mapping[str, Any]) -> TemporalObservation:
+    """Normalize GBIF Darwin Core event-time fields."""
+
+    flags: set[str] = set()
+    parsed = _parse(record.get("eventDate"), clock_basis="source_offset")
+    components = _from_components(
+        _integer(record.get("year")),
+        _integer(record.get("month")),
+        _integer(record.get("day")),
+    )
+    if parsed.precision == "unknown" and components.precision != "unknown":
+        parsed = components
+    elif parsed.precision not in {"unknown", "interval"} and components.precision == "day":
+        if _date_tuple(parsed) != _date_tuple(components):
+            flags.add("date_field_mismatch")
+
+    if record.get("eventTime") not in (None, ""):
+        if parsed.precision == "day":
+            enriched = _add_event_time(parsed, record.get("eventTime"))
+            if enriched.precision == "day":
+                flags.add("unparsed_event_time")
+            else:
+                parsed = enriched
+        elif parsed.precision in {"year", "month", "unknown"}:
+            flags.add("time_without_complete_date")
+
+    return _to_observation(
+        source="gbif",
+        occurrence_id=_source_id(record, ("key", "gbifID", "occurrenceID")),
+        parsed=parsed,
+        timezone_name=None,
+        raw_fields=_raw(record, GBIF_TIME_FIELDS),
+        flags=flags,
+    )
+
+
+def normalize_inaturalist_time(record: Mapping[str, Any]) -> TemporalObservation:
+    """Normalize iNaturalist observation time without using record-management time."""
+
+    flags: set[str] = set()
+    local = _parse(record.get("time_observed_at"), clock_basis="source_offset")
+    utc_value = _parse(record.get("time_observed_at_utc"), clock_basis="utc")
+    observed_date = _parse(record.get("observed_on"))
+
+    if local.precision != "unknown":
+        parsed = local
+    elif observed_date.precision != "unknown":
+        parsed = observed_date
+    elif utc_value.precision != "unknown":
+        parsed = utc_value
+    else:
+        parsed = _Parsed()
+
+    if parsed.precision not in {"unknown", "interval"} and observed_date.precision == "day":
+        if _date_tuple(parsed) != _date_tuple(observed_date):
+            flags.add("date_field_mismatch")
+
+    explicit_utc = utc_value.observed_datetime_utc or utc_value.observed_datetime
+    if local.observed_datetime_utc and explicit_utc:
+        try:
+            left = datetime.fromisoformat(_python_iso(local.observed_datetime_utc))
+            right = datetime.fromisoformat(_python_iso(explicit_utc))
+            if abs((left - right).total_seconds()) > 1:
+                flags.add("utc_timestamp_mismatch")
+        except ValueError:
+            flags.add("unparsed_utc_timestamp")
+
+    if parsed.precision == "unknown" and any(
+        record.get(name) not in (None, "") for name in INAT_MANAGEMENT_FIELDS
+    ):
+        flags.add("record_management_timestamp_present_not_used")
+
+    return _to_observation(
+        source="inaturalist",
+        occurrence_id=_source_id(record, ("id", "uuid")),
+        parsed=parsed,
+        timezone_name=_text(record.get("zic_time_zone")) or _text(record.get("time_zone")),
+        raw_fields=_raw(record, INAT_TIME_FIELDS),
+        flags=flags,
+        explicit_utc=explicit_utc,
+    )
+
+
 def normalize_occurrence_time(source: str, record: Mapping[str, Any]) -> TemporalObservation:
-    """Dispatch to a source-specific observation-time normalizer."""
+    """Normalize observation-time metadata for one supported occurrence source."""
 
     key = str(source).strip().lower()
     if key == "gbif":
