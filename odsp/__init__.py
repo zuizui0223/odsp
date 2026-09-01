@@ -1,10 +1,18 @@
 """ODSP — Chapter 2 multidimensional niche geometry.
 
 The active ODSP surface keeps source-preserving occurrence information and adds
-model-agnostic niche-thickness and projection-loss metrics. The historical
-spatial-patch method remains superseded by EOG.
+model-agnostic niche-thickness, projection-loss and known-truth recovery tools.
+The historical spatial-patch method remains superseded by EOG.
 """
 
+from .concealed_recovery import (
+    ConcealedRecoveryBenchmark,
+    ConcealedRecoveryCheck,
+    estimate_projection_overlap_from_counts,
+    estimate_thickness_from_counts,
+    run_concealed_recovery_benchmark,
+    sample_state_counts,
+)
 from .niche_geometry import (
     NicheThicknessProfile,
     conditional_information,
@@ -26,17 +34,23 @@ from .temporal_information import (
 )
 
 __all__ = [
+    "ConcealedRecoveryBenchmark",
+    "ConcealedRecoveryCheck",
     "NicheThicknessProfile",
     "ProjectionOverlapProfile",
     "TemporalObservation",
     "conditional_information",
     "effective_conditional_states",
+    "estimate_projection_overlap_from_counts",
+    "estimate_thickness_from_counts",
     "marginal_probability",
     "niche_thickness_profile",
     "normalize_gbif_time",
     "normalize_inaturalist_time",
     "normalize_occurrence_time",
     "projection_overlap_profile",
+    "run_concealed_recovery_benchmark",
+    "sample_state_counts",
     "schoener_overlap",
     "shannon_entropy",
 ]
