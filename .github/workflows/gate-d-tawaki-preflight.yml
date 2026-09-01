@@ -1,0 +1,56 @@
+name: gate-d-tawaki-preflight
+
+on:
+  pull_request:
+    paths:
+      - 'GATE_D_TAWAKI_SOURCE_MANIFEST.json'
+      - 'odsp/gate_d_preflight.py'
+      - 'scripts/gate_d_tawaki_preflight.py'
+      - 'tests/test_gate_d_preflight.py'
+      - '.github/workflows/gate-d-tawaki-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  structural-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP and projection dependency
+        run: |
+          python -m pip install -e '.[dev]'
+          python -m pip install 'pyproj>=3.6,<4'
+      - name: Unit tests for preflight boundary
+        run: python -m pytest tests/test_gate_d_contract.py tests/test_gate_d_preflight.py
+      - name: Run outcome-blind structural preflight
+        run: python scripts/gate_d_tawaki_preflight.py --output preflight-output
+      - name: Assert report contains no opened ODSP outcome
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('preflight-output/gate_d_tawaki_preflight.json').read_text())
+          assert report['outcome_metrics_computed'] is False
+          forbidden = {
+              'depth_bin_frequency_distribution',
+              'H(Z|X,Y)',
+              'exp(H(Z|X,Y))',
+              'axis_thickness_map_values',
+              'projection_loss_values',
+              'sealed_log_score',
+          }
+          assert forbidden == set(report['forbidden_metrics_confirmed_absent'])
+          print('Outcome boundary preserved.')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gate-d-tawaki-structural-preflight
+          path: preflight-output/gate_d_tawaki_preflight.json
+          if-no-files-found: error
+          retention-days: 30
