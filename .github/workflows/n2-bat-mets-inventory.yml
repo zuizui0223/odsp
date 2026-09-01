@@ -1,0 +1,49 @@
+name: n2-bat-mets-inventory
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/n2_bat_mets_inventory.py'
+      - 'tests/test_n2_bat_mets_inventory.py'
+      - '.github/workflows/n2-bat-mets-inventory.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Test parser boundary
+        run: python -m pytest tests/test_n2_bat_mets_inventory.py
+      - name: Fetch METS metadata only
+        run: |
+          python scripts/n2_bat_mets_inventory.py \
+            --output mets-output/n2_bat_mets_inventory.json
+      - name: Assert no bitstream/outcome read
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('mets-output/n2_bat_mets_inventory.json').read_text())
+          assert r['bitstreams_downloaded'] is False
+          assert r['tracking_values_downloaded'] is False
+          assert r['outcome_metrics_computed'] is False
+          assert r['scientific_terminal_decision'] is False
+          assert r['file_count'] > 0
+          print('METS inventory only; tracking values remain unopened.')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: n2-bat-mets-inventory
+          path: mets-output/n2_bat_mets_inventory.json
+          if-no-files-found: error
+          retention-days: 30
