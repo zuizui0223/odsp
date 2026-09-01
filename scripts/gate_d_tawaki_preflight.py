@@ -2,7 +2,8 @@
 """Run the outcome-blind Tawaki Gate-D structural preflight.
 
 This script intentionally stops before any depth-bin frequency, entropy,
-projection-loss or sealed score is calculated.
+projection-loss or sealed score is calculated. Cross-table bird identity
+reconciliation is restricted to the exact predeclared alias manifest.
 """
 from __future__ import annotations
 
@@ -21,6 +22,8 @@ from pyproj import Transformer
 
 from odsp.gate_d_contract import PRIMARY_GRID_M, cell_eligibility, validate_columns
 from odsp.gate_d_preflight import (
+    build_identity_alias_index,
+    canonical_linked_identity,
     frozen_split_from_all_dives,
     git_blob_sha1,
     infer_bird_year_sites,
@@ -33,6 +36,7 @@ from odsp.gate_d_preflight import (
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "GATE_D_TAWAKI_SOURCE_MANIFEST.json"
+ALIASES = ROOT / "GATE_D_TAWAKI_ID_ALIASES.json"
 
 
 def download_raw(repo: str, commit: str, path: str) -> bytes:
@@ -59,14 +63,32 @@ def _text(row: dict[str, str], key: str) -> str:
     return str(row.get(key, "")).strip()
 
 
-def _trip_id(row: dict[str, str]) -> str:
-    return f"{_text(row, 'birdID')}|{_text(row, 'TripNumber')}"
+def _trip_id(row: dict[str, str], *, bird_id: str) -> str:
+    return f"{bird_id}|{_text(row, 'TripNumber')}"
 
 
 def build_report() -> dict[str, object]:
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    alias_manifest = json.loads(ALIASES.read_text(encoding="utf-8"))
     repo = manifest["external_repository"]
     commit = manifest["external_commit"]
+
+    if alias_manifest["contract_id"] != manifest["contract_id"]:
+        raise RuntimeError("alias manifest contract_id disagrees with source manifest")
+    if alias_manifest["source_manifest_id"] != manifest["manifest_id"]:
+        raise RuntimeError("alias manifest source_manifest_id disagrees with source manifest")
+    if alias_manifest["external_repository"] != repo:
+        raise RuntimeError("alias manifest external repository disagrees with source manifest")
+    if alias_manifest["external_commit"] != commit:
+        raise RuntimeError("alias manifest external commit disagrees with source manifest")
+    if not alias_manifest.get("strict_explicit_aliases_only"):
+        raise RuntimeError("alias manifest must require strict explicit aliases")
+    if not alias_manifest.get("global_normalization_forbidden"):
+        raise RuntimeError("alias manifest must forbid global normalization")
+    if not alias_manifest.get("fuzzy_matching_forbidden"):
+        raise RuntimeError("alias manifest must forbid fuzzy matching")
+    if not alias_manifest.get("post_outcome_aliasing_forbidden"):
+        raise RuntimeError("alias manifest must forbid post-outcome aliasing")
 
     source_rows: dict[str, list[dict[str, str]]] = {}
     source_info: dict[str, dict[str, object]] = {}
@@ -101,8 +123,17 @@ def build_report() -> dict[str, object]:
     if "DiveTime" not in source_info["location_linked_dive_events_for_structural_preflight"]["columns"]:
         raise RuntimeError("linked source lacks DiveTime required by frozen >=5 s filter")
 
+    alias_index = build_identity_alias_index(
+        alias_manifest["aliases"],
+        dive_rows=dive_rows,
+        linked_rows=linked_rows,
+    )
     strata = summarize_dive_strata(dive_rows)
-    coverage = summarize_location_coverage(dive_rows, linked_rows)
+    coverage = summarize_location_coverage(
+        dive_rows,
+        linked_rows,
+        alias_index=alias_index,
+    )
     bird_sites = infer_bird_year_sites(dive_rows)
     split = frozen_split_from_all_dives(dive_rows)
 
@@ -118,12 +149,20 @@ def build_report() -> dict[str, object]:
         if not linked_row_qualifies(row) or not row_has_finite_xy(row):
             continue
         location_resolved_qualifying_rows += 1
-        bird = _text(row, "birdID")
+        source_site = _text(row, "Site") or _text(row, "Colony")
         year = _text(row, "Year")
+        canonical_site, bird = canonical_linked_identity(row, alias_index)
         source_key = (bird, year)
         if source_key not in bird_sites:
-            unresolved_linked_bird_years.add(f"{bird}|{year}")
+            unresolved_linked_bird_years.add(
+                f"{source_site}|{year}|{_text(row, 'birdID')} -> {canonical_site}|{year}|{bird}"
+            )
             continue
+        if bird_sites[source_key] != canonical_site:
+            raise RuntimeError(
+                f"canonical site mismatch for {source_key}: "
+                f"linked={canonical_site}, all-dive={bird_sites[source_key]}"
+            )
         site = bird_sites[source_key]
         assignment = split.get((site, year, bird))
         if assignment != "model":
@@ -136,13 +175,13 @@ def build_report() -> dict[str, object]:
         cell = f"{math.floor(easting / PRIMARY_GRID_M)}:{math.floor(northing / PRIMARY_GRID_M)}"
         bucket = cell_buckets[(site, year, cell)]
         bucket["events"] += 1
-        bucket["bird_trips"].add(_trip_id(row))
+        bucket["bird_trips"].add(_trip_id(row, bird_id=bird))
         bucket["birds"].add(bird)
         model_location_resolved_rows += 1
 
     if unresolved_linked_bird_years:
         raise RuntimeError(
-            "linked source contains bird-years absent from all-dive denominator: "
+            "linked source contains bird-years absent from all-dive denominator after exact alias reconciliation: "
             + ", ".join(sorted(unresolved_linked_bird_years))
         )
 
@@ -191,6 +230,20 @@ def build_report() -> dict[str, object]:
         json.dumps(split_rows, sort_keys=True, separators=(",", ":")).encode("utf-8")
     ).hexdigest()
 
+    alias_rows = [
+        {
+            "source_site": source_site,
+            "year": year,
+            "source_birdID": source_bird,
+            "canonical_site": target[0],
+            "canonical_birdID": target[1],
+        }
+        for (source_site, year, source_bird), target in sorted(alias_index.items())
+    ]
+    alias_digest = hashlib.sha256(
+        json.dumps(alias_rows, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+
     total_qualifying = sum(item.qualifying_rows for item in strata)
     total_located = sum(item.location_resolved_rows for item in coverage)
     if total_located != location_resolved_qualifying_rows:
@@ -202,15 +255,25 @@ def build_report() -> dict[str, object]:
         "contract_boundary_commit": "1278fffafbd3d5e55dc4d5d894c361149c2cd8cd",
         "external_repository": repo,
         "external_commit": commit,
-        "outcome_metrics_computed": false,
+        "outcome_metrics_computed": False,
         "forbidden_metrics_confirmed_absent": [
             "depth_bin_frequency_distribution",
             "H(Z|X,Y)",
             "exp(H(Z|X,Y))",
             "axis_thickness_map_values",
             "projection_loss_values",
-            "sealed_log_score"
+            "sealed_log_score",
         ],
+        "identity_reconciliation": {
+            "alias_manifest_id": alias_manifest["alias_manifest_id"],
+            "strict_explicit_aliases_only": True,
+            "fuzzy_matching_forbidden": True,
+            "global_normalization_forbidden": True,
+            "post_outcome_aliasing_forbidden": True,
+            "alias_count": len(alias_rows),
+            "assignment_sha256": alias_digest,
+            "aliases": alias_rows,
+        },
         "source_files": source_info,
         "all_dive_denominators_by_site_year": [item.as_dict() for item in strata],
         "location_coverage_by_site_year": [item.as_dict() for item in coverage],
@@ -242,14 +305,19 @@ def main() -> None:
     report = build_report()
     target = args.output / "gate_d_tawaki_preflight.json"
     target.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(json.dumps({
-        "preflight_id": report["preflight_id"],
-        "outcome_metrics_computed": report["outcome_metrics_computed"],
-        "source_file_count": len(report["source_files"]),
-        "site_year_strata": len(report["all_dive_denominators_by_site_year"]),
-        "all_site_year_summary_gates_pass": report["all_site_year_summary_gates_pass"],
-        "output": str(target),
-    }, sort_keys=True))
+    print(
+        json.dumps(
+            {
+                "preflight_id": report["preflight_id"],
+                "outcome_metrics_computed": report["outcome_metrics_computed"],
+                "source_file_count": len(report["source_files"]),
+                "site_year_strata": len(report["all_dive_denominators_by_site_year"]),
+                "all_site_year_summary_gates_pass": report["all_site_year_summary_gates_pass"],
+                "output": str(target),
+            },
+            sort_keys=True,
+        )
+    )
 
 
 if __name__ == "__main__":
