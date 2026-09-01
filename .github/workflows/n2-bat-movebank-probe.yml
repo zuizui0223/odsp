@@ -8,6 +8,7 @@ on:
       - 'scripts/n2_bat_movebank_probe.py'
       - 'scripts/n2_bat_repository_discovery.py'
       - 'tests/test_n2_bat_movebank_probe.py'
+      - 'tests/test_n2_bat_repository_discovery.py'
       - '.github/workflows/n2-bat-movebank-probe.yml'
   workflow_dispatch:
 
@@ -20,22 +21,19 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
       - name: Install ODSP and projection dependency
         run: |
           python -m pip install -e '.[dev]'
           python -m pip install 'pyproj>=3.6,<4'
-
       - name: Test transport/outcome boundary
         run: |
           python -m pytest \
             tests/test_n2_bat_preflight.py \
-            tests/test_n2_bat_movebank_probe.py
-
+            tests/test_n2_bat_movebank_probe.py \
+            tests/test_n2_bat_repository_discovery.py
       - name: Run live Movebank direct-read probe
         id: probe
         shell: bash
@@ -53,7 +51,6 @@ jobs:
             cat preflight-output/probe-stderr.txt >&2
             exit "$code"
           fi
-
       - name: Discover public Data Repository transport when direct-read is unresolved
         if: steps.probe.outputs.exit_code == '2'
         run: |
@@ -61,7 +58,6 @@ jobs:
             --output preflight-output/n2_bat_repository_discovery.json \
             > preflight-output/repository-discovery-stdout.json \
             2> preflight-output/repository-discovery-stderr.txt
-
       - name: Assert scientific boundary
         env:
           PROBE_EXIT_CODE: ${{ steps.probe.outputs.exit_code }}
@@ -70,20 +66,16 @@ jobs:
           import json
           import os
           from pathlib import Path
-
           root = Path('preflight-output')
           code = int(os.environ['PROBE_EXIT_CODE'])
           stdout = json.loads((root / 'probe-stdout.json').read_text())
           receipt = root / 'n2_bat_movebank_structural_preflight.json'
-
           if code == 2:
               assert stdout['transport_probe'] == 'unresolved'
               assert stdout['scientific_terminal_decision'] is False
               assert stdout['outcome_metrics_computed'] is False
               assert not receipt.exists()
-              discovery = json.loads(
-                  (root / 'n2_bat_repository_discovery.json').read_text()
-              )
+              discovery = json.loads((root / 'n2_bat_repository_discovery.json').read_text())
               assert discovery['scientific_terminal_decision'] is False
               assert discovery['outcome_metrics_computed'] is False
               assert discovery.get('tracking_values_downloaded') is not True
@@ -93,23 +85,13 @@ jobs:
               assert report['scientific_terminal_decision'] is True
               assert report['outcome_metrics_computed'] is False
               assert report['raw_event_values_persisted'] is False
-              assert report['terminal_category'] in {
-                  'structurally_available',
-                  'bat_empirical_lane_structurally_unavailable',
-              }
-              summary = report['structural_summary']
-              forbidden_keys = {
-                  'height_min', 'height_max', 'height_mean', 'height_median',
-                  'height_sd', 'height_quantiles', 'height_histogram',
-                  'z_distribution', 'H(Z|X,Y)', 'effective_states',
-                  'axis_thickness_map', 'projection_loss', 'held_out_score',
-              }
-              assert forbidden_keys.isdisjoint(summary)
+              assert report['terminal_category'] in {'structurally_available','bat_empirical_lane_structurally_unavailable'}
+              forbidden_keys = {'height_min','height_max','height_mean','height_median','height_sd','height_quantiles','height_histogram','z_distribution','H(Z|X,Y)','effective_states','axis_thickness_map','projection_loss','held_out_score'}
+              assert forbidden_keys.isdisjoint(report['structural_summary'])
               print('Structural receipt present; altitude outcome remains unopened.')
           else:
               raise AssertionError(f'unexpected probe exit code {code}')
           PY
-
       - name: Upload safe probe receipt/status
         if: always()
         uses: actions/upload-artifact@v4
