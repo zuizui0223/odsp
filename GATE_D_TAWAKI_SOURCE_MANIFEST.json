@@ -1,0 +1,41 @@
+{
+  "manifest_id": "odsp-gate-d-tawaki-source-v1",
+  "contract_id": "odsp-gate-d-tawaki-v1",
+  "contract_boundary_commit": "1278fffafbd3d5e55dc4d5d894c361149c2cd8cd",
+  "external_repository": "Myrene-O/Milford-Sound-Tawaki",
+  "external_commit": "5e629d6053e6dcaaa44188e71ad6052533ad3cab",
+  "identity_alias_manifest": "GATE_D_TAWAKI_ID_ALIASES.json",
+  "files": [
+    {
+      "role": "all_processed_dive_denominator",
+      "path": "Data/TawakiDiveDatasetComplete.csv",
+      "git_blob_sha1": "48e3b822255feb780cb89cda6fe09054709ee759"
+    },
+    {
+      "role": "location_linked_dive_events_for_structural_preflight",
+      "path": "Data/OceanBirdsEV.csv",
+      "git_blob_sha1": "88ebef44bbd914e815cd1a5d85d1bfa91e6cca7b"
+    }
+  ],
+  "preflight_only": true,
+  "allowed_reads": [
+    "file identity and byte size",
+    "headers/schema",
+    "all-row and frozen-filter denominators",
+    "bird/trip/site/year counts",
+    "finite x-y coverage counts",
+    "exact predeclared source-ID alias reconciliation",
+    "deterministic whole-bird model/sealed assignment",
+    "model-pool x-y cell event/bird-trip/bird counts and frozen cell eligibility"
+  ],
+  "forbidden_until_next_boundary": [
+    "fuzzy or global source-ID normalization",
+    "depth-bin frequency distribution",
+    "H(Z|X,Y)",
+    "exp(H(Z|X,Y))",
+    "axis_thickness_map values",
+    "projection-loss values",
+    "colony/year ODSP thickness contrasts",
+    "sealed log-score outcome"
+  ]
+}
