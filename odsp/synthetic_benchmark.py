@@ -1,7 +1,7 @@
 """Analytically known synthetic benchmarks for ODSP Chapter 2.
 
 These fixtures validate the niche-thickness and projection-loss quantities before
-an empirical habitat-complexity result is used.  They are not empirical evidence
+an empirical habitat-complexity result is used. They are not empirical evidence
 and they do not tune SDMR Product A.
 """
 from __future__ import annotations
@@ -102,6 +102,8 @@ def habitat_capacity_pair(
 ) -> tuple[np.ndarray, np.ndarray]:
     """Same x-y footprint, simple one-layer versus evenly layered support."""
 
+    if layered_vertical_states < 1:
+        raise ValueError("layered_vertical_states must be >= 1")
     simple = np.ones((y, x, 1), dtype=float)
     layered = np.ones((y, x, layered_vertical_states), dtype=float)
     return simple, layered
