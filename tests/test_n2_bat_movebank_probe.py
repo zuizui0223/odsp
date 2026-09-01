@@ -33,7 +33,7 @@ def _fake_event_bytes():
         "individual_local_identifier",
         "individual_id",
         "visible",
-        "height_above_mean_sea_level",
+        "height_above_msl",
     ]
     rows = []
     start = datetime(2020, 1, 1, tzinfo=timezone.utc)
@@ -51,7 +51,7 @@ def _fake_event_bytes():
                         "visible": "true",
                         # Values are deliberately unique and conspicuous. The
                         # report must never expose or summarize them.
-                        "height_above_mean_sea_level": str(777000000 + bat * 1000 + replicate),
+                        "height_above_msl": str(777000000 + bat * 1000 + replicate),
                     }
                 )
                 step += 1
@@ -79,7 +79,7 @@ def test_mocked_live_report_never_exposes_height_values(monkeypatch):
             {
                 "study_id": "312057662",
                 "sensor_type_id": "653",
-                "short_name": "height_above_mean_sea_level",
+                "short_name": "height_above_msl",
                 "data_type": "decimal",
             }
         ],
