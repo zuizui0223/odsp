@@ -32,6 +32,23 @@ jobs:
           python -m pytest \
             tests/test_n2_bat_thickness_contract.py \
             tests/test_n2_bat_thickness.py
+      - name: Compile execution script without opening empirical data
+        run: python -m py_compile scripts/n2_bat_thickness_execute.py
+      - name: Verify execution authorization is bound to frozen commits
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          a=json.loads(Path('N2_BAT_THICKNESS_EXECUTION_AUTHORIZATION.json').read_text())
+          c=json.loads(Path('N2_BAT_THICKNESS_CONTRACT.json').read_text())
+          assert a['authorization_id']=='odsp-n2-bat-thickness-execution-v1'
+          assert a['contract_id']==c['contract_id']=='odsp-n2-bat-thickness-v1'
+          assert a['contract_boundary_commit']=='8250331209cbabf85afdcf92672104e8543816c7'
+          assert a['engine_boundary_commit']=='e99022ffe7a904d3f9917d9315d85ba4cdc91d5c'
+          assert a['execute_numeric_height_once'] is True
+          assert a['post_outcome_retuning'] is False
+          print('Execution authorization is frozen and pre-outcome.')
+          PY
 
   one-shot-empirical-terminal:
     needs: synthetic-boundary
