@@ -13,8 +13,12 @@ import hashlib
 import math
 from typing import Callable, Iterable, Mapping, Sequence
 
+# `height_above_msl` is the exact canonicalized field name in the checksum-pinned
+# public Movebank export. The earlier spelled-out documentation name
+# `height_above_mean_sea_level` was corrected after a header-only probe (zero
+# data rows, zero numeric height values). This is a schema-name correction only.
 HEIGHT_FIELD_PRIORITY = (
-    "height_above_mean_sea_level",
+    "height_above_msl",
     "height_above_ellipsoid",
     "height_raw",
 )

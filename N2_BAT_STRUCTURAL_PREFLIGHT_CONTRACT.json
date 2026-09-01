@@ -49,10 +49,17 @@
   "native_height_field_resolution_rule": {
     "inspect_names_not_values": true,
     "priority": [
-      "height_above_mean_sea_level",
+      "height_above_msl",
       "height_above_ellipsoid",
       "height_raw"
     ],
+    "schema_correction": {
+      "previous_documentation_name": "height_above_mean_sea_level",
+      "exact_public_movebank_export_name": "height_above_msl",
+      "basis": "header-only checksum-pinned source inspection; zero data rows and zero numeric height values read",
+      "semantic_change": false,
+      "scientific_threshold_change": false
+    },
     "require_exactly_one_resolved_primary_field": true,
     "if_none_present": "structural_preflight_unavailable",
     "if_multiple_present": "select first field in frozen priority without reading values"
