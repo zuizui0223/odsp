@@ -34,22 +34,47 @@
     "known_truth_synthetic_benchmark": true,
     "concealed_finite_observation_recovery": true,
     "source_preserving_gbif_inaturalist_time": true,
-    "explicit_vertical_information_schema": true
+    "explicit_vertical_information_schema": true,
+    "outcome_blind_empirical_axis_admission": true,
+    "individual_weighted_sealed_empirical_thickness_engine": true
   },
   "interpretation": {
     "species_support_tensor_yields_descriptive_niche_thickness": true,
     "equal_weight_available_state_tensor_yields_structural_state_space_capacity": true,
+    "thickness_magnitude_and_transferable_organization_are_distinct": true,
     "elevation_equals_vertical_z_axis": false,
     "raw_opportunistic_counts_equal_use_probability": false,
     "niche_thickness_equals_occupancy_probability": false,
-    "niche_thickness_is_causal_interaction_metric": false
+    "niche_thickness_is_causal_interaction_metric": false,
+    "descriptive_thickness_alone_establishes_transferable_3d_niche": false
   },
   "empirical_requirements": {
     "effort_detectability_required_for_biological_z_t_inference": true,
     "timestamp_availability_alone_establishes_temporal_niche": false,
     "missing_time_or_vertical_state_may_be_fabricated": false
   },
-  "handoff_to_next_chapter": "Pass axis-resolved supported states to N3; N3 asks where those states can actually become realized under reachability and alternative distributional worlds.",
+  "terminal_empirical_state_2026_09_01": {
+    "tawaki_lane": {
+      "terminal_category": "empirical_gate_d_unavailable",
+      "biological_thickness_outcome_opened": false,
+      "rescue_or_retune_allowed": false
+    },
+    "european_free_tailed_bat_lane": {
+      "terminal_category": "empirical_n2_thickness_not_generalizing",
+      "structurally_available": true,
+      "primary_information_nats_H_Z_given_XY": 1.3918623004770097,
+      "primary_effective_vertical_states": 4.022333876564191,
+      "sealed_individual_gains": [-0.43541033813280833, -0.021938657402345435],
+      "answer_check_category": "estimable_but_non_generalizing",
+      "descriptive_thickness_present": true,
+      "transferable_xy_resolved_vertical_organization_supported": false,
+      "rescue_rerun_or_retune_allowed": false,
+      "decision_receipt": "N2_BAT_THICKNESS_TERMINAL_DECISION.json"
+    },
+    "gate_e_habitat_complexity_authorized": false,
+    "current_empirical_chain_closed": true
+  },
+  "handoff_to_next_chapter": "Pass axis-resolved supported states to N3 only when their empirical support boundary is defensible; the completed bat lane does not establish a transferable x-y-resolved vertical state map for N3.",
   "historical_spatial_patch_method_active": false,
   "sdmr_product_a_reopened": false,
   "eog_reachability_ownership_changed": false,
