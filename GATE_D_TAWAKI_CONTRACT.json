@@ -1,0 +1,135 @@
+{
+  "contract_id": "odsp-gate-d-tawaki-v1",
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "chapter": 2,
+  "issue": 12,
+  "status": "pre_outcome_frozen_design",
+  "dataset": {
+    "taxon": "Eudyptes pachyrhynchus",
+    "common_name": "Fiordland penguin / tawaki",
+    "place": "Piopiotahi / Milford Sound, New Zealand",
+    "years": [2019, 2020],
+    "publication_doi": "10.7717/peerj.19650",
+    "zenodo_doi": "10.5281/zenodo.14849008",
+    "movebank_study_id": "5596513373",
+    "public_github_repo": "Myrene-O/Milford-Sound-Tawaki",
+    "public_github_commit": "5e629d6053e6dcaaa44188e71ad6052533ad3cab"
+  },
+  "primary_estimand": {
+    "name": "location-resolved dive-depth niche thickness",
+    "state": "S(x,y,z)",
+    "z_semantics": "maximum organism dive depth for one qualifying dive event",
+    "claim_boundary": "realized location-resolved dive-state support, not full continuous water-column occupancy or fundamental niche",
+    "primary_information": "H(Z|X,Y)",
+    "primary_effective_states": "exp(H(Z|X,Y))",
+    "local_output": "axis_thickness_map"
+  },
+  "event_filters": {
+    "minimum_dive_depth_m": 0.5,
+    "minimum_dive_duration_s": 5.0,
+    "require_finite_lat_lon": true,
+    "require_finite_z": true,
+    "unlocated_dives_are_absence": false,
+    "long_gap_location_interpolation_allowed": false
+  },
+  "depth_bins_m": [0.5, 1, 2, 4, 8, 16, 32, 64, 128, "inf"],
+  "depth_bin_rule": "left_closed_right_open_except_last",
+  "depth_bin_rationale": "fixed powers-of-two bins above the source study's 0.5 m qualifying threshold; no empirical quantiles",
+  "horizontal_grid": {
+    "crs": "EPSG:2193",
+    "primary_cell_size_m": 5000,
+    "sensitivity_cell_sizes_m": [2500, 10000],
+    "grid_origin_m": [0, 0],
+    "primary_cell_id": "floor(E/5000):floor(N/5000)",
+    "sensitivity_cannot_replace_primary": true
+  },
+  "temporal_secondary": {
+    "enabled": true,
+    "role": "secondary_descriptive_only_for_gate_d_v1",
+    "local_time_zone": "Pacific/Auckland",
+    "primary_bin_width_hours": 2,
+    "bin_edges_hours": [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24],
+    "primary_information": "H(T|X,Y)",
+    "joint_zt_primary": false
+  },
+  "weighting": {
+    "unit": "bird-trip",
+    "within_trip": "equal weight across qualifying location-resolved dives",
+    "across_trips": "equal total weight per bird-trip",
+    "reason": "prevent longer or more frequently sampled trips from dominating support mass"
+  },
+  "observation_process": {
+    "depth_logging": "source methods report depth every 1 s",
+    "gps_schedule_changes_by_year": true,
+    "gps_failure_during_dives_or_short_surface_intervals": true,
+    "all_dives_retained_in_effort_denominator": true,
+    "primary_inference_restricted_to_location_resolved_dives": true,
+    "inverse_probability_correction_primary": false,
+    "reason_no_primary_ipw": "GPS location failure can depend on unobserved position and surface opportunity; primary contract fails closed rather than asserting missing-at-random"
+  },
+  "cell_estimability": {
+    "minimum_location_resolved_events": 30,
+    "minimum_distinct_bird_trips": 3,
+    "minimum_distinct_birds": 2,
+    "zero_or_underpowered_cells": "NaN/unavailable",
+    "site_year_summary_minimum_estimable_cells": 5,
+    "site_year_summary_minimum_birds": 4
+  },
+  "cluster_split": {
+    "cluster": "birdID",
+    "strata": ["site_or_colony", "year"],
+    "sealed_fraction": 0.25,
+    "minimum_birds_per_stratum": 4,
+    "algorithm": "sort unique birdIDs within stratum by SHA256('odsp-gate-d-tawaki-v1|<site>|<year>|<birdID>'); first ceil(0.25*n) are sealed",
+    "row_level_split_forbidden": true,
+    "sealed_used_for_tuning": false
+  },
+  "model_pool_role": {
+    "allowed": [
+      "declare estimable primary cells under frozen thresholds",
+      "estimate weighted P(Z|X,Y) in those cells",
+      "estimate site-year marginal P(Z) comparator",
+      "generate cluster-bootstrap uncertainty under frozen rules"
+    ],
+    "forbidden": [
+      "change grid size after viewing thickness",
+      "change depth bins after viewing thickness",
+      "drop birds/trips because their outcome is inconvenient",
+      "promote sensitivity grid to primary"
+    ]
+  },
+  "sealed_answer_check": {
+    "primary_metric": "mean held-out log-score difference",
+    "definition": "mean_w[log p_model(Z|X,Y) - log p_marginal(Z|site,year)] on sealed qualifying events in model-pool-eligible cells",
+    "smoothing": "Jeffreys Dirichlet pseudocount 0.5 per depth bin",
+    "weighting": "same equal-bird-trip weighting as primary support",
+    "uncertainty": "cluster bootstrap over sealed birdID, 2000 replicates",
+    "bootstrap_seed": 2026090103,
+    "decision_categories": {
+      "estimable_and_generalizing": "coverage gates pass and 95% bootstrap CI lower bound for log-score difference > 0",
+      "estimable_but_generalization_unresolved": "coverage gates pass and 95% CI includes 0",
+      "estimable_but_non_generalizing": "coverage gates pass and 95% CI upper bound < 0",
+      "empirical_gate_d_unavailable": "coverage/stratum gates fail"
+    }
+  },
+  "reporting": {
+    "always_report": [
+      "all admitted and excluded birds/trips with reasons",
+      "located versus unlocated dive denominators by site-year",
+      "number of estimable and unavailable x-y cells",
+      "model-pool H(Z|X,Y) and exp(H(Z|X,Y))",
+      "local axis_thickness_map",
+      "sealed log-score difference and bootstrap CI",
+      "primary 5 km result before 2.5/10 km sensitivity",
+      "source-paper non-blindness disclosure"
+    ],
+    "do_not_claim": [
+      "fundamental niche",
+      "continuous water-column occupancy from dive maxima alone",
+      "causal habitat preference",
+      "unobserved dive locations",
+      "forest-versus-grassland Gate-E result"
+    ]
+  },
+  "post_outcome_retuning": false
+}
