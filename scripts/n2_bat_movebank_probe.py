@@ -5,6 +5,9 @@ The script fetches only source metadata/schema plus the minimum event columns
 needed for structural support. Numerical height values are never parsed,
 summarized, logged, or written to the receipt; only presence/missingness is
 used by :mod:`odsp.n2_bat_preflight`.
+
+Movebank transport/authentication/licence failures are technical unresolved
+states, never scientific terminal decisions.
 """
 from __future__ import annotations
 
@@ -18,8 +21,7 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
-
-from pyproj import Transformer
+from typing import Callable
 
 from odsp.n2_bat_preflight import (
     resolve_native_height_field,
@@ -32,10 +34,12 @@ BASE_URL = "https://www.movebank.org/movebank/service/direct-read"
 
 
 class TransportError(RuntimeError):
-    pass
+    """Movebank transport/auth/licence failure with no scientific meaning."""
 
 
 def fetch_movebank(params: dict[str, object]) -> bytes:
+    """Fetch one Movebank CSV response without exposing credentials or values."""
+
     query = urllib.parse.urlencode(params, doseq=True)
     url = f"{BASE_URL}?{query}"
     request = urllib.request.Request(
@@ -49,8 +53,8 @@ def fetch_movebank(params: dict[str, object]) -> bytes:
         raise TransportError(f"movebank_http_status_{exc.code}") from exc
     except urllib.error.URLError as exc:
         raise TransportError("movebank_network_error") from exc
-    # Public data can still be configured to return an HTML license page.
-    if b"License Terms:" in data or data.lstrip().lower().startswith(b"<html"):
+    lowered = data.lstrip().lower()
+    if b"license terms:" in lowered or lowered.startswith(b"<html"):
         raise TransportError("movebank_license_or_html_response_requires_resolution")
     return data
 
@@ -67,6 +71,21 @@ def _single_row(rows: list[dict[str, str]], label: str) -> dict[str, str]:
     if len(rows) != 1:
         raise ValueError(f"expected exactly one {label} row, observed {len(rows)}")
     return rows[0]
+
+
+def make_projector() -> Callable[[float, float], tuple[float, float]]:
+    """Build the frozen EPSG:4326 -> EPSG:3035 projector lazily.
+
+    ``pyproj`` remains a workflow-only dependency rather than a core ODSP
+    dependency, which keeps package tests independent of live-source tooling.
+    """
+
+    try:
+        from pyproj import Transformer
+    except ImportError as exc:  # pragma: no cover - exercised in workflow setup
+        raise RuntimeError("pyproj_required_for_bat_transport_probe") from exc
+    transformer = Transformer.from_crs("EPSG:4326", "EPSG:3035", always_xy=True)
+    return transformer.transform
 
 
 def build_report() -> dict[str, object]:
@@ -113,6 +132,9 @@ def build_report() -> dict[str, object]:
     )
     native_height_field = resolve_native_height_field(attribute_names)
 
+    # Movebank documents individual_id and individual_local_identifier as
+    # standard attributes present for all events. visible is explicitly
+    # requested so source outlier state remains in the denominator.
     requested_attributes = [
         "timestamp",
         "location_lat",
@@ -135,11 +157,10 @@ def build_report() -> dict[str, object]:
     if missing_columns:
         raise ValueError(f"Movebank event response lacks required columns: {missing_columns}")
 
-    transformer = Transformer.from_crs("EPSG:4326", "EPSG:3035", always_xy=True)
     summary = summarize_bat_structural_preflight(
         event_rows,
         native_height_field=native_height_field,
-        projector=transformer.transform,
+        projector=make_projector(),
         cell_size_m=float(contract["horizontal_grid"]["primary_cell_size_m"]),
         minimum_events_per_cell=int(
             contract["structural_cell_gate"]["minimum_events_per_cell"]
@@ -183,6 +204,7 @@ def build_report() -> dict[str, object]:
         "event_row_count": len(event_rows),
         "structural_summary": summary.as_dict(),
         "terminal_category": terminal,
+        "scientific_terminal_decision": True,
         "outcome_metrics_computed": False,
         "forbidden_metrics_confirmed_absent": contract[
             "forbidden_preflight_reads_or_outputs"
@@ -191,24 +213,25 @@ def build_report() -> dict[str, object]:
     }
 
 
-def main() -> None:
+def unresolved_transport_payload(reason: str) -> dict[str, object]:
+    """Return a transport-only status that cannot masquerade as science."""
+
+    return {
+        "transport_probe": "unresolved",
+        "reason": reason,
+        "scientific_terminal_decision": False,
+        "outcome_metrics_computed": False,
+    }
+
+
+def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     try:
         report = build_report()
     except TransportError as exc:
-        print(
-            json.dumps(
-                {
-                    "transport_probe": "unresolved",
-                    "reason": str(exc),
-                    "scientific_terminal_decision": False,
-                    "outcome_metrics_computed": False,
-                },
-                sort_keys=True,
-            )
-        )
+        print(json.dumps(unresolved_transport_payload(str(exc)), sort_keys=True))
         return 2
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
@@ -219,6 +242,7 @@ def main() -> None:
             {
                 "preflight_id": report["preflight_id"],
                 "terminal_category": report["terminal_category"],
+                "scientific_terminal_decision": True,
                 "outcome_metrics_computed": False,
                 "event_row_count": report["event_row_count"],
                 "output": str(args.output),
