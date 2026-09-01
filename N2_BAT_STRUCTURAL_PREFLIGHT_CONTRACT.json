@@ -1,0 +1,114 @@
+{
+  "contract_id": "odsp-n2-bat-structural-preflight-v1",
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "chapter_code": "N2",
+  "core_question": "HOW THICK is it?",
+  "one_line_thought": "地図は、niche を薄くする。",
+  "architecture_selection_boundary_commit": "1ac712138b380a6451d1f0d05d32553ed7b9a20a",
+  "selected_candidate_id": "european_free_tailed_bat_movebank_52nn82r9",
+  "predecessor_tawaki_terminal_result": "empirical_gate_d_unavailable",
+  "source": {
+    "taxon": "Tadarida teniotis",
+    "common_name": "European free-tailed bat",
+    "paper_doi": "10.1016/j.cub.2020.12.042",
+    "movebank_repository_doi": "10.5441/001/1.52nn82r9",
+    "movebank_study_id": 312057662,
+    "movebank_gps_sensor_type_id": 653,
+    "license_expected_from_public_catalog": "CC_0",
+    "source_documented_schedule": "approximately one GPS location every 30 seconds",
+    "source_documented_native_event": "latitude + longitude + GPS height above sea level + timestamp on the same GPS event",
+    "source_documented_raw_retention": "archive includes data including points marked as outliers/removed by the source analysis"
+  },
+  "allowed_preflight_reads": [
+    "study metadata and license/access fields",
+    "study attribute names and data types",
+    "deployment/individual identifiers",
+    "event timestamps",
+    "event individual identifiers",
+    "event visible/outlier flag",
+    "finite/non-finite x-y availability",
+    "presence/non-missing count for a native GPS height field without reading its numeric distribution",
+    "timestamp interval counts and schedule-conformance summaries",
+    "whole-individual model/sealed assignment",
+    "x-y-only grid cell event and distinct-individual counts"
+  ],
+  "forbidden_preflight_reads_or_outputs": [
+    "GPS height minimum or maximum",
+    "GPS height mean, median, standard deviation or quantiles",
+    "height-above-ground values",
+    "altitude or z histogram/frequency distribution",
+    "z bins or z-state frequencies",
+    "H(Z|X,Y)",
+    "exp(H(Z|X,Y))",
+    "H(T|X,Y)",
+    "axis_thickness_map",
+    "projection loss",
+    "bat-level or night-level thickness contrasts",
+    "held-out biological score"
+  ],
+  "native_height_field_resolution_rule": {
+    "inspect_names_not_values": true,
+    "priority": [
+      "height_above_mean_sea_level",
+      "height_above_ellipsoid",
+      "height_raw"
+    ],
+    "require_exactly_one_resolved_primary_field": true,
+    "if_none_present": "structural_preflight_unavailable",
+    "if_multiple_present": "select first field in frozen priority without reading values"
+  },
+  "event_stream": {
+    "sensor_type": "gps",
+    "retain_visible_and_flagged_events_in_source_denominator": true,
+    "do_not_drop_outliers_in_preflight": true,
+    "require_timestamp": true,
+    "require_individual_identifier": true,
+    "require_finite_xy_for_grid_count": true,
+    "missing_xy_is_not_absence": true,
+    "missing_height_is_not_zero": true
+  },
+  "effort_structure": {
+    "expected_nominal_interval_seconds": 30,
+    "schedule_conformance_interval_seconds": [20, 40],
+    "primary_preflight_reports_interval_distribution": false,
+    "allowed_schedule_outputs": [
+      "number and fraction of consecutive within-individual intervals in 20-40 s",
+      "number of gaps >40 s",
+      "number of duplicate/non-positive timestamp intervals"
+    ],
+    "no_gap_interpolation": true
+  },
+  "horizontal_grid": {
+    "crs": "EPSG:3035",
+    "primary_cell_size_m": 5000,
+    "grid_origin_m": [0, 0],
+    "cell_id": "floor(E/5000):floor(N/5000)",
+    "no_grid_sensitivity_before_primary_terminal_decision": true
+  },
+  "whole_individual_split": {
+    "cluster": "individual_local_identifier_or_individual_id",
+    "sealed_fraction": 0.25,
+    "algorithm": "sort unique individual identifiers by SHA256('odsp-n2-bat-v1|<individual>'); first ceil(0.25*n) are sealed",
+    "row_level_split_forbidden": true,
+    "sealed_used_for_grid_or_threshold_tuning": false
+  },
+  "structural_cell_gate": {
+    "model_pool_only": true,
+    "minimum_events_per_cell": 30,
+    "minimum_distinct_model_individuals_per_cell": 3,
+    "minimum_estimable_primary_cells": 5,
+    "minimum_total_public_individuals_with_xy_and_native_height_presence": 8,
+    "underpowered_cells": "unavailable",
+    "failure_category": "bat_empirical_lane_structurally_unavailable"
+  },
+  "preflight_terminal_categories": {
+    "structurally_available": "source/access/schema/schedule/split/cell gates all pass",
+    "bat_empirical_lane_structurally_unavailable": "one or more frozen structural gates fail before any z distribution is read",
+    "source_access_unavailable": "the versioned/public source cannot be accessed reproducibly without changing the selected lane"
+  },
+  "post_preflight_rule": {
+    "if_structurally_available": "freeze a separate empirical thickness/answer-check contract before reading native height values",
+    "if_unavailable": "record terminal structural result; do not change dataset, grid, split or gates inside this lane"
+  },
+  "post_outcome_retuning": false
+}
