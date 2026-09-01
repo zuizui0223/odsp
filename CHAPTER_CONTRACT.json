@@ -4,7 +4,7 @@
   "repository": "zuizui0223/odsp",
   "chapter_title": "Multidimensional niche geometry",
   "core_question": "How much niche structure is hidden when ecological support is projected onto a flat x-y map?",
-  "primary_output": "Niche thickness, added-axis information and projection-loss diagnostics",
+  "primary_output": "Niche thickness, local state-space capacity, added-axis information and projection-loss diagnostics",
   "canonical_state": "S(x,y,z,t,...)",
   "primary_quantities": [
     "H(Z|X,Y)",
@@ -12,10 +12,36 @@
     "H(Z,T|X,Y)",
     "exp(H(Z|X,Y))",
     "exp(H(T|X,Y))",
-    "exp(H(Z,T|X,Y))"
+    "exp(H(Z,T|X,Y))",
+    "I(Z;T|X,Y)",
+    "local_exp(H(added_axes|x,y))"
   ],
-  "raw_opportunistic_counts_equal_use_probability": false,
+  "implemented_core": {
+    "whole_support_profile": true,
+    "local_xy_thickness_map": true,
+    "vertical_axis": true,
+    "temporal_axis": true,
+    "joint_vertical_temporal_axis": true,
+    "conditional_mutual_information": true,
+    "source_preserving_gbif_inaturalist_time": true
+  },
+  "interpretation": {
+    "species_support_tensor_yields_descriptive_niche_thickness": true,
+    "equal_weight_available_state_tensor_yields_structural_state_space_capacity": true,
+    "elevation_equals_vertical_z_axis": false,
+    "raw_opportunistic_counts_equal_use_probability": false,
+    "niche_thickness_equals_occupancy_probability": false,
+    "niche_thickness_is_causal_interaction_metric": false
+  },
+  "empirical_requirements": {
+    "effort_detectability_required_for_biological_z_t_inference": true,
+    "timestamp_availability_alone_establishes_temporal_niche": false,
+    "missing_time_or_vertical_state_may_be_fabricated": false
+  },
   "historical_spatial_patch_method_active": false,
+  "sdmr_product_a_reopened": false,
+  "eog_reachability_ownership_changed": false,
+  "acsp_survey_action_ownership_changed": false,
   "chapter_order": [
     "1:sdmr:environmental_niche_driver_selection",
     "2:odsp:multidimensional_niche_geometry",
