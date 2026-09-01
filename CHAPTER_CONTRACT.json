@@ -1,0 +1,25 @@
+{
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "chapter_number": 2,
+  "repository": "zuizui0223/odsp",
+  "chapter_title": "Multidimensional niche geometry",
+  "core_question": "How much niche structure is hidden when ecological support is projected onto a flat x-y map?",
+  "primary_output": "Niche thickness, added-axis information and projection-loss diagnostics",
+  "canonical_state": "S(x,y,z,t,...)",
+  "primary_quantities": [
+    "H(Z|X,Y)",
+    "H(T|X,Y)",
+    "H(Z,T|X,Y)",
+    "exp(H(Z|X,Y))",
+    "exp(H(T|X,Y))",
+    "exp(H(Z,T|X,Y))"
+  ],
+  "raw_opportunistic_counts_equal_use_probability": false,
+  "historical_spatial_patch_method_active": false,
+  "chapter_order": [
+    "1:sdmr:environmental_niche_driver_selection",
+    "2:odsp:multidimensional_niche_geometry",
+    "3:eog:distributional_worlds_and_reachability",
+    "4:acsp:survey_action"
+  ]
+}
