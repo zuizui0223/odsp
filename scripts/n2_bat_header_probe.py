@@ -7,7 +7,7 @@ import io
 import json
 from pathlib import Path
 
-from scripts.n2_bat_repository_preflight import (
+from n2_bat_repository_preflight import (
     MANIFEST,
     _by_role,
     canonical_name,
