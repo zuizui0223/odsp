@@ -1,0 +1,81 @@
+{
+  "receipt_id": "odsp-gate-d-tawaki-terminal-v1",
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "chapter_code": "N2",
+  "contract_id": "odsp-gate-d-tawaki-v1",
+  "contract_boundary_commit": "1278fffafbd3d5e55dc4d5d894c361149c2cd8cd",
+  "terminal_status": "complete",
+  "terminal_decision": "empirical_gate_d_unavailable",
+  "decision_basis": "predeclared coverage/stratum gates failed before any niche-thickness or sealed outcome metric was opened",
+  "preflight": {
+    "pull_request": 14,
+    "head_sha": "f481f096854814e321d064efa68dc9747247214a",
+    "merge_commit": "74cf44b6e97194c66fda25e6ddd0fea3b2e0949f",
+    "workflow_run": 33474991809,
+    "workflow_conclusion": "success",
+    "artifact_id": 9787831980,
+    "artifact_name": "gate-d-tawaki-structural-preflight",
+    "artifact_digest": "sha256:296b083ccfd8db7693d3ecc3ae4e6df630d421f2dc2da28feecd8fae45e21798",
+    "outcome_metrics_computed": false
+  },
+  "source_denominator": {
+    "qualifying_dive_rows": 32668,
+    "location_resolved_qualifying_rows": 3880,
+    "location_coverage_fraction": 0.11877066242194197
+  },
+  "site_year_structural_gate": [
+    {
+      "site": "Harrison Cove",
+      "year": 2019,
+      "model_pool_cells_with_any_located_event": 8,
+      "model_pool_estimable_cells": 0,
+      "site_year_summary_gate": false
+    },
+    {
+      "site": "Harrison Cove",
+      "year": 2020,
+      "model_pool_cells_with_any_located_event": 11,
+      "model_pool_estimable_cells": 0,
+      "site_year_summary_gate": false
+    },
+    {
+      "site": "Moraine",
+      "year": 2019,
+      "model_pool_cells_with_any_located_event": 28,
+      "model_pool_estimable_cells": 9,
+      "site_year_summary_gate": true
+    },
+    {
+      "site": "Moraine",
+      "year": 2020,
+      "model_pool_cells_with_any_located_event": 42,
+      "model_pool_estimable_cells": 8,
+      "site_year_summary_gate": true
+    }
+  ],
+  "all_site_year_summary_gates_pass": false,
+  "identity_reconciliation": {
+    "strict_explicit_aliases_only": true,
+    "alias_count": 1,
+    "alias": "Moraine/2019 linked MO10 -> all-dive MO102",
+    "fuzzy_matching_forbidden": true,
+    "global_normalization_forbidden": true
+  },
+  "forbidden_outcomes_not_opened": [
+    "depth-bin frequency distribution",
+    "H(Z|X,Y)",
+    "exp(H(Z|X,Y))",
+    "axis_thickness_map values",
+    "projection-loss values",
+    "sealed log-score difference",
+    "sealed bootstrap confidence interval"
+  ],
+  "primary_grid_retuned": false,
+  "depth_bins_retuned": false,
+  "cell_eligibility_retuned": false,
+  "replacement_dataset_used_for_same_gate": false,
+  "gate_e_authorized": false,
+  "gate_e_reason": "Gate E was prospectively conditional on Gate D establishing empirical estimability; that condition was not met.",
+  "scientific_interpretation": "This is structural empirical unavailability, not evidence that niche thickness is zero, absent, non-generalizing or biologically unsupported.",
+  "next_action": "Close the Tawaki Gate-D/Gate-E issue without opening outcomes. Any future empirical N2 validation must use a new issue and a new prospectively frozen contract and must not reinterpret this unavailable result."
+}
