@@ -1,0 +1,62 @@
+name: n2-bat-repository-preflight
+
+on:
+  pull_request:
+    paths:
+      - 'N2_BAT_REPOSITORY_SOURCE_MANIFEST.json'
+      - 'N2_BAT_STRUCTURAL_PREFLIGHT_CONTRACT.json'
+      - 'odsp/n2_bat_preflight.py'
+      - 'scripts/n2_bat_repository_preflight.py'
+      - 'tests/test_n2_bat_repository_preflight.py'
+      - '.github/workflows/n2-bat-repository-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  structural-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: |
+          python -m pip install -e '.[dev]'
+          python -m pip install 'pyproj>=3.6,<4'
+      - name: Test source/outcome boundary
+        run: |
+          python -m pytest \
+            tests/test_n2_bat_preflight.py \
+            tests/test_n2_bat_repository_preflight.py
+      - name: Run pinned structural preflight
+        run: |
+          python scripts/n2_bat_repository_preflight.py \
+            --output preflight-output/n2_bat_repository_structural_preflight.json
+      - name: Assert no altitude outcome opened
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('preflight-output/n2_bat_repository_structural_preflight.json').read_text())
+          assert r['scientific_terminal_decision'] is True
+          assert r['outcome_metrics_computed'] is False
+          assert r['numeric_height_values_parsed'] is False
+          assert r['raw_event_values_persisted'] is False
+          assert r['terminal_category'] in {
+              'structurally_available',
+              'bat_empirical_lane_structurally_unavailable',
+          }
+          forbidden={'height_min','height_max','height_mean','height_median','height_sd','height_quantiles','height_histogram','z_distribution','H(Z|X,Y)','effective_states','axis_thickness_map','projection_loss','held_out_score'}
+          assert forbidden.isdisjoint(r['structural_summary'])
+          print('Frozen structural terminal decision produced without opening altitude outcomes.')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: n2-bat-repository-structural-preflight
+          path: preflight-output/n2_bat_repository_structural_preflight.json
+          if-no-files-found: error
+          retention-days: 30
