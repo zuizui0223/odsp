@@ -29,11 +29,11 @@ All functions remain model-agnostic, accept explicit unavailable masks, and fail
 
 ## Gate B — known-truth projection benchmark
 
-Status: **B1 analytic truth fixtures implemented; B2 concealed-estimator recovery pending**.
+Status: **B1 analytic truth fixtures and B2 concealed finite-observation recovery implemented and tested**.
 
 ### B1 — analytic truth fixtures
 
-`odsp.synthetic_benchmark` now fixes and checks these generating families:
+`odsp.synthetic_benchmark` fixes and checks these generating families:
 
 - planar sufficiency;
 - pure vertical thickness;
@@ -47,17 +47,20 @@ Status: **B1 analytic truth fixtures implemented; B2 concealed-estimator recover
 
 The analytic fixtures verify exact effective-state counts and expected projection-overlap inflation before empirical development.
 
-### B2 — concealed-estimator recovery
+### B2 — concealed finite-observation recovery
 
-Next, generate occurrence/observation samples from the fixed truth tensors, hide the generating tensor from the estimator, reconstruct support from the allowed training information, and open truth only for final scoring.
+`odsp.concealed_recovery` samples finite observation-count tensors from the fixed generating supports, gives only those sampled counts to the estimator, and opens the generating tensor only for final truth scoring.
 
-Primary checks:
+Frozen development settings:
 
-- recover the correct effective conditional state counts within predeclared tolerance;
-- recover the correct ranking of projection loss;
-- distinguish marginal from joint-only hidden structure;
-- retain abstention under missing/structurally non-identifiable axes;
-- do not improve results by post-outcome bin or estimator tuning.
+- sample size: `100000` observations per synthetic support;
+- RNG seed: `2026090102` plus deterministic family offsets;
+- effective-state absolute tolerance: `0.08`;
+- overlap/projection-loss absolute tolerance: `0.03`.
+
+The benchmark covers thickness recovery, vertical/temporal/joint projection loss, and the ordering of simple versus layered habitat capacity. The current implementation passes the frozen checks across Python 3.10–3.13.
+
+This is synthetic recovery evidence only. It does not license interpreting raw opportunistic occurrence counts as unbiased use probabilities.
 
 ## Gate C — source/effort layer
 
