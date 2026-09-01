@@ -64,7 +64,7 @@ This is synthetic recovery evidence only. It does not license interpreting raw o
 
 ## Gate C — source/effort layer
 
-Status: **time and explicit vertical/depth information schemas implemented and tested; source-specific empirical effort adapters remain future work**.
+Status: **generic time/vertical schemas implemented; first source-specific empirical binding designed under Gate D**.
 
 ### Time
 
@@ -90,19 +90,32 @@ Important fail-closed distinctions:
 - reversed intervals and missing semantics fail closed;
 - no height/depth is fabricated from land-cover class alone.
 
-The remaining Gate-C work is empirical source/effort binding: demonstrate that a chosen dataset actually samples the declared z/t state space with defensible coverage and detectability semantics.
-
 ## Gate D — independent empirical demonstration
 
-Status: **not started**.
+Status: **first dataset screened and pre-outcome contract implemented; ODSP outcome not yet opened**.
 
-Candidate systems should have defensible observation effort across the added axis. Strong source classes include telemetry with depth/altitude, vertically stratified cameras/acoustics, canopy surveys, depth loggers, or similarly explicit effort designs.
+The first admitted system is Fiordland penguin / tawaki (`Eudyptes pachyrhynchus`) GPS+dive-logger data from Piopiotahi / Milford Sound, 2019–2020. The selection rationale and rejected/reserved alternatives are frozen in `GATE_D_DATASET_SCREEN.md`.
 
-The first empirical target should test whether an x-y projection materially inflates overlap or suppresses state-space thickness relative to the measured axis-resolved representation.
+The prospective ODSP rules are frozen in `GATE_D_TAWAKI_CONTRACT.json` and `odsp.gate_d_contract` before any Gate-D thickness result is calculated. Primary design choices include:
+
+- organism-z = qualifying dive maximum depth, not bathymetry/locality elevation;
+- source threshold `>=0.5 m` and `>=5 s` retained;
+- powers-of-two z bins from 0.5 m, not empirical quantiles;
+- primary 5 km NZTM2000 x-y grid, with 2.5/10 km sensitivity unable to replace primary;
+- equal total weight per bird-trip;
+- whole-bird 25% sealed split within site × year using a deterministic SHA-256 ranking;
+- explicit cell estimability gates;
+- unlocated dives remain in the effort denominator and are never treated as absence or assigned a fabricated x-y location;
+- primary inference is therefore about **location-resolved dive-depth state support**;
+- held-out answer check uses sealed birds only after the frozen model-pool representation exists.
+
+The source paper is already published and reports related foraging/depth patterns. Gate D is therefore not described as source-paper-blind. What is prospective is the ODSP estimand, grid, bins, weighting, eligibility, uncertainty and held-out decision machinery.
+
+No `H(Z|X,Y)`, local thickness map, projection-loss result, colony/year ODSP contrast or held-out Gate-D decision may be computed until this contract is merged on `main`.
 
 ## Gate E — habitat-complexity synthesis
 
-Status: **future**.
+Status: **future; blocked on a valid Gate-D empirical read**.
 
 Predeclare habitat structural classes and compare thickness only after harmonizing state definitions and observation coverage. A forest-versus-grassland contrast is a motivating hypothesis, not a result to assume in advance.
 
