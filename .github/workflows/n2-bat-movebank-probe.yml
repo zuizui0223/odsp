@@ -1,0 +1,105 @@
+name: n2-bat-movebank-probe
+
+on:
+  pull_request:
+    paths:
+      - 'N2_BAT_STRUCTURAL_PREFLIGHT_CONTRACT.json'
+      - 'odsp/n2_bat_preflight.py'
+      - 'scripts/n2_bat_movebank_probe.py'
+      - 'tests/test_n2_bat_movebank_probe.py'
+      - '.github/workflows/n2-bat-movebank-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-transport-and-structural-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install ODSP and projection dependency
+        run: |
+          python -m pip install -e '.[dev]'
+          python -m pip install 'pyproj>=3.6,<4'
+
+      - name: Test transport/outcome boundary
+        run: |
+          python -m pytest \
+            tests/test_n2_bat_preflight.py \
+            tests/test_n2_bat_movebank_probe.py
+
+      - name: Run live Movebank probe
+        id: probe
+        shell: bash
+        run: |
+          mkdir -p preflight-output
+          set +e
+          python scripts/n2_bat_movebank_probe.py \
+            --output preflight-output/n2_bat_movebank_structural_preflight.json \
+            > preflight-output/probe-stdout.json \
+            2> preflight-output/probe-stderr.txt
+          code=$?
+          set -e
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          if [ "$code" -ne 0 ] && [ "$code" -ne 2 ]; then
+            cat preflight-output/probe-stderr.txt >&2
+            exit "$code"
+          fi
+
+      - name: Assert scientific boundary
+        env:
+          PROBE_EXIT_CODE: ${{ steps.probe.outputs.exit_code }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          root = Path('preflight-output')
+          code = int(os.environ['PROBE_EXIT_CODE'])
+          stdout = json.loads((root / 'probe-stdout.json').read_text())
+          receipt = root / 'n2_bat_movebank_structural_preflight.json'
+
+          if code == 2:
+              assert stdout['transport_probe'] == 'unresolved'
+              assert stdout['scientific_terminal_decision'] is False
+              assert stdout['outcome_metrics_computed'] is False
+              assert not receipt.exists()
+              print('Movebank transport unresolved; no scientific terminal decision recorded.')
+          elif code == 0:
+              report = json.loads(receipt.read_text())
+              assert report['scientific_terminal_decision'] is True
+              assert report['outcome_metrics_computed'] is False
+              assert report['raw_event_values_persisted'] is False
+              assert report['terminal_category'] in {
+                  'structurally_available',
+                  'bat_empirical_lane_structurally_unavailable',
+              }
+              summary = report['structural_summary']
+              forbidden_keys = {
+                  'height_min', 'height_max', 'height_mean', 'height_median',
+                  'height_sd', 'height_quantiles', 'height_histogram',
+                  'z_distribution', 'H(Z|X,Y)', 'effective_states',
+                  'axis_thickness_map', 'projection_loss', 'held_out_score',
+              }
+              assert forbidden_keys.isdisjoint(summary)
+              print('Structural receipt present; altitude outcome remains unopened.')
+          else:
+              raise AssertionError(f'unexpected probe exit code {code}')
+          PY
+
+      - name: Upload safe probe receipt/status
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: n2-bat-movebank-structural-probe
+          path: preflight-output/
+          if-no-files-found: error
+          retention-days: 30
