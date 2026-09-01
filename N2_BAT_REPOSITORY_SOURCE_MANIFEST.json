@@ -1,0 +1,61 @@
+{
+  "manifest_id": "odsp-n2-bat-repository-source-v1",
+  "contract_id": "odsp-n2-bat-structural-preflight-v1",
+  "repository_inventory_boundary_commit": "e5b1b0e67dec6e0ce9356d6e2167b94036f829de",
+  "doi": "10.5441/001/1.52nn82r9",
+  "handle": "10255/move.1055",
+  "selection_basis": "ORIGINAL bundle + filename/role only; no bitstream contents or biological outcomes inspected",
+  "selected_files": [
+    {
+      "role": "primary_tracking_event_stream",
+      "bundle_name": "ORIGINAL",
+      "bitstream_id": "2d629393-4266-4f85-88db-001faeab669d",
+      "filename": "3D flights of European free-tailed bats.csv",
+      "size_bytes": 1926056,
+      "checksum_type": "MD5",
+      "checksum": "570872ab7aba674b9bdc2f2ee6044a71",
+      "content_url": "https://datarepository.movebank.org/server/api/core/bitstreams/2d629393-4266-4f85-88db-001faeab669d/content"
+    },
+    {
+      "role": "reference_metadata",
+      "bundle_name": "ORIGINAL",
+      "bitstream_id": "8141174e-c65d-4e9f-84a0-f0da3f68f8ce",
+      "filename": "3D flights of European free-tailed bats-reference-data.csv",
+      "size_bytes": 2056,
+      "checksum_type": "MD5",
+      "checksum": "1712fd40d5b321630f7b08259169c842",
+      "content_url": "https://datarepository.movebank.org/server/api/core/bitstreams/8141174e-c65d-4e9f-84a0-f0da3f68f8ce/content"
+    }
+  ],
+  "explicitly_not_primary": [
+    {
+      "filename": "TadaridaHighFast_annotated.csv",
+      "reason": "annotated/derived analysis table; original native Movebank export is available and preferred"
+    },
+    {
+      "filename_pattern": "App*_SuppData_*.html",
+      "reason": "rendered supplements, not the native tracking event stream"
+    }
+  ],
+  "allowed_next_reads": [
+    "selected bitstream byte identity/checksum",
+    "CSV headers/schema",
+    "row count",
+    "individual identifiers",
+    "timestamps and timestamp intervals",
+    "finite/non-finite x-y structure",
+    "presence/missingness of the frozen-priority native height field without numerical parsing",
+    "whole-individual split",
+    "x-y-only model-pool cell counts and frozen structural eligibility"
+  ],
+  "forbidden_next_reads": [
+    "numeric GPS height values",
+    "height minimum/maximum/mean/quantiles",
+    "z histogram or bins",
+    "H(Z|X,Y)",
+    "effective states",
+    "axis_thickness_map",
+    "projection loss",
+    "held-out biological score"
+  ]
+}
