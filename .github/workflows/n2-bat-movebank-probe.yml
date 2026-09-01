@@ -6,6 +6,7 @@ on:
       - 'N2_BAT_STRUCTURAL_PREFLIGHT_CONTRACT.json'
       - 'odsp/n2_bat_preflight.py'
       - 'scripts/n2_bat_movebank_probe.py'
+      - 'scripts/n2_bat_repository_discovery.py'
       - 'tests/test_n2_bat_movebank_probe.py'
       - '.github/workflows/n2-bat-movebank-probe.yml'
   workflow_dispatch:
@@ -35,7 +36,7 @@ jobs:
             tests/test_n2_bat_preflight.py \
             tests/test_n2_bat_movebank_probe.py
 
-      - name: Run live Movebank probe
+      - name: Run live Movebank direct-read probe
         id: probe
         shell: bash
         run: |
@@ -52,6 +53,14 @@ jobs:
             cat preflight-output/probe-stderr.txt >&2
             exit "$code"
           fi
+
+      - name: Discover public Data Repository transport when direct-read is unresolved
+        if: steps.probe.outputs.exit_code == '2'
+        run: |
+          python scripts/n2_bat_repository_discovery.py \
+            --output preflight-output/n2_bat_repository_discovery.json \
+            > preflight-output/repository-discovery-stdout.json \
+            2> preflight-output/repository-discovery-stderr.txt
 
       - name: Assert scientific boundary
         env:
@@ -72,7 +81,13 @@ jobs:
               assert stdout['scientific_terminal_decision'] is False
               assert stdout['outcome_metrics_computed'] is False
               assert not receipt.exists()
-              print('Movebank transport unresolved; no scientific terminal decision recorded.')
+              discovery = json.loads(
+                  (root / 'n2_bat_repository_discovery.json').read_text()
+              )
+              assert discovery['scientific_terminal_decision'] is False
+              assert discovery['outcome_metrics_computed'] is False
+              assert discovery.get('tracking_values_downloaded') is not True
+              print('Direct-read unresolved; repository transport discovery remains technical-only.')
           elif code == 0:
               report = json.loads(receipt.read_text())
               assert report['scientific_terminal_decision'] is True
