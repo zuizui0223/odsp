@@ -4,6 +4,7 @@ import numpy as np
 import pytest
 
 from odsp.niche_geometry import (
+    axis_thickness_map,
     conditional_information,
     effective_conditional_states,
     niche_thickness_profile,
@@ -32,6 +33,39 @@ def test_even_four_layer_forest_has_effective_vertical_thickness_four():
     assert profile.vertical_information_nats == pytest.approx(math.log(4.0))
     assert profile.effective_vertical_states == pytest.approx(4.0)
     assert profile.effective_added_states == pytest.approx(4.0)
+
+
+def test_local_thickness_map_separates_thin_and_layered_horizontal_cells():
+    support = np.zeros((1, 2, 4), dtype=float)
+    support[0, 0, 0] = 1.0
+    support[0, 1, :] = 1.0
+
+    result = axis_thickness_map(
+        support,
+        horizontal_axes=(0, 1),
+        added_axes=(2,),
+    )
+
+    assert result.effective_states.shape == (1, 2)
+    assert result.effective_states[0, 0] == pytest.approx(1.0)
+    assert result.effective_states[0, 1] == pytest.approx(4.0)
+    assert result.information_nats[0, 0] == pytest.approx(0.0)
+    assert result.information_nats[0, 1] == pytest.approx(math.log(4.0))
+
+
+def test_zero_support_horizontal_cells_are_unknown_not_unit_thickness():
+    support = np.zeros((1, 2, 2), dtype=float)
+    support[0, 0, :] = 1.0
+
+    result = axis_thickness_map(
+        support,
+        horizontal_axes=(0, 1),
+        added_axes=(2,),
+    )
+
+    assert result.effective_states[0, 0] == pytest.approx(2.0)
+    assert np.isnan(result.effective_states[0, 1])
+    assert result.horizontal_mass[0, 1] == pytest.approx(0.0)
 
 
 def test_temporal_thickness_is_conditional_on_horizontal_location():
@@ -73,10 +107,12 @@ def test_joint_vertical_temporal_state_space_can_be_four():
     assert profile.effective_vertical_states == pytest.approx(2.0)
     assert profile.effective_temporal_states == pytest.approx(2.0)
     assert profile.effective_joint_vertical_temporal_states == pytest.approx(4.0)
-    assert profile.vertical_temporal_interaction_information_nats == pytest.approx(0.0)
+    assert profile.vertical_temporal_conditional_mutual_information_nats == pytest.approx(
+        0.0
+    )
 
 
-def test_z_time_dependence_reduces_joint_effective_states():
+def test_z_time_conditional_dependence_reduces_joint_effective_states():
     support = np.zeros((1, 1, 2, 2), dtype=float)
     support[0, 0, 0, 0] = 1.0
     support[0, 0, 1, 1] = 1.0
@@ -89,7 +125,7 @@ def test_z_time_dependence_reduces_joint_effective_states():
     assert profile.effective_vertical_states == pytest.approx(2.0)
     assert profile.effective_temporal_states == pytest.approx(2.0)
     assert profile.effective_joint_vertical_temporal_states == pytest.approx(2.0)
-    assert profile.vertical_temporal_interaction_information_nats == pytest.approx(
+    assert profile.vertical_temporal_conditional_mutual_information_nats == pytest.approx(
         math.log(2.0)
     )
 
@@ -107,6 +143,17 @@ def test_conditional_information_ignores_unlisted_axes_by_marginalizing():
         base_axes=(0, 1),
         added_axes=(2,),
     ) == pytest.approx(3.0)
+
+
+def test_local_map_preserves_requested_horizontal_axis_order():
+    support = np.ones((2, 3, 4), dtype=float)
+    result = axis_thickness_map(
+        support,
+        horizontal_axes=(1, 0),
+        added_axes=(2,),
+    )
+    assert result.effective_states.shape == (3, 2)
+    assert np.allclose(result.effective_states, 4.0)
 
 
 def test_unavailable_states_are_removed_before_normalization():
@@ -134,4 +181,10 @@ def test_invalid_support_fails_closed():
             np.ones((1, 1, 2)),
             horizontal_axes=(0, 1),
             vertical_axis=1,
+        )
+    with pytest.raises(ValueError, match="disjoint"):
+        axis_thickness_map(
+            np.ones((1, 1, 2)),
+            horizontal_axes=(0, 1),
+            added_axes=(1,),
         )
