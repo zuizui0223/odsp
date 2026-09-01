@@ -57,22 +57,25 @@ def validate_columns(columns: Iterable[str], *, table: str) -> None:
     found = set(columns)
     if table == "linked":
         required = LINKED_REQUIRED_COLUMNS
-        if not ({"Colony", "Site"} & found):
-            raise ValueError("linked table requires Colony or Site")
-        if not ({"DateTimeUTC", "NZOnset", "TimeNZ", "Hour"} & found):
-            raise ValueError("linked table requires a biological event-time field")
     elif table == "dives":
         required = DIVE_REQUIRED_COLUMNS
-        if not ({"Site", "Colony"} & found):
-            raise ValueError("dives table requires Site or Colony")
-        if not ({"TimeNZ", "Hour", "Time"} & found):
-            raise ValueError("dives table requires a biological event-time field")
     else:
         raise ValueError("table must be 'linked' or 'dives'")
 
     missing = sorted(required - found)
     if missing:
         raise ValueError(f"{table} table missing required columns: {missing}")
+
+    if table == "linked":
+        if not ({"Colony", "Site"} & found):
+            raise ValueError("linked table requires Colony or Site")
+        if not ({"DateTimeUTC", "NZOnset", "TimeNZ", "Hour"} & found):
+            raise ValueError("linked table requires a biological event-time field")
+    else:
+        if not ({"Site", "Colony"} & found):
+            raise ValueError("dives table requires Site or Colony")
+        if not ({"TimeNZ", "Hour", "Time"} & found):
+            raise ValueError("dives table requires a biological event-time field")
 
 
 def depth_bin_index(depth_m: float) -> int | None:
