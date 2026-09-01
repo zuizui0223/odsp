@@ -1,9 +1,10 @@
 """Outcome-blind structural preflight for the frozen Tawaki Gate-D contract.
 
 The functions in this module may inspect source identity, denominators, frozen
-filter eligibility, cluster structure and location availability.  They must not
+filter eligibility, cluster structure and location availability. They must not
 calculate depth-bin distributions, niche thickness, projection loss or sealed
-scores.
+scores. Cross-table ID reconciliation is allowed only through exact audited
+aliases; fuzzy/global normalization is forbidden.
 """
 from __future__ import annotations
 
@@ -11,9 +12,13 @@ from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass
 import hashlib
 import math
-from typing import Iterable, Mapping
+from typing import Iterable, Mapping, Sequence
 
 from .gate_d_contract import deterministic_bird_split
+
+AliasKey = tuple[str, str, str]
+AliasTarget = tuple[str, str]
+AliasIndex = dict[AliasKey, AliasTarget]
 
 
 @dataclass(frozen=True)
@@ -72,8 +77,8 @@ def _float_or_none(value: object) -> float | None:
     return number if math.isfinite(number) else None
 
 
-def _bird_trip(row: Mapping[str, object]) -> str:
-    bird = _text(row, "birdID")
+def _bird_trip(row: Mapping[str, object], *, bird_id: str | None = None) -> str:
+    bird = bird_id if bird_id is not None else _text(row, "birdID")
     trip = _text(row, "TripNumber")
     if not bird or not trip:
         raise ValueError("row requires birdID and TripNumber")
@@ -170,18 +175,87 @@ def infer_bird_year_sites(
     return result
 
 
+def build_identity_alias_index(
+    aliases: Sequence[Mapping[str, object]],
+    *,
+    dive_rows: Iterable[Mapping[str, object]],
+    linked_rows: Iterable[Mapping[str, object]],
+) -> AliasIndex:
+    """Validate exact cross-table aliases against both pinned source tables."""
+
+    dive_rows = list(dive_rows)
+    linked_rows = list(linked_rows)
+    dive_identities = {
+        (_site(row), _text(row, "Year"), _text(row, "birdID")) for row in dive_rows
+    }
+    linked_identities = {
+        (_site(row), _text(row, "Year"), _text(row, "birdID")) for row in linked_rows
+    }
+
+    index: AliasIndex = {}
+    for alias in aliases:
+        source_table = str(alias.get("source_table", "")).strip()
+        canonical_table = str(alias.get("canonical_table", "")).strip()
+        if source_table != "Data/OceanBirdsEV.csv":
+            raise ValueError(f"unsupported alias source_table: {source_table!r}")
+        if canonical_table != "Data/TawakiDiveDatasetComplete.csv":
+            raise ValueError(f"unsupported alias canonical_table: {canonical_table!r}")
+
+        source_key = (
+            str(alias.get("source_site", "")).strip(),
+            str(alias.get("year", "")).strip(),
+            str(alias.get("source_birdID", "")).strip(),
+        )
+        target = (
+            str(alias.get("canonical_site", "")).strip(),
+            str(alias.get("canonical_birdID", "")).strip(),
+        )
+        if not all(source_key) or not all(target):
+            raise ValueError("alias requires non-empty site/year/source and canonical IDs")
+        if source_key in index:
+            raise ValueError(f"duplicate alias source identity: {source_key}")
+        if source_key not in linked_identities:
+            raise ValueError(f"alias source identity absent from linked source: {source_key}")
+        target_identity = (target[0], source_key[1], target[1])
+        if target_identity not in dive_identities:
+            raise ValueError(f"alias target identity absent from all-dive source: {target_identity}")
+        if source_key != target_identity and source_key in dive_identities:
+            raise ValueError(
+                f"alias source identity already exists in all-dive source; ambiguous: {source_key}"
+            )
+        index[source_key] = target
+    return index
+
+
+def canonical_linked_identity(
+    row: Mapping[str, object],
+    alias_index: Mapping[AliasKey, AliasTarget],
+) -> tuple[str, str]:
+    """Return canonical (site, birdID) using only an exact predeclared alias."""
+
+    site = _site(row)
+    year = _text(row, "Year")
+    bird = _text(row, "birdID")
+    if not year or not bird:
+        raise ValueError("linked row requires Year and birdID")
+    return alias_index.get((site, year, bird), (site, bird))
+
+
 def summarize_location_coverage(
     dive_rows: Iterable[Mapping[str, object]],
     linked_rows: Iterable[Mapping[str, object]],
+    *,
+    alias_index: Mapping[AliasKey, AliasTarget] | None = None,
 ) -> tuple[LocationCoverageSummary, ...]:
     """Compare all qualifying dives with qualifying rows carrying finite x-y.
 
-    This is a structural observation-process denominator only.  No depth state
+    This is a structural observation-process denominator only. No depth state
     frequencies are returned.
     """
 
     dive_rows = list(dive_rows)
     linked_rows = list(linked_rows)
+    aliases = {} if alias_index is None else alias_index
     bird_sites = infer_bird_year_sites(dive_rows)
     denominator: Counter[tuple[str, str]] = Counter()
     numerator: Counter[tuple[str, str]] = Counter()
@@ -193,11 +267,16 @@ def summarize_location_coverage(
     for row in linked_rows:
         if not linked_row_qualifies(row) or not row_has_finite_xy(row):
             continue
-        bird = _text(row, "birdID")
+        canonical_site, bird = canonical_linked_identity(row, aliases)
         year = _text(row, "Year")
         key = (bird, year)
         if key not in bird_sites:
             raise ValueError(f"linked bird-year {key} absent from all-dive source")
+        if bird_sites[key] != canonical_site:
+            raise ValueError(
+                f"linked canonical site mismatch for {key}: "
+                f"alias/source={canonical_site!r}, all-dive={bird_sites[key]!r}"
+            )
         numerator[(bird_sites[key], year)] += 1
 
     keys = sorted(set(denominator) | set(numerator))
