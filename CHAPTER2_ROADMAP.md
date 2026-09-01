@@ -64,19 +64,33 @@ This is synthetic recovery evidence only. It does not license interpreting raw o
 
 ## Gate C — source/effort layer
 
-Status: **time ingestion implemented; vertical layer pending**.
+Status: **time and explicit vertical/depth information schemas implemented and tested; source-specific empirical effort adapters remain future work**.
 
-Current source-preserving time ingestion supports GBIF and iNaturalist without substituting upload timestamps for observation time.
+### Time
 
-Next vertical/depth input contract must preserve, when genuinely measured:
+`odsp.temporal_information` preserves GBIF/iNaturalist observation dates/times, source precision, UTC/time-zone information when supplied, and quality flags. Upload/update timestamps are never substituted for observation time.
 
-- vertical stratum / canopy layer / height / depth;
-- measurement unit and reference surface;
-- sensor vertical coverage or detection cone;
-- precision/uncertainty;
-- effort/downtime relevant to the stratum.
+### Vertical/depth
 
-No height/depth may be fabricated from land-cover class alone.
+`odsp.vertical_information` requires callers to declare the semantic meaning of a vertical field. Supported declared kinds include organism height, organism depth, canopy stratum, sensor height/depth, locality elevation and another explicitly declared vertical axis.
+
+The schema preserves:
+
+- point, interval or categorical vertical information;
+- unit and reference surface;
+- uncertainty;
+- sensor vertical coverage when supplied;
+- raw source fields and quality flags.
+
+Important fail-closed distinctions:
+
+- GBIF locality elevation is preserved as contextual geography but explicitly **not** treated as within-cell niche-z;
+- sensor height/depth is observation geometry and is **not** silently treated as organism z;
+- numeric biological z without units is not considered usable;
+- reversed intervals and missing semantics fail closed;
+- no height/depth is fabricated from land-cover class alone.
+
+The remaining Gate-C work is empirical source/effort binding: demonstrate that a chosen dataset actually samples the declared z/t state space with defensible coverage and detectability semantics.
 
 ## Gate D — independent empirical demonstration
 
