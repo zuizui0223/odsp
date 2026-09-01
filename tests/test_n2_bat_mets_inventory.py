@@ -1,27 +1,62 @@
-from scripts.n2_bat_mets_inventory import parse_mets_inventory
+import scripts.n2_bat_mets_inventory as mod
 
 
-def test_parse_mets_inventory_lists_files_without_content():
-    xml = b'''<?xml version="1.0"?>
-    <mets:mets xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <mets:fileSec>
-        <mets:fileGrp USE="CONTENT">
-          <mets:file ID="f1" MIMETYPE="text/csv" SIZE="123" CHECKSUM="abc" CHECKSUMTYPE="MD5">
-            <mets:FLocat LOCTYPE="URL" xlink:href="https://example.org/bitstream/handle/x/events.csv?sequence=1"/>
-          </mets:file>
-        </mets:fileGrp>
-      </mets:fileSec>
-    </mets:mets>'''
-    files = parse_mets_inventory(xml)
-    assert files == [{
-        "file_group_use": "CONTENT",
-        "file_id": "f1",
-        "mime_type": "text/csv",
-        "size_bytes": 123,
-        "checksum": "abc",
-        "checksum_type": "MD5",
-        "loctype": "URL",
-        "href": "https://example.org/bitstream/handle/x/events.csv?sequence=1",
-        "filename": "events.csv",
-    }]
-    assert "content" not in files[0]
+def test_dspace_inventory_never_fetches_content(monkeypatch):
+    calls = []
+
+    def fake_fetch_json(url):
+        calls.append(url)
+        if "pid/find" in url:
+            payload = {"_links": {"bundles": {"href": "https://repo/bundles"}}}
+        elif url == "https://repo/bundles":
+            payload = {
+                "_embedded": {
+                    "bundles": [
+                        {
+                            "uuid": "bundle-1",
+                            "name": "ORIGINAL",
+                            "_links": {
+                                "bitstreams": {"href": "https://repo/bitstreams"}
+                            },
+                        }
+                    ]
+                }
+            }
+        elif url == "https://repo/bitstreams":
+            payload = {
+                "_embedded": {
+                    "bitstreams": [
+                        {
+                            "uuid": "bs-1",
+                            "name": "events.csv",
+                            "description": "tracking data",
+                            "sizeBytes": 123,
+                            "checkSum": {
+                                "checkSumAlgorithm": "MD5",
+                                "value": "abc",
+                            },
+                            "_links": {
+                                "self": {"href": "https://repo/bitstreams/bs-1"},
+                                "content": {"href": "https://repo/bitstreams/bs-1/content"},
+                            },
+                        }
+                    ]
+                }
+            }
+        else:
+            raise AssertionError(f"unexpected URL: {url}")
+        raw = str(payload).encode()
+        return payload, raw, url
+
+    monkeypatch.setattr(mod, "fetch_json", fake_fetch_json)
+    report = mod.inventory_from_dspace()
+
+    assert calls == [mod.PID_URL, "https://repo/bundles", "https://repo/bitstreams"]
+    assert "https://repo/bitstreams/bs-1/content" not in calls
+    assert report["bitstreams_downloaded"] is False
+    assert report["tracking_values_downloaded"] is False
+    assert report["outcome_metrics_computed"] is False
+    assert report["scientific_terminal_decision"] is False
+    assert report["files"][0]["filename"] == "events.csv"
+    assert report["files"][0]["content_url"].endswith("/content")
+    assert report["files"][0]["bitstream_content_fetched"] is False
