@@ -1,0 +1,120 @@
+{
+  "contract_id": "odsp-n2-bat-thickness-v1",
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "chapter_code": "N2",
+  "core_question": "HOW THICK is it?",
+  "one_line_thought": "地図は、niche を薄くする。",
+  "structural_authorization": {
+    "boundary_commit": "be5a86e850b99457d1e6055289c2990fb8ca358f",
+    "preflight_id": "odsp-n2-bat-repository-structural-preflight-v1",
+    "terminal_category": "structurally_available",
+    "numeric_height_values_opened_before_this_contract": false,
+    "predecessor_tawaki_result_retained": "empirical_gate_d_unavailable"
+  },
+  "source": {
+    "taxon": "Tadarida teniotis",
+    "movebank_repository_doi": "10.5441/001/1.52nn82r9",
+    "tracking_bitstream_id": "2d629393-4266-4f85-88db-001faeab669d",
+    "tracking_md5": "570872ab7aba674b9bdc2f2ee6044a71",
+    "reference_bitstream_id": "8141174e-c65d-4e9f-84a0-f0da3f68f8ce",
+    "reference_md5": "1712fd40d5b321630f7b08259169c842"
+  },
+  "axis_semantics": {
+    "z_field": "height_above_msl",
+    "z_meaning": "native GPS height above mean sea level on the same tracking event as x-y and timestamp",
+    "primary_is_height_above_ground": false,
+    "dem_or_terrain_subtraction_primary": false,
+    "claim_boundary": "axis-resolved realized flight-state support conditional on the archived tracking design; not fundamental niche, occupancy, causal vertical preference, canopy height, or height above ground"
+  },
+  "primary_horizontal_grid": {
+    "crs": "EPSG:3035",
+    "cell_size_m": 5000,
+    "origin_m": [0, 0],
+    "cell_rule": "floor(E/5000):floor(N/5000)",
+    "minimum_model_events_per_cell": 30,
+    "minimum_distinct_model_individuals_per_cell": 3,
+    "primary_only_for_decision": true
+  },
+  "grid_sensitivity": {
+    "cell_sizes_m": [2500, 10000],
+    "same_cell_eligibility_rules": true,
+    "cannot_replace_primary": true,
+    "scientific_decision_uses_sensitivity": false,
+    "underpowered_sensitivity": "not_evaluable"
+  },
+  "z_discretization": {
+    "units": "m above mean sea level",
+    "primary_edges_m": ["-inf", 0, 50, 100, 200, 400, 800, 1600, 3200, "inf"],
+    "rule": "left_closed_right_open_except_last; negative and >=3200 m values remain in explicit tail bins; no clipping or winsorization",
+    "rationale": "fixed physically interpretable multiplicative altitude bands anchored at sea level and 50 m; no empirical quantiles or outcome-adaptive cutpoints",
+    "sensitivity_edges_m": [
+      ["-inf", 0, 25, 50, 100, 200, 400, 800, 1600, 3200, "inf"],
+      ["-inf", 0, 100, 200, 400, 800, 1600, 3200, "inf"]
+    ],
+    "sensitivity_cannot_replace_primary": true
+  },
+  "numeric_qc": {
+    "finite_height_required_for_outcome_support": true,
+    "unparseable_or_nonfinite_height": "unavailable_event_not_zero",
+    "minimum_fraction_finite_height_among_structurally_joint_events": 0.99,
+    "if_below_minimum": "empirical_thickness_unavailable",
+    "source_marked_outliers_primary": "retain",
+    "source_marked_outliers_sensitivity": "exclude manually_marked_outlier only as a fixed sensitivity",
+    "outlier_sensitivity_cannot_replace_primary": true
+  },
+  "whole_individual_split": {
+    "algorithm": "reuse exactly the structural split: sort identifiers by SHA256('odsp-n2-bat-v1|<individual>'); first ceil(0.25*n) sealed",
+    "sealed_fraction": 0.25,
+    "expected_structural_counts": {"model": 6, "sealed": 2},
+    "row_level_split_forbidden": true,
+    "sealed_used_for_bins_grid_or_thresholds": false
+  },
+  "support_weighting": {
+    "primary_unit": "individual",
+    "model_pool": "each model individual has equal total mass across all finite-height events in primary eligible cells; events within an individual share that mass equally",
+    "sealed_scoring": "each sealed individual contributes one equal-weight mean log-score gain; event count does not weight one sealed individual more than another",
+    "reason": "prevent tracking duration or event count from making one individual dominate niche thickness or answer-check"
+  },
+  "primary_estimand": {
+    "support_state": "S(x,y,z) on primary eligible 5 km model-pool cells and primary fixed z bins",
+    "information": "H(Z|X,Y) in nats",
+    "effective_states": "exp(H(Z|X,Y))",
+    "local_map": "axis_thickness_map effective vertical states per supported primary x-y cell",
+    "projection_interpretation": "H(Z|X,Y) is the vertical-state information discarded when z is marginalized from the declared x-y-z support representation",
+    "magnitude_threshold_for_primary_support": null,
+    "reason_no_magnitude_threshold": "thickness is an estimand to report, not a post-hoc pass/fail effect-size cutoff"
+  },
+  "model_distribution": {
+    "conditional": "P_model(z|x,y) from equal-individual weighted model support in primary eligible cells",
+    "marginal_comparator": "P_model(z) over the same eligible-cell model support, ignoring x-y",
+    "smoothing": "Jeffreys additive pseudocount 0.5 per z bin for both conditional and marginal probabilities",
+    "no_refit_or_bin_change_after_sealed_open": true
+  },
+  "sealed_answer_check": {
+    "scored_events": "finite-height sealed events whose x-y cell is primary-model eligible",
+    "minimum_scored_events_per_sealed_individual": 30,
+    "per_individual_metric": "mean[log P_model(z|x,y) - log P_model(z)]",
+    "aggregate_metric": "unweighted mean of the two sealed-individual mean gains",
+    "uncertainty": "do not report a pseudo-precise bootstrap CI from only two sealed individuals; report both individual gains and their equal-weight mean",
+    "decision_categories": {
+      "estimable_and_generalizing": "both sealed individuals meet scoring coverage and both individual mean log-score gains are > 0",
+      "estimable_but_generalization_mixed": "coverage passes but sealed-individual gains are not sign-consistent",
+      "estimable_but_non_generalizing": "coverage passes and both sealed-individual gains are <= 0",
+      "empirical_thickness_answer_check_unavailable": "finite-height fraction or sealed scoring coverage fails under frozen rules"
+    }
+  },
+  "secondary_reports": {
+    "sealed_descriptive_H_Z_given_XY": "may be reported under the same frozen bins/cells as descriptive replication, but cannot override the primary answer-check category",
+    "source_outlier_exclusion": "fixed sensitivity only",
+    "grid_and_bin_sensitivities": "report support/non-support/not_evaluable without promoting a sensitivity to primary"
+  },
+  "do_not_claim": [
+    "fundamental niche",
+    "height above ground or canopy-relative height",
+    "causal vertical habitat preference",
+    "occupancy probability",
+    "forest-versus-grassland Gate-E support",
+    "universal niche-thickness scale invariance"
+  ],
+  "post_outcome_retuning": false
+}
