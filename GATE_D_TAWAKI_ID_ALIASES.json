@@ -1,0 +1,24 @@
+{
+  "alias_manifest_id": "odsp-gate-d-tawaki-id-aliases-v1",
+  "contract_id": "odsp-gate-d-tawaki-v1",
+  "source_manifest_id": "odsp-gate-d-tawaki-source-v1",
+  "external_repository": "Myrene-O/Milford-Sound-Tawaki",
+  "external_commit": "5e629d6053e6dcaaa44188e71ad6052533ad3cab",
+  "strict_explicit_aliases_only": true,
+  "global_normalization_forbidden": true,
+  "fuzzy_matching_forbidden": true,
+  "aliases": [
+    {
+      "source_table": "Data/OceanBirdsEV.csv",
+      "source_site": "Moraine",
+      "year": "2019",
+      "source_birdID": "MO10",
+      "canonical_table": "Data/TawakiDiveDatasetComplete.csv",
+      "canonical_site": "Moraine",
+      "canonical_birdID": "MO102",
+      "scope": "exact source_table + source_site + year + source_birdID only",
+      "evidence": "The pinned linked table contains MO10 in Moraine during 2019, while the pinned all-dive denominator contains the corresponding 2019 Moraine individual as MO102. The all-dive source also contains a genuine MO10 in 2020, so this alias must not be applied globally or across years. Other suffix-2 identifiers such as MO062 and HC882 remain unchanged when already represented consistently."
+    }
+  ],
+  "post_outcome_aliasing_forbidden": true
+}
