@@ -129,7 +129,12 @@ def _check(
 
 
 def run_known_truth_synthetic_benchmark() -> tuple[SyntheticCheck, ...]:
-    """Run the frozen Chapter-2 analytic benchmark families."""
+    """Run the frozen Chapter-2 analytic benchmark families.
+
+    Historical output labels are retained for audit continuity. The underlying
+    z-t dependence quantity is the exact conditional mutual information
+    ``I(Z;T|X,Y)``.
+    """
 
     checks: list[SyntheticCheck] = []
 
@@ -174,7 +179,7 @@ def run_known_truth_synthetic_benchmark() -> tuple[SyntheticCheck, ...]:
         _check("independent_zt", "effective_vertical_states", independent.effective_vertical_states, 2.0),
         _check("independent_zt", "effective_temporal_states", independent.effective_temporal_states, 3.0),
         _check("independent_zt", "effective_joint_states", independent.effective_joint_vertical_temporal_states, 6.0),
-        _check("independent_zt", "zt_interaction_information", independent.vertical_temporal_interaction_information_nats, 0.0),
+        _check("independent_zt", "zt_interaction_information", independent.vertical_temporal_conditional_mutual_information_nats, 0.0),
     ]
 
     coupled = niche_thickness_profile(
@@ -187,7 +192,7 @@ def run_known_truth_synthetic_benchmark() -> tuple[SyntheticCheck, ...]:
         _check("coupled_zt", "effective_vertical_states", coupled.effective_vertical_states, 2.0),
         _check("coupled_zt", "effective_temporal_states", coupled.effective_temporal_states, 2.0),
         _check("coupled_zt", "effective_joint_states", coupled.effective_joint_vertical_temporal_states, 2.0),
-        _check("coupled_zt", "zt_interaction_information", coupled.vertical_temporal_interaction_information_nats, math.log(2.0)),
+        _check("coupled_zt", "zt_interaction_information", coupled.vertical_temporal_conditional_mutual_information_nats, math.log(2.0)),
     ]
 
     vertical_a, vertical_b = vertical_partition_pair()

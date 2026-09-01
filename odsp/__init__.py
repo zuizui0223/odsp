@@ -14,7 +14,9 @@ from .concealed_recovery import (
     sample_state_counts,
 )
 from .niche_geometry import (
+    AxisThicknessMap,
     NicheThicknessProfile,
+    axis_thickness_map,
     conditional_information,
     effective_conditional_states,
     marginal_probability,
@@ -40,6 +42,7 @@ from .vertical_information import (
 )
 
 __all__ = [
+    "AxisThicknessMap",
     "ConcealedRecoveryBenchmark",
     "ConcealedRecoveryCheck",
     "NicheThicknessProfile",
@@ -47,6 +50,7 @@ __all__ = [
     "TemporalObservation",
     "VerticalFieldMap",
     "VerticalObservation",
+    "axis_thickness_map",
     "conditional_information",
     "effective_conditional_states",
     "estimate_projection_overlap_from_counts",
