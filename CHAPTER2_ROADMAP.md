@@ -2,127 +2,154 @@
 
 Program ID: `niche-to-survey-four-chapter-v1`
 
-## Terminal scientific goal
+Spine: **N2 — HOW THICK is it? / 地図は、niche を薄くする。**
 
-Demonstrate, with known truth and then independent empirical evidence, that a flat x-y niche representation can discard biologically meaningful state-space structure, and provide auditable quantities for the amount and source of that loss.
+## Scientific goal
 
-A successful Chapter 2 should answer three levels of question:
+Chapter N2 asks what is lost when ecological state is projected onto a flat x-y map. The core representation is an axis-resolved support state such as `S(x,y,z,t,...)`, with explicit observation semantics for every added axis.
 
-1. **Thickness:** how many effective z/t/structural states remain after x-y location is known?
-2. **Projection loss:** how much apparent niche overlap is created by marginalizing those axes?
-3. **Habitat complexity:** does ecological state-space thickness differ systematically among habitat structures, with layered systems such as forests predicted to carry more vertical state capacity than simpler planar systems under comparable observation semantics?
+The chapter now distinguishes two questions that must not be conflated:
+
+1. **Thickness magnitude** — how much added-axis information remains after x-y location is known, e.g. `H(Z|X,Y)` and `exp(H(Z|X,Y))`.
+2. **Thickness organization / transferability** — whether the location-conditioned added-axis distribution is stable enough to predict independently held-out individuals or observations better than a lower-information marginal representation.
+
+A fitted support can be descriptively thick while its detailed x-y-resolved organization fails to generalize.
 
 ## Gate A — mathematical core
 
 Status: **implemented and tested**.
 
-Required quantities:
+Main quantities include:
 
-- `H(Z|XY)`, `H(T|XY)`, `H(Z,T|XY)`;
+- `H(Z|X,Y)`, `H(T|X,Y)`, `H(Z,T|X,Y)`;
 - effective conditional states `exp(H(...))`;
-- full added-axis information beyond x-y;
-- z–t conditional dependence diagnostic;
-- pairwise Schoener overlap before/after projection;
-- planar, vertical, temporal and joint-only overlap inflation.
+- `I(Z;T|X,Y)` as conditional dependence, not a causal interaction;
+- per-cell `axis_thickness_map`;
+- full-versus-projected overlap and projection-loss diagnostics.
 
-All functions remain model-agnostic, accept explicit unavailable masks, and fail closed on invalid support.
+The implementation is model-agnostic and fails closed on invalid or unavailable state support.
 
-## Gate B — known-truth projection benchmark
+## Gate B — known-truth recovery
 
-Status: **B1 analytic truth fixtures and B2 concealed finite-observation recovery implemented and tested**.
+Status: **implemented and tested**.
 
-### B1 — analytic truth fixtures
-
-`odsp.synthetic_benchmark` fixes and checks these generating families:
+Analytic fixtures and concealed finite-observation recovery cover:
 
 - planar sufficiency;
-- pure vertical thickness;
-- pure temporal thickness;
-- independent z×t thickness;
-- coupled z×t support;
-- vertically partitioned taxa with identical x-y marginals;
-- temporally partitioned taxa with identical x-y marginals;
-- joint-only z×t partition where x-y, z and t marginals alone are identical;
-- simple versus layered habitat capacity with horizontal footprint held fixed.
+- pure vertical and temporal thickness;
+- independent and coupled z×t structure;
+- vertical, temporal and joint-only partition hidden by x-y projection;
+- simple versus layered structural state-space capacity.
 
-The analytic fixtures verify exact effective-state counts and expected projection-overlap inflation before empirical development.
+Known-truth recovery remains methodological evidence. It does not license treating opportunistic occurrence counts as unbiased organism-use probabilities.
 
-### B2 — concealed finite-observation recovery
+## Gate C — source and observation semantics
 
-`odsp.concealed_recovery` samples finite observation-count tensors from the fixed generating supports, gives only those sampled counts to the estimator, and opens the generating tensor only for final truth scoring.
+Status: **implemented**.
 
-Frozen development settings:
+`odsp.temporal_information` preserves observation time, precision and time-zone semantics without substituting upload time. `odsp.vertical_information` requires an explicit vertical meaning and distinguishes organism z from locality elevation, bathymetry, sensor placement and other contextual fields.
 
-- sample size: `100000` observations per synthetic support;
-- RNG seed: `2026090102` plus deterministic family offsets;
-- effective-state absolute tolerance: `0.08`;
-- overlap/projection-loss absolute tolerance: `0.03`.
+For empirical N2 work, x-y and the added biological/structural axis must be jointly observed or linked under a prospectively defensible observation architecture.
 
-The benchmark covers thickness recovery, vertical/temporal/joint projection loss, and the ordering of simple versus layered habitat capacity. The current implementation passes the frozen checks across Python 3.10–3.13.
+## Gate D — empirical axis-resolved validation
 
-This is synthetic recovery evidence only. It does not license interpreting raw opportunistic occurrence counts as unbiased use probabilities.
+Status: **two prospectively bounded lanes completed; neither authorizes Gate E**.
 
-## Gate C — source/effort layer
+### D1 — Tawaki GPS + dive data
 
-Status: **generic time/vertical schemas implemented; first source-specific empirical binding designed under Gate D**.
+Terminal category: **`empirical_gate_d_unavailable`**.
 
-### Time
+The pre-outcome Tawaki contract froze organism-z semantics, a 5 km primary grid, depth bins, whole-bird split and full structural denominator. The structural preflight then failed the frozen full site×year coverage rule because Harrison Cove 2019 and 2020 had zero estimable primary cells. No `H(Z|X,Y)`, thickness map or sealed biological score was opened.
 
-`odsp.temporal_information` preserves GBIF/iNaturalist observation dates/times, source precision, UTC/time-zone information when supplied, and quality flags. Upload/update timestamps are never substituted for observation time.
+This is a valid empirical-unavailability result, not a null biological result. No grid/bin/dataset rescue is authorized.
 
-### Vertical/depth
+### D2 — European free-tailed bat native 3D tracking
 
-`odsp.vertical_information` requires callers to declare the semantic meaning of a vertical field. Supported declared kinds include organism height, organism depth, canopy stratum, sensor height/depth, locality elevation and another explicitly declared vertical axis.
+Terminal category: **`empirical_n2_thickness_not_generalizing`**.
 
-The schema preserves:
+The v2 programme first froze an architecture-only candidate universe. The European free-tailed bat (`Tadarida teniotis`) Movebank archive was selected before N2 outcomes because x-y, timestamp and native GPS height occur on the same event stream, effort is approximately regular, raw/outlier-marked fixes are retained, and the source is public and version-pinnable.
 
-- point, interval or categorical vertical information;
-- unit and reference surface;
-- uncertainty;
-- sensor vertical coverage when supplied;
-- raw source fields and quality flags.
+Frozen boundaries:
 
-Important fail-closed distinctions:
+- structural-preflight merge: `be5a86e850b99457d1e6055289c2990fb8ca358f`;
+- thickness-contract merge: `8250331209cbabf85afdcf92672104e8543816c7`;
+- outcome-engine merge: `e99022ffe7a904d3f9917d9315d85ba4cdc91d5c`;
+- one-shot terminal workflow: run `33481773409`;
+- terminal decision receipt: `N2_BAT_THICKNESS_TERMINAL_DECISION.json`.
 
-- GBIF locality elevation is preserved as contextual geography but explicitly **not** treated as within-cell niche-z;
-- sensor height/depth is observation geometry and is **not** silently treated as organism z;
-- numeric biological z without units is not considered usable;
-- reversed intervals and missing semantics fail closed;
-- no height/depth is fabricated from land-cover class alone.
+Primary frozen representation:
 
-## Gate D — independent empirical demonstration
+- native z: `height_above_msl`; no AGL/DEM conversion;
+- x-y: EPSG:3035, 5 km;
+- 18 model-pool structurally eligible cells;
+- fixed z bins `[-inf,0,50,100,200,400,800,1600,3200,inf]` m;
+- 6 model bats / 2 sealed bats;
+- individual-equal conditional and marginal z distributions with Jeffreys smoothing.
 
-Status: **first dataset screened and pre-outcome contract implemented; ODSP outcome not yet opened**.
+Numeric QC passed at 10,335 / 10,335 finite heights.
 
-The first admitted system is Fiordland penguin / tawaki (`Eudyptes pachyrhynchus`) GPS+dive-logger data from Piopiotahi / Milford Sound, 2019–2020. The selection rationale and rejected/reserved alternatives are frozen in `GATE_D_DATASET_SCREEN.md`.
+Descriptive model-pool thickness:
 
-The prospective ODSP rules are frozen in `GATE_D_TAWAKI_CONTRACT.json` and `odsp.gate_d_contract` before any Gate-D thickness result is calculated. Primary design choices include:
+- `H(Z|X,Y) = 1.3918623004770097` nats;
+- `exp(H) = 4.022333876564191` effective vertical states.
 
-- organism-z = qualifying dive maximum depth, not bathymetry/locality elevation;
-- source threshold `>=0.5 m` and `>=5 s` retained;
-- powers-of-two z bins from 0.5 m, not empirical quantiles;
-- primary 5 km NZTM2000 x-y grid, with 2.5/10 km sensitivity unable to replace primary;
-- equal total weight per bird-trip;
-- whole-bird 25% sealed split within site × year using a deterministic SHA-256 ranking;
-- explicit cell estimability gates;
-- unlocated dives remain in the effort denominator and are never treated as absence or assigned a fabricated x-y location;
-- primary inference is therefore about **location-resolved dive-depth state support**;
-- held-out answer check uses sealed birds only after the frozen model-pool representation exists.
+Independent sealed answer check:
 
-The source paper is already published and reports related foraging/depth patterns. Gate D is therefore not described as source-paper-blind. What is prospective is the ODSP estimand, grid, bins, weighting, eligibility, uncertainty and held-out decision machinery.
+- Bat5 mean `log P_model(z|x,y) - log P_model(z)` = `-0.43541033813280833`;
+- Bat7 = `-0.021938657402345435`;
+- equal-individual mean = `-0.22867449776757687`.
 
-No `H(Z|X,Y)`, local thickness map, projection-loss result, colony/year ODSP contrast or held-out Gate-D decision may be computed until this contract is merged on `main`.
+Both sealed gains were <=0, so the frozen answer-check category is `estimable_but_non_generalizing` and the terminal category is `empirical_n2_thickness_not_generalizing`.
+
+The correct interpretation is:
+
+> The model-pool support is descriptively vertically thick, but its detailed x-y-conditioned vertical geometry did not transfer to either independently sealed individual better than the model-pool marginal vertical distribution.
+
+Do **not** convert this into either "there is no z niche" or "the 3D niche was validated".
+
+Frozen 2.5 km, 10 km, fine-bin and coarse-bin sensitivities were also non-generalizing with both sealed gains negative. The source-marked-outlier exclusion sensitivity was not evaluable because it could not retain the frozen 18-cell support denominator. Sensitivities cannot override the primary result.
 
 ## Gate E — habitat-complexity synthesis
 
-Status: **future; blocked on a valid Gate-D empirical read**.
+Status: **not authorized / blocked under the current empirical chain**.
 
-Predeclare habitat structural classes and compare thickness only after harmonizing state definitions and observation coverage. A forest-versus-grassland contrast is a motivating hypothesis, not a result to assume in advance.
+The motivating hypothesis remains scientifically interesting:
+
+> Equal horizontal area can contain unequal ecological state-space capacity; a vertically layered forest may contain more distinguishable within-cell states than a structurally simple open habitat under harmonized state definitions and observation semantics.
+
+However, neither completed Gate-D lane provides the prospective empirical validation required to promote this contrast as the next confirmatory endpoint:
+
+- Tawaki was structurally unavailable;
+- the bat lane was structurally evaluable but its x-y-resolved vertical organization did not generalize across individuals.
+
+Therefore the forest-versus-grassland hypothesis is **not** tested, supported or rejected here. Pursuing it would require a separately frozen scientific programme with its own measurement architecture and validation logic; it cannot be used to rescue the completed bat endpoint.
+
+## Current Chapter-N2 evidence spine
+
+```text
+known-truth thickness/projection recovery       supported
+                ↓
+source/axis semantics                           implemented
+                ↓
+Tawaki first empirical lane                     unavailable
+                ↓
+native x-y-z architecture gate                  implemented
+                ↓
+Bat structural feasibility                      supported
+                ↓
+Bat descriptive thickness magnitude             present (~4.02 effective states)
+                ↓
+Bat independent thickness organization          not generalizing
+                ↓
+Gate E habitat-complexity promotion              blocked
+```
 
 ## Hard boundaries
 
 - Do not alter or reopen SDMR Product A.
-- Do not revive ODSP's retired spatial topology/reachability methods; those belong to EOG.
-- Do not infer fundamental niche, causal coexistence, competition or predation from thickness/overlap alone.
-- Do not treat opportunistic occurrence count as unbiased use probability without an observation model or defensible weighting.
-- Do not tune z/t bins after seeing the biological outcome in confirmatory work.
+- Do not revive retired ODSP spatial topology/reachability; that belongs to EOG.
+- Do not infer fundamental niche, causal coexistence, competition or predation from thickness alone.
+- Do not equate native altitude above mean sea level with height above ground.
+- Do not tune z/t bins, spatial grain, individual denominator or candidate dataset after empirical outcome access.
+- Do not rerun or rescue the completed Tawaki or bat empirical endpoints.
+- Do not promote Gate E from descriptive model-pool thickness alone.

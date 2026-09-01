@@ -7,7 +7,7 @@ ODSP is **Chapter 2** of the fixed four-chapter programme `niche-to-survey-four-
 3. **EOG** — which distributional/transition worlds remain possible and reachable?
 4. **ACSP** — where should field effort be directed next?
 
-See [`FOUR_CHAPTER_PROGRAM.md`](FOUR_CHAPTER_PROGRAM.md) and [`CHAPTER_CONTRACT.json`](CHAPTER_CONTRACT.json).
+See [`FOUR_CHAPTER_PROGRAM.md`](FOUR_CHAPTER_PROGRAM.md), [`CHAPTER_CONTRACT.json`](CHAPTER_CONTRACT.json), and [`CHAPTER2_ROADMAP.md`](CHAPTER2_ROADMAP.md).
 
 ## Scientific center
 
@@ -27,9 +27,9 @@ where `z` may represent canopy stratum, height, water/soil depth or another expl
 
 The Chapter-2 question is:
 
-> **How much ecological state-space information is lost when a multidimensional niche/support distribution is flattened to x-y?**
+> **HOW THICK is it? — How much ecological state-space information is lost when a multidimensional niche/support distribution is flattened to x-y?**
 
-This is especially relevant for structurally complex habitats. Equal horizontal area need not imply equal ecological state-space capacity: a vertically layered forest can contain many distinguishable states within one x-y cell, whereas a structurally simple grassland may contain fewer.
+The working principle is: **地図は、niche を薄くする。**
 
 ## Niche thickness
 
@@ -51,40 +51,69 @@ temporal thickness        = exp(H(T | X,Y))
 joint added thickness     = exp(H(Z,T | X,Y))
 ```
 
-These quantities answer a specific question: **after horizontal location is already known, how many effectively distinct states remain along the added axes?**
+These quantities answer: **after horizontal location is already known, how many effectively distinct states remain along the added axes?**
 
-Examples:
+`axis_thickness_map(...)` returns the same information separately for each supported x-y cell. A species-support tensor yields descriptive niche thickness; an explicitly defined availability/capacity tensor can instead represent structural state-space capacity. Those interpretations must not be mixed.
 
-- one usable vertical stratum in every x-y cell → effective vertical thickness ≈ 1;
-- four equally used canopy strata in every x-y cell → effective vertical thickness = 4;
-- two activity periods that are completely determined by location → global time diversity may be 2, but conditional temporal thickness = 1;
-- independent two-level z and two-level t use within each location → effective joint thickness = 4.
+## Thickness magnitude versus thickness organization
 
-The implementation also reports conditional z–t dependence as a descriptive information quantity. It is not a causal interaction statistic.
+The current empirical development shows why two distinct questions are needed:
 
-## Active input layer: source-preserving observation time
+1. **Thickness magnitude:** is added-axis state information present in a fitted support?
+2. **Thickness organization / transferability:** does the detailed location-conditioned added-axis distribution remain useful for independent individuals or observations?
 
-`odsp.temporal_information` standardizes observation-time metadata already present in public occurrence sources while retaining source fields and their actual precision.
+A fitted support can be descriptively thick without its fine x-y-resolved organization generalizing.
+
+## Current empirical status
+
+### Tawaki lane
+
+Terminal category: **`empirical_gate_d_unavailable`**.
+
+The first GPS+dive-lane failed its frozen full site×year structural coverage rule before any thickness outcome was opened. It remains a valid empirical-unavailability result and is not rescued by later work.
+
+### European free-tailed bat lane
+
+Terminal category: **`empirical_n2_thickness_not_generalizing`**.
+
+The second empirical lane used a public native same-event x-y-z Movebank stream for *Tadarida teniotis*. Source architecture, source identity/checksum, 5 km grid, z bins, individual weighting, 6-model/2-sealed split, and answer-check rule were all frozen before numeric height was opened.
+
+Primary result:
+
+```text
+H(Z|X,Y)                  = 1.3918623004770097 nats
+effective vertical states = 4.022333876564191
+sealed Bat5 gain           = -0.43541033813280833
+sealed Bat7 gain           = -0.021938657402345435
+```
+
+Thus the model-pool support is **descriptively vertically thick**, but the frozen `P_model(z|x,y)` did not predict either sealed bat's vertical state better than the model-pool marginal `P_model(z)`. The detailed x-y-conditioned vertical organization therefore did **not** generalize under this endpoint.
+
+This does **not** mean the vertical axis is absent or that there is no vertical niche thickness. It means the transferable spatial organization required by the frozen empirical support rule is not supported.
+
+See [`N2_BAT_THICKNESS_TERMINAL_DECISION.json`](N2_BAT_THICKNESS_TERMINAL_DECISION.json) and [`docs/n2_bat_thickness_terminal_result_2026-09-01.md`](docs/n2_bat_thickness_terminal_result_2026-09-01.md).
+
+## Input layers
+
+### Source-preserving observation time
+
+`odsp.temporal_information` standardizes observation-time metadata already present in public occurrence sources while retaining source fields and actual precision.
 
 For GBIF this includes fields such as `eventDate`, `eventTime`, year/month/day, day-of-year interval fields and verbatim date. For iNaturalist it includes `observed_on`, `observed_on_string`, `time_observed_at`, `time_observed_at_utc`, `time_zone` and `zic_time_zone` when present.
 
-Canonical output records:
-
-- source and source occurrence ID;
-- observed date and/or datetime;
-- source-provided UTC representation when available;
-- time-zone name and UTC offset when supplied;
-- explicit temporal precision: year, month, day, minute, second, interval or unknown;
-- year/month/day/day-of-year and clock fields only when supported by the source;
-- raw source time fields and fail-closed quality flags.
-
-Rules:
+Rules include:
 
 - upload/creation/update timestamps are **never** substituted for biological observation time;
 - date-only records do not become ecological midnight observations;
 - timezone is not invented from coordinates at ingestion;
 - conflicting duplicate fields are flagged rather than silently resolved;
 - missing/partial time remains missing/partial.
+
+### Explicit vertical semantics
+
+`odsp.vertical_information` requires callers to declare the semantic meaning of a vertical field. It distinguishes organism height/depth or structural state from locality elevation, bathymetry, sensor placement and other contextual fields.
+
+The bat primary axis is deliberately the native GPS `height_above_msl`. It is not relabeled as height above ground and no DEM subtraction is introduced post hoc.
 
 ## Example
 
@@ -119,20 +148,23 @@ print(profile.effective_vertical_states)   # 4.0
 
 ODSP does **not** modify SDMR Product A. It is not a new environmental-variable selector, AUC replacement, or SDM tuning endpoint.
 
-Raw opportunistic record counts are also not automatically treated as unbiased biological-use probabilities. Empirical niche-thickness inference must separately address effort, detectability, sensor geometry, time coverage and vertical coverage. Exact generating niche geometry is available only in known-truth/synthetic validation; empirical claims are about measured or model-supported realized state use under declared observation semantics.
+Raw opportunistic record counts are not automatically treated as unbiased biological-use probabilities. Empirical niche-thickness inference must separately address effort, detectability, sensor geometry, time coverage and vertical coverage. Exact generating niche geometry is available only in known-truth/synthetic validation; empirical claims are about measured or model-supported realized state use under declared observation semantics.
 
-## Relationship to the historical ODSP
+The former ODSP spatial-patch/topology method remains retired. Its defensible support-topology component was migrated to EOG. ODSP must not grow a duplicate reachability/topology implementation.
 
-The former ODSP spatial-patch/topology method remains retired. Its defensible support-topology component was migrated to [`zuizui0223/eog`](https://github.com/zuizui0223/eog). ODSP must not grow a duplicate reachability/topology implementation.
+## Current development boundary
 
-The active Chapter-2 scope is instead **multidimensional niche geometry and the information layers required to represent it**.
+The current empirical N2 chain is scientifically closed at:
 
-## Current goal
+```text
+known-truth thickness/projection recovery      supported
+Tawaki empirical lane                          unavailable
+Bat structural feasibility                     supported
+Bat descriptive vertical thickness             present
+Bat cross-individual x-y-z organization         not generalizing
+Gate-E forest/grassland promotion               blocked
+```
 
-Build the Chapter-2 evidence chain in this order:
+The forest-versus-grassland structural-capacity hypothesis remains interesting but is **not authorized as a continuation or rescue of the completed bat endpoint**. Any future test would require a separately frozen programme with its own measurement architecture and validation logic.
 
-1. mathematical/synthetic validation of niche-thickness and projection-loss quantities;
-2. source-preserving time and vertical metadata ingestion;
-3. known-truth examples where x-y projection deliberately hides z/t structure;
-4. independent empirical applications with defensible effort/detectability semantics;
-5. habitat-complexity comparison, including the hypothesis that structurally layered systems such as forests contain greater ecological state-space thickness than simpler planar habitats.
+Do not rerun or retune the completed Tawaki or bat endpoints, swap datasets after outcome access, replace primary grid/bin definitions, or use descriptive thickness alone to claim transferable 3D niche organization.
