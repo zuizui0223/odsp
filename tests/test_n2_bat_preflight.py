@@ -13,9 +13,9 @@ from odsp.n2_bat_preflight import (
 def test_height_field_resolution_uses_frozen_name_priority_only():
     assert (
         resolve_native_height_field(
-            ["height_raw", "height_above_ellipsoid", "height_above_mean_sea_level"]
+            ["height_raw", "height_above_ellipsoid", "height_above_msl"]
         )
-        == "height_above_mean_sea_level"
+        == "height_above_msl"
     )
     with pytest.raises(ValueError, match="no frozen-priority"):
         resolve_native_height_field(["elevation", "bathymetry"])
@@ -47,7 +47,7 @@ def _synthetic_events():
                         "location_lat": "0.0",
                         # Deliberately dramatic strings: the preflight is allowed
                         # to test only presence, never parse or summarize them.
-                        "height_above_mean_sea_level": str(1000000 * bat + replicate),
+                        "height_above_msl": str(1000000 * bat + replicate),
                     }
                 )
     return rows
@@ -56,7 +56,7 @@ def _synthetic_events():
 def test_structural_preflight_can_pass_without_opening_height_distribution():
     result = summarize_bat_structural_preflight(
         _synthetic_events(),
-        native_height_field="height_above_mean_sea_level",
+        native_height_field="height_above_msl",
         projector=lambda lon, lat: (lon * 100000.0, lat * 100000.0),
     )
     assert result.structural_available
@@ -78,7 +78,7 @@ def test_too_few_joint_individuals_fails_closed_without_retuning():
     ]
     result = summarize_bat_structural_preflight(
         rows,
-        native_height_field="height_above_mean_sea_level",
+        native_height_field="height_above_msl",
         projector=lambda lon, lat: (lon * 100000.0, lat * 100000.0),
     )
     assert not result.structural_available
