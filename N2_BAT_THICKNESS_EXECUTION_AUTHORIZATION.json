@@ -1,0 +1,60 @@
+{
+  "authorization_id": "odsp-n2-bat-thickness-execution-v1",
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "chapter_code": "N2",
+  "contract_id": "odsp-n2-bat-thickness-v1",
+  "contract_boundary_commit": "8250331209cbabf85afdcf92672104e8543816c7",
+  "engine_boundary_commit": "e99022ffe7a904d3f9917d9315d85ba4cdc91d5c",
+  "source_manifest_id": "odsp-n2-bat-repository-source-v1",
+  "tracking_bitstream_id": "2d629393-4266-4f85-88db-001faeab669d",
+  "tracking_md5": "570872ab7aba674b9bdc2f2ee6044a71",
+  "execute_numeric_height_once": true,
+  "expected_pre_numeric_provenance": {
+    "tracking_row_count": 10335,
+    "individual_count": 8,
+    "model_individual_count": 6,
+    "sealed_individual_count": 2,
+    "events_with_finite_xy": 10335,
+    "events_with_height_present": 10335,
+    "primary_structural_eligible_cell_count": 18,
+    "height_field": "height_above_msl"
+  },
+  "pre_numeric_fail_closed": [
+    "source checksum or size mismatch",
+    "schema mismatch",
+    "unexpected outlier-flag encoding",
+    "whole-individual split provenance mismatch",
+    "structural eligible-cell provenance mismatch"
+  ],
+  "authorized_primary_outputs": [
+    "finite-height QC numerator denominator and fraction",
+    "H(Z|X,Y) in nats",
+    "exp(H(Z|X,Y))",
+    "primary local axis_thickness_map values for the 18 frozen 5 km cells",
+    "two sealed-individual scored-event counts and mean log-score gains",
+    "equal-weight sealed mean gain",
+    "frozen answer-check category",
+    "frozen terminal category"
+  ],
+  "authorized_sensitivities": {
+    "grid_cell_sizes_m": [2500, 10000],
+    "z_bin_sensitivities": "exactly the two arrays already frozen in N2_BAT_THICKNESS_CONTRACT.json",
+    "source_marked_outlier_exclusion": true,
+    "cannot_override_primary": true
+  },
+  "forbidden_outputs": [
+    "raw event rows",
+    "raw GPS height values",
+    "height minimum maximum mean median standard deviation or quantiles",
+    "empirical-quantile z cutpoints",
+    "post-outcome grid bin threshold or dataset tuning",
+    "AGL or DEM-derived primary height",
+    "forest-versus-grassland Gate-E claim"
+  ],
+  "rerun_policy": {
+    "after_scientific_terminal_receipt": "forbidden",
+    "after_numeric_open_without_terminal_receipt": "do not rerun or patch outcome-affecting code; preserve the failed execution as invalid and require a separately justified new scientific programme",
+    "before_numeric_open": "technical repair is allowed only if the marker proves numeric height was not opened"
+  },
+  "post_outcome_retuning": false
+}
