@@ -14,7 +14,7 @@ A successful Chapter 2 should answer three levels of question:
 
 ## Gate A — mathematical core
 
-Status: **implemented**.
+Status: **implemented and tested**.
 
 Required quantities:
 
@@ -25,28 +25,39 @@ Required quantities:
 - pairwise Schoener overlap before/after projection;
 - planar, vertical, temporal and joint-only overlap inflation.
 
-All functions must remain model-agnostic, accept explicit unavailable masks, and fail closed on invalid support.
+All functions remain model-agnostic, accept explicit unavailable masks, and fail closed on invalid support.
 
 ## Gate B — known-truth projection benchmark
 
-Status: **next**.
+Status: **B1 analytic truth fixtures implemented; B2 concealed-estimator recovery pending**.
 
-Construct concealed generating state distributions in which:
+### B1 — analytic truth fixtures
 
-- x-y is sufficient;
-- z adds independent niche structure;
-- t adds independent niche structure;
-- z×t joint structure exists even when z and t marginals alone are identical;
-- habitat state capacity differs while horizontal area is held fixed.
+`odsp.synthetic_benchmark` now fixes and checks these generating families:
 
-The generating state distribution must be hidden from any selector/estimator until final scoring.
+- planar sufficiency;
+- pure vertical thickness;
+- pure temporal thickness;
+- independent z×t thickness;
+- coupled z×t support;
+- vertically partitioned taxa with identical x-y marginals;
+- temporally partitioned taxa with identical x-y marginals;
+- joint-only z×t partition where x-y, z and t marginals alone are identical;
+- simple versus layered habitat capacity with horizontal footprint held fixed.
+
+The analytic fixtures verify exact effective-state counts and expected projection-overlap inflation before empirical development.
+
+### B2 — concealed-estimator recovery
+
+Next, generate occurrence/observation samples from the fixed truth tensors, hide the generating tensor from the estimator, reconstruct support from the allowed training information, and open truth only for final scoring.
 
 Primary checks:
 
-- recover the correct effective conditional state counts;
+- recover the correct effective conditional state counts within predeclared tolerance;
 - recover the correct ranking of projection loss;
 - distinguish marginal from joint-only hidden structure;
-- retain abstention under missing/structurally non-identifiable axes.
+- retain abstention under missing/structurally non-identifiable axes;
+- do not improve results by post-outcome bin or estimator tuning.
 
 ## Gate C — source/effort layer
 
