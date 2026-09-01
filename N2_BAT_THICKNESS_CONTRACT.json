@@ -33,6 +33,7 @@
     "cell_rule": "floor(E/5000):floor(N/5000)",
     "minimum_model_events_per_cell": 30,
     "minimum_distinct_model_individuals_per_cell": 3,
+    "eligible_cells_are_frozen_from_model_pool_only": true,
     "primary_only_for_decision": true
   },
   "grid_sensitivity": {
@@ -67,46 +68,66 @@
     "sealed_fraction": 0.25,
     "expected_structural_counts": {"model": 6, "sealed": 2},
     "row_level_split_forbidden": true,
-    "sealed_used_for_bins_grid_or_thresholds": false
+    "sealed_used_for_bins_grid_thresholds_or_probability_estimation": false
   },
   "support_weighting": {
     "primary_unit": "individual",
-    "model_pool": "each model individual has equal total mass across all finite-height events in primary eligible cells; events within an individual share that mass equally",
-    "sealed_scoring": "each sealed individual contributes one equal-weight mean log-score gain; event count does not weight one sealed individual more than another",
-    "reason": "prevent tracking duration or event count from making one individual dominate niche thickness or answer-check"
+    "individual_equal_weighting": true,
+    "horizontal_cell_mass": {
+      "definition": "for each model individual i, normalize its finite-height events in frozen primary eligible cells to total mass 1; compute that individual's cell-frequency vector q_i(x,y); P_model(x,y) is the arithmetic mean of q_i(x,y) over model individuals with at least one finite-height event in any frozen primary eligible cell",
+      "event_count_cannot_weight_individuals": true
+    },
+    "within_cell_vertical_distribution": {
+      "definition": "for each frozen primary eligible cell c and each model individual i with at least one finite-height event in c, count events in the primary fixed z bins, add Jeffreys pseudocount 0.5 to every z bin, normalize to p_i(z|c), then define P_model(z|c) as the arithmetic mean of p_i(z|c) over the model individuals represented in c",
+      "minimum_individuals_in_cell": 3,
+      "event_count_cannot_weight_individuals": true
+    },
+    "joint_support": "define P_model(x,y,z)=P_model(x,y)*P_model(z|x,y) on frozen primary eligible cells and zero mass elsewhere; renormalize only for floating-point tolerance if necessary",
+    "sealed_scoring": "each sealed individual contributes one equal-weight mean log-score gain over its own scored events; event count cannot weight one sealed individual more than the other",
+    "reason": "prevent tracking duration, event count, or one intensively sampled bat from dominating niche thickness or answer-check"
   },
   "primary_estimand": {
-    "support_state": "S(x,y,z) on primary eligible 5 km model-pool cells and primary fixed z bins",
-    "information": "H(Z|X,Y) in nats",
+    "support_state": "P_model(x,y,z) on frozen primary eligible 5 km model-pool cells and primary fixed z bins",
+    "information": "H(Z|X,Y) in nats computed from the frozen individual-weighted P_model(x,y,z)",
     "effective_states": "exp(H(Z|X,Y))",
-    "local_map": "axis_thickness_map effective vertical states per supported primary x-y cell",
+    "local_map": "axis_thickness_map effective vertical states per frozen supported primary x-y cell using P_model(z|x,y)",
     "projection_interpretation": "H(Z|X,Y) is the vertical-state information discarded when z is marginalized from the declared x-y-z support representation",
     "magnitude_threshold_for_primary_support": null,
     "reason_no_magnitude_threshold": "thickness is an estimand to report, not a post-hoc pass/fail effect-size cutoff"
   },
   "model_distribution": {
-    "conditional": "P_model(z|x,y) from equal-individual weighted model support in primary eligible cells",
-    "marginal_comparator": "P_model(z) over the same eligible-cell model support, ignoring x-y",
-    "smoothing": "Jeffreys additive pseudocount 0.5 per z bin for both conditional and marginal probabilities",
+    "conditional": "P_model(z|x,y) is the equal-individual arithmetic mean of Jeffreys-smoothed per-individual within-cell z distributions defined in support_weighting",
+    "marginal_comparator": "for each model individual with at least one finite-height event in frozen primary eligible cells, count all of that individual's eligible-cell events in the primary fixed z bins, add Jeffreys pseudocount 0.5 to every z bin, normalize to p_i(z), then define P_model(z) as the arithmetic mean of p_i(z) across those model individuals",
+    "smoothing_stage": "Jeffreys additive pseudocount 0.5 is applied to each per-individual categorical z distribution before arithmetic averaging; do not add a second pseudocount after averaging",
+    "zero_probability_after_smoothing": false,
     "no_refit_or_bin_change_after_sealed_open": true
   },
   "sealed_answer_check": {
-    "scored_events": "finite-height sealed events whose x-y cell is primary-model eligible",
+    "scored_events": "finite-height sealed events whose x-y cell is frozen primary-model eligible",
     "minimum_scored_events_per_sealed_individual": 30,
-    "per_individual_metric": "mean[log P_model(z|x,y) - log P_model(z)]",
-    "aggregate_metric": "unweighted mean of the two sealed-individual mean gains",
-    "uncertainty": "do not report a pseudo-precise bootstrap CI from only two sealed individuals; report both individual gains and their equal-weight mean",
+    "event_metric": "log P_model(z|x,y) - log P_model(z) using the frozen model-only distributions",
+    "per_individual_metric": "arithmetic mean of the event metric within one sealed individual",
+    "aggregate_metric": "unweighted arithmetic mean of the two sealed-individual mean gains",
+    "individual_identity_is_primary_replication_unit": true,
+    "uncertainty": "do not report a pseudo-precise bootstrap confidence interval from only two sealed individuals; report both individual gains, their equal-weight mean, and scored-event coverage",
     "decision_categories": {
-      "estimable_and_generalizing": "both sealed individuals meet scoring coverage and both individual mean log-score gains are > 0",
-      "estimable_but_generalization_mixed": "coverage passes but sealed-individual gains are not sign-consistent",
-      "estimable_but_non_generalizing": "coverage passes and both sealed-individual gains are <= 0",
-      "empirical_thickness_answer_check_unavailable": "finite-height fraction or sealed scoring coverage fails under frozen rules"
-    }
+      "estimable_and_generalizing": "finite-height QC passes, both sealed individuals meet scoring coverage, and both sealed-individual mean log-score gains are strictly > 0",
+      "estimable_but_generalization_mixed": "finite-height QC and coverage pass, but the two sealed-individual gains are not both >0 and not both <=0",
+      "estimable_but_non_generalizing": "finite-height QC and coverage pass and both sealed-individual gains are <= 0",
+      "empirical_thickness_answer_check_unavailable": "finite-height fraction or either sealed individual's scoring coverage fails under frozen rules"
+    },
+    "primary_scientific_support_rule": "only estimable_and_generalizing supports transferable x-y-resolved vertical-state structure in this empirical lane; descriptive H(Z|X,Y)>0 alone is not sufficient"
   },
   "secondary_reports": {
     "sealed_descriptive_H_Z_given_XY": "may be reported under the same frozen bins/cells as descriptive replication, but cannot override the primary answer-check category",
     "source_outlier_exclusion": "fixed sensitivity only",
-    "grid_and_bin_sensitivities": "report support/non-support/not_evaluable without promoting a sensitivity to primary"
+    "grid_and_bin_sensitivities": "report numerical estimates or not_evaluable status, but no sensitivity may replace or override the primary decision"
+  },
+  "terminal_categories": {
+    "empirical_n2_thickness_generalizing": "numeric QC passes and sealed answer-check is estimable_and_generalizing",
+    "empirical_n2_thickness_generalization_mixed": "numeric QC passes and sealed answer-check is estimable_but_generalization_mixed",
+    "empirical_n2_thickness_not_generalizing": "numeric QC passes and sealed answer-check is estimable_but_non_generalizing",
+    "empirical_n2_thickness_unavailable": "numeric QC or sealed answer-check coverage is unavailable under frozen rules"
   },
   "do_not_claim": [
     "fundamental niche",
