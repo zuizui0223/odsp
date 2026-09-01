@@ -1,0 +1,36 @@
+{
+  "selection_id": "odsp-n2-v2-architecture-selection-v1",
+  "screen_id": "odsp-n2-v2-architecture-screen-v1",
+  "selection_uses_biological_outcomes": false,
+  "selection_features": [
+    "complete_or_near_complete_native_event_stream",
+    "same_event_xy_axis",
+    "regular_or_reconstructable_effort_schedule",
+    "source_precision_spatial_coordinates",
+    "raw_or_outlier_flags_retained"
+  ],
+  "ranking_rule": "Among architecture-admitted candidates, rank lexicographically by the five binary feature values in the listed order, with true preferred to false; break exact ties lexicographically by candidate_id.",
+  "candidates": [
+    {
+      "candidate_id": "antarctic_petrel_movebank_q206rm6b",
+      "architecture_admitted_expected": true,
+      "feature_vector": [false, true, true, true, false],
+      "source_only_rationale": "Same-event GPS position and altitude in a public versioned archive, but the archived package is limited to selected departure/return commuting sections rather than the most complete native event stream."
+    },
+    {
+      "candidate_id": "european_free_tailed_bat_movebank_52nn82r9",
+      "architecture_admitted_expected": true,
+      "feature_vector": [true, true, true, true, true],
+      "source_only_rationale": "Public versioned archive of native same-event latitude/longitude/GPS height with approximately 30 s schedule; source documentation states that all fixes, including points excluded as outliers by the published analysis, are archived."
+    },
+    {
+      "candidate_id": "two_banded_plover_zenodo_20748797",
+      "architecture_admitted_expected": false,
+      "feature_vector": [false, true, false, false, false],
+      "source_only_rationale": "Final public table contains same-event x-y-z-t but not the raw GPS stream or upstream filter denominator; public coordinates are rounded to two decimals."
+    }
+  ],
+  "selected_candidate_id": "european_free_tailed_bat_movebank_52nn82r9",
+  "selected_before_odsp_axis_distribution_read": true,
+  "next_action": "Freeze and test source-identity/schema/effort structural preflight for DOI 10.5441/001/1.52nn82r9 before reading any altitude distribution or ODSP thickness output."
+}

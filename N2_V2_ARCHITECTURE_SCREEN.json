@@ -1,0 +1,119 @@
+{
+  "screen_id": "odsp-n2-v2-architecture-screen-v1",
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "chapter_code": "N2",
+  "core_question": "HOW THICK is it?",
+  "one_line_thought": "地図は、niche を薄くする。",
+  "predecessor_terminal_result": {
+    "lane": "odsp-gate-d-tawaki-v1",
+    "result": "empirical_gate_d_unavailable",
+    "replacement_or_rescue_forbidden": true
+  },
+  "selection_blinding": {
+    "use_biological_effect_sizes": false,
+    "use_z_or_t_distributions": false,
+    "use_niche_thickness_outputs": false,
+    "use_projection_loss_outputs": false,
+    "use_held_out_scores": false,
+    "source_paper_nonblindness_possible": true,
+    "selection_basis": "measurement architecture and reproducibility only"
+  },
+  "priority_rule": [
+    "must pass EmpiricalAxisArchitecture admission",
+    "prefer a public complete or near-complete native event stream over a final outcome-filtered analysis table",
+    "prefer x-y and organism z/t recorded on the same sensor event",
+    "prefer explicit regular or reconstructable sensor schedule/effort semantics",
+    "prefer unrounded or source-precision spatial coordinates when biologically safe and publicly archived",
+    "prefer raw/outlier flags retained so structural preflight does not depend on undocumented upstream filtering",
+    "tie-break lexicographically by candidate_id"
+  ],
+  "candidate_universe_frozen": true,
+  "candidates": [
+    {
+      "candidate_id": "antarctic_petrel_movebank_q206rm6b",
+      "taxon": "Thalassoica antarctica",
+      "source": "Movebank Data Repository DOI 10.5441/001/1.q206rm6b",
+      "source_architecture_notes": "GPS locations include horizontal position and GPS altitude on the same location event; archived package contains departure/return sections of 79 trips rather than the complete foraging tracks.",
+      "architecture": {
+        "architecture_id": "antarctic_petrel_movebank_q206rm6b",
+        "axis_kind": "organism_vertical",
+        "xy_and_axis_same_event": true,
+        "axis_is_native_biological_or_structural_state": true,
+        "effort_denominator_available": true,
+        "prospective_abstention_if_effort_unavailable": true,
+        "cluster_identifier_available": true,
+        "source_precision_preserved": true,
+        "sensor_schedule_or_effort_semantics_preserved": true,
+        "public_reproducible_data": true,
+        "source_version_pinnable": true,
+        "structural_preflight_without_axis_outcomes": true,
+        "contextual_proxy_used_as_axis": false,
+        "upload_time_used_as_biological_time": false
+      },
+      "architecture_priority_notes": [
+        "public versioned Movebank archive",
+        "same-event x-y-altitude",
+        "archive is a preselected commuting-track subset rather than the most complete native event stream"
+      ]
+    },
+    {
+      "candidate_id": "european_free_tailed_bat_movebank_52nn82r9",
+      "taxon": "Tadarida teniotis",
+      "source": "Movebank Data Repository DOI 10.5441/001/1.52nn82r9",
+      "source_architecture_notes": "GPS tags recorded latitude, longitude and height above sea level together at approximately 30 s intervals. Source documentation states that all data, including points marked as outliers and removed from the published analysis, are archived.",
+      "architecture": {
+        "architecture_id": "european_free_tailed_bat_movebank_52nn82r9",
+        "axis_kind": "organism_vertical",
+        "xy_and_axis_same_event": true,
+        "axis_is_native_biological_or_structural_state": true,
+        "effort_denominator_available": true,
+        "prospective_abstention_if_effort_unavailable": true,
+        "cluster_identifier_available": true,
+        "source_precision_preserved": true,
+        "sensor_schedule_or_effort_semantics_preserved": true,
+        "public_reproducible_data": true,
+        "source_version_pinnable": true,
+        "structural_preflight_without_axis_outcomes": true,
+        "contextual_proxy_used_as_axis": false,
+        "upload_time_used_as_biological_time": false
+      },
+      "architecture_priority_notes": [
+        "public versioned Movebank archive",
+        "native same-event x-y-GPS height",
+        "approximately regular 30 s event schedule",
+        "all archived fixes including upstream outliers are retained"
+      ]
+    },
+    {
+      "candidate_id": "two_banded_plover_zenodo_20748797",
+      "taxon": "Anarhynchus falklandicus",
+      "source": "Zenodo DOI 10.5281/zenodo.20748797 and Chilesummits/two-banded-plover-collision-vulnerability",
+      "source_architecture_notes": "Each public row is one GPS flight fix with timestamp, latitude, longitude, height above ground and vertical uncertainty. However, the public repository contains only the final 237-flight analysis table; raw GPS downloads and upstream cleaning/filtering are absent, and coordinates are rounded to two decimals.",
+      "architecture": {
+        "architecture_id": "two_banded_plover_zenodo_20748797",
+        "axis_kind": "organism_vertical",
+        "xy_and_axis_same_event": true,
+        "axis_is_native_biological_or_structural_state": true,
+        "effort_denominator_available": false,
+        "prospective_abstention_if_effort_unavailable": false,
+        "cluster_identifier_available": true,
+        "source_precision_preserved": false,
+        "sensor_schedule_or_effort_semantics_preserved": false,
+        "public_reproducible_data": true,
+        "source_version_pinnable": true,
+        "structural_preflight_without_axis_outcomes": false,
+        "contextual_proxy_used_as_axis": false,
+        "upload_time_used_as_biological_time": false
+      },
+      "architecture_priority_notes": [
+        "same-event x-y-z-t is present in the final table",
+        "final table is outcome-filtered to flight fixes",
+        "raw GPS and upstream filter denominator are not public in the archive",
+        "public coordinates are rounded to approximately 1 km"
+      ]
+    }
+  ],
+  "selected_candidate_id": "european_free_tailed_bat_movebank_52nn82r9",
+  "selection_reason": "Among candidates passing architecture admission, this lane has the strongest source-only combination of native same-event x-y-z, regular effort semantics, a public versioned archive, and retention of the complete archived event stream including points excluded by the source analysis. Selection does not use an ODSP thickness value or a z-distribution.",
+  "next_boundary": "Freeze a bat-specific structural preflight and empirical contract before reading altitude distributions or any ODSP outcome."
+}
