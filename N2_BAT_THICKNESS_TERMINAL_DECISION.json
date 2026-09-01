@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "chapter_code": "N2",
+  "contract_id": "odsp-n2-bat-thickness-v1",
+  "authorization_id": "odsp-n2-bat-thickness-execution-v1",
+  "terminal_category": "empirical_n2_thickness_not_generalizing",
+  "scientific_terminal_decision": true,
+  "workflow": {
+    "run_id": 33481773409,
+    "head_sha": "fe7d66c49902f7bca7a3d0229b15cd1e884ace85",
+    "execution_merge_commit": "7bc820b463294f083376bbd9eff69098ce956bfb",
+    "artifact_id": 9790203720,
+    "artifact_name": "n2-bat-thickness-terminal-evidence",
+    "artifact_digest": "sha256:4e28817908650ea3dbcf91341c0a27c00982102f0c8a690c1ce8ba5ed5f19d8b"
+  },
+  "frozen_boundaries": {
+    "structural_preflight_merge": "be5a86e850b99457d1e6055289c2990fb8ca358f",
+    "thickness_contract_merge": "8250331209cbabf85afdcf92672104e8543816c7",
+    "outcome_engine_merge": "e99022ffe7a904d3f9917d9315d85ba4cdc91d5c",
+    "source_tracking_md5": "570872ab7aba674b9bdc2f2ee6044a71",
+    "primary_grid_m": 5000,
+    "primary_z_field": "height_above_msl",
+    "primary_z_edges_m": ["-inf", 0, 50, 100, 200, 400, 800, 1600, 3200, "inf"],
+    "model_individual_count": 6,
+    "sealed_individual_count": 2,
+    "post_outcome_retuning": false
+  },
+  "numeric_qc": {
+    "finite_height_count": 10335,
+    "structural_joint_event_count": 10335,
+    "finite_height_fraction": 1.0,
+    "minimum_required_fraction": 0.99,
+    "passes": true
+  },
+  "primary": {
+    "eligible_cell_count": 18,
+    "information_nats_H_Z_given_XY": 1.3918623004770097,
+    "effective_vertical_states": 4.022333876564191,
+    "answer_check_category": "estimable_but_non_generalizing",
+    "sealed_individual_scores": [
+      {
+        "individual_id": "Bat5_3D6001852B98C",
+        "scored_event_count": 475,
+        "mean_log_score_gain": -0.43541033813280833
+      },
+      {
+        "individual_id": "Bat7_3D6001852B9A3",
+        "scored_event_count": 1049,
+        "mean_log_score_gain": -0.021938657402345435
+      }
+    ],
+    "sealed_equal_individual_mean_log_score_gain": -0.22867449776757687,
+    "local_cells": [
+      {"cell_id": "575:440", "model_individual_count": 4, "horizontal_mass": 0.07244467504973365, "information_nats": 1.3897666747180384, "effective_states": 4.013913396250652},
+      {"cell_id": "576:439", "model_individual_count": 4, "horizontal_mass": 0.016719072936834656, "information_nats": 1.4122829520671576, "effective_states": 4.105316955848945},
+      {"cell_id": "577:438", "model_individual_count": 3, "horizontal_mass": 0.016993547175867464, "information_nats": 1.5286557948978063, "effective_states": 4.611973215846238},
+      {"cell_id": "577:439", "model_individual_count": 4, "horizontal_mass": 0.042532830303666676, "information_nats": 1.4237815846564181, "effective_states": 4.15279492995562},
+      {"cell_id": "578:438", "model_individual_count": 4, "horizontal_mass": 0.05989639363124822, "information_nats": 1.4191968549950496, "effective_states": 4.133799066585796},
+      {"cell_id": "579:436", "model_individual_count": 3, "horizontal_mass": 0.10258357389046938, "information_nats": 1.4787467483149748, "effective_states": 4.3874436627688205},
+      {"cell_id": "579:437", "model_individual_count": 5, "horizontal_mass": 0.05736642049736815, "information_nats": 1.418527773494199, "effective_states": 4.131034143184808},
+      {"cell_id": "579:438", "model_individual_count": 3, "horizontal_mass": 0.03484099554940425, "information_nats": 0.9965559117941462, "effective_states": 2.708935929362109},
+      {"cell_id": "580:435", "model_individual_count": 3, "horizontal_mass": 0.007882711542281795, "information_nats": 1.5580976332984156, "effective_states": 4.74977682768925},
+      {"cell_id": "580:436", "model_individual_count": 5, "horizontal_mass": 0.0195393262537933, "information_nats": 1.5068762400737739, "effective_states": 4.512612436722424},
+      {"cell_id": "580:437", "model_individual_count": 4, "horizontal_mass": 0.032181536157588245, "information_nats": 1.2953856663167447, "effective_states": 3.652404311867824},
+      {"cell_id": "581:435", "model_individual_count": 5, "horizontal_mass": 0.02191298106015964, "information_nats": 1.2314160287410216, "effective_states": 3.426077527279907},
+      {"cell_id": "582:434", "model_individual_count": 5, "horizontal_mass": 0.1039103611619531, "information_nats": 1.4447715643848482, "effective_states": 4.240883263384305},
+      {"cell_id": "583:434", "model_individual_count": 5, "horizontal_mass": 0.049225608185817775, "information_nats": 1.025698462488881, "effective_states": 2.7890428221983443},
+      {"cell_id": "584:433", "model_individual_count": 5, "horizontal_mass": 0.00799175971655718, "information_nats": 1.8418005599476992, "effective_states": 6.307885768496612},
+      {"cell_id": "584:434", "model_individual_count": 4, "horizontal_mass": 0.04776616869402359, "information_nats": 0.7492639418532294, "effective_states": 2.1154423548388785},
+      {"cell_id": "585:433", "model_individual_count": 6, "horizontal_mass": 0.13090918324542714, "information_nats": 1.272470627390452, "effective_states": 3.5696609789064886},
+      {"cell_id": "586:433", "model_individual_count": 3, "horizontal_mass": 0.17530285494780562, "information_nats": 1.7121028017061475, "effective_states": 5.540600019736897}
+    ]
+  },
+  "sensitivities": {
+    "primary_decision_not_overridden": true,
+    "grid_2500_m": {
+      "status": "evaluable",
+      "eligible_cell_count": 23,
+      "information_nats": 1.4094798761026586,
+      "effective_vertical_states": 4.0938255537241215,
+      "answer_check_category": "estimable_but_non_generalizing",
+      "sealed_gains": [-1.1935542406952306, -0.14569769356131068]
+    },
+    "grid_10000_m": {
+      "status": "evaluable",
+      "eligible_cell_count": 10,
+      "information_nats": 1.212871925179265,
+      "effective_vertical_states": 3.3631294525037227,
+      "answer_check_category": "estimable_but_non_generalizing",
+      "sealed_gains": [-0.1756929354172589, -0.03681093468528122]
+    },
+    "fine_z_bins": {
+      "status": "evaluable",
+      "information_nats": 1.4478827340797698,
+      "effective_vertical_states": 4.25409791672842,
+      "answer_check_category": "estimable_but_non_generalizing",
+      "sealed_gains": [-0.44818556202811405, -0.04069975386187444]
+    },
+    "coarse_z_bins": {
+      "status": "evaluable",
+      "information_nats": 1.332139567071374,
+      "effective_vertical_states": 3.789141844002226,
+      "answer_check_category": "estimable_but_non_generalizing",
+      "sealed_gains": [-0.42213292179514633, -0.002555078629798694]
+    },
+    "exclude_source_marked_outliers": {
+      "status": "not_evaluable",
+      "reason": "the frozen 18-cell support set could not be retained after exclusion; sensitivity cannot replace the primary endpoint"
+    }
+  },
+  "interpretation": {
+    "supported_descriptive_statement": "The frozen model-pool support contains substantial vertical-state thickness: after x-y is known, its conditional z distribution has 1.3918623004770097 nats of entropy, equivalent to about 4.02 effective fixed vertical states.",
+    "unsupported_transfer_statement": "The x-y-conditioned vertical distribution did not generalize to either independently sealed bat better than the model-pool marginal vertical distribution.",
+    "do_not_conclude": [
+      "the vertical axis is absent",
+      "there is no vertical niche thickness",
+      "height above mean sea level is height above ground",
+      "the observed vertical pattern is causal habitat preference",
+      "forest-versus-grassland Gate-E is supported"
+    ]
+  },
+  "next_action": "close this empirical lane without rescue, retuning, rerun, dataset substitution, or Gate-E promotion"
+}
