@@ -32,6 +32,12 @@ from .temporal_information import (
     normalize_inaturalist_time,
     normalize_occurrence_time,
 )
+from .vertical_information import (
+    VerticalFieldMap,
+    VerticalObservation,
+    gbif_locality_elevation_mapping,
+    normalize_vertical_information,
+)
 
 __all__ = [
     "ConcealedRecoveryBenchmark",
@@ -39,15 +45,19 @@ __all__ = [
     "NicheThicknessProfile",
     "ProjectionOverlapProfile",
     "TemporalObservation",
+    "VerticalFieldMap",
+    "VerticalObservation",
     "conditional_information",
     "effective_conditional_states",
     "estimate_projection_overlap_from_counts",
     "estimate_thickness_from_counts",
+    "gbif_locality_elevation_mapping",
     "marginal_probability",
     "niche_thickness_profile",
     "normalize_gbif_time",
     "normalize_inaturalist_time",
     "normalize_occurrence_time",
+    "normalize_vertical_information",
     "projection_overlap_profile",
     "run_concealed_recovery_benchmark",
     "sample_state_counts",
