@@ -1,21 +1,27 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "repository": "zuizui0223/odsp",
-  "status": "spatial_method_superseded_occurrence_information_layer_active",
-  "spatial_method": {
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "chapter_number": 2,
+  "status": "chapter2_niche_geometry_active_historical_spatial_method_superseded",
+  "historical_spatial_method": {
     "status": "superseded",
     "superseded_on": "2026-07-22",
     "successor_repository": "zuizui0223/eog",
     "successor_merge_commit": "023261f4cac6d70973d097634807472976df749b",
     "successor_pull_request": 61,
     "historical_material_location": "git_history_before_tombstone",
-    "new_spatial_method_development_policy": "use_successor_repository"
+    "new_spatial_topology_or_reachability_development_policy": "use_successor_repository"
   },
-  "active_information_layers": [
-    "temporal_occurrence"
+  "active_chapter2_scope": [
+    "multidimensional_niche_geometry",
+    "niche_thickness",
+    "projection_information_loss",
+    "temporal_occurrence_information",
+    "future_vertical_or_depth_information_layers"
   ],
   "active_code_ownership": true,
   "active_data_ownership": false,
-  "active_publication_target": false,
-  "scope_boundary": "ODSP may normalize source-preserving occurrence metadata but must not duplicate EOG support-topology or reachability algorithms"
+  "active_publication_target": true,
+  "scope_boundary": "ODSP Chapter 2 may measure information and effective ecological states beyond x-y and normalize the source metadata required for those axes, but must not duplicate EOG support-topology/reachability or alter SDMR Product A"
 }
