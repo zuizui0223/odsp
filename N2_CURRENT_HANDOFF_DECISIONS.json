@@ -1,7 +1,7 @@
 {
   "program_id": "niche-to-survey-four-chapter-v1",
   "contract_id": "n2-to-n3-handoff-v1",
-  "decision_date": "2026-09-03",
+  "decision_date": "2026-09-04",
   "decisions": {
     "tawaki_lane": {
       "source_terminal_category": "empirical_gate_d_unavailable",
@@ -32,6 +32,22 @@
       "projection_summary_allowed": true,
       "axis_resolved_species_state_allowed_for_empirical_n3": false,
       "interpretation": "The frozen bat lane retains descriptive vertical thickness, but its x-y-resolved vertical organization is not eligible as an empirical N3 species-state map because both sealed individual gains were non-positive."
+    }
+  },
+  "validated_terminal_summaries_without_state_artifact": {
+    "snapshot_serengeti_temporal_lane": {
+      "source_terminal_category": "temporal_partition_generalizing",
+      "source_terminal_receipt": "N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json",
+      "source_terminal_decision": "N2_SERENGETI_TEMPORAL_TERMINAL_DECISION.json",
+      "transferability_category": "generalizing",
+      "heldout_group_ids": ["site-fold-0", "site-fold-1", "site-fold-2"],
+      "heldout_gains": [0.0572411993741857, 0.045158861333215006, 0.04514355468571751],
+      "terminal_summary_validated": true,
+      "integrity_pinned_axis_resolved_state_artifact_exists": false,
+      "n2_to_n3_payload_issued": false,
+      "axis_resolved_species_state_allowed_for_empirical_n3": false,
+      "reason_code": "generalizing_terminal_summary_has_no_integrity_pinned_state_artifact",
+      "interpretation": "The frozen temporal lane supports transferable species-conditioned temporal organization across the three held-out site folds, but the validated terminal summary is not itself an axis-resolved species-state artifact and therefore is not serialized as an empirical N3 state."
     }
   },
   "gate_e_habitat_complexity_authorized_by_these_decisions": false,
