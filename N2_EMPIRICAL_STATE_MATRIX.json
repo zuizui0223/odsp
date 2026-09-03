@@ -1,0 +1,110 @@
+{
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "chapter": "N2",
+  "matrix_id": "n2-empirical-state-matrix-v1",
+  "as_of": "2026-09-04",
+  "dimensions": [
+    "prospective_boundary",
+    "structural_estimability",
+    "added_axis_thickness",
+    "conditioned_organization",
+    "independent_transferability",
+    "terminal_category",
+    "n3_state_artifact_status"
+  ],
+  "lanes": {
+    "tawaki": {
+      "added_axis": "organism depth / vertical use under the frozen GPS+dive architecture",
+      "prospective_boundary": true,
+      "structural_estimability": false,
+      "added_axis_thickness": {
+        "status": "unavailable",
+        "information_nats": null,
+        "effective_states": null
+      },
+      "conditioned_organization": {
+        "status": "not_opened"
+      },
+      "independent_transferability": {
+        "status": "unavailable",
+        "classification": "unavailable",
+        "gains": []
+      },
+      "terminal_category": "empirical_gate_d_unavailable",
+      "n3_state_artifact_status": "none",
+      "axis_resolved_species_state_allowed_for_empirical_n3": false
+    },
+    "european_free_tailed_bat": {
+      "added_axis": "native GPS height_above_msl",
+      "base_state": "EPSG:3035 x-y 5 km cells",
+      "prospective_boundary": true,
+      "structural_estimability": true,
+      "added_axis_thickness": {
+        "status": "present",
+        "metric": "H(Z|X,Y)",
+        "information_nats": 1.3918623004770097,
+        "effective_states": 4.022333876564191
+      },
+      "conditioned_organization": {
+        "status": "tested",
+        "representation": "P_model(z|x,y)"
+      },
+      "independent_transferability": {
+        "status": "tested",
+        "classification": "non_generalizing",
+        "groups": ["Bat5", "Bat7"],
+        "gains": [-0.43541033813280833, -0.021938657402345435]
+      },
+      "terminal_category": "empirical_n2_thickness_not_generalizing",
+      "n3_state_artifact_status": "none",
+      "axis_resolved_species_state_allowed_for_empirical_n3": false
+    },
+    "snapshot_serengeti": {
+      "added_axis": "source-reported Tanzania local clock time in six fixed four-hour bins",
+      "base_state_for_thickness": "Site",
+      "identity_axis_for_partition": "admitted mammal species",
+      "prospective_boundary": true,
+      "structural_estimability": true,
+      "admitted_species_count": 17,
+      "added_axis_thickness": {
+        "status": "present",
+        "metric": "H(T|Site)",
+        "information_nats": 1.6396235816361795,
+        "effective_states": 5.153229376935854,
+        "maximum_fixed_states": 6
+      },
+      "conditioned_organization": {
+        "status": "detected",
+        "metric": "I(Species;T|Site)",
+        "information_nats": 0.22427598739601606,
+        "permutation_p_value": 0.005,
+        "permutation_draws": 199
+      },
+      "independent_transferability": {
+        "status": "tested",
+        "classification": "generalizing",
+        "cross_fitted": true,
+        "groups": ["site-fold-0", "site-fold-1", "site-fold-2"],
+        "gains": [0.0572411993741857, 0.045158861333215006, 0.04514355468571751]
+      },
+      "terminal_category": "temporal_partition_generalizing",
+      "n3_state_artifact_status": "terminal_summary_only_no_integrity_pinned_axis_resolved_artifact",
+      "axis_resolved_species_state_allowed_for_empirical_n3": false
+    }
+  },
+  "cross_lane_inference": {
+    "supported": [
+      "Added-axis thickness and transferable conditioned organization are empirically separable properties.",
+      "A measured added axis can be thick while its fine conditioned organization fails independent transfer, as in the bat lane.",
+      "A measured added axis can be thick and carry identity-resolved organization that transfers across independent groups, as in the Serengeti lane.",
+      "Structural unavailability is a distinct terminal state rather than evidence for zero biological thickness, as in the Tawaki lane."
+    ],
+    "not_supported": [
+      "Vertical axes are intrinsically less generalizable than temporal axes.",
+      "The numerical magnitudes of the bat and Serengeti information measures are directly comparable as biological effect sizes across datasets.",
+      "The Serengeti result rescues or changes the completed bat or Tawaki endpoint.",
+      "Any terminal summary is automatically an empirical N3 axis-resolved state artifact."
+    ]
+  },
+  "chapter_level_result": "Projection loss is not a single scalar property. Empirical added axes can be unavailable, descriptively thick but non-generalizing, or thick with independently transferable organization; N2 must report these states separately rather than collapsing them into one multidimensional-niche verdict."
+}
