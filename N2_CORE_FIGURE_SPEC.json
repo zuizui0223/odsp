@@ -1,0 +1,85 @@
+{
+  "figure_id": "n2-core-empirical-synthesis-v1",
+  "as_of": "2026-09-04",
+  "purpose": "Show that projection-loss magnitude and independently transferable added-axis organization are separate inferential layers with distinct empirical terminal states.",
+  "panels": {
+    "A": {
+      "title": "Projection hides added ecological state",
+      "type": "conceptual_schematic",
+      "content": [
+        "S(x,y,z,t,...) -> S(x,y)",
+        "thickness magnitude = H(added axes | retained base axes)",
+        "organization = dependence of added state on declared base/identity state",
+        "transferability = held-out conditional-vs-marginal log-score gain"
+      ]
+    },
+    "B": {
+      "title": "Vertical thickness without transferable x-y organization",
+      "lane": "european_free_tailed_bat",
+      "metrics": {
+        "H_Z_given_XY_nats": 1.3918623004770097,
+        "effective_vertical_states": 4.022333876564191,
+        "heldout_groups": ["Bat5", "Bat7"],
+        "heldout_gains": [-0.43541033813280833, -0.021938657402345435],
+        "transferability": "non_generalizing"
+      },
+      "visual_encoding": "Show descriptive thickness separately from the two negative sealed gains; do not use one combined mean as the terminal decision."
+    },
+    "C": {
+      "title": "Temporal thickness with transferable species-time organization",
+      "lane": "snapshot_serengeti",
+      "metrics": {
+        "admitted_species": 17,
+        "H_T_given_Site_nats": 1.6396235816361795,
+        "effective_temporal_states": 5.153229376935854,
+        "maximum_fixed_temporal_states": 6,
+        "I_Species_T_given_Site_nats": 0.22427598739601606,
+        "permutation_p_value": 0.005,
+        "heldout_groups": ["site-fold-0", "site-fold-1", "site-fold-2"],
+        "heldout_gains": [0.0572411993741857, 0.045158861333215006, 0.04514355468571751],
+        "transferability": "generalizing"
+      },
+      "visual_encoding": "Show the partition test and all three positive fold gains; label the result as camera-detected local-clock-time organization, not causal temporal displacement."
+    },
+    "D": {
+      "title": "Distinct empirical states of multidimensional inference",
+      "type": "state_matrix",
+      "rows": [
+        {
+          "lane": "Tawaki",
+          "estimability": "unavailable",
+          "thickness": "not opened",
+          "independent_transferability": "unavailable"
+        },
+        {
+          "lane": "European free-tailed bat",
+          "estimability": "yes",
+          "thickness": "present",
+          "independent_transferability": "non_generalizing"
+        },
+        {
+          "lane": "Snapshot Serengeti",
+          "estimability": "yes",
+          "thickness": "present",
+          "independent_transferability": "generalizing"
+        }
+      ],
+      "take_home": "Do not collapse unavailable, thick/non-generalizing and thick/generalizing into a single multidimensional-niche verdict."
+    }
+  },
+  "caption_claim_ceiling": {
+    "allowed": "The empirical lanes demonstrate that added-axis thickness magnitude and transferable conditioned organization are separable inferential properties.",
+    "forbidden": [
+      "Temporal niche dimensions are generally more stable than vertical dimensions.",
+      "The bat and Serengeti information values are directly comparable biological effect sizes.",
+      "Positive temporal partition proves competition or temporal displacement.",
+      "Any panel supplies an empirical N3 state map."
+    ]
+  },
+  "source_records": [
+    "N2_BAT_THICKNESS_TERMINAL_DECISION.json",
+    "N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json",
+    "N2_SERENGETI_TEMPORAL_TERMINAL_DECISION.json",
+    "N2_EMPIRICAL_STATE_MATRIX.json"
+  ]
+}
