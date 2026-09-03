@@ -23,11 +23,14 @@ def test_frozen_bat_payload_matches_terminal_numerics():
     terminal = json.loads((ROOT / "N2_BAT_THICKNESS_TERMINAL_DECISION.json").read_text())
 
     assert payload["projection_summary"]["H_Z_given_XY_nats"] == pytest.approx(
-        terminal["primary"]["information_nats"]
+        terminal["primary"]["information_nats_H_Z_given_XY"]
     )
     assert payload["projection_summary"]["effective_vertical_states"] == pytest.approx(
         terminal["primary"]["effective_vertical_states"]
     )
     assert payload["transferability"]["independent_gains"] == pytest.approx(
-        [score["mean_log_score_gain"] for score in terminal["primary"]["sealed_scores"]]
+        [
+            score["mean_log_score_gain"]
+            for score in terminal["primary"]["sealed_individual_scores"]
+        ]
     )
