@@ -213,8 +213,23 @@ def validate_serengeti_terminal_result(
         or shape[2] != 6
     ):
         raise ValueError("support shape is inconsistent with the frozen site-species-time design")
+    admitted_site_count = _positive_int(
+        result.get("admitted_site_count"), name="admitted_site_count"
+    )
+    if admitted_site_count != shape[0]:
+        raise ValueError("admitted_site_count disagrees with the support site dimension")
+    _positive_int(result.get("admitted_event_count"), name="admitted_event_count")
 
     profile = _mapping(result.get("temporal_profile"), name="temporal_profile")
+    if _list(profile.get("context_axes"), name="temporal_profile.context_axes") != [0]:
+        raise ValueError("temporal profile context axes must equal the frozen site axis [0]")
+    identity_axis = profile.get("identity_axis")
+    time_axis = profile.get("time_axis")
+    if not isinstance(identity_axis, int) or isinstance(identity_axis, bool) or identity_axis != 1:
+        raise ValueError("temporal profile identity_axis must equal frozen species axis 1")
+    if not isinstance(time_axis, int) or isinstance(time_axis, bool) or time_axis != 2:
+        raise ValueError("temporal profile time_axis must equal frozen time axis 2")
+
     temporal_information = _number(
         profile.get("temporal_information_given_context_nats"),
         name="temporal information",
@@ -227,11 +242,27 @@ def validate_serengeti_terminal_result(
     )
     if not _same(effective_temporal_states, math.exp(temporal_information), atol=1e-10):
         raise ValueError("effective temporal states do not equal exp(H(T|Site))")
+    identity_information = _number(
+        profile.get("identity_information_given_context_nats"),
+        name="identity information",
+        nonnegative=True,
+    )
+    joint_information = _number(
+        profile.get("joint_identity_time_information_given_context_nats"),
+        name="joint identity-time information",
+        nonnegative=True,
+    )
     partition_information = _number(
         profile.get("identity_time_partition_information_nats"),
         name="temporal partition information",
         nonnegative=True,
     )
+    recomputed_partition = max(
+        0.0,
+        identity_information + temporal_information - joint_information,
+    )
+    if not _same(partition_information, recomputed_partition, atol=1e-10):
+        raise ValueError("temporal partition information fails the frozen information identity")
 
     null_summary = _mapping(result.get("permutation_null"), name="permutation_null")
     null_draws = _positive_int(null_summary.get("draws"), name="permutation_null.draws")
