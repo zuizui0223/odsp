@@ -41,16 +41,19 @@ jobs:
               ('"solar_time_partition_identified": false', '"solar_time_partition_identified": False'),
               ('"bat_endpoint_reinterpreted": false', '"bat_endpoint_reinterpreted": False'),
           ]
+          original = text
           for old, new in replacements:
               count = text.count(old)
               if count != 1:
                   raise SystemExit(f'authorized replacement count drift for {old!r}: {count}')
               text = text.replace(old, new)
-          path.write_text(text, encoding='utf-8')
 
-          forbidden = ('"outcome_opened": true', ': false')
-          if any(token in text for token in forbidden):
-              raise SystemExit('lowercase JSON boolean remained after authorized repair')
+          if sum(original.count(old) for old, _ in replacements) != 5:
+              raise SystemExit('authorized original replacement total was not exactly five')
+          remaining = [old for old, _ in replacements if old in text]
+          if remaining:
+              raise SystemExit(f'authorized old tokens remained after repair: {remaining!r}')
+          path.write_text(text, encoding='utf-8')
           print('authorized_boolean_replacements=5')
           PY
 
