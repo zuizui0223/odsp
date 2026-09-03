@@ -98,6 +98,12 @@ def _number(value: object, *, name: str, nonnegative: bool = False) -> float:
     return number
 
 
+def _positive_int(value: object, *, name: str) -> int:
+    if not isinstance(value, int) or isinstance(value, bool) or value < 1:
+        raise ValueError(f"{name} must be a positive integer")
+    return value
+
+
 def _same(left: float, right: float, *, atol: float = 1e-12) -> bool:
     return math.isclose(float(left), float(right), rel_tol=0.0, abs_tol=atol)
 
@@ -228,7 +234,8 @@ def validate_serengeti_terminal_result(
     )
 
     null_summary = _mapping(result.get("permutation_null"), name="permutation_null")
-    if null_summary.get("draws") != N_PERMUTATIONS:
+    null_draws = _positive_int(null_summary.get("draws"), name="permutation_null.draws")
+    if null_draws != N_PERMUTATIONS:
         raise ValueError("permutation draw count does not match frozen contract")
     for metric in ("mean_nats", "q50_nats", "q95_nats", "max_nats"):
         _number(null_summary.get(metric), name=f"permutation_null.{metric}", nonnegative=True)
@@ -270,7 +277,10 @@ def validate_serengeti_terminal_result(
             name="decision observed partition information",
             nonnegative=True,
         ),
-        null_draw_count=int(decision_raw.get("null_draw_count", 0)),
+        null_draw_count=_positive_int(
+            decision_raw.get("null_draw_count"),
+            name="decision null_draw_count",
+        ),
         permutation_p_value=_number(
             decision_raw.get("permutation_p_value"),
             name="decision permutation_p_value",
