@@ -24,6 +24,14 @@ from .transferability import (
 )
 
 
+def _same_gain(left: float, right: float) -> bool:
+    if left == right:
+        return True
+    if math.isfinite(left) and math.isfinite(right):
+        return math.isclose(left, right, rel_tol=0.0, abs_tol=1e-12)
+    return False
+
+
 @dataclass(frozen=True)
 class IndependentGroupTransferability:
     """One prospectively independent held-out group's transferability score."""
@@ -31,13 +39,23 @@ class IndependentGroupTransferability:
     group_id: str
     score: ConditionalTransferabilityScore
 
+    def __post_init__(self) -> None:
+        if not isinstance(self.group_id, str) or not self.group_id.strip():
+            raise ValueError("group_id must be a non-empty string")
+        if self.group_id != self.group_id.strip():
+            raise ValueError("group_id must not contain leading or trailing whitespace")
+
     def as_dict(self) -> dict[str, object]:
         return {"group_id": self.group_id, "score": self.score.as_dict()}
 
 
 @dataclass(frozen=True)
 class GroupedTransferabilityResult:
-    """Conservative transferability decision across independent held-out groups."""
+    """Conservative transferability decision across independent held-out groups.
+
+    Instances are self-validating so a grouped classification cannot be forged or
+    become detached from the per-group scores that generated it.
+    """
 
     base_axes: tuple[int, ...]
     added_axes: tuple[int, ...]
@@ -46,6 +64,39 @@ class GroupedTransferabilityResult:
     equal_group_mean_gain: float
     classification: str
     gain_tolerance: float
+
+    def __post_init__(self) -> None:
+        if not self.groups:
+            raise ValueError("groups must contain at least one independent group")
+        if len(self.groups) != len(self.gains):
+            raise ValueError("groups and gains must have the same length")
+        if self.gain_tolerance < 0 or not math.isfinite(self.gain_tolerance):
+            raise ValueError("gain_tolerance must be finite and non-negative")
+
+        group_ids = tuple(group.group_id for group in self.groups)
+        if len(set(group_ids)) != len(group_ids):
+            raise ValueError("group IDs must be unique")
+
+        for group, gain in zip(self.groups, self.gains):
+            if group.score.base_axes != self.base_axes or group.score.added_axes != self.added_axes:
+                raise ValueError("all group scores must use the declared grouped axes")
+            if not _same_gain(float(group.score.mean_log_score_gain), float(gain)):
+                raise ValueError("group gains must match the underlying held-out scores")
+
+        expected_classification = classify_independent_gains(
+            self.gains,
+            tolerance=self.gain_tolerance,
+        )
+        if self.classification != expected_classification:
+            raise ValueError("grouped classification is inconsistent with independent gains")
+
+        expected_mean = (
+            float("-inf")
+            if any(value == float("-inf") for value in self.gains)
+            else float(sum(self.gains) / len(self.gains))
+        )
+        if not _same_gain(float(self.equal_group_mean_gain), expected_mean):
+            raise ValueError("equal_group_mean_gain is inconsistent with independent gains")
 
     def as_dict(self) -> dict[str, object]:
         return {
@@ -132,11 +183,11 @@ def score_independent_groups(
         gains.append(float(score.mean_log_score_gain))
 
     classification = classify_independent_gains(gains, tolerance=gain_tolerance)
-    if any(value == float("-inf") for value in gains):
-        mean_gain = float("-inf")
-    else:
-        mean_gain = float(sum(gains) / len(gains))
-
+    mean_gain = (
+        float("-inf")
+        if any(value == float("-inf") for value in gains)
+        else float(sum(gains) / len(gains))
+    )
     first_score = scored_groups[0].score
     return GroupedTransferabilityResult(
         base_axes=first_score.base_axes,
