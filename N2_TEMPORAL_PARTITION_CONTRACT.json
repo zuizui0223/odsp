@@ -1,0 +1,69 @@
+{
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "chapter": "N2",
+  "lane_id": "n2_serengeti_temporal_partition_v1",
+  "frozen_date": "2026-09-03",
+  "relationship_to_existing_endpoints": {
+    "bat_xy_z_endpoint_reopened": false,
+    "tawaki_endpoint_reopened": false,
+    "is_rescue_or_retune": false,
+    "rule": "This is a new temporal-axis empirical lane on an independent camera-trap dataset. No result can promote, repair or reinterpret the completed bat or Tawaki endpoints."
+  },
+  "question": "Do mammal identities partition camera-detected time within the same sites, and does species-conditioned temporal organization transfer to independently held-out camera sites?",
+  "source": {
+    "dataset": "Snapshot Serengeti",
+    "doi": "10.5061/dryad.5pt92",
+    "mirror_record": "https://zenodo.org/records/5026386",
+    "consensus_url": "https://zenodo.org/records/5026386/files/consensus_data.csv?download=1",
+    "consensus_md5": "5ed2d32fd09127c178cf9dca8ccfd623",
+    "effort_url": "https://zenodo.org/records/5026386/files/search_effort.csv?download=1",
+    "effort_md5": "27cb42f3feaa0642b17cbde24ba15fbd",
+    "time_semantics": "DateTime is source-reported Tanzania local clock time UTC+3 with no daylight saving time",
+    "effort_semantics": "search_effort.csv gives camera-valid start/end dates; camera-day effort is used to prevent long-running sites from dominating"
+  },
+  "frozen_preprocessing": {
+    "species_certainty_min_numvotes_over_numclassifications": 0.8,
+    "exclude_group_categories_normalized": ["human", "birdother", "otherbird", "reptiles", "reptile", "rodents", "rodent"],
+    "same_species_same_site_independence_minutes": 30,
+    "time_bins_local_clock_hours": [[0, 4], [4, 8], [8, 12], [12, 16], [16, 20], [20, 24]],
+    "site_weight": "each retained event receives weight 1 / merged valid camera-days at its SiteID",
+    "site_fold_rule": "sha256(SiteID) integer modulo 3",
+    "species_admission": {
+      "minimum_independent_events": 500,
+      "minimum_distinct_sites": 20,
+      "minimum_events_in_each_site_fold": 50,
+      "selection_uses_temporal_distribution": false
+    }
+  },
+  "primary_estimands": {
+    "temporal_thickness": "H(T|Site)",
+    "effective_temporal_states": "exp(H(T|Site))",
+    "temporal_partition": "I(C;T|Site), where C is admitted species identity",
+    "heldout_transferability": "for each of three held-out site folds, E_heldout[log P_model(T|C)-log P_model(T)]"
+  },
+  "null_and_scoring": {
+    "conditional_partition_null": "permute admitted species labels among retained events within SiteID, preserving site-specific species counts and observed time schedule",
+    "permutation_draws": 199,
+    "permutation_seed": 20260903,
+    "alpha": 0.05,
+    "model_species_time_pseudocount": 0.5,
+    "generalizing_rule": "I(C;T|Site) permutation p <= 0.05 AND every independent held-out site-fold temporal gain > 0",
+    "mixed_rule": "partition detected but held-out gains have mixed signs",
+    "non_generalizing_rule": "partition detected but all held-out gains <= 0",
+    "not_detected_rule": "permutation p > 0.05"
+  },
+  "terminal_categories": [
+    "empirical_temporal_partition_unavailable",
+    "temporal_partition_not_detected",
+    "temporal_partition_generalizing",
+    "temporal_partition_present_mixed_transfer",
+    "temporal_partition_present_not_generalizing"
+  ],
+  "claim_ceiling": [
+    "Camera-detected temporal partition is not automatically true activity-time niche partition because time-varying detection can remain.",
+    "Clock-time partition is not solar-time partition and no sunrise/sunset correction is added post hoc.",
+    "I(C;T|Site) is descriptive conditional association, not evidence that one species causes temporal displacement of another.",
+    "Positive transfer across camera-site folds does not establish cross-region, cross-season or cross-dataset generality.",
+    "Negative or unavailable outcomes are terminal scientific results and must not trigger bin, species-threshold, pseudocount or dataset retuning."
+  ]
+}
