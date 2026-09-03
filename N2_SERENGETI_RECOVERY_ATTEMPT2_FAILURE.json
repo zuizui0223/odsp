@@ -1,0 +1,20 @@
+{
+  "lane_id": "n2_serengeti_temporal_partition_v1",
+  "recovery_contract_id": "n2-serengeti-technical-recovery-v1",
+  "workflow_run_id": 33774376786,
+  "workflow_name": "n2-serengeti-terminal-recovery",
+  "head_sha": "7466fabb9ef97a3c369b5dd774f15e77eedc8eea",
+  "conclusion": "failure",
+  "failed_step": "Apply only authorized Python boolean serialization repair",
+  "failure_type": "overbroad_static_recovery_guard",
+  "failure_message": "lowercase JSON boolean remained after authorized repair",
+  "cause": "The workflow checked for any remaining ': false' token in the original runner. The frozen source contains an additional lowercase false in the structurally unavailable branch, which was not executed by attempt 1 and was intentionally outside the five repairs required for the observed estimable-result serialization failure.",
+  "checkout_original_analysis_commit_succeeded": true,
+  "authorized_five_replacements_applied_before_guard": true,
+  "input_download_started": false,
+  "scientific_calculation_started": false,
+  "scientific_outcome_accessed": false,
+  "terminal_artifact_created": false,
+  "scientific_contract_changed": false,
+  "authorized_followup": "Narrow the guard to assert only that the five contract-authorized old tokens are absent after exact replacement. Do not alter the frozen unavailable branch or any scientific computation."
+}
