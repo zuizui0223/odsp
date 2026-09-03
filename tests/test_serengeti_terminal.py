@@ -153,3 +153,17 @@ def test_payload_fingerprint_changes_when_result_content_changes():
     changed["admitted_event_count"] = 4001
     second = validate_serengeti_terminal_result(changed)
     assert first.result_fingerprint_sha256 != second.result_fingerprint_sha256
+
+
+def test_decision_null_draw_count_rejects_float_coercion():
+    result = _generalizing_result()
+    result["decision"]["null_draw_count"] = 199.5
+    with pytest.raises(ValueError, match="positive integer"):
+        validate_serengeti_terminal_result(result)
+
+
+def test_permutation_summary_draw_count_requires_integer_type():
+    result = _generalizing_result()
+    result["permutation_null"]["draws"] = 199.0
+    with pytest.raises(ValueError, match="positive integer"):
+        validate_serengeti_terminal_result(result)
