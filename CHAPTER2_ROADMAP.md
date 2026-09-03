@@ -25,9 +25,12 @@ Main quantities include:
 - effective conditional states `exp(H(...))`;
 - `I(Z;T|X,Y)` as conditional dependence, not a causal interaction;
 - per-cell `axis_thickness_map`;
-- full-versus-projected overlap and projection-loss diagnostics.
+- full-versus-projected overlap and projection-loss diagnostics;
+- `I(A;B)` for in-sample organization between declared base state `B` and added state `A`;
+- held-out conditional-versus-marginal log-score gain `E[log P_model(A|B) - log P_model(A)]`;
+- conservative independent-group classification: all-positive = generalizing, all-nonpositive = non-generalizing, otherwise mixed.
 
-The implementation is model-agnostic and fails closed on invalid or unavailable state support.
+The implementation is model-agnostic and fails closed on invalid or unavailable state support. The transferability core does not add hidden smoothing; any smoothing rule must be declared upstream before held-out outcomes are opened.
 
 ## Gate B — known-truth recovery
 
@@ -39,7 +42,10 @@ Analytic fixtures and concealed finite-observation recovery cover:
 - pure vertical and temporal thickness;
 - independent and coupled z×t structure;
 - vertical, temporal and joint-only partition hidden by x-y projection;
-- simple versus layered structural state-space capacity.
+- simple versus layered structural state-space capacity;
+- thick but base-unorganized support, where `H(A|B)>0` but `I(A;B)=0` and held-out conditional gain is zero;
+- stable base-resolved organization, where same-generating-process held-out support has positive conditional gain;
+- shifted organization, where fitted `I(A;B)>0` can coexist with negative held-out conditional gain.
 
 Known-truth recovery remains methodological evidence. It does not license treating opportunistic occurrence counts as unbiased organism-use probabilities.
 
@@ -109,6 +115,8 @@ Do **not** convert this into either "there is no z niche" or "the 3D niche was v
 
 Frozen 2.5 km, 10 km, fine-bin and coarse-bin sensitivities were also non-generalizing with both sealed gains negative. The source-marked-outlier exclusion sensitivity was not evaluable because it could not retain the frozen 18-cell support denominator. Sensitivities cannot override the primary result.
 
+The generic `odsp.transferability` API was added only after this terminal decision to formalize the general Chapter-2 distinction. It does not rerun, refit, reinterpret or replace the frozen bat endpoint.
+
 ## Gate E — habitat-complexity synthesis
 
 Status: **not authorized / blocked under the current empirical chain**.
@@ -128,6 +136,8 @@ Therefore the forest-versus-grassland hypothesis is **not** tested, supported or
 
 ```text
 known-truth thickness/projection recovery       supported
+                ↓
+model-agnostic organization/transferability     implemented
                 ↓
 source/axis semantics                           implemented
                 ↓
