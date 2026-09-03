@@ -1,0 +1,56 @@
+{
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "chapter": "N2",
+  "lane_id": "n2_serengeti_temporal_partition_v1",
+  "binding_date": "2026-09-03",
+  "frozen_scientific_contract": "N2_TEMPORAL_PARTITION_CONTRACT.json",
+  "frozen_scientific_contract_blob_sha": "47041a4ace8a2edbaf831477367708e2e80c4b8a",
+  "scientific_estimand_changed": false,
+  "frozen_thresholds_changed": false,
+  "frozen_time_bins_changed": false,
+  "frozen_species_admission_changed": false,
+  "frozen_pseudocount_changed": false,
+  "authoritative_terminal_workflow": {
+    "run_id": 33726030526,
+    "head_sha": "d17a204527b5426d29535ef6303bc759fe52adcc",
+    "status_when_binding_created": "queued",
+    "rerun_authorized_by_this_binding": false
+  },
+  "cross_fitted_design": {
+    "independent_group_semantics": "deterministic camera-site fold",
+    "group_ids": ["site-fold-0", "site-fold-1", "site-fold-2"],
+    "training_rule": "for each held-out fold, fit the species-time model from the other two site folds",
+    "heldout_rule": "score only the corresponding excluded site fold",
+    "model_species_time_pseudocount": 0.5,
+    "gain_tolerance": 0.0,
+    "terminal_transfer_rule": "all gains > 0 => generalizing; all gains <= 0 => non_generalizing; otherwise mixed",
+    "pooled_event_mass_can_override_group_failure": false
+  },
+  "implementation_api": {
+    "generic_cross_fitted_scorer": "odsp.crossfitted_transferability.score_crossfitted_independent_groups",
+    "temporal_cross_fitted_scorer": "odsp.temporal_crossfit.score_identity_temporal_crossfitted_groups",
+    "terminal_classifier": "odsp.temporal_partition.classify_grouped_temporal_partition_result",
+    "decision_serializes_group_ids": true,
+    "decision_serializes_gain_tolerance": true,
+    "grouped_result_self_validating": true,
+    "temporal_decision_self_validating": true
+  },
+  "equivalence_to_frozen_runner": {
+    "frozen_runner_scores_each_site_fold_separately": true,
+    "frozen_runner_uses_group_specific_leave_one_fold_out_models": true,
+    "frozen_runner_terminal_rule_matches_grouped_api": true,
+    "new_api_changes_numeric_estimand": false,
+    "new_api_changes_terminal_category_rule": false,
+    "new_api_role": "auditability and fail-closed serialization of the already-frozen calculation"
+  },
+  "hard_boundaries": {
+    "queued_authoritative_run_may_be_replaced_post_outcome": false,
+    "time_bins_may_be_retuned_after_outcome": false,
+    "species_thresholds_may_be_retuned_after_outcome": false,
+    "pseudocount_may_be_retuned_after_outcome": false,
+    "dataset_may_be_swapped_after_outcome": false,
+    "bat_endpoint_reopened": false,
+    "tawaki_endpoint_reopened": false,
+    "gate_e_reopened": false
+  }
+}
