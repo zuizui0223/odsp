@@ -2,8 +2,8 @@
 
 The active ODSP surface keeps source-preserving occurrence information and adds
 model-agnostic niche-thickness, projection-loss, organization, transferability,
-chapter-handoff payloads and known-truth recovery tools. The historical
-spatial-patch method remains superseded by EOG.
+temporal partitioning, chapter-handoff payloads and known-truth recovery tools.
+The historical spatial-patch method remains superseded by EOG.
 """
 
 from .chapter_handoff import (
@@ -46,6 +46,13 @@ from .temporal_information import (
     normalize_inaturalist_time,
     normalize_occurrence_time,
 )
+from .temporal_partition import (
+    TemporalPartitionDecision,
+    TemporalPartitionProfile,
+    classify_temporal_partition_result,
+    score_identity_temporal_transferability,
+    temporal_partition_profile,
+)
 from .transferability import (
     ConditionalTransferabilityScore,
     base_added_mutual_information,
@@ -71,6 +78,8 @@ __all__ = [
     "ProjectionOverlapProfile",
     "StateArtifact",
     "TemporalObservation",
+    "TemporalPartitionDecision",
+    "TemporalPartitionProfile",
     "VerticalFieldMap",
     "VerticalObservation",
     "assess_n2_to_n3_handoff",
@@ -78,6 +87,7 @@ __all__ = [
     "base_added_mutual_information",
     "build_n2_to_n3_payload",
     "classify_independent_gains",
+    "classify_temporal_partition_result",
     "conditional_information",
     "effective_conditional_states",
     "estimate_projection_overlap_from_counts",
@@ -94,6 +104,8 @@ __all__ = [
     "sample_state_counts",
     "schoener_overlap",
     "score_conditional_transferability",
+    "score_identity_temporal_transferability",
     "shannon_entropy",
+    "temporal_partition_profile",
     "validate_n2_to_n3_payload",
 ]
