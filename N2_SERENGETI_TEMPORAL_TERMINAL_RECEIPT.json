@@ -1,0 +1,27 @@
+{
+  "admitted_species_count": 17,
+  "axis_resolved_state_allowed_for_empirical_n3": false,
+  "effective_temporal_states": 5.153229376935854,
+  "heldout_gains": [
+    0.0572411993741857,
+    0.045158861333215006,
+    0.04514355468571751
+  ],
+  "heldout_group_ids": [
+    "site-fold-0",
+    "site-fold-1",
+    "site-fold-2"
+  ],
+  "lane_id": "n2_serengeti_temporal_partition_v1",
+  "n3_reason_code": "generalizing_terminal_summary_has_no_integrity_pinned_state_artifact",
+  "outcome_opened": true,
+  "partition_information_nats": 0.22427598739601606,
+  "permutation_p_value": 0.005,
+  "result_fingerprint_sha256": "106dbb65271e0c5f115f33570e39c0f3a48e5d0533a006c528e1fd3b981b4145",
+  "schema_id": "n2-serengeti-terminal-receipt-v1",
+  "temporal_information_nats": 1.6396235816361795,
+  "terminal_category": "temporal_partition_generalizing",
+  "transfer_category": "generalizing",
+  "workflow_head_sha": "d17a204527b5426d29535ef6303bc759fe52adcc",
+  "workflow_run_id": 33726030526
+}
