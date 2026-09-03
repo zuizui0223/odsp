@@ -1,0 +1,79 @@
+{
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "chapter": "N2",
+  "lane_id": "n2_serengeti_temporal_partition_v1",
+  "decision_date": "2026-09-04",
+  "terminal_category": "temporal_partition_generalizing",
+  "validated_receipt": "N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json",
+  "validated_result_fingerprint_sha256": "106dbb65271e0c5f115f33570e39c0f3a48e5d0533a006c528e1fd3b981b4145",
+  "primary": {
+    "admitted_species_count": 17,
+    "temporal_information_nats_H_T_given_Site": 1.6396235816361795,
+    "effective_temporal_states": 5.153229376935854,
+    "species_time_partition_information_nats_I_C_T_given_Site": 0.22427598739601606,
+    "permutation_p_value": 0.005,
+    "heldout_site_fold_gains": [
+      0.0572411993741857,
+      0.045158861333215006,
+      0.04514355468571751
+    ],
+    "heldout_group_ids": [
+      "site-fold-0",
+      "site-fold-1",
+      "site-fold-2"
+    ],
+    "transfer_category": "generalizing"
+  },
+  "interpretation": {
+    "temporal_thickness_present": true,
+    "species_identity_partitions_detected_time_within_site": true,
+    "species_conditioned_temporal_organization_generalizes_across_frozen_site_folds": true,
+    "true_activity_time_niche_partition_identified": false,
+    "interspecific_temporal_displacement_causality_identified": false,
+    "solar_time_partition_identified": false,
+    "cross_region_or_cross_dataset_generality_identified": false
+  },
+  "n3_boundary": {
+    "axis_resolved_state_allowed_for_empirical_n3": false,
+    "reason_code": "generalizing_terminal_summary_has_no_integrity_pinned_state_artifact",
+    "terminal_summary_is_state_artifact": false,
+    "n2_to_n3_payload_issued": false
+  },
+  "execution_provenance": {
+    "original_authoritative_run": {
+      "workflow_run_id": 33726030526,
+      "workflow_head_sha": "d17a204527b5426d29535ef6303bc759fe52adcc",
+      "conclusion": "failure",
+      "failure": "Python NameError from lowercase JSON-style booleans during result serialization after the frozen calculations had completed in process memory",
+      "terminal_artifact_count": 0,
+      "raw_numeric_result_logged": false
+    },
+    "technical_recovery_contract": "N2_SERENGETI_TECHNICAL_RECOVERY_CONTRACT.json",
+    "pre_analysis_recovery_guard_failure": "N2_SERENGETI_RECOVERY_ATTEMPT2_FAILURE.json",
+    "successful_recovery": {
+      "workflow_run_id": 33774650396,
+      "recovery_head_sha": "3526987337e465b22a83e499104ce0cc90da2c13",
+      "original_analysis_commit_checked_out": "d17a204527b5426d29535ef6303bc759fe52adcc",
+      "recovered_artifact_id": 9901082589,
+      "recovered_artifact_digest": "sha256:4cbba5bc2f98e0967fa6a2db37ef0e2ab893e4ee0600491b4b6eb2a70231fc78"
+    },
+    "closeout_contract": "N2_SERENGETI_TERMINAL_CLOSEOUT_CONTRACT.json",
+    "validated_closeout": {
+      "workflow_run_id": 33775057303,
+      "workflow_head_sha": "9aeeb3bc8d5896f66be4ad8ee66b3c52cc3ecc02",
+      "receipt_artifact_id": 9901215081,
+      "receipt_artifact_digest": "sha256:25f525a03f3fdf4e2cfe1e6de617a58745d0bf09b1f79ba49269dbb45f68ee28",
+      "validator_succeeded": true
+    }
+  },
+  "hard_stops": {
+    "rerun_or_retune_allowed": false,
+    "time_bin_replacement_allowed": false,
+    "species_threshold_replacement_allowed": false,
+    "pseudocount_replacement_allowed": false,
+    "site_fold_replacement_allowed": false,
+    "dataset_replacement_allowed": false,
+    "bat_or_tawaki_reinterpretation_allowed": false,
+    "gate_e_promotion_allowed": false
+  }
+}
