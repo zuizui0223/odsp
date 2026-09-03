@@ -1,0 +1,55 @@
+name: n2-serengeti-temporal-partition
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/n2-serengeti-temporal-partition.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  terminal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install ODSP
+        run: python -m pip install -e .
+
+      - name: Download frozen Snapshot Serengeti inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .n2_temporal_input
+          curl -L --fail --retry 3 --retry-delay 3 \
+            'https://zenodo.org/records/5026386/files/consensus_data.csv?download=1' \
+            -o .n2_temporal_input/consensus_data.csv
+          curl -L --fail --retry 3 --retry-delay 3 \
+            'https://zenodo.org/records/5026386/files/search_effort.csv?download=1' \
+            -o .n2_temporal_input/search_effort.csv
+          echo '5ed2d32fd09127c178cf9dca8ccfd623  .n2_temporal_input/consensus_data.csv' | md5sum -c -
+          echo '27cb42f3feaa0642b17cbde24ba15fbd  .n2_temporal_input/search_effort.csv' | md5sum -c -
+
+      - name: Run frozen temporal partition endpoint
+        run: |
+          python scripts/run_n2_serengeti_temporal_partition.py \
+            --consensus .n2_temporal_input/consensus_data.csv \
+            --effort .n2_temporal_input/search_effort.csv \
+            --output n2_serengeti_temporal_partition_result.json
+          cat n2_serengeti_temporal_partition_result.json
+
+      - name: Upload terminal result only
+        uses: actions/upload-artifact@v4
+        with:
+          name: n2-serengeti-temporal-partition-result
+          path: n2_serengeti_temporal_partition_result.json
+          if-no-files-found: error
+          retention-days: 90
