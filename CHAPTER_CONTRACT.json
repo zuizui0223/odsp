@@ -2,6 +2,7 @@
   "program_id": "niche-to-survey-four-chapter-v1",
   "spine_version": 2,
   "spine_fixed_date": "2026-09-01",
+  "implementation_update_date": "2026-09-03",
   "chapter_number": 2,
   "chapter_code": "N2",
   "repository": "zuizui0223/odsp",
@@ -10,7 +11,7 @@
   "spine_thought_ja": "地図は、niche を薄くする。",
   "conceptual_role": "niche_projection_and_thickness",
   "core_question": "How much niche structure and ecological state-space thickness are hidden when a multidimensional niche is projected onto a flat x-y map?",
-  "primary_output": "Niche thickness, local state-space capacity, added-axis information and projection-loss diagnostics",
+  "primary_output": "Niche thickness, local state-space capacity, added-axis information, projection-loss diagnostics, fitted organization and held-out transferability diagnostics",
   "canonical_state": "S(x,y,z,t,...)",
   "projection_thesis": "A planar map is a marginal projection; added vertical, temporal and structural axes can contain niche information that disappears after collapse to x-y.",
   "primary_quantities": [
@@ -21,7 +22,9 @@
     "exp(H(T|X,Y))",
     "exp(H(Z,T|X,Y))",
     "I(Z;T|X,Y)",
-    "local_exp(H(added_axes|x,y))"
+    "local_exp(H(added_axes|x,y))",
+    "I(added_axes;base_axes)",
+    "E_heldout[log P_model(added_axes|base_axes)-log P_model(added_axes)]"
   ],
   "implemented_core": {
     "whole_support_profile": true,
@@ -32,16 +35,22 @@
     "conditional_mutual_information": true,
     "projection_loss": true,
     "known_truth_synthetic_benchmark": true,
+    "known_truth_transferability_benchmark": true,
     "concealed_finite_observation_recovery": true,
     "source_preserving_gbif_inaturalist_time": true,
     "explicit_vertical_information_schema": true,
     "outcome_blind_empirical_axis_admission": true,
+    "base_added_mutual_information": true,
+    "heldout_conditional_vs_marginal_transferability": true,
+    "independent_group_transferability_classification": true,
     "individual_weighted_sealed_empirical_thickness_engine": true
   },
   "interpretation": {
     "species_support_tensor_yields_descriptive_niche_thickness": true,
     "equal_weight_available_state_tensor_yields_structural_state_space_capacity": true,
     "thickness_magnitude_and_transferable_organization_are_distinct": true,
+    "transferability_requires_independent_heldout_support": true,
+    "in_sample_organization_alone_establishes_transferability": false,
     "elevation_equals_vertical_z_axis": false,
     "raw_opportunistic_counts_equal_use_probability": false,
     "niche_thickness_equals_occupancy_probability": false,
