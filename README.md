@@ -64,6 +64,17 @@ The current empirical development shows why two distinct questions are needed:
 
 A fitted support can be descriptively thick without its fine x-y-resolved organization generalizing.
 
+`odsp.transferability` now makes that distinction explicit and model-agnostic. For base state `B` (for example x-y) and added state `A` (for example z or t):
+
+```text
+in-sample organization    = I(A;B)
+held-out transferability  = E_heldout[log P_model(A|B) - log P_model(A)]
+```
+
+`base_added_mutual_information(...)` measures only fitted organization. `score_conditional_transferability(...)` tests whether that organization predicts independent support better than the lower-information marginal representation. `classify_independent_gains(...)` provides the conservative all-positive / all-nonpositive / mixed rule for prospectively independent held-out groups.
+
+The transferability core deliberately performs no hidden smoothing. Any smoothing or pseudocount rule must be declared upstream before held-out outcomes are opened. Known-truth tests include three deliberately distinct cases: thick but unorganized support, stable organization with positive held-out gain, and shifted organization with negative held-out gain.
+
 ## Current empirical status
 
 ### Tawaki lane
@@ -158,6 +169,7 @@ The current empirical N2 chain is scientifically closed at:
 
 ```text
 known-truth thickness/projection recovery      supported
+model-agnostic organization/transferability    implemented
 Tawaki empirical lane                          unavailable
 Bat structural feasibility                     supported
 Bat descriptive vertical thickness             present
