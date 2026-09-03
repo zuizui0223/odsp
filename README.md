@@ -73,6 +73,8 @@ held-out transferability  = E_heldout[log P_model(A|B) - log P_model(A)]
 
 `base_added_mutual_information(...)` measures only fitted organization. `score_conditional_transferability(...)` tests whether that organization predicts independent support better than the lower-information marginal representation. `classify_independent_gains(...)` provides the conservative all-positive / all-nonpositive / mixed rule for prospectively independent held-out groups.
 
+When several answer-check units are prospectively independent, `score_independent_groups(...)` scores each unit separately before classification. A large individual, year or site therefore cannot dominate the endpoint simply by contributing more records. The returned equal-group mean gain is descriptive only: `generalizing` still requires **every** independent group to clear the frozen gain tolerance; all non-positive groups are `non_generalizing`; conflicting group signs are `mixed`.
+
 The transferability core deliberately performs no hidden smoothing. Any smoothing or pseudocount rule must be declared upstream before held-out outcomes are opened. Known-truth tests include three deliberately distinct cases: thick but unorganized support, stable organization with positive held-out gain, and shifted organization with negative held-out gain.
 
 ## Current empirical status
