@@ -110,7 +110,7 @@ def test_empirical_generalizing_payload_requires_integrity_pinned_species_state(
     assert payload.handoff.axis_resolved_species_state_allowed_for_empirical_n3 is True
     assert validate_n2_to_n3_payload(payload.as_dict()) == payload.fingerprint
 
-    with pytest.raises(ValueError, match="all independent gains > 0"):
+    with pytest.raises(ValueError, match="all supplied gains > 0"):
         build_n2_to_n3_payload(
             evidence_id="bad-gain",
             decision=decision,
