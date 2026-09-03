@@ -44,7 +44,9 @@
     "heldout_conditional_vs_marginal_transferability": true,
     "independent_group_transferability_classification": true,
     "individual_weighted_sealed_empirical_thickness_engine": true,
-    "machine_readable_n2_to_n3_handoff_gate": true
+    "machine_readable_n2_to_n3_handoff_gate": true,
+    "versioned_n2_to_n3_payload": true,
+    "integrity_pinned_axis_resolved_handoff_artifact": true
   },
   "interpretation": {
     "species_support_tensor_yields_descriptive_niche_thickness": true,
@@ -86,13 +88,16 @@
   },
   "n2_to_n3_handoff": {
     "contract": "N2_TO_N3_HANDOFF_CONTRACT.json",
+    "payload_schema_id": "n2-to-n3-payload-v1",
+    "payload_schema": "N2_TO_N3_PAYLOAD_SCHEMA.json",
     "current_decisions": "N2_CURRENT_HANDOFF_DECISIONS.json",
     "empirical_axis_resolved_species_state_requires_independent_generalization": true,
+    "empirical_axis_resolved_artifact_requires_integrity_pin": true,
     "tawaki_handoff_category": "unavailable",
     "european_free_tailed_bat_handoff_category": "descriptive_projection_only",
     "completed_bat_axis_resolved_state_allowed_for_empirical_n3": false
   },
-  "handoff_to_next_chapter": "Pass an empirical axis-resolved species state to N3 only when its N2 source boundary is prospective, its added-axis semantics are explicit, thickness is estimable and its base-resolved organization generalizes to independent held-out support. Descriptive thickness and structural capacity remain distinct handoff objects.",
+  "handoff_to_next_chapter": "Pass an empirical axis-resolved species state to N3 only when its N2 source boundary is prospective, its added-axis semantics are explicit, thickness is estimable and its base-resolved organization generalizes to independent held-out support. Serialize the handoff with the versioned payload schema; descriptive thickness and structural capacity remain distinct handoff objects.",
   "historical_spatial_patch_method_active": false,
   "sdmr_product_a_reopened": false,
   "eog_reachability_ownership_changed": false,
