@@ -1,0 +1,274 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/zuizui0223/odsp/N2_TO_N3_PAYLOAD_SCHEMA.json",
+  "title": "ODSP N2 to N3 handoff payload v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "program_id",
+    "producer",
+    "evidence_id",
+    "axes",
+    "handoff",
+    "projection_summary",
+    "transferability",
+    "provenance",
+    "state_artifact",
+    "fingerprint"
+  ],
+  "properties": {
+    "schema_id": {"const": "n2-to-n3-payload-v1"},
+    "program_id": {"const": "niche-to-survey-four-chapter-v1"},
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["chapter", "repository"],
+      "properties": {
+        "chapter": {"const": "N2"},
+        "repository": {"const": "zuizui0223/odsp"}
+      }
+    },
+    "evidence_id": {"type": "string", "minLength": 1},
+    "axes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["base", "added"],
+      "properties": {
+        "base": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/axis"}
+        },
+        "added": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/axis"}
+        }
+      }
+    },
+    "handoff": {"$ref": "#/$defs/handoff"},
+    "projection_summary": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"type": "number"}
+        }
+      ]
+    },
+    "transferability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "independent_gains"],
+      "properties": {
+        "category": {
+          "enum": ["generalizing", "mixed", "non_generalizing", "unavailable", "not_tested"]
+        },
+        "independent_gains": {
+          "type": "array",
+          "items": {"type": "number"}
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_contract", "decision_receipt", "source_fingerprint"],
+      "properties": {
+        "source_contract": {"type": ["string", "null"]},
+        "decision_receipt": {"type": ["string", "null"]},
+        "source_fingerprint": {"type": ["string", "null"]}
+      }
+    },
+    "state_artifact": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/state_artifact"}
+      ]
+    },
+    "fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "$defs": {
+    "axis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "semantic", "units", "reference_frame"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "semantic": {"type": "string", "minLength": 1},
+        "units": {"type": ["string", "null"]},
+        "reference_frame": {"type": ["string", "null"]}
+      }
+    },
+    "handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_scope",
+        "support_semantics",
+        "axis_semantics_declared",
+        "prospective_source_boundary_frozen",
+        "thickness_estimable",
+        "transferability_category",
+        "handoff_category",
+        "projection_summary_allowed",
+        "axis_resolved_state_allowed_for_method_testing",
+        "axis_resolved_species_state_allowed_for_empirical_n3",
+        "reason_codes"
+      ],
+      "properties": {
+        "evidence_scope": {"enum": ["known_truth", "empirical"]},
+        "support_semantics": {"enum": ["species_support", "structural_capacity"]},
+        "axis_semantics_declared": {"type": "boolean"},
+        "prospective_source_boundary_frozen": {"type": "boolean"},
+        "thickness_estimable": {"type": "boolean"},
+        "transferability_category": {
+          "enum": ["generalizing", "mixed", "non_generalizing", "unavailable", "not_tested"]
+        },
+        "handoff_category": {
+          "enum": [
+            "empirical_axis_resolved_supported",
+            "known_truth_method_state_only",
+            "descriptive_projection_only",
+            "structural_capacity_only",
+            "unavailable"
+          ]
+        },
+        "projection_summary_allowed": {"type": "boolean"},
+        "axis_resolved_state_allowed_for_method_testing": {"type": "boolean"},
+        "axis_resolved_species_state_allowed_for_empirical_n3": {"type": "boolean"},
+        "reason_codes": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "state_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_semantics", "uri", "sha256", "media_type", "shape", "axis_order"],
+      "properties": {
+        "artifact_semantics": {
+          "enum": ["empirical_species_support", "known_truth_method_state", "structural_capacity"]
+        },
+        "uri": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "media_type": {"type": "string", "minLength": 1},
+        "shape": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"type": "integer", "minimum": 1}
+        },
+        "axis_order": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "handoff": {
+            "properties": {"projection_summary_allowed": {"const": false}},
+            "required": ["projection_summary_allowed"]
+          }
+        }
+      },
+      "then": {"properties": {"projection_summary": {"type": "null"}}}
+    },
+    {
+      "if": {
+        "properties": {
+          "handoff": {
+            "properties": {"projection_summary_allowed": {"const": true}},
+            "required": ["projection_summary_allowed"]
+          }
+        }
+      },
+      "then": {"properties": {"projection_summary": {"type": "object", "minProperties": 1}}}
+    },
+    {
+      "if": {
+        "properties": {
+          "handoff": {
+            "properties": {"handoff_category": {"const": "empirical_axis_resolved_supported"}},
+            "required": ["handoff_category"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "state_artifact": {
+            "allOf": [
+              {"$ref": "#/$defs/state_artifact"},
+              {"properties": {"artifact_semantics": {"const": "empirical_species_support"}}}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "handoff": {
+            "properties": {"handoff_category": {"const": "known_truth_method_state_only"}},
+            "required": ["handoff_category"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "state_artifact": {
+            "allOf": [
+              {"$ref": "#/$defs/state_artifact"},
+              {"properties": {"artifact_semantics": {"const": "known_truth_method_state"}}}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "handoff": {
+            "properties": {"handoff_category": {"const": "structural_capacity_only"}},
+            "required": ["handoff_category"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "state_artifact": {
+            "allOf": [
+              {"$ref": "#/$defs/state_artifact"},
+              {"properties": {"artifact_semantics": {"const": "structural_capacity"}}}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "handoff": {
+            "properties": {
+              "handoff_category": {
+                "enum": ["descriptive_projection_only", "unavailable"]
+              }
+            },
+            "required": ["handoff_category"]
+          }
+        }
+      },
+      "then": {"properties": {"state_artifact": {"type": "null"}}}
+    }
+  ]
+}
