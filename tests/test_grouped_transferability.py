@@ -3,6 +3,10 @@ import math
 import numpy as np
 import pytest
 
+from odsp.grouped_benchmark import (
+    grouped_transferability_benchmark_passes,
+    run_grouped_transferability_benchmark,
+)
 from odsp.grouped_transferability import score_independent_groups
 
 
@@ -167,3 +171,15 @@ def test_gain_tolerance_controls_group_classification_consistently():
 
     assert all(math.isclose(gain, 0.0, abs_tol=1e-12) for gain in result.gains)
     assert result.classification == "non_generalizing"
+
+
+def test_known_truth_grouped_transferability_benchmark_recovers_all_categories():
+    checks = run_grouped_transferability_benchmark()
+    assert checks
+    assert {check.family for check in checks} == {
+        "all_stable",
+        "stable_plus_shifted",
+        "all_shifted",
+    }
+    assert all(check.passed for check in checks)
+    assert grouped_transferability_benchmark_passes() is True
