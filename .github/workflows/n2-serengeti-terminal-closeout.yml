@@ -1,0 +1,85 @@
+name: n2-serengeti-terminal-closeout
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/n2-serengeti-terminal-closeout.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  validate-recovered-terminal-result:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install current validation package
+        run: python -m pip install -e .
+
+      - name: Fetch and verify pinned recovered artifact
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          curl -L --fail \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/9901082589' \
+            -o artifact-metadata.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          metadata = json.loads(Path('artifact-metadata.json').read_text(encoding='utf-8'))
+          expected = {
+              'id': 9901082589,
+              'name': 'n2-serengeti-temporal-partition-recovered-result',
+              'digest': 'sha256:4cbba5bc2f98e0967fa6a2db37ef0e2ab893e4ee0600491b4b6eb2a70231fc78',
+              'expired': False,
+          }
+          for key, value in expected.items():
+              if metadata.get(key) != value:
+                  raise SystemExit(f'artifact metadata drift for {key}: {metadata.get(key)!r}')
+          workflow_run = metadata.get('workflow_run') or {}
+          if workflow_run.get('id') != 33774650396:
+              raise SystemExit('artifact origin workflow run drift')
+          if workflow_run.get('head_sha') != '3526987337e465b22a83e499104ce0cc90da2c13':
+              raise SystemExit('artifact origin head SHA drift')
+          print('pinned_recovery_artifact_metadata_verified=true')
+          PY
+
+          curl -L --fail \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/9901082589/zip' \
+            -o recovered-terminal.zip
+          mkdir -p recovered-terminal
+          unzip -q recovered-terminal.zip -d recovered-terminal
+          test -f recovered-terminal/n2_serengeti_temporal_partition_result.json
+          test "$(find recovered-terminal -type f | wc -l)" -eq 1
+          echo 'raw_terminal_json_not_printed=true'
+
+      - name: Validate terminal result and emit canonical receipt
+        run: |
+          python scripts/validate_n2_serengeti_terminal_result.py \
+            --input recovered-terminal/n2_serengeti_temporal_partition_result.json \
+            --output N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json
+          test -s N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json
+
+      - name: Upload validated canonical receipt only
+        uses: actions/upload-artifact@v4
+        with:
+          name: n2-serengeti-temporal-terminal-receipt
+          path: N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json
+          if-no-files-found: error
+          retention-days: 90
