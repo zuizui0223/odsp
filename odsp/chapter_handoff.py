@@ -180,7 +180,9 @@ class N2ToN3HandoffDecision:
             raise ValueError("handoff decision fields are inconsistent with upstream evidence")
 
     def as_dict(self) -> dict[str, object]:
-        return asdict(self)
+        payload = asdict(self)
+        payload["reason_codes"] = list(self.reason_codes)
+        return payload
 
 
 def assess_n2_to_n3_handoff(
