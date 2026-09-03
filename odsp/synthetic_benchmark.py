@@ -1,8 +1,8 @@
 """Analytically known synthetic benchmarks for ODSP Chapter 2.
 
-These fixtures validate the niche-thickness and projection-loss quantities before
-an empirical habitat-complexity result is used. They are not empirical evidence
-and they do not tune SDMR Product A.
+These fixtures validate niche-thickness, projection-loss and organization/
+transferability quantities before any empirical interpretation is used. They are
+not empirical evidence and they do not tune SDMR Product A.
 """
 from __future__ import annotations
 
@@ -13,6 +13,10 @@ import numpy as np
 
 from .niche_geometry import niche_thickness_profile
 from .projection_loss import projection_overlap_profile
+from .transferability import (
+    base_added_mutual_information,
+    score_conditional_transferability,
+)
 
 
 @dataclass(frozen=True)
@@ -109,6 +113,30 @@ def habitat_capacity_pair(
     return simple, layered
 
 
+def thick_unorganized_transferability_pair() -> tuple[np.ndarray, np.ndarray]:
+    """Four added states everywhere: thick support with no base organization."""
+
+    model = np.ones((2, 1, 4), dtype=float)
+    return model, model.copy()
+
+
+def stable_organization_transferability_pair() -> tuple[np.ndarray, np.ndarray]:
+    """Base-resolved added-state organization reproduced in held-out support."""
+
+    model = np.zeros((2, 1, 2), dtype=float)
+    model[0, 0, :] = [3.0, 1.0]
+    model[1, 0, :] = [1.0, 3.0]
+    return model, model.copy()
+
+
+def shifted_organization_transferability_pair() -> tuple[np.ndarray, np.ndarray]:
+    """Fitted organization is present but held-out organization is reversed."""
+
+    model, _ = stable_organization_transferability_pair()
+    heldout = model[::-1].copy()
+    return model, heldout
+
+
 def _check(
     family: str,
     metric: str,
@@ -133,7 +161,8 @@ def run_known_truth_synthetic_benchmark() -> tuple[SyntheticCheck, ...]:
 
     Historical output labels are retained for audit continuity. The underlying
     z-t dependence quantity is the exact conditional mutual information
-    ``I(Z;T|X,Y)``.
+    ``I(Z;T|X,Y)``. Organization/transferability families add analytic cases
+    without altering the earlier benchmark definitions.
     """
 
     checks: list[SyntheticCheck] = []
@@ -249,6 +278,57 @@ def run_known_truth_synthetic_benchmark() -> tuple[SyntheticCheck, ...]:
     checks += [
         _check("habitat_capacity", "simple_effective_vertical_states", simple_profile.effective_vertical_states, 1.0),
         _check("habitat_capacity", "layered_effective_vertical_states", layered_profile.effective_vertical_states, 5.0),
+    ]
+
+    thick_model, thick_heldout = thick_unorganized_transferability_pair()
+    thick_profile = niche_thickness_profile(
+        thick_model, horizontal_axes=(0, 1), vertical_axis=2
+    )
+    thick_organization = base_added_mutual_information(
+        thick_model, base_axes=(0, 1), added_axes=(2,)
+    )
+    thick_score = score_conditional_transferability(
+        thick_model,
+        thick_heldout,
+        base_axes=(0, 1),
+        added_axes=(2,),
+    )
+    checks += [
+        _check("thick_unorganized_transferability", "effective_vertical_states", thick_profile.effective_vertical_states, 4.0),
+        _check("thick_unorganized_transferability", "base_added_mutual_information", thick_organization, 0.0),
+        _check("thick_unorganized_transferability", "heldout_log_score_gain", thick_score.mean_log_score_gain, 0.0),
+    ]
+
+    stable_model, stable_heldout = stable_organization_transferability_pair()
+    stable_expected = 0.75 * math.log(1.5) + 0.25 * math.log(0.5)
+    stable_organization = base_added_mutual_information(
+        stable_model, base_axes=(0, 1), added_axes=(2,)
+    )
+    stable_score = score_conditional_transferability(
+        stable_model,
+        stable_heldout,
+        base_axes=(0, 1),
+        added_axes=(2,),
+    )
+    checks += [
+        _check("stable_organization_transferability", "base_added_mutual_information", stable_organization, stable_expected),
+        _check("stable_organization_transferability", "heldout_log_score_gain", stable_score.mean_log_score_gain, stable_expected),
+    ]
+
+    shifted_model, shifted_heldout = shifted_organization_transferability_pair()
+    shifted_expected = 0.25 * math.log(1.5) + 0.75 * math.log(0.5)
+    shifted_organization = base_added_mutual_information(
+        shifted_model, base_axes=(0, 1), added_axes=(2,)
+    )
+    shifted_score = score_conditional_transferability(
+        shifted_model,
+        shifted_heldout,
+        base_axes=(0, 1),
+        added_axes=(2,),
+    )
+    checks += [
+        _check("shifted_organization_transferability", "base_added_mutual_information", shifted_organization, stable_expected),
+        _check("shifted_organization_transferability", "heldout_log_score_gain", shifted_score.mean_log_score_gain, shifted_expected),
     ]
 
     return tuple(checks)
