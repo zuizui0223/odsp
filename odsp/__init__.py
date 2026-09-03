@@ -18,6 +18,7 @@ from .concealed_recovery import (
     run_concealed_recovery_benchmark,
     sample_state_counts,
 )
+from .crossfitted_transferability import score_crossfitted_independent_groups
 from .grouped_handoff import (
     GroupedHandoffPayload,
     build_grouped_n2_to_n3_payload,
@@ -49,6 +50,7 @@ from .projection_loss import (
     projection_overlap_profile,
     schoener_overlap,
 )
+from .temporal_crossfit import score_identity_temporal_crossfitted_groups
 from .temporal_information import (
     TemporalObservation,
     normalize_gbif_time,
@@ -58,7 +60,9 @@ from .temporal_information import (
 from .temporal_partition import (
     TemporalPartitionDecision,
     TemporalPartitionProfile,
+    classify_grouped_temporal_partition_result,
     classify_temporal_partition_result,
+    score_identity_temporal_groups,
     score_identity_temporal_transferability,
     temporal_partition_profile,
 )
@@ -99,6 +103,7 @@ __all__ = [
     "base_added_mutual_information",
     "build_grouped_n2_to_n3_payload",
     "build_n2_to_n3_payload",
+    "classify_grouped_temporal_partition_result",
     "classify_independent_gains",
     "classify_temporal_partition_result",
     "conditional_information",
@@ -117,6 +122,9 @@ __all__ = [
     "sample_state_counts",
     "schoener_overlap",
     "score_conditional_transferability",
+    "score_crossfitted_independent_groups",
+    "score_identity_temporal_crossfitted_groups",
+    "score_identity_temporal_groups",
     "score_identity_temporal_transferability",
     "score_independent_groups",
     "shannon_entropy",
