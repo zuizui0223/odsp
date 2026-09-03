@@ -1,0 +1,39 @@
+{
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "contract_id": "n2-to-n3-handoff-v1",
+  "decision_date": "2026-09-03",
+  "decisions": {
+    "tawaki_lane": {
+      "source_terminal_category": "empirical_gate_d_unavailable",
+      "inputs": {
+        "evidence_scope": "empirical",
+        "support_semantics": "species_support",
+        "axis_semantics_declared": true,
+        "prospective_source_boundary_frozen": true,
+        "thickness_estimable": false,
+        "transferability_category": "unavailable"
+      },
+      "expected_handoff_category": "unavailable",
+      "axis_resolved_species_state_allowed_for_empirical_n3": false,
+      "interpretation": "The frozen Tawaki lane did not open an estimable biological thickness outcome, so it supplies no axis-resolved species-state object to N3."
+    },
+    "european_free_tailed_bat_lane": {
+      "source_terminal_category": "empirical_n2_thickness_not_generalizing",
+      "source_decision_receipt": "N2_BAT_THICKNESS_TERMINAL_DECISION.json",
+      "inputs": {
+        "evidence_scope": "empirical",
+        "support_semantics": "species_support",
+        "axis_semantics_declared": true,
+        "prospective_source_boundary_frozen": true,
+        "thickness_estimable": true,
+        "transferability_category": "non_generalizing"
+      },
+      "expected_handoff_category": "descriptive_projection_only",
+      "projection_summary_allowed": true,
+      "axis_resolved_species_state_allowed_for_empirical_n3": false,
+      "interpretation": "The frozen bat lane retains descriptive vertical thickness, but its x-y-resolved vertical organization is not eligible as an empirical N3 species-state map because both sealed individual gains were non-positive."
+    }
+  },
+  "gate_e_habitat_complexity_authorized_by_these_decisions": false,
+  "completed_n2_endpoints_reopened": false
+}
