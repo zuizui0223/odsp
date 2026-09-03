@@ -1,0 +1,54 @@
+{
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "chapter": "N2",
+  "lane_id": "n2_serengeti_temporal_partition_v1",
+  "closeout_contract_id": "n2-serengeti-terminal-closeout-v1",
+  "frozen_date": "2026-09-04",
+  "source_recovery": {
+    "recovery_workflow_run_id": 33774650396,
+    "recovery_workflow_name": "n2-serengeti-terminal-recovery",
+    "recovery_conclusion": "success",
+    "recovery_head_sha": "3526987337e465b22a83e499104ce0cc90da2c13",
+    "original_analysis_commit": "d17a204527b5426d29535ef6303bc759fe52adcc"
+  },
+  "source_artifact": {
+    "artifact_id": 9901082589,
+    "artifact_name": "n2-serengeti-temporal-partition-recovered-result",
+    "artifact_digest": "sha256:4cbba5bc2f98e0967fa6a2db37ef0e2ab893e4ee0600491b4b6eb2a70231fc78",
+    "artifact_expired": false,
+    "expected_file": "n2_serengeti_temporal_partition_result.json"
+  },
+  "validation": {
+    "validator_module": "odsp.serengeti_terminal.validate_serengeti_terminal_result",
+    "validator_cli": "scripts/validate_n2_serengeti_terminal_result.py",
+    "receipt_schema_id": "n2-serengeti-terminal-receipt-v1",
+    "receipt_output": "N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json",
+    "validate_before_interpreting_numeric_result": true,
+    "no_manual_terminal_category_override": true,
+    "no_manual_fold_gain_override": true,
+    "no_manual_permutation_p_value_override": true,
+    "terminal_summary_alone_authorizes_empirical_n3_state": false
+  },
+  "closeout_workflow": {
+    "path": ".github/workflows/n2-serengeti-terminal-closeout.yml",
+    "download_artifact_by_fixed_id": true,
+    "verify_artifact_metadata_digest": true,
+    "verify_artifact_origin_run_id": true,
+    "print_raw_terminal_json": false,
+    "upload_validated_receipt": true,
+    "run_analysis_again": false
+  },
+  "scientific_boundary": {
+    "change_source_or_checksum": false,
+    "change_time_bins": false,
+    "change_species_admission": false,
+    "change_effort_weighting": false,
+    "change_fold_assignment": false,
+    "change_permutation_rule": false,
+    "change_pseudocount": false,
+    "change_terminal_rule": false,
+    "tawaki_reopened": false,
+    "bat_reopened": false,
+    "gate_e_authorized": false
+  }
+}
