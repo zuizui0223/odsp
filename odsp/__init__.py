@@ -2,8 +2,8 @@
 
 The active ODSP surface keeps source-preserving occurrence information and adds
 model-agnostic niche-thickness, projection-loss, organization, transferability,
-chapter-handoff and known-truth recovery tools. The historical spatial-patch
-method remains superseded by EOG.
+chapter-handoff payloads and known-truth recovery tools. The historical
+spatial-patch method remains superseded by EOG.
 """
 
 from .chapter_handoff import (
@@ -17,6 +17,13 @@ from .concealed_recovery import (
     estimate_thickness_from_counts,
     run_concealed_recovery_benchmark,
     sample_state_counts,
+)
+from .handoff_payload import (
+    AxisDescriptor,
+    N2ToN3Payload,
+    StateArtifact,
+    build_n2_to_n3_payload,
+    validate_n2_to_n3_payload,
 )
 from .niche_geometry import (
     AxisThicknessMap,
@@ -53,19 +60,23 @@ from .vertical_information import (
 )
 
 __all__ = [
+    "AxisDescriptor",
     "AxisThicknessMap",
     "ConcealedRecoveryBenchmark",
     "ConcealedRecoveryCheck",
     "ConditionalTransferabilityScore",
     "N2ToN3HandoffDecision",
+    "N2ToN3Payload",
     "NicheThicknessProfile",
     "ProjectionOverlapProfile",
+    "StateArtifact",
     "TemporalObservation",
     "VerticalFieldMap",
     "VerticalObservation",
     "assess_n2_to_n3_handoff",
     "axis_thickness_map",
     "base_added_mutual_information",
+    "build_n2_to_n3_payload",
     "classify_independent_gains",
     "conditional_information",
     "effective_conditional_states",
@@ -84,4 +95,5 @@ __all__ = [
     "schoener_overlap",
     "score_conditional_transferability",
     "shannon_entropy",
+    "validate_n2_to_n3_payload",
 ]
