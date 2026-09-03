@@ -2,6 +2,8 @@
   "program_id": "niche-to-survey-four-chapter-v1",
   "contract_id": "n2-to-n3-handoff-v1",
   "fixed_date": "2026-09-03",
+  "payload_schema_id": "n2-to-n3-payload-v1",
+  "payload_schema": "N2_TO_N3_PAYLOAD_SCHEMA.json",
   "from": {
     "chapter": "N2",
     "repository": "zuizui0223/odsp",
@@ -13,24 +15,35 @@
     "question": "WHERE can it become real?"
   },
   "principle": "Descriptive thickness, structural capacity, known-truth method states and empirically transferable axis-resolved species states are distinct handoff objects and must not be relabeled as one another.",
+  "payload_requirements": {
+    "axis_semantics_serialized": true,
+    "support_semantics_serialized": true,
+    "handoff_decision_serialized": true,
+    "transferability_category_serialized": true,
+    "source_provenance_serialized": true,
+    "axis_resolved_artifact_requires_sha256": true,
+    "payload_fingerprint_required": true
+  },
   "empirical_axis_resolved_species_state_requirements": {
     "evidence_scope": "empirical",
     "support_semantics": "species_support",
     "axis_semantics_declared": true,
     "prospective_source_boundary_frozen": true,
     "thickness_estimable": true,
-    "independent_transferability_category": "generalizing"
+    "independent_transferability_category": "generalizing",
+    "state_artifact_semantics": "empirical_species_support"
   },
   "handoff_categories": {
-    "empirical_axis_resolved_supported": "May be passed to N3 as an empirically supported axis-resolved species state under the frozen N2 semantics.",
+    "empirical_axis_resolved_supported": "May be passed to N3 as an empirically supported axis-resolved species state under the frozen N2 semantics. The payload must integrity-pin the state artifact.",
     "known_truth_method_state_only": "May be passed only for synthetic/known-truth method testing, not as empirical species evidence.",
-    "descriptive_projection_only": "May retain N2 thickness/projection summaries, but the local axis-resolved organization must not be used as an empirical N3 species-state map.",
+    "descriptive_projection_only": "May retain N2 thickness/projection summaries, but the local axis-resolved organization must not be serialized as an empirical N3 species-state artifact.",
     "structural_capacity_only": "May retain structural state-space capacity under its declared semantics, but it must not be relabeled as species use/support.",
     "unavailable": "No axis-resolved handoff object is supported under the declared N2 boundary."
   },
   "non_retroactivity": {
     "downstream_results_may_retune_completed_n2_endpoint": false,
     "failed_or_non_generalizing_n2_lane_may_be_rescued_by_handoff_relabeling": false,
-    "descriptive_thickness_alone_may_be_promoted_to_empirical_axis_resolved_state": false
+    "descriptive_thickness_alone_may_be_promoted_to_empirical_axis_resolved_state": false,
+    "payload_serialization_may_change_the_scientific_handoff_category": false
   }
 }
