@@ -50,6 +50,10 @@ from .projection_loss import (
     projection_overlap_profile,
     schoener_overlap,
 )
+from .serengeti_terminal import (
+    SerengetiTerminalReceipt,
+    validate_serengeti_terminal_result,
+)
 from .temporal_crossfit import score_identity_temporal_crossfitted_groups
 from .temporal_information import (
     TemporalObservation,
@@ -92,6 +96,7 @@ __all__ = [
     "N2ToN3Payload",
     "NicheThicknessProfile",
     "ProjectionOverlapProfile",
+    "SerengetiTerminalReceipt",
     "StateArtifact",
     "TemporalObservation",
     "TemporalPartitionDecision",
@@ -130,4 +135,5 @@ __all__ = [
     "shannon_entropy",
     "temporal_partition_profile",
     "validate_n2_to_n3_payload",
+    "validate_serengeti_terminal_result",
 ]
