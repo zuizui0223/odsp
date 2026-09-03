@@ -11,9 +11,9 @@
   "spine_thought_ja": "地図は、niche を薄くする。",
   "conceptual_role": "niche_projection_and_thickness",
   "core_question": "How much niche structure and ecological state-space thickness are hidden when a multidimensional niche is projected onto a flat x-y map?",
-  "primary_output": "Niche thickness, local state-space capacity, added-axis information, projection-loss diagnostics, fitted organization and held-out transferability diagnostics",
-  "canonical_state": "S(x,y,z,t,...)",
-  "projection_thesis": "A planar map is a marginal projection; added vertical, temporal and structural axes can contain niche information that disappears after collapse to x-y.",
+  "primary_output": "Niche thickness, local state-space capacity, added-axis information, projection-loss diagnostics, identity partitioning, fitted organization and held-out transferability diagnostics",
+  "canonical_state": "S(x,y,z,t,c,...)",
+  "projection_thesis": "A planar map is a marginal projection; added vertical, temporal and structural axes can contain niche information that disappears after collapse to x-y, while an identity axis can ask whether those added states are partitioned among species, individuals or guilds.",
   "primary_quantities": [
     "H(Z|X,Y)",
     "H(T|X,Y)",
@@ -22,9 +22,11 @@
     "exp(H(T|X,Y))",
     "exp(H(Z,T|X,Y))",
     "I(Z;T|X,Y)",
+    "I(C;T|B)",
     "local_exp(H(added_axes|x,y))",
     "I(added_axes;base_axes)",
-    "E_heldout[log P_model(added_axes|base_axes)-log P_model(added_axes)]"
+    "E_heldout[log P_model(added_axes|base_axes)-log P_model(added_axes)]",
+    "E_heldout[log P_model(T|C)-log P_model(T)]"
   ],
   "implemented_core": {
     "whole_support_profile": true,
@@ -33,6 +35,9 @@
     "temporal_axis": true,
     "joint_vertical_temporal_axis": true,
     "conditional_mutual_information": true,
+    "temporal_identity_partition_information": true,
+    "temporal_identity_heldout_transferability": true,
+    "frozen_temporal_partition_terminal_classifier": true,
     "projection_loss": true,
     "known_truth_synthetic_benchmark": true,
     "known_truth_transferability_benchmark": true,
@@ -55,6 +60,10 @@
     "species_support_tensor_yields_descriptive_niche_thickness": true,
     "equal_weight_available_state_tensor_yields_structural_state_space_capacity": true,
     "thickness_magnitude_and_transferable_organization_are_distinct": true,
+    "temporal_thickness_and_identity_temporal_partition_are_distinct": true,
+    "temporal_partition_and_transferability_are_distinct": true,
+    "temporal_partition_is_causal_displacement_metric": false,
+    "clock_time_partition_equals_solar_time_partition": false,
     "transferability_requires_independent_heldout_support": true,
     "independent_group_mass_may_dominate_terminal_classification": false,
     "grouped_equal_mean_gain_is_descriptive_not_terminal": true,
@@ -71,6 +80,7 @@
   "empirical_requirements": {
     "effort_detectability_required_for_biological_z_t_inference": true,
     "timestamp_availability_alone_establishes_temporal_niche": false,
+    "time_varying_detection_may_remain_after_effort_weighting": true,
     "missing_time_or_vertical_state_may_be_fabricated": false
   },
   "terminal_empirical_state_2026_09_01": {
@@ -92,7 +102,27 @@
       "decision_receipt": "N2_BAT_THICKNESS_TERMINAL_DECISION.json"
     },
     "gate_e_habitat_complexity_authorized": false,
-    "current_empirical_chain_closed": true
+    "vertical_legacy_empirical_chain_closed": true
+  },
+  "prospective_temporal_partition_state_2026_09_03": {
+    "contract": "N2_TEMPORAL_PARTITION_CONTRACT.json",
+    "lane_id": "n2_serengeti_temporal_partition_v1",
+    "dataset": "Snapshot Serengeti",
+    "workflow_run_id": 33726030526,
+    "outcome_opened": false,
+    "scientific_gate_unresolved": true,
+    "bat_or_tawaki_reopened": false,
+    "rescue_or_retune": false,
+    "primary_temporal_thickness": "H(T|Site)",
+    "primary_temporal_partition": "I(Species;T|Site)",
+    "heldout_transferability": "three deterministic camera-site folds scored separately",
+    "terminal_categories": [
+      "empirical_temporal_partition_unavailable",
+      "temporal_partition_not_detected",
+      "temporal_partition_generalizing",
+      "temporal_partition_present_mixed_transfer",
+      "temporal_partition_present_not_generalizing"
+    ]
   },
   "n2_to_n3_handoff": {
     "contract": "N2_TO_N3_HANDOFF_CONTRACT.json",
@@ -105,9 +135,10 @@
     "grouped_adapter_accepts_manual_gain_vector": false,
     "tawaki_handoff_category": "unavailable",
     "european_free_tailed_bat_handoff_category": "descriptive_projection_only",
-    "completed_bat_axis_resolved_state_allowed_for_empirical_n3": false
+    "completed_bat_axis_resolved_state_allowed_for_empirical_n3": false,
+    "serengeti_temporal_handoff_pending_terminal_result": true
   },
-  "handoff_to_next_chapter": "Pass an empirical axis-resolved species state to N3 only when its N2 source boundary is prospective, its added-axis semantics are explicit, thickness is estimable and its base-resolved organization generalizes to independent held-out support. Serialize the handoff with the versioned payload schema; descriptive thickness and structural capacity remain distinct handoff objects.",
+  "handoff_to_next_chapter": "Pass an empirical axis-resolved species state to N3 only when its N2 source boundary is prospective, its added-axis semantics are explicit, thickness is estimable and its base-resolved organization generalizes to independent held-out support. Serialize the handoff with the versioned payload schema; descriptive thickness, temporal partition and structural capacity remain distinct handoff objects.",
   "historical_spatial_patch_method_active": false,
   "sdmr_product_a_reopened": false,
   "eog_reachability_ownership_changed": false,
