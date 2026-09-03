@@ -1,0 +1,93 @@
+{
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "chapter": "N2",
+  "lane_id": "n2_serengeti_temporal_partition_v1",
+  "recovery_contract_id": "n2-serengeti-technical-recovery-v1",
+  "frozen_date": "2026-09-04",
+  "failed_authoritative_attempt": {
+    "workflow_run_id": 33726030526,
+    "workflow_head_sha": "d17a204527b5426d29535ef6303bc759fe52adcc",
+    "conclusion": "failure",
+    "failed_step": "Run frozen temporal partition endpoint",
+    "failure_type": "python_name_error_during_result_serialization",
+    "failure_expression": "\"outcome_opened\": true",
+    "error": "NameError: name 'true' is not defined",
+    "download_and_checksum_step_succeeded": true,
+    "terminal_artifact_count": 0,
+    "raw_numeric_result_logged": false,
+    "terminal_result_persisted": false,
+    "scientific_calculation_reached_before_failure": true,
+    "calculation_stage_reached": [
+      "temporal_partition_profile",
+      "199_within_site_permutation_null_draws",
+      "three_leave_one_site_fold_out_transferability_gains",
+      "terminal_decision_object"
+    ]
+  },
+  "recovery_rationale": "The failed attempt completed the frozen numerical calculation in process memory but crashed before constructing, printing or uploading the terminal result object. Recovery is therefore limited to deterministic serialization repair on the original frozen source commit, before any numerical result has been externally inspected.",
+  "frozen_scientific_boundary": {
+    "source_contract": "N2_TEMPORAL_PARTITION_CONTRACT.json",
+    "consensus_md5": "5ed2d32fd09127c178cf9dca8ccfd623",
+    "effort_md5": "27cb42f3feaa0642b17cbde24ba15fbd",
+    "original_analysis_commit": "d17a204527b5426d29535ef6303bc759fe52adcc",
+    "change_time_bins": false,
+    "change_species_admission": false,
+    "change_site_fold_rule": false,
+    "change_effort_weighting": false,
+    "change_permutation_draws_or_seed": false,
+    "change_alpha": false,
+    "change_pseudocount": false,
+    "change_dataset_or_checksums": false,
+    "change_transferability_rule": false,
+    "inspect_or_select_on_hidden_numeric_result": false
+  },
+  "only_authorized_code_repair": {
+    "file": "scripts/run_n2_serengeti_temporal_partition.py",
+    "base_commit": "d17a204527b5426d29535ef6303bc759fe52adcc",
+    "exact_replacements": [
+      {
+        "from": "\"outcome_opened\": true",
+        "to": "\"outcome_opened\": True"
+      },
+      {
+        "from": "\"true_activity_niche_partition_identified\": false",
+        "to": "\"true_activity_niche_partition_identified\": False"
+      },
+      {
+        "from": "\"interspecific_displacement_causality_identified\": false",
+        "to": "\"interspecific_displacement_causality_identified\": False"
+      },
+      {
+        "from": "\"solar_time_partition_identified\": false",
+        "to": "\"solar_time_partition_identified\": False"
+      },
+      {
+        "from": "\"bat_endpoint_reinterpreted\": false",
+        "to": "\"bat_endpoint_reinterpreted\": False"
+      }
+    ],
+    "replacement_count_must_equal": 5,
+    "other_analysis_source_changes_authorized": false
+  },
+  "recovery_execution": {
+    "workflow": ".github/workflows/n2-serengeti-terminal-recovery.yml",
+    "must_checkout_original_analysis_commit": true,
+    "must_apply_exact_replacements_with_count_assertions": true,
+    "must_reverify_source_checksums": true,
+    "must_not_print_raw_terminal_json_to_job_log": true,
+    "must_upload_single_terminal_result_artifact": true,
+    "permitted_successful_recovery_runs": 1,
+    "failed_original_job_rerun_authorized": false
+  },
+  "post_recovery": {
+    "validate_with": "scripts/validate_n2_serengeti_terminal_result.py",
+    "canonical_receipt_schema": "n2-serengeti-terminal-receipt-v1",
+    "update_handoff_only_after_validated_receipt": true,
+    "terminal_summary_alone_authorizes_empirical_n3_state": false
+  },
+  "other_endpoints": {
+    "tawaki_reopened": false,
+    "bat_reopened": false,
+    "gate_e_authorized": false
+  }
+}

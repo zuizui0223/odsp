@@ -1,0 +1,93 @@
+name: n2-serengeti-terminal-recovery
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/n2-serengeti-terminal-recovery.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  recover-terminal-artifact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout original frozen analysis commit
+        uses: actions/checkout@v4
+        with:
+          ref: d17a204527b5426d29535ef6303bc759fe52adcc
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Apply only authorized Python boolean serialization repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('scripts/run_n2_serengeti_temporal_partition.py')
+          text = path.read_text(encoding='utf-8')
+          replacements = [
+              ('"outcome_opened": true', '"outcome_opened": True'),
+              ('"true_activity_niche_partition_identified": false', '"true_activity_niche_partition_identified": False'),
+              ('"interspecific_displacement_causality_identified": false', '"interspecific_displacement_causality_identified": False'),
+              ('"solar_time_partition_identified": false', '"solar_time_partition_identified": False'),
+              ('"bat_endpoint_reinterpreted": false', '"bat_endpoint_reinterpreted": False'),
+          ]
+          for old, new in replacements:
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'authorized replacement count drift for {old!r}: {count}')
+              text = text.replace(old, new)
+          path.write_text(text, encoding='utf-8')
+
+          forbidden = ('"outcome_opened": true', ': false')
+          if any(token in text for token in forbidden):
+              raise SystemExit('lowercase JSON boolean remained after authorized repair')
+          print('authorized_boolean_replacements=5')
+          PY
+
+      - name: Install original frozen ODSP package
+        run: python -m pip install -e .
+
+      - name: Download frozen Snapshot Serengeti inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .n2_temporal_input
+          curl -L --fail --retry 3 --retry-delay 3 \
+            'https://zenodo.org/records/5026386/files/consensus_data.csv?download=1' \
+            -o .n2_temporal_input/consensus_data.csv
+          curl -L --fail --retry 3 --retry-delay 3 \
+            'https://zenodo.org/records/5026386/files/search_effort.csv?download=1' \
+            -o .n2_temporal_input/search_effort.csv
+          echo '5ed2d32fd09127c178cf9dca8ccfd623  .n2_temporal_input/consensus_data.csv' | md5sum -c -
+          echo '27cb42f3feaa0642b17cbde24ba15fbd  .n2_temporal_input/search_effort.csv' | md5sum -c -
+
+      - name: Recover frozen terminal result without logging numeric content
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/run_n2_serengeti_temporal_partition.py \
+            --consensus .n2_temporal_input/consensus_data.csv \
+            --effort .n2_temporal_input/search_effort.csv \
+            --output n2_serengeti_temporal_partition_result.json \
+            > n2_serengeti_recovery_stdout.txt
+          test -s n2_serengeti_temporal_partition_result.json
+          sha256sum n2_serengeti_temporal_partition_result.json
+          echo 'terminal_result_content_not_printed=true'
+
+      - name: Upload recovered terminal result only
+        uses: actions/upload-artifact@v4
+        with:
+          name: n2-serengeti-temporal-partition-recovered-result
+          path: n2_serengeti_temporal_partition_result.json
+          if-no-files-found: error
+          retention-days: 90
