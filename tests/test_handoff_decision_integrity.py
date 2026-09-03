@@ -17,6 +17,23 @@ def test_assessed_handoff_decision_is_self_consistent():
     assert decision.axis_resolved_species_state_allowed_for_empirical_n3 is False
 
 
+def test_handoff_decision_serializes_reason_codes_as_json_array():
+    decision = assess_n2_to_n3_handoff(
+        evidence_scope="empirical",
+        support_semantics="species_support",
+        axis_semantics_declared=True,
+        prospective_source_boundary_frozen=True,
+        thickness_estimable=True,
+        transferability_category="non_generalizing",
+    )
+
+    serialized = decision.as_dict()
+    assert isinstance(serialized["reason_codes"], list)
+    assert serialized["reason_codes"] == [
+        "independent_axis_resolved_organization_not_generalizing"
+    ]
+
+
 def test_forged_empirical_promotion_cannot_be_constructed():
     with pytest.raises(ValueError, match="inconsistent with upstream evidence"):
         N2ToN3HandoffDecision(
