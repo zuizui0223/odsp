@@ -43,7 +43,8 @@
     "base_added_mutual_information": true,
     "heldout_conditional_vs_marginal_transferability": true,
     "independent_group_transferability_classification": true,
-    "individual_weighted_sealed_empirical_thickness_engine": true
+    "individual_weighted_sealed_empirical_thickness_engine": true,
+    "machine_readable_n2_to_n3_handoff_gate": true
   },
   "interpretation": {
     "species_support_tensor_yields_descriptive_niche_thickness": true,
@@ -83,7 +84,15 @@
     "gate_e_habitat_complexity_authorized": false,
     "current_empirical_chain_closed": true
   },
-  "handoff_to_next_chapter": "Pass axis-resolved supported states to N3 only when their empirical support boundary is defensible; the completed bat lane does not establish a transferable x-y-resolved vertical state map for N3.",
+  "n2_to_n3_handoff": {
+    "contract": "N2_TO_N3_HANDOFF_CONTRACT.json",
+    "current_decisions": "N2_CURRENT_HANDOFF_DECISIONS.json",
+    "empirical_axis_resolved_species_state_requires_independent_generalization": true,
+    "tawaki_handoff_category": "unavailable",
+    "european_free_tailed_bat_handoff_category": "descriptive_projection_only",
+    "completed_bat_axis_resolved_state_allowed_for_empirical_n3": false
+  },
+  "handoff_to_next_chapter": "Pass an empirical axis-resolved species state to N3 only when its N2 source boundary is prospective, its added-axis semantics are explicit, thickness is estimable and its base-resolved organization generalizes to independent held-out support. Descriptive thickness and structural capacity remain distinct handoff objects.",
   "historical_spatial_patch_method_active": false,
   "sdmr_product_a_reopened": false,
   "eog_reachability_ownership_changed": false,
