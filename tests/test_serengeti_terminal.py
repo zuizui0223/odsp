@@ -167,3 +167,17 @@ def test_permutation_summary_draw_count_requires_integer_type():
     result["permutation_null"]["draws"] = 199.0
     with pytest.raises(ValueError, match="positive integer"):
         validate_serengeti_terminal_result(result)
+
+
+def test_partition_information_identity_is_recomputed():
+    result = _generalizing_result()
+    result["temporal_profile"]["joint_identity_time_information_given_context_nats"] += 0.1
+    with pytest.raises(ValueError, match="information identity"):
+        validate_serengeti_terminal_result(result)
+
+
+def test_admitted_site_count_must_match_support_shape():
+    result = _generalizing_result()
+    result["admitted_site_count"] = 31
+    with pytest.raises(ValueError, match="site dimension"):
+        validate_serengeti_terminal_result(result)
