@@ -18,6 +18,11 @@ from .concealed_recovery import (
     run_concealed_recovery_benchmark,
     sample_state_counts,
 )
+from .grouped_transferability import (
+    GroupedTransferabilityResult,
+    IndependentGroupTransferability,
+    score_independent_groups,
+)
 from .handoff_payload import (
     AxisDescriptor,
     N2ToN3Payload,
@@ -72,6 +77,8 @@ __all__ = [
     "ConcealedRecoveryBenchmark",
     "ConcealedRecoveryCheck",
     "ConditionalTransferabilityScore",
+    "GroupedTransferabilityResult",
+    "IndependentGroupTransferability",
     "N2ToN3HandoffDecision",
     "N2ToN3Payload",
     "NicheThicknessProfile",
@@ -105,6 +112,7 @@ __all__ = [
     "schoener_overlap",
     "score_conditional_transferability",
     "score_identity_temporal_transferability",
+    "score_independent_groups",
     "shannon_entropy",
     "temporal_partition_profile",
     "validate_n2_to_n3_payload",
