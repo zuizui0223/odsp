@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "odsp-niche-geometry"
-version = "0.9.0"
-description = "Multidimensional niche geometry and source-preserving occurrence information"
+version = "0.10.0"
+description = "Projection-aware state-resolved ecological prediction and multidimensional niche evidence"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
