@@ -24,12 +24,12 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e '.[dev]' matplotlib
 
-      - name: Build integrated anonymous manuscript v2
+      - name: Build integrated anonymous manuscript v3
         run: |
           mkdir -p build/manuscript
-          python scripts/build_n2_mee_manuscript_v2.py \
-            --output build/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v2.md \
-            --manifest build/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v2.manifest.json
+          python -m scripts.build_n2_mee_manuscript_v3 \
+            --output build/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v3.md \
+            --manifest build/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v3.manifest.json
 
       - name: Build terminal-record-backed manuscript figures
         run: |
@@ -39,23 +39,32 @@ jobs:
           test -f build/figures/Figure3_empirical_terminal_states.pdf
           test -f build/figures/figure_manifest.json
 
-      - name: Build deterministic anonymous review bundle
+      - name: Build policy-compliant anonymous review bundle v3
         run: |
-          python -m scripts.build_n2_mee_review_bundle \
-            --output build/N2_MEE_ANONYMOUS_REVIEW_BUNDLE.zip
+          python -m scripts.build_n2_mee_review_bundle_v3 \
+            --output build/N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v3.zip
+
+      - name: Stage non-anonymous submission administration drafts
+        run: |
+          mkdir -p build/admin
+          cp manuscript/N2_MEE_TITLE_PAGE_TEMPLATE.md build/admin/
+          cp manuscript/N2_MEE_COVER_LETTER_DRAFT.md build/admin/
+          cp manuscript/N2_MEE_DISCLOSURE_DRAFTS.md build/admin/
+          cp N2_MEE_FINAL_SUBMISSION_CHECKLIST.json build/admin/
 
       - name: Run submission-package source tests
         run: |
           python -m pytest -q \
             tests/test_n2_mee_submission_package.py \
-            tests/test_n2_mee_review_package.py
+            tests/test_n2_mee_review_package.py \
+            tests/test_n2_mee_policy_compliance.py
 
       - name: Extract and test the anonymous review bundle itself
         run: |
           python - <<'PY'
           from pathlib import Path
           import zipfile
-          archive = Path('build/N2_MEE_ANONYMOUS_REVIEW_BUNDLE.zip')
+          archive = Path('build/N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v3.zip')
           target = Path('build/review_extracted')
           target.mkdir(parents=True, exist_ok=True)
           with zipfile.ZipFile(archive) as zf:
@@ -75,7 +84,7 @@ jobs:
           for path in sorted(p for p in root.rglob('*') if p.is_file() and 'review_extracted' not in p.parts):
               digest = hashlib.sha256(path.read_bytes()).hexdigest()
               files.append({'path': path.relative_to(root).as_posix(), 'sha256': digest, 'bytes': path.stat().st_size})
-          (root / 'submission_package_manifest.json').write_text(json.dumps({'schema_version': 1, 'files': files}, indent=2, sort_keys=True) + '\n')
+          (root / 'submission_package_manifest.json').write_text(json.dumps({'schema_version': 2, 'files': files}, indent=2, sort_keys=True) + '\n')
           print(json.dumps({'file_count': len(files)}, sort_keys=True))
           PY
 
@@ -85,7 +94,8 @@ jobs:
           path: |
             build/manuscript/
             build/figures/
-            build/N2_MEE_ANONYMOUS_REVIEW_BUNDLE.zip
+            build/N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v3.zip
+            build/admin/
             build/submission_package_manifest.json
           if-no-files-found: error
           retention-days: 90
