@@ -355,7 +355,7 @@ def run(consensus: Path, effort: Path) -> dict[str, object]:
             **base,
             "terminal_category": "empirical_temporal_partition_unavailable",
             "unavailable_reason": "fewer_than_two_species_passed_frozen_structural_admission",
-            "outcome_opened": false,
+            "outcome_opened": False,
         }
 
     support, sites, filtered, site_values, identity_values, time_values, weights, folds = _build_support(
@@ -386,7 +386,7 @@ def run(consensus: Path, effort: Path) -> dict[str, object]:
 
     return {
         **base,
-        "outcome_opened": true,
+        "outcome_opened": True,
         "support_shape_site_species_time": list(map(int, support.shape)),
         "admitted_site_count": len(sites),
         "admitted_event_count": len(filtered),
@@ -403,10 +403,10 @@ def run(consensus: Path, effort: Path) -> dict[str, object]:
         "terminal_category": decision.terminal_category,
         "claim_boundary": {
             "measured_object": "camera-detected species-time partition under source clock time and declared effort weighting",
-            "true_activity_niche_partition_identified": false,
-            "interspecific_displacement_causality_identified": false,
-            "solar_time_partition_identified": false,
-            "bat_endpoint_reinterpreted": false,
+            "true_activity_niche_partition_identified": False,
+            "interspecific_displacement_causality_identified": False,
+            "solar_time_partition_identified": False,
+            "bat_endpoint_reinterpreted": False,
         },
     }
 
