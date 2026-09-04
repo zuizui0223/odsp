@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-state-resolved-prediction-v1",
+  "date": "2026-09-04",
+  "purpose": "extend ODSP from projection-loss diagnosis to state-resolved ecological prediction and independent predictive validation",
+  "core_prediction_target": "P(A|B)",
+  "interpretation": {
+    "B": "declared base/reference state, such as spatial cell, environmental state, site or species-context",
+    "A": "one or more added ecological states, such as layer, height, depth, time bin, phenophase, behaviour or microhabitat",
+    "prediction_unit": "a full probability distribution over A for each B, not a single suitability scalar"
+  },
+  "algorithm_position": {
+    "odsp_is_new_sdm_occurrence_algorithm": false,
+    "odsp_role": "model-agnostic state-resolved prediction and evaluation framework",
+    "native_reference_learner": "Dirichlet-smoothed discrete conditional state model",
+    "external_learners_supported_in_principle": [
+      "random forest",
+      "gradient boosting",
+      "GAM or multinomial regression",
+      "Bayesian hierarchical models",
+      "neural networks",
+      "MaxEnt-like or other ecological prediction models producing state probabilities"
+    ],
+    "external_model_interface": "conditional probability field plus an explicitly fitted marginal comparator"
+  },
+  "minimum_inputs": [
+    "non-negative training support or event-level state records",
+    "declared base axes B",
+    "declared added axes A"
+  ],
+  "recommended_inputs_for_generalization": [
+    "prospectively independent held-out individuals, sites, years, regions or instruments",
+    "predeclared weighting and state discretization",
+    "explicit observation semantics for every state axis"
+  ],
+  "native_outputs_per_base_state": [
+    "P(A|B)",
+    "dominant added-state combination",
+    "dominant-state probability",
+    "state entropy in nats",
+    "effective number of predicted states",
+    "training support mass",
+    "seen-versus-backoff status"
+  ],
+  "heldout_prediction_metrics": {
+    "primary": {
+      "mean_log_score": "proper probabilistic score of P(A|B) on independent support",
+      "mean_log_score_gain": "mean log-score improvement of P(A|B) over fitted marginal P(A)"
+    },
+    "secondary": {
+      "multiclass_brier_score": "lower is better",
+      "brier_improvement": "marginal Brier minus state-resolved Brier; positive is better",
+      "top1_accuracy": "mass fraction assigned to the most probable predicted state",
+      "top1_improvement": "state-resolved top-1 accuracy minus marginal top-1 accuracy",
+      "mean_assigned_probability": "mean probability assigned to the realized held-out state",
+      "seen_base_mass_fraction": "fraction of held-out mass in base states observed during training"
+    }
+  },
+  "groupwise_rule": {
+    "generalizing": "all independent-group log-score gains are strictly positive beyond tolerance",
+    "non_generalizing": "all gains are non-positive",
+    "mixed": "gain signs conflict across independent groups",
+    "pooled_group_mass_can_rescue_conflict": false
+  },
+  "native_unseen_base_options": [
+    "marginal backoff",
+    "uniform over structurally available added states",
+    "fail closed"
+  ],
+  "scientific_boundaries": [
+    "state-resolved prediction does not infer the biological meaning of axes",
+    "the native discrete learner does not extrapolate to unseen continuous environmental covariates",
+    "true spatial extrapolation requires an upstream learner or a future ODSP covariate-learning layer",
+    "observation bias, detectability and causal identification are not removed automatically",
+    "a predicted state distribution is not automatically a fundamental niche",
+    "existing closed Tawaki, bat and Serengeti N2 endpoints are not reopened by this extension"
+  ],
+  "development_next": [
+    "cross-fitted event-table workflow with explicit group column",
+    "adapters for scikit-learn probability estimators",
+    "continuous-covariate state learner for prediction at previously unsampled locations",
+    "state-resolved map export for GIS and R",
+    "R package front end with fit, predict, score, summary and plot methods"
+  ]
+}
