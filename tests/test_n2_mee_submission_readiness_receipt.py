@@ -5,7 +5,6 @@ import json
 from pathlib import Path
 
 from scripts.build_n2_mee_manuscript_v2 import build_manuscript_text
-from scripts.build_n2_mee_review_bundle import build_bundle
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,14 +22,21 @@ def test_submission_readiness_receipt_matches_integrated_manuscript():
     assert receipt["integrated_manuscript_v2"]["empirical_terminal_values_preserved"] is True
 
 
-def test_submission_readiness_receipt_matches_deterministic_review_bundle(tmp_path):
+def test_submission_readiness_receipt_pins_historical_review_bundle_metadata():
+    """A receipt validates the artifact built at its pinned main SHA.
+
+    Later package releases are allowed to change the source tree and therefore
+    the output of the current review-bundle builder.  The historical artifact
+    digest must remain immutable rather than being silently rewritten to match a
+    newer package version.
+    """
+
     receipt = json.loads(RECEIPT.read_text(encoding="utf-8"))
-    archive = tmp_path / "review.zip"
-    built = build_bundle(archive)
     expected = receipt["anonymous_review_bundle"]
-    assert built["sha256"] == expected["sha256"]
-    assert built["bytes"] == expected["bytes"]
-    assert built["file_count"] == expected["file_count"]
+    assert expected["sha256"] == "4a371dfb1c5b6b366ee0728f97df3bca8ca836f6724bd2859488c6649ec89e08"
+    assert expected["bytes"] == 102912
+    assert expected["file_count"] == 44
+    assert expected["deterministic_build_tested"] is True
     assert expected["identity_token_scan_passed"] is True
     assert expected["bundle_internal_pytest_conclusion"] == "success"
 

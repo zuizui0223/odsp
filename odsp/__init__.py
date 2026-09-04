@@ -1,9 +1,10 @@
-"""ODSP — Chapter 2 multidimensional niche geometry.
+"""ODSP — Chapter 2 multidimensional niche geometry and state prediction.
 
 The active ODSP surface keeps source-preserving occurrence information and adds
 model-agnostic niche-thickness, projection-loss, organization, transferability,
-temporal partitioning, chapter-handoff payloads and known-truth recovery tools.
-The historical spatial-patch method remains superseded by EOG.
+state-resolved ecological prediction, temporal partitioning, chapter-handoff
+payloads and known-truth recovery tools.  The historical spatial-patch method
+remains superseded by EOG.
 """
 
 from .added_axis_evidence import (
@@ -22,6 +23,12 @@ from .concealed_recovery import (
     estimate_thickness_from_counts,
     run_concealed_recovery_benchmark,
     sample_state_counts,
+)
+from .covariate_state_prediction import (
+    CovariateStateModel,
+    CovariateStatePredictionSummary,
+    fit_covariate_state_model,
+    make_state_classifier,
 )
 from .crossfitted_transferability import score_crossfitted_independent_groups
 from .generality_benchmark import (
@@ -64,6 +71,24 @@ from .serengeti_terminal import (
     SerengetiTerminalReceipt,
     validate_serengeti_terminal_result,
 )
+from .state_prediction import (
+    EncodedStateResolvedModel,
+    EncodedStateSupport,
+    GroupedStatePredictionScore,
+    StatePredictionScore,
+    StatePredictionSummary,
+    StateResolvedModel,
+    encode_state_events,
+    fit_state_resolved_events,
+    fit_state_resolved_model,
+    score_state_prediction_groups,
+    score_state_probability_field,
+)
+from .state_prediction_benchmark import (
+    StatePredictionBenchmarkCell,
+    StatePredictionBenchmarkResult,
+    run_state_prediction_benchmark,
+)
 from .temporal_crossfit import score_identity_temporal_crossfitted_groups
 from .temporal_information import (
     TemporalObservation,
@@ -101,9 +126,14 @@ __all__ = [
     "ConcealedRecoveryBenchmark",
     "ConcealedRecoveryCheck",
     "ConditionalTransferabilityScore",
+    "CovariateStateModel",
+    "CovariateStatePredictionSummary",
+    "EncodedStateResolvedModel",
+    "EncodedStateSupport",
     "GeneralityBenchmarkResult",
     "GeneralityCheck",
     "GroupedHandoffPayload",
+    "GroupedStatePredictionScore",
     "GroupedTransferabilityResult",
     "IndependentGroupTransferability",
     "N2ToN3HandoffDecision",
@@ -112,6 +142,11 @@ __all__ = [
     "ProjectionOverlapProfile",
     "SerengetiTerminalReceipt",
     "StateArtifact",
+    "StatePredictionBenchmarkCell",
+    "StatePredictionBenchmarkResult",
+    "StatePredictionScore",
+    "StatePredictionSummary",
+    "StateResolvedModel",
     "TemporalObservation",
     "TemporalPartitionDecision",
     "TemporalPartitionProfile",
@@ -127,10 +162,15 @@ __all__ = [
     "classify_temporal_partition_result",
     "conditional_information",
     "effective_conditional_states",
+    "encode_state_events",
     "estimate_projection_overlap_from_counts",
     "estimate_thickness_from_counts",
     "evaluate_added_axis_evidence",
+    "fit_covariate_state_model",
+    "fit_state_resolved_events",
+    "fit_state_resolved_model",
     "gbif_locality_elevation_mapping",
+    "make_state_classifier",
     "marginal_probability",
     "niche_thickness_profile",
     "normalize_gbif_time",
@@ -140,6 +180,7 @@ __all__ = [
     "projection_overlap_profile",
     "run_concealed_recovery_benchmark",
     "run_n2_generality_benchmark",
+    "run_state_prediction_benchmark",
     "sample_state_counts",
     "schoener_overlap",
     "score_conditional_transferability",
@@ -148,6 +189,8 @@ __all__ = [
     "score_identity_temporal_groups",
     "score_identity_temporal_transferability",
     "score_independent_groups",
+    "score_state_prediction_groups",
+    "score_state_probability_field",
     "shannon_entropy",
     "temporal_partition_profile",
     "validate_n2_to_n3_payload",

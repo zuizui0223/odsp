@@ -1,0 +1,119 @@
+{
+  "schema_version": 2,
+  "contract_id": "odsp-state-resolved-prediction-v1",
+  "date": "2026-09-04",
+  "purpose": "extend ODSP from projection-loss diagnosis to state-resolved ecological prediction and independent predictive validation",
+  "core_prediction_target": "P(A|B) or P(A|X) for declared ecological state A",
+  "interpretation": {
+    "B": "declared discrete base/reference state, such as spatial cell, site or species-context",
+    "X": "optional continuous or mixed covariate vector used by an upstream probabilistic classifier",
+    "A": "one or more added ecological states, such as layer, height, depth, time bin, phenophase, behaviour or microhabitat",
+    "prediction_unit": "a full probability distribution over A, not a single suitability scalar"
+  },
+  "algorithm_position": {
+    "odsp_is_new_sdm_occurrence_algorithm": false,
+    "odsp_role": "model-agnostic state-resolved prediction and evaluation framework",
+    "native_reference_learner": "Dirichlet-smoothed discrete conditional state model",
+    "optional_covariate_bridge": "generic scikit-learn probabilistic classifier wrapper",
+    "reference_covariate_learners_implemented": [
+      "multinomial logistic regression",
+      "random forest"
+    ],
+    "external_learners_supported": [
+      "any scikit-learn-compatible estimator exposing predict_proba",
+      "arbitrary externally produced normalized state-probability fields"
+    ],
+    "other_learners_supported_in_principle": [
+      "gradient boosting",
+      "GAM or multinomial regression",
+      "Bayesian hierarchical models",
+      "neural networks",
+      "MaxEnt-like or other ecological prediction models producing state probabilities"
+    ],
+    "external_model_interface": "conditional probability field plus an explicitly fitted marginal comparator"
+  },
+  "implemented_entry_points": [
+    "fit_state_resolved_model",
+    "fit_state_resolved_events",
+    "score_state_probability_field",
+    "score_state_prediction_groups",
+    "fit_covariate_state_model",
+    "make_state_classifier",
+    "run_state_prediction_benchmark"
+  ],
+  "minimum_inputs": [
+    "non-negative training support, event-level state records, or covariate rows with state labels",
+    "declared ecological state A",
+    "declared base axes B for discrete support models or covariates X for continuous prediction"
+  ],
+  "recommended_inputs_for_generalization": [
+    "prospectively independent held-out individuals, sites, years, regions or instruments",
+    "predeclared weighting and state discretization",
+    "explicit observation semantics for every state axis"
+  ],
+  "native_outputs_per_prediction": [
+    "P(A|B) or P(A|X)",
+    "dominant added-state combination",
+    "dominant-state probability",
+    "state entropy in nats",
+    "effective number of predicted states",
+    "training support mass when defined",
+    "seen-versus-backoff status for the discrete native model"
+  ],
+  "heldout_prediction_metrics": {
+    "primary": {
+      "mean_log_score": "proper probabilistic score of state prediction on independent support",
+      "mean_log_score_gain": "mean log-score improvement over fitted marginal P(A)"
+    },
+    "secondary": {
+      "multiclass_brier_score": "lower is better",
+      "brier_improvement": "marginal Brier minus state-resolved Brier; positive is better",
+      "top1_accuracy": "mass fraction assigned to the most probable predicted state",
+      "top1_improvement": "state-resolved top-1 accuracy minus marginal top-1 accuracy",
+      "mean_assigned_probability": "mean probability assigned to the realized held-out state",
+      "seen_base_mass_fraction": "for discrete base models, fraction of held-out mass in base states observed during training"
+    }
+  },
+  "finite_sample_benchmark": {
+    "seed": 20260904,
+    "replicates": 128,
+    "sample_sizes_per_base": [50, 250, 1000],
+    "families": [
+      "stable_generalizing",
+      "unorganized",
+      "shifted_non_generalizing"
+    ],
+    "validated_behavior": [
+      "stable organization produces consistently positive independent gain",
+      "shifted organization produces consistently negative independent gain",
+      "unorganized support converges toward zero gain",
+      "state-probability RMSE decreases with sample size"
+    ]
+  },
+  "groupwise_rule": {
+    "generalizing": "all independent-group log-score gains are strictly positive beyond tolerance",
+    "non_generalizing": "all gains are non-positive",
+    "mixed": "gain signs conflict across independent groups",
+    "pooled_group_mass_can_rescue_conflict": false
+  },
+  "native_unseen_base_options": [
+    "marginal backoff",
+    "uniform over structurally available added states",
+    "fail closed"
+  ],
+  "scientific_boundaries": [
+    "state-resolved prediction does not infer the biological meaning of axes",
+    "the discrete native learner does not smoothly extrapolate across continuous environmental gradients",
+    "continuous extrapolation is supplied by an explicit covariate learner and must be independently validated",
+    "observation bias, detectability and causal identification are not removed automatically",
+    "a predicted state distribution is not automatically a fundamental niche",
+    "existing closed Tawaki, bat and Serengeti N2 endpoints are not reopened by this extension"
+  ],
+  "development_next": [
+    "group-aware cross-fitting for continuous-covariate learners",
+    "state-resolved map and raster export for GIS",
+    "calibration diagnostics and uncertainty intervals",
+    "R package front end with fit, predict, score, summary and plot methods",
+    "empirical demonstration using an independent public dataset selected prospectively for state prediction rather than reusing closed N2 endpoints"
+  ]
+}
