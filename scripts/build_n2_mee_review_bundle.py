@@ -66,8 +66,8 @@ SELECTED_TESTS = (
 )
 
 MANUSCRIPT_FILES = (
-    "N2_MEE_TABLE1_DRAFT_v1.md",
-    "N2_MEE_FIGURE_CAPTIONS_DRAFT_v1.md",
+    "N2_MEE_TABLE1_DRAFT_v2.md",
+    "N2_MEE_FIGURE_CAPTIONS_DRAFT_v2.md",
     "N2_MEE_REFERENCE_CORE_v1.md",
     "N2_MEE_GENERALITY_SECTION_v1.md",
 )
@@ -118,7 +118,7 @@ maps: separating added-axis thickness from transferable ecological organization*
 - selected reproducibility tests, including extended information-law tests;
 - frozen empirical runner code for the bat and Snapshot Serengeti applications;
 - anonymous empirical and generality scientific summaries;
-- integrated manuscript v2, Table 1, figure captions and reference core.
+- integrated manuscript v2, Table 1 v2, figure captions v2 and reference core.
 
 Git history, repository identifiers, author metadata, pull-request/workflow logs
 and internal recovery provenance are intentionally excluded. Terminal values are
