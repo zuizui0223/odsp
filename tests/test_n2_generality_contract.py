@@ -72,5 +72,6 @@ def test_generality_proof_states_the_claim_ceiling_explicitly():
     assert "Same-distribution identity" in text
     assert "Independent-group mass invariance" in text
     assert "not claimed to be a universal biological law" in text
-    assert "three empirical architectures proves universal biological" not in text
-    assert "universal biological frequency or mechanism" in text
+    assert "success on three empirical architectures proves universal biological frequency or mechanism" in text
+    assert "generality of the inferential machinery plus heterogeneous empirical portability" in text
+    assert "not universality of the biological outcomes" in text
