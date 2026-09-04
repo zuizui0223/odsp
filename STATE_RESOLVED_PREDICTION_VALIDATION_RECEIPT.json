@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-state-resolved-prediction-main-validation-v1",
+  "validated_date": "2026-09-04",
+  "package": {
+    "name": "odsp-niche-geometry",
+    "version": "0.10.0",
+    "main_sha": "7ac3b36ac93585713ca1dc8c4f86b5e466def81b"
+  },
+  "position": {
+    "role": "model-agnostic state-resolved ecological prediction and evaluation framework",
+    "new_occurrence_sdm_algorithm": false,
+    "prediction_targets": ["P(A|B)", "P(A|X)"],
+    "native_reference_learner": "Dirichlet-smoothed discrete conditional state model",
+    "continuous_covariate_bridge": "scikit-learn probabilistic classifier interface",
+    "reference_covariate_learners_tested": ["multinomial_logistic_regression", "random_forest"]
+  },
+  "implemented_capabilities": [
+    "full added-state probability distribution per base state or covariate row",
+    "joint prediction over multiple added axes",
+    "dominant state and dominant-state probability",
+    "prediction entropy and effective state count",
+    "event-table label encoding with weights",
+    "explicit unseen-base marginal, uniform or fail-closed policy",
+    "external probability-field scoring",
+    "continuous-covariate prediction at previously unsampled covariate rows",
+    "independent group-wise transfer classification"
+  ],
+  "heldout_metrics": [
+    "mean_log_score",
+    "mean_log_score_gain_over_marginal",
+    "multiclass_brier_score",
+    "brier_improvement_over_marginal",
+    "top1_accuracy",
+    "top1_improvement_over_marginal",
+    "mean_probability_assigned_to_realized_state",
+    "seen_base_mass_fraction"
+  ],
+  "main_validation": {
+    "regular_test_run_id": 33870772447,
+    "regular_test_conclusion": "success",
+    "prediction_workflow_run_id": 33870772425,
+    "prediction_workflow_conclusion": "success",
+    "benchmark_artifact_id": 9935781853,
+    "benchmark_artifact_digest": "sha256:c9abfd34979b53507cc558fdc3137ea4230e9294ec1d4a68ec81a756b35ae3c8",
+    "benchmark_artifact_size_bytes": 900
+  },
+  "finite_sample_benchmark": {
+    "seed": 20260904,
+    "alpha": 0.5,
+    "replicates_per_cell": 128,
+    "sample_sizes_per_base": [50, 250, 1000],
+    "cells": [
+      {
+        "family": "stable_generalizing",
+        "sample_size_per_base": 50,
+        "mean_log_score_gain": 0.30033855056322634,
+        "positive_gain_fraction": 1.0,
+        "negative_gain_fraction": 0.0,
+        "mean_probability_rmse": 0.05026457560026687,
+        "mean_brier_improvement": 0.20557324581763223,
+        "mean_top1_accuracy": 0.6946354166666666
+      },
+      {
+        "family": "unorganized",
+        "sample_size_per_base": 50,
+        "mean_log_score_gain": -0.009438678153152386,
+        "positive_gain_fraction": 0.2421875,
+        "negative_gain_fraction": 0.7578125,
+        "mean_probability_rmse": 0.0561835641254674,
+        "mean_brier_improvement": -0.00526043587880625,
+        "mean_top1_accuracy": 0.5969270833333333
+      },
+      {
+        "family": "shifted_non_generalizing",
+        "sample_size_per_base": 50,
+        "mean_log_score_gain": -0.7823614748529366,
+        "positive_gain_fraction": 0.0,
+        "negative_gain_fraction": 1.0,
+        "mean_probability_rmse": 0.05078564070573334,
+        "mean_brier_improvement": -0.421374388325491,
+        "mean_top1_accuracy": 0.15223958333333334
+      },
+      {
+        "family": "stable_generalizing",
+        "sample_size_per_base": 250,
+        "mean_log_score_gain": 0.3200597635108605,
+        "positive_gain_fraction": 1.0,
+        "negative_gain_fraction": 0.0,
+        "mean_probability_rmse": 0.02183908813861929,
+        "mean_brier_improvement": 0.21535589907430475,
+        "mean_top1_accuracy": 0.6997708333333333
+      },
+      {
+        "family": "unorganized",
+        "sample_size_per_base": 250,
+        "mean_log_score_gain": -0.00322117781504543,
+        "positive_gain_fraction": 0.140625,
+        "negative_gain_fraction": 0.859375,
+        "mean_probability_rmse": 0.027030205390910302,
+        "mean_brier_improvement": -0.0017397035964865672,
+        "mean_top1_accuracy": 0.5991041666666667
+      },
+      {
+        "family": "shifted_non_generalizing",
+        "sample_size_per_base": 250,
+        "mean_log_score_gain": -0.7809825601417892,
+        "positive_gain_fraction": 0.0,
+        "negative_gain_fraction": 1.0,
+        "mean_probability_rmse": 0.022759289033695035,
+        "mean_brier_improvement": -0.43462529288819224,
+        "mean_top1_accuracy": 0.15136458333333336
+      },
+      {
+        "family": "stable_generalizing",
+        "sample_size_per_base": 1000,
+        "mean_log_score_gain": 0.32294219738413865,
+        "positive_gain_fraction": 1.0,
+        "negative_gain_fraction": 0.0,
+        "mean_probability_rmse": 0.011870377915316824,
+        "mean_brier_improvement": 0.21645653969398118,
+        "mean_top1_accuracy": 0.7002291666666667
+      },
+      {
+        "family": "unorganized",
+        "sample_size_per_base": 1000,
+        "mean_log_score_gain": -0.0006819510456630914,
+        "positive_gain_fraction": 0.2421875,
+        "negative_gain_fraction": 0.7578125,
+        "mean_probability_rmse": 0.012515028123841886,
+        "mean_brier_improvement": -0.00037358931221116547,
+        "mean_top1_accuracy": 0.5995338541666666
+      },
+      {
+        "family": "shifted_non_generalizing",
+        "sample_size_per_base": 1000,
+        "mean_log_score_gain": -0.7733028576630449,
+        "positive_gain_fraction": 0.0,
+        "negative_gain_fraction": 1.0,
+        "mean_probability_rmse": 0.011603161422867544,
+        "mean_brier_improvement": -0.4333821172991809,
+        "mean_top1_accuracy": 0.15004427083333333
+      }
+    ],
+    "summary": {
+      "stable_positive_in_all_128_replicates_at_every_sample_size": true,
+      "shifted_negative_in_all_128_replicates_at_every_sample_size": true,
+      "unorganized_mean_gain_converges_toward_zero": true,
+      "probability_rmse_decreases_with_sample_size": true
+    }
+  },
+  "scientific_boundary": {
+    "closed_tawaki_endpoint_reopened": false,
+    "closed_bat_endpoint_reopened": false,
+    "closed_serengeti_endpoint_reopened": false,
+    "gate_e_reopened": false,
+    "n2_summary_promoted_to_n3_state": false,
+    "universal_biological_prediction_claimed": false,
+    "observation_bias_removed": false,
+    "causal_interpretation_claimed": false
+  },
+  "next_empirical_requirement": "prospectively select a new public dataset specifically for state-resolved prediction and validate P(A|X) on independent groups without reusing the closed N2 endpoints"
+}
