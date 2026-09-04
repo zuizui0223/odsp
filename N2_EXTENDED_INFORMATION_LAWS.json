@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "contract_id": "n2-extended-information-laws-v1",
+  "date": "2026-09-04",
+  "purpose": "Extend the validated N2 genericity domain beyond representation invariance to standard information-law behavior under conditioning, composition, coarse-graining, sparsity and explicit unavailability.",
+  "validated_laws": [
+    {
+      "id": "conditioning_reduces_or_preserves_added_axis_uncertainty",
+      "statement": "H(A|B,C) <= H(A|B)",
+      "random_cases": 64
+    },
+    {
+      "id": "conditional_entropy_chain_rule",
+      "statement": "H(C,A|B) = H(C|B) + H(A|B,C)",
+      "random_cases": 64
+    },
+    {
+      "id": "effective_state_chain_rule",
+      "statement": "exp(H(C,A|B)) = exp(H(C|B)) * exp(H(A|B,C))",
+      "random_cases": 64
+    },
+    {
+      "id": "expanded_base_information_monotonicity",
+      "statement": "I(A;B,C) >= I(A;B)",
+      "random_cases": 64
+    },
+    {
+      "id": "deterministic_coarse_graining_data_processing",
+      "statement": "Deterministically merging added-state categories cannot increase H(A|B), effective added states, or I(A;B).",
+      "random_cases": 64
+    },
+    {
+      "id": "sparse_support_same_distribution_identity",
+      "statement": "E[log P(A|B)-log P(A)] = I(A;B) remains exact when the support contains structural zeros, provided the same-distribution comparison is estimable.",
+      "random_cases": 128
+    },
+    {
+      "id": "unavailable_mask_numeric_invariance",
+      "statement": "Numeric contents assigned to explicitly unavailable states cannot influence H(A|B) or I(A;B).",
+      "random_cases": 32
+    },
+    {
+      "id": "uniform_joint_added_state_exactness",
+      "statement": "For K equally likely added states independent of B, H(A|B)=log K and exp(H(A|B))=K.",
+      "cardinalities_tested": [2, 3, 5, 8, 13, 21]
+    }
+  ],
+  "test_file": "tests/test_n2_extended_information_laws.py",
+  "latest_validation": {
+    "head_sha": "2b044384c0560e49e6eb075af621f1a9f9a36af8",
+    "regular_tests_run_id": 33833691204,
+    "regular_tests_conclusion": "success",
+    "generality_workflow_run_id": 33833691229,
+    "generality_workflow_conclusion": "success"
+  },
+  "claim_boundary": {
+    "standard_information_law_behavior_supported": true,
+    "sparse_discrete_support_supported": true,
+    "explicit_unavailability_supported": true,
+    "continuous_variable_representation_universally_optimal": false,
+    "biological_axis_semantics_automatically_validated": false,
+    "observation_bias_removed": false
+  }
+}
