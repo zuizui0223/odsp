@@ -35,36 +35,59 @@ jobs:
           python scripts/run_bop_rodent_state_prediction.py \
             --output artifacts/BOP_RODENT_STATE_PREDICTION_RESULT.json
 
-      - name: Validate result schema and no retuning
+      - name: Validate result against canonical terminal receipt and no retuning
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          p = Path('artifacts/BOP_RODENT_STATE_PREDICTION_RESULT.json')
-          r = json.loads(p.read_text())
-          assert r['schema_version'] == 1
-          assert r['contract_id'] == 'bop-rodent-state-prediction-v1'
-          assert r['retuning_performed'] is False
-          assert r['closed_endpoints_untouched'] == {
-              'mh_antwerpen': True,
-              'snapshot_serengeti': True,
-              'tadarida_teniotis': True,
-              'tawaki': True,
-          }
-          allowed = {
-              'empirical_state_prediction_unavailable',
-              'empirical_state_prediction_generalizing',
-              'empirical_state_prediction_non_generalizing',
-              'empirical_state_prediction_mixed',
-          }
-          assert r['decision']['terminal_category'] in allowed
+          import numpy as np
+
+          result = json.loads(Path('artifacts/BOP_RODENT_STATE_PREDICTION_RESULT.json').read_text())
+          receipt = json.loads(Path('BOP_RODENT_STATE_PREDICTION_TERMINAL_RECEIPT.json').read_text())
+
+          assert result['schema_version'] == 1
+          assert result['contract_id'] == receipt['contract_id'] == 'bop-rodent-state-prediction-v1'
+          assert result['retuning_performed'] is False
+          assert receipt['prospective_provenance']['retuning_performed'] is False
+          assert result['closed_endpoints_untouched'] == receipt['closed_endpoints_untouched']
+
+          decision = result['decision']
+          primary = receipt['primary_random_forest']
+          assert decision['terminal_category'] == primary['terminal_category'] == 'empirical_state_prediction_mixed'
+          assert decision['eligible_individual_count'] == primary['eligible_individual_count'] == 30
+          assert decision['positive_individual_count'] == primary['positive_individual_count'] == 27
+          assert decision['nonpositive_individual_count'] == primary['nonpositive_individual_count'] == 3
+          np.testing.assert_allclose(
+              decision['individual_primary_gains'],
+              primary['individual_gains'],
+              rtol=0.0,
+              atol=1e-12,
+          )
+          assert np.isclose(decision['mean_primary_gain_descriptive'], primary['mean_gain_descriptive'], atol=1e-12)
+
+          observed_brier = [row['primary_score']['brier_improvement'] for row in result['heldout_results']]
+          observed_top1 = [row['primary_score']['top1_accuracy'] for row in result['heldout_results']]
+          observed_assigned = [row['primary_score']['mean_assigned_probability'] for row in result['heldout_results']]
+          assert sum(value > 0 for value in observed_brier) == primary['positive_brier_improvement_count'] == 30
+          assert np.isclose(np.mean(observed_brier), primary['mean_brier_improvement_descriptive'], atol=1e-12)
+          assert np.isclose(np.mean(observed_top1), primary['mean_top1_accuracy_descriptive'], atol=1e-12)
+          assert np.isclose(np.mean(observed_assigned), primary['mean_assigned_probability_descriptive'], atol=1e-12)
+
+          assert result['data_flow'] == receipt['data_flow']
+          for source_row, receipt_row in zip(result['source']['files'], receipt['source']['file_md5s']):
+              assert source_row['name'] == receipt_row['name']
+              assert source_row['expected_md5'] == receipt_row['expected_md5']
+              assert source_row['observed_md5'] == receipt_row['observed_md5']
+
           print(json.dumps({
-              'terminal_category': r['decision']['terminal_category'],
-              'admitted_species_count': r['decision']['admitted_species_count'],
-              'eligible_individual_count': r['decision']['eligible_individual_count'],
-              'hourly_thinned_event_count': r['data_flow']['hourly_thinned_event_count'],
+              'terminal_category': decision['terminal_category'],
+              'admitted_species_count': decision['admitted_species_count'],
+              'eligible_individual_count': decision['eligible_individual_count'],
+              'positive_individual_count': decision['positive_individual_count'],
+              'mean_primary_gain_descriptive': decision['mean_primary_gain_descriptive'],
           }, sort_keys=True))
           PY
+          python -m pytest -q tests/test_bop_rodent_state_prediction_terminal_receipt.py
 
       - uses: actions/upload-artifact@v4
         with:
