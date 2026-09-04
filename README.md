@@ -31,6 +31,21 @@ The Chapter-2 question is:
 
 The working principle is: **地図は、niche を薄くする。**
 
+## State-resolved ecological prediction
+
+ODSP now extends beyond projection-loss diagnosis to predict **full ecological-state probability distributions** rather than only single-valued suitability outputs. The common prediction targets are:
+
+```text
+P(A | B)   discrete/base-state prediction
+P(A | X)   continuous-covariate prediction at new rows/locations
+```
+
+where `A` may be one or more added ecological states such as altitude layer, depth, time bin, phenophase, behaviour or microhabitat. The package includes a transparent conditional reference learner, event-table encoding, optional scikit-learn probability-estimator bridges, rich per-state output, and held-out log-score/Brier/top-1 evaluation.
+
+The prospectively frozen BOP_RODENT public-data endpoint provides a larger multi-species empirical validation of this prediction layer. Thirty independently scored individuals from four admitted raptor species passed the frozen admission architecture. The primary random-forest state model improved held-out log score over the training marginal altitude distribution in **27/30 individuals** and improved multiclass Brier score in **30/30**. Under the deliberately conservative all-individual rule the terminal result is **mixed**, not generalizing: *Buteo buteo* and *Circus pygargus* were species-level generalizing, while *Circus aeruginosus* and *Circus cyaneus* contained conflicting held-out individuals. See [`BOP_RODENT_STATE_PREDICTION_TERMINAL_RECEIPT.json`](BOP_RODENT_STATE_PREDICTION_TERMINAL_RECEIPT.json) and [`docs/bop_rodent_state_prediction_terminal_2026-09-05.md`](docs/bop_rodent_state_prediction_terminal_2026-09-05.md).
+
+This prediction layer does **not** turn ODSP into a new MaxEnt/RF-style occurrence algorithm. Upstream learners can produce state probabilities and ODSP supplies a common ecological-state target, richer prediction output and independent scoring architecture.
+
 ## Niche thickness
 
 `odsp.niche_geometry` provides model-agnostic information-theoretic metrics on any non-negative support distribution.
@@ -225,13 +240,14 @@ Bat cross-individual x-y-z organization             not generalizing
 Serengeti temporal thickness                       present (~5.15 / 6 effective t states)
 Serengeti within-site species-time partition        detected (p = 0.005)
 Serengeti cross-site-fold temporal organization     generalizing (3/3 gains > 0)
+BOP_RODENT state-resolved altitude prediction       mixed (27/30 individual gains > 0)
 Gate-E forest/grassland promotion                   blocked
 ```
 
-The two successful thickness measurements deliberately do not collapse into one answer about “multidimensionality”: the bat and Serengeti lanes show that thickness magnitude can be present in both systems while transferability differs. That distinction is now an empirical result, not just a methodological warning.
+The thickness and prediction lanes deliberately do not collapse into one answer about “multidimensionality”: the bat and Serengeti lanes show that thickness magnitude can be present while transferability differs, and the BOP_RODENT endpoint shows that richer state-resolved prediction can improve strongly on average while still failing the all-individual generalization rule. These distinctions are empirical results, not just methodological warnings.
 
-Neither the bat terminal summary nor the Serengeti terminal summary is an integrity-pinned N3 state artifact. No empirical N3 state payload is issued from the Serengeti summary despite its positive transferability result.
+Neither the bat terminal summary nor the Serengeti terminal summary is an integrity-pinned N3 state artifact. No empirical N3 state payload is issued from the Serengeti summary despite its positive transferability result. The BOP_RODENT prediction result is likewise an N2 predictive terminal receipt, not an automatic N3 state promotion.
 
 The forest-versus-grassland structural-capacity hypothesis remains interesting but is **not authorized as a continuation or rescue of the completed bat endpoint**. Any future test would require a separately frozen programme with its own measurement architecture and validation logic.
 
-Do not rerun or retune the completed Tawaki, bat or Serengeti endpoints, swap datasets after outcome access, replace primary temporal bins/species gates, or use descriptive thickness or a terminal summary alone to claim an empirical N3 state.
+Do not rerun or retune the completed Tawaki, bat, Serengeti, MH_ANTWERPEN or BOP_RODENT endpoints, swap datasets after outcome access, replace primary bins/species gates, or use a descriptive mean or terminal summary alone to claim an empirical N3 state.
