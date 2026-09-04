@@ -24,6 +24,12 @@ from .concealed_recovery import (
     run_concealed_recovery_benchmark,
     sample_state_counts,
 )
+from .covariate_state_prediction import (
+    CovariateStateModel,
+    CovariateStatePredictionSummary,
+    fit_covariate_state_model,
+    make_state_classifier,
+)
 from .crossfitted_transferability import score_crossfitted_independent_groups
 from .generality_benchmark import (
     GeneralityBenchmarkResult,
@@ -78,6 +84,11 @@ from .state_prediction import (
     score_state_prediction_groups,
     score_state_probability_field,
 )
+from .state_prediction_benchmark import (
+    StatePredictionBenchmarkCell,
+    StatePredictionBenchmarkResult,
+    run_state_prediction_benchmark,
+)
 from .temporal_crossfit import score_identity_temporal_crossfitted_groups
 from .temporal_information import (
     TemporalObservation,
@@ -115,6 +126,8 @@ __all__ = [
     "ConcealedRecoveryBenchmark",
     "ConcealedRecoveryCheck",
     "ConditionalTransferabilityScore",
+    "CovariateStateModel",
+    "CovariateStatePredictionSummary",
     "EncodedStateResolvedModel",
     "EncodedStateSupport",
     "GeneralityBenchmarkResult",
@@ -129,6 +142,8 @@ __all__ = [
     "ProjectionOverlapProfile",
     "SerengetiTerminalReceipt",
     "StateArtifact",
+    "StatePredictionBenchmarkCell",
+    "StatePredictionBenchmarkResult",
     "StatePredictionScore",
     "StatePredictionSummary",
     "StateResolvedModel",
@@ -151,9 +166,11 @@ __all__ = [
     "estimate_projection_overlap_from_counts",
     "estimate_thickness_from_counts",
     "evaluate_added_axis_evidence",
+    "fit_covariate_state_model",
     "fit_state_resolved_events",
     "fit_state_resolved_model",
     "gbif_locality_elevation_mapping",
+    "make_state_classifier",
     "marginal_probability",
     "niche_thickness_profile",
     "normalize_gbif_time",
@@ -163,6 +180,7 @@ __all__ = [
     "projection_overlap_profile",
     "run_concealed_recovery_benchmark",
     "run_n2_generality_benchmark",
+    "run_state_prediction_benchmark",
     "sample_state_counts",
     "schoener_overlap",
     "score_conditional_transferability",
