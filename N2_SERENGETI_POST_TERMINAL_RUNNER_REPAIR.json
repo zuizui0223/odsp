@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "lane_id": "n2_serengeti_temporal_partition_v1",
+  "record_date": "2026-09-04",
+  "purpose": "post_terminal_reproducibility_only",
+  "terminal_decision_file": "N2_SERENGETI_TEMPORAL_TERMINAL_DECISION.json",
+  "terminal_receipt_file": "N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json",
+  "terminal_category": "temporal_partition_generalizing",
+  "scientific_endpoint_closed_before_this_repair": true,
+  "file_repaired": "scripts/run_n2_serengeti_temporal_partition.py",
+  "repair": {
+    "type": "python_boolean_literal_syntax_only",
+    "replacements": [
+      {"from": "\"outcome_opened\": false", "to": "\"outcome_opened\": False", "branch": "unavailable_return"},
+      {"from": "\"outcome_opened\": true", "to": "\"outcome_opened\": True", "branch": "estimable_return"},
+      {"from": "\"true_activity_niche_partition_identified\": false", "to": "\"true_activity_niche_partition_identified\": False", "branch": "claim_boundary"},
+      {"from": "\"interspecific_displacement_causality_identified\": false", "to": "\"interspecific_displacement_causality_identified\": False", "branch": "claim_boundary"},
+      {"from": "\"solar_time_partition_identified\": false", "to": "\"solar_time_partition_identified\": False", "branch": "claim_boundary"},
+      {"from": "\"bat_endpoint_reinterpreted\": false", "to": "\"bat_endpoint_reinterpreted\": False", "branch": "claim_boundary"}
+    ]
+  },
+  "scientific_quantities_changed": false,
+  "source_checksums_changed": false,
+  "thresholds_or_bins_changed": false,
+  "permutation_design_changed": false,
+  "fold_design_changed": false,
+  "pseudocount_changed": false,
+  "terminal_result_recomputed": false,
+  "rerun_authorized": false,
+  "reason": "The terminal result was already recovered, validated and closed using the prospectively frozen technical-recovery path. This later source repair only makes the checked-in runner syntactically executable for reviewers and future method inspection."
+}
