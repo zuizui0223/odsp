@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "receipt_id": "mh-antwerpen-state-prediction-terminal-v1",
+  "contract_id": "mh-antwerpen-state-prediction-v1",
+  "validated_date": "2026-09-05",
+  "source": {
+    "archive_doi": "10.5281/zenodo.10054153",
+    "movebank_study_id": 938783961,
+    "workflow_run_id": 33896256836,
+    "artifact_id": 9945858782,
+    "artifact_digest": "sha256:01a88fa59e0583d9ad0f25c8840cb4da95792d8c62a71be04b5b94761bbd8925"
+  },
+  "data_flow": {
+    "raw_row_count": 393122,
+    "admissible_before_thinning": 386072,
+    "thinned_event_count": 193370,
+    "individual_count_before_admission": 3,
+    "eligible_individual_count": 3,
+    "thinned_state_counts": {
+      "low_lt50": 129907,
+      "lower_mid_50_200": 42892,
+      "upper_mid_200_500": 10939,
+      "high_ge500": 9632
+    },
+    "filter_failures": {
+      "height_out_of_range": 6846,
+      "import_marked_outlier": 185,
+      "manually_marked_outlier": 2,
+      "temperature_out_of_range": 17
+    }
+  },
+  "eligible_individuals": [
+    {
+      "id": "H171693",
+      "thinned_events": 1270,
+      "state_counts": [1096, 82, 79, 13]
+    },
+    {
+      "id": "H197169",
+      "thinned_events": 114193,
+      "state_counts": [87297, 16795, 5142, 4959]
+    },
+    {
+      "id": "L177801",
+      "thinned_events": 77907,
+      "state_counts": [41514, 26015, 5718, 4660]
+    }
+  ],
+  "terminal": {
+    "category": "empirical_state_prediction_unavailable",
+    "reason": "fewer_than_minimum_eligible_individuals",
+    "frozen_minimum_eligible_individuals": 4,
+    "observed_eligible_individuals": 3,
+    "primary_rf_folds_executed": 0,
+    "retuning_performed": false
+  },
+  "interpretation": "The public archive contained abundant admissible GPS events and all three tagged individuals passed event/state admission, but the prospectively frozen minimum of four independent individuals was not met. The endpoint therefore closes as structurally unavailable before predictive transferability is evaluated.",
+  "not_a_biological_null": true,
+  "scientific_boundary": {
+    "altitude_prediction_failed": false,
+    "transferability_test_opened": false,
+    "minimum_individual_threshold_changed": false,
+    "altitude_bins_changed": false,
+    "primary_model_changed": false,
+    "closed_tawaki_reopened": false,
+    "closed_bat_reopened": false,
+    "closed_serengeti_reopened": false
+  }
+}

@@ -1,0 +1,72 @@
+name: mh-antwerpen-state-prediction
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  execute:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install ODSP prediction dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev,predict]'
+
+      - name: Verify frozen contract and implementation before outcome access
+        run: |
+          python -m pytest -q \
+            tests/test_mh_antwerpen_state_prediction_contract.py \
+            tests/test_mh_antwerpen_state_prediction.py
+
+      - name: Execute frozen public-data endpoint
+        run: |
+          python scripts/run_mh_antwerpen_state_prediction.py \
+            --output artifacts/MH_ANTWERPEN_STATE_PREDICTION_RESULT.json
+
+      - name: Validate result schema and no retuning
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('artifacts/MH_ANTWERPEN_STATE_PREDICTION_RESULT.json')
+          r = json.loads(p.read_text())
+          assert r['schema_version'] == 1
+          assert r['contract_id'] == 'mh-antwerpen-state-prediction-v1'
+          assert r['retuning_performed'] is False
+          assert r['closed_endpoints_untouched'] == {
+              'snapshot_serengeti': True,
+              'tadarida_teniotis': True,
+              'tawaki': True,
+          }
+          allowed = {
+              'empirical_state_prediction_unavailable',
+              'empirical_state_prediction_generalizing',
+              'empirical_state_prediction_non_generalizing',
+              'empirical_state_prediction_mixed',
+          }
+          assert r['decision']['terminal_category'] in allowed
+          print(json.dumps({
+              'terminal_category': r['decision']['terminal_category'],
+              'eligible_individual_count': r['decision']['eligible_individual_count'],
+              'thinned_event_count': r['data_flow']['thinned_event_count'],
+          }, sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mh-antwerpen-state-prediction-result
+          path: artifacts/MH_ANTWERPEN_STATE_PREDICTION_RESULT.json
+          if-no-files-found: error
+          retention-days: 90
