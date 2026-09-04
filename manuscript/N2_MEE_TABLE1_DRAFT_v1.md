@@ -1,0 +1,12 @@
+# Table 1. Inferential layers for projection-aware multidimensional ecological support
+
+| Layer | Quantity / decision | Comparator or gate | Replication unit | Positive interpretation | Does **not** establish |
+|---|---|---|---|---|---|
+| Estimability | prospectively frozen structural gate | required support architecture | predeclared structural strata | the proposed added-axis endpoint can be estimated under the declared observation design | presence or absence of biological added-axis structure |
+| Thickness | `H(A|B)`; `exp(H(A|B))` | lower-dimensional projection that marginalizes `A` | support distribution under declared semantics | added-axis state information remains after base state `B` is known | organization, transferability, occupancy probability, causal interaction or fundamental-niche volume |
+| Fitted organization | `I(A;B)` or `I(C;T|B)` | statistical independence under the declared conditioning structure; empirical null where predeclared | fitted support | added-axis state is systematically associated with base or identity state | independent generalization or causal displacement |
+| Held-out transferability | `G = E[log P_model(A|B) - log P_model(A)]` | explicit lower-information model marginal `P_model(A)` | one prospectively independent group per score | conditioned organization improves held-out prediction relative to the marginal | universality outside the declared target groups |
+| Grouped terminal decision | all gains >0 = generalizing; all <=0 = non-generalizing; otherwise mixed | frozen zero-gain boundary | individuals, site folds, years or instruments | independent groups agree on whether conditioned organization transfers | permission for group mass to rescue a conflicting replication unit |
+| Downstream state promotion | integrity-pinned axis-resolved state artifact plus N2 handoff requirements | N2 terminal summary alone is insufficient | serialized state artifact | an explicitly represented state object is eligible for downstream use | automatic conversion of a positive N2 statistic into an N3 state map |
+
+**Notes.** `B` denotes retained/base axes, `A` added ecological state axes, `C` an identity axis and `T` time. The framework is mathematical-axis agnostic, but the ecological meaning of every support tensor and state axis must be declared. Positive camera-detected temporal organization, for example, is not automatically true activity-time or solar-time organization; native height above mean sea level is not automatically height above ground.
