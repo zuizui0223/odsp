@@ -13,6 +13,7 @@ dependencies = ["numpy>=1.24"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "pyproj>=3.6,<4"]
+predict = ["scikit-learn>=1.4,<2"]
 
 [tool.setuptools.packages.find]
 where = ["."]
