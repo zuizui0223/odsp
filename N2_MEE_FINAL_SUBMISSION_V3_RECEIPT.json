@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "receipt_id": "n2-mee-final-submission-v3",
+  "validated_date": "2026-09-04",
+  "target": {
+    "journal": "Methods in Ecology and Evolution",
+    "article_type": "Research Article",
+    "manuscript_title": "Beyond flat niche maps: separating added-axis thickness from transferable ecological organization"
+  },
+  "validated_main": {
+    "head_sha": "577ffbb5968966fb6b0f972c2711e25f09fe5745",
+    "regular_test_run_id": 33866166904,
+    "regular_test_conclusion": "success",
+    "submission_package_run_id": 33866166833,
+    "submission_package_conclusion": "success"
+  },
+  "manuscript_v3": {
+    "role": "integrated_anonymous_mee_manuscript_v3_policy_compliant",
+    "sha256": "5fa80468ad85c149aea7b89a942fba655832e3b6b95bd2cfdfae863df786d017",
+    "word_count": 6569,
+    "abstract_word_count": 280,
+    "abstract_numbered_parts": 4,
+    "within_mee_word_ceiling": true,
+    "within_abstract_ceiling": true,
+    "archived_data_ethics_statement_present": true,
+    "generative_ai_methods_disclosure_present": true,
+    "scientific_claims_changed_from_v2": false,
+    "empirical_endpoints_rerun": false
+  },
+  "anonymous_review_bundle_v3": {
+    "sha256": "1cf25b609527cdba5a210416148806b1e2c50934dd8d386d49f48b2df77a29dd",
+    "bytes": 109617,
+    "file_count": 45,
+    "python_file_ai_annotation_count": 33,
+    "ai_annotation_mode": "whole_file_conservative",
+    "contains_integrated_manuscript_v3": true,
+    "contains_title_page_or_cover_letter": false,
+    "identity_scan_passed": true,
+    "git_history_included": false,
+    "internal_pr_or_workflow_provenance_included": false,
+    "bundle_extracted_and_installed_in_ci": true,
+    "bundle_internal_pytest_conclusion": "success"
+  },
+  "submission_artifact": {
+    "artifact_name": "n2-mee-submission-package",
+    "artifact_id": 9934048768,
+    "artifact_digest": "sha256:eb170cf8f58145f5a8b63c630c4e45628dee1565b2a08f4b313138e58fbf7d0e",
+    "artifact_size_bytes": 1218414,
+    "contains": [
+      "integrated anonymous manuscript v3 and manifest",
+      "three manuscript figures as PDF and 600-dpi PNG plus manifest",
+      "policy-compliant anonymous review bundle v3",
+      "separate non-anonymous title-page template",
+      "cover-letter draft",
+      "ethics and AI disclosure drafts",
+      "machine-readable final submission checklist",
+      "submission package checksum manifest"
+    ]
+  },
+  "journal_policy_alignment": {
+    "separate_title_page_not_for_review": true,
+    "double_anonymous_main_manuscript": true,
+    "anonymous_code_for_peer_review": true,
+    "open_source_license_present": true,
+    "numbered_abstract_1_to_4": true,
+    "simulation_or_benchmark_before_empirical_application": true,
+    "broad_applicability_demonstrated": true,
+    "ethics_statement_present": true,
+    "generative_ai_use_disclosed": true,
+    "ai_assisted_submitted_python_annotated": true
+  },
+  "scientific_boundary": {
+    "tawaki_rerun_or_retune": false,
+    "bat_rerun_or_retune": false,
+    "serengeti_rerun_or_retune": false,
+    "gate_e_reopened": false,
+    "n2_terminal_summary_promoted_to_n3_state": false,
+    "packaging_or_policy_changes_scientific_endpoint": false
+  },
+  "remaining_author_only_items": [
+    "final author list and order",
+    "author affiliations and institutional addresses",
+    "corresponding author contact details",
+    "final CRediT roles and named AI-code accountable author",
+    "acknowledgements",
+    "funding statement",
+    "conflict-of-interest statement",
+    "confirmation of originality and no concurrent submission",
+    "all-author approval of final submission",
+    "optional translated abstract decision",
+    "submission-system metadata entry",
+    "final rendered document check for double spacing, continuous line numbers and page numbers"
+  ],
+  "readiness": {
+    "scientific_analysis_closed": true,
+    "method_genericity_validated": true,
+    "technical_submission_package_ready": true,
+    "journal_policy_drafts_ready": true,
+    "author_metadata_completion_required": true,
+    "ready_for_submission_without_author_metadata_completion": false
+  }
+}
