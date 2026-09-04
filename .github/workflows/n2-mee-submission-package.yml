@@ -41,7 +41,7 @@ jobs:
 
       - name: Build deterministic anonymous review bundle
         run: |
-          python scripts/build_n2_mee_review_bundle.py \
+          python -m scripts.build_n2_mee_review_bundle \
             --output build/N2_MEE_ANONYMOUS_REVIEW_BUNDLE.zip
 
       - name: Run submission-package source tests
