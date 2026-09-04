@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-04",
+  "chapter_code": "N2",
+  "manuscript_target": "Methods in Ecology and Evolution",
+  "generality_evidence": {
+    "analytic_proof_document": "docs/n2_generality_proof_2026-09-04.md",
+    "generality_contract": "N2_GENERALITY_CONTRACT.json",
+    "main_benchmark_summary": "N2_GENERALITY_BENCHMARK_SUMMARY.json",
+    "extended_information_laws": "N2_EXTENDED_INFORMATION_LAWS.json",
+    "generic_api": "odsp.added_axis_evidence.evaluate_added_axis_evidence",
+    "manuscript_insert": "manuscript/N2_MEE_GENERALITY_SECTION_v1.md"
+  },
+  "validated_on_main": {
+    "main_sha": "85acaa69e2dcc1a3052294dd6fac6471458391fa",
+    "regular_tests_run_id": 33833816607,
+    "regular_tests_conclusion": "success",
+    "generality_run_id": 33833816625,
+    "generality_run_conclusion": "success",
+    "generality_artifact_id": 9922590229,
+    "generality_artifact_digest": "sha256:281a3a33eafd3490500b73a6cc77babcb8c6164f5995e03998359d78b96d4c13",
+    "proof_obligations_passed": 1873,
+    "proof_obligations_failed": 0,
+    "maximum_absolute_error": 2.4868995751603507e-14
+  },
+  "strongest_defensible_generality_claim": "The N2 inferential machinery is axis-agnostic over finite discrete support tensors and obeys the tested information-law, representation-invariance and independent-group properties; its empirical portability is demonstrated across three heterogeneous prospective observation architectures.",
+  "not_claimed": [
+    "universal biological frequency of thick or generalizing niches",
+    "causal generality across ecological systems",
+    "intrinsic superiority of temporal over vertical dimensions",
+    "universal optimality of discretizing continuous ecological axes",
+    "elimination of detectability, sampling or representativeness bias"
+  ]
+}

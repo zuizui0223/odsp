@@ -6,12 +6,14 @@
   "benchmark_module_git_blob_sha1": "6b0476191e0a14e67e6550a1d3b844bd7bdcd595",
   "workflow": {
     "name": "n2-generality-benchmark",
-    "run_id": 33833441682,
-    "head_sha": "8a8c4c7c3a6cfe1a37efc56340e20d5a135af637",
+    "run_id": 33833816625,
+    "head_sha": "85acaa69e2dcc1a3052294dd6fac6471458391fa",
+    "branch": "main",
+    "event": "push",
     "conclusion": "success",
-    "artifact_id": 9922474145,
+    "artifact_id": 9922590229,
     "artifact_name": "n2-generality-benchmark-receipt",
-    "artifact_digest": "sha256:dcb1e31f82cc35a09c79d7fe1bc1ba6d9e45aea27e69deadd0867166e6c22073"
+    "artifact_digest": "sha256:281a3a33eafd3490500b73a6cc77babcb8c6164f5995e03998359d78b96d4c13"
   },
   "settings": {
     "seed": 20260904,
@@ -40,11 +42,15 @@
     "independent_group_mass_invariance",
     "independent_group_count_generality"
   ],
+  "extended_information_laws": "N2_EXTENDED_INFORMATION_LAWS.json",
   "claim_boundary": {
     "finite_discrete_support_genericity_supported": true,
     "heterogeneous_axis_positions_supported": true,
     "multiple_base_axes_supported": true,
     "multiple_added_axes_supported": true,
+    "sparse_support_supported": true,
+    "deterministic_coarse_graining_behavior_validated": true,
+    "explicit_unavailability_mask_behavior_validated": true,
     "universal_biological_outcomes_supported": false,
     "causal_interpretation_supported": false,
     "observation_bias_removed": false
