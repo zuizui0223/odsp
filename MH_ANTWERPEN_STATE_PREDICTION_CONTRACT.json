@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "contract_id": "mh-antwerpen-state-prediction-v1",
+  "frozen_date": "2026-09-05",
+  "purpose": "prospective public-data validation of ODSP state-resolved prediction at previously held-out individuals without reusing closed N2 endpoints",
+  "outcome_access_before_freeze": false,
+  "source": {
+    "dataset_name": "MH_ANTWERPEN - Western marsh harriers (Circus aeruginosus) breeding near Antwerp (Belgium)",
+    "archive_doi": "10.5281/zenodo.10054153",
+    "movebank_study_id": 938783961,
+    "license": "public Zenodo archive; reuse subject to archive license",
+    "gps_files": [
+      {"name": "MH_ANTWERPEN-gps-2018.csv.gz", "md5": "5306a6f8e51694c8c7d3cf565c7c4cff"},
+      {"name": "MH_ANTWERPEN-gps-2019.csv.gz", "md5": "e70b2e56549771e1328b05b5b244a651"},
+      {"name": "MH_ANTWERPEN-gps-2020.csv.gz", "md5": "d88a1f883f2c9ff4bcf98e01e7f62fbb"},
+      {"name": "MH_ANTWERPEN-gps-2021.csv.gz", "md5": "697b944dba0668abb4fa44d58d5a19fa"},
+      {"name": "MH_ANTWERPEN-gps-2022.csv.gz", "md5": "622673bbe07c734bc740fd30e37738ae"}
+    ],
+    "required_columns": [
+      "timestamp",
+      "location-long",
+      "location-lat",
+      "external-temperature",
+      "height-above-msl",
+      "individual-local-identifier"
+    ],
+    "optional_quality_columns": [
+      "import-marked-outlier",
+      "manually-marked-outlier",
+      "gps:vdop",
+      "vertical-error-numerical"
+    ]
+  },
+  "observation_filter": {
+    "sensor_semantics": "GPS events with finite timestamp, coordinates, external temperature and height above mean sea level",
+    "marked_outliers_removed_when_column_present": true,
+    "height_range_m_amsl": [-100.0, 5000.0],
+    "external_temperature_range_c": [-40.0, 60.0],
+    "latitude_range": [-90.0, 90.0],
+    "longitude_range": [-180.0, 180.0],
+    "temporal_thinning": "within each individual, retain the earliest admissible event in each UTC 10-minute bin",
+    "no_ground_speed_predictor": true,
+    "reason_no_ground_speed": "avoid using an endogenous movement variable as the main ecological/context predictor"
+  },
+  "prediction_target": {
+    "state_axis": "height-above-msl",
+    "semantic_limit": "absolute altitude state, not height above ground level",
+    "fixed_bins_m_amsl": [
+      {"label": "low_lt50", "lower_inclusive": null, "upper_exclusive": 50.0},
+      {"label": "lower_mid_50_200", "lower_inclusive": 50.0, "upper_exclusive": 200.0},
+      {"label": "upper_mid_200_500", "lower_inclusive": 200.0, "upper_exclusive": 500.0},
+      {"label": "high_ge500", "lower_inclusive": 500.0, "upper_exclusive": null}
+    ],
+    "binning_may_not_be_retuned_after_data_access": true
+  },
+  "covariates": {
+    "primary_X": [
+      "external_temperature_c",
+      "latitude",
+      "longitude",
+      "sin_local_solar_hour",
+      "cos_local_solar_hour",
+      "sin_day_of_year",
+      "cos_day_of_year"
+    ],
+    "local_solar_hour_definition": "(UTC_decimal_hour + longitude/15) mod 24; equation-of-time correction intentionally omitted",
+    "day_of_year_cycle_days": 365.2425,
+    "standardization": "for multinomial-logit sensitivity only, center and scale each continuous feature using training-fold moments; zero-SD features fail that sensitivity fold",
+    "missing_covariates": "complete-case filtering before individual admission"
+  },
+  "independence_and_admission": {
+    "independent_group": "individual-local-identifier",
+    "cross_validation": "leave-one-eligible-individual-out",
+    "minimum_thinned_events_per_individual": 300,
+    "minimum_events_in_each_supported_state": 10,
+    "minimum_supported_states_per_individual": 2,
+    "minimum_eligible_individuals": 4,
+    "training_individual_weighting": "each training individual contributes equal total sample weight regardless of event count",
+    "heldout_scoring": "each held-out individual scored separately; no pooling can rescue a conflicting individual",
+    "admission_failure_terminal": "empirical_state_prediction_unavailable"
+  },
+  "models": {
+    "primary": {
+      "name": "random_forest",
+      "n_estimators": 500,
+      "min_samples_leaf": 20,
+      "max_features": "sqrt",
+      "random_state": 20260905,
+      "class_weight": null
+    },
+    "sensitivity": {
+      "name": "multinomial_logistic_regression",
+      "C": 1.0,
+      "solver": "lbfgs",
+      "max_iter": 3000,
+      "random_state": 20260905,
+      "training_fold_standardization": true
+    },
+    "model_selection_after_outcome_access": false
+  },
+  "heldout_metrics": {
+    "primary": "mean_log_score_gain_over_training_marginal",
+    "secondary": [
+      "mean_log_score",
+      "multiclass_brier_score",
+      "brier_improvement_over_training_marginal",
+      "top1_accuracy",
+      "top1_improvement_over_training_marginal",
+      "mean_probability_assigned_to_realized_state"
+    ],
+    "diagnostics": [
+      "heldout_event_count",
+      "training_event_count",
+      "training_individual_count",
+      "state_frequencies",
+      "confusion_matrix"
+    ]
+  },
+  "terminal_rule_primary_rf": {
+    "generalizing": "every eligible held-out individual has mean_log_score_gain > 0",
+    "non_generalizing": "every eligible held-out individual has mean_log_score_gain <= 0",
+    "mixed": "held-out individual gain signs conflict",
+    "tolerance": 0.0,
+    "mean_gain_is_descriptive_only": true,
+    "sensitivity_model_cannot_override_primary_terminal": true
+  },
+  "claim_ceiling": {
+    "positive_result_supports": "external/context covariates predict absolute altitude-state distributions that transfer across held-out tagged individuals better than a training marginal altitude distribution",
+    "does_not_support": [
+      "height above ground without an independent terrain correction",
+      "fundamental niche inference",
+      "causal effects of temperature, time or location",
+      "removal of GPS or tag measurement bias",
+      "universal transferability to other species or regions"
+    ]
+  },
+  "frozen_endpoints_untouched": {
+    "tawaki": true,
+    "tadarida_teniotis": true,
+    "snapshot_serengeti": true
+  }
+}
