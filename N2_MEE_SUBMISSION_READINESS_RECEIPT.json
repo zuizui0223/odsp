@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "receipt_id": "n2-mee-submission-readiness-v1",
+  "validated_date": "2026-09-04",
+  "target": {
+    "journal": "Methods in Ecology and Evolution",
+    "article_type": "Research Article",
+    "manuscript_title": "Beyond flat niche maps: separating added-axis thickness from transferable ecological organization"
+  },
+  "main_validation": {
+    "head_sha": "6af0536ac72d55652e132015af9c6a421373a7b0",
+    "regular_test_run_id": 33865207343,
+    "regular_test_conclusion": "success",
+    "submission_package_run_id": 33865207160,
+    "submission_package_conclusion": "success"
+  },
+  "integrated_manuscript_v2": {
+    "generated_from": [
+      "manuscript/N2_MEE_MANUSCRIPT_DRAFT_v1.md",
+      "manuscript/N2_MEE_GENERALITY_SECTION_v1.md",
+      "N2_GENERALITY_BENCHMARK_SUMMARY.json"
+    ],
+    "sha256": "d82328b70dcba62bbbb1274f49edc6054176d6d891fd251cae91429cf0fde7bd",
+    "word_count": 6398,
+    "abstract_numbered_parts": 4,
+    "abstract_max_words_tested": 350,
+    "contains_validated_generality_result": true,
+    "empirical_terminal_values_preserved": true,
+    "author_identity_tokens_absent_in_source_test": true
+  },
+  "figures": {
+    "builder": "scripts/build_n2_mee_figures.py",
+    "empirical_refit_or_rerun": false,
+    "figure_count": 3,
+    "rendered_file_count": 6,
+    "formats": ["PDF", "PNG_600dpi"],
+    "manifest_generated": true,
+    "source_records": [
+      "N2_BAT_THICKNESS_TERMINAL_DECISION.json",
+      "N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json",
+      "N2_EMPIRICAL_STATE_MATRIX.json",
+      "N2_GENERALITY_BENCHMARK_SUMMARY.json"
+    ]
+  },
+  "anonymous_review_bundle": {
+    "builder": "scripts/build_n2_mee_review_bundle.py",
+    "sha256": "4a371dfb1c5b6b366ee0728f97df3bca8ca836f6724bd2859488c6649ec89e08",
+    "bytes": 102912,
+    "file_count": 44,
+    "deterministic_build_tested": true,
+    "identity_token_scan_passed": true,
+    "git_history_included": false,
+    "author_identity_included": false,
+    "internal_pr_or_workflow_provenance_included": false,
+    "integrated_manuscript_v2_included": true,
+    "generality_validation_included": true,
+    "bundle_extracted_and_installed_in_ci": true,
+    "bundle_internal_pytest_conclusion": "success"
+  },
+  "submission_artifact": {
+    "artifact_name": "n2-mee-submission-package",
+    "artifact_id": 9933679843,
+    "artifact_digest": "sha256:7ecedd279f2f0ecb14b26669d01a73a89c0988046f6d6c01d4340d128cbbf721",
+    "artifact_size_bytes": 1203598,
+    "contents_include": [
+      "integrated manuscript v2 and manifest",
+      "three figures as PDF and 600-dpi PNG plus figure manifest",
+      "deterministic double-anonymous review bundle",
+      "submission package checksum manifest"
+    ]
+  },
+  "generality_status": {
+    "finite_discrete_support_genericity_validated": true,
+    "heterogeneous_empirical_portability_demonstrated": true,
+    "proof_obligations_passed": 1873,
+    "proof_obligations_failed": 0,
+    "maximum_absolute_error": 2.4868995751603507e-14,
+    "universal_biological_outcomes_claimed": false,
+    "causal_generality_claimed": false
+  },
+  "scientific_boundary": {
+    "tawaki_rerun_or_retune": false,
+    "bat_rerun_or_retune": false,
+    "serengeti_rerun_or_retune": false,
+    "gate_e_reopened": false,
+    "n2_terminal_summary_promoted_to_n3_state": false,
+    "submission_packaging_changes_scientific_endpoint": false
+  },
+  "readiness": {
+    "full_integrated_manuscript_generated": true,
+    "main_figures_generated": true,
+    "double_anonymous_code_evidence_bundle_generated": true,
+    "source_package_tests_passed": true,
+    "anonymous_bundle_self_tests_passed": true,
+    "main_regular_ci_passed": true,
+    "main_submission_workflow_passed": true,
+    "technical_submission_package_ready": true
+  }
+}
