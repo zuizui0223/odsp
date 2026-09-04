@@ -21,6 +21,14 @@ SOURCE = ROOT / "manuscript" / "N2_MEE_MANUSCRIPT_DRAFT_v1.md"
 GENERALITY = ROOT / "manuscript" / "N2_MEE_GENERALITY_SECTION_v1.md"
 SUMMARY = ROOT / "N2_GENERALITY_BENCHMARK_SUMMARY.json"
 
+V2_ABSTRACT = """1. Ecological niches are commonly mapped in two dimensions although organismal support can also vary with height, depth, time and other state axes. Adding dimensions to a fitted model does not by itself show that hidden state is estimable, organized or independently generalizable. We therefore separate projection-loss magnitude from the transferability of the organization that produces it.
+
+2. For non-negative support tensors, we quantify added-axis thickness with `H(A|B)` and `exp[H(A|B)]`, fitted organization with mutual information, and held-out transferability with `E[log P_model(A|B)-log P_model(A)]` against the model marginal. Independent groups are scored separately and cross-fitted where required. Known-truth tests distinguish thick-unorganized, stable-generalizing and shifted-non-generalizing states. Axis-agnostic properties were additionally tested across 128 random two- to six-dimensional tensors and multi-axis systems: all 1,873 obligations passed, with maximum absolute error `2.49×10^-14`.
+
+3. Three prospectively bounded empirical applications occupied different states. A Tawaki GPS-dive endpoint was structurally unavailable before biological thickness was opened. European free-tailed bat tracking was vertically thick after horizontal location was known (`H(Z|X,Y)=1.392` nats; 4.02 effective states), but both sealed-individual gains were negative. Snapshot Serengeti detections were temporally broad within sites (`H(T|Site)=1.640`; 5.15 of six effective states), species-partitioned (`I(Species;T|Site)=0.224`; permutation `p=0.005`), and generalizing, with positive gains in all three held-out site folds.
+
+4. Projection loss therefore has separable components: how much added-axis state remains and whether its organization transfers independently. The inferential machinery is axis-agnostic over validated finite discrete support tensors and portable across heterogeneous observation architectures, while biological interpretation remains bounded by each axis's observation semantics and validation design."""
+
 
 def _section(text: str, heading: str, next_heading: str | None) -> str:
     start = text.index(heading) + len(heading)
@@ -35,6 +43,16 @@ def _replace_once(text: str, old: str, new: str) -> str:
     return text.replace(old, new, 1)
 
 
+def _replace_abstract(text: str) -> str:
+    start_marker = "## Abstract\n\n"
+    end_marker = "\n\n**Keywords:**"
+    if text.count(start_marker) != 1 or text.count(end_marker) != 1:
+        raise ValueError("manuscript abstract markers are not unique")
+    prefix, rest = text.split(start_marker, 1)
+    _, suffix = rest.split(end_marker, 1)
+    return prefix + start_marker + V2_ABSTRACT + end_marker + suffix
+
+
 def build_manuscript_text() -> str:
     text = SOURCE.read_text(encoding="utf-8")
     insert = GENERALITY.read_text(encoding="utf-8")
@@ -43,35 +61,7 @@ def build_manuscript_text() -> str:
     if result["check_count"] != 1873 or result["failed_count"] != 0:
         raise ValueError("generality summary does not match the validated benchmark")
 
-    abstract2_old = (
-        "2. We introduce an information-theoretic framework for non-negative ecological support tensors. "
-        "Added-axis thickness is measured by conditional information `H(A|B)` and its effective state count "
-        "`exp(H(A|B))` after a declared base state `B` is known. Fitted organization is kept distinct from "
-        "held-out transferability, which is scored as `E[log P_model(A|B) - log P_model(A)]` against an explicit "
-        "marginal comparator. Prospectively independent groups are scored separately, with cross-fitting when "
-        "each held-out group requires its own training support. Analytic known-truth families and concealed "
-        "finite-observation benchmarks test thick-but-unorganized, stable-generalizing and shifted-non-generalizing "
-        "states before empirical application."
-    )
-    abstract2_new = abstract2_old + (
-        " Axis-agnostic invariance and composition were then stress-tested across 128 random two- to six-dimensional "
-        "support tensors and additional multi-axis systems before empirical interpretation."
-    )
-    text = _replace_once(text, abstract2_old, abstract2_new)
-
-    abstract4_old = (
-        "4. Projection loss therefore has at least two empirically separable components: how much added-axis state "
-        "remains after projection and whether the organization of that state transfers to independent observations. "
-        "Treating estimability, thickness, organization and transferability as separate inferential layers prevents "
-        "descriptively rich multidimensional fits from being promoted automatically to generalizable ecological "
-        "structure. The framework is axis-agnostic, while biological interpretation remains explicitly tied to the "
-        "observation semantics of each added dimension."
-    )
-    abstract4_new = abstract4_old + (
-        " Its representation-level genericity is supported over finite discrete support tensors, while biological "
-        "generality remains bounded by the semantics and independent validation design of each application."
-    )
-    text = _replace_once(text, abstract4_old, abstract4_new)
+    text = _replace_abstract(text)
 
     text = _replace_once(
         text,
@@ -112,7 +102,6 @@ def build_manuscript_text() -> str:
         None,
     )
 
-    # Renumber existing Methods headings from the bottom up, then insert 2.6.
     for old, new in (("## 2.9 ", "## 2.10 "), ("## 2.8 ", "## 2.9 "), ("## 2.7 ", "## 2.8 "), ("## 2.6 ", "## 2.7 ")):
         text = text.replace(old, new)
     text = _replace_once(
@@ -121,7 +110,6 @@ def build_manuscript_text() -> str:
         "## 2.6 Generality and invariance validation\n\n" + methods + "\n\n## 2.7 Observation semantics and prospective empirical gates",
     )
 
-    # Renumber Results after 3.1, then insert generality as 3.2.
     for old, new in (("## 3.7 ", "## 3.8 "), ("## 3.6 ", "## 3.7 "), ("## 3.5 ", "## 3.6 "), ("## 3.4 ", "## 3.5 "), ("## 3.3 ", "## 3.4 "), ("## 3.2 ", "## 3.3 ")):
         text = text.replace(old, new)
     text = _replace_once(
@@ -130,7 +118,6 @@ def build_manuscript_text() -> str:
         "## 3.2 The evidence core was invariant across high-dimensional representations\n\n" + results + "\n\n## 3.3 The Tawaki vertical endpoint was prospectively unestimable",
     )
 
-    # Insert generality after the axis-semantics discussion and renumber later sections.
     text = text.replace("## 4.6 Projection-aware inference should end before downstream state promotion", "## 4.7 Projection-aware inference should end before downstream state promotion")
     text = text.replace("## 4.5 Cross-system differences demonstrate states, not mechanisms", "## 4.6 Cross-system differences demonstrate states, not mechanisms")
     text = _replace_once(
@@ -140,8 +127,7 @@ def build_manuscript_text() -> str:
     )
 
     text = text.replace("**Review draft:** anonymized working version", "**Review draft:** anonymized integrated version 2")
-    text = text.rstrip() + "\n"
-    return text
+    return text.rstrip() + "\n"
 
 
 def _word_count(text: str) -> int:
