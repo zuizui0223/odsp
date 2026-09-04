@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "chapter_code": "N2",
+  "frozen_date": "2026-09-04",
+  "manuscript_role": "methods_first_research_article",
+  "primary_target": {
+    "journal": "Methods in Ecology and Evolution",
+    "article_type": "Research Article",
+    "fit": "The manuscript introduces and tests a general inferential framework for multidimensional ecological support rather than primarily reporting the biological results of one system.",
+    "submission_constraints_checked_2026_09_04": {
+      "maximum_total_words": "7000-8000 including references, captions and statements",
+      "abstract_max_words": 350,
+      "abstract_numbered_sections": 4,
+      "simulation_or_benchmark_before_empirical_application": true,
+      "broad_applicability_across_taxa_or_systems_required": true,
+      "code_and_data_available_for_peer_review": true,
+      "double_anonymous_initial_review": true,
+      "open_source_code_license_required": true
+    }
+  },
+  "fallback_targets": [
+    {
+      "priority": 2,
+      "journal": "Ecography",
+      "fit": "Strong fit to spatial and temporal ecological patterns and modern methodology, but the manuscript would need to foreground the ecological interpretation of projection through space and time rather than method uptake alone."
+    },
+    {
+      "priority": 3,
+      "journal": "Global Ecology and Biogeography",
+      "fit": "Conceptual and methodological scope is compatible, but current empirical evidence spans only a small number of systems and is weaker as a broad-scale macroecological paper than as a methods paper."
+    }
+  ],
+  "title": "Beyond flat niche maps: separating added-axis thickness from transferable ecological organization",
+  "alternative_titles": [
+    "Niche thickness is not enough: an information-theoretic test of transferable multidimensional organization",
+    "Projection loss and transferability define distinct states of multidimensional niche evidence",
+    "From flat maps to ecological state space: separating niche thickness from generalizable organization"
+  ],
+  "one_sentence_claim": "Projection loss has at least two empirically separable components: the amount of added-axis state retained after projection and the independent transferability of the organization of that state.",
+  "methodological_contribution": [
+    "conditional added-axis information H(A|B) and effective states exp(H(A|B)) quantify descriptive thickness after declared base state B is known",
+    "fitted organization is kept separate from held-out transferability",
+    "held-out transferability is scored as E[log P_model(A|B) - log P_model(A)]",
+    "prospectively independent groups are scored separately so group mass cannot rescue a conflicting group",
+    "estimability under a frozen observation architecture is itself an explicit terminal state",
+    "axis semantics, source provenance, frozen decision rules and N2-to-N3 handoff are fail-closed and machine-readable"
+  ],
+  "required_results_order": [
+    "known_truth_method_validation",
+    "empirical_estimability_tawaki",
+    "bat_vertical_thickness",
+    "bat_non_generalizing_organization",
+    "serengeti_temporal_thickness_and_partition",
+    "serengeti_generalizing_transferability",
+    "three_state_empirical_synthesis",
+    "n2_n3_boundary"
+  ],
+  "terminal_empirical_values": {
+    "tawaki": {
+      "terminal_category": "empirical_gate_d_unavailable"
+    },
+    "bat": {
+      "terminal_category": "empirical_n2_thickness_not_generalizing",
+      "information_nats_H_Z_given_XY": 1.3918623004770097,
+      "effective_vertical_states": 4.022333876564191,
+      "heldout_gains": [-0.43541033813280833, -0.021938657402345435]
+    },
+    "serengeti": {
+      "terminal_category": "temporal_partition_generalizing",
+      "admitted_species_count": 17,
+      "information_nats_H_T_given_Site": 1.6396235816361795,
+      "effective_temporal_states": 5.153229376935854,
+      "partition_information_nats_I_Species_T_given_Site": 0.22427598739601606,
+      "permutation_p_value": 0.005,
+      "heldout_fold_gains": [0.0572411993741857, 0.045158861333215006, 0.04514355468571751]
+    }
+  },
+  "recommended_manuscript_structure": {
+    "abstract": "numbered 1-4; <=350 words",
+    "introduction": [
+      "flat maps are marginal projections of richer ecological state spaces",
+      "added dimensions are often treated as evidence of biological structure without separating magnitude from generalization",
+      "introduce the estimability-thickness-organization-transferability hierarchy",
+      "state predictions for known-truth and independent empirical tests"
+    ],
+    "methods": [
+      "information-theoretic state representation",
+      "organization and conditional-vs-marginal held-out score",
+      "independent-group and cross-fitted decision logic",
+      "known-truth simulation and concealed recovery",
+      "source-preserving temporal and vertical semantics",
+      "prospectively frozen empirical lane designs",
+      "terminal and handoff rules"
+    ],
+    "results": [
+      "known-truth benchmark separates thickness, organization and transferability",
+      "Tawaki demonstrates structural unavailability",
+      "bat support is vertically thick but non-generalizing",
+      "Serengeti support is temporally thick, species-partitioned and generalizing",
+      "three empirical states establish separability of inferential layers"
+    ],
+    "discussion": [
+      "thickness magnitude is not evidence of transferable multidimensional organization",
+      "estimability failures should remain scientific outcomes rather than trigger rescue tuning",
+      "independent answer checks convert descriptive geometry into a stronger generalization claim",
+      "positive temporal organization remains camera-detected local-clock-time organization, not causal displacement or a fundamental niche",
+      "cross-system contrast proves existence of distinct states but not why temporal and vertical lanes differ",
+      "N2 terminal evidence remains distinct from an N3 axis-resolved state artifact"
+    ]
+  },
+  "display_plan": {
+    "figure_1": "method hierarchy: projection -> thickness -> organization -> independent transferability",
+    "figure_2": "known-truth benchmark: thick-unorganized, stable-generalizing and shifted-non-generalizing families",
+    "figure_3": "empirical synthesis using Tawaki, bat and Serengeti terminal states",
+    "table_1": "definitions, estimands, null/comparator and interpretation ceiling for each inferential layer"
+  },
+  "claim_ceiling": [
+    "do not claim that temporal dimensions are intrinsically more generalizable than vertical dimensions",
+    "do not compare bat and Serengeti information values as controlled effect sizes",
+    "do not infer competition or temporal displacement from I(Species;T|Site)",
+    "do not relabel camera-detected local clock time as true activity time or solar time",
+    "do not relabel height above mean sea level as height above ground",
+    "do not treat descriptive thickness alone as transferable multidimensional niche organization",
+    "do not promote any terminal summary into an empirical N3 state without an integrity-pinned axis-resolved artifact",
+    "do not reopen Tawaki, bat or Serengeti terminal endpoints"
+  ],
+  "submission_readiness": {
+    "terminal_results_closed": true,
+    "known_truth_benchmarks_present": true,
+    "core_figure_values_machine_pinned": true,
+    "explicit_open_source_license_file": true,
+    "anonymous_peer_review_code_snapshot": false,
+    "full_manuscript_draft": false,
+    "references_curated": false,
+    "data_code_peer_review_bundle": false,
+    "pre_submission_enquiry": "optional_after_full_abstract_and_figure_1"
+  }
+}
