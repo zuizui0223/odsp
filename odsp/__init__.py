@@ -1,9 +1,10 @@
-"""ODSP — Chapter 2 multidimensional niche geometry.
+"""ODSP — Chapter 2 multidimensional niche geometry and state prediction.
 
 The active ODSP surface keeps source-preserving occurrence information and adds
 model-agnostic niche-thickness, projection-loss, organization, transferability,
-temporal partitioning, chapter-handoff payloads and known-truth recovery tools.
-The historical spatial-patch method remains superseded by EOG.
+state-resolved ecological prediction, temporal partitioning, chapter-handoff
+payloads and known-truth recovery tools.  The historical spatial-patch method
+remains superseded by EOG.
 """
 
 from .added_axis_evidence import (
@@ -64,6 +65,19 @@ from .serengeti_terminal import (
     SerengetiTerminalReceipt,
     validate_serengeti_terminal_result,
 )
+from .state_prediction import (
+    EncodedStateResolvedModel,
+    EncodedStateSupport,
+    GroupedStatePredictionScore,
+    StatePredictionScore,
+    StatePredictionSummary,
+    StateResolvedModel,
+    encode_state_events,
+    fit_state_resolved_events,
+    fit_state_resolved_model,
+    score_state_prediction_groups,
+    score_state_probability_field,
+)
 from .temporal_crossfit import score_identity_temporal_crossfitted_groups
 from .temporal_information import (
     TemporalObservation,
@@ -101,9 +115,12 @@ __all__ = [
     "ConcealedRecoveryBenchmark",
     "ConcealedRecoveryCheck",
     "ConditionalTransferabilityScore",
+    "EncodedStateResolvedModel",
+    "EncodedStateSupport",
     "GeneralityBenchmarkResult",
     "GeneralityCheck",
     "GroupedHandoffPayload",
+    "GroupedStatePredictionScore",
     "GroupedTransferabilityResult",
     "IndependentGroupTransferability",
     "N2ToN3HandoffDecision",
@@ -112,6 +129,9 @@ __all__ = [
     "ProjectionOverlapProfile",
     "SerengetiTerminalReceipt",
     "StateArtifact",
+    "StatePredictionScore",
+    "StatePredictionSummary",
+    "StateResolvedModel",
     "TemporalObservation",
     "TemporalPartitionDecision",
     "TemporalPartitionProfile",
@@ -127,9 +147,12 @@ __all__ = [
     "classify_temporal_partition_result",
     "conditional_information",
     "effective_conditional_states",
+    "encode_state_events",
     "estimate_projection_overlap_from_counts",
     "estimate_thickness_from_counts",
     "evaluate_added_axis_evidence",
+    "fit_state_resolved_events",
+    "fit_state_resolved_model",
     "gbif_locality_elevation_mapping",
     "marginal_probability",
     "niche_thickness_profile",
@@ -148,6 +171,8 @@ __all__ = [
     "score_identity_temporal_groups",
     "score_identity_temporal_transferability",
     "score_independent_groups",
+    "score_state_prediction_groups",
+    "score_state_probability_field",
     "shannon_entropy",
     "temporal_partition_profile",
     "validate_n2_to_n3_payload",
