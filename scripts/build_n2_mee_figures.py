@@ -12,7 +12,6 @@ import hashlib
 import json
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -25,7 +24,6 @@ def figure_data() -> dict[str, object]:
     serengeti = _load("N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json")
     matrix = _load("N2_EMPIRICAL_STATE_MATRIX.json")
     generality = _load("N2_GENERALITY_BENCHMARK_SUMMARY.json")
-
     return {
         "known_truth": {
             "families": ["thick\nunorganized", "stable\norganization", "shifted\norganization"],
@@ -60,17 +58,14 @@ def figure_data() -> dict[str, object]:
                 "terminal_category": str(serengeti["terminal_category"]),
             },
         },
-        "chapter_claim": matrix["chapter_level_synthesis"]["strongest_supported_claim"],
+        "chapter_claim": str(matrix["chapter_level_result"]),
     }
 
 
 def _save(fig, output_dir: Path, stem: str) -> list[Path]:
     output_dir.mkdir(parents=True, exist_ok=True)
     outputs: list[Path] = []
-    for suffix, kwargs in (
-        (".pdf", {"bbox_inches": "tight"}),
-        (".png", {"dpi": 600, "bbox_inches": "tight"}),
-    ):
+    for suffix, kwargs in ((".pdf", {"bbox_inches": "tight"}), (".png", {"dpi": 600, "bbox_inches": "tight"})):
         path = output_dir / f"{stem}{suffix}"
         fig.savefig(path, **kwargs)
         outputs.append(path)
@@ -80,7 +75,6 @@ def _save(fig, output_dir: Path, stem: str) -> list[Path]:
 def build_figure_1(output_dir: Path) -> list[Path]:
     import matplotlib.pyplot as plt
     from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
-
     fig, ax = plt.subplots(figsize=(10.5, 4.2))
     ax.set_xlim(0, 10.5)
     ax.set_ylim(0, 4.2)
@@ -92,8 +86,7 @@ def build_figure_1(output_dir: Path) -> list[Path]:
         (8.15, "4  TRANSFERABILITY", "Does conditioned structure\nimprove independent prediction?\nE[log P(A|B)-log P(A)]"),
     ]
     for x, title, body in boxes:
-        patch = FancyBboxPatch((x, 1.15), 2.0, 1.75, boxstyle="round,pad=0.04,rounding_size=0.08", linewidth=1.2, fill=False)
-        ax.add_patch(patch)
+        ax.add_patch(FancyBboxPatch((x, 1.15), 2.0, 1.75, boxstyle="round,pad=0.04,rounding_size=0.08", linewidth=1.2, fill=False))
         ax.text(x + 1.0, 2.55, title, ha="center", va="center", fontsize=10, weight="bold")
         ax.text(x + 1.0, 1.85, body, ha="center", va="center", fontsize=8.7)
     for left in (2.35, 4.95, 7.55):
@@ -107,26 +100,22 @@ def build_figure_1(output_dir: Path) -> list[Path]:
 def build_figure_2(output_dir: Path, data: dict[str, object]) -> list[Path]:
     import matplotlib.pyplot as plt
     import numpy as np
-
     known = data["known_truth"]
     generality = data["generality"]
     fig, axes = plt.subplots(1, 2, figsize=(11.0, 4.8), gridspec_kw={"width_ratios": [1.35, 1.0]})
-
     ax = axes[0]
-    labels = known["families"]
     fitted = np.asarray(known["fitted_information_nats"], dtype=float)
     gains = np.asarray(known["heldout_gain_nats"], dtype=float)
-    x = np.arange(len(labels))
+    x = np.arange(len(known["families"]))
     width = 0.34
     ax.axhline(0.0, linewidth=0.9)
     ax.bar(x - width / 2, fitted, width, label="fitted information I(A;B)")
     ax.bar(x + width / 2, gains, width, label="held-out gain G")
-    ax.set_xticks(x, labels)
+    ax.set_xticks(x, known["families"])
     ax.set_ylabel("Information / mean log-score gain (nats)")
     ax.set_title("A  Known-truth states")
     ax.legend(frameon=False, fontsize=8.5)
     ax.text(x[0], 0.055, "4 effective\nadded states", ha="center", va="bottom", fontsize=8.3)
-
     ax = axes[1]
     ax.axis("off")
     ax.set_title("B  Axis-agnostic generality validation")
@@ -138,8 +127,7 @@ def build_figure_2(output_dir: Path, data: dict[str, object]) -> list[Path]:
         f"dimensions: {generality['ndim_range'][0]}–{generality['ndim_range'][1]}",
         f"conditional-independence systems: {generality['conditional_independence_cases']}",
         "independent groups tested: " + ", ".join(str(v) for v in generality["independent_group_counts"]),
-        "",
-        "Validated properties:",
+        "", "Validated properties:",
         "mass scaling • axis permutation • state relabelling",
         "nuisance refinement • gain = MI identity",
         "multi-axis composition • group-mass invariance",
@@ -153,35 +141,29 @@ def build_figure_2(output_dir: Path, data: dict[str, object]) -> list[Path]:
 def build_figure_3(output_dir: Path, data: dict[str, object]) -> list[Path]:
     import matplotlib.pyplot as plt
     import numpy as np
-
-    empirical = data["empirical"]
-    bat = empirical["bat"]
-    serengeti = empirical["serengeti"]
+    bat = data["empirical"]["bat"]
+    serengeti = data["empirical"]["serengeti"]
     fig, axes = plt.subplots(1, 3, figsize=(12.0, 4.8), gridspec_kw={"width_ratios": [1.0, 1.2, 1.25]})
-
     ax = axes[0]
     ax.axis("off")
     ax.text(0.5, 0.75, "Tawaki", ha="center", va="center", fontsize=12, weight="bold")
     ax.text(0.5, 0.52, "UNAVAILABLE", ha="center", va="center", fontsize=14, weight="bold")
     ax.text(0.5, 0.30, "Frozen site×year structural\ngate failed before biological\nthickness was opened", ha="center", va="center", fontsize=9)
-
     ax = axes[1]
-    gains = np.asarray(bat["gains"], dtype=float)
+    bg = np.asarray(bat["gains"], dtype=float)
     ax.axhline(0.0, linewidth=0.9)
-    ax.scatter(np.arange(len(gains)), gains, s=55)
-    ax.set_xticks(np.arange(len(gains)), ["sealed 1", "sealed 2"])
+    ax.scatter(np.arange(len(bg)), bg, s=55)
+    ax.set_xticks(np.arange(len(bg)), ["sealed 1", "sealed 2"])
     ax.set_ylabel("held-out gain (nats/event)")
     ax.set_title("European free-tailed bat")
     ax.text(0.03, 0.97, f"H(Z|X,Y) = {bat['information_nats']:.3f} nats\neffective states = {bat['effective_states']:.2f}\nthick / non-generalizing", transform=ax.transAxes, ha="left", va="top", fontsize=8.8)
-
     ax = axes[2]
-    gains = np.asarray(serengeti["gains"], dtype=float)
+    sg = np.asarray(serengeti["gains"], dtype=float)
     ax.axhline(0.0, linewidth=0.9)
-    ax.scatter(np.arange(len(gains)), gains, s=55)
-    ax.set_xticks(np.arange(len(gains)), ["fold 0", "fold 1", "fold 2"])
+    ax.scatter(np.arange(len(sg)), sg, s=55)
+    ax.set_xticks(np.arange(len(sg)), ["fold 0", "fold 1", "fold 2"])
     ax.set_title("Snapshot Serengeti")
     ax.text(0.03, 0.97, f"H(T|Site) = {serengeti['information_nats']:.3f} nats\neffective states = {serengeti['effective_states']:.2f}/6\nI(Species;T|Site) = {serengeti['partition_information_nats']:.3f}\npermutation p = {serengeti['permutation_p_value']:.3f}\nthick / generalizing", transform=ax.transAxes, ha="left", va="top", fontsize=8.4)
-
     fig.suptitle("Empirical lanes occupy distinct terminal inferential states", fontsize=12, weight="bold")
     fig.tight_layout()
     return _save(fig, output_dir, "Figure3_empirical_terminal_states")
@@ -204,16 +186,11 @@ def build_all(output_dir: Path) -> dict[str, object]:
     manifest = {
         "schema_version": 2,
         "purpose": "manuscript_display_only_no_empirical_refit",
-        "source_records": [
-            "N2_BAT_THICKNESS_TERMINAL_DECISION.json",
-            "N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json",
-            "N2_EMPIRICAL_STATE_MATRIX.json",
-            "N2_GENERALITY_BENCHMARK_SUMMARY.json",
-        ],
+        "source_records": ["N2_BAT_THICKNESS_TERMINAL_DECISION.json", "N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json", "N2_EMPIRICAL_STATE_MATRIX.json", "N2_GENERALITY_BENCHMARK_SUMMARY.json"],
+        "chapter_claim": data["chapter_claim"],
         "outputs": [{"path": path.name, "sha256": _sha256(path), "bytes": path.stat().st_size} for path in outputs],
     }
-    manifest_path = output_dir / "figure_manifest.json"
-    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    (output_dir / "figure_manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return manifest
 
 
