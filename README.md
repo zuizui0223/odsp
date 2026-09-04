@@ -40,15 +40,9 @@ P(A | B)   discrete/base-state prediction
 P(A | X)   continuous-covariate prediction at new rows/locations
 ```
 
-where `A` may be one or more added ecological states such as altitude layer, depth, time bin, phenophase, behaviour or microhabitat. The package includes:
+where `A` may be one or more added ecological states such as altitude layer, depth, time bin, phenophase, behaviour or microhabitat. The package includes a transparent conditional reference learner, event-table encoding, optional scikit-learn probability-estimator bridges, rich per-state output, and held-out log-score/Brier/top-1 evaluation.
 
-- a transparent Dirichlet-smoothed conditional reference learner;
-- event-table encoding for public tracking, camera-trap and phenology data;
-- optional scikit-learn probability-estimator bridges, including tested multinomial-logit and random-forest references;
-- full per-state probabilities, dominant state, entropy/effective states and support diagnostics;
-- held-out log score, Δ log score over a training marginal comparator, multiclass Brier score, top-1 accuracy and independent-group terminal classification.
-
-The prospectively frozen BOP_RODENT public-data endpoint provides a larger multi-species empirical validation of this prediction layer. Thirty independently scored individuals from four admitted raptor species passed the frozen admission architecture. The primary random-forest state model improved held-out log score over the training marginal altitude distribution in **27/30 individuals** and improved multiclass Brier score in **30/30**. Under the deliberately conservative all-individual rule the terminal result is therefore **mixed**, not generalizing: *Buteo buteo* and *Circus pygargus* were species-level generalizing, while *Circus aeruginosus* and *Circus cyaneus* contained conflicting held-out individuals. See [`BOP_RODENT_STATE_PREDICTION_TERMINAL_RECEIPT.json`](BOP_RODENT_STATE_PREDICTION_TERMINAL_RECEIPT.json) and [`docs/bop_rodent_state_prediction_terminal_2026-09-05.md`](docs/bop_rodent_state_prediction_terminal_2026-09-05.md).
+The prospectively frozen BOP_RODENT public-data endpoint provides a larger multi-species empirical validation of this prediction layer. Thirty independently scored individuals from four admitted raptor species passed the frozen admission architecture. The primary random-forest state model improved held-out log score over the training marginal altitude distribution in **27/30 individuals** and improved multiclass Brier score in **30/30**. Under the deliberately conservative all-individual rule the terminal result is **mixed**, not generalizing: *Buteo buteo* and *Circus pygargus* were species-level generalizing, while *Circus aeruginosus* and *Circus cyaneus* contained conflicting held-out individuals. See [`BOP_RODENT_STATE_PREDICTION_TERMINAL_RECEIPT.json`](BOP_RODENT_STATE_PREDICTION_TERMINAL_RECEIPT.json) and [`docs/bop_rodent_state_prediction_terminal_2026-09-05.md`](docs/bop_rodent_state_prediction_terminal_2026-09-05.md).
 
 This prediction layer does **not** turn ODSP into a new MaxEnt/RF-style occurrence algorithm. Upstream learners can produce state probabilities and ODSP supplies a common ecological-state target, richer prediction output and independent scoring architecture.
 
