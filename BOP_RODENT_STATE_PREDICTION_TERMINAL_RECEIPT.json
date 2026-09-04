@@ -1,0 +1,232 @@
+{
+  "closed_endpoints_untouched": {
+    "mh_antwerpen": true,
+    "snapshot_serengeti": true,
+    "tadarida_teniotis": true,
+    "tawaki": true
+  },
+  "contract_id": "bop-rodent-state-prediction-v1",
+  "data_flow": {
+    "admissible_before_thinning": 1983483,
+    "admitted_species": [
+      "Buteo buteo",
+      "Circus aeruginosus",
+      "Circus cyaneus",
+      "Circus pygargus"
+    ],
+    "admitted_species_count": 4,
+    "all_thinned_state_counts": {
+      "high_ge500": 11818,
+      "low_lt50": 75243,
+      "lower_mid_50_200": 28420,
+      "upper_mid_200_500": 43105
+    },
+    "eligible_event_count": 154655,
+    "eligible_individual_count": 30,
+    "filter_failures": {
+      "height_out_of_range": 5005,
+      "temperature_out_of_range": 419
+    },
+    "hourly_thinned_event_count": 158586,
+    "individual_count_before_admission": 34,
+    "raw_row_count": 1988907
+  },
+  "endpoint": "bop_rodent_state_prediction_v1",
+  "interpretation": {
+    "does_not_support": [
+      "height above ground without terrain correction",
+      "causal effects of weather, time, geography or species identity",
+      "fundamental niche inference",
+      "removal of GPS/tag measurement bias",
+      "universal transfer to bird species outside the admitted public dataset"
+    ],
+    "supported": [
+      "species-aware context-conditioned absolute-altitude state prediction outperformed the training marginal altitude distribution by primary log score for 27 of 30 prospectively held-out individuals",
+      "primary multiclass Brier score improved over the training marginal comparator for all 30 held-out individuals",
+      "Buteo buteo and Circus pygargus were species-level generalizing under the frozen all-positive individual rule",
+      "the all-individual terminal state is mixed because three held-out individuals had non-positive primary log-score gain"
+    ]
+  },
+  "multinomial_logit_sensitivity": {
+    "eligible_individual_count": 30,
+    "mean_brier_improvement_descriptive": 0.05194219361613328,
+    "mean_gain_descriptive": 0.08617505942626986,
+    "mean_top1_accuracy_descriptive": 0.48451644939561506,
+    "nonpositive_individual_count": 8,
+    "positive_brier_improvement_count": 22,
+    "positive_individual_count": 22,
+    "species_categories": {
+      "Buteo buteo": {
+        "category": "generalizing",
+        "individual_count": 5,
+        "mean_gain_descriptive": 0.058520422618969614,
+        "positive_count": 5
+      },
+      "Circus aeruginosus": {
+        "category": "mixed",
+        "individual_count": 8,
+        "mean_gain_descriptive": 0.028673167329247795,
+        "positive_count": 3
+      },
+      "Circus cyaneus": {
+        "category": "mixed",
+        "individual_count": 8,
+        "mean_gain_descriptive": -0.020687821014421265,
+        "positive_count": 5
+      },
+      "Circus pygargus": {
+        "category": "generalizing",
+        "individual_count": 9,
+        "mean_gain_descriptive": 0.24764076657495948,
+        "positive_count": 9
+      }
+    }
+  },
+  "primary_random_forest": {
+    "eligible_individual_count": 30,
+    "individual_gains": [
+      0.22902248150661897,
+      0.24568855114693966,
+      0.4777697589252325,
+      0.30099823845922147,
+      0.15620989494672366,
+      1.254257619236065,
+      1.499987587497081,
+      0.16907595809527254,
+      0.5056269220464306,
+      0.36872188550532625,
+      0.8914976935051456,
+      -0.05343667878388181,
+      1.201397083999359,
+      0.9823947116213676,
+      0.23247088424594886,
+      0.4668274101694188,
+      -0.026803112398177786,
+      0.18182935569093095,
+      0.581358325158397,
+      1.3151255683614607,
+      1.416075975701762,
+      0.24504522400275153,
+      0.4228278013735745,
+      0.1367191639109957,
+      1.2643722444149905,
+      1.2230668912552787,
+      0.2759423852779621,
+      0.3355311897859121,
+      -0.23078224313265183,
+      1.0584878507287052
+    ],
+    "maximum_gain": 1.499987587497081,
+    "mean_assigned_probability_descriptive": 0.6483575293928328,
+    "mean_brier_improvement_descriptive": 0.3349841597067561,
+    "mean_gain_descriptive": 0.5709102207418053,
+    "mean_top1_accuracy_descriptive": 0.7562012255655401,
+    "median_gain_descriptive": 0.39577484343945035,
+    "minimum_gain": -0.23078224313265183,
+    "nonpositive_individual_count": 3,
+    "positive_brier_improvement_count": 30,
+    "positive_individual_count": 27,
+    "reason": "frozen_all_individual_primary_rf_gain_rule",
+    "species_categories": {
+      "Buteo buteo": {
+        "category": "generalizing",
+        "gains": [
+          0.22902248150661897,
+          0.16907595809527254,
+          0.23247088424594886,
+          0.24504522400275153,
+          0.2759423852779621
+        ],
+        "individual_count": 5,
+        "mean_gain_descriptive": 0.2303113866257108,
+        "positive_count": 5
+      },
+      "Circus aeruginosus": {
+        "category": "mixed",
+        "gains": [
+          0.24568855114693966,
+          0.4777697589252325,
+          0.5056269220464306,
+          0.36872188550532625,
+          0.4668274101694188,
+          -0.026803112398177786,
+          0.4228278013735745,
+          0.3355311897859121
+        ],
+        "individual_count": 8,
+        "mean_gain_descriptive": 0.34952380081933204,
+        "positive_count": 7
+      },
+      "Circus cyaneus": {
+        "category": "mixed",
+        "gains": [
+          0.30099823845922147,
+          0.15620989494672366,
+          0.8914976935051456,
+          -0.05343667878388181,
+          0.18182935569093095,
+          0.581358325158397,
+          0.1367191639109957,
+          -0.23078224313265183
+        ],
+        "individual_count": 8,
+        "mean_gain_descriptive": 0.24554921871936009,
+        "positive_count": 6
+      },
+      "Circus pygargus": {
+        "category": "generalizing",
+        "gains": [
+          1.254257619236065,
+          1.499987587497081,
+          1.201397083999359,
+          0.9823947116213676,
+          1.3151255683614607,
+          1.416075975701762,
+          1.2643722444149905,
+          1.2230668912552787,
+          1.0584878507287052
+        ],
+        "individual_count": 9,
+        "mean_gain_descriptive": 1.2461295036462299,
+        "positive_count": 9
+      }
+    },
+    "terminal_category": "empirical_state_prediction_mixed"
+  },
+  "prospective_provenance": {
+    "artifact_digest": "sha256:49291cf0f2c90955fc23bdc702ccef1ef8b710ce100c8e338c5fc6b91388b8f7",
+    "artifact_id": 9946375169,
+    "contract_main_sha": "bab8e4a4942199288e02ca893590f5732bed26e0",
+    "contract_merged_before_outcome_access": true,
+    "execution_head_sha": "54acae2a71fe56d6e1e0dc77cc38e13d125912c5",
+    "result_json_sha256": "9e681852d1982e03d9a0696ce5b78c8f367bbffcc401bc54e9b62368a211499d",
+    "retuning_performed": false,
+    "runner_pr_number": 56,
+    "workflow_run_id": 33897335554
+  },
+  "receipt_id": "bop-rodent-state-prediction-terminal-v1",
+  "schema_version": 1,
+  "source": {
+    "archive_doi": "10.5281/zenodo.10055071",
+    "archive_version": "Zenodo v3",
+    "file_md5s": [
+      {
+        "expected_md5": "c2309baee0edf6bf4f923ab981d59749",
+        "name": "BOP_RODENT-gps-2020.csv.gz",
+        "observed_md5": "c2309baee0edf6bf4f923ab981d59749"
+      },
+      {
+        "expected_md5": "6ed130a247f4e9ecba13253a76c69ae6",
+        "name": "BOP_RODENT-gps-2021.csv.gz",
+        "observed_md5": "6ed130a247f4e9ecba13253a76c69ae6"
+      },
+      {
+        "expected_md5": "f1622dc9bcfc3c3f72101a7ce0ecd719",
+        "name": "BOP_RODENT-gps-2022.csv.gz",
+        "observed_md5": "f1622dc9bcfc3c3f72101a7ce0ecd719"
+      }
+    ],
+    "movebank_study_id": 1278021460
+  },
+  "validated_date": "2026-09-05"
+}
