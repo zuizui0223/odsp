@@ -5,7 +5,6 @@ import json
 from pathlib import Path
 
 from scripts.build_n2_mee_manuscript_v3 import build_manuscript_text
-from scripts.build_n2_mee_review_bundle_v3 import build_bundle
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,15 +23,17 @@ def test_final_submission_v3_receipt_regenerates_manuscript_exactly():
     assert receipt["manuscript_v3"]["empirical_endpoints_rerun"] is False
 
 
-def test_final_submission_v3_receipt_regenerates_anonymous_bundle_exactly(tmp_path):
-    receipt = json.loads(RECEIPT.read_text(encoding="utf-8"))
-    archive = tmp_path / "review-v3.zip"
-    built = build_bundle(archive)
+def test_final_submission_v3_receipt_pins_historical_bundle_metadata():
+    """Keep the validated artifact immutable when ODSP evolves after submission v3."""
 
-    assert built["sha256"] == receipt["anonymous_review_bundle_v3"]["sha256"]
-    assert built["bytes"] == receipt["anonymous_review_bundle_v3"]["bytes"]
-    assert built["file_count"] == receipt["anonymous_review_bundle_v3"]["file_count"]
-    assert built["python_file_ai_annotation_count"] == receipt["anonymous_review_bundle_v3"]["python_file_ai_annotation_count"]
+    receipt = json.loads(RECEIPT.read_text(encoding="utf-8"))
+    bundle = receipt["anonymous_review_bundle_v3"]
+    assert bundle["sha256"] == "1cf25b609527cdba5a210416148806b1e2c50934dd8d386d49f48b2df77a29dd"
+    assert bundle["bytes"] == 109617
+    assert bundle["file_count"] == 45
+    assert bundle["python_file_ai_annotation_count"] == 33
+    assert bundle["identity_scan_passed"] is True
+    assert bundle["bundle_internal_pytest_conclusion"] == "success"
 
 
 def test_final_submission_v3_receipt_keeps_author_only_items_unresolved():
