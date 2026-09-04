@@ -1,0 +1,47 @@
+name: n2-generality-benchmark
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/generality_benchmark.py'
+      - 'odsp/added_axis_evidence.py'
+      - 'scripts/run_n2_generality_benchmark.py'
+      - 'N2_GENERALITY_CONTRACT.json'
+      - '.github/workflows/n2-generality-benchmark.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'odsp/generality_benchmark.py'
+      - 'odsp/added_axis_evidence.py'
+      - 'scripts/run_n2_generality_benchmark.py'
+      - 'N2_GENERALITY_CONTRACT.json'
+      - '.github/workflows/n2-generality-benchmark.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  generality-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP
+        run: python -m pip install -e .
+      - name: Run deterministic generality proof obligations
+        run: |
+          python scripts/run_n2_generality_benchmark.py \
+            --output N2_GENERALITY_BENCHMARK_RECEIPT.json \
+            --seed 20260904 \
+            --randomized-cases 128
+      - name: Upload audit receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: n2-generality-benchmark-receipt
+          path: N2_GENERALITY_BENCHMARK_RECEIPT.json
+          if-no-files-found: error
+          retention-days: 90

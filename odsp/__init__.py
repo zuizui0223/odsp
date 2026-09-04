@@ -6,6 +6,11 @@ temporal partitioning, chapter-handoff payloads and known-truth recovery tools.
 The historical spatial-patch method remains superseded by EOG.
 """
 
+from .added_axis_evidence import (
+    AddedAxisEvidenceProfile,
+    AddedAxisEvidenceResult,
+    evaluate_added_axis_evidence,
+)
 from .chapter_handoff import (
     N2ToN3HandoffDecision,
     assess_n2_to_n3_handoff,
@@ -19,6 +24,11 @@ from .concealed_recovery import (
     sample_state_counts,
 )
 from .crossfitted_transferability import score_crossfitted_independent_groups
+from .generality_benchmark import (
+    GeneralityBenchmarkResult,
+    GeneralityCheck,
+    run_n2_generality_benchmark,
+)
 from .grouped_handoff import (
     GroupedHandoffPayload,
     build_grouped_n2_to_n3_payload,
@@ -84,11 +94,15 @@ from .vertical_information import (
 )
 
 __all__ = [
+    "AddedAxisEvidenceProfile",
+    "AddedAxisEvidenceResult",
     "AxisDescriptor",
     "AxisThicknessMap",
     "ConcealedRecoveryBenchmark",
     "ConcealedRecoveryCheck",
     "ConditionalTransferabilityScore",
+    "GeneralityBenchmarkResult",
+    "GeneralityCheck",
     "GroupedHandoffPayload",
     "GroupedTransferabilityResult",
     "IndependentGroupTransferability",
@@ -115,6 +129,7 @@ __all__ = [
     "effective_conditional_states",
     "estimate_projection_overlap_from_counts",
     "estimate_thickness_from_counts",
+    "evaluate_added_axis_evidence",
     "gbif_locality_elevation_mapping",
     "marginal_probability",
     "niche_thickness_profile",
@@ -124,6 +139,7 @@ __all__ = [
     "normalize_vertical_information",
     "projection_overlap_profile",
     "run_concealed_recovery_benchmark",
+    "run_n2_generality_benchmark",
     "sample_state_counts",
     "schoener_overlap",
     "score_conditional_transferability",

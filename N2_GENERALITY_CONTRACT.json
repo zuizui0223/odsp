@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "chapter_code": "N2",
+  "contract_id": "n2-generality-proof-v1",
+  "frozen_date": "2026-09-04",
+  "generality_layers": {
+    "mathematical_genericity_over_finite_discrete_support": true,
+    "implementation_property_stress_tested": true,
+    "heterogeneous_empirical_portability_demonstrated": true,
+    "universal_biological_outcome_claimed": false,
+    "causal_generality_claimed": false
+  },
+  "generic_domain": {
+    "support": "finite non-negative tensor with positive available mass",
+    "base_axes": "one or more caller-declared axes for transferability; conditional-information core also permits an empty base set",
+    "added_axes": "one or more caller-declared axes",
+    "axis_semantics": "arbitrary declared discrete ecological state semantics",
+    "examples_not_exhaustive": [
+      "height",
+      "depth",
+      "time",
+      "season",
+      "behaviour",
+      "microhabitat",
+      "substrate",
+      "life_stage",
+      "sensor_defined_state"
+    ]
+  },
+  "analytic_proof_obligations": [
+    {
+      "id": "positive_mass_scaling",
+      "statement": "H(A|B), exp(H(A|B)), I(A;B), and conditional-vs-marginal held-out gain are invariant to independent positive scaling of model and held-out support mass."
+    },
+    {
+      "id": "axis_permutation_equivariance",
+      "statement": "Simultaneously permuting tensor axes and remapping declared axis IDs leaves all generic evidence quantities unchanged."
+    },
+    {
+      "id": "state_label_permutation",
+      "statement": "Arbitrary bijective relabelling of categorical states leaves all generic evidence quantities unchanged."
+    },
+    {
+      "id": "omitted_nuisance_refinement",
+      "statement": "Adding an undeclared refinement/nuisance axis whose submasses marginalize back to the original support leaves base-added evidence unchanged."
+    },
+    {
+      "id": "same_distribution_information_identity",
+      "statement": "For evaluation under the same generating distribution, E[log P(A|B)-log P(A)] equals I(A;B)."
+    },
+    {
+      "id": "conditional_independence_composition",
+      "statement": "If A1 is conditionally independent of A2 given B, H(A1,A2|B)=H(A1|B)+H(A2|B) and effective states multiply."
+    },
+    {
+      "id": "independent_group_mass_invariance",
+      "statement": "Grouped terminal classification is determined by per-group gains rather than pooled group mass."
+    },
+    {
+      "id": "effective_state_cardinality_bound",
+      "statement": "For K joint discrete added states, 1 <= exp(H(A|B)) <= K."
+    }
+  ],
+  "executable_benchmark": {
+    "module": "odsp.generality_benchmark",
+    "cli": "scripts/run_n2_generality_benchmark.py",
+    "seed": 20260904,
+    "randomized_tensor_cases": 128,
+    "randomized_tensor_ndim_min": 2,
+    "randomized_tensor_ndim_max": 6,
+    "randomized_state_cardinality_min": 2,
+    "randomized_state_cardinality_max": 5,
+    "base_axis_count_per_random_case": [1, 2],
+    "added_axis_count_per_random_case": [1, 2],
+    "conditional_independence_cases": 32,
+    "independent_group_counts_tested": [1, 3, 7],
+    "minimum_required_proof_checks": 1800,
+    "maximum_allowed_numerical_error": 2e-9,
+    "deterministic_under_fixed_seed": true
+  },
+  "empirical_portability": {
+    "architecture_count": 3,
+    "lanes": {
+      "tawaki": {
+        "taxon_scope": "diving seabird",
+        "observation_architecture": "linked GPS and dive records",
+        "added_axis_semantics": "dive depth",
+        "replication_or_gate": "full site-year structural denominator",
+        "terminal_state": "unavailable"
+      },
+      "european_free_tailed_bat": {
+        "taxon_scope": "volant mammal",
+        "observation_architecture": "same-event 3D GPS",
+        "added_axis_semantics": "native height above mean sea level",
+        "replication_or_gate": "whole sealed individuals",
+        "terminal_state": "thick_non_generalizing"
+      },
+      "snapshot_serengeti": {
+        "taxon_scope": "terrestrial mammal community",
+        "observation_architecture": "camera detections with explicit effort intervals",
+        "added_axis_semantics": "source local clock time",
+        "replication_or_gate": "deterministic held-out camera-site folds",
+        "terminal_state": "thick_partitioned_generalizing"
+      }
+    },
+    "allowed_claim": "The inferential hierarchy is portable across heterogeneous observation architectures, added-axis semantics and replication units.",
+    "forbidden_claim": "The three empirical lanes estimate a universal frequency or mechanism of multidimensional niche outcomes."
+  },
+  "manuscript_claim_ceiling": {
+    "allowed": [
+      "axis-agnostic inferential machinery over finite discrete support tensors",
+      "representation invariance under positive scaling, axis permutation, state relabelling and omitted nuisance refinement",
+      "exact same-distribution identity between transferability gain and mutual information",
+      "heterogeneous empirical portability across three prospectively bounded architectures"
+    ],
+    "forbidden": [
+      "all ecological niches are multidimensionally thick",
+      "most thick niches generalize",
+      "temporal dimensions are intrinsically more generalizable than vertical dimensions",
+      "discretization is universally optimal for continuous ecological variables",
+      "information-theoretic metrics remove detectability or observation bias",
+      "the framework identifies causal competition or habitat preference",
+      "three empirical lanes prove universal biological generality"
+    ]
+  },
+  "terminal_endpoint_non_retroactivity": {
+    "tawaki_reopened": false,
+    "bat_reopened": false,
+    "serengeti_reopened": false,
+    "new_post_outcome_tuning_authorized": false
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "contract_id": "n2-generality-proof-v1",
+  "validation_date": "2026-09-04",
+  "benchmark_module": "odsp/generality_benchmark.py",
+  "benchmark_module_git_blob_sha1": "6b0476191e0a14e67e6550a1d3b844bd7bdcd595",
+  "workflow": {
+    "name": "n2-generality-benchmark",
+    "run_id": 33833441682,
+    "head_sha": "8a8c4c7c3a6cfe1a37efc56340e20d5a135af637",
+    "conclusion": "success",
+    "artifact_id": 9922474145,
+    "artifact_name": "n2-generality-benchmark-receipt",
+    "artifact_digest": "sha256:dcb1e31f82cc35a09c79d7fe1bc1ba6d9e45aea27e69deadd0867166e6c22073"
+  },
+  "settings": {
+    "seed": 20260904,
+    "randomized_tensor_cases": 128,
+    "randomized_tensor_ndim_range": [2, 6],
+    "randomized_state_cardinality_range": [2, 5],
+    "conditional_independence_cases": 32,
+    "independent_group_counts": [1, 3, 7]
+  },
+  "result": {
+    "passed": true,
+    "check_count": 1873,
+    "passed_count": 1873,
+    "failed_count": 0,
+    "maximum_absolute_error": 2.4868995751603507e-14
+  },
+  "properties_validated": [
+    "same_distribution_identity",
+    "effective_state_cardinality_bound",
+    "positive_mass_scaling_invariance",
+    "axis_permutation_equivariance",
+    "state_label_permutation_invariance",
+    "omitted_nuisance_refinement_invariance",
+    "conditional_independence_information_additivity",
+    "conditional_independence_effective_state_multiplicativity",
+    "independent_group_mass_invariance",
+    "independent_group_count_generality"
+  ],
+  "claim_boundary": {
+    "finite_discrete_support_genericity_supported": true,
+    "heterogeneous_axis_positions_supported": true,
+    "multiple_base_axes_supported": true,
+    "multiple_added_axes_supported": true,
+    "universal_biological_outcomes_supported": false,
+    "causal_interpretation_supported": false,
+    "observation_bias_removed": false
+  }
+}
