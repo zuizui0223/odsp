@@ -5,6 +5,10 @@ The v4 archive starts from the policy-compliant v3 review surface, replaces the
 manuscript/table/captions, and adds only scientific state-prediction code,
 prospective contracts, selected QA and a sanitized evidence summary. Raw terminal
 receipts carrying internal workflow/PR provenance are intentionally not included.
+
+The review environment is historically frozen at ODSP 0.10.0. Later package
+releases may add functionality, but rebuilding the v4 review artifact must not
+silently rewrite the package version recorded inside that frozen bundle.
 """
 from __future__ import annotations
 
@@ -12,6 +16,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import re
 import tempfile
 import zipfile
 
@@ -21,6 +26,7 @@ from scripts.build_n2_mee_review_bundle_v3 import AI_DISCLOSURE, _annotate_pytho
 
 
 ROOT = Path(__file__).resolve().parents[1]
+FROZEN_REVIEW_PACKAGE_VERSION = "0.10.0"
 
 PREDICTION_MODULES = (
     "state_prediction.py",
@@ -81,6 +87,20 @@ def _scan_identity(stage: Path) -> None:
 def _remove_if_exists(path: Path) -> None:
     if path.exists():
         path.unlink()
+
+
+def _freeze_review_pyproject(stage: Path) -> None:
+    path = stage / "pyproject.toml"
+    text = path.read_text(encoding="utf-8")
+    updated, count = re.subn(
+        r'(?m)^version = "[^"]+"$',
+        f'version = "{FROZEN_REVIEW_PACKAGE_VERSION}"',
+        text,
+        count=1,
+    )
+    if count != 1:
+        raise ValueError("expected exactly one project version in review pyproject")
+    path.write_text(updated, encoding="utf-8")
 
 
 def _state_summary() -> dict[str, object]:
@@ -195,6 +215,10 @@ def build_bundle(output: Path) -> dict[str, object]:
         stage.mkdir()
         with zipfile.ZipFile(base_zip) as archive:
             archive.extractall(stage)
+
+        # Preserve the exact review-environment package version used when v4 was
+        # frozen, even when the live package advances to 0.11+.
+        _freeze_review_pyproject(stage)
 
         for name in (
             "N2_MEE_MANUSCRIPT_DRAFT_v3.md",
