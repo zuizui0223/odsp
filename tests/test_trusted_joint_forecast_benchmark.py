@@ -10,7 +10,7 @@ def test_trusted_joint_forecast_benchmark_passes():
         calibration_rows=1200,
         test_rows=3000,
     )
-    assert result.passed is True
+    assert result.passed is True, result.as_dict()
     assert result.training_split_preserved is True
     assert result.joint_log_density_gain > 0
     assert result.coupling_log_density_gain > 0
