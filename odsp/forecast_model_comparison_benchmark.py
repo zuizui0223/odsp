@@ -27,6 +27,7 @@ class ForecastModelComparisonBenchmarkResult:
     group_count: int
     rows_per_group: int
     target_coverage: float
+    gain_tolerance: float
     candidates: tuple[ForecastCandidateScore, ...]
     recommended_candidate: str | None
     pareto_front_names: tuple[str, ...]
@@ -40,6 +41,7 @@ class ForecastModelComparisonBenchmarkResult:
             "group_count": self.group_count,
             "rows_per_group": self.rows_per_group,
             "target_coverage": self.target_coverage,
+            "gain_tolerance": self.gain_tolerance,
             "candidates": [row.as_dict() for row in self.candidates],
             "recommended_candidate": self.recommended_candidate,
             "pareto_front_names": list(self.pareto_front_names),
@@ -81,6 +83,7 @@ def run_forecast_model_comparison_benchmark(
     rows_per_group: int = 500,
     target_coverage: float = 0.90,
     coverage_tolerance: float = 0.03,
+    gain_tolerance: float = 1e-12,
 ) -> ForecastModelComparisonBenchmarkResult:
     if group_count != 6 or rows_per_group < 100:
         raise ValueError("the frozen benchmark uses six groups and at least 100 rows per group")
@@ -143,6 +146,7 @@ def run_forecast_model_comparison_benchmark(
                 target_coverage=target_coverage,
                 region_size=np.full(n, region_size, dtype=float),
                 coverage_tolerance=coverage_tolerance,
+                gain_tolerance=gain_tolerance,
             )
         )
 
@@ -168,7 +172,10 @@ def run_forecast_model_comparison_benchmark(
         ),
         ForecastModelComparisonCheck(
             "marginal_only_not_transfer_admissible",
-            not by_name["marginal_only"].transfer_admissible,
+            bool(
+                not by_name["marginal_only"].transfer_admissible
+                and by_name["marginal_only"].transfer_category == "non_generalizing"
+            ),
         ),
         ForecastModelComparisonCheck(
             "shifted_is_non_generalizing",
@@ -202,6 +209,7 @@ def run_forecast_model_comparison_benchmark(
         group_count=int(group_count),
         rows_per_group=int(rows_per_group),
         target_coverage=float(target_coverage),
+        gain_tolerance=float(gain_tolerance),
         candidates=tuple(scored),
         recommended_candidate=comparison.recommended_by_log_score,
         pareto_front_names=comparison.pareto_front_names,
