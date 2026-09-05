@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-joint-continuous-circular-state-prediction-v1",
+  "date": "2026-09-05",
+  "purpose": "predict a continuous-by-circular ecological state jointly and separate contextual joint value from directional cross-state coupling value",
+  "primary_target": "p(z,t|X) = p(t|X) p(z|X,t)",
+  "state_roles": {
+    "z": "one real-valued continuous ecological state such as measured height or depth",
+    "t": "one explicitly periodic ecological state such as local clock time",
+    "X": "caller-declared contextual or environmental predictors"
+  },
+  "primary_contextual_joint_score": "E_heldout[log p_train(z,t|X) - log p_train(z,t)]",
+  "training_joint_comparator": "p_train(t) p_train(z|t), preserving overall z-t organization while discarding X",
+  "directional_coupling_score": "E_heldout[log p_train(z|X,t) - log p_train(z|X)]",
+  "coupling_interpretation": "predictive value of realized t for z after X is already known; directional and non-causal",
+  "reference_factorization": {
+    "time_given_context": "harmonic-regression von Mises circular density",
+    "height_given_context": "weighted linear-Gaussian density p(z|X)",
+    "height_given_context_and_time": "weighted linear-Gaussian density with X plus sin(t) and cos(t)",
+    "height_given_time_comparator": "weighted linear-Gaussian density with sin(t) and cos(t) only"
+  },
+  "prediction_outputs": [
+    "mean circular state and wrapping prediction arc",
+    "continuous-state mean and interval conditional on the predicted circular mode",
+    "Monte Carlo samples from the autoregressive joint density"
+  ],
+  "external_learner_interface": {
+    "joint_minimum_requirement": "held-out conditional joint and X-free training-joint marginal log density",
+    "coupling_requirement": "factorized contextual log density p(t|X)p(z|X) in addition to joint contextual density"
+  },
+  "independence": {
+    "groups_scored_separately": true,
+    "joint_gain_classified_separately_from_coupling_gain": true,
+    "all_positive_required_for_generalizing": true,
+    "mixed_signs_remain_mixed": true,
+    "pooled_mean_may_rescue_conflicting_group": false
+  },
+  "known_truth_benchmark": {
+    "seed": 20260905,
+    "replicates": 128,
+    "training_rows": 800,
+    "heldout_rows": 1600,
+    "time_period": 24.0,
+    "families": [
+      "stable_context_and_coupling",
+      "context_unorganized_but_coupled",
+      "contextual_but_uncoupled",
+      "context_shifted",
+      "coupling_shifted"
+    ],
+    "obligations": [
+      "stable family has positive contextual joint gain in every replicate",
+      "stable family has positive directional coupling gain in every replicate",
+      "context-unorganized family has absolute mean contextual joint gain below 0.02",
+      "contextual-but-uncoupled family has absolute mean directional coupling gain below 0.02",
+      "context-shifted family has negative contextual joint gain in every replicate",
+      "coupling-shifted family has negative directional coupling gain in every replicate",
+      "common time phase-origin shift preserves both gains to absolute error <= 1e-10",
+      "equivalent hour-to-minute period conversion preserves both gains to absolute error <= 1e-10",
+      "positive affine change of continuous-state units preserves both gains to absolute error <= 1e-10"
+    ]
+  },
+  "semantic_boundary": {
+    "joint_prediction_proves_joint_niche_causality": false,
+    "directional_coupling_gain_is_symmetric_dependence_measure": false,
+    "directional_coupling_gain_implies_behavioral_mechanism": false,
+    "absolute_altitude_equals_height_above_ground": false,
+    "clock_time_equals_true_activity_time": false,
+    "joint_density_removes_observation_or_detection_bias": false
+  },
+  "frozen_v4_preservation": {
+    "v4_final_readiness_receipt_mutated": false,
+    "v4_manuscript_changed": false,
+    "v4_empirical_endpoint_rerun": false,
+    "MH_ANTWERPEN_reopened": false,
+    "BOP_RODENT_reopened": false,
+    "Tawaki_reopened": false,
+    "Tadarida_reopened": false,
+    "Snapshot_Serengeti_reopened": false
+  },
+  "out_of_scope": [
+    "symmetric nonparametric dependence estimation",
+    "multivariate continuous vector state density beyond one z and one t",
+    "causal attribution",
+    "automatic detection-bias correction",
+    "automatic N2-to-N3 promotion"
+  ]
+}

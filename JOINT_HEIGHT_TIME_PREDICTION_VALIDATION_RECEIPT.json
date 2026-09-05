@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-joint-continuous-circular-state-prediction-validation-v1",
+  "validated_date": "2026-09-05",
+  "position": {
+    "role": "joint continuous-circular ecological-state density prediction with separate contextual and directional coupling evaluation",
+    "primary_target": "p(z,t|X) = p(t|X) p(z|X,t)",
+    "contextual_joint_score": "E_heldout[log p_train(z,t|X) - log p_train(z,t)]",
+    "directional_coupling_score": "E_heldout[log p_train(z|X,t) - log p_train(z|X)]",
+    "new_occurrence_sdm_algorithm": false
+  },
+  "validated_pr_head": {
+    "sha": "fa23f02b2a1645576f175472e4659e4e63ce8ac2",
+    "joint_state_workflow_run_id": 33947779046,
+    "joint_state_workflow_conclusion": "success",
+    "closed_mh_or_bop_public_gps_workflow_triggered": false
+  },
+  "benchmark_artifact": {
+    "artifact_id": 9963863821,
+    "artifact_name": "joint-state-benchmark",
+    "artifact_digest": "sha256:d13a0bbbff083c377266a3992da96c9e5e8a6851f85a88342c7bc286b0db5fa3",
+    "artifact_size_bytes": 993
+  },
+  "known_truth_benchmark": {
+    "seed": 20260905,
+    "replicate_count": 128,
+    "training_rows": 800,
+    "heldout_rows": 1600,
+    "period": 24.0,
+    "stable_context_and_coupling": {
+      "mean_joint_gain": 0.7162669715542773,
+      "minimum_joint_gain": 0.6684026540011225,
+      "maximum_joint_gain": 0.7774678437900473,
+      "positive_joint_gain_fraction": 1.0,
+      "negative_joint_gain_fraction": 0.0,
+      "mean_coupling_gain": 0.10995016370951136,
+      "minimum_coupling_gain": 0.07756248169505797,
+      "maximum_coupling_gain": 0.13703448678764918,
+      "positive_coupling_gain_fraction": 1.0,
+      "negative_coupling_gain_fraction": 0.0
+    },
+    "context_unorganized_but_coupled": {
+      "mean_joint_gain": -0.002556073182315651,
+      "minimum_joint_gain": -0.009936236178937463,
+      "maximum_joint_gain": 0.0007999785350971678,
+      "positive_joint_gain_fraction": 0.09375,
+      "negative_joint_gain_fraction": 0.90625,
+      "mean_coupling_gain": 0.09130597986658397,
+      "minimum_coupling_gain": 0.05071348490306704,
+      "maximum_coupling_gain": 0.12017491809948,
+      "positive_coupling_gain_fraction": 1.0,
+      "negative_coupling_gain_fraction": 0.0
+    },
+    "contextual_but_uncoupled": {
+      "mean_joint_gain": 0.7200183887659655,
+      "minimum_joint_gain": 0.6682506813476428,
+      "maximum_joint_gain": 0.7834694131429893,
+      "positive_joint_gain_fraction": 1.0,
+      "negative_joint_gain_fraction": 0.0,
+      "mean_coupling_gain": -0.0012475737830524303,
+      "minimum_coupling_gain": -0.007770301946901537,
+      "maximum_coupling_gain": 0.001480134882127615,
+      "positive_coupling_gain_fraction": 0.2265625,
+      "negative_coupling_gain_fraction": 0.7734375
+    },
+    "context_shifted": {
+      "mean_joint_gain": -8.75290807477374,
+      "minimum_joint_gain": -10.509400984060646,
+      "maximum_joint_gain": -6.90855738610167,
+      "positive_joint_gain_fraction": 0.0,
+      "negative_joint_gain_fraction": 1.0,
+      "mean_coupling_gain": 5.466165571631725,
+      "minimum_coupling_gain": 4.603055996458956,
+      "maximum_coupling_gain": 6.749253805927115,
+      "positive_coupling_gain_fraction": 1.0,
+      "negative_coupling_gain_fraction": 0.0
+    },
+    "coupling_shifted": {
+      "mean_joint_gain": -2.5760347895072284,
+      "minimum_joint_gain": -3.4984297308588914,
+      "maximum_joint_gain": -1.7530082477020104,
+      "positive_joint_gain_fraction": 0.0,
+      "negative_joint_gain_fraction": 1.0,
+      "mean_coupling_gain": -1.7579250461064264,
+      "minimum_coupling_gain": -2.6374981277637017,
+      "maximum_coupling_gain": -1.1631518788988657,
+      "positive_coupling_gain_fraction": 0.0,
+      "negative_coupling_gain_fraction": 1.0
+    },
+    "stable_joint_all_positive": true,
+    "stable_coupling_all_positive": true,
+    "context_null_joint_mean_near_zero": true,
+    "uncoupled_coupling_mean_near_zero": true,
+    "context_shift_joint_all_negative": true,
+    "coupling_shift_coupling_all_negative": true,
+    "phase_origin_joint_gain_error": 0.0,
+    "phase_origin_coupling_gain_error": 0.0,
+    "period_unit_joint_gain_error": 0.0,
+    "period_unit_coupling_gain_error": 0.0,
+    "height_unit_joint_gain_error": 0.0,
+    "height_unit_coupling_gain_error": 4.440892098500626e-16,
+    "passed": true
+  },
+  "implemented_capabilities": [
+    "autoregressive joint density p(t|X)p(z|X,t)",
+    "X-free training joint comparator p(t)p(z|t)",
+    "separate contextual joint and directional coupling held-out gains",
+    "separate conservative independent-group classifications for both gains",
+    "state-rich time-mode and conditional-height summaries",
+    "Monte Carlo paired height-time samples from the joint reference density",
+    "external joint-density scoring from realized conditional, marginal and factorized contextual log densities"
+  ],
+  "scientific_boundary": {
+    "joint_prediction_proves_joint_niche_causality": false,
+    "directional_coupling_gain_is_symmetric_dependence_measure": false,
+    "directional_coupling_gain_implies_behavioral_mechanism": false,
+    "absolute_altitude_equals_height_above_ground": false,
+    "clock_time_equals_true_activity_time": false,
+    "joint_density_removes_observation_or_detection_bias": false,
+    "n2_output_automatically_promoted_to_n3": false
+  },
+  "frozen_v4_preservation": {
+    "v4_final_readiness_receipt_mutated": false,
+    "v4_manuscript_changed": false,
+    "v4_empirical_endpoint_rerun": false,
+    "closed_empirical_terminal_categories_changed": false
+  }
+}

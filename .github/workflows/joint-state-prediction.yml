@@ -1,0 +1,98 @@
+name: joint-state-prediction
+
+on:
+  pull_request:
+    paths:
+      - 'JOINT_HEIGHT_TIME_PREDICTION_CONTRACT.json'
+      - 'JOINT_HEIGHT_TIME_PREDICTION_VALIDATION_RECEIPT.json'
+      - 'odsp/joint_state.py'
+      - 'odsp/joint_state_benchmark.py'
+      - 'scripts/run_joint_state_benchmark.py'
+      - 'tests/test_joint_state.py'
+      - 'tests/test_joint_state_benchmark.py'
+      - 'tests/test_joint_state_contract.py'
+      - 'tests/test_joint_state_receipt.py'
+      - 'docs/joint_height_time_prediction_v1.md'
+      - '.github/workflows/joint-state-prediction.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'JOINT_HEIGHT_TIME_PREDICTION_CONTRACT.json'
+      - 'JOINT_HEIGHT_TIME_PREDICTION_VALIDATION_RECEIPT.json'
+      - 'odsp/joint_state.py'
+      - 'odsp/joint_state_benchmark.py'
+      - 'scripts/run_joint_state_benchmark.py'
+      - 'tests/test_joint_state.py'
+      - 'tests/test_joint_state_benchmark.py'
+      - 'tests/test_joint_state_contract.py'
+      - 'tests/test_joint_state_receipt.py'
+      - 'docs/joint_height_time_prediction_v1.md'
+      - '.github/workflows/joint-state-prediction.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install ODSP test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+
+      - name: Test joint height-time prediction and contract
+        run: |
+          python -m pytest -q \
+            tests/test_joint_state.py \
+            tests/test_joint_state_benchmark.py \
+            tests/test_joint_state_contract.py
+          if [ -f tests/test_joint_state_receipt.py ]; then
+            python -m pytest -q tests/test_joint_state_receipt.py
+          fi
+
+      - name: Run frozen known-truth joint benchmark
+        run: |
+          python scripts/run_joint_state_benchmark.py \
+            --output artifacts/JOINT_STATE_BENCHMARK.json \
+            --seed 20260905 \
+            --replicates 128 \
+            --training-rows 800 \
+            --heldout-rows 1600 \
+            --period 24
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('artifacts/JOINT_STATE_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert r['stable_joint_all_positive'] is True
+          assert r['stable_coupling_all_positive'] is True
+          assert r['context_null_joint_mean_near_zero'] is True
+          assert r['uncoupled_coupling_mean_near_zero'] is True
+          assert r['context_shift_joint_all_negative'] is True
+          assert r['coupling_shift_coupling_all_negative'] is True
+          for key in (
+              'phase_origin_joint_gain_error',
+              'phase_origin_coupling_gain_error',
+              'period_unit_joint_gain_error',
+              'period_unit_coupling_gain_error',
+              'height_unit_joint_gain_error',
+              'height_unit_coupling_gain_error',
+          ):
+              assert r[key] <= 1e-10
+          print(json.dumps(r, sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: joint-state-benchmark
+          path: artifacts/JOINT_STATE_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90
