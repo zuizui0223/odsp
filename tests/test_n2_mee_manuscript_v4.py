@@ -4,14 +4,15 @@ import json
 from pathlib import Path
 import re
 
+from scripts.build_n2_mee_manuscript_v4 import build_manuscript_text
+
 
 ROOT = Path(__file__).resolve().parents[1]
-MANUSCRIPT = ROOT / "manuscript" / "N2_MEE_MANUSCRIPT_DRAFT_v4.md"
 MATRIX = ROOT / "N2_STATE_PREDICTION_EVIDENCE_MATRIX.json"
 
 
 def _text() -> str:
-    return MANUSCRIPT.read_text(encoding="utf-8")
+    return build_manuscript_text()
 
 
 def _abstract(text: str) -> str:
@@ -48,9 +49,9 @@ def test_v4_empirical_numbers_match_matrix():
     mh, bop = matrix["prospective_state_prediction_endpoints"]
     rf = bop["primary_random_forest"]
 
-    assert str(mh["thinned_events"]) in text
+    assert f"{mh['thinned_events']:,}" in text
     assert "only three eligible independent individuals" in text
-    assert str(bop["eligible_events"]) in text
+    assert f"{bop['eligible_events']:,}" in text
     assert "27 of 30" in text
     assert "All 30 individuals had positive Brier improvement" in text
     assert f"`+{rf['mean_gain_descriptive']:.5f}`" in text
@@ -61,7 +62,7 @@ def test_v4_empirical_numbers_match_matrix():
 def test_v4_retains_prospective_and_claim_boundaries():
     text = _text()
     assert "frozen before outcome access" in text
-    assert "No retuning" in text or "no retuning" in text
+    assert "No retuning was performed after outcome access" in text
     assert "does not show that the predictors causally determine the state" in text
     assert "not automatically promoted to a subsequent N3 state artifact" in text
     assert "absolute altitude above mean sea level is not height above ground" in text
