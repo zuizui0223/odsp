@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-continuous-circular-conformal-trust-v1-validation",
+  "validated_date": "2026-09-05",
+  "contract": "CONTINUOUS_CIRCULAR_CONFORMAL_CONTRACT.json",
+  "benchmark": {
+    "seed": 20260905,
+    "replicate_count": 128,
+    "calibration_rows": 1000,
+    "test_rows": 2000,
+    "target_coverage": 0.9,
+    "mean_continuous_coverage": 0.90115234375,
+    "mean_circular_coverage": 0.9001757812500001,
+    "mean_joint_coverage": 0.9042812499999999,
+    "mean_shifted_continuous_coverage": 0.13568359375,
+    "mean_shifted_circular_coverage": 0.0001953125,
+    "continuous_affine_quantile_error": 2.220446049250313e-16,
+    "circular_phase_quantile_error": 0.0,
+    "circular_unit_relative_error": 0.0,
+    "passed": true
+  },
+  "first_green_workflow": {
+    "run_id": 33953144790,
+    "artifact_id": 9965481795,
+    "artifact_digest": "sha256:5bf2991bd27bfeb24b0cc7dbb2991d4d20097e86347c0f8396e7597e625ab81d",
+    "conclusion": "success"
+  },
+  "interpretation": {
+    "exchangeable_continuous_near_nominal": true,
+    "exchangeable_circular_near_nominal": true,
+    "bonferroni_joint_above_nominal_lower_bound": true,
+    "continuous_shift_failure_visible": true,
+    "circular_shift_failure_visible": true,
+    "representation_invariance_passed": true
+  },
+  "claim_boundary": {
+    "conditional_coverage_claimed": false,
+    "shift_robust_coverage_claimed": false,
+    "joint_region_called_highest_density_region": false,
+    "base_predictor_repaired_by_conformal": false,
+    "biological_validity_inferred_from_coverage": false
+  },
+  "frozen_v4_preservation": {
+    "v4_manuscript_changed": false,
+    "v4_final_readiness_receipt_changed": false,
+    "closed_empirical_endpoint_rerun": false,
+    "closed_terminal_category_changed": false
+  }
+}
