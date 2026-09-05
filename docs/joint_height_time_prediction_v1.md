@@ -100,6 +100,50 @@ The frozen obligations require the method to recover these separations and to pr
 - equivalent hours-to-minutes time units;
 - a positive affine change of continuous-state units.
 
+The first execution used seed `20260905`, 128 replicates, 800 training rows and 1,600 held-out rows. Every frozen obligation passed:
+
+```text
+stable context + coupling
+  joint gain                 +0.7162669716   (128/128 positive)
+  coupling gain              +0.1099501637   (128/128 positive)
+
+context-unorganized, coupled
+  joint gain                 -0.0025560732   (~0)
+  coupling gain              +0.0913059799   (128/128 positive)
+
+contextual, uncoupled
+  joint gain                 +0.7200183888   (128/128 positive)
+  coupling gain              -0.0012475738   (~0)
+
+context shifted
+  joint gain                 -8.7529080748   (128/128 negative)
+  coupling gain              +5.4661655716   (128/128 positive)
+
+coupling shifted
+  joint gain                 -2.5760347895
+  coupling gain              -1.7579250461   (128/128 negative)
+```
+
+The context-shift result is deliberately informative: the height-time relationship remains useful when the realized time is known, yet the contextual joint forecast fails because the time organization no longer transfers. ODSP therefore does not collapse these into one notion of “multidimensional prediction success.”
+
+All representation invariance obligations also passed:
+
+```text
+common time phase-origin shift
+  joint gain error            0.0
+  coupling gain error         0.0
+
+hours -> minutes
+  joint gain error            0.0
+  coupling gain error         0.0
+
+positive affine height units
+  joint gain error            0.0
+  coupling gain error         4.44e-16
+```
+
+The canonical values and original workflow artifact are frozen in `JOINT_HEIGHT_TIME_PREDICTION_VALIDATION_RECEIPT.json`. The receipt test reruns the benchmark without opening any public empirical endpoint.
+
 Run:
 
 ```bash
