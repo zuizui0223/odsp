@@ -13,12 +13,16 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", required=True)
     parser.add_argument("--seed", type=int, default=20260905)
+    parser.add_argument("--gain-tolerance", type=float, default=1e-12)
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    result = run_forecast_model_comparison_benchmark(seed=args.seed)
+    result = run_forecast_model_comparison_benchmark(
+        seed=args.seed,
+        gain_tolerance=args.gain_tolerance,
+    )
     path = Path(args.output)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
