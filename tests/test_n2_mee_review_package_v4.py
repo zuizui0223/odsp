@@ -6,7 +6,8 @@ from pathlib import Path
 import zipfile
 
 from scripts.build_n2_mee_review_bundle import FORBIDDEN_IDENTITY_TOKENS
-from scripts.build_n2_mee_review_bundle_v4 import AI_HEADER, build_bundle
+from scripts.build_n2_mee_review_bundle_v3 import AI_HEADER
+from scripts.build_n2_mee_review_bundle_v4 import build_bundle
 
 
 def _members(path: Path) -> dict[str, bytes]:
