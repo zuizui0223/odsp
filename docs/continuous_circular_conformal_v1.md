@@ -96,11 +96,28 @@ The prospective benchmark freezes seed `20260905`, 128 replicates, 1,000 calibra
 - circular phase-origin invariance;
 - equivalent hours/minutes arc scaling.
 
+The first prospective execution passed every frozen obligation:
+
+```text
+continuous 90% coverage        0.90115234375
+circular 90% coverage          0.90017578125
+joint Bonferroni coverage      0.90428125
+shifted continuous coverage    0.13568359375
+shifted circular coverage      0.0001953125
+continuous affine error        2.22e-16
+circular phase error           0
+circular hour/minute error     0
+```
+
+The deliberately shifted cases are not failures of the implementation; they demonstrate the declared limit of the exchangeability guarantee.
+
 Run:
 
 ```bash
 python scripts/run_continuous_circular_conformal_benchmark.py
 ```
+
+The canonical values are pinned in `CONTINUOUS_CIRCULAR_CONFORMAL_VALIDATION_RECEIPT.json` and are rerun exactly by its receipt test.
 
 ## Scientific boundary
 
