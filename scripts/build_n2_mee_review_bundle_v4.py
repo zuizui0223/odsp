@@ -36,10 +36,8 @@ PREDICTION_TESTS = (
     "test_covariate_state_prediction.py",
     "test_mh_antwerpen_state_prediction.py",
     "test_mh_antwerpen_state_prediction_contract.py",
-    "test_mh_antwerpen_state_prediction_receipt.py",
     "test_bop_rodent_state_prediction.py",
     "test_bop_rodent_state_prediction_contract.py",
-    "test_bop_rodent_state_prediction_terminal_receipt.py",
 )
 
 PREDICTION_RUNNERS = (
@@ -87,7 +85,6 @@ def _remove_if_exists(path: Path) -> None:
 
 def _state_summary() -> dict[str, object]:
     matrix = json.loads((ROOT / "N2_STATE_PREDICTION_EVIDENCE_MATRIX.json").read_text(encoding="utf-8"))
-    # The matrix was designed without internal run IDs or repository identities.
     return {
         "schema_version": 1,
         "purpose": "anonymous_peer_review_state_prediction_scientific_summary",
@@ -199,7 +196,6 @@ def build_bundle(output: Path) -> dict[str, object]:
         with zipfile.ZipFile(base_zip) as archive:
             archive.extractall(stage)
 
-        # Replace the older manuscript layer while retaining generic method tests.
         for name in (
             "N2_MEE_MANUSCRIPT_DRAFT_v3.md",
             "N2_MEE_TABLE1_DRAFT_v2.md",
@@ -221,7 +217,6 @@ def build_bundle(output: Path) -> dict[str, object]:
         for name in PREDICTION_CONTRACTS:
             _copy(ROOT / name, stage / name)
 
-        # Ensure the anonymous package top-level exports the new generic prediction API.
         init_path = stage / "odsp" / "__init__.py"
         init_text = init_path.read_text(encoding="utf-8")
         for module in ("state_prediction", "state_prediction_benchmark", "covariate_state_prediction"):
