@@ -3,6 +3,13 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
+pytest.importorskip(
+    "sklearn",
+    reason="trusted joint forecast receipt replay requires the optional predict extra",
+)
+
 from odsp.trusted_joint_forecast_benchmark import run_trusted_joint_forecast_benchmark
 
 
