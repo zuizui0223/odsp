@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Build receipt-backed figures for the ODSP state-prediction manuscript v4."""
+"""Build receipt-backed figures for the ODSP state-prediction manuscript v4.
+
+Receipt extraction is intentionally lightweight and does not require matplotlib.
+Plotting dependencies are imported only when figures are actually rendered.
+"""
 from __future__ import annotations
 
 import argparse
@@ -8,8 +12,6 @@ import json
 from pathlib import Path
 from typing import Any
 
-import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 import numpy as np
 
 
@@ -21,6 +23,18 @@ MATRIX = ROOT / "N2_STATE_PREDICTION_EVIDENCE_MATRIX.json"
 
 def _load(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _plotting():
+    try:
+        import matplotlib.pyplot as plt
+        from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
+    except ImportError as exc:
+        raise ImportError(
+            "rendering manuscript figures requires matplotlib; receipt-backed "
+            "figure_data() itself has no matplotlib dependency"
+        ) from exc
+    return plt, FancyArrowPatch, FancyBboxPatch
 
 
 def figure_data() -> dict[str, Any]:
@@ -74,7 +88,8 @@ def figure_data() -> dict[str, Any]:
     }
 
 
-def _save(fig: plt.Figure, outdir: Path, stem: str) -> list[Path]:
+def _save(fig: Any, outdir: Path, stem: str) -> list[Path]:
+    plt, _, _ = _plotting()
     outdir.mkdir(parents=True, exist_ok=True)
     pdf = outdir / f"{stem}.pdf"
     png = outdir / f"{stem}.png"
@@ -85,6 +100,7 @@ def _save(fig: plt.Figure, outdir: Path, stem: str) -> list[Path]:
 
 
 def build_figure1(outdir: Path) -> list[Path]:
+    plt, FancyArrowPatch, FancyBboxPatch = _plotting()
     fig, ax = plt.subplots(figsize=(10.5, 4.8))
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
@@ -121,6 +137,7 @@ def build_figure1(outdir: Path) -> list[Path]:
 
 
 def build_figure2(outdir: Path, data: dict[str, Any]) -> list[Path]:
+    plt, _, _ = _plotting()
     benchmark = data["benchmark"]
     fig, ax = plt.subplots(figsize=(7.4, 5.0))
     x = np.asarray(benchmark["sample_sizes"], dtype=float)
@@ -145,6 +162,7 @@ def build_figure2(outdir: Path, data: dict[str, Any]) -> list[Path]:
 
 
 def build_figure3(outdir: Path, data: dict[str, Any]) -> list[Path]:
+    plt, _, _ = _plotting()
     bop = data["bop"]
     fig, ax = plt.subplots(figsize=(9.0, 5.2))
     x_positions: list[float] = []
