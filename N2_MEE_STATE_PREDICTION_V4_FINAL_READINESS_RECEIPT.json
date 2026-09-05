@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "receipt_id": "n2-mee-state-prediction-v4-final-readiness",
+  "validated_date": "2026-09-05",
+  "target": {
+    "journal": "Methods in Ecology and Evolution",
+    "article_type": "Research Article",
+    "manuscript_title": "State-resolved ecological prediction: from flat suitability to transferable ecological-state distributions"
+  },
+  "validated_main": {
+    "head_sha": "9d5fe082b1e758882dd902131b88c5e064af6ba7",
+    "workflow_count_for_main_commit": 4,
+    "regular_test_run_id": 33937916317,
+    "regular_test_conclusion": "success",
+    "state_prediction_run_id": 33937916352,
+    "state_prediction_conclusion": "success",
+    "historical_v3_submission_package_run_id": 33937916312,
+    "historical_v3_submission_package_conclusion": "success",
+    "v4_submission_package_run_id": 33937916353,
+    "v4_submission_package_conclusion": "success",
+    "mh_public_data_workflow_ran_for_this_commit": false,
+    "bop_public_data_workflow_ran_for_this_commit": false
+  },
+  "manuscript_v4": {
+    "role": "n2_mee_state_prediction_manuscript_v4",
+    "sha256": "c6b36570187669838ee698f78b9e36a67365a1f3f1b875fe5db90b892e72a94b",
+    "word_count": 5443,
+    "abstract_word_count": 350,
+    "abstract_numbered_parts": 4,
+    "within_abstract_ceiling": true,
+    "primary_prediction_target": "P(A|X) or P(A|B)",
+    "primary_transfer_score": "independent-group held-out log-score gain over the training marginal state distribution",
+    "model_agnostic_framework": true,
+    "new_occurrence_sdm_algorithm": false,
+    "verified_milotic_reference_normalized": true,
+    "ethics_statement_present": true,
+    "generative_ai_methods_disclosure_present": true,
+    "explicit_no_retuning_statement_present": true,
+    "empirical_endpoints_rerun_by_manuscript_build": false
+  },
+  "prediction_validation": {
+    "package_version": "0.10.0",
+    "known_truth_replicates_per_cell": 128,
+    "tested_sample_sizes_per_base": [50, 250, 1000],
+    "stable_positive_in_all_replicates_at_every_sample_size": true,
+    "shifted_negative_in_all_replicates_at_every_sample_size": true,
+    "unorganized_mean_gain_converges_toward_zero": true,
+    "probability_rmse_decreases_with_sample_size": true,
+    "generality_property_obligations_passed": 1873,
+    "generality_property_obligations_failed": 0,
+    "generality_maximum_absolute_error": 2.4868995751603507e-14
+  },
+  "prospective_empirical_prediction": {
+    "MH_ANTWERPEN": {
+      "terminal_category": "empirical_state_prediction_unavailable",
+      "thinned_events": 193370,
+      "eligible_individuals": 3,
+      "frozen_minimum_individuals": 4,
+      "primary_transfer_folds_executed": 0,
+      "retuned_or_rescued": false,
+      "not_a_biological_null": true
+    },
+    "BOP_RODENT": {
+      "terminal_category": "empirical_state_prediction_mixed",
+      "eligible_events": 154655,
+      "eligible_individuals": 30,
+      "admitted_species": 4,
+      "primary_positive_log_gain_individuals": 27,
+      "primary_nonpositive_log_gain_individuals": 3,
+      "primary_positive_brier_improvement_individuals": 30,
+      "mean_primary_log_gain_descriptive": 0.5709102207418053,
+      "mean_primary_brier_improvement_descriptive": 0.3349841597067561,
+      "mean_top1_accuracy_descriptive": 0.7562012255655401,
+      "terminal_relaxed_to_generalizing": false,
+      "retuning_performed": false
+    }
+  },
+  "supporting_diagnostic_endpoints": {
+    "tawaki_reopened": false,
+    "tadarida_teniotis_reopened": false,
+    "snapshot_serengeti_reopened": false,
+    "role": "support estimability, added-state thickness and transferability distinctions; not relabelled as new state-prediction training datasets"
+  },
+  "figures_v4": {
+    "figure_count": 3,
+    "rendered_file_count": 6,
+    "formats": ["PDF", "600-dpi PNG"],
+    "figure_1": "state-resolved prediction and independent-transfer workflow",
+    "figure_2": "known-truth stable/unorganized/shifted prediction benchmark",
+    "figure_3": "all 30 BOP individual RF gains grouped by species with the three non-positive gains retained",
+    "empirical_endpoint_rerun_for_figure_build": false
+  },
+  "anonymous_review_bundle_v4": {
+    "sha256": "8d54ff22b277b2a831cfe01b2fbcf2020ecf42ae67cb9dcb35f9ad9477db1390",
+    "bytes": 155970,
+    "file_count": 64,
+    "python_file_ai_annotation_count": 48,
+    "ai_annotation_mode": "whole_file_conservative",
+    "contains_state_prediction_manuscript_v4": true,
+    "contains_raw_terminal_receipts_with_internal_workflow_or_pr_provenance": false,
+    "contains_title_page_or_cover_letter": false,
+    "identity_scan_passed": true,
+    "git_history_included": false,
+    "internal_pr_or_workflow_provenance_included": false,
+    "bundle_extracted_and_installed_in_ci": true,
+    "bundle_internal_pytest_conclusion": "success"
+  },
+  "submission_administration_v4": {
+    "kept_outside_anonymous_review_bundle": true,
+    "file_count": 4,
+    "files": [
+      "N2_MEE_TITLE_PAGE_TEMPLATE_v4.md",
+      "N2_MEE_COVER_LETTER_DRAFT_v4.md",
+      "N2_MEE_DISCLOSURE_DRAFTS_v4.md",
+      "N2_MEE_STATE_PREDICTION_V4_SUBMISSION_CHECKLIST.json"
+    ],
+    "uses_state_prediction_title_and_claim": true,
+    "author_metadata_placeholders_remain": true
+  },
+  "submission_artifact_v4": {
+    "artifact_name": "n2-mee-state-prediction-v4",
+    "artifact_id": 9960794087,
+    "artifact_digest": "sha256:b97257b75a2e9ae46319c1b5925a7c2d41c5391c2a3b7312351c459d79ed9cab",
+    "artifact_size_bytes": 1072969,
+    "package_manifest_role": "n2_mee_state_prediction_v4_submission_package",
+    "contains_separate_anonymous_review_bundle": true,
+    "contains_non_anonymous_submission_admin": true
+  },
+  "historical_v3_preservation": {
+    "v3_final_submission_receipt_present": true,
+    "v3_manuscript_overwritten": false,
+    "v3_review_bundle_overwritten": false,
+    "v3_final_submission_receipt_overwritten": false,
+    "historical_v3_submission_workflow_still_green_on_validated_main": true
+  },
+  "workflow_governance": {
+    "closed_mh_and_bop_workflows_use_path_filters": true,
+    "manuscript_or_admin_only_edits_rerun_closed_public_gps_endpoints": false,
+    "validated_on_main_commit_with_exactly_four_workflows": true
+  },
+  "scientific_boundary": {
+    "universal_positive_transfer_claimed": false,
+    "causal_driver_inference_claimed": false,
+    "fundamental_niche_inference_claimed": false,
+    "absolute_altitude_relabelled_as_height_above_ground": false,
+    "bop_mixed_terminal_relaxed": false,
+    "mh_unavailable_endpoint_rescued": false,
+    "n2_output_automatically_promoted_to_n3": false,
+    "packaging_or_editorial_changes_modify_scientific_endpoint": false
+  },
+  "remaining_author_only_items": [
+    "final author list and order",
+    "author affiliations and institutional addresses",
+    "corresponding author contact details",
+    "final CRediT roles and named AI-code accountable author",
+    "acknowledgements",
+    "funding statement",
+    "conflict-of-interest statement",
+    "confirmation of originality and no concurrent submission",
+    "all-author approval of final submission",
+    "final approval of data availability, ethics and generative-AI wording",
+    "optional translated abstract decision",
+    "submission-system metadata entry",
+    "final rendered document check for double spacing, continuous line numbers and page numbers"
+  ],
+  "readiness": {
+    "state_prediction_method_implemented": true,
+    "known_truth_prediction_behavior_validated": true,
+    "finite_discrete_genericity_validated": true,
+    "prospective_empirical_prediction_evidence_closed": true,
+    "technical_v4_submission_package_ready": true,
+    "v4_journal_policy_admin_drafts_ready": true,
+    "author_metadata_completion_required": true,
+    "ready_for_submission_without_author_metadata_completion": false
+  }
+}
