@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
+
+pytest.importorskip("sklearn")
 
 from odsp.prediction_novelty import fit_environmental_novelty_model
 
