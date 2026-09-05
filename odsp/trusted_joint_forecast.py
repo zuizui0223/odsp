@@ -7,8 +7,14 @@ This module composes four already separate ODSP ideas without collapsing them:
 * environmental novelty / strict extrapolation diagnostics;
 * independent validation and grouped transferability scoring.
 
-Training and conformal calibration rows have distinct roles.  Calibration rows do
+Training and conformal calibration rows have distinct roles. Calibration rows do
 not refit the joint density model or the environmental novelty reference cloud.
+
+The joint density summary and the conformal envelope also retain distinct roles.
+The joint summary reports height conditional on the predicted time mode. The
+Bonferroni conformal envelope uses the marginal component predictions z|X and
+t|X, so its two component errors are not artificially tied together through the
+predicted time mode.
 """
 from __future__ import annotations
 
@@ -79,11 +85,12 @@ class TrustedJointStateForecaster:
         time_center = np.asarray(
             [row.time_mean_state for row in summaries], dtype=float
         )
-        height_center = np.asarray(
-            [row.height_mean_at_time_mode for row in summaries], dtype=float
-        )
-        height_scale = np.asarray(
-            [row.height_standard_deviation for row in summaries], dtype=float
+        matrix = self.model._validate_X(X)
+        height_center = self.model.height_given_context_model.predict_mean(matrix)
+        height_scale = np.full(
+            matrix.shape[0],
+            self.model.height_given_context_model.residual_standard_deviation,
+            dtype=float,
         )
         return summaries, time_center, height_center, height_scale
 
@@ -269,11 +276,11 @@ def fit_trusted_joint_state_forecaster(
     time_center = np.asarray(
         [row.time_mean_state for row in calibration_summary], dtype=float
     )
-    height_center = np.asarray(
-        [row.height_mean_at_time_mode for row in calibration_summary], dtype=float
-    )
-    height_scale = np.asarray(
-        [row.height_standard_deviation for row in calibration_summary], dtype=float
+    height_center = model.height_given_context_model.predict_mean(X_cal_array)
+    height_scale = np.full(
+        X_cal_array.shape[0],
+        model.height_given_context_model.residual_standard_deviation,
+        dtype=float,
     )
     conformal = fit_joint_bonferroni_conformal_calibrator(
         height_center,
