@@ -88,9 +88,27 @@ Every level is a separate estimand. A positive species-level aggregation cannot 
 
 **Critical requirement:** `p_oof` must be genuinely out of sample (cross-fitted or prospectively held out). In-sample probabilities cannot support a transfer claim.
 
-## 4. Recommended combined output
+## 4. Integrated per-row trust output
 
-For one query row, an eventual ODSP application can report:
+Once the state model, conformal calibrator and novelty model are fitted, ODSP can return one structured record per query row without collapsing the diagnostics into a single score.
+
+```python
+from odsp import trusted_state_predictions
+
+trusted = trusted_state_predictions(
+    state_model,
+    conformal_calibrator,
+    novelty_model,
+    X_new,
+)
+
+first = trusted[0]
+print(first.state_probabilities)
+print(first.conformal_states)
+print(first.novelty_category, first.novelty_ratio)
+```
+
+A row can therefore be reported as:
 
 ```text
 state distribution
@@ -105,14 +123,11 @@ state distribution
 environmental domain
   novelty ratio 0.74
   in_domain
-
-transfer profile
-  new individual  mixed
-  new site        generalizing
-  new year        mixed
 ```
 
-The three layers answer different questions and should not be collapsed into one confidence number.
+Generalization remains a separate dataset-level object because it requires realized outcomes from independent groups. A query row cannot, by itself, establish transferability.
+
+The trust dimensions answer different questions and should not be collapsed into one confidence number.
 
 ## 5. Frozen known-truth benchmark
 
