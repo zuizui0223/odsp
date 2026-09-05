@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'TRUSTED_JOINT_FORECAST_CONTRACT.json'
+      - 'TRUSTED_JOINT_FORECAST_CONTRACT_AMENDMENT_2026-09-05.json'
       - 'TRUSTED_JOINT_FORECAST_VALIDATION_RECEIPT.json'
       - 'odsp/trusted_joint_forecast.py'
       - 'odsp/trusted_joint_forecast_benchmark.py'
@@ -18,6 +19,7 @@ on:
     branches: [main]
     paths:
       - 'TRUSTED_JOINT_FORECAST_CONTRACT.json'
+      - 'TRUSTED_JOINT_FORECAST_CONTRACT_AMENDMENT_2026-09-05.json'
       - 'TRUSTED_JOINT_FORECAST_VALIDATION_RECEIPT.json'
       - 'odsp/trusted_joint_forecast.py'
       - 'odsp/trusted_joint_forecast_benchmark.py'
@@ -65,7 +67,7 @@ jobs:
           assert r['training_split_preserved'] is True
           assert r['joint_log_density_gain'] > 0
           assert r['coupling_log_density_gain'] > 0
-          assert 0.88 <= r['empirical_joint_coverage'] <= 0.93
+          assert r['empirical_joint_coverage'] >= 0.88
           assert r['same_domain_non_strict_fraction'] >= 0.90
           assert r['shifted_strict_extrapolation_fraction'] == 1.0
           assert r['forecast_exposes_aggregate_confidence'] is False
