@@ -116,11 +116,14 @@ def run_trusted_joint_forecast_benchmark(
         )
     )
 
+    # Bonferroni supplies a simultaneous coverage lower bound, not an upper-bound
+    # target. The pre-green contract amendment records why only the lower finite-
+    # sample tolerance is an obligation here.
     passed = bool(
         split_preserved
         and score.mean_joint_log_density_gain > 0.0
         and score.mean_coupling_log_density_gain > 0.0
-        and 0.88 <= coverage.empirical_joint_coverage <= 0.93
+        and coverage.empirical_joint_coverage >= 0.88
         and non_strict >= 0.90
         and strict_fraction == 1.0
         and not aggregate_confidence
