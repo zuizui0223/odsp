@@ -32,6 +32,13 @@ jobs:
             tests/test_n2_mee_manuscript_v4.py \
             tests/test_n2_mee_state_prediction_figures_v4.py
 
+      - name: Build submission-facing manuscript v4
+        run: |
+          mkdir -p build/state_prediction_v4/manuscript
+          python -m scripts.build_n2_mee_manuscript_v4 \
+            --output build/state_prediction_v4/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v4.md \
+            --manifest build/state_prediction_v4/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v4.manifest.json
+
       - name: Build state-prediction figures
         run: |
           python -m scripts.build_n2_mee_state_prediction_figures_v4 \
@@ -39,20 +46,16 @@ jobs:
 
       - name: Stage manuscript package
         run: |
-          mkdir -p build/state_prediction_v4/manuscript
-          cp manuscript/N2_MEE_MANUSCRIPT_DRAFT_v4.md build/state_prediction_v4/manuscript/
           cp manuscript/N2_MEE_TABLE1_DRAFT_v4.md build/state_prediction_v4/manuscript/
           cp manuscript/N2_MEE_FIGURE_CAPTIONS_DRAFT_v4.md build/state_prediction_v4/manuscript/
           cp N2_STATE_PREDICTION_EVIDENCE_MATRIX.json build/state_prediction_v4/
           cp docs/n2_state_prediction_synthesis_2026-09-05.md build/state_prediction_v4/
           python - <<'PY'
-          import hashlib, json, pathlib, re
+          import hashlib, json, pathlib
           root = pathlib.Path('build/state_prediction_v4')
-          manuscript = root / 'manuscript/N2_MEE_MANUSCRIPT_DRAFT_v4.md'
-          text = manuscript.read_text(encoding='utf-8')
-          abstract = text.split('## Abstract', 1)[1].split('**Keywords:**', 1)[0]
-          word_count = len(re.findall(r"\b[\w'-]+\b", text))
-          abstract_words = len(re.findall(r"\b[\w'-]+\b", abstract))
+          manuscript_manifest = json.loads(
+              (root / 'manuscript/N2_MEE_MANUSCRIPT_DRAFT_v4.manifest.json').read_text()
+          )
           files = []
           for path in sorted(p for p in root.rglob('*') if p.is_file()):
               files.append({
@@ -63,15 +66,16 @@ jobs:
           manifest = {
               'schema_version': 1,
               'role': 'n2_mee_state_prediction_v4_review_package',
-              'manuscript_word_count': word_count,
-              'abstract_word_count': abstract_words,
-              'abstract_within_350_words': abstract_words <= 350,
+              'manuscript_word_count': manuscript_manifest['word_count'],
+              'abstract_word_count': manuscript_manifest['abstract_word_count'],
+              'abstract_within_350_words': manuscript_manifest['abstract_within_350_words'],
               'files': files,
               'empirical_endpoint_rerun': False,
           }
           (root / 'PACKAGE_MANIFEST.json').write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n')
           print(json.dumps(manifest, sort_keys=True))
-          assert abstract_words <= 350
+          assert manuscript_manifest['abstract_within_350_words'] is True
+          assert manuscript_manifest['retuning_performed'] is False
           PY
 
       - uses: actions/upload-artifact@v4
