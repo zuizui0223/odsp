@@ -2,8 +2,28 @@ name: mh-antwerpen-state-prediction
 
 on:
   pull_request:
+    paths:
+      - 'MH_ANTWERPEN_STATE_PREDICTION_CONTRACT.json'
+      - 'MH_ANTWERPEN_STATE_PREDICTION_RECEIPT.json'
+      - 'odsp/mh_antwerpen_prediction.py'
+      - 'odsp/covariate_state_prediction.py'
+      - 'odsp/state_prediction.py'
+      - 'scripts/run_mh_antwerpen_state_prediction.py'
+      - 'tests/test_mh_antwerpen_state_prediction*.py'
+      - '.github/workflows/mh-antwerpen-state-prediction.yml'
+      - 'pyproject.toml'
   push:
     branches: [main]
+    paths:
+      - 'MH_ANTWERPEN_STATE_PREDICTION_CONTRACT.json'
+      - 'MH_ANTWERPEN_STATE_PREDICTION_RECEIPT.json'
+      - 'odsp/mh_antwerpen_prediction.py'
+      - 'odsp/covariate_state_prediction.py'
+      - 'odsp/state_prediction.py'
+      - 'scripts/run_mh_antwerpen_state_prediction.py'
+      - 'tests/test_mh_antwerpen_state_prediction*.py'
+      - '.github/workflows/mh-antwerpen-state-prediction.yml'
+      - 'pyproject.toml'
   workflow_dispatch:
 
 permissions:
