@@ -72,6 +72,10 @@ from .prediction_novelty import (
     NoveltySummary,
     fit_environmental_novelty_model,
 )
+from .prediction_trust import (
+    TrustedStatePredictionSummary,
+    trusted_state_predictions,
+)
 from .prediction_trust_benchmark import (
     PredictionTrustBenchmarkResult,
     PredictionTrustCheck,
@@ -181,6 +185,7 @@ __all__ = [
     "TemporalObservation",
     "TemporalPartitionDecision",
     "TemporalPartitionProfile",
+    "TrustedStatePredictionSummary",
     "VerticalFieldMap",
     "VerticalObservation",
     "assess_n2_to_n3_handoff",
@@ -228,6 +233,7 @@ __all__ = [
     "score_state_probability_field",
     "shannon_entropy",
     "temporal_partition_profile",
+    "trusted_state_predictions",
     "validate_n2_to_n3_payload",
     "validate_serengeti_terminal_result",
 ]
