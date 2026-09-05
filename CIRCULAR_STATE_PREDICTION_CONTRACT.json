@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-circular-state-prediction-v1",
+  "date": "2026-09-05",
+  "purpose": "extend ODSP to periodic scalar ecological states without imposing an artificial boundary at the period origin",
+  "primary_target": "p(t|X) for one circular state t with an explicitly declared period",
+  "default_example": {
+    "state": "local clock time",
+    "period": 24.0,
+    "unit": "hours"
+  },
+  "primary_transfer_score": "E_heldout[log p_train(t|X) - log p_train(t)]",
+  "reference_learner": {
+    "name": "harmonic-regression von Mises state model",
+    "conditional_direction": "weighted linear regressions of cos(theta) and sin(theta), followed by circular residual offset calibration",
+    "conditional_concentration": "von Mises concentration estimated from weighted training residual resultant length",
+    "marginal_comparator": "weighted von Mises training marginal",
+    "claim": "transparent reference circular-density learner, not a universal activity-time distribution"
+  },
+  "secondary_diagnostics": [
+    "circular mean absolute error and improvement over marginal circular mean",
+    "training-residual circular prediction arc and held-out empirical coverage"
+  ],
+  "external_learner_interface": {
+    "minimum_requirement": "held-out conditional and training-marginal log density at every realized circular state",
+    "shared_score": "conditional-versus-marginal held-out log-density gain"
+  },
+  "independence": {
+    "groups_scored_separately": true,
+    "all_positive_required_for_generalizing": true,
+    "all_nonpositive_required_for_non_generalizing": true,
+    "mixed_signs_remain_mixed": true,
+    "pooled_mean_may_rescue_conflicting_group": false
+  },
+  "known_truth_benchmark": {
+    "seed": 20260905,
+    "replicates": 128,
+    "training_rows": 800,
+    "heldout_rows": 1600,
+    "period": 24.0,
+    "families": [
+      "stable_generalizing",
+      "unorganized",
+      "shifted_non_generalizing"
+    ],
+    "shift_definition": "held-out mean circular state is displaced by half a period relative to training organization",
+    "obligations": [
+      "all stable replicates have positive held-out log-density gain",
+      "all shifted replicates have negative held-out log-density gain",
+      "absolute mean null gain is below 0.02",
+      "gain is invariant to a common circular phase-origin shift to absolute error <= 1e-10",
+      "gain is invariant to equivalent period-unit conversion from 24 hours to 1440 minutes to absolute error <= 1e-10",
+      "reference 90% residual prediction-arc coverage lies between 0.87 and 0.93 under stable same-process data"
+    ]
+  },
+  "semantic_boundary": {
+    "observation_clock_time_equals_true_activity_time": false,
+    "local_clock_time_equals_solar_time": false,
+    "von_mises_reference_is_universal_activity_distribution": false,
+    "positive_density_gain_implies_temporal_displacement_or_competition": false,
+    "circular_density_removes_detection_bias": false
+  },
+  "frozen_v4_preservation": {
+    "v4_final_readiness_receipt_mutated": false,
+    "v4_manuscript_changed": false,
+    "v4_empirical_endpoint_rerun": false,
+    "MH_ANTWERPEN_reopened": false,
+    "BOP_RODENT_reopened": false,
+    "Tawaki_reopened": false,
+    "Tadarida_reopened": false,
+    "Snapshot_Serengeti_reopened": false
+  },
+  "out_of_scope": [
+    "multivariate circular response density",
+    "joint continuous height-time density",
+    "causal temporal attribution",
+    "automatic correction of camera or observation detection bias",
+    "automatic N2-to-N3 promotion"
+  ]
+}

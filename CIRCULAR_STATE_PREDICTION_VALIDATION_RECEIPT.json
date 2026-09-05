@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-circular-state-prediction-validation-v1",
+  "validated_date": "2026-09-05",
+  "position": {
+    "role": "periodic scalar ecological-state density prediction and transfer evaluation",
+    "primary_target": "p(t|X)",
+    "primary_transfer_score": "E_heldout[log p_train(t|X) - log p_train(t)]",
+    "reference_learner": "harmonic-regression von Mises state model",
+    "new_occurrence_sdm_algorithm": false
+  },
+  "validated_pr_head": {
+    "sha": "0872c62efc7fa07ab128f5e7151be59df8fbd378",
+    "circular_state_workflow_run_id": 33947387919,
+    "circular_state_workflow_conclusion": "success",
+    "closed_mh_or_bop_public_gps_workflow_triggered": false
+  },
+  "benchmark_artifact": {
+    "artifact_id": 9963752791,
+    "artifact_name": "circular-state-benchmark",
+    "artifact_digest": "sha256:f9da554c87b12a7d5df5933d47270bf29be04d1019c0516f7ed2df260939a032",
+    "artifact_size_bytes": 716
+  },
+  "known_truth_benchmark": {
+    "seed": 20260905,
+    "replicate_count": 128,
+    "training_rows": 800,
+    "heldout_rows": 1600,
+    "period": 24.0,
+    "stable_generalizing": {
+      "mean_log_density_gain": 0.3595903006382286,
+      "minimum_log_density_gain": 0.3092088061717255,
+      "maximum_log_density_gain": 0.40116733065469923,
+      "positive_gain_fraction": 1.0,
+      "negative_gain_fraction": 0.0,
+      "mean_circular_mae_improvement": 0.4973134797001234
+    },
+    "unorganized": {
+      "mean_log_density_gain": -0.0013889160202374337,
+      "minimum_log_density_gain": -0.007491528608101872,
+      "maximum_log_density_gain": 0.0009500461724165632,
+      "positive_gain_fraction": 0.1875,
+      "negative_gain_fraction": 0.8125,
+      "mean_circular_mae_improvement": -0.001526661960472452
+    },
+    "shifted_non_generalizing": {
+      "mean_log_density_gain": -7.245608280650196,
+      "minimum_log_density_gain": -8.915128341000049,
+      "maximum_log_density_gain": -6.193086399527301,
+      "positive_gain_fraction": 0.0,
+      "negative_gain_fraction": 1.0,
+      "mean_circular_mae_improvement": -0.49735719752617163
+    },
+    "stable_all_positive": true,
+    "shifted_all_negative": true,
+    "null_mean_gain_near_zero": true,
+    "phase_origin_gain_invariance_error": 0.0,
+    "period_unit_gain_invariance_error": 8.881784197001252e-16,
+    "interval_target_coverage": 0.9,
+    "interval_empirical_coverage": 0.8942,
+    "passed": true
+  },
+  "implemented_capabilities": [
+    "period-aware state-to-angle and angle-to-state conversion",
+    "midnight-safe circular distance",
+    "weighted harmonic-regression conditional mean direction",
+    "von Mises conditional and training-marginal circular densities",
+    "held-out conditional-versus-marginal circular log-density gain",
+    "circular MAE improvement",
+    "origin-wrapping training-residual prediction arcs",
+    "independent-group conservative gain classification",
+    "external circular density learner scoring from realized log densities"
+  ],
+  "scientific_boundary": {
+    "observation_clock_time_equals_true_activity_time": false,
+    "local_clock_time_equals_solar_time": false,
+    "von_mises_reference_is_universal_activity_distribution": false,
+    "positive_density_gain_implies_temporal_displacement_or_competition": false,
+    "detection_bias_removed": false,
+    "joint_height_time_density_implemented": false,
+    "n2_output_automatically_promoted_to_n3": false
+  },
+  "frozen_v4_preservation": {
+    "v4_final_readiness_receipt_mutated": false,
+    "v4_manuscript_changed": false,
+    "v4_empirical_endpoint_rerun": false,
+    "closed_empirical_terminal_categories_changed": false
+  }
+}
