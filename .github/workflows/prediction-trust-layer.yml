@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'PREDICTION_TRUST_LAYER_CONTRACT.json'
+      - 'PREDICTION_TRUST_LAYER_VALIDATION_RECEIPT.json'
       - 'odsp/prediction_uncertainty.py'
       - 'odsp/prediction_novelty.py'
       - 'odsp/generalization_profile.py'
@@ -24,6 +25,7 @@ on:
     branches: [main]
     paths:
       - 'PREDICTION_TRUST_LAYER_CONTRACT.json'
+      - 'PREDICTION_TRUST_LAYER_VALIDATION_RECEIPT.json'
       - 'odsp/prediction_uncertainty.py'
       - 'odsp/prediction_novelty.py'
       - 'odsp/generalization_profile.py'
