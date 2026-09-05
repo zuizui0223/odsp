@@ -62,15 +62,19 @@ jobs:
         run: |
           python scripts/run_forecast_model_comparison_benchmark.py \
             --output artifacts/FORECAST_MODEL_COMPARISON_BENCHMARK.json \
-            --seed 20260905
+            --seed 20260905 \
+            --gain-tolerance 1e-12
           python - <<'PY'
           import json
           from pathlib import Path
           r = json.loads(Path('artifacts/FORECAST_MODEL_COMPARISON_BENCHMARK.json').read_text())
           assert r['passed'] is True
+          assert r['gain_tolerance'] == 1e-12
           assert len(r['checks']) == 8
           assert all(row['passed'] for row in r['checks'])
           assert r['recommended_candidate'] == 'well_calibrated'
+          by_name = {row['name']: row for row in r['candidates']}
+          assert by_name['marginal_only']['transfer_category'] == 'non_generalizing'
           assert r['aggregate_confidence_score_emitted'] is False
           print(json.dumps(r, sort_keys=True))
           PY
