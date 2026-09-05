@@ -1,0 +1,90 @@
+name: continuous-circular-conformal
+
+on:
+  pull_request:
+    paths:
+      - 'CONTINUOUS_CIRCULAR_CONFORMAL_CONTRACT.json'
+      - 'CONTINUOUS_CIRCULAR_CONFORMAL_VALIDATION_RECEIPT.json'
+      - 'odsp/continuous_circular_conformal.py'
+      - 'odsp/continuous_circular_conformal_benchmark.py'
+      - 'scripts/run_continuous_circular_conformal_benchmark.py'
+      - 'tests/test_continuous_circular_conformal.py'
+      - 'tests/test_continuous_circular_conformal_benchmark.py'
+      - 'tests/test_continuous_circular_conformal_contract.py'
+      - 'tests/test_continuous_circular_conformal_receipt.py'
+      - 'docs/continuous_circular_conformal_v1.md'
+      - '.github/workflows/continuous-circular-conformal.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'CONTINUOUS_CIRCULAR_CONFORMAL_CONTRACT.json'
+      - 'CONTINUOUS_CIRCULAR_CONFORMAL_VALIDATION_RECEIPT.json'
+      - 'odsp/continuous_circular_conformal.py'
+      - 'odsp/continuous_circular_conformal_benchmark.py'
+      - 'scripts/run_continuous_circular_conformal_benchmark.py'
+      - 'tests/test_continuous_circular_conformal.py'
+      - 'tests/test_continuous_circular_conformal_benchmark.py'
+      - 'tests/test_continuous_circular_conformal_contract.py'
+      - 'tests/test_continuous_circular_conformal_receipt.py'
+      - 'docs/continuous_circular_conformal_v1.md'
+      - '.github/workflows/continuous-circular-conformal.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install ODSP test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+
+      - name: Test conformal continuous circular and joint trust
+        run: |
+          python -m pytest -q \
+            tests/test_continuous_circular_conformal.py \
+            tests/test_continuous_circular_conformal_benchmark.py \
+            tests/test_continuous_circular_conformal_contract.py
+          if [ -f tests/test_continuous_circular_conformal_receipt.py ]; then
+            python -m pytest -q tests/test_continuous_circular_conformal_receipt.py
+          fi
+
+      - name: Run frozen known-truth conformal benchmark
+        run: |
+          python scripts/run_continuous_circular_conformal_benchmark.py \
+            --output artifacts/CONTINUOUS_CIRCULAR_CONFORMAL_BENCHMARK.json \
+            --seed 20260905 \
+            --replicates 128 \
+            --calibration-rows 1000 \
+            --test-rows 2000
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('artifacts/CONTINUOUS_CIRCULAR_CONFORMAL_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert 0.885 <= r['mean_continuous_coverage'] <= 0.915
+          assert 0.885 <= r['mean_circular_coverage'] <= 0.915
+          assert 0.89 <= r['mean_joint_coverage'] <= 0.93
+          assert r['mean_shifted_continuous_coverage'] < 0.60
+          assert r['mean_shifted_circular_coverage'] < 0.60
+          assert r['continuous_affine_quantile_error'] <= 1e-10
+          assert r['circular_phase_quantile_error'] <= 1e-10
+          assert r['circular_unit_relative_error'] <= 1e-10
+          print(json.dumps(r, sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: continuous-circular-conformal-benchmark
+          path: artifacts/CONTINUOUS_CIRCULAR_CONFORMAL_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90
