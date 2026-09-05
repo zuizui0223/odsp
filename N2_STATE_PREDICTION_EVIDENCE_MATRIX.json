@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "matrix_id": "odsp-state-prediction-evidence-matrix-v1",
+  "date": "2026-09-05",
+  "purpose": "separate ODSP state-resolved prediction evidence from the earlier projection-loss diagnostic evidence while preserving both layers",
+  "method_position": {
+    "primary_target": "P(A|X) or P(A|B)",
+    "primary_validation": "independent-group log-score gain over a training marginal state distribution",
+    "secondary_validation": [
+      "multiclass Brier improvement",
+      "top-1 accuracy",
+      "probability assigned to the realized state"
+    ],
+    "odsp_is_occurrence_sdm_algorithm": false,
+    "odsp_role": "model-agnostic state-resolved ecological prediction and independent-transfer evaluation framework"
+  },
+  "synthetic_prediction_validation": {
+    "source": "STATE_RESOLVED_PREDICTION_VALIDATION_RECEIPT.json",
+    "replicates_per_cell": 128,
+    "sample_sizes_per_base": [50, 250, 1000],
+    "stable_generalizing": {
+      "positive_gain_fraction_at_all_sample_sizes": 1.0,
+      "mean_gain_n50": 0.30033855056322634,
+      "mean_gain_n1000": 0.32294219738413865,
+      "probability_rmse_n50": 0.05026457560026687,
+      "probability_rmse_n1000": 0.011870377915316824
+    },
+    "shifted_non_generalizing": {
+      "negative_gain_fraction_at_all_sample_sizes": 1.0,
+      "mean_gain_n50": -0.7823614748529366,
+      "mean_gain_n1000": -0.7733028576630449,
+      "probability_rmse_n50": 0.05078564070573334,
+      "probability_rmse_n1000": 0.011603161422867544
+    },
+    "unorganized": {
+      "mean_gain_n50": -0.009438678153152386,
+      "mean_gain_n1000": -0.0006819510456630914,
+      "interpretation": "mean predictive gain converges toward zero when no conditioning information is present"
+    }
+  },
+  "prospective_state_prediction_endpoints": [
+    {
+      "endpoint": "MH_ANTWERPEN",
+      "source_receipt": "MH_ANTWERPEN_STATE_PREDICTION_RECEIPT.json",
+      "target": "four-state absolute altitude distribution",
+      "independent_group": "tagged individual",
+      "eligible_individuals": 3,
+      "frozen_minimum_individuals": 4,
+      "thinned_events": 193370,
+      "terminal_category": "empirical_state_prediction_unavailable",
+      "transferability_test_opened": false,
+      "interpretation": "abundant events did not compensate for insufficient independent individuals; the prediction endpoint failed closed before RF transfer scoring"
+    },
+    {
+      "endpoint": "BOP_RODENT",
+      "source_receipt": "BOP_RODENT_STATE_PREDICTION_TERMINAL_RECEIPT.json",
+      "target": "species-aware four-state absolute altitude distribution",
+      "independent_group": "tagged individual",
+      "eligible_individuals": 30,
+      "admitted_species": 4,
+      "eligible_events": 154655,
+      "primary_random_forest": {
+        "terminal_category": "empirical_state_prediction_mixed",
+        "positive_gain_individuals": 27,
+        "nonpositive_gain_individuals": 3,
+        "positive_gain_fraction": 0.9,
+        "mean_gain_descriptive": 0.5709102207418053,
+        "median_gain_descriptive": 0.39577484343945035,
+        "minimum_gain": -0.23078224313265183,
+        "maximum_gain": 1.499987587497081,
+        "positive_brier_improvement_individuals": 30,
+        "positive_brier_improvement_fraction": 1.0,
+        "mean_brier_improvement_descriptive": 0.3349841597067561,
+        "mean_top1_accuracy_descriptive": 0.7562012255655401,
+        "mean_assigned_probability_descriptive": 0.6483575293928328,
+        "species_categories": {
+          "Buteo buteo": {"category": "generalizing", "positive": 5, "total": 5},
+          "Circus aeruginosus": {"category": "mixed", "positive": 7, "total": 8},
+          "Circus cyaneus": {"category": "mixed", "positive": 6, "total": 8},
+          "Circus pygargus": {"category": "generalizing", "positive": 9, "total": 9}
+        }
+      },
+      "multinomial_logit_sensitivity": {
+        "positive_gain_individuals": 22,
+        "total_individuals": 30,
+        "mean_gain_descriptive": 0.08617505942626986
+      },
+      "interpretation": "state-resolved predictions improved the primary log score for most but not all independent individuals; all individuals improved in Brier score, while the predeclared all-individual log-score rule retained a mixed terminal state"
+    }
+  ],
+  "supporting_projection_and_transfer_diagnostics": [
+    {
+      "endpoint": "Tawaki",
+      "terminal_category": "empirical_gate_d_unavailable",
+      "role_in_v4": "demonstrates estimability as a scientific outcome before multidimensional inference"
+    },
+    {
+      "endpoint": "Tadarida_teniotis",
+      "terminal_category": "empirical_n2_thickness_not_generalizing",
+      "H_added_given_base_nats": 1.3918623004770097,
+      "effective_added_states": 4.022333876564191,
+      "heldout_gains": [-0.43541033813280833, -0.021938657402345435],
+      "role_in_v4": "demonstrates that descriptive added-state thickness does not guarantee cross-individual transferable organization"
+    },
+    {
+      "endpoint": "Snapshot_Serengeti",
+      "terminal_category": "temporal_partition_generalizing",
+      "H_added_given_base_nats": 1.6396235816361795,
+      "effective_added_states": 5.153229376935854,
+      "conditional_identity_information_nats": 0.22427598739601606,
+      "heldout_gains": [0.0572411993741857, 0.045158861333215006, 0.04514355468571751],
+      "role_in_v4": "demonstrates independently transferable organization on a non-vertical ecological state axis"
+    }
+  ],
+  "chapter_level_claim": "ODSP extends ecological prediction from a single collapsed suitability or support value to a probability distribution over declared ecological states, then asks whether the additional state resolution improves prediction in independent groups. Known-truth benchmarks recover stable, null and shifted predictive regimes; prospectively frozen public-data endpoints show both structural unavailability and strong but heterogeneous cross-individual state prediction.",
+  "claim_ceiling": {
+    "supported": [
+      "finite discrete state-resolved prediction",
+      "model-agnostic probability-field scoring",
+      "independent individual/group transfer evaluation",
+      "empirical evidence that state resolution can add predictive information for many held-out individuals",
+      "fail-closed reporting of unavailable and mixed outcomes"
+    ],
+    "not_supported": [
+      "universal positive transfer across organisms or taxa",
+      "causal effects of predictor variables",
+      "fundamental niche inference",
+      "automatic correction of observation or tag bias",
+      "automatic conversion of absolute altitude to height above ground",
+      "automatic N2-to-N3 state promotion"
+    ]
+  }
+}

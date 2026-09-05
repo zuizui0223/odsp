@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "contract_id": "n2-mee-state-prediction-manuscript-v4",
+  "date": "2026-09-05",
+  "purpose": "govern the manuscript reframe from projection-loss diagnosis to state-resolved ecological prediction without changing closed empirical endpoints or invalidating the frozen v3 submission package",
+  "primary_method_claim": "ODSP extends ecological prediction from a collapsed scalar representation to a probability distribution over declared ecological states and tests whether the added state resolution improves prediction in prospectively independent groups.",
+  "primary_prediction_target": [
+    "P(A|X)",
+    "P(A|B)"
+  ],
+  "primary_empirical_score": "independent-group held-out log-score gain of the conditional state distribution over the training marginal state distribution",
+  "secondary_scores": [
+    "multiclass Brier improvement",
+    "top-1 state accuracy",
+    "probability assigned to realized state"
+  ],
+  "method_position": {
+    "new_occurrence_sdm_algorithm": false,
+    "model_agnostic_state_prediction_framework": true,
+    "compatible_reference_learners": [
+      "Dirichlet-smoothed discrete conditional learner",
+      "random forest",
+      "multinomial logistic regression",
+      "other normalized probabilistic state learners"
+    ]
+  },
+  "required_evidence_sources": [
+    "STATE_RESOLVED_PREDICTION_VALIDATION_RECEIPT.json",
+    "MH_ANTWERPEN_STATE_PREDICTION_RECEIPT.json",
+    "BOP_RODENT_STATE_PREDICTION_TERMINAL_RECEIPT.json",
+    "N2_STATE_PREDICTION_EVIDENCE_MATRIX.json",
+    "N2_GENERALITY_BENCHMARK_SUMMARY.json",
+    "N2_BAT_THICKNESS_TERMINAL_DECISION.json",
+    "N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json"
+  ],
+  "prospective_prediction_endpoints": {
+    "MH_ANTWERPEN": {
+      "terminal_category": "empirical_state_prediction_unavailable",
+      "eligible_individuals": 3,
+      "frozen_minimum_individuals": 4,
+      "primary_transfer_folds_executed": 0
+    },
+    "BOP_RODENT": {
+      "terminal_category": "empirical_state_prediction_mixed",
+      "eligible_individuals": 30,
+      "admitted_species": 4,
+      "positive_log_gain_individuals": 27,
+      "nonpositive_log_gain_individuals": 3,
+      "positive_brier_improvement_individuals": 30,
+      "mean_log_gain_is_descriptive_only": true
+    }
+  },
+  "supporting_diagnostic_roles": {
+    "Tawaki": "estimability can fail before biological added-state inference opens",
+    "Tadarida_teniotis": "descriptive added-state thickness can be present while cross-individual organization fails to transfer",
+    "Snapshot_Serengeti": "added-state organization on a temporal axis can transfer across independent site folds"
+  },
+  "figure_contract": {
+    "figure_1": "conceptual state-resolved prediction and independent-transfer audit",
+    "figure_2": "known-truth finite-sample state-prediction regimes",
+    "figure_3": "all 30 BOP_RODENT individual RF gains grouped by species with zero line and all three non-positive individuals visible",
+    "empirical_endpoint_rerun_for_figure_build": false
+  },
+  "manuscript_contract": {
+    "title": "State-resolved ecological prediction: from flat suitability to transferable ecological-state distributions",
+    "abstract_numbered_parts": 4,
+    "abstract_max_words": 350,
+    "prediction_is_primary_center": true,
+    "projection_loss_retained_as_supporting_foundation": true,
+    "explicit_no_retuning_statement_required": true,
+    "ethics_statement_required": true,
+    "generative_ai_statement_required": true
+  },
+  "anonymous_review_bundle": {
+    "version": 4,
+    "raw_terminal_receipts_with_internal_workflow_or_pr_provenance_included": false,
+    "sanitized_scientific_state_prediction_summary_included": true,
+    "prospective_public_data_contracts_included": true,
+    "submitted_python_files_ai_annotation_mode": "whole_file_conservative",
+    "bundle_internal_pytest_required": true,
+    "author_identity_allowed": false,
+    "repository_or_pr_identity_allowed": false
+  },
+  "v3_preservation": {
+    "v3_manuscript_overwritten": false,
+    "v3_review_bundle_overwritten": false,
+    "v3_final_submission_receipt_overwritten": false,
+    "historical_v3_hashes_recomputed_as_v4": false
+  },
+  "scientific_boundary": {
+    "closed_tawaki_reopened": false,
+    "closed_bat_reopened": false,
+    "closed_serengeti_reopened": false,
+    "closed_mh_endpoint_rescued": false,
+    "bop_mixed_terminal_relaxed_to_generalizing": false,
+    "universal_positive_transfer_claimed": false,
+    "causal_prediction_claimed": false,
+    "fundamental_niche_claimed": false,
+    "absolute_altitude_relabelled_as_height_above_ground": false,
+    "n2_output_automatically_promoted_to_n3": false
+  },
+  "merge_requirements": [
+    "regular multi-Python tests green",
+    "state-resolved prediction benchmark workflow green",
+    "historical v3 submission-package workflow green",
+    "v4 manuscript/evidence/figure workflow green",
+    "anonymous v4 review bundle builds deterministically",
+    "anonymous v4 review bundle installs and passes its internal pytest",
+    "MH and BOP workflow trigger changes preserve closed-endpoint receipts and stop manuscript-only reruns"
+  ]
+}

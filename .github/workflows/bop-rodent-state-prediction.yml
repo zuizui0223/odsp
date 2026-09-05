@@ -2,8 +2,28 @@ name: bop-rodent-state-prediction
 
 on:
   pull_request:
+    paths:
+      - 'BOP_RODENT_STATE_PREDICTION_CONTRACT.json'
+      - 'BOP_RODENT_STATE_PREDICTION_TERMINAL_RECEIPT.json'
+      - 'odsp/bop_rodent_prediction.py'
+      - 'odsp/covariate_state_prediction.py'
+      - 'odsp/state_prediction.py'
+      - 'scripts/run_bop_rodent_state_prediction.py'
+      - 'tests/test_bop_rodent_state_prediction*.py'
+      - '.github/workflows/bop-rodent-state-prediction.yml'
+      - 'pyproject.toml'
   push:
     branches: [main]
+    paths:
+      - 'BOP_RODENT_STATE_PREDICTION_CONTRACT.json'
+      - 'BOP_RODENT_STATE_PREDICTION_TERMINAL_RECEIPT.json'
+      - 'odsp/bop_rodent_prediction.py'
+      - 'odsp/covariate_state_prediction.py'
+      - 'odsp/state_prediction.py'
+      - 'scripts/run_bop_rodent_state_prediction.py'
+      - 'tests/test_bop_rodent_state_prediction*.py'
+      - '.github/workflows/bop-rodent-state-prediction.yml'
+      - 'pyproject.toml'
   workflow_dispatch:
 
 permissions:
