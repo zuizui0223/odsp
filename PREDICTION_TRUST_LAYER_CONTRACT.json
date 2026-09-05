@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-prediction-trust-layer-v1",
+  "date": "2026-09-05",
+  "purpose": "extend state-resolved ecological prediction with explicit uncertainty, extrapolation diagnostics and multi-level transfer profiles while preserving the frozen v4 submission state",
+  "version_line": "0.11-development",
+  "components": {
+    "conformal_state_uncertainty": {
+      "input": "out-of-sample or separately calibrated normalized state probabilities",
+      "method": "split conformal with nonconformity score 1 - p(true_state)",
+      "primary_output": "finite state prediction set at caller-declared miscoverage",
+      "guarantee": "finite-sample marginal coverage under exchangeability between calibration and target rows",
+      "conditional_coverage_guaranteed": false,
+      "distribution_shift_robustness_guaranteed": false,
+      "empty_sets_may_be_conservatively_filled_with_argmax": true
+    },
+    "environmental_novelty": {
+      "input": "training and query covariate matrices",
+      "scaling": "training mean and population standard deviation; constant features use scale one",
+      "strict_extrapolation": "any query feature outside the training univariate range",
+      "multivariate_novelty": "nearest standardized training-row distance above a frozen quantile of leave-one-out training nearest-neighbour distances",
+      "reference_quantile_default": 0.95,
+      "novelty_is_prediction_correction": false,
+      "novelty_proves_prediction_failure": false,
+      "positive_affine_feature_rescaling_invariance_required": true
+    },
+    "generalization_profile": {
+      "input": "genuinely out-of-sample probability rows, realized state labels, training marginal state probabilities and caller-declared groupings",
+      "example_levels": ["individual", "site", "year", "species", "region"],
+      "score": "group-wise mean conditional-versus-marginal log-score gain",
+      "classification": "generalizing only if every group at that level is positive; non_generalizing if every group is non-positive; otherwise mixed",
+      "coarse_level_positive_may_override_fine_level_failure": false,
+      "pooled_observation_mass_may_rescue_conflicting_group": false,
+      "in_sample_predictions_allowed_for_transfer_claim": false
+    }
+  },
+  "known_truth_benchmark": {
+    "seed": 20260905,
+    "obligations": [
+      "exchangeable conformal coverage is near nominal 0.90",
+      "strong outcome shift produces visibly degraded conformal coverage",
+      "strong environmental shift is marked as strict extrapolation",
+      "environmental novelty is invariant to positive affine feature rescaling",
+      "fine-level mixed transfer remains visible even if a coarser level aggregates to generalizing"
+    ]
+  },
+  "frozen_v4_preservation": {
+    "v4_final_readiness_receipt_mutated": false,
+    "v4_manuscript_scientific_claims_mutated": false,
+    "v4_empirical_endpoints_rerun": false,
+    "MH_ANTWERPEN_reopened": false,
+    "BOP_RODENT_reopened": false,
+    "Tawaki_reopened": false,
+    "Tadarida_reopened": false,
+    "Snapshot_Serengeti_reopened": false
+  },
+  "out_of_scope_for_this_upgrade": [
+    "continuous-density state prediction",
+    "causal driver attribution",
+    "automatic correction of detection or observation bias",
+    "guaranteed extrapolative accuracy",
+    "universal biological transfer",
+    "automatic N2-to-N3 promotion"
+  ]
+}

@@ -1,0 +1,98 @@
+name: prediction-trust-layer
+
+on:
+  pull_request:
+    paths:
+      - 'PREDICTION_TRUST_LAYER_CONTRACT.json'
+      - 'PREDICTION_TRUST_LAYER_VALIDATION_RECEIPT.json'
+      - 'odsp/prediction_uncertainty.py'
+      - 'odsp/prediction_novelty.py'
+      - 'odsp/generalization_profile.py'
+      - 'odsp/prediction_trust.py'
+      - 'odsp/prediction_trust_benchmark.py'
+      - 'odsp/__init__.py'
+      - 'scripts/run_prediction_trust_benchmark.py'
+      - 'tests/test_prediction_uncertainty.py'
+      - 'tests/test_prediction_novelty.py'
+      - 'tests/test_generalization_profile.py'
+      - 'tests/test_prediction_trust.py'
+      - 'tests/test_prediction_trust_benchmark.py'
+      - 'tests/test_prediction_trust_contract.py'
+      - 'tests/test_prediction_trust_receipt.py'
+      - 'docs/prediction_trust_layer_v1.md'
+      - '.github/workflows/prediction-trust-layer.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'PREDICTION_TRUST_LAYER_CONTRACT.json'
+      - 'PREDICTION_TRUST_LAYER_VALIDATION_RECEIPT.json'
+      - 'odsp/prediction_uncertainty.py'
+      - 'odsp/prediction_novelty.py'
+      - 'odsp/generalization_profile.py'
+      - 'odsp/prediction_trust.py'
+      - 'odsp/prediction_trust_benchmark.py'
+      - 'odsp/__init__.py'
+      - 'scripts/run_prediction_trust_benchmark.py'
+      - 'tests/test_prediction_uncertainty.py'
+      - 'tests/test_prediction_novelty.py'
+      - 'tests/test_generalization_profile.py'
+      - 'tests/test_prediction_trust.py'
+      - 'tests/test_prediction_trust_benchmark.py'
+      - 'tests/test_prediction_trust_contract.py'
+      - 'tests/test_prediction_trust_receipt.py'
+      - 'docs/prediction_trust_layer_v1.md'
+      - '.github/workflows/prediction-trust-layer.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install ODSP prediction dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev,predict]'
+
+      - name: Test uncertainty, novelty, integrated trust and generalization profile
+        run: |
+          python -m pytest -q \
+            tests/test_prediction_uncertainty.py \
+            tests/test_prediction_novelty.py \
+            tests/test_generalization_profile.py \
+            tests/test_prediction_trust.py \
+            tests/test_prediction_trust_benchmark.py \
+            tests/test_prediction_trust_contract.py \
+            tests/test_prediction_trust_receipt.py
+
+      - name: Run frozen known-truth trust benchmark
+        run: |
+          python scripts/run_prediction_trust_benchmark.py \
+            --output artifacts/PREDICTION_TRUST_BENCHMARK.json \
+            --seed 20260905
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('artifacts/PREDICTION_TRUST_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert len(r['checks']) == 6
+          assert all(row['passed'] for row in r['checks'])
+          assert r['individual_gain_category'] == 'mixed'
+          assert r['species_gain_category'] == 'generalizing'
+          print(json.dumps(r, sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prediction-trust-benchmark
+          path: artifacts/PREDICTION_TRUST_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90

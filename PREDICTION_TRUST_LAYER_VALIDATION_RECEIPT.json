@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-prediction-trust-layer-core-validation-v1",
+  "validated_date": "2026-09-05",
+  "role": "known-truth validation of uncertainty, environmental novelty and multi-level generalization-profile semantics",
+  "contract_id": "odsp-prediction-trust-layer-v1",
+  "validated_core": {
+    "head_sha": "7de632f10f2c048da6bc16a0a5d31e6ea31bec8b",
+    "workflow_name": "prediction-trust-layer",
+    "workflow_run_id": 33940931161,
+    "workflow_conclusion": "success",
+    "artifact_name": "prediction-trust-benchmark",
+    "artifact_id": 9961786643,
+    "artifact_digest": "sha256:3d80e6141778dcc3754dcb8d9eb713fb3df0f60bccfce7d373e47ddacbb56807",
+    "artifact_size_bytes": 783
+  },
+  "benchmark": {
+    "seed": 20260905,
+    "passed": true,
+    "check_count": 6,
+    "conformal_target_coverage": 0.9,
+    "conformal_exchangeable_coverage": 0.9003,
+    "conformal_shifted_coverage": 0.24236666666666667,
+    "conformal_mean_set_size": 2.1133333333333333,
+    "novelty_in_domain_median_ratio": 0.4508683580225492,
+    "novelty_shifted_median_ratio": 10.794689362002847,
+    "novelty_shifted_strict_fraction": 1.0,
+    "novelty_affine_max_abs_ratio_error": 2.6645352591003757e-15,
+    "individual_gain_category": "mixed",
+    "species_gain_category": "generalizing",
+    "fine_level_failure_preserved": true
+  },
+  "obligations": {
+    "exchangeable_conformal_coverage_near_nominal": true,
+    "distribution_shift_degrades_coverage_visibly": true,
+    "strong_covariate_shift_detected_as_strict_extrapolation": true,
+    "novelty_affine_invariance_validated": true,
+    "fine_level_failure_not_overridden_by_coarse_positive_aggregation": true
+  },
+  "claim_boundary": {
+    "conditional_conformal_coverage_claimed": false,
+    "distribution_shift_robust_conformal_guarantee_claimed": false,
+    "novelty_repairs_extrapolated_prediction": false,
+    "novelty_proves_prediction_failure": false,
+    "in_sample_probability_supports_transfer_claim": false,
+    "coarse_group_positive_result_overrides_fine_group_failure": false,
+    "continuous_density_state_prediction_validated": false,
+    "causal_attribution_validated": false
+  },
+  "frozen_v4_preservation": {
+    "v4_submission_receipt_changed": false,
+    "v4_empirical_endpoint_rerun": false,
+    "v4_review_environment_package_version": "0.10.0",
+    "live_package_release_version_bumped_in_this_development": false
+  }
+}
