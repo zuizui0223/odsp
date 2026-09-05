@@ -1,8 +1,9 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "contract_id": "odsp-trusted-joint-forecast-v1",
   "date": "2026-09-05",
   "purpose": "provide one high-level forecast interface combining joint continuous-circular state prediction, split-conformal joint uncertainty, environmental novelty and independent transfer scoring without collapsing them into one confidence number",
+  "pre_green_amendment": "TRUSTED_JOINT_FORECAST_CONTRACT_AMENDMENT_2026-09-05.json",
   "data_roles": {
     "training": "fits joint density model and environmental novelty reference only",
     "calibration": "calibrates conformal prediction region only and must not refit the joint density or novelty model",
@@ -35,7 +36,7 @@
       "joint model training row count equals training split and excludes calibration rows",
       "same-process test joint log-density gain is positive",
       "same-process test coupling gain is positive",
-      "same-process Bonferroni joint empirical coverage lies between 0.88 and 0.93",
+      "same-process Bonferroni joint empirical coverage is at least 0.88; no upper-bound obligation is imposed because Bonferroni is a coverage lower-bound construction",
       "at least 0.90 of bounded same-domain query rows are not strict extrapolation",
       "all strongly shifted query rows are strict extrapolation",
       "forecast rows expose no aggregate confidence score"
