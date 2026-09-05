@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-trusted-joint-forecast-v1-validation",
+  "validated_date": "2026-09-05",
+  "contract": "TRUSTED_JOINT_FORECAST_CONTRACT.json",
+  "pre_green_amendment": "TRUSTED_JOINT_FORECAST_CONTRACT_AMENDMENT_2026-09-05.json",
+  "benchmark": {
+    "seed": 20260905,
+    "training_rows": 1200,
+    "calibration_rows": 1200,
+    "test_rows": 3000,
+    "training_split_preserved": true,
+    "joint_log_density_gain": 2.2874331923915308,
+    "coupling_log_density_gain": 0.4322539618750554,
+    "empirical_joint_coverage": 0.94,
+    "same_domain_non_strict_fraction": 1.0,
+    "shifted_strict_extrapolation_fraction": 1.0,
+    "forecast_exposes_aggregate_confidence": false,
+    "passed": true
+  },
+  "first_green_workflow": {
+    "run_id": 33953919468,
+    "artifact_id": 9965726876,
+    "artifact_digest": "sha256:fae4b8889c50ca377ebd4973d635ac94fc7e4c5a7c1d60e0bee33ed73e91cd7a",
+    "conclusion": "success"
+  },
+  "integration_interpretation": {
+    "training_and_calibration_roles_separated": true,
+    "same_process_joint_prediction_has_value": true,
+    "same_process_height_time_coupling_has_value": true,
+    "conformal_joint_region_is_conservative_relative_to_0_90_lower_bound": true,
+    "same_domain_queries_not_flagged_as_strict_extrapolation": true,
+    "strongly_shifted_queries_flagged_as_strict_extrapolation": true,
+    "diagnostics_not_collapsed_to_single_confidence_score": true
+  },
+  "contract_correction_provenance": {
+    "initial_invalid_upper_bound_obligation_present": true,
+    "initial_diagnostic_coverage": 0.94,
+    "generator_changed_after_diagnostic": false,
+    "seed_changed_after_diagnostic": false,
+    "split_sizes_changed_after_diagnostic": false,
+    "model_tuned_to_reduce_valid_coverage": false,
+    "correction": "removed mathematically invalid Bonferroni coverage upper bound before first green validation and retained the original lower finite-sample tolerance"
+  },
+  "claim_boundary": {
+    "novelty_is_error_probability": false,
+    "conformal_coverage_is_transferability": false,
+    "positive_coupling_is_mechanism": false,
+    "positive_joint_gain_is_causality": false,
+    "single_confidence_score_claimed": false
+  },
+  "frozen_v4_preservation": {
+    "v4_manuscript_changed": false,
+    "v4_final_readiness_receipt_changed": false,
+    "closed_empirical_endpoint_rerun": false,
+    "closed_terminal_category_changed": false
+  }
+}

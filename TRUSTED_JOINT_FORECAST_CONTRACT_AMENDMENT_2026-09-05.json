@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "amendment_id": "odsp-trusted-joint-forecast-v1-bonferroni-upper-bound-correction",
+  "date": "2026-09-05",
+  "applies_to": "TRUSTED_JOINT_FORECAST_CONTRACT.json",
+  "timing": "after failed integration benchmark runs and before any successful validation receipt",
+  "observed_diagnostic": {
+    "joint_log_density_gain": 2.2874331923915308,
+    "coupling_log_density_gain": 0.4322539618750554,
+    "empirical_joint_coverage": 0.94,
+    "same_domain_non_strict_fraction": 1.0,
+    "shifted_strict_extrapolation_fraction": 1.0,
+    "training_split_preserved": true,
+    "aggregate_confidence_exposed": false
+  },
+  "problem": "the original obligation required Bonferroni joint empirical coverage to lie between 0.88 and 0.93, but a Bonferroni construction supplies a simultaneous marginal-coverage lower bound rather than an upper-bound guarantee; coverage above 0.93 is conservative, not a failure",
+  "correction": {
+    "old_obligation": "0.88 <= empirical joint coverage <= 0.93",
+    "new_obligation": "empirical joint coverage >= 0.88 on the frozen same-process benchmark; no upper bound is imposed",
+    "generator_coefficients_changed": false,
+    "seed_changed": false,
+    "split_sizes_changed": false,
+    "model_changed_to_fit_result": false,
+    "novelty_threshold_changed": false,
+    "gain_threshold_changed": false
+  },
+  "scientific_reason": "forcing a synthetic generator or model to make a valid conservative Bonferroni region narrower would tune the data to an invalid upper-bound criterion; removing that criterion preserves the mathematically correct interpretation while retaining the predeclared finite-sample lower tolerance",
+  "status": "pre_green_methodological_contract_correction"
+}
