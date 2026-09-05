@@ -103,6 +103,31 @@ The frozen benchmark uses three regimes:
 
 It requires all stable replicates to have positive density gain, all shifted replicates to have negative gain, null mean gain to remain near zero, affine response-unit invariance, and approximately nominal Gaussian interval coverage under correct specification.
 
+The first prospective benchmark execution used seed `20260905`, 128 replicates, 800 training rows and 1,600 held-out rows per replicate. It passed every frozen obligation:
+
+```text
+stable-generalizing
+  positive gain             128 / 128
+  mean Δ log density        +0.9605708507
+  mean CRPS improvement     +0.6387237409
+  mean RMSE improvement     +1.1322411798
+
+unorganized / null
+  mean Δ log density        -0.0021301552
+
+shifted-non-generalizing
+  negative gain             128 / 128
+  mean Δ log density        -10.8283320383
+
+affine unit invariance
+  absolute gain error       8.88e-16
+
+nominal 90% Gaussian interval
+  empirical coverage        0.8926
+```
+
+The canonical values and original CI artifact provenance are frozen in `CONTINUOUS_STATE_PREDICTION_VALIDATION_RECEIPT.json`. The receipt test reruns the benchmark and checks these values without touching any public empirical endpoint.
+
 Run:
 
 ```bash
