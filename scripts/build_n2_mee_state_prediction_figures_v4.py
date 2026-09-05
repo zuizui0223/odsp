@@ -129,9 +129,14 @@ def build_figure1(outdir: Path) -> list[Path]:
     for start, end in arrows:
         ax.add_patch(FancyArrowPatch(start, end, arrowstyle="->", mutation_scale=13, linewidth=1.2))
 
-    ax.text(0.06, 0.29, "Conventional map: one scalar per unit", fontsize=10, ha="left")
-    ax.text(0.06, 0.23, "ODSP: predict a distribution over declared ecological states,", fontsize=10, ha="left")
-    ax.text(0.06, 0.18, "then require independent evidence that the added resolution transfers.", fontsize=10, ha="left")
+    ax.text(
+        0.50,
+        0.48,
+        "A scalar map collapses ecological state; ODSP predicts the state distribution and audits its independent transfer.",
+        fontsize=9,
+        ha="center",
+        va="center",
+    )
     ax.set_title("Figure 1. State-resolved ecological prediction and independent transfer audit", fontsize=12)
     return _save(fig, outdir, "Figure1_state_resolved_prediction_workflow")
 
