@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-trusted-joint-forecast-v1",
+  "date": "2026-09-05",
+  "purpose": "provide one high-level forecast interface combining joint continuous-circular state prediction, split-conformal joint uncertainty, environmental novelty and independent transfer scoring without collapsing them into one confidence number",
+  "data_roles": {
+    "training": "fits joint density model and environmental novelty reference only",
+    "calibration": "calibrates conformal prediction region only and must not refit the joint density or novelty model",
+    "forecast": "new context rows receiving state prediction, conformal region and novelty diagnostics",
+    "validation": "independent realized states used for density scoring or grouped transferability"
+  },
+  "row_output": [
+    "time mode and model-based circular arc",
+    "height mean/scale at predicted time mode and model-based interval",
+    "Bonferroni conformal height interval x time arc",
+    "environmental novelty ratio/category and strict extrapolation flags"
+  ],
+  "dataset_output": [
+    "joint contextual held-out log-density gain",
+    "directional coupling held-out log-density gain",
+    "separate independent-group joint/coupling classifications"
+  ],
+  "no_collapse": {
+    "single_confidence_number_produced": false,
+    "novelty_overrides_probability": false,
+    "conformal_coverage_implies_transfer": false,
+    "positive_transfer_overrides_extrapolation_warning": false
+  },
+  "known_truth_integration": {
+    "seed": 20260905,
+    "training_rows": 1200,
+    "calibration_rows": 1200,
+    "test_rows": 3000,
+    "obligations": [
+      "joint model training row count equals training split and excludes calibration rows",
+      "same-process test joint log-density gain is positive",
+      "same-process test coupling gain is positive",
+      "same-process Bonferroni joint empirical coverage lies between 0.88 and 0.93",
+      "at least 0.90 of bounded same-domain query rows are not strict extrapolation",
+      "all strongly shifted query rows are strict extrapolation",
+      "forecast rows expose no aggregate confidence score"
+    ]
+  },
+  "claim_boundary": {
+    "conformal_region_is_highest_density_region": false,
+    "novelty_is_prediction_error_probability": false,
+    "positive_joint_gain_implies_causality": false,
+    "positive_coupling_gain_implies_mechanism": false,
+    "observation_bias_corrected": false,
+    "absolute_altitude_equals_height_above_ground": false,
+    "clock_time_equals_latent_activity_time": false
+  },
+  "frozen_v4_preservation": {
+    "v4_manuscript_changed": false,
+    "v4_final_readiness_receipt_changed": false,
+    "closed_empirical_endpoint_rerun": false,
+    "closed_terminal_category_changed": false
+  }
+}
