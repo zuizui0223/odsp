@@ -25,12 +25,13 @@ jobs:
           python -m pip install -e '.[dev,predict]'
           python -m pip install matplotlib
 
-      - name: Validate state-prediction evidence and manuscript v4
+      - name: Validate state-prediction evidence, manuscript and anonymous bundle
         run: |
           python -m pytest -q \
             tests/test_state_prediction_evidence_matrix.py \
             tests/test_n2_mee_manuscript_v4.py \
-            tests/test_n2_mee_state_prediction_figures_v4.py
+            tests/test_n2_mee_state_prediction_figures_v4.py \
+            tests/test_n2_mee_review_package_v4.py
 
       - name: Build submission-facing manuscript v4
         run: |
@@ -43,6 +44,25 @@ jobs:
         run: |
           python -m scripts.build_n2_mee_state_prediction_figures_v4 \
             --outdir build/state_prediction_v4/figures
+
+      - name: Build anonymous review bundle v4
+        run: |
+          mkdir -p build/state_prediction_v4/review
+          python -m scripts.build_n2_mee_review_bundle_v4 \
+            --output build/state_prediction_v4/review/N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v4.zip
+
+      - name: Test anonymous review bundle internally
+        run: |
+          rm -rf build/v4_bundle_check
+          mkdir -p build/v4_bundle_check
+          python - <<'PY'
+          import zipfile
+          with zipfile.ZipFile('build/state_prediction_v4/review/N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v4.zip') as z:
+              z.extractall('build/v4_bundle_check')
+          PY
+          cd build/v4_bundle_check
+          python -m pip install -e '.[dev,predict]'
+          python -m pytest -q
 
       - name: Stage manuscript package
         run: |
