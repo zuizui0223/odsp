@@ -3,8 +3,9 @@
 
 The source draft is retained as an editable scientific text. This builder makes only
 small deterministic submission edits: it compresses the numbered abstract below the
-350-word ceiling, makes the no-retuning statement explicit, and writes a manifest.
-It does not alter any empirical numeric result or rerun an endpoint.
+350-word ceiling, makes the no-retuning statement explicit, normalizes one verified
+bibliographic entry, and writes a manifest. It does not alter any empirical numeric
+result or rerun an endpoint.
 """
 from __future__ import annotations
 
@@ -37,6 +38,11 @@ def build_manuscript_text() -> str:
         text,
         "The empirical prediction workflows verify source checksums, run contract and synthetic implementation tests before public outcome access, execute only the frozen model settings, validate the result schema and record whether retuning occurred.",
         "The empirical prediction workflows verify source checksums, run contract and synthetic implementation tests before public outcome access, execute only the frozen model settings, validate the result schema and record whether retuning occurred. No retuning was performed after outcome access in either executed prospective endpoint.",
+    )
+    text = _replace_once(
+        text,
+        "Milotic, T. et al. (2020). Dataset description associated with the MH_ANTWERPEN bird-tracking project. *ZooKeys*, 947. https://doi.org/10.3897/zookeys.947.52570",
+        "Milotić, T., Desmet, P., Anselin, A., De Bruyn, L., De Regge, N., Janssens, K., Klaassen, R., Koks, B., Schaub, T., Schlaich, A., Spanoghe, G., T'Jollyn, F., Vanoverbeke, J. & Bouten, W. (2020). GPS tracking data of Western marsh harriers breeding in Belgium and the Netherlands. *ZooKeys*, 947, 143–155. https://doi.org/10.3897/zookeys.947.52570",
     )
     return text.rstrip() + "\n"
 
