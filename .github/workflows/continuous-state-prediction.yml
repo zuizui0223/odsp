@@ -1,0 +1,87 @@
+name: continuous-state-prediction
+
+on:
+  pull_request:
+    paths:
+      - 'CONTINUOUS_STATE_PREDICTION_CONTRACT.json'
+      - 'CONTINUOUS_STATE_PREDICTION_VALIDATION_RECEIPT.json'
+      - 'odsp/continuous_state.py'
+      - 'odsp/continuous_state_benchmark.py'
+      - 'odsp/__init__.py'
+      - 'scripts/run_continuous_state_benchmark.py'
+      - 'tests/test_continuous_state.py'
+      - 'tests/test_continuous_state_benchmark.py'
+      - 'tests/test_continuous_state_contract.py'
+      - 'tests/test_continuous_state_receipt.py'
+      - 'docs/continuous_state_prediction_v1.md'
+      - '.github/workflows/continuous-state-prediction.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'CONTINUOUS_STATE_PREDICTION_CONTRACT.json'
+      - 'CONTINUOUS_STATE_PREDICTION_VALIDATION_RECEIPT.json'
+      - 'odsp/continuous_state.py'
+      - 'odsp/continuous_state_benchmark.py'
+      - 'odsp/__init__.py'
+      - 'scripts/run_continuous_state_benchmark.py'
+      - 'tests/test_continuous_state.py'
+      - 'tests/test_continuous_state_benchmark.py'
+      - 'tests/test_continuous_state_contract.py'
+      - 'tests/test_continuous_state_receipt.py'
+      - 'docs/continuous_state_prediction_v1.md'
+      - '.github/workflows/continuous-state-prediction.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install ODSP test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+
+      - name: Test continuous state prediction and contract
+        run: |
+          python -m pytest -q \
+            tests/test_continuous_state.py \
+            tests/test_continuous_state_benchmark.py \
+            tests/test_continuous_state_contract.py
+          if [ -f tests/test_continuous_state_receipt.py ]; then
+            python -m pytest -q tests/test_continuous_state_receipt.py
+          fi
+
+      - name: Run frozen known-truth continuous benchmark
+        run: |
+          python scripts/run_continuous_state_benchmark.py \
+            --output artifacts/CONTINUOUS_STATE_BENCHMARK.json \
+            --seed 20260905 \
+            --replicates 128
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('artifacts/CONTINUOUS_STATE_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert r['stable_all_positive'] is True
+          assert r['shifted_all_negative'] is True
+          assert r['null_mean_gain_near_zero'] is True
+          assert r['affine_gain_invariance_error'] <= 1e-10
+          assert 0.88 <= r['interval_empirical_coverage'] <= 0.92
+          print(json.dumps(r, sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: continuous-state-benchmark
+          path: artifacts/CONTINUOUS_STATE_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90

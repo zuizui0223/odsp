@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-continuous-state-prediction-v1",
+  "date": "2026-09-05",
+  "purpose": "extend ODSP from finite discrete state probabilities to a continuous scalar ecological-state density without altering the frozen v4 empirical endpoints",
+  "primary_target": "p(a|X) for one real-valued ecological state a",
+  "examples": [
+    "absolute altitude",
+    "height above ground when genuinely measured or derived with explicit terrain semantics",
+    "water depth",
+    "soil depth",
+    "continuous phenological timing on a non-circular scale"
+  ],
+  "primary_transfer_score": "E_heldout[log p_train(a|X) - log p_train(a)]",
+  "reference_learner": {
+    "name": "weighted linear Gaussian state model",
+    "conditional_mean": "weighted least-squares intercept plus linear covariate effects",
+    "conditional_scale": "weighted training residual standard deviation with a declared numerical floor",
+    "marginal_comparator": "weighted Gaussian training marginal",
+    "claim": "transparent reference density learner, not the only learner compatible with continuous ODSP"
+  },
+  "secondary_diagnostics": [
+    "conditional versus marginal CRPS improvement",
+    "conditional versus marginal RMSE improvement",
+    "Gaussian prediction interval coverage when model assumptions are appropriate"
+  ],
+  "external_learner_interface": {
+    "minimum_requirement": "held-out conditional and training-marginal log density at every realized state",
+    "shared_score": "continuous conditional-versus-marginal log-density gain",
+    "examples": [
+      "Bayesian conditional density model",
+      "mixture density network",
+      "distributional regression",
+      "normalizing flow",
+      "heteroscedastic Gaussian model"
+    ]
+  },
+  "independence": {
+    "groups_scored_separately": true,
+    "all_positive_required_for_generalizing": true,
+    "all_nonpositive_required_for_non_generalizing": true,
+    "mixed_signs_remain_mixed": true,
+    "pooled_mean_may_rescue_conflicting_group": false
+  },
+  "known_truth_benchmark": {
+    "seed": 20260905,
+    "replicates": 128,
+    "training_rows": 800,
+    "heldout_rows": 1600,
+    "families": [
+      "stable_generalizing",
+      "unorganized",
+      "shifted_non_generalizing"
+    ],
+    "obligations": [
+      "all stable replicates have positive held-out log-density gain",
+      "all shifted replicates have negative held-out log-density gain",
+      "mean null gain remains near zero",
+      "log-density gain is invariant to positive affine transformation of response units",
+      "reference 90% Gaussian interval coverage lies between 0.88 and 0.92 under correct specification"
+    ]
+  },
+  "semantic_boundary": {
+    "continuous_state_is_automatically_a_niche_axis": false,
+    "absolute_altitude_equals_height_above_ground": false,
+    "Gaussian_reference_is_universal_biological_distribution": false,
+    "positive_density_gain_implies_causality": false,
+    "continuous_density_removes_observation_bias": false
+  },
+  "frozen_v4_preservation": {
+    "v4_final_readiness_receipt_mutated": false,
+    "v4_manuscript_reframed_to_include_this_extension": false,
+    "v4_empirical_endpoint_rerun": false,
+    "MH_ANTWERPEN_reopened": false,
+    "BOP_RODENT_reopened": false,
+    "Tawaki_reopened": false,
+    "Tadarida_reopened": false,
+    "Snapshot_Serengeti_reopened": false
+  },
+  "out_of_scope": [
+    "circular time density",
+    "multivariate continuous response density",
+    "causal attribution",
+    "automatic observation-bias correction",
+    "automatic N2-to-N3 promotion"
+  ]
+}

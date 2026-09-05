@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-continuous-state-prediction-validation-v1",
+  "validated_date": "2026-09-05",
+  "position": {
+    "role": "continuous scalar ecological-state density prediction and transfer evaluation",
+    "primary_target": "p(a|X)",
+    "primary_transfer_score": "E_heldout[log p_train(a|X) - log p_train(a)]",
+    "reference_learner": "weighted linear Gaussian state model",
+    "new_occurrence_sdm_algorithm": false
+  },
+  "validated_pr_head": {
+    "sha": "74c306683124f55ec9a59923b11c724b6d69d79f",
+    "continuous_state_workflow_run_id": 33941605337,
+    "continuous_state_workflow_conclusion": "success",
+    "regular_tests_conclusion": "success",
+    "state_resolved_prediction_conclusion": "success",
+    "historical_v3_submission_package_conclusion": "success",
+    "v4_submission_package_conclusion": "success",
+    "closed_mh_or_bop_public_gps_workflow_triggered": false
+  },
+  "benchmark_artifact": {
+    "artifact_id": 9962003387,
+    "artifact_name": "continuous-state-benchmark",
+    "artifact_digest": "sha256:2715ad270a166f0a8545079b658c87424183702ae4ce1184182fd73f30ff46ac",
+    "artifact_size_bytes": 748
+  },
+  "known_truth_benchmark": {
+    "seed": 20260905,
+    "replicate_count": 128,
+    "training_rows": 800,
+    "heldout_rows": 1600,
+    "stable_generalizing": {
+      "mean_log_density_gain": 0.9605708506654476,
+      "minimum_log_density_gain": 0.9138922076422484,
+      "maximum_log_density_gain": 1.0330400341387165,
+      "positive_gain_fraction": 1.0,
+      "negative_gain_fraction": 0.0,
+      "mean_crps_improvement": 0.6387237409188317,
+      "mean_rmse_improvement": 1.1322411797813856
+    },
+    "unorganized": {
+      "mean_log_density_gain": -0.00213015524513197,
+      "minimum_log_density_gain": -0.012734348207251722,
+      "maximum_log_density_gain": 0.003177356774003437,
+      "positive_gain_fraction": 0.15625,
+      "negative_gain_fraction": 0.84375,
+      "mean_crps_improvement": -0.0008168297980069767,
+      "mean_rmse_improvement": -0.0014737712420722212
+    },
+    "shifted_non_generalizing": {
+      "mean_log_density_gain": -10.828332038297091,
+      "minimum_log_density_gain": -12.619354613248149,
+      "maximum_log_density_gain": -9.157273337904332,
+      "positive_gain_fraction": 0.0,
+      "negative_gain_fraction": 1.0,
+      "mean_crps_improvement": -1.3863657855917397,
+      "mean_rmse_improvement": -1.623897724797994
+    },
+    "stable_all_positive": true,
+    "shifted_all_negative": true,
+    "null_mean_gain_near_zero": true,
+    "response_affine_gain_invariance_error": 8.881784197001252e-16,
+    "interval_target_coverage": 0.9,
+    "interval_empirical_coverage": 0.8926,
+    "passed": true
+  },
+  "implemented_capabilities": [
+    "weighted linear-Gaussian conditional density reference learner",
+    "full continuous-state mean, scale and prediction interval output",
+    "held-out continuous conditional-versus-marginal log-density gain",
+    "CRPS and RMSE improvement over training marginal comparator",
+    "independent-group conservative gain classification",
+    "external density learner scoring from realized conditional and marginal log densities"
+  ],
+  "scientific_boundary": {
+    "continuous_state_automatically_defines_biological_niche_axis": false,
+    "gaussian_reference_is_universal_biological_distribution": false,
+    "positive_density_gain_implies_causality": false,
+    "absolute_altitude_equals_height_above_ground": false,
+    "observation_bias_removed": false,
+    "circular_time_density_implemented": false,
+    "multivariate_continuous_state_density_implemented": false,
+    "n2_output_automatically_promoted_to_n3": false
+  },
+  "frozen_v4_preservation": {
+    "v4_final_readiness_receipt_mutated": false,
+    "v4_manuscript_changed": false,
+    "v4_empirical_endpoint_rerun": false,
+    "closed_empirical_terminal_categories_changed": false
+  }
+}
