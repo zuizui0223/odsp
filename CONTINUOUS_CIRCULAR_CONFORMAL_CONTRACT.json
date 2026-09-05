@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-continuous-circular-conformal-trust-v1",
+  "date": "2026-09-05",
+  "purpose": "add distribution-free split-conformal uncertainty to continuous and circular ODSP state predictions without assuming Gaussian or von Mises calibration is correct",
+  "continuous_target": {
+    "prediction_object": "interval around an upstream predicted center",
+    "nonconformity": "abs(y - center) / scale when a positive predicted scale is supplied, otherwise abs(y-center)",
+    "guarantee": "finite-sample marginal coverage under exchangeability of calibration and target rows"
+  },
+  "circular_target": {
+    "prediction_object": "circular arc around an upstream predicted circular center",
+    "nonconformity": "shortest circular distance between observed and predicted state",
+    "guarantee": "finite-sample marginal coverage under exchangeability of calibration and target rows"
+  },
+  "joint_bonferroni_target": {
+    "prediction_object": "continuous interval x circular arc",
+    "total_miscoverage": 0.10,
+    "allocation": "equal Bonferroni split: alpha/2 to each component",
+    "component_target_coverage": 0.95,
+    "joint_nominal_lower_bound": 0.90,
+    "interpretation": "simultaneous marginal-coverage construction, not a fitted joint density confidence region"
+  },
+  "finite_sample_quantile_rule": "ceil((n_cal+1)*(1-alpha))-th ordered calibration score, clipped to the largest calibration score",
+  "known_truth_benchmark": {
+    "seed": 20260905,
+    "replicates": 128,
+    "calibration_rows": 1000,
+    "test_rows": 2000,
+    "target_coverage": 0.90,
+    "obligations": [
+      "mean exchangeable continuous coverage lies between 0.885 and 0.915",
+      "mean exchangeable circular coverage lies between 0.885 and 0.915",
+      "mean exchangeable Bonferroni joint coverage lies between 0.89 and 0.93",
+      "deliberately shifted continuous coverage is below 0.60",
+      "deliberately shifted circular coverage is below 0.60",
+      "continuous standardized conformal quantile is invariant to positive affine response-unit change to absolute error <= 1e-10",
+      "circular conformal arc is invariant to common phase-origin shift to absolute error <= 1e-10",
+      "circular conformal half-width rescales exactly under hours-to-minutes period-unit conversion to relative absolute error <= 1e-10"
+    ]
+  },
+  "claim_boundary": {
+    "conditional_coverage_guaranteed": false,
+    "distribution_shift_robust_coverage_guaranteed": false,
+    "conformal_set_repairs_bad_base_predictor": false,
+    "bonferroni_region_is_highest_density_joint_region": false,
+    "conformal_uncertainty_removes_observation_bias": false,
+    "coverage_implies_biological_validity": false
+  },
+  "frozen_v4_preservation": {
+    "v4_final_readiness_receipt_mutated": false,
+    "v4_manuscript_changed": false,
+    "v4_empirical_endpoint_rerun": false,
+    "closed_empirical_terminal_categories_changed": false
+  }
+}
