@@ -1,0 +1,89 @@
+name: trusted-joint-forecast
+
+on:
+  pull_request:
+    paths:
+      - 'TRUSTED_JOINT_FORECAST_CONTRACT.json'
+      - 'TRUSTED_JOINT_FORECAST_VALIDATION_RECEIPT.json'
+      - 'odsp/trusted_joint_forecast.py'
+      - 'odsp/trusted_joint_forecast_benchmark.py'
+      - 'scripts/run_trusted_joint_forecast_benchmark.py'
+      - 'tests/test_trusted_joint_forecast.py'
+      - 'tests/test_trusted_joint_forecast_benchmark.py'
+      - 'tests/test_trusted_joint_forecast_contract.py'
+      - 'tests/test_trusted_joint_forecast_receipt.py'
+      - 'docs/trusted_joint_forecast_v1.md'
+      - '.github/workflows/trusted-joint-forecast.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'TRUSTED_JOINT_FORECAST_CONTRACT.json'
+      - 'TRUSTED_JOINT_FORECAST_VALIDATION_RECEIPT.json'
+      - 'odsp/trusted_joint_forecast.py'
+      - 'odsp/trusted_joint_forecast_benchmark.py'
+      - 'scripts/run_trusted_joint_forecast_benchmark.py'
+      - 'tests/test_trusted_joint_forecast.py'
+      - 'tests/test_trusted_joint_forecast_benchmark.py'
+      - 'tests/test_trusted_joint_forecast_contract.py'
+      - 'tests/test_trusted_joint_forecast_receipt.py'
+      - 'docs/trusted_joint_forecast_v1.md'
+      - '.github/workflows/trusted-joint-forecast.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install ODSP prediction dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev,predict]'
+
+      - name: Test high-level trusted joint forecast
+        run: |
+          python -m pytest -q \
+            tests/test_trusted_joint_forecast.py \
+            tests/test_trusted_joint_forecast_benchmark.py \
+            tests/test_trusted_joint_forecast_contract.py
+          if [ -f tests/test_trusted_joint_forecast_receipt.py ]; then
+            python -m pytest -q tests/test_trusted_joint_forecast_receipt.py
+          fi
+
+      - name: Run end-to-end trusted forecast benchmark
+        run: |
+          python scripts/run_trusted_joint_forecast_benchmark.py \
+            --output artifacts/TRUSTED_JOINT_FORECAST_BENCHMARK.json \
+            --seed 20260905 \
+            --training-rows 1200 \
+            --calibration-rows 1200 \
+            --test-rows 3000
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('artifacts/TRUSTED_JOINT_FORECAST_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert r['training_split_preserved'] is True
+          assert r['joint_log_density_gain'] > 0
+          assert r['coupling_log_density_gain'] > 0
+          assert 0.88 <= r['empirical_joint_coverage'] <= 0.93
+          assert r['same_domain_non_strict_fraction'] >= 0.90
+          assert r['shifted_strict_extrapolation_fraction'] == 1.0
+          assert r['forecast_exposes_aggregate_confidence'] is False
+          print(json.dumps(r, sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trusted-joint-forecast-benchmark
+          path: artifacts/TRUSTED_JOINT_FORECAST_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90
