@@ -119,6 +119,33 @@ Before result interpretation, the following obligations were fixed:
 - equivalent hour/minute representation must preserve gain to `<=1e-10`;
 - a nominal 90% residual prediction arc must achieve empirical coverage between 0.87 and 0.93 under the stable same-process model.
 
+The first benchmark execution used seed `20260905`, 128 replicates, 800 training rows and 1,600 held-out rows. It passed every frozen obligation:
+
+```text
+stable-generalizing
+  positive gain             128 / 128
+  mean Delta log density    +0.3595903006
+  circular-MAE improvement  +0.4973134797 h
+
+unorganized / null
+  mean Delta log density    -0.0013889160
+
+half-period shifted
+  negative gain             128 / 128
+  mean Delta log density    -7.2456082807
+
+phase-origin invariance
+  absolute gain error        0.0
+
+hours -> minutes invariance
+  absolute gain error        8.88e-16
+
+nominal 90% circular arc
+  empirical coverage         0.8942
+```
+
+Canonical values and original CI provenance are frozen in `CIRCULAR_STATE_PREDICTION_VALIDATION_RECEIPT.json`. The receipt test reruns the benchmark without touching any public empirical endpoint.
+
 Run:
 
 ```bash
