@@ -1,10 +1,9 @@
-"""ODSP — Chapter 2 multidimensional niche geometry and state prediction.
+"""ODSP — multidimensional niche geometry and state-resolved ecological prediction.
 
-The active ODSP surface keeps source-preserving occurrence information and adds
-model-agnostic niche-thickness, projection-loss, organization, transferability,
-state-resolved ecological prediction, temporal partitioning, chapter-handoff
-payloads and known-truth recovery tools.  The historical spatial-patch method
-remains superseded by EOG.
+The active surface combines information-theoretic niche geometry, independent
+transferability, state-resolved prediction and trust diagnostics.  The frozen v4
+submission remains a historical scientific artifact; later package development
+must not rewrite its empirical endpoints or validated hashes.
 """
 
 from .added_axis_evidence import (
@@ -36,6 +35,12 @@ from .generality_benchmark import (
     GeneralityCheck,
     run_n2_generality_benchmark,
 )
+from .generalization_profile import (
+    GeneralizationGroupScore,
+    GeneralizationLevelProfile,
+    GeneralizationProfile,
+    generalization_profile_from_probability_field,
+)
 from .grouped_handoff import (
     GroupedHandoffPayload,
     build_grouped_n2_to_n3_payload,
@@ -61,6 +66,22 @@ from .niche_geometry import (
     marginal_probability,
     niche_thickness_profile,
     shannon_entropy,
+)
+from .prediction_novelty import (
+    EnvironmentalNoveltyModel,
+    NoveltySummary,
+    fit_environmental_novelty_model,
+)
+from .prediction_trust_benchmark import (
+    PredictionTrustBenchmarkResult,
+    PredictionTrustCheck,
+    run_prediction_trust_benchmark,
+)
+from .prediction_uncertainty import (
+    ConformalCoverageReport,
+    ConformalPredictionSummary,
+    StateConformalCalibrator,
+    fit_state_conformal_calibrator,
 )
 from .projection_loss import (
     ProjectionOverlapProfile,
@@ -126,12 +147,18 @@ __all__ = [
     "ConcealedRecoveryBenchmark",
     "ConcealedRecoveryCheck",
     "ConditionalTransferabilityScore",
+    "ConformalCoverageReport",
+    "ConformalPredictionSummary",
     "CovariateStateModel",
     "CovariateStatePredictionSummary",
     "EncodedStateResolvedModel",
     "EncodedStateSupport",
+    "EnvironmentalNoveltyModel",
     "GeneralityBenchmarkResult",
     "GeneralityCheck",
+    "GeneralizationGroupScore",
+    "GeneralizationLevelProfile",
+    "GeneralizationProfile",
     "GroupedHandoffPayload",
     "GroupedStatePredictionScore",
     "GroupedTransferabilityResult",
@@ -139,9 +166,13 @@ __all__ = [
     "N2ToN3HandoffDecision",
     "N2ToN3Payload",
     "NicheThicknessProfile",
+    "NoveltySummary",
+    "PredictionTrustBenchmarkResult",
+    "PredictionTrustCheck",
     "ProjectionOverlapProfile",
     "SerengetiTerminalReceipt",
     "StateArtifact",
+    "StateConformalCalibrator",
     "StatePredictionBenchmarkCell",
     "StatePredictionBenchmarkResult",
     "StatePredictionScore",
@@ -167,9 +198,12 @@ __all__ = [
     "estimate_thickness_from_counts",
     "evaluate_added_axis_evidence",
     "fit_covariate_state_model",
+    "fit_environmental_novelty_model",
+    "fit_state_conformal_calibrator",
     "fit_state_resolved_events",
     "fit_state_resolved_model",
     "gbif_locality_elevation_mapping",
+    "generalization_profile_from_probability_field",
     "make_state_classifier",
     "marginal_probability",
     "niche_thickness_profile",
@@ -180,6 +214,7 @@ __all__ = [
     "projection_overlap_profile",
     "run_concealed_recovery_benchmark",
     "run_n2_generality_benchmark",
+    "run_prediction_trust_benchmark",
     "run_state_prediction_benchmark",
     "sample_state_counts",
     "schoener_overlap",
