@@ -34,7 +34,7 @@ def _candidate(name: str, gains, coverage_counts, region_size: float):
 
 def test_groupwise_failure_blocks_high_pooled_candidate():
     good = _candidate("good", [0.25] * 4, [90] * 4, 4.0)
-    masked = _candidate("masked", [0.50] * 4, [60, 100, 100, 100], 2.0)
+    masked = _candidate("masked", [0.50] * 4, [60, 90, 90, 90], 2.0)
     assert masked.forecast_score.mean_log_density_gain > good.forecast_score.mean_log_density_gain
     assert masked.groupwise_trust.coverage_category == "mixed"
     assert masked.trusted_admissible is False
