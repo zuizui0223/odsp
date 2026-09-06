@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-group-safe-forecast-stacking-v1",
+  "frozen_date": "2026-09-06",
+  "purpose": "learn convex probabilistic forecast-stacking weights on a tuning split and evaluate the frozen stack on untouched independent validation groups without inheriting calibration claims from member models",
+  "data_roles": {
+    "member_training": "fit upstream candidate density models only",
+    "stacking_tuning": "learn convex mixture weights only; may not be reused as final validation",
+    "conformal_calibration": "optional independent split for prediction-set or region calibration after stacking; member-model coverage is not inherited",
+    "validation": "score transferability of frozen stacking weights and may not update weights"
+  },
+  "stacking_rule": {
+    "objective": "maximize weighted mean log density of the convex mixture on stacking_tuning rows",
+    "weights": "non-negative and sum to one",
+    "optimizer": "EM updates for fixed component densities",
+    "candidate_density_requirement": "all candidate log densities must refer to the same realized state and density measure",
+    "validation_used_for_weight_fit": false,
+    "member_coverage_inherited": false,
+    "stack_requires_independent_recalibration_for_coverage_claim": true
+  },
+  "validation_rule": {
+    "primary_score": "held-out stacked log density minus a common training-marginal log density",
+    "independent_groups_scored_separately": true,
+    "generalizing_requires_all_group_gains_positive": true,
+    "pooled_mean_can_rescue_failed_group": false,
+    "gain_tolerance": 1e-12,
+    "trusted_admission_before_stack_recalibration": false
+  },
+  "known_truth_benchmark": {
+    "seed": 20260906,
+    "tuning_rows": 4000,
+    "validation_group_count": 6,
+    "validation_rows_per_group": 600,
+    "candidate_names": ["left_specialist", "right_specialist", "broad_marginal"],
+    "families": [
+      "complementary_stable",
+      "validation_shift",
+      "mixed_group"
+    ],
+    "frozen_obligations": {
+      "weights_sum_to_one_abs_error_max": 1e-12,
+      "left_specialist_weight_min": 0.25,
+      "left_specialist_weight_max": 0.75,
+      "right_specialist_weight_min": 0.25,
+      "right_specialist_weight_max": 0.75,
+      "broad_marginal_weight_max": 0.20,
+      "stable_transfer_category": "generalizing",
+      "stable_positive_group_count": 6,
+      "stable_stack_gain_exceeds_best_single_by_min": 0.10,
+      "validation_shift_transfer_category": "non_generalizing",
+      "validation_shift_nonpositive_group_count": 6,
+      "mixed_group_transfer_category": "mixed",
+      "mixed_group_pooled_gain_positive": true,
+      "mixed_group_minimum_group_gain_negative": true,
+      "candidate_permutation_weight_max_abs_error": 1e-10,
+      "validation_used_for_fit": false,
+      "coverage_inherited": false,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "stacking_identifies_true_biological_mechanism": false,
+    "stacking_guarantees_distribution_shift_robustness": false,
+    "member_calibration_transfers_to_stack": false,
+    "positive_pooled_gain_overrides_group_failure": false,
+    "stacking_removes_observation_bias": false,
+    "stacking_establishes_causality": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}

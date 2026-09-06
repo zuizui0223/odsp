@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-group-safe-forecast-stacking-v1-validation",
+  "validated_date": "2026-09-06",
+  "contract": "GROUP_SAFE_FORECAST_STACKING_CONTRACT.json",
+  "first_green_run": {
+    "workflow_run_id": 34004811887,
+    "artifact_id": 9980597682,
+    "artifact_digest": "sha256:1576e3492f781345830807aa4eb5053ca8b3f1c2965577e1957c7c89147c7810"
+  },
+  "benchmark_config": {
+    "seed": 20260906,
+    "tuning_rows": 4000,
+    "validation_group_count": 6,
+    "validation_rows_per_group": 600
+  },
+  "canonical_results": {
+    "passed": true,
+    "fit": {
+      "weights": [0.5000491546844898, 0.4999508453149218, 5.883864492320086e-13],
+      "iterations": 165,
+      "converged": true,
+      "mean_equal_weight_log_density": -1.8532668059784614,
+      "mean_stacked_log_density": -1.7503332624871741,
+      "objective_improvement": 0.10293354349128725,
+      "validation_used_for_fit": false,
+      "coverage_inherited_from_members": false,
+      "requires_independent_recalibration": true
+    },
+    "candidate_permutation_weight_max_abs_error": 1.1102230246251565e-16,
+    "complementary_stable": {
+      "mean_log_density_gain": 0.5236137388920887,
+      "minimum_group_gain": 0.4939061574778826,
+      "maximum_group_gain": 0.5818374128569214,
+      "positive_group_count": 6,
+      "nonpositive_group_count": 0,
+      "transfer_category": "generalizing",
+      "transfer_admissible": true,
+      "best_single_mean_gain": 0.0,
+      "stack_minus_best_single_gain": 0.5236137388920887
+    },
+    "validation_shift": {
+      "mean_log_density_gain": -21.563039652665083,
+      "minimum_group_gain": -21.932926501693366,
+      "maximum_group_gain": -21.287005512461448,
+      "positive_group_count": 0,
+      "nonpositive_group_count": 6,
+      "transfer_category": "non_generalizing",
+      "transfer_admissible": false
+    },
+    "mixed_group": {
+      "mean_log_density_gain": 0.21269973638191308,
+      "minimum_group_gain": -1.286961236250847,
+      "maximum_group_gain": 0.536595536020763,
+      "positive_group_count": 5,
+      "nonpositive_group_count": 1,
+      "transfer_category": "mixed",
+      "transfer_admissible": false
+    }
+  },
+  "claim_boundary": {
+    "validation_used_for_weight_fit": false,
+    "member_coverage_inherited": false,
+    "stack_requires_independent_recalibration": true,
+    "stacking_identifies_true_biological_mechanism": false,
+    "stacking_guarantees_distribution_shift_robustness": false,
+    "pooled_mean_can_override_group_failure": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_preservation": {
+    "v4_manuscript_changed": false,
+    "v4_submission_artifact_changed": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
