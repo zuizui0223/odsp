@@ -1,0 +1,82 @@
+name: block-definition-sensitivity
+
+on:
+  pull_request:
+    paths:
+      - 'BLOCK_DEFINITION_SENSITIVITY_CONTRACT.json'
+      - 'BLOCK_DEFINITION_SENSITIVITY_VALIDATION_RECEIPT.json'
+      - 'odsp/block_definition_sensitivity.py'
+      - 'odsp/block_definition_sensitivity_benchmark.py'
+      - 'scripts/run_block_definition_sensitivity_benchmark.py'
+      - 'tests/test_block_definition_sensitivity.py'
+      - 'tests/test_block_definition_sensitivity_benchmark.py'
+      - 'tests/test_block_definition_sensitivity_contract.py'
+      - 'tests/test_block_definition_sensitivity_receipt.py'
+      - 'docs/block_definition_sensitivity_v1.md'
+      - '.github/workflows/block-definition-sensitivity.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'BLOCK_DEFINITION_SENSITIVITY_CONTRACT.json'
+      - 'BLOCK_DEFINITION_SENSITIVITY_VALIDATION_RECEIPT.json'
+      - 'odsp/block_definition_sensitivity.py'
+      - 'odsp/block_definition_sensitivity_benchmark.py'
+      - 'scripts/run_block_definition_sensitivity_benchmark.py'
+      - 'tests/test_block_definition_sensitivity.py'
+      - 'tests/test_block_definition_sensitivity_benchmark.py'
+      - 'tests/test_block_definition_sensitivity_contract.py'
+      - 'tests/test_block_definition_sensitivity_receipt.py'
+      - 'docs/block_definition_sensitivity_v1.md'
+      - '.github/workflows/block-definition-sensitivity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP core dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+      - name: Test block-definition API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_block_definition_sensitivity.py \
+            tests/test_block_definition_sensitivity_benchmark.py \
+            tests/test_block_definition_sensitivity_contract.py
+          if [ -f tests/test_block_definition_sensitivity_receipt.py ]; then
+            python -m pytest -q tests/test_block_definition_sensitivity_receipt.py
+          fi
+      - name: Run frozen block-definition known-truth benchmark
+        run: |
+          python scripts/run_block_definition_sensitivity_benchmark.py \
+            --output artifacts/BLOCK_DEFINITION_SENSITIVITY_BENCHMARK.json \
+            --seed 20260906 \
+            --bootstrap-draws 2000
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/BLOCK_DEFINITION_SENSITIVITY_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert len(r['checks']) == 12
+          assert all(row['passed'] for row in r['checks'])
+          assert r['strong_positive']['sensitivity_category'] == 'block_definition_robust_generalizing'
+          assert r['strong_negative']['sensitivity_category'] == 'block_definition_robust_non_generalizing'
+          assert r['pseudoreplication']['sensitivity_category'] == 'block_definition_sensitive'
+          assert r['too_coarse']['sensitivity_category'] == 'stable_unavailable'
+          print(json.dumps(r,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: block-definition-sensitivity-benchmark
+          path: artifacts/BLOCK_DEFINITION_SENSITIVITY_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90
