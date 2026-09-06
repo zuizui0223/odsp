@@ -15,7 +15,8 @@ def _small_candidate():
             for ri in range(4):
                 gains.append(0.25+0.001*gi)
                 groups.append(gid);blocks.append(bid)
-                covered.append(ri!=0 or bi!=0)
+                # 29/32 = 0.90625 coverage in each group, inside 0.90 +/- 0.03.
+                covered.append(not (bi==0 and ri<3))
     gains=np.asarray(gains,dtype=float)
     return evaluate_bias_robust_candidate(
         "candidate",
