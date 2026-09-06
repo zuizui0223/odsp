@@ -172,7 +172,8 @@ def run_forecast_trust_dossier_v3_benchmark(*,seed: int=20260906,bootstrap_draws
         "finite_radius_break_matches_sqrt3": breakpoint.joint_radius.break_gamma is not None and abs(breakpoint.joint_radius.break_gamma-sqrt3)<=1e-10,
         "finite_radius_boundary_width_le_1e_10": breakpoint.joint_radius.boundary_interval_width is not None and breakpoint.joint_radius.boundary_interval_width<=1e-10,
         "radius_and_strict_extrapolation_warnings_remain_distinct": (
-            breakpoint_strict.decision_trace.warning_reasons==("finite_joint_robustness_radius","strict_extrapolation")
+            set(breakpoint_strict.decision_trace.warning_reasons)=={"finite_joint_robustness_radius","strict_extrapolation"}
+            and len(breakpoint_strict.decision_trace.warning_reasons)==2
             and breakpoint_strict.validation.validation_status=="admitted"
         ),
         "weak_positive_remains_validation_blocked": weak_dossier.validation.validation_status=="blocked",
