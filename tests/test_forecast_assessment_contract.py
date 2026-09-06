@@ -18,7 +18,13 @@ def test_forecast_assessment_contract_is_frozen_and_fail_closed():
     assert rule["single_score_is_forbidden"] is True
     obligations=contract["known_truth_benchmark"]["frozen_obligations"]
     assert len(obligations)==13
-    assert all(value is True for value in obligations.values())
+    positive_obligations={
+        key:value
+        for key,value in obligations.items()
+        if key!="aggregate_confidence_score_emitted"
+    }
+    assert all(value is True for value in positive_obligations.values())
+    assert obligations["aggregate_confidence_score_emitted"] is False
     boundary=contract["claim_boundary"]
     assert boundary["assessment_infers_correct_sampling_weights"] is False
     assert boundary["joint_radius_is_probability_of_correctness"] is False
