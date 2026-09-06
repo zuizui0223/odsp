@@ -1,0 +1,80 @@
+name: forecast-stacking
+
+on:
+  pull_request:
+    paths:
+      - 'GROUP_SAFE_FORECAST_STACKING_CONTRACT.json'
+      - 'FORECAST_STACKING_VALIDATION_RECEIPT.json'
+      - 'odsp/forecast_stacking.py'
+      - 'odsp/forecast_stacking_benchmark.py'
+      - 'scripts/run_forecast_stacking_benchmark.py'
+      - 'tests/test_forecast_stacking.py'
+      - 'tests/test_forecast_stacking_benchmark.py'
+      - 'tests/test_forecast_stacking_contract.py'
+      - 'tests/test_forecast_stacking_receipt.py'
+      - 'docs/forecast_stacking_v1.md'
+      - '.github/workflows/forecast-stacking.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'GROUP_SAFE_FORECAST_STACKING_CONTRACT.json'
+      - 'FORECAST_STACKING_VALIDATION_RECEIPT.json'
+      - 'odsp/forecast_stacking.py'
+      - 'odsp/forecast_stacking_benchmark.py'
+      - 'scripts/run_forecast_stacking_benchmark.py'
+      - 'tests/test_forecast_stacking.py'
+      - 'tests/test_forecast_stacking_benchmark.py'
+      - 'tests/test_forecast_stacking_contract.py'
+      - 'tests/test_forecast_stacking_receipt.py'
+      - 'docs/forecast_stacking_v1.md'
+      - '.github/workflows/forecast-stacking.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP core dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+      - name: Test stacking API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_forecast_stacking.py \
+            tests/test_forecast_stacking_benchmark.py \
+            tests/test_forecast_stacking_contract.py
+          if [ -f tests/test_forecast_stacking_receipt.py ]; then
+            python -m pytest -q tests/test_forecast_stacking_receipt.py
+          fi
+      - name: Run frozen known-truth stacking benchmark
+        run: |
+          mkdir -p artifacts
+          python scripts/run_forecast_stacking_benchmark.py \
+            --output artifacts/FORECAST_STACKING_BENCHMARK.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('artifacts/FORECAST_STACKING_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert all(row['passed'] for row in r['checks'])
+          assert r['families']['complementary_stable']['stack']['transfer_category'] == 'generalizing'
+          assert r['families']['validation_shift']['stack']['transfer_category'] == 'non_generalizing'
+          assert r['families']['mixed_group']['stack']['transfer_category'] == 'mixed'
+          assert r['fit']['validation_used_for_fit'] is False
+          assert r['fit']['coverage_inherited_from_members'] is False
+          print(json.dumps(r, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: forecast-stacking-benchmark
+          path: artifacts/FORECAST_STACKING_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90
