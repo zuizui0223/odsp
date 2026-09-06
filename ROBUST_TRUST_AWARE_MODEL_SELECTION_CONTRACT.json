@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-robust-trust-aware-model-selection-v3",
+  "frozen_date": "2026-09-06",
+  "purpose": "require uncertainty-supported transferability as well as group-wise calibration before a probabilistic ecological-state forecaster can enter model-selection Pareto comparison",
+  "decision_order": [
+    "score held-out conditional-minus-training-marginal log-density gain",
+    "audit every independent group's point transfer sign",
+    "audit every independent group's empirical coverage",
+    "bootstrap held-out gains using caller-declared blocks within each group",
+    "require every group bootstrap lower bound to exceed zero",
+    "compare only robustly trusted candidates by gain, minimum group lower bound, worst group coverage error and region size"
+  ],
+  "frozen_settings": {
+    "target_coverage": 0.90,
+    "coverage_tolerance": 0.03,
+    "gain_tolerance": 0.0,
+    "confidence_level": 0.95,
+    "bootstrap_draws": 2000,
+    "seed": 20260906,
+    "minimum_blocks_per_group": 8,
+    "group_count": 6,
+    "blocks_per_group": 20,
+    "rows_per_block": 25
+  },
+  "known_truth_candidates": {
+    "robust_balanced": "positive transfer with strong block-supported lower bounds and calibrated groups",
+    "fragile_point_positive": "all point gains positive and coverage calibrated, but block-bootstrap intervals cross zero",
+    "robust_broad": "robustly transferable and calibrated but broader and lower-gain than robust_balanced",
+    "coverage_failure": "strong robust transfer but one group has 0.60 coverage",
+    "too_few_blocks": "positive point transfer and calibrated coverage but only four blocks per group, so uncertainty is unavailable"
+  },
+  "frozen_obligations": {
+    "robust_balanced_robust_trusted": true,
+    "fragile_legacy_v2_trusted": true,
+    "fragile_v3_robust_rejected": true,
+    "fragile_robust_category": "uncertain",
+    "robust_broad_robust_trusted": true,
+    "coverage_failure_robust_transfer": true,
+    "coverage_failure_robust_trusted": false,
+    "too_few_blocks_category": "unavailable",
+    "too_few_blocks_robust_trusted": false,
+    "recommended_candidate": "robust_balanced",
+    "pareto_front_names": ["robust_balanced"],
+    "candidate_order_invariant": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "claim_boundary": {
+    "bootstrap_interval_is_exact_finite_sample_guarantee": false,
+    "robust_trusted_model_is_true_biological_mechanism": false,
+    "robust_trusted_selection_guarantees_distribution_shift_performance": false,
+    "groupwise_coverage_is_conditional_coverage_theorem": false,
+    "block_bootstrap_repairs_bad_block_definition": false,
+    "selection_removes_observation_bias": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
