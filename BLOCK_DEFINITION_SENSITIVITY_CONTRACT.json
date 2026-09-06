@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-block-definition-sensitivity-v1",
+  "frozen_date": "2026-09-06",
+  "purpose": "audit whether held-out transfer conclusions are stable across multiple caller-declared plausible block definitions without inferring which block definition is biologically correct",
+  "composition_rule": {
+    "same_row_gain_required_across_block_definitions": true,
+    "same_group_labels_required_across_block_definitions": true,
+    "each_definition_uses_existing_block_aware_transfer_uncertainty_api": true,
+    "block_definition_names_must_be_unique": true,
+    "minimum_two_block_definitions_required": true,
+    "no_automatic_block_definition_selection": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "decision_rule": {
+    "all_robust_generalizing": "block_definition_robust_generalizing",
+    "all_robust_non_generalizing": "block_definition_robust_non_generalizing",
+    "all_unavailable": "stable_unavailable",
+    "single_other_category": "stable_<robust_transfer_category>",
+    "multiple_robust_categories": "block_definition_sensitive",
+    "pooled_mean_can_override_definition_failure": false,
+    "row_count_can_override_block_count_failure": false,
+    "correct_block_definition_is_not_inferred": true
+  },
+  "known_truth_benchmark": {
+    "seed": 20260906,
+    "bootstrap_draws": 2000,
+    "confidence_level": 0.95,
+    "minimum_blocks_per_group": 8,
+    "group_count": 6,
+    "frozen_obligations": {
+      "strong_positive_stable_across_plausible_block_definitions": true,
+      "strong_negative_stable_across_plausible_block_definitions": true,
+      "pseudoreplication_case_is_block_definition_sensitive": true,
+      "pseudoreplication_row_iid_is_robust_generalizing": true,
+      "pseudoreplication_clustered_is_uncertain": true,
+      "pseudoreplication_clustered_lower_bound_below_zero": true,
+      "too_coarse_definitions_are_stable_unavailable": true,
+      "definition_order_invariant": true,
+      "positive_global_weight_scaling_invariant": true,
+      "point_transfer_category_is_definition_invariant": true,
+      "no_automatic_block_definition_selection": false,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "audit_identifies_true_independence_structure": false,
+    "stable_result_proves_block_definition_correct": false,
+    "sensitive_result_identifies_correct_block_scale": false,
+    "audit_repairs_bad_candidate_block_definitions": false,
+    "audit_guarantees_future_distribution_shift_performance": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
