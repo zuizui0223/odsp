@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-sampling-weight-sensitivity-v1",
+  "frozen_date": "2026-09-06",
+  "purpose": "audit whether ODSP held-out transfer conclusions remain stable across caller-supplied plausible observation, effort or detection weighting scenarios without pretending to infer or remove sampling bias automatically",
+  "data_requirements": {
+    "row_gain": "held-out conditional-minus-marginal log-score gain per validation row",
+    "groups": "independent validation groups",
+    "blocks": "scientifically defensible resampling blocks within groups",
+    "weight_scenarios": "two or more caller-declared non-negative weighting schemes on the same rows"
+  },
+  "decision_rule": {
+    "each_weight_scenario_uses_block_aware_transfer_audit": true,
+    "scenario_specific_point_and_robust_categories_retained": true,
+    "weight_robust_generalizing_requires_every_scenario_robust_generalizing": true,
+    "weight_robust_non_generalizing_requires_every_scenario_robust_non_generalizing": true,
+    "different_robust_categories_imply_weight_sensitive": true,
+    "pooled_average_across_weight_scenarios_allowed": false,
+    "one_weight_scenario_can_override_another": false,
+    "automatic_bias_correction_performed": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "bootstrap_settings": {
+    "confidence_level": 0.95,
+    "bootstrap_draws": 2000,
+    "seed": 20260906,
+    "minimum_blocks_per_group": 8
+  },
+  "known_truth_benchmark": {
+    "group_count": 6,
+    "blocks_per_group": 20,
+    "rows_per_block": 20,
+    "stable_scenarios": ["uniform", "mild_effort", "inverse_effort"],
+    "sensitive_scenarios": ["uniform", "downweight_positive", "upweight_negative"],
+    "frozen_obligations": {
+      "stable_all_scenarios_robust_generalizing": true,
+      "stable_category": "weight_robust_generalizing",
+      "sensitive_uniform_robust_generalizing": true,
+      "sensitive_upweight_negative_robust_non_generalizing": true,
+      "sensitive_category": "weight_sensitive",
+      "global_weight_scaling_invariant": true,
+      "scenario_order_invariant": true,
+      "too_few_blocks_stably_unavailable": true,
+      "automatic_bias_correction_performed": false,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "weight_sensitivity_identifies_true_sampling_process": false,
+    "supplied_weights_are_assumed_correct": false,
+    "stable_result_proves_no_observation_bias": false,
+    "sensitive_result_identifies_causal_bias_source": false,
+    "weighting_replaces_detection_model": false,
+    "bootstrap_repairs_bad_block_definition": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
