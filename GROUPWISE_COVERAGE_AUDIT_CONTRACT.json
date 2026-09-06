@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-groupwise-coverage-audit-v1",
+  "frozen_date": "2026-09-06",
+  "purpose": "audit prediction-set or region coverage separately across caller-declared independent groups and novelty strata so pooled calibration cannot hide local failures",
+  "coverage_semantics": {
+    "target_coverage": 0.90,
+    "default_absolute_tolerance": 0.03,
+    "groupwise_audit_is_conditional_coverage_guarantee": false,
+    "pooled_coverage_can_override_group_failure": false,
+    "overcoverage_and_undercoverage_are_both_reported": true,
+    "group_labels_are_caller_declared": true
+  },
+  "trusted_admission": {
+    "requires_positive_transfer_gain_in_every_independent_group": true,
+    "requires_coverage_within_tolerance_in_every_independent_group": true,
+    "pooled_mean_gain_can_override_group_failure": false,
+    "pooled_coverage_can_override_group_failure": false,
+    "novelty_warning_is_error_probability": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "seed": 20260906,
+    "masked_failure_group_count": 20,
+    "rows_per_group": 1000,
+    "frozen_obligations": {
+      "masked_failure_pooled_coverage_error_max": 0.005,
+      "masked_failure_pooled_coverage_ok": true,
+      "masked_failure_groupwise_category": "mixed",
+      "masked_failure_failed_group_count": 1,
+      "masked_failure_first_group_coverage_max": 0.61,
+      "all_calibrated_category": "calibrated",
+      "all_calibrated_failed_group_count": 0,
+      "novelty_in_domain_coverage_min": 0.89,
+      "novelty_novel_coverage_max": 0.86,
+      "novelty_strict_coverage_max": 0.35,
+      "novelty_coverage_strictly_decreases": true,
+      "positive_transfer_with_bad_group_coverage_trusted": false,
+      "good_coverage_with_failed_transfer_group_trusted": false,
+      "group_permutation_max_abs_error": 1e-15,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "groupwise_empirical_audit_proves_conditional_coverage": false,
+    "good_coverage_proves_transferability": false,
+    "positive_transfer_proves_calibration": false,
+    "novelty_stratum_failure_proves_causal_extrapolation_effect": false,
+    "audit_removes_observation_bias": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}

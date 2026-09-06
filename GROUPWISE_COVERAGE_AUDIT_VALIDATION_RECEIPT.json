@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-groupwise-coverage-audit-v1-validation",
+  "validated_date": "2026-09-06",
+  "contract": "GROUPWISE_COVERAGE_AUDIT_CONTRACT.json",
+  "first_green_run": {
+    "workflow_run_id": 34005055211,
+    "artifact_id": 9980665706,
+    "artifact_digest": "sha256:2e829860916e07f457da0ecd3576c5dcc0ac2076deabe69e7f4a289ea031a681"
+  },
+  "canonical_results": {
+    "target_coverage": 0.90,
+    "tolerance": 0.03,
+    "masked_failure": {
+      "pooled_coverage": 0.9002,
+      "pooled_absolute_error": 0.00019999999999997797,
+      "pooled_coverage_ok": true,
+      "coverage_category": "mixed",
+      "failed_group_count": 1,
+      "first_group_coverage": 0.60,
+      "first_group_absolute_error": 0.30000000000000004
+    },
+    "all_calibrated": {
+      "pooled_coverage": 0.90,
+      "coverage_category": "calibrated",
+      "failed_group_count": 0
+    },
+    "novelty_strata": {
+      "in_domain": 0.90,
+      "novel": 0.85,
+      "strict": 0.30,
+      "coverage_strictly_decreases": true
+    },
+    "positive_transfer_bad_coverage": {
+      "mean_log_density_gain": 0.19999999999999996,
+      "transfer_category": "generalizing",
+      "coverage_category": "mixed",
+      "failed_trust_group_count": 1,
+      "trusted_admissible": false
+    },
+    "good_coverage_bad_transfer": {
+      "mean_log_density_gain": 0.18499999999999994,
+      "transfer_category": "mixed",
+      "coverage_category": "calibrated",
+      "failed_trust_group_count": 1,
+      "trusted_admissible": false
+    },
+    "group_permutation_max_abs_error": 0.0,
+    "passed": true
+  },
+  "claim_boundary": {
+    "groupwise_empirical_audit_proves_conditional_coverage": false,
+    "pooled_coverage_can_override_group_failure": false,
+    "pooled_gain_can_override_group_failure": false,
+    "good_coverage_proves_transferability": false,
+    "positive_transfer_proves_calibration": false,
+    "novelty_failure_proves_causality": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_preservation": {
+    "v4_manuscript_changed": false,
+    "v4_submission_artifact_changed": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
