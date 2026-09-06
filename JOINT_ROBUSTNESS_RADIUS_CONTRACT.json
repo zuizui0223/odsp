@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-joint-robustness-radius-v1",
+  "frozen_date": "2026-09-06",
+  "purpose": "quantify how far a validated ODSP transfer-sign conclusion survives simultaneous block-bootstrap uncertainty and bounded row reweighting by reporting a certified gamma interval rather than a scalar confidence score",
+  "definition": {
+    "gamma_domain": "gamma >= 1 with row multipliers in [1/gamma, gamma]",
+    "baseline": "joint bias x uncertainty audit at gamma=1",
+    "eligible_baseline_categories": ["joint_robust_generalizing", "joint_robust_non_generalizing"],
+    "radius_target": "preserve the baseline joint robust transfer category as gamma increases",
+    "finite_break_search": "binary search between a passing lower gamma and failing upper gamma",
+    "certified_gamma_is_last_passing_lower_bound": true,
+    "break_gamma_is_first_failing_upper_bound": true,
+    "boundary_interval_width_reported": true,
+    "robust_through_search_upper_is_lower_bound_only": true
+  },
+  "decision_rule": {
+    "baseline_unavailable_gives_radius_status": "unavailable",
+    "baseline_not_joint_robust_gives_radius_status": "not_certified_at_baseline",
+    "same_category_through_search_upper_gives_radius_status": "robust_through_search_upper",
+    "finite_loss_of_category_gives_radius_status": "finite_radius",
+    "pooled_mean_can_override_group_failure": false,
+    "gamma_is_inferred_from_data": false,
+    "automatic_bias_correction_performed": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "seed": 20260906,
+    "bootstrap_draws": 500,
+    "confidence_level": 0.95,
+    "minimum_blocks_per_group": 8,
+    "search_upper_gamma": 10.0,
+    "binary_iterations": 50,
+    "group_count": 6,
+    "blocks_per_group": 20,
+    "rows_per_block": 20,
+    "frozen_obligations": {
+      "strong_positive_robust_through_search_upper": true,
+      "strong_negative_robust_through_search_upper": true,
+      "mixed_positive_has_finite_radius": true,
+      "mixed_positive_break_gamma_matches_sqrt3": true,
+      "mixed_positive_boundary_interval_width_le_1e_10": true,
+      "weak_positive_not_certified_at_baseline": true,
+      "too_few_blocks_unavailable": true,
+      "global_base_weight_scaling_invariant": true,
+      "gamma_path_never_regains_baseline_category_after_failure": true,
+      "gamma_1_matches_existing_block_aware_category": true,
+      "automatic_bias_correction_performed": false,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "radius_is_probability_of_correctness": false,
+    "radius_is_exact_population_threshold": false,
+    "gamma_is_detection_probability": false,
+    "gamma_is_causal_confounding_parameter": false,
+    "radius_proves_no_observation_bias": false,
+    "radius_repairs_bad_block_definition": false,
+    "radius_guarantees_future_distribution_shift_performance": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
