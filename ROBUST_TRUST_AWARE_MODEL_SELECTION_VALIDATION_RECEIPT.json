@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-robust-trust-aware-model-selection-v3-validation",
+  "validated_date": "2026-09-06",
+  "contract": "ROBUST_TRUST_AWARE_MODEL_SELECTION_CONTRACT.json",
+  "benchmark_config": {
+    "seed": 20260906,
+    "bootstrap_draws": 2000,
+    "group_count": 6,
+    "blocks_per_group": 20,
+    "rows_per_block": 25,
+    "target_coverage": 0.90,
+    "coverage_tolerance": 0.03,
+    "confidence_level": 0.95,
+    "minimum_blocks_per_group": 8
+  },
+  "canonical_results": {
+    "passed": true,
+    "point_trusted_names": [
+      "robust_balanced",
+      "fragile_point_positive",
+      "robust_broad",
+      "too_few_blocks"
+    ],
+    "robust_trusted_names": [
+      "robust_balanced",
+      "robust_broad"
+    ],
+    "legacy_trusted_but_robust_rejected_names": [
+      "fragile_point_positive",
+      "too_few_blocks"
+    ],
+    "pareto_front_names": ["robust_balanced"],
+    "recommended_by_log_score": "robust_balanced",
+    "aggregate_confidence_score_emitted": false,
+    "candidates": {
+      "robust_balanced": {
+        "mean_log_density_gain": 0.25,
+        "coverage_category": "calibrated",
+        "worst_group_coverage_error": 0.0,
+        "point_trusted": true,
+        "robust_transfer_category": "robust_generalizing",
+        "minimum_group_lower_bound": 0.23678947368421052,
+        "robust_trusted": true
+      },
+      "fragile_point_positive": {
+        "mean_log_density_gain": 0.02349999999999999,
+        "coverage_category": "calibrated",
+        "worst_group_coverage_error": 0.0,
+        "point_trusted": true,
+        "robust_transfer_category": "uncertain",
+        "minimum_group_lower_bound": -0.03900000000000003,
+        "uncertain_group_count": 6,
+        "robust_trusted": false
+      },
+      "robust_broad": {
+        "mean_log_density_gain": 0.15,
+        "coverage_category": "calibrated",
+        "worst_group_coverage_error": 0.0,
+        "point_trusted": true,
+        "robust_transfer_category": "robust_generalizing",
+        "minimum_group_lower_bound": 0.14202631578947367,
+        "robust_trusted": true
+      },
+      "coverage_failure": {
+        "mean_log_density_gain": 0.4,
+        "coverage_category": "mixed",
+        "worst_group_coverage_error": 0.30000000000000004,
+        "point_trusted": false,
+        "robust_transfer_category": "robust_generalizing",
+        "minimum_group_lower_bound": 0.3920263157894737,
+        "robust_trusted": false
+      },
+      "too_few_blocks": {
+        "mean_log_density_gain": 0.255,
+        "coverage_category": "calibrated",
+        "worst_group_coverage_error": 0.0,
+        "point_trusted": true,
+        "robust_transfer_category": "unavailable",
+        "minimum_group_lower_bound": null,
+        "unavailable_group_count": 6,
+        "robust_trusted": false
+      }
+    }
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34006188429,
+    "artifact_id": 9980997637,
+    "artifact_digest": "sha256:b07044b8685d2336794cf55e0327084b5c89cf989a97827ffcdae8e8e707ae2c",
+    "conclusion": "success"
+  },
+  "claim_boundary": {
+    "bootstrap_interval_is_exact_finite_sample_guarantee": false,
+    "robust_trusted_model_is_true_biological_mechanism": false,
+    "robust_trusted_selection_guarantees_distribution_shift_performance": false,
+    "groupwise_coverage_is_conditional_coverage_theorem": false,
+    "block_bootstrap_repairs_bad_block_definition": false,
+    "selection_removes_observation_bias": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_preservation": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
