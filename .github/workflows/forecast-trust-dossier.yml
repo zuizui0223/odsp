@@ -1,0 +1,82 @@
+name: forecast-trust-dossier
+
+on:
+  pull_request:
+    paths:
+      - 'FORECAST_TRUST_DOSSIER_CONTRACT.json'
+      - 'FORECAST_TRUST_DOSSIER_VALIDATION_RECEIPT.json'
+      - 'odsp/forecast_trust_dossier.py'
+      - 'odsp/forecast_trust_dossier_benchmark.py'
+      - 'scripts/run_forecast_trust_dossier_benchmark.py'
+      - 'tests/test_forecast_trust_dossier.py'
+      - 'tests/test_forecast_trust_dossier_benchmark.py'
+      - 'tests/test_forecast_trust_dossier_contract.py'
+      - 'tests/test_forecast_trust_dossier_receipt.py'
+      - 'docs/forecast_trust_dossier_v1.md'
+      - '.github/workflows/forecast-trust-dossier.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'FORECAST_TRUST_DOSSIER_CONTRACT.json'
+      - 'FORECAST_TRUST_DOSSIER_VALIDATION_RECEIPT.json'
+      - 'odsp/forecast_trust_dossier.py'
+      - 'odsp/forecast_trust_dossier_benchmark.py'
+      - 'scripts/run_forecast_trust_dossier_benchmark.py'
+      - 'tests/test_forecast_trust_dossier.py'
+      - 'tests/test_forecast_trust_dossier_benchmark.py'
+      - 'tests/test_forecast_trust_dossier_contract.py'
+      - 'tests/test_forecast_trust_dossier_receipt.py'
+      - 'docs/forecast_trust_dossier_v1.md'
+      - '.github/workflows/forecast-trust-dossier.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP core dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+      - name: Test dossier API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_forecast_trust_dossier.py \
+            tests/test_forecast_trust_dossier_benchmark.py \
+            tests/test_forecast_trust_dossier_contract.py
+          if [ -f tests/test_forecast_trust_dossier_receipt.py ]; then
+            python -m pytest -q tests/test_forecast_trust_dossier_receipt.py
+          fi
+      - name: Run frozen known-truth dossier benchmark
+        run: |
+          python scripts/run_forecast_trust_dossier_benchmark.py \
+            --output artifacts/FORECAST_TRUST_DOSSIER_BENCHMARK.json \
+            --seed 20260906 \
+            --bootstrap-draws 2000
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/FORECAST_TRUST_DOSSIER_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert all(row['passed'] for row in r['checks'])
+          assert r['dossiers']['robust_in_domain']['validation']['robust_validation_status']=='admitted'
+          assert r['dossiers']['fragile_in_domain']['validation']['robust_validation_status']=='blocked'
+          assert r['dossiers']['robust_strict_extrapolation']['validation']['robust_validation_status']=='admitted'
+          assert r['dossiers']['robust_strict_extrapolation']['deployment']['status']=='strict_extrapolation_warning'
+          assert r['dossiers']['too_few_blocks']['validation']['robust_validation_status']=='unavailable'
+          assert all(not row['aggregate_confidence_score_emitted'] for row in r['dossiers'].values())
+          print(json.dumps(r,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: forecast-trust-dossier-benchmark
+          path: artifacts/FORECAST_TRUST_DOSSIER_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90
