@@ -1,0 +1,77 @@
+{
+  "benchmark_config": {
+    "critical_gamma_search_upper_bound": 100.0,
+    "gamma": 2.0,
+    "group_count": 6,
+    "rows_per_group": 400
+  },
+  "canonical_results": {
+    "aggregate_confidence_score_emitted": false,
+    "all_negative": {
+      "envelope_transfer_category": "gamma_robust_non_generalizing",
+      "maximum_best_case_group_gain": -0.23329161451814767,
+      "minimum_worst_case_group_gain": -0.2667083854818523,
+      "point_transfer_category": "non_generalizing"
+    },
+    "all_positive": {
+      "critical_gamma": null,
+      "envelope_transfer_category": "gamma_robust_generalizing",
+      "maximum_best_case_group_gain": 0.2667083854818523,
+      "minimum_worst_case_group_gain": 0.23329161451814767,
+      "point_transfer_category": "generalizing"
+    },
+    "automatic_bias_correction_performed": false,
+    "base_weight_scaling_error": 0.0,
+    "gamma_path": [
+      {"best": 0.1, "gamma": 1.0, "worst": 0.1},
+      {"best": 0.12967032967032965, "gamma": 1.25, "worst": 0.06301369863013698},
+      {"best": 0.14838709677419354, "gamma": 1.5, "worst": 0.02857142857142854},
+      {"best": 0.16923076923076924, "gamma": 2.0, "worst": -0.028571428571428595},
+      {"best": 0.19183673469387758, "gamma": 4.0, "worst": -0.13684210526315788}
+    ],
+    "mixed_sign": {
+      "critical_gamma": 1.732050807568878,
+      "critical_gamma_error_vs_sqrt3": 8.881784197001252e-16,
+      "gamma_1": {
+        "best_case_group_gain": 0.1,
+        "envelope_transfer_category": "gamma_robust_generalizing",
+        "point_transfer_category": "generalizing",
+        "worst_case_group_gain": 0.1
+      },
+      "gamma_2": {
+        "best_case_group_gain": 0.16923076923076924,
+        "envelope_transfer_category": "gamma_sensitive",
+        "point_transfer_category": "generalizing",
+        "worst_case_group_gain": -0.028571428571428595
+      }
+    },
+    "passed": true,
+    "row_order_error": 0.0,
+    "small_n_exhaustive_error": 5.551115123125783e-17
+  },
+  "claim_boundary": {
+    "aggregate_confidence_score_emitted": false,
+    "bounded_reweighting_replaces_detection_or_effort_model": false,
+    "deterministic_envelope_is_sampling_uncertainty_interval": false,
+    "gamma_has_automatic_detection_probability_interpretation": false,
+    "gamma_is_inferred_from_data": false,
+    "robustness_within_gamma_proves_no_observation_bias": false,
+    "sensitivity_at_gamma_identifies_true_bias_process": false
+  },
+  "contract": "BOUNDED_REWEIGHTING_ROBUSTNESS_CONTRACT.json",
+  "first_green_validation": {
+    "artifact_digest": "sha256:d38b1bc688456457b310d57c2ed784734e56db83e3c75350cefea38edbbe1848",
+    "artifact_id": 9981383822,
+    "conclusion": "success",
+    "head_sha": "b0bd955a80b03ab8c4bc172cc2152b0847aebeb8",
+    "workflow_run_id": 34007387415
+  },
+  "frozen_v4_preservation": {
+    "closed_empirical_endpoint_reopened": false,
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false
+  },
+  "receipt_id": "odsp-bounded-reweighting-robustness-v1-validation",
+  "schema_version": 1,
+  "validated_date": "2026-09-06"
+}
