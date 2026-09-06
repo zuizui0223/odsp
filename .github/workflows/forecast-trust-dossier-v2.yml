@@ -1,0 +1,83 @@
+name: forecast-trust-dossier-v2
+
+on:
+  pull_request:
+    paths:
+      - 'FORECAST_TRUST_DOSSIER_V2_CONTRACT.json'
+      - 'FORECAST_TRUST_DOSSIER_V2_VALIDATION_RECEIPT.json'
+      - 'odsp/forecast_trust_dossier_v2.py'
+      - 'odsp/forecast_trust_dossier_v2_benchmark.py'
+      - 'scripts/run_forecast_trust_dossier_v2_benchmark.py'
+      - 'tests/test_forecast_trust_dossier_v2.py'
+      - 'tests/test_forecast_trust_dossier_v2_benchmark.py'
+      - 'tests/test_forecast_trust_dossier_v2_contract.py'
+      - 'tests/test_forecast_trust_dossier_v2_receipt.py'
+      - 'docs/forecast_trust_dossier_v2.md'
+      - '.github/workflows/forecast-trust-dossier-v2.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'FORECAST_TRUST_DOSSIER_V2_CONTRACT.json'
+      - 'FORECAST_TRUST_DOSSIER_V2_VALIDATION_RECEIPT.json'
+      - 'odsp/forecast_trust_dossier_v2.py'
+      - 'odsp/forecast_trust_dossier_v2_benchmark.py'
+      - 'scripts/run_forecast_trust_dossier_v2_benchmark.py'
+      - 'tests/test_forecast_trust_dossier_v2.py'
+      - 'tests/test_forecast_trust_dossier_v2_benchmark.py'
+      - 'tests/test_forecast_trust_dossier_v2_contract.py'
+      - 'tests/test_forecast_trust_dossier_v2_receipt.py'
+      - 'docs/forecast_trust_dossier_v2.md'
+      - '.github/workflows/forecast-trust-dossier-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP core dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+      - name: Test dossier v2 API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_forecast_trust_dossier_v2.py \
+            tests/test_forecast_trust_dossier_v2_benchmark.py \
+            tests/test_forecast_trust_dossier_v2_contract.py
+          if [ -f tests/test_forecast_trust_dossier_v2_receipt.py ]; then
+            python -m pytest -q tests/test_forecast_trust_dossier_v2_receipt.py
+          fi
+      - name: Run frozen known-truth dossier v2 benchmark
+        run: |
+          python scripts/run_forecast_trust_dossier_v2_benchmark.py \
+            --output artifacts/FORECAST_TRUST_DOSSIER_V2_BENCHMARK.json \
+            --seed 20260906 \
+            --bootstrap-draws 1000
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/FORECAST_TRUST_DOSSIER_V2_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert len(r['checks']) == 12
+          assert all(row['passed'] for row in r['checks'])
+          assert r['robust_recommended_in_domain']['decision_trace']['operational_status'] == 'admitted'
+          assert r['validation_admitted_but_sampling_weight_sensitive']['decision_trace']['operational_status'] == 'admitted_with_warnings'
+          assert r['validation_admitted_at_gamma_1_5_but_breaks_by_gamma_2']['robustness_profile']['bounded_reweighting_status'] == 'gamma_sensitive'
+          assert r['joint_envelope_sensitive_validation_blocked']['validation']['validation_status'] == 'blocked'
+          assert r['too_few_blocks_validation_unavailable']['validation']['validation_status'] == 'unavailable'
+          print(json.dumps(r,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: forecast-trust-dossier-v2-benchmark
+          path: artifacts/FORECAST_TRUST_DOSSIER_V2_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90
