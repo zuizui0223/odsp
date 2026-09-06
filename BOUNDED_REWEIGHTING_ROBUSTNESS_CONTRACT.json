@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-bounded-reweighting-robustness-v1",
+  "frozen_date": "2026-09-06",
+  "purpose": "audit whether held-out transfer conclusions survive every row-weight perturbation inside a caller-declared multiplicative envelope, without inferring a sampling mechanism or treating the envelope as bias correction",
+  "weight_envelope": {
+    "base_weights_optional": true,
+    "multiplier_bound_symbol": "gamma",
+    "gamma_minimum": 1.0,
+    "allowed_multiplier_interval": "[1/gamma, gamma] independently for every validation row",
+    "maximum_to_minimum_multiplier_ratio": "gamma^2",
+    "normalization_irrelevant": true,
+    "worst_case_group_mean_solved_as_linear_fractional_problem": true,
+    "best_case_group_mean_also_reported": true
+  },
+  "decision_rule": {
+    "group_robust_positive_requires_worst_case_gain_gt_zero": true,
+    "group_robust_nonpositive_requires_best_case_gain_le_zero": true,
+    "otherwise_group_is_bound_sensitive": true,
+    "gamma_robust_generalizing_requires_every_group_robust_positive": true,
+    "gamma_robust_non_generalizing_requires_every_group_robust_nonpositive": true,
+    "pooled_mean_can_override_group_failure": false,
+    "automatic_bias_correction_performed": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "robustness_radius": {
+    "critical_gamma_reported_for_point_sign_conclusions": true,
+    "critical_gamma_means_smallest_multiplier_bound_that_can_destroy_the_point_sign_conclusion": true,
+    "search_upper_bound": 100.0,
+    "critical_gamma_not_found_means_stable_through_search_upper_bound": true
+  },
+  "known_truth_benchmark": {
+    "group_count": 6,
+    "rows_per_group": 400,
+    "primary_gamma": 2.0,
+    "frozen_obligations": {
+      "all_positive_gamma_robust_generalizing": true,
+      "mixed_sign_point_generalizing_at_gamma_1": true,
+      "mixed_sign_gamma_2_sensitive": true,
+      "mixed_sign_critical_gamma_near_sqrt_3": true,
+      "all_negative_gamma_robust_non_generalizing": true,
+      "worst_case_gain_nonincreasing_with_gamma": true,
+      "best_case_gain_nondecreasing_with_gamma": true,
+      "base_weight_global_scaling_invariant": true,
+      "row_order_invariant": true,
+      "small_n_solution_matches_exhaustive_endpoint_search": true,
+      "automatic_bias_correction_performed": false,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "gamma_is_inferred_from_data": false,
+    "gamma_has_automatic_detection_probability_interpretation": false,
+    "robustness_within_gamma_proves_no_observation_bias": false,
+    "sensitivity_at_gamma_identifies_true_bias_process": false,
+    "bounded_reweighting_replaces_detection_or_effort_model": false,
+    "deterministic_envelope_is_sampling_uncertainty_interval": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
