@@ -1,0 +1,81 @@
+name: robust-trust-aware-model-selection
+
+on:
+  pull_request:
+    paths:
+      - 'ROBUST_TRUST_AWARE_MODEL_SELECTION_CONTRACT.json'
+      - 'ROBUST_TRUST_AWARE_MODEL_SELECTION_VALIDATION_RECEIPT.json'
+      - 'odsp/robust_trust_aware_model_selection.py'
+      - 'odsp/robust_trust_aware_model_selection_benchmark.py'
+      - 'scripts/run_robust_trust_aware_model_selection_benchmark.py'
+      - 'tests/test_robust_trust_aware_model_selection.py'
+      - 'tests/test_robust_trust_aware_model_selection_benchmark.py'
+      - 'tests/test_robust_trust_aware_model_selection_contract.py'
+      - 'tests/test_robust_trust_aware_model_selection_receipt.py'
+      - 'docs/robust_trust_aware_model_selection_v3.md'
+      - '.github/workflows/robust-trust-aware-model-selection.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'ROBUST_TRUST_AWARE_MODEL_SELECTION_CONTRACT.json'
+      - 'ROBUST_TRUST_AWARE_MODEL_SELECTION_VALIDATION_RECEIPT.json'
+      - 'odsp/robust_trust_aware_model_selection.py'
+      - 'odsp/robust_trust_aware_model_selection_benchmark.py'
+      - 'scripts/run_robust_trust_aware_model_selection_benchmark.py'
+      - 'tests/test_robust_trust_aware_model_selection.py'
+      - 'tests/test_robust_trust_aware_model_selection_benchmark.py'
+      - 'tests/test_robust_trust_aware_model_selection_contract.py'
+      - 'tests/test_robust_trust_aware_model_selection_receipt.py'
+      - 'docs/robust_trust_aware_model_selection_v3.md'
+      - '.github/workflows/robust-trust-aware-model-selection.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP core dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+      - name: Test API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_robust_trust_aware_model_selection.py \
+            tests/test_robust_trust_aware_model_selection_benchmark.py \
+            tests/test_robust_trust_aware_model_selection_contract.py
+          if [ -f tests/test_robust_trust_aware_model_selection_receipt.py ]; then
+            python -m pytest -q tests/test_robust_trust_aware_model_selection_receipt.py
+          fi
+      - name: Run frozen known-truth benchmark
+        run: |
+          python scripts/run_robust_trust_aware_model_selection_benchmark.py \
+            --output artifacts/ROBUST_TRUST_AWARE_MODEL_SELECTION_BENCHMARK.json \
+            --seed 20260906 \
+            --bootstrap-draws 2000
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/ROBUST_TRUST_AWARE_MODEL_SELECTION_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert all(row['passed'] for row in r['checks'])
+          assert r['comparison']['recommended_by_log_score']=='robust_balanced'
+          assert r['comparison']['pareto_front_names']==['robust_balanced']
+          assert 'fragile_point_positive' in r['comparison']['legacy_trusted_but_robust_rejected_names']
+          assert r['candidates']['fragile_point_positive']['transfer_uncertainty']['robust_transfer_category']=='uncertain'
+          assert r['candidates']['too_few_blocks']['transfer_uncertainty']['robust_transfer_category']=='unavailable'
+          print(json.dumps(r,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: robust-trust-aware-model-selection-benchmark
+          path: artifacts/ROBUST_TRUST_AWARE_MODEL_SELECTION_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90
