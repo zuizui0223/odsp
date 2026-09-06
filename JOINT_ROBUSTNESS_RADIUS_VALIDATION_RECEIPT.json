@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-joint-robustness-radius-v1-validation",
+  "validated_date": "2026-09-06",
+  "contract": "JOINT_ROBUSTNESS_RADIUS_CONTRACT.json",
+  "benchmark_config": {
+    "seed": 20260906,
+    "bootstrap_draws": 500,
+    "confidence_level": 0.95,
+    "minimum_blocks_per_group": 8,
+    "search_upper_gamma": 10.0,
+    "binary_iterations": 50,
+    "group_count": 6,
+    "blocks_per_group": 20,
+    "rows_per_block": 20
+  },
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 12,
+    "strong_positive": {
+      "radius_status": "robust_through_search_upper",
+      "baseline_joint_category": "joint_robust_generalizing",
+      "certified_gamma": 10.0,
+      "radius_is_lower_bound_only": true,
+      "baseline_minimum_worst_case_lower_bound": 0.24257375,
+      "certified_maximum_multiplier_ratio": 100.0
+    },
+    "strong_negative": {
+      "radius_status": "robust_through_search_upper",
+      "baseline_joint_category": "joint_robust_non_generalizing",
+      "certified_gamma": 10.0,
+      "radius_is_lower_bound_only": true,
+      "baseline_maximum_best_case_upper_bound": -0.24239999999999998,
+      "certified_maximum_multiplier_ratio": 100.0
+    },
+    "mixed_positive": {
+      "radius_status": "finite_radius",
+      "baseline_joint_category": "joint_robust_generalizing",
+      "target_joint_category": "joint_robust_generalizing",
+      "certified_gamma": 1.7320508075688714,
+      "break_gamma": 1.7320508075688794,
+      "boundary_interval_width": 7.993605777301127e-15,
+      "certified_maximum_multiplier_ratio": 2.9999999999999796,
+      "limiting_group_count": 6
+    },
+    "weak_positive": {
+      "radius_status": "not_certified_at_baseline",
+      "baseline_joint_category": "uncertain",
+      "certified_gamma": null,
+      "baseline_minimum_worst_case_lower_bound": -0.03828749999999987
+    },
+    "too_few_blocks": {
+      "radius_status": "unavailable",
+      "baseline_joint_category": "unavailable",
+      "certified_gamma": null,
+      "limiting_group_count": 6
+    },
+    "sqrt3": 1.7320508075688772,
+    "break_gamma_error": 2.220446049250313e-15,
+    "base_weight_scaling_error": 0.0,
+    "gamma_path": [
+      {"gamma": 1.0, "category": "joint_robust_generalizing"},
+      {"gamma": 1.25, "category": "joint_robust_generalizing"},
+      {"gamma": 1.5, "category": "joint_robust_generalizing"},
+      {"gamma": 2.0, "category": "envelope_sensitive"},
+      {"gamma": 4.0, "category": "envelope_sensitive"}
+    ],
+    "automatic_bias_correction_performed": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34010304655,
+    "artifact_id": 9982250920,
+    "artifact_digest": "sha256:b1da1d72438b8d2f1624cd894c8addf0827d7f691a9085ca4db3d884749ebadf",
+    "head_sha": "99272e0de02b5cb2c096e2540ab778f323509fc9",
+    "conclusion": "success"
+  },
+  "claim_boundary": {
+    "radius_is_probability_of_correctness": false,
+    "radius_is_exact_population_threshold": false,
+    "gamma_is_detection_probability": false,
+    "gamma_is_causal_confounding_parameter": false,
+    "radius_proves_no_observation_bias": false,
+    "radius_repairs_bad_block_definition": false,
+    "radius_guarantees_future_distribution_shift_performance": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_preservation": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
