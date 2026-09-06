@@ -1,0 +1,102 @@
+{
+  "benchmark_config": {
+    "binary_iterations": 50,
+    "bootstrap_draws": 500,
+    "radius_search_upper_gamma": 10.0,
+    "seed": 20260906
+  },
+  "canonical_results": {
+    "aggregate_confidence_score_emitted": false,
+    "finite_radius": {
+      "boundary_interval_width": 7.993605777301127e-15,
+      "break_gamma": 1.7320508075688794,
+      "break_gamma_error_vs_sqrt3": 2.220446049250313e-15,
+      "certified_gamma": 1.7320508075688714,
+      "certified_maximum_multiplier_ratio": 2.9999999999999796,
+      "joint_radius_status": "finite_radius",
+      "limiting_group_count": 6,
+      "operational_status": "admitted_with_warnings",
+      "validation_gamma": 1.5,
+      "validation_status": "admitted"
+    },
+    "finite_radius_plus_strict_extrapolation": {
+      "operational_status": "admitted_with_warnings",
+      "validation_status": "admitted",
+      "warning_order_is_semantic": false,
+      "warning_set": [
+        "finite_joint_robustness_radius",
+        "strict_extrapolation"
+      ]
+    },
+    "obligation_count": 13,
+    "passed": true,
+    "robust_broad": {
+      "certified_gamma": 10.0,
+      "joint_radius_status": "robust_through_search_upper",
+      "selection_status": "bias_robust_trusted_not_pareto",
+      "validation_status": "admitted"
+    },
+    "robust_recommended": {
+      "certified_gamma": 10.0,
+      "certified_maximum_multiplier_ratio": 100.0,
+      "joint_radius_status": "robust_through_search_upper",
+      "operational_status": "admitted",
+      "radius_is_lower_bound_only": true,
+      "selection_status": "recommended",
+      "validation_status": "admitted"
+    },
+    "selection_recommended": "robust_balanced",
+    "too_few_blocks": {
+      "joint_radius_status": "unavailable",
+      "limiting_group_count": 6,
+      "validation_status": "unavailable"
+    },
+    "weak_positive": {
+      "joint_radius_status": "not_certified_at_baseline",
+      "joint_robustness_category": "uncertain",
+      "minimum_worst_case_lower_bound": -0.03828749999999987,
+      "validation_status": "blocked"
+    }
+  },
+  "claim_boundary": {
+    "aggregate_confidence_score_emitted": false,
+    "deployment_novelty_is_error_probability": false,
+    "dossier_v3_adds_new_statistical_evidence": false,
+    "radius_guarantees_future_distribution_shift_performance": false,
+    "radius_is_exact_population_threshold": false,
+    "radius_is_probability_of_correctness": false,
+    "radius_proves_no_observation_bias": false,
+    "selection_identifies_biological_mechanism": false
+  },
+  "contract": "FORECAST_TRUST_DOSSIER_V3_CONTRACT.json",
+  "first_green_validation": {
+    "artifact_digest": "sha256:d26d5a6b93fde234f8f6cb301b3933c401f10419022acfa9c2119b6d4a12e013",
+    "artifact_id": 9982666591,
+    "conclusion": "success",
+    "head_sha": "53b5425ef102f2f49e49a6f4c5b9cfd54edf39f9",
+    "workflow_run_id": 34011723846
+  },
+  "frozen_v4_preservation": {
+    "closed_empirical_endpoint_reopened": false,
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false
+  },
+  "pre_green_diagnostic": {
+    "conclusion": "failure",
+    "contract_changed": false,
+    "correction": "changed the coexistence obligation to require exactly the two distinct warning labels independent of order",
+    "diagnosis": "the benchmark required a specific tuple order for two distinct warnings even though v2 warning order is inherited and v3 appends radius warnings without changing evidence semantics",
+    "failure_stage": "known-truth benchmark assertion",
+    "radius_algorithm_changed": false,
+    "scientific_logic_changed": false,
+    "threshold_changed": false,
+    "validation_semantics_changed": false,
+    "workflow_run_ids": [
+      34010642723,
+      34011535647
+    ]
+  },
+  "receipt_id": "odsp-forecast-trust-dossier-v3-radius-validation",
+  "schema_version": 1,
+  "validated_date": "2026-09-06"
+}
