@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-model-refit-transfer-uncertainty-v1",
+  "frozen_date": "2026-09-06",
+  "purpose": "audit whether an ecological-state transfer conclusion remains stable across a caller-declared ensemble of independently refit predictive models while simultaneously retaining caller-declared validation block uncertainty, without treating the refit ensemble as a known probability law or inferring a correct training-resampling scheme",
+  "definition": {
+    "input": "matrix of row-wise held-out conditional-minus-marginal log-density gains with shape refits x validation_rows",
+    "same_untouched_validation_rows_required_across_refits": true,
+    "refit_ensemble_generation_is_caller_declared": true,
+    "refit_members_are_equally_weighted": true,
+    "refit_ids_may_be_supplied_for_order_invariant_canonicalization": true,
+    "reference_fit": "one declared refit is separately audited with the existing simultaneous-group certification layer",
+    "ensemble_point_group_gain": "equal-weight mean of each refit's original held-out group mean",
+    "nested_draw": "sample one refit member for the whole draw, then independently resample caller-declared validation blocks within each group using that selected refit",
+    "same_selected_refit_is_shared_across_all_groups_within_a_nested_draw": true,
+    "primary_familywise_method": "two-sided studentized nested-bootstrap max-t interval across validation groups",
+    "nested_marginal_percentile_intervals_are_reference_only": true,
+    "refit_sign_stability_is_reported_separately": true,
+    "pooled_gain_can_override_group_failure": false,
+    "reference_fit_can_override_refit_aware_failure": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "decision_rule": {
+    "insufficient_refits_gives_category": "unavailable",
+    "any_group_with_insufficient_blocks_gives_category": "unavailable",
+    "all_nested_max_t_lower_bounds_above_tolerance_gives_category": "robust_generalizing",
+    "all_nested_max_t_upper_bounds_at_or_below_tolerance_gives_category": "robust_non_generalizing",
+    "any_nested_max_t_interval_crossing_tolerance_gives_category": "uncertain",
+    "otherwise_category": "mixed",
+    "refit_aware_admissible_only_when_category": "robust_generalizing",
+    "reference_fit_pass_does_not_rescue_refit_aware_uncertain": true,
+    "automatic_refit_scheme_inference": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "seed": 20260906,
+    "nested_draws": 4000,
+    "familywise_confidence_level": 0.95,
+    "minimum_refits": 8,
+    "minimum_blocks_per_group": 8,
+    "refit_count": 20,
+    "group_count": 6,
+    "blocks_per_group": 20,
+    "rows_per_block": 20,
+    "frozen_obligations": {
+      "stable_positive_reference_fit_is_simultaneously_robust_generalizing": true,
+      "stable_positive_refit_aware_is_robust_generalizing": true,
+      "stable_negative_refit_aware_is_robust_non_generalizing": true,
+      "refit_fragile_reference_fit_is_simultaneously_robust_generalizing": true,
+      "refit_fragile_ensemble_is_refit_sensitive": true,
+      "refit_fragile_refit_aware_is_not_robust_generalizing": true,
+      "identical_refits_reduce_to_existing_simultaneous_category": true,
+      "identical_refits_max_t_bounds_match_existing_simultaneous_within_1e_12": true,
+      "too_few_refits_is_unavailable": true,
+      "too_few_blocks_is_unavailable": true,
+      "refit_order_with_ids_is_invariant": true,
+      "row_order_is_invariant": true,
+      "positive_global_weight_scaling_is_invariant": true,
+      "reference_fit_cannot_override_refit_aware_failure": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "refit_ensemble_is_known_sampling_distribution": false,
+    "nested_interval_is_exact_finite_sample_guarantee": false,
+    "refit_stability_identifies_correct_model_class": false,
+    "refit_stability_identifies_biological_mechanism": false,
+    "refit_stability_repairs_bad_training_resampling_design": false,
+    "refit_stability_repairs_bad_validation_block_definition": false,
+    "refit_stability_guarantees_future_distribution_shift_performance": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
