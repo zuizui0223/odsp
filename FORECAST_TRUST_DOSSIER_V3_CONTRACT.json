@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-forecast-trust-dossier-v3-radius",
+  "frozen_date": "2026-09-06",
+  "purpose": "extend the frozen v2 decision trace with the certified joint robustness gamma radius while preserving validation, sensitivity, deployment and selection evidence as separate non-collapsing layers",
+  "inheritance": {
+    "base_builder": "build_forecast_trust_dossier_v2",
+    "v2_validation_semantics_unchanged": true,
+    "v2_robustness_profile_semantics_unchanged": true,
+    "v2_deployment_semantics_unchanged": true,
+    "v2_selection_semantics_unchanged": true
+  },
+  "radius_layer": {
+    "not_supplied_status": "not_audited",
+    "robust_through_search_upper_gate": "pass",
+    "finite_radius_gate": "warning",
+    "not_certified_at_baseline_gate": "warning",
+    "unavailable_gate": "unavailable",
+    "finite_radius_warning": "finite_joint_robustness_radius",
+    "baseline_not_certified_warning": "joint_radius_not_certified_at_baseline",
+    "unavailable_warning": "joint_radius_unavailable",
+    "certified_gamma_and_break_gamma_retained_separately": true,
+    "boundary_interval_width_retained": true,
+    "limiting_group_ids_retained": true,
+    "radius_can_rewrite_validation_history": false,
+    "radius_can_rescue_failed_validation": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "compatibility_checks": {
+    "candidate_and_radius_row_count_must_match": true,
+    "candidate_and_radius_group_count_must_match": true,
+    "candidate_and_radius_point_transfer_category_must_match": true,
+    "exact_row_identity_cannot_be_proved_from_summary_objects": true
+  },
+  "known_truth_benchmark": {
+    "seed": 20260906,
+    "dossier_bootstrap_draws": 500,
+    "radius_bootstrap_draws": 500,
+    "radius_search_upper_gamma": 10.0,
+    "cases": [
+      "robust_recommended_radius_through_upper",
+      "validation_admitted_at_gamma_1_5_with_finite_radius",
+      "finite_radius_plus_strict_extrapolation",
+      "weak_positive_validation_blocked_and_radius_not_certified",
+      "too_few_blocks_validation_and_radius_unavailable",
+      "robust_broad_not_pareto_with_radius"
+    ],
+    "frozen_obligations": {
+      "strong_radius_through_upper_adds_no_warning": true,
+      "finite_radius_does_not_rewrite_admitted_validation": true,
+      "finite_radius_warning_is_retained": true,
+      "finite_radius_break_matches_sqrt3": true,
+      "finite_radius_boundary_width_le_1e_10": true,
+      "radius_and_strict_extrapolation_warnings_remain_distinct": true,
+      "weak_positive_remains_validation_blocked": true,
+      "weak_positive_radius_not_certified_warning_retained": true,
+      "too_few_blocks_remains_validation_unavailable": true,
+      "too_few_blocks_radius_unavailable_retained": true,
+      "selection_recommendation_preserved": true,
+      "robust_broad_remains_not_pareto": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "dossier_v3_adds_new_statistical_evidence": false,
+    "radius_is_probability_of_correctness": false,
+    "radius_is_exact_population_threshold": false,
+    "radius_proves_no_observation_bias": false,
+    "radius_guarantees_future_distribution_shift_performance": false,
+    "deployment_novelty_is_error_probability": false,
+    "selection_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
