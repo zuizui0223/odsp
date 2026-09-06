@@ -1,0 +1,102 @@
+{
+  "benchmark_config": {
+    "bootstrap_draws": 500,
+    "confidence_level": 0.95,
+    "coverage_tolerance": 0.03,
+    "minimum_blocks_per_group": 8,
+    "seed": 20260906,
+    "target_coverage": 0.9
+  },
+  "canonical_results": {
+    "aggregate_confidence_score_emitted": false,
+    "finite_radius": {
+      "boundary_interval_width": 2.6645352591003757e-15,
+      "bounded_status": "gamma_sensitive",
+      "break_gamma": 1.7320508075688767,
+      "certified_gamma": 1.732050807568874,
+      "minimum_critical_gamma": 1.7320508075688774,
+      "radius_status": "finite_radius",
+      "validation_gamma": 1.5,
+      "validation_status": "admitted"
+    },
+    "obligation_count": 13,
+    "optional_layers_omitted": {
+      "bounded_reweighting_status": "not_audited",
+      "deployment_status": "not_audited",
+      "radius_status": "not_audited",
+      "sampling_weight_status": "not_audited"
+    },
+    "passed": true,
+    "strict_extrapolation": {
+      "deployment_status": "strict_extrapolation_warning",
+      "operational_status": "admitted_with_warnings",
+      "validation_status": "admitted",
+      "warning_reasons": [
+        "strict_extrapolation"
+      ]
+    },
+    "strong_full": {
+      "bounded_reweighting_status": "gamma_robust_generalizing",
+      "certified_gamma": 4.0,
+      "operational_status": "admitted",
+      "radius_status": "robust_through_search_upper",
+      "sampling_weight_status": "weight_robust_generalizing",
+      "selection_status": "recommended",
+      "validation_status": "admitted"
+    },
+    "too_few_blocks": {
+      "blocking_reasons": [
+        "joint_transfer_unavailable"
+      ],
+      "operational_status": "unavailable",
+      "validation_status": "unavailable"
+    },
+    "weak_positive": {
+      "blocking_reasons": [
+        "joint_transfer_uncertain"
+      ],
+      "operational_status": "blocked",
+      "validation_status": "blocked"
+    },
+    "weight_sensitive": {
+      "maximum_scenario_mean_gain": 0.14,
+      "minimum_scenario_mean_gain": -0.014285714285714273,
+      "operational_status": "admitted_with_warnings",
+      "sampling_weight_status": "weight_sensitive",
+      "validation_status": "admitted"
+    }
+  },
+  "claim_boundary": {
+    "aggregate_confidence_score_emitted": false,
+    "creates_new_statistical_estimand": false,
+    "infers_correct_sampling_weights": false,
+    "joint_radius_is_probability_of_correctness": false,
+    "novelty_warning_is_probability_of_failure": false
+  },
+  "contract": "FORECAST_ASSESSMENT_CONTRACT.json",
+  "first_green_validation": {
+    "artifact_digest": "sha256:214f356611013f264e33c110f8bdcf03d7d7326d865e8c949dfc604b975a9254",
+    "artifact_id": 9983578222,
+    "conclusion": "success",
+    "head_sha": "89c5f2a3caa6f7076012e1cb8eaf16baa744dd18",
+    "workflow_run_id": 34014841207
+  },
+  "frozen_v4_preservation": {
+    "closed_empirical_endpoint_reopened": false,
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false
+  },
+  "pre_green_diagnostic": {
+    "conclusion": "failure",
+    "contract_changed": false,
+    "decision_rule_changed": false,
+    "diagnosis": "the test incorrectly required every frozen obligation value to be True even though aggregate_confidence_score_emitted is intentionally frozen False",
+    "failure_stage": "contract test before known-truth benchmark",
+    "known_truth_generator_changed": false,
+    "threshold_changed": false,
+    "workflow_run_id": 34012417946
+  },
+  "receipt_id": "odsp-end-to-end-forecast-assessment-v1-validation",
+  "schema_version": 1,
+  "validated_date": "2026-09-06"
+}
