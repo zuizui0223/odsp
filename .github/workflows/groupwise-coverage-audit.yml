@@ -1,0 +1,79 @@
+name: groupwise-coverage-audit
+
+on:
+  pull_request:
+    paths:
+      - 'GROUPWISE_COVERAGE_AUDIT_CONTRACT.json'
+      - 'GROUPWISE_COVERAGE_AUDIT_VALIDATION_RECEIPT.json'
+      - 'odsp/groupwise_coverage_audit.py'
+      - 'odsp/groupwise_coverage_audit_benchmark.py'
+      - 'scripts/run_groupwise_coverage_audit_benchmark.py'
+      - 'tests/test_groupwise_coverage_audit.py'
+      - 'tests/test_groupwise_coverage_audit_benchmark.py'
+      - 'tests/test_groupwise_coverage_audit_contract.py'
+      - 'tests/test_groupwise_coverage_audit_receipt.py'
+      - 'docs/groupwise_coverage_audit_v1.md'
+      - '.github/workflows/groupwise-coverage-audit.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'GROUPWISE_COVERAGE_AUDIT_CONTRACT.json'
+      - 'GROUPWISE_COVERAGE_AUDIT_VALIDATION_RECEIPT.json'
+      - 'odsp/groupwise_coverage_audit.py'
+      - 'odsp/groupwise_coverage_audit_benchmark.py'
+      - 'scripts/run_groupwise_coverage_audit_benchmark.py'
+      - 'tests/test_groupwise_coverage_audit.py'
+      - 'tests/test_groupwise_coverage_audit_benchmark.py'
+      - 'tests/test_groupwise_coverage_audit_contract.py'
+      - 'tests/test_groupwise_coverage_audit_receipt.py'
+      - 'docs/groupwise_coverage_audit_v1.md'
+      - '.github/workflows/groupwise-coverage-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP core dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+      - name: Test audit API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_groupwise_coverage_audit.py \
+            tests/test_groupwise_coverage_audit_benchmark.py \
+            tests/test_groupwise_coverage_audit_contract.py
+          if [ -f tests/test_groupwise_coverage_audit_receipt.py ]; then
+            python -m pytest -q tests/test_groupwise_coverage_audit_receipt.py
+          fi
+      - name: Run frozen known-truth coverage benchmark
+        run: |
+          mkdir -p artifacts
+          python scripts/run_groupwise_coverage_audit_benchmark.py \
+            --output artifacts/GROUPWISE_COVERAGE_AUDIT_BENCHMARK.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('artifacts/GROUPWISE_COVERAGE_AUDIT_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert all(row['passed'] for row in r['checks'])
+          assert r['masked_failure']['pooled_coverage_ok'] is True
+          assert r['masked_failure']['coverage_category'] == 'mixed'
+          assert r['positive_transfer_bad_coverage']['trusted_admissible'] is False
+          assert r['good_coverage_bad_transfer']['trusted_admissible'] is False
+          print(json.dumps(r, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: groupwise-coverage-audit-benchmark
+          path: artifacts/GROUPWISE_COVERAGE_AUDIT_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90
