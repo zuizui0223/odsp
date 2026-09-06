@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-forecast-trust-dossier-v2",
+  "frozen_date": "2026-09-06",
+  "purpose": "compose the latest ODSP validation, robustness-sensitivity, deployment-novelty, and model-selection evidence into one non-collapsing decision trace without creating a confidence score or rewriting component evidence",
+  "evidence_layers": {
+    "validation": [
+      "independent-group point transfer",
+      "group-wise empirical coverage",
+      "joint block-bootstrap x bounded-reweighting transfer robustness"
+    ],
+    "robustness_profile": [
+      "caller-supplied sampling-weight scenario sensitivity",
+      "deterministic bounded-reweighting envelope and critical gamma"
+    ],
+    "deployment": [
+      "environmental novelty",
+      "strict extrapolation"
+    ],
+    "selection": [
+      "bias-robust trusted admission",
+      "Pareto membership",
+      "recommendation status"
+    ]
+  },
+  "decision_rule": {
+    "validation_admission_source": "BiasRobustCandidateScore.bias_robust_trusted_admissible",
+    "sampling_weight_sensitivity_can_rewrite_validation_history": false,
+    "bounded_reweighting_sensitivity_can_rewrite_validation_history": false,
+    "deployment_novelty_can_rewrite_validation_history": false,
+    "in_domain_status_can_rescue_failed_validation": false,
+    "selection_status_can_rescue_failed_validation": false,
+    "sensitivity_warnings_retained_separately": true,
+    "deployment_warnings_retained_separately": true,
+    "blocking_reasons_retained_separately": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "robustness_profile": {
+    "sampling_weight_not_supplied_status": "not_audited",
+    "bounded_reweighting_not_supplied_status": "not_audited",
+    "finite_critical_gamma_reported_as_minimum_across_groups": true,
+    "no_finite_critical_gamma_within_search_range_reported_as_null": true,
+    "critical_gamma_is_user_envelope_sensitivity_not_error_probability": true
+  },
+  "known_truth_benchmark": {
+    "seed": 20260906,
+    "bootstrap_draws": 1000,
+    "target_coverage": 0.90,
+    "coverage_tolerance": 0.03,
+    "cases": [
+      "robust_recommended_in_domain",
+      "robust_recommended_strict_extrapolation",
+      "validation_admitted_but_sampling_weight_sensitive",
+      "validation_admitted_at_gamma_1_5_but_breaks_by_gamma_2",
+      "joint_envelope_sensitive_validation_blocked",
+      "too_few_blocks_validation_unavailable",
+      "robust_broad_not_pareto"
+    ],
+    "frozen_obligations": {
+      "robust_recommended_in_domain_has_no_blocker_or_warning": true,
+      "strict_extrapolation_is_deployment_warning_only": true,
+      "sampling_weight_sensitive_case_remains_validation_admitted": true,
+      "sampling_weight_sensitive_warning_is_retained": true,
+      "breakpoint_case_validation_admitted_at_gamma_1_5": true,
+      "breakpoint_case_gamma_2_is_sensitive": true,
+      "breakpoint_case_minimum_critical_gamma_equals_sqrt3": true,
+      "joint_envelope_sensitive_case_is_validation_blocked": true,
+      "too_few_blocks_case_is_validation_unavailable": true,
+      "robust_broad_selection_status_is_not_pareto": true,
+      "selection_recommendation_is_preserved": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "dossier_adds_new_statistical_evidence": false,
+    "sampling_weight_stability_proves_no_observation_bias": false,
+    "critical_gamma_is_inferred_from_data_generating_process": false,
+    "novelty_is_error_probability": false,
+    "in_domain_guarantees_correctness": false,
+    "validation_admission_guarantees_future_distribution_shift_performance": false,
+    "selection_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}

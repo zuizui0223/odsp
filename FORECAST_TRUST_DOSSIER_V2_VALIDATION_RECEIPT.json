@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-forecast-trust-dossier-v2-validation",
+  "validated_date": "2026-09-06",
+  "contract": "FORECAST_TRUST_DOSSIER_V2_CONTRACT.json",
+  "benchmark_config": {
+    "seed": 20260906,
+    "bootstrap_draws": 1000,
+    "case_count": 7
+  },
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 12,
+    "robust_recommended_in_domain": {
+      "validation_status": "admitted",
+      "operational_status": "admitted",
+      "selection_status": "recommended",
+      "mean_log_density_gain": 0.25,
+      "minimum_worst_case_lower_bound": 0.2380028168282549,
+      "sampling_weight_status": "weight_robust_generalizing",
+      "bounded_reweighting_status": "gamma_robust_generalizing",
+      "warning_count": 0
+    },
+    "robust_recommended_strict_extrapolation": {
+      "validation_status": "admitted",
+      "operational_status": "admitted_with_warnings",
+      "deployment_status": "strict_extrapolation_warning",
+      "strict_extrapolation_fraction": 0.3333333333333333,
+      "maximum_novelty_ratio": 3.5,
+      "warning_reasons": ["strict_extrapolation"]
+    },
+    "validation_admitted_but_sampling_weight_sensitive": {
+      "validation_status": "admitted",
+      "operational_status": "admitted_with_warnings",
+      "sampling_weight_status": "weight_sensitive",
+      "minimum_scenario_mean_gain": -0.014285714285714273,
+      "maximum_scenario_mean_gain": 0.14,
+      "sampling_group_status_flip_count": 6,
+      "bounded_reweighting_status": "gamma_robust_generalizing",
+      "minimum_critical_gamma": 2.8284271247461903,
+      "warning_reasons": ["sampling_weight_sensitive"]
+    },
+    "validation_admitted_at_gamma_1_5_but_breaks_by_gamma_2": {
+      "validation_status": "admitted",
+      "operational_status": "admitted_with_warnings",
+      "validation_gamma": 1.5,
+      "validation_minimum_worst_case_lower_bound": 0.028571428571428407,
+      "bounded_gamma": 2.0,
+      "bounded_reweighting_status": "gamma_sensitive",
+      "bounded_minimum_worst_case_group_gain": -0.028571428571428567,
+      "minimum_critical_gamma": 1.7320508075688774,
+      "critical_gamma_group_count": 6,
+      "warning_reasons": ["bounded_reweighting_sensitive"]
+    },
+    "joint_envelope_sensitive_validation_blocked": {
+      "validation_status": "blocked",
+      "joint_robustness_category": "envelope_sensitive",
+      "minimum_worst_case_lower_bound": -0.028571428571428675,
+      "blocking_reasons": ["joint_reweighting_sensitive"]
+    },
+    "too_few_blocks_validation_unavailable": {
+      "validation_status": "unavailable",
+      "joint_robustness_category": "unavailable",
+      "blocking_reasons": ["joint_transfer_unavailable"]
+    },
+    "robust_broad_not_pareto": {
+      "validation_status": "admitted",
+      "selection_status": "bias_robust_trusted_not_pareto",
+      "bias_robust_trusted": true,
+      "pareto_member": false
+    },
+    "selection_recommendation": "robust_balanced",
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34009965471,
+    "artifact_id": 9982151090,
+    "artifact_digest": "sha256:788a4268149a204b5669dea179fcbd0e66c2b018614dc0dcbfda55562350cd6c",
+    "head_sha": "22d326525b136d2377615968d8036b015d206cae",
+    "conclusion": "success"
+  },
+  "pre_green_ci_note": {
+    "workflow_run_id": 34009922429,
+    "scientific_benchmark_stage_reached": false,
+    "diagnosis": "small API-test fixture accidentally supplied 31/32 = 0.96875 empirical coverage, outside the frozen 0.90 +/- 0.03 calibration band; fixture was corrected to 29/32 = 0.90625",
+    "contract_changed": false,
+    "benchmark_generator_changed": false,
+    "decision_rule_changed": false,
+    "threshold_changed": false,
+    "result_interpreted_before_green_run": false
+  },
+  "claim_boundary": {
+    "dossier_adds_new_statistical_evidence": false,
+    "sampling_weight_stability_proves_no_observation_bias": false,
+    "critical_gamma_is_inferred_from_data_generating_process": false,
+    "novelty_is_error_probability": false,
+    "in_domain_guarantees_correctness": false,
+    "validation_admission_guarantees_future_distribution_shift_performance": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_preservation": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
