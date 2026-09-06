@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-block-aware-transfer-uncertainty-v1",
+  "frozen_date": "2026-09-06",
+  "purpose": "quantify uncertainty in independent-group held-out log-score gains using paired block bootstrap so small positive point estimates or pseudoreplicated rows do not automatically authorize transferability",
+  "bootstrap_design": {
+    "confidence_level": 0.95,
+    "bootstrap_draws": 2000,
+    "seed": 20260906,
+    "minimum_blocks_per_group": 8,
+    "resampling_unit": "caller-declared blocks within each independent validation group",
+    "rows_within_resampled_block_kept_together": true,
+    "row_independent_mode_allowed_when_blocks_omitted": true,
+    "row_independent_mode_requires_independence_assumption": true,
+    "percentile_interval": true
+  },
+  "decision_rule": {
+    "robust_positive_requires_lower_bound_gt_zero": true,
+    "robust_nonpositive_requires_upper_bound_le_zero": true,
+    "interval_crossing_zero_is_uncertain": true,
+    "too_few_blocks_is_unavailable": true,
+    "robust_generalizing_requires_every_group_robust_positive": true,
+    "pooled_mean_can_override_group_failure": false,
+    "point_estimate_can_override_uncertainty": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "group_count": 6,
+    "blocks_per_group": 20,
+    "rows_per_block": 25,
+    "frozen_obligations": {
+      "strong_positive_point_category": "generalizing",
+      "strong_positive_robust_category": "robust_generalizing",
+      "strong_positive_all_lower_bounds_gt_zero": true,
+      "weak_positive_point_category": "generalizing",
+      "weak_positive_robust_category": "uncertain",
+      "negative_point_category": "non_generalizing",
+      "negative_robust_category": "robust_non_generalizing",
+      "pseudoreplication_row_mode_lower_bound_gt_zero": true,
+      "pseudoreplication_block_mode_lower_bound_le_zero": true,
+      "pseudoreplication_block_mode_category": "uncertain",
+      "too_few_blocks_category": "unavailable",
+      "positive_scale_category_invariant": true,
+      "group_order_category_invariant": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "bootstrap_interval_is_exact_finite_sample_guarantee": false,
+    "block_bootstrap_repairs_wrong_block_definition": false,
+    "robust_transfer_identifies_biological_mechanism": false,
+    "robust_transfer_guarantees_future_distribution_shift_performance": false,
+    "bootstrap_removes_observation_bias": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
