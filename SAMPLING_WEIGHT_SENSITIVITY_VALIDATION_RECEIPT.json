@@ -1,0 +1,142 @@
+{
+  "benchmark_config": {
+    "blocks_per_group": 20,
+    "bootstrap_draws": 2000,
+    "confidence_level": 0.95,
+    "group_count": 6,
+    "minimum_blocks_per_group": 8,
+    "rows_per_block": 20,
+    "seed": 20260906
+  },
+  "canonical_results": {
+    "aggregate_confidence_score_emitted": false,
+    "automatic_bias_correction_performed": false,
+    "global_weight_scaling_mean_gain_error": 0.0,
+    "passed": true,
+    "scenario_order_mean_gain_error": 0.0,
+    "sensitive": {
+      "group_status_flip_count": 6,
+      "maximum_scenario_mean_gain": 0.15,
+      "minimum_scenario_mean_gain": -0.054545454545454536,
+      "point_category_set": [
+        "generalizing",
+        "non_generalizing"
+      ],
+      "robust_category_set": [
+        "robust_generalizing",
+        "robust_non_generalizing"
+      ],
+      "scenarios": {
+        "downweight_positive": {
+          "mean_gain": -0.01666666666666666,
+          "minimum_group_effective_sample_size": 276.9230769230769,
+          "minimum_group_lower_bound": -0.016666666666666656,
+          "overall_effective_sample_size": 1661.5384615384614,
+          "point_transfer_category": "non_generalizing",
+          "robust_transfer_category": "robust_non_generalizing"
+        },
+        "uniform": {
+          "mean_gain": 0.15,
+          "minimum_group_effective_sample_size": 400.0,
+          "minimum_group_lower_bound": 0.15,
+          "overall_effective_sample_size": 2400.0,
+          "point_transfer_category": "generalizing",
+          "robust_transfer_category": "robust_generalizing"
+        },
+        "upweight_negative": {
+          "mean_gain": -0.054545454545454536,
+          "minimum_group_effective_sample_size": 239.60396039603964,
+          "minimum_group_lower_bound": -0.05454545454545453,
+          "overall_effective_sample_size": 1437.623762376238,
+          "point_transfer_category": "non_generalizing",
+          "robust_transfer_category": "robust_non_generalizing"
+        }
+      },
+      "sensitivity_category": "weight_sensitive"
+    },
+    "stable": {
+      "group_status_flip_count": 0,
+      "maximum_scenario_mean_gain": 0.25,
+      "minimum_scenario_mean_gain": 0.25,
+      "scenario_names": [
+        "uniform",
+        "mild_effort",
+        "inverse_effort"
+      ],
+      "scenarios": {
+        "inverse_effort": {
+          "mean_gain": 0.25,
+          "minimum_group_effective_sample_size": 390.4841718277418,
+          "minimum_group_lower_bound": 0.24369785642203887,
+          "overall_effective_sample_size": 2342.905030966451,
+          "robust_transfer_category": "robust_generalizing"
+        },
+        "mild_effort": {
+          "mean_gain": 0.25,
+          "minimum_group_effective_sample_size": 390.9967845659164,
+          "minimum_group_lower_bound": 0.2436978618421053,
+          "overall_effective_sample_size": 2345.9807073954985,
+          "robust_transfer_category": "robust_generalizing"
+        },
+        "uniform": {
+          "mean_gain": 0.25,
+          "minimum_group_effective_sample_size": 400.0,
+          "minimum_group_lower_bound": 0.24369999999999997,
+          "overall_effective_sample_size": 2400.0,
+          "robust_transfer_category": "robust_generalizing"
+        }
+      },
+      "sensitivity_category": "weight_robust_generalizing"
+    },
+    "too_few_blocks": {
+      "point_category_set": [
+        "generalizing"
+      ],
+      "robust_category_set": [
+        "unavailable"
+      ],
+      "scenario_names": [
+        "uniform",
+        "effort"
+      ],
+      "sensitivity_category": "stable_unavailable"
+    }
+  },
+  "claim_boundary": {
+    "aggregate_confidence_score_emitted": false,
+    "bootstrap_repairs_bad_block_definition": false,
+    "sensitive_result_identifies_causal_bias_source": false,
+    "stable_result_proves_no_observation_bias": false,
+    "supplied_weights_are_assumed_correct": false,
+    "weight_sensitivity_identifies_true_sampling_process": false,
+    "weighting_replaces_detection_model": false
+  },
+  "contract": "SAMPLING_WEIGHT_SENSITIVITY_CONTRACT.json",
+  "first_green_validation": {
+    "artifact_digest": "sha256:935eee13bb684b6a1d04c1fa734f241a3b5b4c93ef33b1d0e47f0110d4841599",
+    "artifact_id": 9981275484,
+    "conclusion": "success",
+    "head_sha": "63a5ada84f7b8b9df38dc0023c70bbc240346f5b",
+    "workflow_run_id": 34007035055
+  },
+  "frozen_v4_preservation": {
+    "closed_empirical_endpoint_reopened": false,
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false
+  },
+  "pre_green_diagnostic": {
+    "bootstrap_settings_changed": false,
+    "conclusion": "failure",
+    "contract_changed": false,
+    "decision_rule_changed": false,
+    "diagnosis": "the initial downweight_positive synthetic scenario used positive-row weight 0.25 versus negative-row weight 1.0, yielding an exact zero weighted gain rather than the contract-intended negative truth",
+    "failure_stage": "benchmark test before benchmark artifact generation",
+    "generator_correction": "positive-row weight changed from 0.25 to 0.20 so the sensitivity regime is strictly negative under the declared alternative weighting",
+    "interpretation_before_correction": false,
+    "threshold_changed": false,
+    "workflow_run_id": 34006975229
+  },
+  "receipt_id": "odsp-sampling-weight-sensitivity-v1-validation",
+  "schema_version": 1,
+  "validated_date": "2026-09-06"
+}
