@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-simultaneous-group-certification-v1-validation",
+  "validated_date": "2026-09-06",
+  "contract": "SIMULTANEOUS_GROUP_CERTIFICATION_CONTRACT.json",
+  "benchmark_config": {
+    "seed": 20260906,
+    "bootstrap_draws": 4000,
+    "familywise_confidence_level": 0.95,
+    "minimum_blocks_per_group": 8,
+    "strong_group_count": 20,
+    "blocks_per_group": 20,
+    "rows_per_block": 25
+  },
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 15,
+    "strong_positive": {
+      "point_transfer_category": "generalizing",
+      "marginal_interval_category": "robust_generalizing",
+      "bonferroni_transfer_category": "robust_generalizing",
+      "max_t_transfer_category": "robust_generalizing",
+      "simultaneous_admissible": true,
+      "minimum_marginal_lower_bound": 0.222,
+      "minimum_max_t_lower_bound": 0.1944505213214834,
+      "minimum_bonferroni_lower_bound": 0.19199562500000003,
+      "max_t_critical_value": 2.9765441423475747,
+      "max_t_robust_positive_group_count": 20
+    },
+    "strong_negative": {
+      "point_transfer_category": "non_generalizing",
+      "marginal_interval_category": "robust_non_generalizing",
+      "bonferroni_transfer_category": "robust_non_generalizing",
+      "max_t_transfer_category": "robust_non_generalizing",
+      "simultaneous_admissible": false,
+      "maximum_max_t_upper_bound": -0.1944505213214834,
+      "max_t_critical_value": 2.9765441423475747,
+      "max_t_robust_nonpositive_group_count": 20
+    },
+    "multiplicity_trap": {
+      "group_count": 20,
+      "point_transfer_category": "generalizing",
+      "marginal_interval_category": "robust_generalizing",
+      "bonferroni_transfer_category": "uncertain",
+      "max_t_transfer_category": "uncertain",
+      "simultaneous_admissible": false,
+      "marginal_positive_group_count": 20,
+      "minimum_marginal_lower_bound": 0.022,
+      "minimum_max_t_lower_bound": -0.0055494786785166145,
+      "minimum_bonferroni_lower_bound": -0.008004374999999984,
+      "max_t_critical_value": 2.9765441423475734,
+      "max_t_uncertain_group_count": 20
+    },
+    "one_negative_group": {
+      "point_transfer_category": "mixed",
+      "marginal_interval_category": "mixed",
+      "bonferroni_transfer_category": "mixed",
+      "max_t_transfer_category": "mixed",
+      "simultaneous_admissible": false,
+      "max_t_robust_positive_group_count": 19,
+      "max_t_robust_nonpositive_group_count": 1
+    },
+    "too_few_blocks": {
+      "point_transfer_category": "generalizing",
+      "marginal_interval_category": "unavailable",
+      "bonferroni_transfer_category": "unavailable",
+      "max_t_transfer_category": "unavailable",
+      "simultaneous_admissible": false,
+      "unavailable_group_count": 20,
+      "max_t_critical_value": null
+    },
+    "single_group": {
+      "marginal_interval_category": "robust_generalizing",
+      "max_t_transfer_category": "robust_generalizing",
+      "minimum_marginal_lower_bound": 0.222,
+      "minimum_max_t_lower_bound": 0.22200000000000003,
+      "max_t_critical_value": 1.9831733700787364
+    },
+    "positive_global_weight_scaling_error": 4.440892098500626e-16,
+    "row_order_error": 4.440892098500626e-16,
+    "group_order_error": 0.0,
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34023129049,
+    "artifact_id": 9986167501,
+    "artifact_digest": "sha256:4c506158afe80866d1d5fd363fd9c1428d11af076543d58eef3d9c2fe975f48a",
+    "head_sha": "84721453c10920edeb987e703ebdad64a955a78c",
+    "conclusion": "success"
+  },
+  "claim_boundary": {
+    "max_t_interval_is_exact_finite_sample_guarantee": false,
+    "bonferroni_bootstrap_percentile_is_exact_finite_sample_guarantee": false,
+    "simultaneous_certification_repairs_bad_block_definition": false,
+    "simultaneous_certification_proves_validation_groups_are_independent": false,
+    "simultaneous_certification_includes_upstream_model_refit_uncertainty": false,
+    "simultaneous_certification_guarantees_future_distribution_shift_performance": false,
+    "simultaneous_certification_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_preservation": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
