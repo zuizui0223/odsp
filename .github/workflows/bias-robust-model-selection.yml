@@ -1,0 +1,78 @@
+name: bias-robust-model-selection
+
+on:
+  pull_request:
+    paths:
+      - 'BIAS_ROBUST_MODEL_SELECTION_CONTRACT.json'
+      - 'BIAS_ROBUST_MODEL_SELECTION_VALIDATION_RECEIPT.json'
+      - 'odsp/bias_robust_model_selection.py'
+      - 'odsp/bias_robust_model_selection_benchmark.py'
+      - 'scripts/run_bias_robust_model_selection_benchmark.py'
+      - 'tests/test_bias_robust_model_selection.py'
+      - 'tests/test_bias_robust_model_selection_benchmark.py'
+      - 'tests/test_bias_robust_model_selection_contract.py'
+      - 'tests/test_bias_robust_model_selection_receipt.py'
+      - '.github/workflows/bias-robust-model-selection.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'BIAS_ROBUST_MODEL_SELECTION_CONTRACT.json'
+      - 'BIAS_ROBUST_MODEL_SELECTION_VALIDATION_RECEIPT.json'
+      - 'odsp/bias_robust_model_selection.py'
+      - 'odsp/bias_robust_model_selection_benchmark.py'
+      - 'scripts/run_bias_robust_model_selection_benchmark.py'
+      - 'tests/test_bias_robust_model_selection.py'
+      - 'tests/test_bias_robust_model_selection_benchmark.py'
+      - 'tests/test_bias_robust_model_selection_contract.py'
+      - 'tests/test_bias_robust_model_selection_receipt.py'
+      - '.github/workflows/bias-robust-model-selection.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP core dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+      - name: Test API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_bias_robust_model_selection.py \
+            tests/test_bias_robust_model_selection_benchmark.py \
+            tests/test_bias_robust_model_selection_contract.py
+          if [ -f tests/test_bias_robust_model_selection_receipt.py ]; then
+            python -m pytest -q tests/test_bias_robust_model_selection_receipt.py
+          fi
+      - name: Run frozen known-truth benchmark
+        run: |
+          python scripts/run_bias_robust_model_selection_benchmark.py \
+            --output artifacts/BIAS_ROBUST_MODEL_SELECTION_BENCHMARK.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/BIAS_ROBUST_MODEL_SELECTION_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert len(r['checks']) == 11
+          assert all(row['passed'] for row in r['checks'])
+          s=r['selection']
+          assert s['recommended_by_log_score']=='robust_balanced'
+          assert s['pareto_front_names']==['robust_balanced']
+          assert set(s['bias_robust_trusted_names'])=={'robust_balanced','robust_broad'}
+          print(json.dumps(r,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bias-robust-model-selection-benchmark
+          path: artifacts/BIAS_ROBUST_MODEL_SELECTION_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90
