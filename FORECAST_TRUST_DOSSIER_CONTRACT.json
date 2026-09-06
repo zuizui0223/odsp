@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-forecast-trust-dossier-v1",
+  "frozen_date": "2026-09-06",
+  "purpose": "provide one interpretable high-level dossier that explains which ODSP forecast trust gates passed, which failed, and which deployment warnings apply without collapsing validation, calibration, uncertainty, novelty or selection into a single confidence score",
+  "data_role_separation": {
+    "validation_candidate": "already-computed robust trust-aware candidate score from untouched validation rows",
+    "model_selection": "optional robust trust-aware comparison result computed only from validation evidence",
+    "deployment_novelty_rows": "optional novelty summaries for new forecast/query rows; these never alter validation evidence",
+    "deployment_warning_can_override_validation_history": false,
+    "validation_admission_can_suppress_novelty_warning": false
+  },
+  "validation_gates": {
+    "point_transfer": ["pass", "fail"],
+    "groupwise_coverage": ["pass", "fail"],
+    "transfer_uncertainty": ["pass", "fail", "uncertain", "unavailable"],
+    "robust_validation_status": ["admitted", "blocked", "unavailable"]
+  },
+  "deployment_status": [
+    "not_audited",
+    "in_domain",
+    "novel_warning",
+    "strict_extrapolation_warning"
+  ],
+  "selection_status": [
+    "not_compared",
+    "recommended",
+    "pareto_member",
+    "robust_trusted_not_pareto",
+    "not_robust_trusted"
+  ],
+  "blocking_reason_rules": {
+    "point_transfer_failure": "point transfer category is not generalizing",
+    "groupwise_coverage_failure": "one or more independent groups fail declared empirical coverage tolerance",
+    "transfer_uncertain": "one or more block-bootstrap gain intervals cross zero",
+    "transfer_nonpositive": "block-bootstrap evidence is robustly non-positive or mixed",
+    "transfer_unavailable": "robust transfer cannot be estimated because the declared block gate fails"
+  },
+  "known_truth_dossiers": {
+    "robust_in_domain": "robustly trusted validation plus in-domain deployment, no blockers or warnings",
+    "fragile_in_domain": "point/coverage trusted but block-bootstrap uncertain, blocked despite in-domain deployment",
+    "coverage_failed_in_domain": "robust transfer but group-wise coverage failure, blocked",
+    "robust_strict_extrapolation": "robustly trusted validation retained, deployment status is strict extrapolation warning",
+    "too_few_blocks": "point/coverage trusted but transfer uncertainty unavailable, validation status unavailable"
+  },
+  "frozen_obligations": {
+    "robust_in_domain_validation_admitted": true,
+    "robust_in_domain_no_blockers": true,
+    "robust_in_domain_no_warnings": true,
+    "fragile_validation_blocked": true,
+    "fragile_has_transfer_uncertain_blocker": true,
+    "coverage_failed_validation_blocked": true,
+    "coverage_failed_has_coverage_blocker": true,
+    "robust_strict_validation_still_admitted": true,
+    "robust_strict_deployment_status": "strict_extrapolation_warning",
+    "robust_strict_has_warning_not_blocker": true,
+    "too_few_blocks_validation_status": "unavailable",
+    "selection_recommended_preserved": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "claim_boundary": {
+    "dossier_is_new_statistical_evidence": false,
+    "novelty_is_error_probability": false,
+    "in_domain_status_guarantees_correct_prediction": false,
+    "validation_admission_guarantees_future_distribution_shift_performance": false,
+    "selection_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-forecast-trust-dossier-v1-validation",
+  "validated_date": "2026-09-06",
+  "contract": "FORECAST_TRUST_DOSSIER_CONTRACT.json",
+  "benchmark_config": {
+    "seed": 20260906,
+    "bootstrap_draws": 2000
+  },
+  "canonical_results": {
+    "passed": true,
+    "robust_in_domain": {
+      "validation_status": "admitted",
+      "blocking_reasons": [],
+      "deployment_status": "in_domain",
+      "deployment_warnings": [],
+      "selection_status": "recommended",
+      "mean_log_density_gain": 0.25,
+      "minimum_group_lower_bound": 0.23678947368421052
+    },
+    "fragile_in_domain": {
+      "validation_status": "blocked",
+      "blocking_reasons": ["transfer_uncertain"],
+      "deployment_status": "in_domain",
+      "selection_status": "not_robust_trusted",
+      "mean_log_density_gain": 0.02349999999999999,
+      "minimum_group_lower_bound": -0.03900000000000003
+    },
+    "coverage_failed_in_domain": {
+      "validation_status": "blocked",
+      "blocking_reasons": ["groupwise_coverage_failure"],
+      "deployment_status": "in_domain",
+      "selection_status": "not_robust_trusted",
+      "mean_log_density_gain": 0.35,
+      "worst_group_coverage_error": 0.30000000000000004
+    },
+    "robust_strict_extrapolation": {
+      "validation_status": "admitted",
+      "blocking_reasons": [],
+      "deployment_status": "strict_extrapolation_warning",
+      "deployment_warnings": ["strict_extrapolation", "environmental_novelty"],
+      "strict_extrapolation_fraction": 0.3333333333333333,
+      "maximum_novelty_ratio": 3.5,
+      "selection_status": "recommended"
+    },
+    "too_few_blocks": {
+      "validation_status": "unavailable",
+      "blocking_reasons": ["transfer_unavailable"],
+      "deployment_status": "in_domain",
+      "selection_status": "not_robust_trusted",
+      "mean_log_density_gain": 0.255
+    },
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34006565743,
+    "artifact_id": 9981117236,
+    "artifact_digest": "sha256:9a7cdb00d57595d91ea99cd626d1d5adc8f1cf51b23751dd5422413e38c081e6",
+    "conclusion": "success"
+  },
+  "claim_boundary": {
+    "dossier_is_new_statistical_evidence": false,
+    "novelty_is_error_probability": false,
+    "in_domain_status_guarantees_correct_prediction": false,
+    "validation_admission_guarantees_future_distribution_shift_performance": false,
+    "selection_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_preservation": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
