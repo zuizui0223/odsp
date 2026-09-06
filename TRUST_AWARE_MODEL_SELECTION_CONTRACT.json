@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-trust-aware-model-selection-v2",
+  "frozen_date": "2026-09-06",
+  "purpose": "select among probabilistic ecological-state forecasts only after independent-group transfer and independent-group empirical coverage both pass, then compare calibrated transferable candidates by log-density gain and sharpness",
+  "decision_order": [
+    "score conditional-minus-training-marginal log-density gain in every independent group",
+    "audit empirical prediction-set or region coverage in every independent group",
+    "exclude any candidate with a failed transfer group or failed coverage group",
+    "among surviving candidates report a Pareto front over mean log-density gain, worst-group coverage error and mean region size",
+    "recommend the surviving candidate with highest held-out mean log-density gain"
+  ],
+  "rules": {
+    "target_coverage": 0.90,
+    "coverage_tolerance": 0.03,
+    "gain_tolerance": 1e-12,
+    "pooled_gain_can_override_group_failure": false,
+    "pooled_coverage_can_override_group_failure": false,
+    "sharpness_can_override_bad_coverage": false,
+    "coverage_can_override_bad_transfer": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "group_count": 20,
+    "rows_per_group": 1000,
+    "candidate_names": [
+      "balanced_trusted",
+      "pooled_masked_coverage_failure",
+      "mixed_transfer",
+      "broad_trusted",
+      "overconfident"
+    ],
+    "frozen_obligations": {
+      "recommended_candidate": "balanced_trusted",
+      "pareto_front_names": ["balanced_trusted"],
+      "balanced_trusted_all_transfer_groups_positive": true,
+      "balanced_trusted_all_coverage_groups_ok": true,
+      "masked_failure_pooled_coverage_ok": true,
+      "masked_failure_groupwise_coverage_category": "mixed",
+      "masked_failure_trusted_admissible": false,
+      "mixed_transfer_pooled_gain_positive": true,
+      "mixed_transfer_category": "mixed",
+      "mixed_transfer_trusted_admissible": false,
+      "broad_trusted_trusted_admissible": true,
+      "broad_trusted_pareto_dominated": true,
+      "overconfident_transfer_category": "generalizing",
+      "overconfident_coverage_category": "non_calibrated",
+      "overconfident_trusted_admissible": false,
+      "candidate_order_invariant": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "recommended_candidate_is_true_biological_mechanism": false,
+    "groupwise_empirical_coverage_is_conditional_coverage_guarantee": false,
+    "trusted_admission_guarantees_future_distribution_shift_robustness": false,
+    "selection_removes_observation_bias": false,
+    "selection_establishes_causality": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}

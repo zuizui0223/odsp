@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-trust-aware-model-selection-v2-validation",
+  "validated_date": "2026-09-06",
+  "contract": "TRUST_AWARE_MODEL_SELECTION_CONTRACT.json",
+  "first_green_run": {
+    "workflow_run_id": 34005352850,
+    "artifact_id": 9980749669,
+    "artifact_digest": "sha256:61f5dff36b76c48deb3adb7bbadbda95f2fec05d1352cbd5c3f90d870ea7c7f6"
+  },
+  "canonical_results": {
+    "passed": true,
+    "recommended_candidate": "balanced_trusted",
+    "pareto_front_names": ["balanced_trusted"],
+    "trusted_admissible_names": ["balanced_trusted", "broad_trusted"],
+    "balanced_trusted": {
+      "mean_log_density_gain": 0.25,
+      "minimum_group_gain": 0.25,
+      "pooled_coverage": 0.90,
+      "coverage_category": "calibrated",
+      "worst_group_coverage_error": 0.0,
+      "mean_region_size": 4.0,
+      "trusted_admissible": true
+    },
+    "pooled_masked_coverage_failure": {
+      "mean_log_density_gain": 0.3999999999999999,
+      "minimum_group_gain": 0.4,
+      "pooled_coverage": 0.9002,
+      "pooled_coverage_ok": true,
+      "transfer_category": "generalizing",
+      "coverage_category": "mixed",
+      "worst_group_coverage_error": 0.30000000000000004,
+      "mean_region_size": 3.0,
+      "trusted_admissible": false
+    },
+    "mixed_transfer": {
+      "mean_log_density_gain": 0.2325,
+      "minimum_group_gain": -0.10000000000000009,
+      "pooled_coverage": 0.90,
+      "transfer_category": "mixed",
+      "coverage_category": "calibrated",
+      "trusted_admissible": false
+    },
+    "broad_trusted": {
+      "mean_log_density_gain": 0.1499999999999999,
+      "minimum_group_gain": 0.14999999999999988,
+      "pooled_coverage": 0.90,
+      "coverage_category": "calibrated",
+      "worst_group_coverage_error": 0.0,
+      "mean_region_size": 7.0,
+      "trusted_admissible": true
+    },
+    "overconfident": {
+      "mean_log_density_gain": 0.45000000000000007,
+      "minimum_group_gain": 0.4500000000000001,
+      "pooled_coverage": 0.72,
+      "transfer_category": "generalizing",
+      "coverage_category": "non_calibrated",
+      "worst_group_coverage_error": 0.18000000000000005,
+      "mean_region_size": 1.5,
+      "trusted_admissible": false
+    },
+    "candidate_order_invariant": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "claim_boundary": {
+    "pooled_gain_can_override_group_failure": false,
+    "pooled_coverage_can_override_group_failure": false,
+    "sharpness_can_override_bad_coverage": false,
+    "groupwise_empirical_coverage_is_conditional_coverage_guarantee": false,
+    "recommended_candidate_is_true_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_preservation": {
+    "v4_manuscript_changed": false,
+    "v4_submission_artifact_changed": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
