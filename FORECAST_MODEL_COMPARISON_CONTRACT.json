@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-forecast-model-comparison-v1",
+  "date": "2026-09-05",
+  "purpose": "compare alternative ecological-state probabilistic forecasters on the same independent rows without collapsing transferability, calibration and sharpness into one confidence score",
+  "candidate_evidence": {
+    "required": [
+      "realized conditional log density",
+      "training-marginal comparator log density",
+      "independent group label"
+    ],
+    "optional_trust_evidence": [
+      "prediction-set or prediction-region coverage indicator",
+      "target marginal coverage",
+      "prediction-set or prediction-region size",
+      "sample weight"
+    ]
+  },
+  "decision_order": [
+    "compute row-level conditional-minus-marginal log-density gain",
+    "compute each independent group's mean gain separately",
+    "classify transfer as all-positive, all-nonpositive or mixed without pooled rescue",
+    "if coverage evidence exists, require absolute empirical-minus-target coverage error <= declared tolerance before trusted admission",
+    "compare admitted candidates on held-out log-density gain and sharpness without forming an aggregate confidence score"
+  ],
+  "default_coverage_tolerance": 0.03,
+  "known_truth_benchmark": {
+    "seed": 20260905,
+    "groups": 6,
+    "rows_per_group": 500,
+    "target_coverage": 0.90,
+    "gain_tolerance": 1e-12,
+    "obligations": [
+      "well-calibrated informative candidate is trusted-admissible",
+      "overconfident candidate is rejected despite larger pooled log-density gain",
+      "marginal-only candidate is not transfer-admissible and is numerically classified as non-generalizing within the frozen gain tolerance",
+      "shifted candidate is non-generalizing",
+      "mixed candidate remains mixed even when its pooled gain is positive",
+      "broad calibrated candidate is admissible but is Pareto-dominated by the sharper higher-gain well-calibrated candidate",
+      "recommended trusted candidate is the well-calibrated informative candidate",
+      "no aggregate confidence score is emitted"
+    ]
+  },
+  "contract_correction_provenance": {
+    "correction_after_first_diagnostic": "gain_tolerance 1e-12 was added only to suppress floating-point sign noise around exact zero in the synthetic marginal-only candidate",
+    "candidate_rank_changed": false,
+    "candidate_admission_changed": false,
+    "coverage_threshold_changed": false,
+    "synthetic_generator_changed": false
+  },
+  "claim_boundary": {
+    "best_candidate_is_true_biological_model": false,
+    "coverage_implies_transferability": false,
+    "transferability_implies_calibration": false,
+    "sharpness_can_override_bad_coverage": false,
+    "pooled_mean_can_override_group_failure": false,
+    "comparison_establishes_causality": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_preservation": {
+    "v4_final_readiness_receipt_mutated": false,
+    "v4_manuscript_changed": false,
+    "v4_empirical_endpoint_rerun": false,
+    "closed_empirical_terminal_categories_changed": false
+  }
+}

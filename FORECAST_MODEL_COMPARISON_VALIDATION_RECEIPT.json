@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-forecast-model-comparison-v1-validation",
+  "validated_date": "2026-09-05",
+  "contract": "FORECAST_MODEL_COMPARISON_CONTRACT.json",
+  "benchmark_config": {
+    "seed": 20260905,
+    "group_count": 6,
+    "rows_per_group": 500,
+    "target_coverage": 0.90,
+    "coverage_tolerance": 0.03,
+    "gain_tolerance": 1e-12
+  },
+  "canonical_results": {
+    "passed": true,
+    "recommended_candidate": "well_calibrated",
+    "pareto_front_names": ["well_calibrated"],
+    "aggregate_confidence_score_emitted": false,
+    "candidates": {
+      "well_calibrated": {
+        "mean_log_density_gain": 0.25666666666666665,
+        "minimum_group_gain": 0.22,
+        "maximum_group_gain": 0.30,
+        "positive_group_count": 6,
+        "nonpositive_group_count": 0,
+        "transfer_category": "generalizing",
+        "transfer_admissible": true,
+        "empirical_coverage": 0.90,
+        "absolute_coverage_error": 0.0,
+        "mean_region_size": 4.0,
+        "trusted_admissible": true
+      },
+      "overconfident_high_gain": {
+        "mean_log_density_gain": 0.435,
+        "minimum_group_gain": 0.4099999999999999,
+        "maximum_group_gain": 0.46,
+        "positive_group_count": 6,
+        "nonpositive_group_count": 0,
+        "transfer_category": "generalizing",
+        "transfer_admissible": true,
+        "empirical_coverage": 0.72,
+        "absolute_coverage_error": 0.18000000000000005,
+        "mean_region_size": 1.5,
+        "trusted_admissible": false
+      },
+      "marginal_only": {
+        "mean_log_density_gain": 1.1102230246251566e-18,
+        "minimum_group_gain": -7.105427357601002e-18,
+        "maximum_group_gain": 1.3766765505351941e-17,
+        "positive_group_count": 0,
+        "nonpositive_group_count": 6,
+        "transfer_category": "non_generalizing",
+        "transfer_admissible": false,
+        "empirical_coverage": 0.90,
+        "absolute_coverage_error": 0.0,
+        "mean_region_size": 8.0,
+        "trusted_admissible": false
+      },
+      "shifted_non_generalizing": {
+        "mean_log_density_gain": -0.2916666666666667,
+        "minimum_group_gain": -0.35,
+        "maximum_group_gain": -0.24,
+        "positive_group_count": 0,
+        "nonpositive_group_count": 6,
+        "transfer_category": "non_generalizing",
+        "transfer_admissible": false,
+        "empirical_coverage": 0.90,
+        "absolute_coverage_error": 0.0,
+        "mean_region_size": 4.0,
+        "trusted_admissible": false
+      },
+      "mixed_despite_positive_pool": {
+        "mean_log_density_gain": 0.35,
+        "minimum_group_gain": -0.10000000000000002,
+        "maximum_group_gain": 0.60,
+        "positive_group_count": 5,
+        "nonpositive_group_count": 1,
+        "transfer_category": "mixed",
+        "transfer_admissible": false,
+        "empirical_coverage": 0.90,
+        "absolute_coverage_error": 0.0,
+        "mean_region_size": 4.0,
+        "trusted_admissible": false
+      },
+      "broad_calibrated": {
+        "mean_log_density_gain": 0.15833333333333333,
+        "minimum_group_gain": 0.14,
+        "maximum_group_gain": 0.18,
+        "positive_group_count": 6,
+        "nonpositive_group_count": 0,
+        "transfer_category": "generalizing",
+        "transfer_admissible": true,
+        "empirical_coverage": 0.90,
+        "absolute_coverage_error": 0.0,
+        "mean_region_size": 7.0,
+        "trusted_admissible": true
+      }
+    }
+  },
+  "pre_correction_diagnostic": {
+    "workflow_run_id": 33972892842,
+    "artifact_id": 9971449801,
+    "artifact_digest": "sha256:0100a148adeee5a0bfe734386d2c97c66e1c730f7f8eec98c3f958eb197e569a",
+    "conclusion": "success",
+    "diagnostic_difference": "exact-zero marginal-only group gains carried floating-point signs of order 1e-17 and were displayed as mixed at tolerance zero"
+  },
+  "numeric_correction": {
+    "gain_tolerance": 1e-12,
+    "purpose": "suppress floating-point sign noise around an exact-null synthetic comparator",
+    "candidate_rank_changed": false,
+    "candidate_admission_changed": false,
+    "coverage_threshold_changed": false,
+    "synthetic_generator_changed": false,
+    "canonical_effect": "marginal_only is stably classified non_generalizing with zero positive groups; all other benchmark values and decisions are unchanged"
+  },
+  "claim_boundary": {
+    "best_candidate_is_true_biological_model": false,
+    "coverage_implies_transferability": false,
+    "transferability_implies_calibration": false,
+    "sharpness_can_override_bad_coverage": false,
+    "pooled_mean_can_override_group_failure": false,
+    "comparison_establishes_causality": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_preservation": {
+    "v4_final_readiness_receipt_mutated": false,
+    "v4_manuscript_changed": false,
+    "v4_empirical_endpoint_rerun": false,
+    "closed_empirical_terminal_categories_changed": false
+  }
+}
