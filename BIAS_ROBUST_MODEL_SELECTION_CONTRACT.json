@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-bias-robust-model-selection-v4",
+  "frozen_date": "2026-09-06",
+  "purpose": "select probabilistic ecological-state forecasters only after both group-wise calibration and joint block-uncertainty plus bounded-reweighting transfer robustness pass on untouched validation rows",
+  "decision_rule": {
+    "all_group_point_transfer_required": true,
+    "all_group_coverage_within_tolerance_required": true,
+    "joint_bias_uncertainty_robustness_required": true,
+    "joint_robust_category_required": "joint_robust_generalizing",
+    "pooled_gain_can_override_failure": false,
+    "pooled_coverage_can_override_failure": false,
+    "point_trust_can_override_joint_failure": false,
+    "pareto_axes": ["mean_log_density_gain", "minimum_worst_case_lower_bound", "worst_group_coverage_error", "mean_region_size"],
+    "aggregate_confidence_score_emitted": false
+  },
+  "settings": {
+    "target_coverage": 0.90,
+    "coverage_tolerance": 0.03,
+    "gamma": 2.0,
+    "confidence_level": 0.95,
+    "bootstrap_draws": 1000,
+    "seed": 20260906,
+    "minimum_blocks_per_group": 8,
+    "gain_tolerance": 0.0
+  },
+  "known_truth_benchmark": {
+    "group_count": 6,
+    "blocks_per_group": 20,
+    "rows_per_block": 20,
+    "frozen_obligations": {
+      "robust_balanced_bias_robust_trusted": true,
+      "gamma_fragile_point_trusted": true,
+      "gamma_fragile_joint_category": "envelope_sensitive",
+      "gamma_fragile_bias_robust_rejected": true,
+      "broad_bias_robust_trusted": true,
+      "coverage_failure_joint_robust_but_rejected": true,
+      "too_few_blocks_point_trusted_but_joint_unavailable": true,
+      "robust_balanced_unique_pareto": true,
+      "robust_balanced_recommended": true,
+      "candidate_order_invariant": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "selection_identifies_true_biological_mechanism": false,
+    "joint_robustness_proves_no_observation_bias": false,
+    "groupwise_coverage_is_conditional_coverage_theorem": false,
+    "gamma_is_inferred_from_data": false,
+    "future_distribution_shift_robustness_guaranteed": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
