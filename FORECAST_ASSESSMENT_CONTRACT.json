@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-end-to-end-forecast-assessment-v1",
+  "frozen_date": "2026-09-06",
+  "purpose": "provide one-call orchestration of existing ODSP forecast validation, calibration, joint bias x uncertainty robustness, optional sampling-weight sensitivity, optional bounded reweighting, optional joint robustness radius, optional environmental novelty, and optional model-selection evidence without creating new statistical information or a scalar confidence score",
+  "composition_rule": {
+    "same_validation_rows_required_for_candidate_and_robustness_audits": true,
+    "row_gain_is_conditional_minus_marginal_log_density": true,
+    "candidate_validation_uses_existing_bias_robust_candidate_api": true,
+    "sampling_weight_uses_existing_sampling_weight_sensitivity_api": true,
+    "bounded_reweighting_uses_existing_bounded_reweighting_api": true,
+    "joint_radius_uses_existing_joint_robustness_radius_api": true,
+    "environmental_novelty_is_optional_and_uses_existing_novelty_model": true,
+    "selection_is_optional_and_must_contain_candidate_name": true,
+    "dossier_uses_existing_forecast_trust_dossier_v2": true,
+    "omitted_optional_layers_are_reported_not_audited": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "decision_rule": {
+    "validation_admission_is_not_recomputed_from_optional_sensitivity_layers": true,
+    "sampling_weight_sensitivity_is_warning_not_retroactive_validation_override": true,
+    "bounded_reweighting_sensitivity_is_warning_not_retroactive_validation_override": true,
+    "environmental_novelty_is_deployment_warning_not_validation_failure": true,
+    "joint_radius_is_reported_as_certified_sensitivity_range_not_probability": true,
+    "selection_recommendation_is_preserved_separately": true,
+    "single_score_is_forbidden": true
+  },
+  "known_truth_benchmark": {
+    "seed": 20260906,
+    "bootstrap_draws": 500,
+    "confidence_level": 0.95,
+    "minimum_blocks_per_group": 8,
+    "target_coverage": 0.90,
+    "coverage_tolerance": 0.03,
+    "frozen_obligations": {
+      "strong_case_admitted": true,
+      "strong_case_weight_robust_generalizing": true,
+      "strong_case_bounded_robust_generalizing": true,
+      "strong_case_radius_robust_through_search_upper": true,
+      "strict_extrapolation_adds_warning_without_changing_validation_admission": true,
+      "weight_sensitive_case_remains_validation_admitted_with_warning": true,
+      "finite_radius_case_is_validation_admitted_at_gamma_1_5": true,
+      "finite_radius_case_reports_break_near_sqrt3": true,
+      "weak_positive_case_is_validation_blocked": true,
+      "too_few_blocks_case_is_validation_unavailable": true,
+      "selection_recommendation_is_preserved": true,
+      "optional_layers_can_be_omitted": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "assessment_infers_correct_sampling_weights": false,
+    "assessment_infers_true_bias_process": false,
+    "assessment_repairs_bad_block_definition": false,
+    "assessment_guarantees_future_distribution_shift_performance": false,
+    "novelty_warning_is_probability_of_failure": false,
+    "joint_radius_is_probability_of_correctness": false,
+    "selection_is_causal_model_identification": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
