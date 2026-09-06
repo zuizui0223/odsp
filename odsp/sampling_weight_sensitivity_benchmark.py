@@ -48,7 +48,7 @@ def _scenario_map_stable(effort: np.ndarray):
 def _scenario_map_sensitive(positive: np.ndarray):
     return OrderedDict([
         ("uniform", np.ones(positive.size)),
-        ("downweight_positive", np.where(positive,0.25,1.0)),
+        ("downweight_positive", np.where(positive,0.20,1.0)),
         ("upweight_negative", np.where(positive,0.10,1.0)),
     ])
 
