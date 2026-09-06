@@ -3,9 +3,10 @@ from odsp.forecast_trust_dossier_v3_benchmark import run_forecast_trust_dossier_
 
 def test_frozen_forecast_trust_dossier_v3_benchmark_passes():
     result=run_forecast_trust_dossier_v3_benchmark(seed=20260906,bootstrap_draws=500)
-    assert result["passed"] is True
+    failed=[row for row in result["checks"] if not row["passed"]]
+    assert result["passed"] is True, failed
     assert len(result["checks"])==13
-    assert all(row["passed"] for row in result["checks"])
+    assert all(row["passed"] for row in result["checks"]), failed
     strong=result["robust_recommended_radius_through_upper"]
     assert strong["joint_radius"]["status"]=="robust_through_search_upper"
     assert strong["decision_trace"]["operational_status"]=="admitted"
