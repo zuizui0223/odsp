@@ -1,0 +1,82 @@
+name: forecast-assessment
+
+on:
+  pull_request:
+    paths:
+      - 'FORECAST_ASSESSMENT_CONTRACT.json'
+      - 'FORECAST_ASSESSMENT_VALIDATION_RECEIPT.json'
+      - 'odsp/forecast_assessment.py'
+      - 'odsp/forecast_assessment_benchmark.py'
+      - 'scripts/run_forecast_assessment_benchmark.py'
+      - 'tests/test_forecast_assessment.py'
+      - 'tests/test_forecast_assessment_contract.py'
+      - 'tests/test_forecast_assessment_receipt.py'
+      - 'docs/forecast_assessment_v1.md'
+      - '.github/workflows/forecast-assessment.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'FORECAST_ASSESSMENT_CONTRACT.json'
+      - 'FORECAST_ASSESSMENT_VALIDATION_RECEIPT.json'
+      - 'odsp/forecast_assessment.py'
+      - 'odsp/forecast_assessment_benchmark.py'
+      - 'scripts/run_forecast_assessment_benchmark.py'
+      - 'tests/test_forecast_assessment.py'
+      - 'tests/test_forecast_assessment_contract.py'
+      - 'tests/test_forecast_assessment_receipt.py'
+      - 'docs/forecast_assessment_v1.md'
+      - '.github/workflows/forecast-assessment.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP prediction dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev,predict]'
+      - name: Test one-call API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_forecast_assessment.py \
+            tests/test_forecast_assessment_contract.py
+          if [ -f tests/test_forecast_assessment_receipt.py ]; then
+            python -m pytest -q tests/test_forecast_assessment_receipt.py
+          fi
+      - name: Run frozen one-call known-truth benchmark
+        run: |
+          python scripts/run_forecast_assessment_benchmark.py \
+            --output artifacts/FORECAST_ASSESSMENT_BENCHMARK.json \
+            --seed 20260906 \
+            --bootstrap-draws 500
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/FORECAST_ASSESSMENT_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert len(r['checks']) == 13
+          assert all(row['passed'] for row in r['checks'])
+          assert r['strong_full']['dossier']['validation']['validation_status'] == 'admitted'
+          assert r['strong_full']['joint_radius']['status'] == 'robust_through_search_upper'
+          assert r['strong_strict_extrapolation']['dossier']['deployment']['status'] == 'strict_extrapolation_warning'
+          assert r['weight_sensitive']['sampling_weight_audit']['sensitivity_category'] == 'weight_sensitive'
+          assert r['finite_radius']['joint_radius']['status'] == 'finite_radius'
+          assert r['weak_positive']['dossier']['validation']['validation_status'] == 'blocked'
+          assert r['too_few_blocks']['dossier']['validation']['validation_status'] == 'unavailable'
+          print(json.dumps(r,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: forecast-assessment-benchmark
+          path: artifacts/FORECAST_ASSESSMENT_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90
