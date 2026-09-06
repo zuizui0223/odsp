@@ -1,0 +1,84 @@
+name: joint-bias-uncertainty-robustness
+
+on:
+  pull_request:
+    paths:
+      - 'JOINT_BIAS_UNCERTAINTY_ROBUSTNESS_CONTRACT.json'
+      - 'JOINT_BIAS_UNCERTAINTY_ROBUSTNESS_VALIDATION_RECEIPT.json'
+      - 'odsp/joint_bias_uncertainty_robustness.py'
+      - 'odsp/joint_bias_uncertainty_robustness_benchmark.py'
+      - 'scripts/run_joint_bias_uncertainty_robustness_benchmark.py'
+      - 'tests/test_joint_bias_uncertainty_robustness.py'
+      - 'tests/test_joint_bias_uncertainty_robustness_benchmark.py'
+      - 'tests/test_joint_bias_uncertainty_robustness_contract.py'
+      - 'tests/test_joint_bias_uncertainty_robustness_receipt.py'
+      - 'docs/joint_bias_uncertainty_robustness_v1.md'
+      - '.github/workflows/joint-bias-uncertainty-robustness.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'JOINT_BIAS_UNCERTAINTY_ROBUSTNESS_CONTRACT.json'
+      - 'JOINT_BIAS_UNCERTAINTY_ROBUSTNESS_VALIDATION_RECEIPT.json'
+      - 'odsp/joint_bias_uncertainty_robustness.py'
+      - 'odsp/joint_bias_uncertainty_robustness_benchmark.py'
+      - 'scripts/run_joint_bias_uncertainty_robustness_benchmark.py'
+      - 'tests/test_joint_bias_uncertainty_robustness.py'
+      - 'tests/test_joint_bias_uncertainty_robustness_benchmark.py'
+      - 'tests/test_joint_bias_uncertainty_robustness_contract.py'
+      - 'tests/test_joint_bias_uncertainty_robustness_receipt.py'
+      - 'docs/joint_bias_uncertainty_robustness_v1.md'
+      - '.github/workflows/joint-bias-uncertainty-robustness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP core dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+      - name: Test joint robustness API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_joint_bias_uncertainty_robustness.py \
+            tests/test_joint_bias_uncertainty_robustness_benchmark.py \
+            tests/test_joint_bias_uncertainty_robustness_contract.py
+          if [ -f tests/test_joint_bias_uncertainty_robustness_receipt.py ]; then
+            python -m pytest -q tests/test_joint_bias_uncertainty_robustness_receipt.py
+          fi
+      - name: Run frozen known-truth joint robustness benchmark
+        run: |
+          python scripts/run_joint_bias_uncertainty_robustness_benchmark.py \
+            --output artifacts/JOINT_BIAS_UNCERTAINTY_ROBUSTNESS_BENCHMARK.json \
+            --seed 20260906 \
+            --bootstrap-draws 1000
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/JOINT_BIAS_UNCERTAINTY_ROBUSTNESS_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert len(r['checks']) == 10
+          assert all(row['passed'] for row in r['checks'])
+          assert r['strong_positive']['joint_robust_category'] == 'joint_robust_generalizing'
+          assert r['mixed_sign']['joint_robust_category'] == 'envelope_sensitive'
+          assert r['negative']['joint_robust_category'] == 'joint_robust_non_generalizing'
+          assert r['weak_positive_gamma_1']['joint_robust_category'] == 'uncertain'
+          assert r['too_few_blocks']['joint_robust_category'] == 'unavailable'
+          assert r['gamma_1_existing_bound_error'] <= 1e-12
+          print(json.dumps(r,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: joint-bias-uncertainty-robustness-benchmark
+          path: artifacts/JOINT_BIAS_UNCERTAINTY_ROBUSTNESS_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90

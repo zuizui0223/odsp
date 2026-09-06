@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-joint-bias-uncertainty-robustness-v1",
+  "frozen_date": "2026-09-06",
+  "purpose": "combine caller-declared block-bootstrap uncertainty with bounded adversarial row reweighting so transfer is admitted only when the worst allowed reweighting remains positive across bootstrap uncertainty",
+  "data_requirements": {
+    "row_gain": "held-out conditional-minus-marginal log-score gain per validation row",
+    "groups": "independent validation groups",
+    "blocks": "scientifically defensible resampling blocks within each group",
+    "base_weight": "optional declared baseline validation weight"
+  },
+  "joint_design": {
+    "confidence_level": 0.95,
+    "bootstrap_draws": 1000,
+    "seed": 20260906,
+    "minimum_blocks_per_group": 8,
+    "gamma": 2.0,
+    "bootstrap_resamples_blocks_with_replacement": true,
+    "rows_within_selected_blocks_kept_together": true,
+    "within_each_bootstrap_draw_worst_and_best_allowed_reweighting_solved": true,
+    "allowed_row_multiplier_interval": "[1/gamma, gamma]",
+    "percentile_interval": true
+  },
+  "decision_rule": {
+    "joint_robust_positive_requires_lower_bound_of_bootstrap_worst_case_gain_gt_zero": true,
+    "joint_robust_nonpositive_requires_upper_bound_of_bootstrap_best_case_gain_le_zero": true,
+    "deterministic_envelope_crossing_zero_is_envelope_sensitive": true,
+    "otherwise_interval_crossing_zero_is_uncertain": true,
+    "too_few_blocks_is_unavailable": true,
+    "joint_robust_generalizing_requires_every_group_joint_robust_positive": true,
+    "pooled_mean_can_override_group_failure": false,
+    "automatic_bias_correction_performed": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "group_count": 6,
+    "blocks_per_group": 20,
+    "rows_per_block": 20,
+    "frozen_obligations": {
+      "strong_positive_gamma_2_joint_robust_generalizing": true,
+      "mixed_sign_gamma_2_detected_envelope_sensitive": true,
+      "negative_gamma_2_joint_robust_non_generalizing": true,
+      "weak_positive_gamma_1_uncertain": true,
+      "gamma_1_matches_existing_block_bootstrap_bounds": true,
+      "too_few_blocks_unavailable": true,
+      "global_base_weight_scaling_invariant": true,
+      "gamma_increase_cannot_improve_worst_case_lower_bound": true,
+      "automatic_bias_correction_performed": false,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "joint_interval_is_exact_finite_sample_guarantee": false,
+    "gamma_is_inferred_from_data": false,
+    "block_definition_is_learned_or_repaired": false,
+    "joint_robustness_proves_no_observation_bias": false,
+    "joint_robustness_identifies_biological_mechanism": false,
+    "future_distribution_shift_robustness_guaranteed": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}

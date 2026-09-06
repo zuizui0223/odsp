@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-joint-bias-uncertainty-robustness-v1-validation",
+  "validated_date": "2026-09-06",
+  "contract": "JOINT_BIAS_UNCERTAINTY_ROBUSTNESS_CONTRACT.json",
+  "benchmark_config": {
+    "seed": 20260906,
+    "bootstrap_draws": 1000,
+    "confidence_level": 0.95,
+    "gamma": 2.0,
+    "group_count": 6,
+    "blocks_per_group": 20,
+    "rows_per_block": 20,
+    "minimum_blocks_per_group": 8
+  },
+  "canonical_results": {
+    "passed": true,
+    "strong_positive": {
+      "point_transfer_category": "generalizing",
+      "deterministic_envelope_category": "gamma_robust_generalizing",
+      "joint_robust_category": "joint_robust_generalizing",
+      "joint_robust_positive_group_count": 6,
+      "minimum_worst_case_lower_bound": 0.2380028168282549,
+      "maximum_best_case_upper_bound": 0.2619467737044276
+    },
+    "mixed_sign": {
+      "point_transfer_category": "generalizing",
+      "deterministic_envelope_category": "gamma_sensitive",
+      "joint_robust_category": "envelope_sensitive",
+      "envelope_sensitive_group_count": 6,
+      "deterministic_worst_case_gain": -0.028571428571428567,
+      "deterministic_best_case_gain": 0.16923076923076924,
+      "minimum_worst_case_lower_bound": -0.028571428571428675,
+      "maximum_best_case_upper_bound": 0.16923076923076957
+    },
+    "negative": {
+      "point_transfer_category": "non_generalizing",
+      "deterministic_envelope_category": "gamma_robust_non_generalizing",
+      "joint_robust_category": "joint_robust_non_generalizing",
+      "joint_robust_nonpositive_group_count": 6,
+      "minimum_worst_case_lower_bound": -0.26215858088368016,
+      "maximum_best_case_upper_bound": -0.23787458845370413
+    },
+    "weak_positive_gamma_1": {
+      "point_transfer_category": "generalizing",
+      "deterministic_envelope_category": "gamma_robust_generalizing",
+      "joint_robust_category": "uncertain",
+      "uncertain_group_count": 6,
+      "minimum_worst_case_lower_bound": -0.038025000000000066,
+      "maximum_best_case_upper_bound": 0.08301249999999996
+    },
+    "too_few_blocks": {
+      "point_transfer_category": "generalizing",
+      "deterministic_envelope_category": "gamma_robust_generalizing",
+      "joint_robust_category": "unavailable",
+      "unavailable_group_count": 6
+    },
+    "gamma_1_existing_bound_error": 2.42861286636753e-16,
+    "base_weight_scaling_error": 1.1102230246251565e-16,
+    "gamma_monotonicity_passed": true,
+    "automatic_bias_correction_performed": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34007839335,
+    "artifact_id": 9981526080,
+    "artifact_digest": "sha256:1e243326cc65927993c7efc1bd06caafab2fc57038b2be23fb9dc30ae89e0578",
+    "head_sha": "fa8361e3b2cdc469f87a85f0352560cf06dc8003",
+    "conclusion": "success"
+  },
+  "pre_green_ci_note": {
+    "workflow_run_id": 34007724310,
+    "scientific_test_stage_reached": false,
+    "diagnosis": "GitHub-hosted runner stalled in actions/checkout before installation or any scientific test; workflow timeout was added and a fresh runner completed successfully",
+    "contract_changed": false,
+    "scientific_code_changed": false,
+    "threshold_changed": false,
+    "benchmark_generator_changed": false,
+    "result_interpreted_before_green_run": false
+  },
+  "claim_boundary": {
+    "joint_interval_is_exact_finite_sample_guarantee": false,
+    "gamma_is_inferred_from_data": false,
+    "block_definition_is_learned_or_repaired": false,
+    "joint_robustness_proves_no_observation_bias": false,
+    "joint_robustness_identifies_biological_mechanism": false,
+    "future_distribution_shift_robustness_guaranteed": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_preservation": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
