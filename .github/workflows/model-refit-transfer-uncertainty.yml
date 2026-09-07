@@ -1,0 +1,83 @@
+name: model-refit-transfer-uncertainty
+
+on:
+  pull_request:
+    paths:
+      - 'MODEL_REFIT_TRANSFER_UNCERTAINTY_CONTRACT.json'
+      - 'MODEL_REFIT_TRANSFER_UNCERTAINTY_VALIDATION_RECEIPT.json'
+      - 'odsp/model_refit_transfer_uncertainty*.py'
+      - 'odsp/simultaneous_group_certification.py'
+      - 'odsp/transferability.py'
+      - 'scripts/run_model_refit_transfer_uncertainty_benchmark.py'
+      - 'examples/model_refit_transfer_demo.py'
+      - 'tests/test_model_refit_transfer_uncertainty*.py'
+      - 'docs/model_refit_transfer_uncertainty_v1.md'
+      - '.github/workflows/model-refit-transfer-uncertainty.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'MODEL_REFIT_TRANSFER_UNCERTAINTY_CONTRACT.json'
+      - 'MODEL_REFIT_TRANSFER_UNCERTAINTY_VALIDATION_RECEIPT.json'
+      - 'odsp/model_refit_transfer_uncertainty*.py'
+      - 'odsp/simultaneous_group_certification.py'
+      - 'odsp/transferability.py'
+      - 'scripts/run_model_refit_transfer_uncertainty_benchmark.py'
+      - 'examples/model_refit_transfer_demo.py'
+      - 'tests/test_model_refit_transfer_uncertainty*.py'
+      - 'docs/model_refit_transfer_uncertainty_v1.md'
+      - '.github/workflows/model-refit-transfer-uncertainty.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP core dependencies
+        run: python -m pip install -e '.[dev]'
+      - name: Test refit API, frozen contract and benchmark
+        run: python -m pytest -q tests/test_model_refit_transfer_uncertainty*.py
+      - name: Run frozen nested-refit benchmark
+        run: |
+          python scripts/run_model_refit_transfer_uncertainty_benchmark.py \
+            --output artifacts/MODEL_REFIT_TRANSFER_UNCERTAINTY_BENCHMARK.json \
+            --seed 20260906 --nested-draws 4000
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          result = json.loads(Path('artifacts/MODEL_REFIT_TRANSFER_UNCERTAINTY_BENCHMARK.json').read_text())
+          assert result['passed'] is True
+          assert len(result['checks']) == 15
+          assert all(row['passed'] for row in result['checks'])
+          assert result['refit_fragile']['reference_fit_category'] == 'robust_generalizing'
+          assert result['refit_fragile']['refit_aware_category'] == 'uncertain'
+          assert result['identical_refits_bound_error'] <= 1e-12
+          print(json.dumps(result, sort_keys=True))
+          PY
+      - name: Run actual training-only refits on synthetic data
+        run: |
+          python examples/model_refit_transfer_demo.py --output artifacts/MODEL_REFIT_SYNTHETIC_DEMO.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/MODEL_REFIT_SYNTHETIC_DEMO.json').read_text())
+          assert r['data_kind'] == 'synthetic_usage_example'
+          assert r['audit']['refit_count'] == 20
+          assert not r['heldout_rows_used_to_fit_or_select_models']
+          assert not r['population_coverage_validated']
+          PY
+      - name: Archive exact source for offline reproduction
+        run: git archive --format=zip HEAD -o artifacts/MODEL_REFIT_SOURCE_SNAPSHOT.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: model-refit-transfer-uncertainty-benchmark
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 90

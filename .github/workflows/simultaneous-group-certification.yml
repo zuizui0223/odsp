@@ -1,0 +1,82 @@
+name: simultaneous-group-certification
+
+on:
+  pull_request:
+    paths:
+      - 'SIMULTANEOUS_GROUP_CERTIFICATION_CONTRACT.json'
+      - 'SIMULTANEOUS_GROUP_CERTIFICATION_VALIDATION_RECEIPT.json'
+      - 'odsp/simultaneous_group_certification.py'
+      - 'odsp/simultaneous_group_certification_benchmark.py'
+      - 'scripts/run_simultaneous_group_certification_benchmark.py'
+      - 'tests/test_simultaneous_group_certification.py'
+      - 'tests/test_simultaneous_group_certification_benchmark.py'
+      - 'tests/test_simultaneous_group_certification_contract.py'
+      - 'tests/test_simultaneous_group_certification_receipt.py'
+      - 'docs/simultaneous_group_certification_v1.md'
+      - '.github/workflows/simultaneous-group-certification.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'SIMULTANEOUS_GROUP_CERTIFICATION_CONTRACT.json'
+      - 'SIMULTANEOUS_GROUP_CERTIFICATION_VALIDATION_RECEIPT.json'
+      - 'odsp/simultaneous_group_certification.py'
+      - 'odsp/simultaneous_group_certification_benchmark.py'
+      - 'scripts/run_simultaneous_group_certification_benchmark.py'
+      - 'tests/test_simultaneous_group_certification.py'
+      - 'tests/test_simultaneous_group_certification_benchmark.py'
+      - 'tests/test_simultaneous_group_certification_contract.py'
+      - 'tests/test_simultaneous_group_certification_receipt.py'
+      - 'docs/simultaneous_group_certification_v1.md'
+      - '.github/workflows/simultaneous-group-certification.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP core dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+      - name: Test simultaneous certification API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_simultaneous_group_certification.py \
+            tests/test_simultaneous_group_certification_benchmark.py \
+            tests/test_simultaneous_group_certification_contract.py
+          if [ -f tests/test_simultaneous_group_certification_receipt.py ]; then
+            python -m pytest -q tests/test_simultaneous_group_certification_receipt.py
+          fi
+      - name: Run frozen simultaneous-certification benchmark
+        run: |
+          python scripts/run_simultaneous_group_certification_benchmark.py \
+            --output artifacts/SIMULTANEOUS_GROUP_CERTIFICATION_BENCHMARK.json \
+            --seed 20260906 \
+            --bootstrap-draws 4000
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/SIMULTANEOUS_GROUP_CERTIFICATION_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert len(r['checks']) == 15
+          assert all(row['passed'] for row in r['checks'])
+          trap=r['multiplicity_trap']
+          assert trap['marginal_interval_category'] == 'robust_generalizing'
+          assert trap['max_t_transfer_category'] == 'uncertain'
+          assert trap['bonferroni_transfer_category'] == 'uncertain'
+          print(json.dumps(r,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: simultaneous-group-certification-benchmark
+          path: artifacts/SIMULTANEOUS_GROUP_CERTIFICATION_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90
