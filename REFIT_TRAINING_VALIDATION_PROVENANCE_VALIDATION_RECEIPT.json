@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-refit-training-validation-provenance-validation",
+  "validated_date": "2026-09-07",
+  "contract": "REFIT_TRAINING_VALIDATION_PROVENANCE_CONTRACT.json",
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 15,
+    "validation_row_count": 8,
+    "scheme_count": 3,
+    "refit_count": 12,
+    "disjoint": {
+      "separation_category": "training_validation_disjoint",
+      "training_validation_separated": true,
+      "overlapping_refit_count": 0,
+      "affected_scheme_count": 0,
+      "unique_overlapping_validation_row_count": 0,
+      "maximum_refit_overlap_count": 0,
+      "duplicate_training_row_count": 2,
+      "expected_refit_coverage_checked": true
+    },
+    "single_leak": {
+      "separation_category": "leakage_detected",
+      "training_validation_separated": false,
+      "overlapping_refit_count": 1,
+      "affected_scheme_count": 1,
+      "unique_overlapping_validation_row_count": 1,
+      "maximum_refit_overlap_count": 1,
+      "duplicate_training_row_count": 2
+    },
+    "repeated_leak": {
+      "separation_category": "leakage_detected",
+      "overlapping_refit_count": 1,
+      "affected_scheme_count": 1,
+      "unique_overlapping_validation_row_count": 1,
+      "maximum_refit_overlap_count": 1,
+      "duplicate_training_row_count": 3
+    },
+    "multiple_leak": {
+      "separation_category": "leakage_detected",
+      "training_validation_separated": false,
+      "overlapping_refit_count": 3,
+      "affected_scheme_count": 3,
+      "unique_overlapping_validation_row_count": 5,
+      "maximum_refit_overlap_count": 3,
+      "duplicate_training_row_count": 2
+    },
+    "duplicate_validation_rejected": true,
+    "empty_training_refit_rejected": true,
+    "missing_expected_refit_rejected": true,
+    "extra_expected_refit_rejected": true,
+    "extra_actual_refit_rejected": true,
+    "overlapping_row_ids_emitted": false,
+    "automatic_training_row_inference": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34121864369,
+    "artifact_id": 10018496854,
+    "artifact_digest": "sha256:122c1470b55aa7f07eb71c9c5eec47e2671b526c33e38cfab9cab4701b7f5309",
+    "head_sha": "25c0f98031a5bff5c3418473cf7edaf7a608337f",
+    "conclusion": "success"
+  },
+  "claim_boundary": {
+    "disjoint_declared_ids_prove_complete_training_history": false,
+    "disjoint_declared_ids_prove_models_never_saw_validation_information": false,
+    "provenance_audit_proves_refit_independence": false,
+    "provenance_audit_identifies_correct_refit_scheme": false,
+    "provenance_audit_identifies_correct_block_structure": false,
+    "provenance_audit_is_statistical_evidence": false,
+    "provenance_audit_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_preservation": {
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
