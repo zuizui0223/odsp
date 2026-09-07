@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-refit-training-validation-provenance-v1",
+  "frozen_date": "2026-09-07",
+  "purpose": "machine-check caller-supplied training-row provenance for every declared scheme and refit against one canonical validation-row target, so direct train/validation row overlap is detected before refit-aware statistical evidence is interpreted",
+  "definition": {
+    "validation_row_ids_are_canonical_and_unique": true,
+    "training_membership_is_declared_per_scheme_per_refit": true,
+    "scheme_names_are_canonicalized": true,
+    "refit_ids_follow_existing_string_canonicalization": true,
+    "training_row_ids_must_be_hashable_nonmissing": true,
+    "duplicate_training_row_ids_are_allowed_and_reported": true,
+    "duplicate_training_rows_do_not_multiply_unique_overlap_count": true,
+    "any_direct_training_validation_row_overlap_category": "leakage_detected",
+    "all_declared_training_memberships_disjoint_category": "training_validation_disjoint",
+    "expected_refit_ids_may_be_declared": true,
+    "declared_expected_scheme_and_refit_coverage_must_match_exactly": true,
+    "actual_overlapping_row_ids_are_not_emitted": true,
+    "omitted_training_membership_is_never_inferred": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "validation_row_count": 8,
+    "scheme_count": 3,
+    "refits_per_scheme": 4,
+    "frozen_obligations": {
+      "fully_disjoint_memberships_pass": true,
+      "bootstrap_duplicate_training_rows_are_allowed": true,
+      "single_refit_single_row_overlap_is_detected": true,
+      "repeated_same_leaked_row_counts_one_unique_overlap": true,
+      "multiple_scheme_refit_overlaps_are_aggregated": true,
+      "maximum_per_refit_overlap_is_retained": true,
+      "duplicate_validation_row_id_is_rejected": true,
+      "empty_training_refit_membership_is_rejected": true,
+      "missing_expected_refit_is_rejected": true,
+      "extra_expected_or_actual_refit_is_rejected": true,
+      "scheme_and_refit_mapping_order_is_invariant": true,
+      "consistent_row_id_relabeling_preserves_provenance_result": true,
+      "overlapping_row_ids_are_not_emitted": true,
+      "no_automatic_training_row_inference": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "disjoint_declared_ids_prove_complete_training_history": false,
+    "disjoint_declared_ids_prove_models_never_saw_validation_information": false,
+    "provenance_audit_proves_refit_independence": false,
+    "provenance_audit_identifies_correct_refit_scheme": false,
+    "provenance_audit_identifies_correct_block_structure": false,
+    "provenance_audit_is_statistical_evidence": false,
+    "provenance_audit_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
