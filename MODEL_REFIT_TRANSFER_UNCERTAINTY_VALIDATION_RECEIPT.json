@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-model-refit-transfer-uncertainty-v1-validation",
+  "validated_date": "2026-09-07",
+  "contract": "MODEL_REFIT_TRANSFER_UNCERTAINTY_CONTRACT.json",
+  "benchmark_config": {
+    "seed": 20260906, "nested_draws": 4000, "familywise_confidence_level": 0.95,
+    "minimum_refits": 8, "minimum_blocks_per_group": 8, "refit_count": 20,
+    "group_count": 6, "blocks_per_group": 20, "rows_per_block": 20
+  },
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 15,
+    "cases": {
+      "stable_positive": {
+        "reference_fit_category": "robust_generalizing", "refit_sign_stability": "stable_generalizing",
+        "refit_aware_category": "robust_generalizing", "refit_aware_admissible": true,
+        "minimum_nested_max_t_lower_bound": 0.2687928855923157,
+        "maximum_nested_max_t_upper_bound": 0.33096197834872965,
+        "nested_max_t_critical_value": 2.046148350145, "unavailable_group_count": 0
+      },
+      "stable_negative": {
+        "reference_fit_category": "robust_non_generalizing", "refit_sign_stability": "stable_non_generalizing",
+        "refit_aware_category": "robust_non_generalizing", "refit_aware_admissible": false,
+        "minimum_nested_max_t_lower_bound": -0.3309619783487296,
+        "maximum_nested_max_t_upper_bound": -0.2687928855923157,
+        "nested_max_t_critical_value": 2.046148350145, "unavailable_group_count": 0
+      },
+      "refit_fragile": {
+        "reference_fit_category": "robust_generalizing", "refit_sign_stability": "refit_sensitive",
+        "refit_aware_category": "uncertain", "refit_aware_admissible": false,
+        "minimum_nested_max_t_lower_bound": -0.21466904719363872,
+        "maximum_nested_max_t_upper_bound": 0.3147671241013628,
+        "nested_max_t_critical_value": 1.0385292615519242, "unavailable_group_count": 0
+      },
+      "identical_refits": {
+        "reference_fit_category": "robust_generalizing", "refit_sign_stability": "stable_generalizing",
+        "refit_aware_category": "robust_generalizing", "refit_aware_admissible": true,
+        "minimum_nested_max_t_lower_bound": 0.26450435087002655,
+        "maximum_nested_max_t_upper_bound": 0.2955858131836983,
+        "nested_max_t_critical_value": 2.6121559641986303, "unavailable_group_count": 0
+      },
+      "too_few_refits": {
+        "reference_fit_category": "robust_generalizing", "refit_sign_stability": "stable_generalizing",
+        "refit_aware_category": "unavailable", "refit_aware_admissible": false,
+        "minimum_nested_max_t_lower_bound": null, "maximum_nested_max_t_upper_bound": null,
+        "nested_max_t_critical_value": null, "unavailable_group_count": 6
+      },
+      "too_few_blocks": {
+        "reference_fit_category": "unavailable", "refit_sign_stability": "stable_generalizing",
+        "refit_aware_category": "unavailable", "refit_aware_admissible": false,
+        "minimum_nested_max_t_lower_bound": 0.2711508544209137,
+        "maximum_nested_max_t_upper_bound": 0.3306920313922635,
+        "nested_max_t_critical_value": 2.024872948394777, "unavailable_group_count": 1
+      }
+    },
+    "invariance_errors": {
+      "identical_refits_bound_error": 1.1102230246251565e-16,
+      "refit_order_error": 0.0, "row_order_error": 0.0,
+      "positive_global_weight_scaling_error": 0.0
+    }
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34078767190, "artifact_id": 10002971251,
+    "artifact_digest": "sha256:baa0ed763f503b2b83fdbf41d9048f8c2c536d69662424620da6596813e98058",
+    "result_json_sha256": "2e4a4c67159fb0da9df54d02e2b00c5b52eaa467241b5edd58b3ba014c78e6da",
+    "head_sha": "01693828311aa9971e2d81c6fa7975632bcd75fe", "conclusion": "success"
+  },
+  "interpretation": {
+    "validation_type": "deterministic_gain_matrix_fixtures",
+    "upstream_models_trained_by_frozen_benchmark": false,
+    "refit_generation_is_caller_declared": true,
+    "same_untouched_validation_rows_required": true,
+    "same_refit_selected_for_all_groups_each_draw": true,
+    "nested_spread_divided_by_sqrt_refit_count": false,
+    "exact_population_coverage_validated": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_preservation": {
+    "v4_manuscript_modified": false, "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
