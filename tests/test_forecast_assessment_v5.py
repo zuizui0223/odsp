@@ -38,7 +38,7 @@ def _base_kwargs():
         validation_gamma=1.0,
         bootstrap_draws=100,
         minimum_blocks_per_group=2,
-        scheme_nested_draws=20,
+        scheme_nested_draws=500,
         scheme_minimum_refits=2,
     )
 
