@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-forecast-assessment-v4-row-provenance",
+  "frozen_date": "2026-09-07",
+  "purpose": "extend Forecast Assessment v3 with machine-checked held-out row provenance for declared refit schemes while preserving v2 evidence, reusing the existing v3 certification rule unchanged when alignment succeeds, and withholding scheme-aware v3 evaluation when row provenance fails",
+  "composition_rule": {
+    "v2_assessment_is_computed_once_and_preserved": true,
+    "existing_v3_certification_rule_reused_unchanged": true,
+    "existing_aligned_refit_scheme_audit_reused_unchanged": true,
+    "declared_scheme_layer_requires_validation_row_ids": true,
+    "omitted_scheme_layer_requires_no_row_provenance": true,
+    "exact_or_reorderable_alignment_can_produce_scheme_aware_v3_assessment": true,
+    "successful_scheme_aware_v3_result_must_equal_direct_v3_on_canonical_rows": true,
+    "row_mismatch_withholds_scheme_aware_v3_assessment": true,
+    "row_mismatch_preserves_v2_evidence": true,
+    "row_mismatch_is_never_converted_to_scheme_uncertainty": true,
+    "rows_are_never_silently_dropped_or_imputed": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "decision_rule": {
+    "omitted_scheme_layer_preserves_v3_certification": true,
+    "successful_alignment_inherits_v3_certification_exactly": true,
+    "base_validation_blocked_has_priority": true,
+    "base_validation_unavailable_has_priority": true,
+    "v2_not_certified_cannot_be_rescued_by_provenance": true,
+    "v2_unavailable_cannot_be_rescued_by_provenance": true,
+    "otherwise_row_mismatch_gives_v4_certification": "unavailable",
+    "row_mismatch_blocking_reason": "heldout_row_mismatch",
+    "successful_alignment_adds_no_new_blocking_reason": true,
+    "block_definition_and_environmental_novelty_remain_warnings": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "seed": 20260907,
+    "base_bootstrap_draws": 800,
+    "simultaneous_draws": 1200,
+    "refit_nested_draws": 1200,
+    "scheme_nested_draws": 1200,
+    "familywise_confidence_level": 0.95,
+    "minimum_refits": 8,
+    "minimum_blocks_per_group": 8,
+    "frozen_obligations": {
+      "exact_alignment_reproduces_direct_v3_dictionary_exactly": true,
+      "independently_permuted_schemes_reproduce_direct_v3_dictionary_exactly": true,
+      "successful_alignment_preserves_v3_certification_and_operational_status": true,
+      "scheme_sensitive_alignment_preserves_v3_not_certified_result": true,
+      "row_mismatch_withholds_scheme_aware_v3_assessment": true,
+      "row_mismatch_preserves_v2_assessment_exactly": true,
+      "row_mismatch_on_otherwise_certifiable_case_is_v4_unavailable": true,
+      "row_mismatch_does_not_rescue_prior_v2_not_certified": true,
+      "omitted_scheme_layer_preserves_direct_v3_result": true,
+      "strict_extrapolation_remains_warning_after_successful_alignment": true,
+      "consistent_row_id_relabeling_preserves_v4_result_except_alignment_labels": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "v4_adds_new_statistical_estimand": false,
+    "row_alignment_proves_rows_were_untouched": false,
+    "row_alignment_proves_train_test_separation": false,
+    "row_alignment_proves_refit_independence": false,
+    "v4_identifies_correct_refit_scheme": false,
+    "v4_identifies_correct_block_structure": false,
+    "v4_identifies_biological_mechanism": false,
+    "v4_guarantees_future_distribution_shift_performance": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_manuscript_boundary": {
+    "frozen_n2_v4_manuscript_modified": false,
+    "frozen_n2_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
