@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-refit-scheme-sensitivity-v1",
+  "frozen_date": "2026-09-07",
+  "purpose": "audit whether model-refit-aware transfer conclusions remain stable across multiple caller-declared training-resampling or refitting schemes on the same untouched validation target, without inferring which refit scheme is correct",
+  "definition": {
+    "input": "mapping from refit-scheme name to aligned refits x validation_rows gain matrix",
+    "same_untouched_validation_rows_required_across_schemes": true,
+    "groups_blocks_weights_shared_across_schemes": true,
+    "each_scheme_uses_existing_model_refit_transfer_uncertainty_api": true,
+    "scheme_names_are_canonicalized": true,
+    "scheme_specific_refit_ids_may_be_supplied": true,
+    "scheme_specific_reference_refit_ids_may_be_supplied": true,
+    "automatic_scheme_selection": false,
+    "no_scheme_is_declared_ground_truth": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "decision_rule": {
+    "any_declared_scheme_unavailable_gives_category": "unavailable",
+    "all_scheme_categories_robust_generalizing_gives_category": "scheme_robust_generalizing",
+    "all_scheme_categories_robust_non_generalizing_gives_category": "scheme_robust_non_generalizing",
+    "all_scheme_categories_identical_otherwise_gives_prefix": "stable_",
+    "different_available_scheme_categories_gives_category": "scheme_sensitive",
+    "one_robust_scheme_cannot_override_another_scheme_failure": true,
+    "scheme_robust_admissible_only_when_category": "scheme_robust_generalizing",
+    "automatic_scheme_selection": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "seed": 20260907,
+    "nested_draws": 2500,
+    "familywise_confidence_level": 0.95,
+    "minimum_refits": 8,
+    "minimum_blocks_per_group": 8,
+    "scheme_count": 3,
+    "refits_per_scheme": 12,
+    "group_count": 6,
+    "blocks_per_group": 16,
+    "rows_per_block": 20,
+    "frozen_obligations": {
+      "stable_positive_is_scheme_robust_generalizing": true,
+      "stable_negative_is_scheme_robust_non_generalizing": true,
+      "scheme_sensitive_case_contains_robust_and_uncertain_schemes": true,
+      "scheme_sensitive_case_is_not_admissible": true,
+      "one_unavailable_scheme_makes_global_category_unavailable": true,
+      "scheme_order_invariant": true,
+      "row_order_invariant": true,
+      "positive_global_weight_scaling_invariant": true,
+      "scheme_names_preserved": true,
+      "reference_fit_categories_retained_per_scheme": true,
+      "no_automatic_scheme_selection": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "scheme_stability_identifies_correct_training_resampling_scheme": false,
+    "scheme_stability_is_exact_population_guarantee": false,
+    "scheme_stability_repairs_bad_refit_design": false,
+    "scheme_stability_repairs_bad_validation_blocks": false,
+    "scheme_stability_identifies_biological_mechanism": false,
+    "scheme_stability_guarantees_future_distribution_shift_performance": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}

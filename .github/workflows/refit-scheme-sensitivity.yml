@@ -1,0 +1,81 @@
+name: refit-scheme-sensitivity
+
+on:
+  pull_request:
+    paths:
+      - 'REFIT_SCHEME_SENSITIVITY_CONTRACT.json'
+      - 'REFIT_SCHEME_SENSITIVITY_VALIDATION_RECEIPT.json'
+      - 'odsp/refit_scheme_sensitivity.py'
+      - 'odsp/refit_scheme_sensitivity_benchmark.py'
+      - 'scripts/run_refit_scheme_sensitivity_benchmark.py'
+      - 'tests/test_refit_scheme_sensitivity.py'
+      - 'tests/test_refit_scheme_sensitivity_benchmark.py'
+      - 'tests/test_refit_scheme_sensitivity_contract.py'
+      - 'tests/test_refit_scheme_sensitivity_receipt.py'
+      - 'docs/refit_scheme_sensitivity_v1.md'
+      - '.github/workflows/refit-scheme-sensitivity.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'REFIT_SCHEME_SENSITIVITY_CONTRACT.json'
+      - 'REFIT_SCHEME_SENSITIVITY_VALIDATION_RECEIPT.json'
+      - 'odsp/refit_scheme_sensitivity.py'
+      - 'odsp/refit_scheme_sensitivity_benchmark.py'
+      - 'scripts/run_refit_scheme_sensitivity_benchmark.py'
+      - 'tests/test_refit_scheme_sensitivity.py'
+      - 'tests/test_refit_scheme_sensitivity_benchmark.py'
+      - 'tests/test_refit_scheme_sensitivity_contract.py'
+      - 'tests/test_refit_scheme_sensitivity_receipt.py'
+      - 'docs/refit_scheme_sensitivity_v1.md'
+      - '.github/workflows/refit-scheme-sensitivity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP core dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+      - name: Test refit-scheme API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_refit_scheme_sensitivity.py \
+            tests/test_refit_scheme_sensitivity_benchmark.py \
+            tests/test_refit_scheme_sensitivity_contract.py
+          if [ -f tests/test_refit_scheme_sensitivity_receipt.py ]; then
+            python -m pytest -q tests/test_refit_scheme_sensitivity_receipt.py
+          fi
+      - name: Run frozen refit-scheme benchmark
+        run: |
+          python scripts/run_refit_scheme_sensitivity_benchmark.py \
+            --output artifacts/REFIT_SCHEME_SENSITIVITY_BENCHMARK.json \
+            --seed 20260907 \
+            --nested-draws 2500
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/REFIT_SCHEME_SENSITIVITY_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert len(r['checks']) == 12
+          assert all(row['passed'] for row in r['checks'])
+          assert r['stable_positive']['sensitivity_category'] == 'scheme_robust_generalizing'
+          assert r['scheme_sensitive']['sensitivity_category'] == 'scheme_sensitive'
+          assert r['one_unavailable_scheme']['sensitivity_category'] == 'unavailable'
+          print(json.dumps(r,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: refit-scheme-sensitivity-benchmark
+          path: artifacts/REFIT_SCHEME_SENSITIVITY_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90

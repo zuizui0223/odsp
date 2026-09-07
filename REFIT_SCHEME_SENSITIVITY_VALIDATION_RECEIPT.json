@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-refit-scheme-sensitivity-v1-validation",
+  "validated_date": "2026-09-07",
+  "contract": "REFIT_SCHEME_SENSITIVITY_CONTRACT.json",
+  "benchmark_config": {
+    "seed": 20260907,
+    "nested_draws": 2500,
+    "familywise_confidence_level": 0.95,
+    "minimum_refits": 8,
+    "minimum_blocks_per_group": 8,
+    "scheme_count": 3,
+    "refits_per_scheme": 12,
+    "group_count": 6,
+    "blocks_per_group": 16,
+    "rows_per_block": 20
+  },
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 12,
+    "stable_positive": {
+      "sensitivity_category": "scheme_robust_generalizing",
+      "scheme_category_set": ["robust_generalizing"],
+      "minimum_scheme_mean_gain": 0.28,
+      "maximum_scheme_mean_gain": 0.32,
+      "minimum_nested_max_t_lower_bound": 0.25667480445039137,
+      "maximum_nested_max_t_upper_bound": 0.3530943966543079
+    },
+    "stable_negative": {
+      "sensitivity_category": "scheme_robust_non_generalizing",
+      "scheme_category_set": ["robust_non_generalizing"],
+      "minimum_scheme_mean_gain": -0.32,
+      "maximum_scheme_mean_gain": -0.28,
+      "minimum_nested_max_t_lower_bound": -0.3530943966543079,
+      "maximum_nested_max_t_upper_bound": -0.25667480445039137
+    },
+    "scheme_sensitive": {
+      "sensitivity_category": "scheme_sensitive",
+      "scheme_category_set": ["robust_generalizing", "uncertain"],
+      "point_category_set": ["generalizing"],
+      "minimum_scheme_mean_gain": 0.07500000000000001,
+      "maximum_scheme_mean_gain": 0.3,
+      "minimum_nested_max_t_lower_bound": -0.1627951941779882,
+      "maximum_nested_max_t_upper_bound": 0.32816957664598434,
+      "bootstrap_category": "robust_generalizing",
+      "fold_category": "robust_generalizing",
+      "seed_category": "uncertain",
+      "seed_reference_fit_category": "robust_generalizing",
+      "seed_refit_sign_stability": "refit_sensitive"
+    },
+    "one_unavailable_scheme": {
+      "sensitivity_category": "unavailable",
+      "unavailable_scheme_count": 1,
+      "scheme_category_set": ["robust_generalizing", "unavailable"]
+    },
+    "scheme_order_error": 0.0,
+    "row_order_error": 0.0,
+    "positive_global_weight_scaling_error": 0.0,
+    "automatic_scheme_selection": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34114851402,
+    "artifact_id": 10015823137,
+    "artifact_digest": "sha256:18d0dc29e8784a92b6271d2f5744624b3886f2b724102aab3a4bf100ba93106d",
+    "head_sha": "5bef1c9448129ecbdfc9544b8298cd56525c4e6e",
+    "conclusion": "success"
+  },
+  "pre_green_diagnostic": {
+    "workflow_run_id": 34114598160,
+    "conclusion": "failure",
+    "failure_stage": "contract test before benchmark execution",
+    "diagnosis": "the test incorrectly interpreted the affirmative frozen obligation no_automatic_scheme_selection=true as a prohibited false-valued field",
+    "correction": "contract test polarity only",
+    "contract_changed": false,
+    "benchmark_generator_changed": false,
+    "decision_rule_changed": false,
+    "threshold_changed": false
+  },
+  "claim_boundary": {
+    "scheme_stability_identifies_correct_training_resampling_scheme": false,
+    "scheme_stability_is_exact_population_guarantee": false,
+    "scheme_stability_repairs_bad_refit_design": false,
+    "scheme_stability_repairs_bad_validation_blocks": false,
+    "scheme_stability_identifies_biological_mechanism": false,
+    "scheme_stability_guarantees_future_distribution_shift_performance": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_preservation": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
