@@ -1,0 +1,82 @@
+name: forecast-assessment-v2
+
+on:
+  pull_request:
+    paths:
+      - 'FORECAST_ASSESSMENT_V2_CONTRACT.json'
+      - 'FORECAST_ASSESSMENT_V2_VALIDATION_RECEIPT.json'
+      - 'odsp/forecast_assessment_v2.py'
+      - 'odsp/forecast_assessment_v2_benchmark.py'
+      - 'odsp/forecast_assessment.py'
+      - 'odsp/simultaneous_group_certification.py'
+      - 'odsp/model_refit_transfer_uncertainty.py'
+      - 'odsp/block_definition_sensitivity.py'
+      - 'scripts/run_forecast_assessment_v2_benchmark.py'
+      - 'tests/test_forecast_assessment_v2*.py'
+      - 'docs/forecast_assessment_v2.md'
+      - '.github/workflows/forecast-assessment-v2.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'FORECAST_ASSESSMENT_V2_CONTRACT.json'
+      - 'FORECAST_ASSESSMENT_V2_VALIDATION_RECEIPT.json'
+      - 'odsp/forecast_assessment_v2.py'
+      - 'odsp/forecast_assessment_v2_benchmark.py'
+      - 'odsp/forecast_assessment.py'
+      - 'odsp/simultaneous_group_certification.py'
+      - 'odsp/model_refit_transfer_uncertainty.py'
+      - 'odsp/block_definition_sensitivity.py'
+      - 'scripts/run_forecast_assessment_v2_benchmark.py'
+      - 'tests/test_forecast_assessment_v2*.py'
+      - 'docs/forecast_assessment_v2.md'
+      - '.github/workflows/forecast-assessment-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP assessment dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev,predict]'
+      - name: Test Forecast Assessment v2 API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_forecast_assessment_v2.py \
+            tests/test_forecast_assessment_v2_contract.py \
+            tests/test_forecast_assessment_v2_benchmark.py
+          if [ -f tests/test_forecast_assessment_v2_receipt.py ]; then
+            python -m pytest -q tests/test_forecast_assessment_v2_receipt.py
+          fi
+      - name: Run frozen Forecast Assessment v2 benchmark
+        run: |
+          python scripts/run_forecast_assessment_v2_benchmark.py \
+            --output artifacts/FORECAST_ASSESSMENT_V2_BENCHMARK.json \
+            --seed 20260907
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/FORECAST_ASSESSMENT_V2_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert len(r['checks']) == 14
+          assert all(row['passed'] for row in r['checks'])
+          assert r['strong']['extended_certification']['certification_status'] == 'certified'
+          assert r['multiplicity_trap']['extended_certification']['certification_status'] == 'not_certified'
+          assert r['refit_fragile']['extended_certification']['certification_status'] == 'not_certified'
+          assert r['too_few_refits']['extended_certification']['certification_status'] == 'unavailable'
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: forecast-assessment-v2-benchmark
+          path: artifacts/FORECAST_ASSESSMENT_V2_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90
