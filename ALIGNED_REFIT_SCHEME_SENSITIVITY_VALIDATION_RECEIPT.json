@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-aligned-refit-scheme-sensitivity-validation",
+  "validated_date": "2026-09-07",
+  "contract": "ALIGNED_REFIT_SCHEME_SENSITIVITY_CONTRACT.json",
+  "benchmark_config": {
+    "seed": 20260907,
+    "nested_draws": 1200,
+    "familywise_confidence_level": 0.95,
+    "minimum_refits": 8,
+    "minimum_blocks_per_group": 8
+  },
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 12,
+    "base_row_count": 1920,
+    "baseline_scheme_category": "scheme_robust_generalizing",
+    "baseline_minimum_nested_max_t_lower_bound": 0.2564332778917218,
+    "baseline_maximum_nested_max_t_upper_bound": 0.3531858252397681,
+    "baseline_scheme_mean_gains": {
+      "bootstrap": 0.3,
+      "fold": 0.28,
+      "seed": 0.32
+    },
+    "exact": {
+      "status": "audited_exact_alignment",
+      "statistical_audit_run": true,
+      "alignment_category": "exact_alignment",
+      "exact_source_count": 3,
+      "reorderable_source_count": 0,
+      "mismatched_source_count": 0,
+      "scheme_sensitivity_category": "scheme_robust_generalizing",
+      "scheme_robust_admissible": true
+    },
+    "permuted": {
+      "status": "audited_reordered_alignment",
+      "statistical_audit_run": true,
+      "alignment_category": "reorderable_alignment",
+      "exact_source_count": 1,
+      "reorderable_source_count": 2,
+      "mismatched_source_count": 0,
+      "scheme_sensitivity_category": "scheme_robust_generalizing",
+      "scheme_robust_admissible": true,
+      "reproduces_existing_scheme_audit_exactly": true
+    },
+    "mismatch": {
+      "status": "row_mismatch",
+      "statistical_audit_run": false,
+      "scheme_audit_is_null": true,
+      "alignment_category": "row_mismatch",
+      "mismatched_source_count": 1,
+      "bad_scheme": "seed",
+      "missing_row_count": 1,
+      "extra_row_count": 1,
+      "duplicate_row_id_count": 0
+    },
+    "duplicate": {
+      "status": "row_mismatch",
+      "statistical_audit_run": false,
+      "scheme_audit_is_null": true,
+      "alignment_category": "row_mismatch",
+      "mismatched_source_count": 1,
+      "bad_scheme": "seed",
+      "missing_row_count": 1,
+      "extra_row_count": 0,
+      "duplicate_row_id_count": 1
+    },
+    "missing_mapping_rejected": true,
+    "length_mismatch_rejected": true,
+    "automatic_row_imputation": false,
+    "automatic_scheme_selection": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34117866639,
+    "artifact_id": 10016984823,
+    "artifact_digest": "sha256:30ef597cf1f83a9c316ddf43ef1e07a36ecb3ddf86e8546413dd58a8f65b3125",
+    "head_sha": "0626d11d589f1e17ca9abf2b21d2bd86da8447ea",
+    "conclusion": "success"
+  },
+  "claim_boundary": {
+    "alignment_proves_validation_rows_were_untouched": false,
+    "alignment_proves_train_test_separation": false,
+    "alignment_proves_refit_independence": false,
+    "alignment_identifies_correct_refit_scheme": false,
+    "alignment_identifies_correct_block_structure": false,
+    "aligned_scheme_robustness_is_probability_of_correctness": false,
+    "aligned_scheme_robustness_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_preservation": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
