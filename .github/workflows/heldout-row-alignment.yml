@@ -1,0 +1,81 @@
+name: heldout-row-alignment
+
+on:
+  pull_request:
+    paths:
+      - 'HELDOUT_ROW_ALIGNMENT_CONTRACT.json'
+      - 'HELDOUT_ROW_ALIGNMENT_VALIDATION_RECEIPT.json'
+      - 'odsp/heldout_row_alignment.py'
+      - 'odsp/heldout_row_alignment_benchmark.py'
+      - 'scripts/run_heldout_row_alignment_benchmark.py'
+      - 'tests/test_heldout_row_alignment.py'
+      - 'tests/test_heldout_row_alignment_benchmark.py'
+      - 'tests/test_heldout_row_alignment_contract.py'
+      - 'tests/test_heldout_row_alignment_receipt.py'
+      - 'docs/heldout_row_alignment.md'
+      - '.github/workflows/heldout-row-alignment.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'HELDOUT_ROW_ALIGNMENT_CONTRACT.json'
+      - 'HELDOUT_ROW_ALIGNMENT_VALIDATION_RECEIPT.json'
+      - 'odsp/heldout_row_alignment.py'
+      - 'odsp/heldout_row_alignment_benchmark.py'
+      - 'scripts/run_heldout_row_alignment_benchmark.py'
+      - 'tests/test_heldout_row_alignment.py'
+      - 'tests/test_heldout_row_alignment_benchmark.py'
+      - 'tests/test_heldout_row_alignment_contract.py'
+      - 'tests/test_heldout_row_alignment_receipt.py'
+      - 'docs/heldout_row_alignment.md'
+      - '.github/workflows/heldout-row-alignment.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP development dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+      - name: Test held-out row alignment API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_heldout_row_alignment.py \
+            tests/test_heldout_row_alignment_benchmark.py \
+            tests/test_heldout_row_alignment_contract.py
+          if [ -f tests/test_heldout_row_alignment_receipt.py ]; then
+            python -m pytest -q tests/test_heldout_row_alignment_receipt.py
+          fi
+      - name: Run frozen held-out row alignment benchmark
+        run: |
+          python scripts/run_heldout_row_alignment_benchmark.py \
+            --output artifacts/HELDOUT_ROW_ALIGNMENT_BENCHMARK.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/HELDOUT_ROW_ALIGNMENT_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert len(r['checks']) == 13
+          assert all(row['passed'] for row in r['checks'])
+          assert r['exact']['alignment_category'] == 'exact_alignment'
+          assert r['reorderable']['alignment_category'] == 'reorderable_alignment'
+          assert r['multiple_sources']['alignment_category'] == 'row_mismatch'
+          assert r['one_dimensional_max_restore_error'] == 0.0
+          assert r['matrix_max_restore_error'] == 0.0
+          print(json.dumps(r, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: heldout-row-alignment-benchmark
+          path: artifacts/HELDOUT_ROW_ALIGNMENT_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90
