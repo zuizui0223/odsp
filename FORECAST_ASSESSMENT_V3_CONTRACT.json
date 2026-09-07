@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-forecast-assessment-v3-refit-scheme-certification",
+  "frozen_date": "2026-09-07",
+  "purpose": "extend Forecast Assessment v2 with optional refit-scheme sensitivity on the same held-out target while preserving the entire v2 result and validation history without creating a new statistical estimand or scalar confidence score",
+  "composition_rule": {
+    "complete_v2_result_is_preserved": true,
+    "v2_result_is_not_recomputed_from_scheme_result": true,
+    "scheme_layer_uses_existing_refit_scheme_sensitivity_api": true,
+    "scheme_layer_uses_same_groups_blocks_and_base_weights_as_v2": true,
+    "same_untouched_validation_rows_across_schemes_is_caller_responsibility": true,
+    "scheme_layer_is_optional": true,
+    "omitted_scheme_layer_reports_not_audited": true,
+    "block_definition_remains_warning_not_formal_gate": true,
+    "deployment_novelty_remains_warning_not_formal_gate": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "decision_rule": {
+    "base_validation_blocked_or_unavailable_has_priority": true,
+    "v2_not_certified_cannot_be_rescued_by_scheme_layer": true,
+    "v2_unavailable_cannot_be_rescued_by_scheme_layer": true,
+    "scheme_robust_generalizing_gives_scheme_status": "pass",
+    "scheme_sensitive_gives_scheme_status": "sensitive",
+    "scheme_unavailable_gives_scheme_status": "unavailable",
+    "scheme_robust_non_generalizing_gives_scheme_status": "fail",
+    "stable_uncertain_gives_scheme_status": "uncertain",
+    "stable_mixed_gives_scheme_status": "fail",
+    "v2_certified_plus_scheme_pass_gives_v3_certification": "certified",
+    "v2_not_audited_plus_scheme_pass_gives_v3_certification": "certified",
+    "v2_certified_plus_omitted_scheme_preserves_v2_certification": true,
+    "v2_not_audited_plus_omitted_scheme_gives_v3_certification": "not_audited",
+    "any_available_scheme_failure_or_sensitivity_gives_v3_certification": "not_certified",
+    "scheme_unavailable_gives_v3_certification": "unavailable",
+    "one_robust_scheme_cannot_override_scheme_sensitive_result": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "seed": 20260907,
+    "base_bootstrap_draws": 800,
+    "simultaneous_draws": 1200,
+    "refit_nested_draws": 1200,
+    "scheme_nested_draws": 1200,
+    "familywise_confidence_level": 0.95,
+    "minimum_refits": 8,
+    "minimum_blocks_per_group": 8,
+    "group_count": 6,
+    "blocks_per_group": 16,
+    "rows_per_block": 20,
+    "frozen_obligations": {
+      "strong_v2_certified_plus_scheme_robust_is_v3_certified": true,
+      "strong_v2_base_assessment_is_preserved_exactly": true,
+      "scheme_sensitive_does_not_rewrite_v2_certification": true,
+      "scheme_sensitive_makes_v3_not_certified": true,
+      "scheme_unavailable_makes_v3_unavailable": true,
+      "v2_already_not_certified_is_not_rescued_by_scheme_robust": true,
+      "strict_extrapolation_remains_warning_while_v3_can_be_certified": true,
+      "omitted_scheme_layer_preserves_v2_result_and_certification": true,
+      "scheme_only_formal_layer_can_certify_when_v2_formal_layers_omitted": true,
+      "block_definition_warning_remains_warning_not_scheme_gate": true,
+      "scheme_names_and_categories_are_retained": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "v3_adds_new_statistical_estimand": false,
+    "scheme_stability_identifies_correct_refit_scheme": false,
+    "scheme_stability_is_exact_population_guarantee": false,
+    "v3_repairs_bad_validation_blocks": false,
+    "v3_repairs_bad_refit_design": false,
+    "v3_identifies_biological_mechanism": false,
+    "v3_guarantees_future_distribution_shift_performance": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
