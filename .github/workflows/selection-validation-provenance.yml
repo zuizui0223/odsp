@@ -1,0 +1,80 @@
+name: selection-validation-provenance
+
+on:
+  pull_request:
+    paths:
+      - 'SELECTION_VALIDATION_PROVENANCE_CONTRACT.json'
+      - 'SELECTION_VALIDATION_PROVENANCE_VALIDATION_RECEIPT.json'
+      - 'odsp/selection_validation_provenance.py'
+      - 'odsp/selection_validation_provenance_benchmark.py'
+      - 'scripts/run_selection_validation_provenance_benchmark.py'
+      - 'tests/test_selection_validation_provenance.py'
+      - 'tests/test_selection_validation_provenance_benchmark.py'
+      - 'tests/test_selection_validation_provenance_contract.py'
+      - 'tests/test_selection_validation_provenance_receipt.py'
+      - 'docs/selection_validation_provenance.md'
+      - '.github/workflows/selection-validation-provenance.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'SELECTION_VALIDATION_PROVENANCE_CONTRACT.json'
+      - 'SELECTION_VALIDATION_PROVENANCE_VALIDATION_RECEIPT.json'
+      - 'odsp/selection_validation_provenance.py'
+      - 'odsp/selection_validation_provenance_benchmark.py'
+      - 'scripts/run_selection_validation_provenance_benchmark.py'
+      - 'tests/test_selection_validation_provenance.py'
+      - 'tests/test_selection_validation_provenance_benchmark.py'
+      - 'tests/test_selection_validation_provenance_contract.py'
+      - 'tests/test_selection_validation_provenance_receipt.py'
+      - 'docs/selection_validation_provenance.md'
+      - '.github/workflows/selection-validation-provenance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP development dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+      - name: Test selection-validation provenance API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_selection_validation_provenance.py \
+            tests/test_selection_validation_provenance_benchmark.py \
+            tests/test_selection_validation_provenance_contract.py
+          if [ -f tests/test_selection_validation_provenance_receipt.py ]; then
+            python -m pytest -q tests/test_selection_validation_provenance_receipt.py
+          fi
+      - name: Run frozen selection-validation provenance benchmark
+        run: |
+          python scripts/run_selection_validation_provenance_benchmark.py \
+            --output artifacts/SELECTION_VALIDATION_PROVENANCE_BENCHMARK.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/SELECTION_VALIDATION_PROVENANCE_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert len(r['checks']) == 15
+          assert all(row['passed'] for row in r['checks'])
+          assert r['clean']['separation_category'] == 'selection_validation_disjoint'
+          assert r['single_leak']['separation_category'] == 'selection_validation_leakage'
+          assert r['multi_stage_leak']['overlapping_stage_count'] == 3
+          assert r['multi_stage_leak']['unique_overlapping_final_validation_row_count'] == 5
+          print(json.dumps(r, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: selection-validation-provenance-benchmark
+          path: artifacts/SELECTION_VALIDATION_PROVENANCE_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90
