@@ -17,7 +17,7 @@ def test_refit_scheme_sensitivity_contract_is_frozen_and_fail_closed():
     obligations=contract["known_truth_benchmark"]["frozen_obligations"]
     assert len(obligations)==12
     for name,value in obligations.items():
-        if name in {"no_automatic_scheme_selection","aggregate_confidence_score_emitted"}:
+        if name=="aggregate_confidence_score_emitted":
             assert value is False
         else:
             assert value is True
