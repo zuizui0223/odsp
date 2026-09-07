@@ -65,10 +65,10 @@ def test_refit_reference_mismatch_is_rejected():
 
 
 def test_block_definition_warning_does_not_rewrite_base_validation():
-    kwargs=_kwargs();blocks=kwargs['blocks']
+    kwargs=_kwargs()
     coarse=tuple(f'{g}-pair-{i//8}' for i,g in enumerate(kwargs['groups']))
     result=assess_state_forecast_v2(
-        **kwargs,alternative_block_definitions={'coarse':coarse},minimum_blocks_per_group=4,
+        **kwargs,alternative_block_definitions={'coarse':coarse},
     )
     assert result.base_assessment.dossier.validation.validation_status=='admitted'
     assert result.block_definition_audit is not None
