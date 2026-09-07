@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-forecast-assessment-v2",
+  "frozen_date": "2026-09-07",
+  "purpose": "extend the existing one-call forecast assessment with optional simultaneous-familywise, model-refit, and block-definition sensitivity evidence while preserving the original validation and dossier history as separate evidence and preventing mismatched validation targets from being silently composed",
+  "composition_rule": {
+    "base_assessment_uses_existing_assess_state_forecast_v1": true,
+    "base_validation_history_is_never_recomputed_from_extended_layers": true,
+    "simultaneous_group_certification_uses_existing_api": true,
+    "model_refit_uncertainty_uses_existing_api": true,
+    "block_definition_sensitivity_uses_existing_api": true,
+    "all_extended_layers_use_same_base_row_gain_and_group_labels": true,
+    "model_refit_reference_row_must_match_base_row_gain_within_tolerance": true,
+    "default_refit_reference_match_tolerance": 1e-12,
+    "primary_block_definition_is_base_blocks": true,
+    "alternative_block_definitions_cannot_replace_primary": true,
+    "omitted_extended_layers_are_reported_not_audited": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "decision_rule": {
+    "formal_extended_layers": ["simultaneous_group_certification", "model_refit_uncertainty"],
+    "block_definition_sensitivity_is_design_warning_not_retroactive_validation_override": true,
+    "base_blocked_or_unavailable_status_remains_dominant": true,
+    "requested_formal_layers_all_pass_gives_certification_status": "certified",
+    "requested_formal_layer_failure_or_uncertainty_gives_certification_status": "not_certified",
+    "requested_formal_layer_unavailable_gives_certification_status": "unavailable",
+    "no_formal_extended_layer_requested_gives_certification_status": "not_audited",
+    "base_admitted_plus_certified_and_no_warning_gives_operational_status": "admitted",
+    "base_admitted_plus_certified_with_warning_gives_operational_status": "admitted_with_warnings",
+    "base_admitted_plus_not_certified_gives_operational_status": "admitted_extended_not_certified",
+    "base_admitted_plus_extended_unavailable_gives_operational_status": "admitted_extended_unavailable",
+    "base_admitted_plus_no_formal_audit_preserves_base_operational_status": true,
+    "strict_extrapolation_remains_deployment_warning_only": true,
+    "single_scalar_confidence_score_is_forbidden": true
+  },
+  "known_truth_benchmark": {
+    "seed": 20260907,
+    "bootstrap_draws": 1000,
+    "simultaneous_draws": 2000,
+    "refit_nested_draws": 2000,
+    "confidence_level": 0.95,
+    "minimum_blocks_per_group": 8,
+    "minimum_refits": 8,
+    "refit_reference_match_tolerance": 1e-12,
+    "frozen_obligations": {
+      "strong_case_base_validation_admitted": true,
+      "strong_case_simultaneous_certification_passes": true,
+      "strong_case_model_refit_certification_passes": true,
+      "strong_case_block_definitions_are_robust": true,
+      "strong_case_extended_certification_is_certified": true,
+      "multiplicity_trap_base_admitted_but_simultaneous_not_certified": true,
+      "refit_fragile_base_admitted_but_model_refit_not_certified": true,
+      "block_definition_sensitive_case_keeps_base_admitted_with_design_warning": true,
+      "too_few_refits_gives_extended_unavailable_without_rewriting_base": true,
+      "optional_extended_layers_can_be_omitted": true,
+      "refit_reference_mismatch_is_rejected": true,
+      "strict_extrapolation_warning_remains_distinct_from_extended_certification": true,
+      "base_validation_history_is_unchanged_by_extended_layers": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "extended_certification_is_probability_of_correctness": false,
+    "extended_certification_identifies_correct_model_class": false,
+    "block_definition_audit_identifies_true_independence_structure": false,
+    "model_refit_audit_identifies_correct_training_resampling_scheme": false,
+    "simultaneous_certification_proves_validation_groups_are_independent": false,
+    "extended_certification_repairs_distribution_shift": false,
+    "extended_certification_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
