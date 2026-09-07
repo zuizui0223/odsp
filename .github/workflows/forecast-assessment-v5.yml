@@ -1,0 +1,82 @@
+name: forecast-assessment-v5
+
+on:
+  pull_request:
+    paths:
+      - 'FORECAST_ASSESSMENT_V5_TRAINING_PROVENANCE_CONTRACT.json'
+      - 'FORECAST_ASSESSMENT_V5_TRAINING_PROVENANCE_VALIDATION_RECEIPT.json'
+      - 'odsp/forecast_assessment_v5.py'
+      - 'odsp/forecast_assessment_v5_benchmark.py'
+      - 'scripts/run_forecast_assessment_v5_benchmark.py'
+      - 'tests/test_forecast_assessment_v5.py'
+      - 'tests/test_forecast_assessment_v5_benchmark.py'
+      - 'tests/test_forecast_assessment_v5_contract.py'
+      - 'tests/test_forecast_assessment_v5_receipt.py'
+      - 'docs/forecast_assessment_v5_training_provenance.md'
+      - '.github/workflows/forecast-assessment-v5.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'FORECAST_ASSESSMENT_V5_TRAINING_PROVENANCE_CONTRACT.json'
+      - 'FORECAST_ASSESSMENT_V5_TRAINING_PROVENANCE_VALIDATION_RECEIPT.json'
+      - 'odsp/forecast_assessment_v5.py'
+      - 'odsp/forecast_assessment_v5_benchmark.py'
+      - 'scripts/run_forecast_assessment_v5_benchmark.py'
+      - 'tests/test_forecast_assessment_v5.py'
+      - 'tests/test_forecast_assessment_v5_benchmark.py'
+      - 'tests/test_forecast_assessment_v5_contract.py'
+      - 'tests/test_forecast_assessment_v5_receipt.py'
+      - 'docs/forecast_assessment_v5_training_provenance.md'
+      - '.github/workflows/forecast-assessment-v5.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP prediction dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev,predict]'
+      - name: Test Forecast Assessment v5 API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_forecast_assessment_v5.py \
+            tests/test_forecast_assessment_v5_benchmark.py \
+            tests/test_forecast_assessment_v5_contract.py
+          if [ -f tests/test_forecast_assessment_v5_receipt.py ]; then
+            python -m pytest -q tests/test_forecast_assessment_v5_receipt.py
+          fi
+      - name: Run frozen Forecast Assessment v5 benchmark
+        run: |
+          python scripts/run_forecast_assessment_v5_benchmark.py \
+            --output artifacts/FORECAST_ASSESSMENT_V5_TRAINING_PROVENANCE_BENCHMARK.json \
+            --seed 20260907
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/FORECAST_ASSESSMENT_V5_TRAINING_PROVENANCE_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert len(r['checks']) == 15
+          assert all(row['passed'] for row in r['checks'])
+          assert r['clean_exact']['v5_certification']['certification_status'] == 'certified'
+          assert r['training_leakage']['v5_certification']['certification_status'] == 'unavailable'
+          assert r['training_leakage']['provenance_qualified_v4_assessment'] is None
+          assert r['clean_row_mismatch']['v5_certification']['certification_status'] == 'unavailable'
+          assert r['clean_scheme_sensitive']['v5_certification']['certification_status'] == 'not_certified'
+          print(json.dumps(r, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: forecast-assessment-v5-training-provenance-benchmark
+          path: artifacts/FORECAST_ASSESSMENT_V5_TRAINING_PROVENANCE_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90

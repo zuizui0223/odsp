@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-forecast-assessment-v5-training-provenance-gate",
+  "frozen_date": "2026-09-07",
+  "purpose": "compose the frozen Forecast Assessment v4 base result with caller-supplied refit training/validation provenance so direct training leakage prevents downstream refit-scheme statistics from running, while clean provenance permits the existing v4 row-aligned scheme certification unchanged",
+  "composition_rule": {
+    "complete_v4_result_without_scheme_layer_is_preserved_as_base_evidence": true,
+    "forecast_assessment_v4_code_or_contract_is_not_modified": true,
+    "requested_scheme_layer_requires_explicit_stable_refit_ids": true,
+    "requested_scheme_layer_requires_training_membership_for_every_scheme_and_refit": true,
+    "training_provenance_runs_before_row_alignment_and_scheme_statistics": true,
+    "training_validation_disjoint_allows_existing_v4_scheme_path": true,
+    "training_validation_leakage_prevents_existing_v4_scheme_path": true,
+    "qualified_v4_assessment_is_absent_on_training_leakage": true,
+    "row_alignment_and_scheme_statistics_are_not_run_on_training_leakage": true,
+    "training_leakage_is_provenance_failure_not_statistical_uncertainty": true,
+    "prior_base_v4_failure_cannot_be_rescued": true,
+    "omitted_scheme_layer_preserves_base_v4_certification": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "decision_rule": {
+    "base_validation_blocked_or_unavailable_has_priority": true,
+    "base_v4_not_certified_cannot_be_rescued": true,
+    "base_v4_unavailable_cannot_be_rescued": true,
+    "clean_training_provenance_inherits_qualified_v4_certification": true,
+    "training_leakage_on_otherwise_certifiable_base_gives_unavailable": true,
+    "training_leakage_adds_provenance_reason": "training_validation_leakage",
+    "training_leakage_does_not_add_refit_scheme_statistical_reason": true,
+    "clean_training_provenance_plus_row_mismatch_inherits_v4_provenance_unavailable": true,
+    "clean_training_provenance_plus_scheme_sensitive_inherits_v4_not_certified": true,
+    "omitted_scheme_layer_preserves_base_v4_certification": true,
+    "scheme_only_formal_layer_can_certify_when_training_provenance_is_clean": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "seed": 20260907,
+    "base_bootstrap_draws": 800,
+    "simultaneous_draws": 1200,
+    "refit_nested_draws": 1200,
+    "scheme_nested_draws": 1200,
+    "minimum_refits": 8,
+    "minimum_blocks_per_group": 8,
+    "frozen_obligations": {
+      "clean_exact_case_is_certified": true,
+      "base_v4_result_is_preserved_exactly": true,
+      "clean_exact_case_matches_direct_v4_scheme_result": true,
+      "clean_permuted_case_matches_clean_exact_result": true,
+      "training_leakage_makes_otherwise_certifiable_case_unavailable": true,
+      "training_leakage_prevents_downstream_v4_scheme_assessment": true,
+      "training_leakage_is_only_provenance_blocker_not_refit_scheme_statistical_blocker": true,
+      "prior_base_v4_not_certified_is_not_rescued_by_training_leakage": true,
+      "clean_training_plus_row_mismatch_inherits_v4_unavailable": true,
+      "clean_training_plus_scheme_sensitive_inherits_v4_not_certified": true,
+      "strict_extrapolation_remains_warning_under_clean_training_provenance": true,
+      "omitted_scheme_layer_preserves_base_v4_result_and_certification": true,
+      "scheme_only_formal_layer_can_certify_with_clean_training_provenance": true,
+      "block_definition_warning_remains_warning_under_clean_training_provenance": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "v5_adds_new_statistical_estimand": false,
+    "clean_declared_training_membership_proves_complete_training_history": false,
+    "clean_declared_training_membership_proves_no_indirect_validation_use": false,
+    "training_provenance_proves_refit_independence": false,
+    "training_provenance_identifies_correct_refit_scheme": false,
+    "v5_certification_is_probability_of_correctness": false,
+    "v5_identifies_biological_mechanism": false,
+    "v5_guarantees_future_distribution_shift_performance": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_submission_boundary": {
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
