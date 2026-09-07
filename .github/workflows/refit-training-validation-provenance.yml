@@ -1,0 +1,80 @@
+name: refit-training-validation-provenance
+
+on:
+  pull_request:
+    paths:
+      - 'REFIT_TRAINING_VALIDATION_PROVENANCE_CONTRACT.json'
+      - 'REFIT_TRAINING_VALIDATION_PROVENANCE_VALIDATION_RECEIPT.json'
+      - 'odsp/refit_training_validation_provenance.py'
+      - 'odsp/refit_training_validation_provenance_benchmark.py'
+      - 'scripts/run_refit_training_validation_provenance_benchmark.py'
+      - 'tests/test_refit_training_validation_provenance.py'
+      - 'tests/test_refit_training_validation_provenance_benchmark.py'
+      - 'tests/test_refit_training_validation_provenance_contract.py'
+      - 'tests/test_refit_training_validation_provenance_receipt.py'
+      - 'docs/refit_training_validation_provenance.md'
+      - '.github/workflows/refit-training-validation-provenance.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'REFIT_TRAINING_VALIDATION_PROVENANCE_CONTRACT.json'
+      - 'REFIT_TRAINING_VALIDATION_PROVENANCE_VALIDATION_RECEIPT.json'
+      - 'odsp/refit_training_validation_provenance.py'
+      - 'odsp/refit_training_validation_provenance_benchmark.py'
+      - 'scripts/run_refit_training_validation_provenance_benchmark.py'
+      - 'tests/test_refit_training_validation_provenance.py'
+      - 'tests/test_refit_training_validation_provenance_benchmark.py'
+      - 'tests/test_refit_training_validation_provenance_contract.py'
+      - 'tests/test_refit_training_validation_provenance_receipt.py'
+      - 'docs/refit_training_validation_provenance.md'
+      - '.github/workflows/refit-training-validation-provenance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP development dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+      - name: Test refit provenance API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_refit_training_validation_provenance.py \
+            tests/test_refit_training_validation_provenance_contract.py
+          if [ -f tests/test_refit_training_validation_provenance_receipt.py ]; then
+            python -m pytest -q tests/test_refit_training_validation_provenance_receipt.py
+          fi
+      - name: Run frozen refit provenance benchmark
+        run: |
+          python scripts/run_refit_training_validation_provenance_benchmark.py \
+            --output artifacts/REFIT_TRAINING_VALIDATION_PROVENANCE_BENCHMARK.json
+          python -m pytest -q tests/test_refit_training_validation_provenance_benchmark.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/REFIT_TRAINING_VALIDATION_PROVENANCE_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert len(r['checks']) == 15
+          assert all(row['passed'] for row in r['checks'])
+          assert r['disjoint']['separation_category'] == 'training_validation_disjoint'
+          assert r['single_leak']['separation_category'] == 'leakage_detected'
+          assert r['multiple_leak']['affected_scheme_count'] == 3
+          assert r['multiple_leak']['maximum_refit_overlap_count'] == 3
+          print(json.dumps(r, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: refit-training-validation-provenance-benchmark
+          path: artifacts/REFIT_TRAINING_VALIDATION_PROVENANCE_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90
