@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-forecast-assessment-v4-provenance-aware-scheme-certification",
+  "frozen_date": "2026-09-07",
+  "purpose": "compose the frozen Forecast Assessment v3 base result with machine-checked held-out row provenance and the validated aligned refit-scheme sensitivity layer, without modifying v3 or treating provenance failure as weak statistical evidence",
+  "composition_rule": {
+    "complete_v3_result_without_scheme_layer_is_preserved_as_base_evidence": true,
+    "forecast_assessment_v3_code_or_contract_is_not_modified": true,
+    "aligned_scheme_layer_uses_existing_aligned_refit_scheme_api": true,
+    "existing_v3_scheme_decision_rule_is_reused_after_successful_alignment": true,
+    "base_groups_blocks_and_weights_are_in_canonical_validation_row_order": true,
+    "scheme_layer_is_optional": true,
+    "omitted_scheme_layer_preserves_base_v3_certification": true,
+    "requested_scheme_layer_requires_validation_row_ids": true,
+    "requested_scheme_layer_requires_row_ids_for_every_scheme": true,
+    "row_mismatch_prevents_statistical_scheme_audit": true,
+    "row_mismatch_is_provenance_unavailable_not_refit_scheme_uncertainty": true,
+    "row_mismatch_cannot_rescue_prior_v3_failure": true,
+    "block_definition_and_environmental_novelty_remain_warnings": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "decision_rule": {
+    "base_validation_blocked_or_unavailable_has_priority": true,
+    "base_v3_not_certified_cannot_be_rescued": true,
+    "base_v3_unavailable_cannot_be_rescued": true,
+    "successful_alignment_uses_existing_v3_scheme_certification_summary": true,
+    "strong_base_plus_aligned_scheme_pass_gives_certified": true,
+    "aligned_scheme_sensitive_or_nonpositive_gives_not_certified": true,
+    "aligned_scheme_unavailable_gives_unavailable": true,
+    "provenance_row_mismatch_on_otherwise_admitted_base_gives_unavailable": true,
+    "provenance_row_mismatch_adds_provenance_reason_not_statistical_scheme_reason": true,
+    "omitted_scheme_layer_preserves_base_v3_certification": true,
+    "scheme_only_formal_layer_can_certify_when_base_v3_is_not_audited": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "seed": 20260907,
+    "base_bootstrap_draws": 800,
+    "simultaneous_draws": 1200,
+    "refit_nested_draws": 1200,
+    "scheme_nested_draws": 1200,
+    "familywise_confidence_level": 0.95,
+    "minimum_refits": 8,
+    "minimum_blocks_per_group": 8,
+    "group_count": 6,
+    "blocks_per_group": 16,
+    "rows_per_block": 20,
+    "frozen_obligations": {
+      "strong_exact_alignment_is_v4_certified": true,
+      "base_v3_result_is_preserved_exactly": true,
+      "strong_exact_alignment_matches_direct_v3_scheme_certification": true,
+      "independently_permuted_schemes_are_reordered_and_match_exact_result": true,
+      "row_mismatch_makes_otherwise_certifiable_case_unavailable": true,
+      "row_mismatch_does_not_emit_refit_scheme_uncertain_or_failure_reason": true,
+      "aligned_scheme_sensitive_makes_v4_not_certified_without_rewriting_base_v3": true,
+      "prior_v3_not_certified_is_not_rescued_by_row_provenance_failure": true,
+      "strict_extrapolation_remains_warning_while_v4_can_be_certified": true,
+      "omitted_scheme_layer_preserves_base_v3_result_and_certification": true,
+      "scheme_only_formal_layer_can_certify": true,
+      "block_definition_warning_remains_warning_not_provenance_gate": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "v4_adds_new_statistical_estimand": false,
+    "row_alignment_proves_validation_rows_were_untouched": false,
+    "row_alignment_proves_train_test_separation": false,
+    "row_alignment_proves_refit_independence": false,
+    "row_alignment_identifies_correct_refit_scheme": false,
+    "v4_certification_is_probability_of_correctness": false,
+    "v4_identifies_biological_mechanism": false,
+    "v4_guarantees_future_distribution_shift_performance": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_submission_boundary": {
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
