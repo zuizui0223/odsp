@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-forecast-assessment-v5-training-provenance-validation",
+  "validated_date": "2026-09-07",
+  "contract": "FORECAST_ASSESSMENT_V5_TRAINING_PROVENANCE_CONTRACT.json",
+  "benchmark_config": {
+    "seed": 20260907,
+    "base_bootstrap_draws": 800,
+    "simultaneous_draws": 1200,
+    "refit_nested_draws": 1200,
+    "scheme_nested_draws": 1200,
+    "minimum_refits": 8,
+    "minimum_blocks_per_group": 8
+  },
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 15,
+    "clean_exact": {
+      "base_v4_certification_status": "certified",
+      "v5_certification_status": "certified",
+      "operational_status": "admitted",
+      "training_validation_category": "training_validation_disjoint",
+      "training_scheme_count": 3,
+      "training_refit_count": 36,
+      "overlapping_refit_count": 0,
+      "affected_scheme_count": 0,
+      "unique_overlapping_validation_row_count": 0,
+      "heldout_row_provenance_status": "exact_alignment",
+      "aligned_scheme_audit_status": "audited_exact_alignment",
+      "aligned_scheme_category": "scheme_robust_generalizing",
+      "minimum_nested_max_t_lower_bound": 0.25464235795176043,
+      "maximum_nested_max_t_upper_bound": 0.3453726180178609,
+      "minimum_scheme_mean_gain": 0.2816666666666667,
+      "maximum_scheme_mean_gain": 0.3183333333333333
+    },
+    "clean_permuted": {
+      "v5_certification_status": "certified",
+      "heldout_row_provenance_status": "reorderable_alignment",
+      "aligned_scheme_audit_status": "audited_reordered_alignment",
+      "reordered_scheme_count": 2,
+      "reproduces_clean_exact_scheme_audit": true
+    },
+    "training_leakage": {
+      "base_v4_certification_status": "certified",
+      "v5_certification_status": "unavailable",
+      "operational_status": "admitted_extended_unavailable",
+      "training_validation_category": "leakage_detected",
+      "overlapping_refit_count": 1,
+      "affected_scheme_count": 1,
+      "unique_overlapping_validation_row_count": 1,
+      "maximum_refit_overlap_count": 1,
+      "provenance_qualified_v4_assessment_is_null": true,
+      "downstream_v4_scheme_assessment_run": false,
+      "provenance_blocking_reasons": ["training_validation_leakage"],
+      "refit_scheme_statistical_blocker_added": false
+    },
+    "clean_row_mismatch": {
+      "v5_certification_status": "unavailable",
+      "training_validation_category": "training_validation_disjoint",
+      "heldout_row_provenance_status": "row_mismatch",
+      "aligned_scheme_audit_status": "row_mismatch",
+      "provenance_blocking_reasons": ["heldout_row_mismatch"]
+    },
+    "clean_scheme_sensitive": {
+      "v5_certification_status": "not_certified",
+      "aligned_scheme_category": "scheme_sensitive",
+      "minimum_nested_max_t_lower_bound": -0.16846923392035967,
+      "statistical_blocking_reasons": ["refit_scheme_sensitive"],
+      "seed_ensemble_mean_gain": 0.075,
+      "seed_reference_fit_category": "robust_generalizing",
+      "seed_refit_aware_category": "uncertain"
+    },
+    "prior_v4_failure_with_leakage": {
+      "base_v4_certification_status": "not_certified",
+      "v5_certification_status": "not_certified",
+      "statistical_blocking_reasons": ["model_refit_uncertain"],
+      "provenance_blocking_reasons": ["training_validation_leakage"],
+      "provenance_qualified_v4_assessment_is_null": true
+    },
+    "strict_extrapolation": {
+      "v5_certification_status": "certified",
+      "operational_status": "admitted_with_warnings",
+      "strict_extrapolation_fraction": 0.3333333333333333,
+      "novel_fraction": 0.3333333333333333,
+      "maximum_novelty_ratio": 34.562340935482716,
+      "warning_reasons": ["strict_extrapolation", "environmental_novelty"]
+    },
+    "omitted_scheme": {
+      "v5_certification_status": "certified",
+      "training_validation_provenance_is_null": true,
+      "provenance_qualified_v4_assessment_is_null": true,
+      "preserves_direct_v4_omitted_result": true
+    },
+    "scheme_only": {
+      "base_v4_certification_status": "not_audited",
+      "v5_certification_status": "certified",
+      "training_validation_category": "training_validation_disjoint"
+    },
+    "block_definition_warning": {
+      "v5_certification_status": "certified",
+      "operational_status": "admitted_with_warnings",
+      "block_definition_category": "block_definition_sensitive",
+      "group_status_flip_count": 6,
+      "primary_minimum_group_lower_bound": 0.0396875,
+      "eight_cluster_minimum_group_lower_bound": -0.05640624999999988,
+      "warning_reasons": ["block_definition_sensitive"]
+    },
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34128152836,
+    "artifact_id": 10021242489,
+    "artifact_digest": "sha256:99e4b014ee7b905fb7a48e5ecd41df1a82213c9d415b69232e1e4504d4b9e81a",
+    "head_sha": "82f26f60af2f9e10e78c2f52bc7cfffe5315153b",
+    "conclusion": "success"
+  },
+  "pre_green_diagnostic": {
+    "workflow_run_id": 34126115868,
+    "head_sha": "acda38d58d67f0a5e201891eb0581c4fcb5b678f",
+    "benchmark_ran": false,
+    "failure_stage": "unit_fixture_precheck",
+    "cause": "new v5 unit fixture used bootstrap_draws=20 below the existing ODSP minimum of 100",
+    "additional_static_fixture_correction": "scheme_nested_draws was raised from 20 to the existing minimum of 500 before the first benchmark execution",
+    "contract_modified_after_failure": false,
+    "v5_api_modified_after_failure": false,
+    "known_truth_benchmark_modified_after_failure": false,
+    "benchmark_thresholds_modified_after_failure": false
+  },
+  "claim_boundary": {
+    "v5_adds_new_statistical_estimand": false,
+    "clean_declared_training_membership_proves_complete_training_history": false,
+    "clean_declared_training_membership_proves_no_indirect_validation_use": false,
+    "training_provenance_proves_refit_independence": false,
+    "training_provenance_identifies_correct_refit_scheme": false,
+    "v5_certification_is_probability_of_correctness": false,
+    "v5_identifies_biological_mechanism": false,
+    "v5_guarantees_future_distribution_shift_performance": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_submission_boundary": {
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
