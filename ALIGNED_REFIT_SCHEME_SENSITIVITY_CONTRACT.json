@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-aligned-refit-scheme-sensitivity-v1",
+  "frozen_date": "2026-09-07",
+  "purpose": "compose machine-checked held-out row alignment with the existing frozen refit-scheme sensitivity audit so each scheme may be safely restored to one canonical validation-row order before statistical comparison, while refusing to run the statistical layer on row mismatch",
+  "definition": {
+    "existing_refit_scheme_decision_rule_reused_unchanged": true,
+    "canonical_validation_row_ids_required": true,
+    "validation_row_ids_required_for_every_declared_scheme": true,
+    "scheme_matrix_column_count_must_match_declared_scheme_row_ids": true,
+    "base_groups_blocks_and_weights_are_in_canonical_row_order": true,
+    "exact_alignment_runs_existing_scheme_audit_without_reordering": true,
+    "reorderable_alignment_reorders_scheme_matrix_columns_to_base_order": true,
+    "row_mismatch_prevents_statistical_scheme_audit": true,
+    "row_contents_are_not_used_to_infer_alignment": true,
+    "rows_are_not_silently_dropped_or_imputed": true,
+    "existing_refit_scheme_contract_modified": false,
+    "automatic_scheme_selection": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "seed": 20260907,
+    "nested_draws": 1200,
+    "frozen_obligations": {
+      "exact_alignment_reproduces_existing_scheme_audit": true,
+      "independently_permuted_schemes_are_reordered_and_reproduce_existing_audit": true,
+      "aligned_permuted_schemes_remain_scheme_robust_generalizing": true,
+      "reported_reordered_scheme_count_is_correct": true,
+      "row_mismatch_prevents_statistical_audit": true,
+      "duplicate_scheme_row_id_prevents_statistical_audit": true,
+      "missing_scheme_row_id_mapping_is_rejected": true,
+      "scheme_row_id_length_mismatch_is_rejected": true,
+      "consistent_row_id_relabeling_preserves_statistical_result": true,
+      "row_contents_are_not_used_to_infer_alignment": true,
+      "no_automatic_imputation_or_scheme_selection": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "alignment_proves_validation_rows_were_untouched": false,
+    "alignment_proves_train_test_separation": false,
+    "alignment_proves_refit_independence": false,
+    "alignment_identifies_correct_refit_scheme": false,
+    "alignment_identifies_correct_block_structure": false,
+    "aligned_scheme_robustness_is_probability_of_correctness": false,
+    "aligned_scheme_robustness_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
