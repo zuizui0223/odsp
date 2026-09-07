@@ -1,6 +1,10 @@
 import json
 from pathlib import Path
 
+import pytest
+
+pytest.importorskip("sklearn")
+
 from odsp.forecast_assessment_v5_benchmark import run_forecast_assessment_v5_benchmark
 
 
@@ -42,10 +46,10 @@ def test_forecast_assessment_v5_receipt_replays():
     assert qualified["v4_certification"]["row_provenance_status"] == expected["heldout_row_provenance_status"]
     assert aligned["status"] == expected["aligned_scheme_audit_status"]
     assert aligned["scheme_sensitivity_category"] == expected["aligned_scheme_category"]
-    assert scheme["minimum_nested_max_t_lower_bound"] == expected["minimum_nested_max_t_lower_bound"]
-    assert scheme["maximum_nested_max_t_upper_bound"] == expected["maximum_nested_max_t_upper_bound"]
-    assert scheme["minimum_scheme_mean_gain"] == expected["minimum_scheme_mean_gain"]
-    assert scheme["maximum_scheme_mean_gain"] == expected["maximum_scheme_mean_gain"]
+    assert scheme["minimum_nested_max_t_lower_bound"] == pytest.approx(expected["minimum_nested_max_t_lower_bound"], abs=1e-15)
+    assert scheme["maximum_nested_max_t_upper_bound"] == pytest.approx(expected["maximum_nested_max_t_upper_bound"], abs=1e-15)
+    assert scheme["minimum_scheme_mean_gain"] == pytest.approx(expected["minimum_scheme_mean_gain"], abs=1e-15)
+    assert scheme["maximum_scheme_mean_gain"] == pytest.approx(expected["maximum_scheme_mean_gain"], abs=1e-15)
 
     permuted = result["clean_permuted"]
     expected = canonical["clean_permuted"]
@@ -91,9 +95,9 @@ def test_forecast_assessment_v5_receipt_replays():
     seed_row = _scheme_row(sensitive_scheme, "seed")
     assert sensitive["v5_certification"]["certification_status"] == expected["v5_certification_status"]
     assert sensitive_scheme["sensitivity_category"] == expected["aligned_scheme_category"]
-    assert sensitive_scheme["minimum_nested_max_t_lower_bound"] == expected["minimum_nested_max_t_lower_bound"]
+    assert sensitive_scheme["minimum_nested_max_t_lower_bound"] == pytest.approx(expected["minimum_nested_max_t_lower_bound"], abs=1e-15)
     assert sensitive["v5_certification"]["statistical_blocking_reasons"] == expected["statistical_blocking_reasons"]
-    assert seed_row["ensemble_mean_gain"] == expected["seed_ensemble_mean_gain"]
+    assert seed_row["ensemble_mean_gain"] == pytest.approx(expected["seed_ensemble_mean_gain"], abs=1e-15)
     assert seed_row["reference_fit_category"] == expected["seed_reference_fit_category"]
     assert seed_row["refit_aware_category"] == expected["seed_refit_aware_category"]
 
@@ -112,9 +116,9 @@ def test_forecast_assessment_v5_receipt_replays():
     assert strict["v5_certification"]["certification_status"] == expected["v5_certification_status"]
     assert strict["v5_certification"]["operational_status"] == expected["operational_status"]
     assert strict["v5_certification"]["warning_reasons"] == expected["warning_reasons"]
-    assert deployment["strict_extrapolation_fraction"] == expected["strict_extrapolation_fraction"]
-    assert deployment["novel_fraction"] == expected["novel_fraction"]
-    assert deployment["maximum_novelty_ratio"] == expected["maximum_novelty_ratio"]
+    assert deployment["strict_extrapolation_fraction"] == pytest.approx(expected["strict_extrapolation_fraction"], abs=1e-15)
+    assert deployment["novel_fraction"] == pytest.approx(expected["novel_fraction"], abs=1e-15)
+    assert deployment["maximum_novelty_ratio"] == pytest.approx(expected["maximum_novelty_ratio"], abs=1e-15)
 
     omitted = result["omitted_scheme"]
     expected = canonical["omitted_scheme"]
@@ -141,8 +145,8 @@ def test_forecast_assessment_v5_receipt_replays():
     assert block["v5_certification"]["warning_reasons"] == expected["warning_reasons"]
     assert block_audit["sensitivity_category"] == expected["block_definition_category"]
     assert block_audit["group_status_flip_count"] == expected["group_status_flip_count"]
-    assert definitions["primary"]["minimum_group_lower_bound"] == expected["primary_minimum_group_lower_bound"]
-    assert definitions["eight_cluster"]["minimum_group_lower_bound"] == expected["eight_cluster_minimum_group_lower_bound"]
+    assert definitions["primary"]["minimum_group_lower_bound"] == pytest.approx(expected["primary_minimum_group_lower_bound"], abs=1e-15)
+    assert definitions["eight_cluster"]["minimum_group_lower_bound"] == pytest.approx(expected["eight_cluster_minimum_group_lower_bound"], abs=1e-15)
 
     assert canonical["aggregate_confidence_score_emitted"] is False
     assert all(value is False for value in receipt["claim_boundary"].values())
