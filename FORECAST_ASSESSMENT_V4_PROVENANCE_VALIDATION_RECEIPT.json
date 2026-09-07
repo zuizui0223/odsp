@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-forecast-assessment-v4-provenance-validation",
+  "validated_date": "2026-09-07",
+  "contract": "FORECAST_ASSESSMENT_V4_PROVENANCE_CONTRACT.json",
+  "benchmark_config": {
+    "seed": 20260907,
+    "base_bootstrap_draws": 800,
+    "simultaneous_draws": 1200,
+    "refit_nested_draws": 1200,
+    "scheme_nested_draws": 1200,
+    "familywise_confidence_level": 0.95,
+    "minimum_refits": 8,
+    "minimum_blocks_per_group": 8
+  },
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 13,
+    "strong_exact": {
+      "base_v3_certification_status": "certified",
+      "certification_status": "certified",
+      "operational_status": "admitted",
+      "row_provenance_status": "exact_alignment",
+      "aligned_scheme_audit_status": "audited_exact_alignment",
+      "aligned_scheme_category": "scheme_robust_generalizing",
+      "reordered_scheme_count": 0,
+      "minimum_nested_max_t_lower_bound": 0.25464235795176043,
+      "maximum_nested_max_t_upper_bound": 0.3453726180178609,
+      "minimum_scheme_mean_gain": 0.2816666666666667,
+      "maximum_scheme_mean_gain": 0.3183333333333333,
+      "base_v3_preserved_exactly": true,
+      "aligned_v3_matches_direct_v3_scheme_certification": true
+    },
+    "strong_permuted": {
+      "certification_status": "certified",
+      "operational_status": "admitted",
+      "row_provenance_status": "reorderable_alignment",
+      "aligned_scheme_audit_status": "audited_reordered_alignment",
+      "aligned_scheme_category": "scheme_robust_generalizing",
+      "reordered_scheme_count": 2,
+      "statistical_scheme_audit_matches_exact_alignment": true,
+      "aligned_v3_certification_matches_exact_alignment": true
+    },
+    "row_mismatch": {
+      "base_v3_certification_status": "certified",
+      "certification_status": "unavailable",
+      "operational_status": "admitted_extended_unavailable",
+      "row_provenance_status": "row_mismatch",
+      "aligned_scheme_audit_status": "row_mismatch",
+      "aligned_scheme_category": "not_run_row_mismatch",
+      "statistical_audit_run": false,
+      "scheme_audit_is_null": true,
+      "provenance_blocking_reasons": ["heldout_row_mismatch"],
+      "statistical_blocking_reasons": [],
+      "bad_scheme": "seed",
+      "missing_row_count": 1,
+      "extra_row_count": 1,
+      "duplicate_row_id_count": 0
+    },
+    "scheme_sensitive": {
+      "base_v3_certification_status": "certified",
+      "certification_status": "not_certified",
+      "operational_status": "admitted_extended_not_certified",
+      "row_provenance_status": "exact_alignment",
+      "aligned_scheme_category": "scheme_sensitive",
+      "scheme_category_set": ["robust_generalizing", "uncertain"],
+      "point_category_set": ["generalizing"],
+      "seed_refit_aware_category": "uncertain",
+      "seed_reference_fit_category": "robust_generalizing",
+      "seed_refit_sign_stability": "refit_sensitive",
+      "seed_ensemble_mean_gain": 0.075,
+      "seed_minimum_nested_max_t_lower_bound": -0.16846923392035967,
+      "seed_maximum_nested_max_t_upper_bound": 0.3186493616559022,
+      "statistical_blocking_reasons": ["refit_scheme_sensitive"],
+      "provenance_blocking_reasons": []
+    },
+    "prior_v3_failure": {
+      "base_v3_certification_status": "not_certified",
+      "base_model_refit_category": "uncertain",
+      "certification_status": "not_certified",
+      "operational_status": "admitted_extended_not_certified",
+      "row_provenance_status": "row_mismatch",
+      "statistical_blocking_reasons": ["model_refit_uncertain"],
+      "provenance_blocking_reasons": ["heldout_row_mismatch"]
+    },
+    "strict_extrapolation": {
+      "certification_status": "certified",
+      "operational_status": "admitted_with_warnings",
+      "row_provenance_status": "exact_alignment",
+      "aligned_scheme_category": "scheme_robust_generalizing",
+      "deployment_status": "strict_extrapolation_warning",
+      "strict_extrapolation_fraction": 0.3333333333333333,
+      "novel_fraction": 0.3333333333333333,
+      "maximum_novelty_ratio": 34.562340935482716,
+      "warning_reasons": ["strict_extrapolation", "environmental_novelty"]
+    },
+    "omitted_scheme": {
+      "aligned_scheme_audit_is_null": true,
+      "row_provenance_status": "not_audited",
+      "base_v3_certification_status": "certified",
+      "certification_status": "certified",
+      "operational_status": "admitted",
+      "base_v3_preserved_exactly": true
+    },
+    "scheme_only": {
+      "base_v3_certification_status": "not_audited",
+      "row_provenance_status": "exact_alignment",
+      "aligned_scheme_category": "scheme_robust_generalizing",
+      "certification_status": "certified",
+      "operational_status": "admitted"
+    },
+    "block_definition_warning": {
+      "base_v3_certification_status": "not_audited",
+      "block_definition_category": "block_definition_sensitive",
+      "group_status_flip_count": 6,
+      "primary_minimum_group_lower_bound": 0.0396875,
+      "eight_cluster_minimum_group_lower_bound": -0.05640624999999988,
+      "row_provenance_status": "exact_alignment",
+      "aligned_scheme_category": "scheme_robust_generalizing",
+      "certification_status": "certified",
+      "operational_status": "admitted_with_warnings",
+      "warning_reasons": ["block_definition_sensitive"]
+    },
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34120720220,
+    "artifact_id": 10018111353,
+    "artifact_digest": "sha256:c3a4313f3b2c8046aa1927bdfb9950b0e08a14e72a6863954a8577140cee93f8",
+    "head_sha": "f706da833c1402d377fed25d580d0d1e574ce8f2",
+    "conclusion": "success"
+  },
+  "pre_green_diagnostic": {
+    "workflow_run_id": 34120587078,
+    "conclusion": "failure",
+    "failure_stage": "receipt placeholder invocation after API and contract tests",
+    "diagnosis": "the temporary pre-green receipt test contained only a module-level skip, so running that file alone returned pytest exit code 5 because no tests were collected",
+    "fix": "removed the temporary receipt marker and placeholder replay file until a real first-green receipt existed",
+    "api_and_contract_tests_passed_before_failure": true,
+    "known_truth_benchmark_ran_before_fix": false,
+    "contract_changed": false,
+    "decision_rule_changed": false,
+    "benchmark_generator_changed": false,
+    "threshold_changed": false
+  },
+  "claim_boundary": {
+    "v4_adds_new_statistical_estimand": false,
+    "row_alignment_proves_validation_rows_were_untouched": false,
+    "row_alignment_proves_train_test_separation": false,
+    "row_alignment_proves_refit_independence": false,
+    "row_alignment_identifies_correct_refit_scheme": false,
+    "v4_certification_is_probability_of_correctness": false,
+    "v4_identifies_biological_mechanism": false,
+    "v4_guarantees_future_distribution_shift_performance": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_submission_preservation": {
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
