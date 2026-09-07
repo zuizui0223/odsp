@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-heldout-row-alignment-v1",
+  "frozen_date": "2026-09-07",
+  "purpose": "machine-check whether caller-supplied evidence layers refer to the same uniquely identified held-out rows and, when they do in a different order, expose the exact permutation needed to restore one canonical base order without guessing from row contents",
+  "definition": {
+    "base_row_ids_are_canonical": true,
+    "base_row_ids_must_be_nonempty_unique_hashable_nonmissing": true,
+    "source_row_ids_must_be_hashable_nonmissing": true,
+    "source_names_are_canonicalized_and_unique": true,
+    "exact_same_unique_order_category": "exact_alignment",
+    "same_unique_row_set_different_order_category": "reorderable_alignment",
+    "missing_extra_or_duplicate_source_ids_category": "row_mismatch",
+    "permutation_maps_source_rows_to_base_order": true,
+    "row_contents_are_never_used_to_guess_identity": true,
+    "rows_are_never_silently_dropped_or_imputed": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "base_row_count": 8,
+    "frozen_obligations": {
+      "exact_order_is_exact_alignment": true,
+      "permuted_same_set_is_reorderable_alignment": true,
+      "permutation_restores_one_dimensional_rows": true,
+      "permutation_restores_refit_matrix_columns": true,
+      "missing_row_is_mismatch": true,
+      "missing_and_extra_rows_are_reported": true,
+      "duplicate_source_id_is_mismatch": true,
+      "duplicate_base_id_is_rejected": true,
+      "multiple_sources_fail_closed_on_one_mismatch": true,
+      "source_mapping_order_is_invariant": true,
+      "consistent_id_relabeling_preserves_alignment_category": true,
+      "row_values_do_not_affect_alignment": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "alignment_proves_rows_were_untouched": false,
+    "alignment_proves_train_test_separation": false,
+    "alignment_proves_independence": false,
+    "alignment_identifies_correct_block_structure": false,
+    "alignment_validates_upstream_row_ids": false,
+    "alignment_is_statistical_evidence": false,
+    "alignment_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_boundary": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
