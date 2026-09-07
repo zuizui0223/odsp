@@ -9,6 +9,7 @@ on:
       - 'odsp/simultaneous_group_certification.py'
       - 'odsp/transferability.py'
       - 'scripts/run_model_refit_transfer_uncertainty_benchmark.py'
+      - 'examples/model_refit_transfer_demo.py'
       - 'tests/test_model_refit_transfer_uncertainty*.py'
       - 'docs/model_refit_transfer_uncertainty_v1.md'
       - '.github/workflows/model-refit-transfer-uncertainty.yml'
@@ -21,6 +22,7 @@ on:
       - 'odsp/simultaneous_group_certification.py'
       - 'odsp/transferability.py'
       - 'scripts/run_model_refit_transfer_uncertainty_benchmark.py'
+      - 'examples/model_refit_transfer_demo.py'
       - 'tests/test_model_refit_transfer_uncertainty*.py'
       - 'docs/model_refit_transfer_uncertainty_v1.md'
       - '.github/workflows/model-refit-transfer-uncertainty.yml'
@@ -59,9 +61,23 @@ jobs:
           assert result['identical_refits_bound_error'] <= 1e-12
           print(json.dumps(result, sort_keys=True))
           PY
+      - name: Run actual training-only refits on synthetic data
+        run: |
+          python examples/model_refit_transfer_demo.py --output artifacts/MODEL_REFIT_SYNTHETIC_DEMO.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/MODEL_REFIT_SYNTHETIC_DEMO.json').read_text())
+          assert r['data_kind'] == 'synthetic_usage_example'
+          assert r['audit']['refit_count'] == 20
+          assert not r['heldout_rows_used_to_fit_or_select_models']
+          assert not r['population_coverage_validated']
+          PY
+      - name: Archive exact source for offline reproduction
+        run: git archive --format=zip HEAD -o artifacts/MODEL_REFIT_SOURCE_SNAPSHOT.zip
       - uses: actions/upload-artifact@v4
         with:
           name: model-refit-transfer-uncertainty-benchmark
-          path: artifacts/MODEL_REFIT_TRANSFER_UNCERTAINTY_BENCHMARK.json
+          path: artifacts/
           if-no-files-found: error
           retention-days: 90
