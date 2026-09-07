@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-block-definition-sensitivity-v1-validation",
+  "validated_date": "2026-09-06",
+  "contract": "BLOCK_DEFINITION_SENSITIVITY_CONTRACT.json",
+  "benchmark_config": {
+    "seed": 20260906,
+    "bootstrap_draws": 2000,
+    "confidence_level": 0.95,
+    "minimum_blocks_per_group": 8,
+    "group_count": 6
+  },
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 12,
+    "strong_positive": {
+      "sensitivity_category": "block_definition_robust_generalizing",
+      "robust_category_set": ["robust_generalizing"],
+      "point_category_set": ["generalizing"],
+      "group_status_flip_count": 0,
+      "minimum_observed_lower_bound": 0.2416,
+      "maximum_observed_upper_bound": 0.258405,
+      "minimum_definition_group_block_count": 10,
+      "maximum_definition_group_block_count": 400
+    },
+    "strong_negative": {
+      "sensitivity_category": "block_definition_robust_non_generalizing",
+      "robust_category_set": ["robust_non_generalizing"],
+      "point_category_set": ["non_generalizing"],
+      "group_status_flip_count": 0,
+      "minimum_observed_lower_bound": -0.258405,
+      "maximum_observed_upper_bound": -0.2416,
+      "minimum_definition_group_block_count": 10,
+      "maximum_definition_group_block_count": 400
+    },
+    "pseudoreplication": {
+      "sensitivity_category": "block_definition_sensitive",
+      "robust_category_set": ["robust_generalizing", "uncertain"],
+      "point_category_set": ["generalizing"],
+      "group_status_flip_count": 6,
+      "row_iid_minimum_group_lower_bound": 0.04124687500000001,
+      "eight_cluster_minimum_group_lower_bound": -0.04999999999999998,
+      "minimum_definition_group_block_count": 8,
+      "maximum_definition_group_block_count": 400
+    },
+    "too_coarse": {
+      "sensitivity_category": "stable_unavailable",
+      "robust_category_set": ["unavailable"],
+      "point_category_set": ["generalizing"],
+      "minimum_definition_group_block_count": 4,
+      "maximum_definition_group_block_count": 6
+    },
+    "base_weight_scaling_error": 2.0816681711721685e-17,
+    "automatic_block_definition_selection_performed": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34022712348,
+    "artifact_id": 9986030384,
+    "artifact_digest": "sha256:2d20a8b313217fb2c19a8b4fc3a733134b90ec2fa147368fe6d65e0eeb71e815",
+    "head_sha": "6b5c050441b3bb816deb33e6a0d36a5e0f8e34f4",
+    "conclusion": "success"
+  },
+  "claim_boundary": {
+    "audit_identifies_true_independence_structure": false,
+    "stable_result_proves_block_definition_correct": false,
+    "sensitive_result_identifies_correct_block_scale": false,
+    "audit_repairs_bad_candidate_block_definitions": false,
+    "audit_guarantees_future_distribution_shift_performance": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_preservation": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
