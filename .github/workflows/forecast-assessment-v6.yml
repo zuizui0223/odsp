@@ -9,6 +9,7 @@ on:
       - 'odsp/forecast_assessment_v6_benchmark.py'
       - 'scripts/run_forecast_assessment_v6_benchmark.py'
       - 'tests/test_forecast_assessment_v6.py'
+      - 'tests/test_forecast_assessment_v6_short_circuit.py'
       - 'tests/test_forecast_assessment_v6_benchmark.py'
       - 'tests/test_forecast_assessment_v6_contract.py'
       - 'tests/test_forecast_assessment_v6_receipt.py'
@@ -23,6 +24,7 @@ on:
       - 'odsp/forecast_assessment_v6_benchmark.py'
       - 'scripts/run_forecast_assessment_v6_benchmark.py'
       - 'tests/test_forecast_assessment_v6.py'
+      - 'tests/test_forecast_assessment_v6_short_circuit.py'
       - 'tests/test_forecast_assessment_v6_benchmark.py'
       - 'tests/test_forecast_assessment_v6_contract.py'
       - 'tests/test_forecast_assessment_v6_receipt.py'
@@ -50,6 +52,7 @@ jobs:
         run: |
           python -m pytest -q \
             tests/test_forecast_assessment_v6.py \
+            tests/test_forecast_assessment_v6_short_circuit.py \
             tests/test_forecast_assessment_v6_contract.py
           if [ -f tests/test_forecast_assessment_v6_receipt.py ]; then
             python -m pytest -q tests/test_forecast_assessment_v6_receipt.py
