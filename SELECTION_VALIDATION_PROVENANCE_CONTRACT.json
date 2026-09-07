@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-selection-final-validation-provenance-v1",
+  "frozen_date": "2026-09-07",
+  "purpose": "machine-check caller-supplied row identities consulted during data-driven candidate selection, hyperparameter tuning, early stopping or related selection stages against one canonical final-validation target, so direct selection-on-final-validation overlap is reported as provenance leakage rather than statistical uncertainty",
+  "definition": {
+    "final_validation_row_ids_are_canonical_and_unique": true,
+    "selection_rows_are_declared_by_named_stage": true,
+    "stage_names_are_canonicalized_and_unique": true,
+    "selection_stage_rows_must_be_nonempty_hashable_nonmissing": true,
+    "duplicate_selection_rows_are_allowed_and_reported": true,
+    "direct_overlap_category": "selection_validation_leakage",
+    "fully_disjoint_category": "selection_validation_disjoint",
+    "repeated_copies_of_one_leaked_validation_row_count_once_globally": true,
+    "optional_expected_stage_names_require_exact_coverage": true,
+    "actual_overlapping_row_ids_are_not_emitted": true,
+    "missing_selection_history_is_never_inferred": true,
+    "automatic_candidate_selection": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "final_validation_row_count": 8,
+    "selection_stage_count": 3,
+    "frozen_obligations": {
+      "fully_disjoint_selection_is_clean": true,
+      "duplicate_selection_rows_are_legal_and_reported": true,
+      "single_stage_single_row_overlap_is_detected": true,
+      "repeated_same_leaked_row_counts_once_globally": true,
+      "multi_stage_leakage_counts_are_correct": true,
+      "duplicate_final_validation_ids_are_rejected": true,
+      "empty_selection_stage_is_rejected": true,
+      "missing_expected_stage_is_rejected": true,
+      "extra_expected_stage_is_rejected": true,
+      "extra_actual_stage_is_rejected": true,
+      "selection_stage_mapping_order_is_invariant": true,
+      "consistent_row_id_relabeling_preserves_provenance_result": true,
+      "actual_overlapping_row_ids_are_not_emitted": true,
+      "automatic_selection_history_inference_is_absent": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "clean_declared_selection_rows_prove_complete_selection_history": false,
+    "clean_declared_selection_rows_prove_no_indirect_validation_use": false,
+    "clean_declared_selection_rows_prove_candidate_was_predeclared": false,
+    "selection_provenance_identifies_correct_candidate": false,
+    "selection_provenance_identifies_correct_hyperparameters": false,
+    "selection_provenance_is_statistical_evidence": false,
+    "selection_provenance_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_submission_boundary": {
+    "forecast_assessment_v5_code_modified": false,
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}

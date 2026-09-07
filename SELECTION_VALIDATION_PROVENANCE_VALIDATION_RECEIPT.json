@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-selection-final-validation-provenance-validation",
+  "validated_date": "2026-09-07",
+  "contract": "SELECTION_VALIDATION_PROVENANCE_CONTRACT.json",
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 15,
+    "final_validation_row_count": 8,
+    "selection_stage_count": 3,
+    "clean": {
+      "separation_category": "selection_validation_disjoint",
+      "selection_validation_separated": true,
+      "overlapping_stage_count": 0,
+      "unique_overlapping_final_validation_row_count": 0,
+      "maximum_stage_overlap_count": 0,
+      "duplicate_selection_row_count": 1,
+      "stage_names": [
+        "candidate_ranking",
+        "early_stopping",
+        "hyperparameter_tuning"
+      ]
+    },
+    "single_leak": {
+      "separation_category": "selection_validation_leakage",
+      "selection_validation_separated": false,
+      "overlapping_stage_count": 1,
+      "unique_overlapping_final_validation_row_count": 1,
+      "maximum_stage_overlap_count": 1,
+      "duplicate_selection_row_count": 1
+    },
+    "repeated_leak": {
+      "separation_category": "selection_validation_leakage",
+      "overlapping_stage_count": 1,
+      "unique_overlapping_final_validation_row_count": 1,
+      "maximum_stage_overlap_count": 1,
+      "duplicate_selection_row_count": 2
+    },
+    "multi_stage_leak": {
+      "separation_category": "selection_validation_leakage",
+      "overlapping_stage_count": 3,
+      "unique_overlapping_final_validation_row_count": 5,
+      "maximum_stage_overlap_count": 3,
+      "duplicate_selection_row_count": 0,
+      "candidate_ranking_overlap_count": 2,
+      "early_stopping_overlap_count": 1,
+      "hyperparameter_tuning_overlap_count": 3
+    },
+    "duplicate_final_rejected": true,
+    "empty_stage_rejected": true,
+    "missing_expected_rejected": true,
+    "extra_expected_rejected": true,
+    "extra_actual_rejected": true,
+    "stage_order_invariant": true,
+    "row_relabeling_invariant": true,
+    "overlapping_row_ids_emitted": false,
+    "automatic_selection_history_inference": false,
+    "automatic_candidate_selection": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34131479531,
+    "artifact_id": 10022865826,
+    "artifact_digest": "sha256:ac4f63a4ddab908765cf60d3fe97cd5f8e01a81f6ef1765581c9ce2b915443ea",
+    "head_sha": "ff4dc9ec212473c92817709726a8fbd5bbdd11ce",
+    "conclusion": "success"
+  },
+  "claim_boundary": {
+    "clean_declared_selection_rows_prove_complete_selection_history": false,
+    "clean_declared_selection_rows_prove_no_indirect_validation_use": false,
+    "clean_declared_selection_rows_prove_candidate_was_predeclared": false,
+    "selection_provenance_identifies_correct_candidate": false,
+    "selection_provenance_identifies_correct_hyperparameters": false,
+    "selection_provenance_is_statistical_evidence": false,
+    "selection_provenance_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_submission_preservation": {
+    "forecast_assessment_v5_code_modified": false,
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
