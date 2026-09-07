@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-heldout-row-alignment-validation",
+  "validated_date": "2026-09-07",
+  "contract": "HELDOUT_ROW_ALIGNMENT_CONTRACT.json",
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 13,
+    "base_row_count": 8,
+    "exact": {
+      "alignment_category": "exact_alignment",
+      "alignment_passed": true,
+      "permutation_to_base": [0, 1, 2, 3, 4, 5, 6, 7]
+    },
+    "reorderable": {
+      "alignment_category": "reorderable_alignment",
+      "alignment_passed": true,
+      "permutation_to_base": [1, 3, 5, 0, 7, 6, 4, 2]
+    },
+    "one_dimensional_max_restore_error": 0.0,
+    "matrix_max_restore_error": 0.0,
+    "missing": {
+      "alignment_category": "row_mismatch",
+      "missing_row_count": 1,
+      "extra_row_count": 0
+    },
+    "missing_extra": {
+      "alignment_category": "row_mismatch",
+      "missing_row_count": 1,
+      "extra_row_count": 1
+    },
+    "duplicate": {
+      "alignment_category": "row_mismatch",
+      "duplicate_row_id_count": 1,
+      "missing_row_count": 1
+    },
+    "multiple_sources": {
+      "alignment_category": "row_mismatch",
+      "exact_source_count": 1,
+      "reorderable_source_count": 1,
+      "mismatched_source_count": 1
+    },
+    "duplicate_base_rejected": true,
+    "source_order_invariance": true,
+    "automatic_row_imputation": false,
+    "row_contents_used_for_identity": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34117303984,
+    "artifact_id": 10016770003,
+    "artifact_digest": "sha256:5e689899bd37b442699b755d4a0c17732c6a82e457154d31aa7e4c8f096726a6",
+    "head_sha": "1bbd75107c4392e71d69f9b32ecbc612464a0d64",
+    "conclusion": "success"
+  },
+  "claim_boundary": {
+    "alignment_proves_rows_were_untouched": false,
+    "alignment_proves_train_test_separation": false,
+    "alignment_proves_independence": false,
+    "alignment_identifies_correct_block_structure": false,
+    "alignment_validates_upstream_row_ids": false,
+    "alignment_is_statistical_evidence": false,
+    "alignment_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_v4_preservation": {
+    "v4_manuscript_modified": false,
+    "v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
