@@ -281,7 +281,14 @@ def run_forecast_assessment_v6_benchmark(*, seed: int = 20260907) -> dict[str, o
     for gid in tuple(dict.fromkeys(pseudo_group)):
         idx = np.flatnonzero(labels == gid)
         pseudo_covered[idx[: int(0.9 * idx.size)]] = True
+    pseudo_refits = np.repeat(pseudo_gain[None, :], 12, axis=0)
+    pseudo_refit_ids = {
+        name: tuple(f"{name}-refit-{i:02d}" for i in range(12))
+        for name in ("bootstrap", "fold", "seed")
+    }
+    pseudo_schemes = {name: pseudo_refits.copy() for name in pseudo_refit_ids}
     pseudo_ids = tuple(f"pseudo-{i:04d}" for i in range(pseudo_gain.size))
+    pseudo_training = _training_memberships(pseudo_refit_ids)
     block_warning = assess_state_forecast_v6(
         "block-warning",
         pseudo_gain,
@@ -298,6 +305,11 @@ def run_forecast_assessment_v6_benchmark(*, seed: int = 20260907) -> dict[str, o
         validation_row_ids=pseudo_ids,
         selection_row_ids_by_stage=_selection_rows("pseudo-selection"),
         expected_selection_stage_names=expected_stages,
+        refit_schemes=pseudo_schemes,
+        validation_row_ids_by_scheme={name: pseudo_ids for name in pseudo_schemes},
+        refit_ids_by_scheme=pseudo_refit_ids,
+        reference_refit_ids_by_scheme={name: values[0] for name, values in pseudo_refit_ids.items()},
+        training_row_ids_by_scheme=pseudo_training,
         scheme_nested_draws=1200,
         scheme_seed=20260907,
         scheme_minimum_refits=8,
