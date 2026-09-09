@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-forecast-assessment-v6-selection-provenance-validation",
+  "validated_date": "2026-09-09",
+  "contract": "FORECAST_ASSESSMENT_V6_SELECTION_PROVENANCE_CONTRACT.json",
+  "benchmark_config": {
+    "seed": 20260907,
+    "base_bootstrap_draws": 800,
+    "simultaneous_draws": 1200,
+    "refit_nested_draws": 1200,
+    "scheme_nested_draws": 1200,
+    "minimum_refits": 8,
+    "minimum_blocks_per_group": 8
+  },
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 15,
+    "clean_selection": {
+      "selection_category": "selection_validation_disjoint",
+      "downstream_v5_assessment_run": true,
+      "certification_status": "certified",
+      "operational_status": "admitted",
+      "provenance_blocking_reasons": [],
+      "statistical_blocking_reasons": [],
+      "warning_reasons": []
+    },
+    "selection_leakage": {
+      "selection_category": "selection_validation_leakage",
+      "downstream_v5_assessment_run": false,
+      "certification_status": "unavailable",
+      "operational_status": "admitted_extended_unavailable",
+      "provenance_blocking_reasons": ["selection_validation_leakage"],
+      "statistical_blocking_reasons": [],
+      "training_validation_provenance_status": "not_run_selection_validation_leakage",
+      "heldout_row_provenance_status": "not_run_selection_validation_leakage"
+    },
+    "prior_v5_failure_with_selection_leakage": {
+      "certification_status": "not_certified",
+      "operational_status": "admitted_extended_not_certified",
+      "provenance_blocking_reasons": ["selection_validation_leakage"],
+      "statistical_blocking_reasons": ["model_refit_uncertain"]
+    },
+    "clean_selection_training_leakage": {
+      "certification_status": "unavailable",
+      "provenance_blocking_reasons": ["training_validation_leakage"]
+    },
+    "clean_selection_row_mismatch": {
+      "certification_status": "unavailable",
+      "provenance_blocking_reasons": ["heldout_row_mismatch"]
+    },
+    "clean_selection_scheme_sensitive": {
+      "certification_status": "not_certified",
+      "statistical_blocking_reasons": ["refit_scheme_sensitive"]
+    },
+    "selection_leakage_without_scheme": {
+      "certification_status": "unavailable",
+      "downstream_v5_assessment_run": false
+    },
+    "strict_extrapolation": {
+      "certification_status": "certified",
+      "operational_status": "admitted_with_warnings",
+      "warning_reasons": ["strict_extrapolation", "environmental_novelty"]
+    },
+    "omitted_selection": {
+      "selection_provenance_is_null": true,
+      "downstream_v5_assessment_run": true,
+      "certification_status": "certified"
+    },
+    "block_definition_warning": {
+      "certification_status": "certified",
+      "operational_status": "admitted_with_warnings",
+      "warning_reasons": ["block_definition_sensitive"]
+    },
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34313918181,
+    "artifact_id": 10089370192,
+    "artifact_digest": "sha256:05f56dcee1bcd61712a9af95f97b6db6e31d8c53c2e5c0e0a0b521594069767f",
+    "head_sha": "ce37db57534478bfea2a0fec894ff922a134a1a9",
+    "conclusion": "success"
+  },
+  "pre_green_fixture_repair": {
+    "failed_head_sha": "fda3ee88c398884760514230097ddc886ba247e5",
+    "failed_workflow_run_id": 34135161931,
+    "contract_modified": false,
+    "decision_rule_modified": false,
+    "threshold_modified": false,
+    "repair": "restore the same pseudo refit-scheme, refit-ID, and clean training-membership evidence used by the frozen v5 block-definition-warning fixture"
+  },
+  "claim_boundary": {
+    "v6_adds_new_statistical_estimand": false,
+    "clean_declared_selection_rows_prove_complete_selection_history": false,
+    "clean_declared_selection_rows_prove_no_indirect_final_validation_use": false,
+    "clean_declared_selection_rows_prove_candidate_predeclaration": false,
+    "selection_provenance_identifies_correct_candidate": false,
+    "selection_provenance_identifies_correct_hyperparameters": false,
+    "v6_certification_is_probability_of_correctness": false,
+    "v6_identifies_biological_mechanism": false,
+    "v6_guarantees_future_distribution_shift_performance": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_submission_preservation": {
+    "forecast_assessment_v5_code_modified": false,
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
