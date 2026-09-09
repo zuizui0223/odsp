@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-final-evaluation-access-provenance-v1",
+  "frozen_date": "2026-09-09",
+  "purpose": "machine-check a caller-supplied ledger of evaluation-artifact accesses during pre-final decision stages so reuse of the declared final-evaluation artifact is reported as provenance leakage even when row identities differ",
+  "definition": {
+    "final_evaluation_artifact_id_is_canonical": true,
+    "accesses_are_declared_by_named_stage": true,
+    "stage_names_are_canonicalized_and_unique": true,
+    "artifact_ids_must_be_hashable_nonmissing": true,
+    "duplicate_accesses_are_allowed_and_reported": true,
+    "direct_final_artifact_reuse_category": "final_evaluation_access_leakage",
+    "fully_disjoint_declared_access_category": "final_evaluation_not_accessed_in_declared_pre_final_stages",
+    "repeated_access_to_final_artifact_counts_once_globally": true,
+    "optional_expected_stage_names_require_exact_coverage": true,
+    "actual_accessed_artifact_ids_are_not_emitted": true,
+    "unlogged_accesses_are_never_inferred": true,
+    "ledger_completeness_is_not_assumed": true,
+    "automatic_candidate_selection": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "pre_final_stage_count": 3,
+    "frozen_obligations": {
+      "fully_disjoint_declared_access_is_clean": true,
+      "duplicate_nonfinal_accesses_are_legal_and_reported": true,
+      "single_stage_final_artifact_access_is_detected": true,
+      "repeated_final_artifact_access_counts_once_globally": true,
+      "multi_stage_final_artifact_access_counts_are_correct": true,
+      "missing_final_artifact_id_is_rejected": true,
+      "empty_access_stage_is_rejected": true,
+      "missing_expected_stage_is_rejected": true,
+      "extra_expected_stage_is_rejected": true,
+      "extra_actual_stage_is_rejected": true,
+      "stage_mapping_order_is_invariant": true,
+      "consistent_artifact_id_relabeling_preserves_provenance_result": true,
+      "actual_artifact_ids_are_not_emitted": true,
+      "automatic_access_history_inference_is_absent": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "clean_declared_access_ledger_proves_complete_access_history": false,
+    "clean_declared_access_ledger_proves_no_indirect_information_transfer": false,
+    "clean_declared_access_ledger_proves_genuine_predeclaration": false,
+    "evaluation_access_provenance_identifies_correct_candidate": false,
+    "evaluation_access_provenance_is_statistical_evidence": false,
+    "evaluation_access_provenance_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_submission_boundary": {
+    "forecast_assessment_v6_code_modified": false,
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
