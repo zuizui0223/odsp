@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-forecast-assessment-v8-content-provenance-validation",
+  "validated_date": "2026-09-10",
+  "contract": "FORECAST_ASSESSMENT_V8_CONTENT_PROVENANCE_CONTRACT.json",
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 16,
+    "clean_content": {
+      "content_category": "final_evaluation_content_not_accessed_in_declared_pre_final_stages",
+      "downstream_v7_assessment_run": true,
+      "certification_status": "certified",
+      "operational_status": "admitted",
+      "provenance_blocking_reasons": [],
+      "statistical_blocking_reasons": [],
+      "warning_reasons": []
+    },
+    "content_leakage": {
+      "content_category": "final_evaluation_content_leakage",
+      "leaking_stage_count": 1,
+      "match_occurrence_count": 1,
+      "maximum_stage_match_count": 1,
+      "downstream_v7_assessment_run": false,
+      "certification_status": "unavailable",
+      "operational_status": "admitted_extended_unavailable",
+      "provenance_blocking_reasons": ["final_evaluation_content_leakage"],
+      "statistical_blocking_reasons": [],
+      "evaluation_access_provenance_status": "not_run_final_evaluation_content_leakage",
+      "selection_validation_provenance_status": "not_run_final_evaluation_content_leakage"
+    },
+    "prior_v7_failure_with_content_leakage": {
+      "certification_status": "not_certified",
+      "operational_status": "admitted_extended_not_certified",
+      "provenance_blocking_reasons": ["final_evaluation_content_leakage"],
+      "statistical_blocking_reasons": ["model_refit_uncertain"]
+    },
+    "clean_content_artifact_access_leakage": {
+      "certification_status": "unavailable",
+      "provenance_blocking_reasons": ["final_evaluation_access_leakage"]
+    },
+    "clean_content_selection_leakage": {
+      "certification_status": "unavailable",
+      "provenance_blocking_reasons": ["selection_validation_leakage"]
+    },
+    "clean_content_training_leakage": {
+      "certification_status": "unavailable",
+      "provenance_blocking_reasons": ["training_validation_leakage"]
+    },
+    "clean_content_row_mismatch": {
+      "certification_status": "unavailable",
+      "provenance_blocking_reasons": ["heldout_row_mismatch"]
+    },
+    "clean_content_scheme_sensitive": {
+      "certification_status": "not_certified",
+      "statistical_blocking_reasons": ["refit_scheme_sensitive"]
+    },
+    "content_leakage_without_downstream_layers": {
+      "certification_status": "unavailable",
+      "downstream_v7_assessment_run": false
+    },
+    "strict_extrapolation": {
+      "certification_status": "certified",
+      "operational_status": "admitted_with_warnings",
+      "warning_reasons": ["strict_extrapolation", "environmental_novelty"],
+      "maximum_novelty_ratio": 34.562340935482716
+    },
+    "omitted_content": {
+      "content_provenance_is_null": true,
+      "downstream_v7_assessment_run": true,
+      "certification_status": "certified"
+    },
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34470209536,
+    "artifact_id": 10149208483,
+    "artifact_digest": "sha256:77acfb853d67373b7110674d6a84be2aff9b802925fc6d25d7e9d586f73bd20a",
+    "head_sha": "6c692c714707129d69f661d517860409bdfaefad",
+    "conclusion": "success"
+  },
+  "claim_boundary": {
+    "clean_declared_digest_ledger_proves_complete_access_history": false,
+    "clean_declared_digest_ledger_proves_no_reencoded_or_semantically_equivalent_reuse": false,
+    "clean_declared_digest_ledger_proves_genuine_predeclaration": false,
+    "content_provenance_identifies_correct_candidate": false,
+    "v8_certification_is_probability_of_correctness": false,
+    "v8_identifies_biological_mechanism": false,
+    "v8_guarantees_future_distribution_shift_performance": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_submission_preservation": {
+    "forecast_assessment_v7_code_modified": false,
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
