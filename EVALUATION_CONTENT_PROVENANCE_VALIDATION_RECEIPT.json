@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-evaluation-content-provenance-validation",
+  "validated_date": "2026-09-10",
+  "contract": "EVALUATION_CONTENT_PROVENANCE_CONTRACT.json",
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 15,
+    "clean_category": "final_evaluation_content_not_accessed_in_declared_pre_final_stages",
+    "clean_stage_count": 3,
+    "clean_leaking_stage_count": 0,
+    "clean_match_occurrence_count": 0,
+    "clean_unique_match_count": 0,
+    "clean_duplicate_digest_count": 1,
+    "single_copy_category": "final_evaluation_content_leakage",
+    "single_copy_leaking_stage_count": 1,
+    "single_copy_match_occurrence_count": 1,
+    "single_copy_unique_match_count": 1,
+    "single_copy_maximum_stage_match_count": 1,
+    "repeated_copy_leaking_stage_count": 1,
+    "repeated_copy_match_occurrence_count": 2,
+    "repeated_copy_unique_match_count": 1,
+    "repeated_copy_maximum_stage_match_count": 2,
+    "multi_stage_copy_leaking_stage_count": 3,
+    "multi_stage_copy_match_occurrence_count": 4,
+    "multi_stage_copy_unique_match_count": 1,
+    "multi_stage_copy_maximum_stage_match_count": 2,
+    "uppercase_hex_copy_category": "final_evaluation_content_leakage",
+    "invalid_digest_format_rejected": true,
+    "wrong_digest_algorithm_rejected": true,
+    "missing_digest_rejected": true,
+    "empty_stage_rejected": true,
+    "missing_expected_stage_rejected": true,
+    "unexpected_extra_stage_rejected": true,
+    "digests_emitted": false,
+    "automatic_artifact_hashing": false,
+    "automatic_access_history_inference": false,
+    "ledger_completeness_assumed": false,
+    "semantic_equivalence_inferred": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34468333707,
+    "artifact_id": 10148463406,
+    "artifact_digest": "sha256:c5af4302dcaeafd44105b739f60908d81990c196a003d3c3be12446bc46f978b",
+    "head_sha": "7fd61eac9a27e2623e34cdf1d1a7e2b9b437a716",
+    "conclusion": "success"
+  },
+  "pre_green_fixture_repair": {
+    "description": "Before any benchmark run, self-audit noticed the hexadecimal-case fixture uppercased the sha256 algorithm tag as well as the hex payload. The parser was made case-insensitive for the SHA-256 tag while continuing to canonicalize the digest to lowercase. No benchmark result had been observed.",
+    "contract_modified": false,
+    "decision_rule_modified": false,
+    "threshold_modified": false
+  },
+  "claim_boundary": {
+    "clean_digest_ledger_proves_complete_access_history": false,
+    "clean_digest_ledger_proves_no_indirect_information_transfer": false,
+    "clean_digest_ledger_detects_reencoded_or_semantically_equivalent_content": false,
+    "clean_digest_ledger_proves_genuine_predeclaration": false,
+    "content_provenance_identifies_correct_candidate": false,
+    "content_provenance_is_statistical_evidence": false,
+    "content_provenance_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_submission_preservation": {
+    "forecast_assessment_v7_code_modified": false,
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
