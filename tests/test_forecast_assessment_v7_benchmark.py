@@ -1,3 +1,7 @@
+import pytest
+
+pytest.importorskip("sklearn")
+
 from odsp.forecast_assessment_v7_benchmark import run_forecast_assessment_v7_benchmark
 
 
