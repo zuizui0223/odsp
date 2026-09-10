@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-evaluation-access-log-chain-provenance",
+  "frozen_date": "2026-09-10",
+  "purpose": "machine-check the internal append-only structure of a caller-supplied evaluation-access event log and bind the event sequence to caller-supplied stage-wise artifact-ID and digest ledgers without claiming that the log is externally anchored or complete in the real world",
+  "event_schema": {
+    "sequence_index_is_zero_based_contiguous_integer": true,
+    "stage_name_is_nonempty_string": true,
+    "artifact_id_is_nonempty_string": true,
+    "artifact_digest_uses_sha256": true,
+    "previous_event_hash_uses_sha256": true,
+    "event_hash_uses_sha256": true,
+    "first_event_previous_hash_is_fixed_genesis_hash": true,
+    "event_hash_is_sha256_of_canonical_event_payload_without_event_hash": true
+  },
+  "commitment_rule": {
+    "committed_event_count_is_required_and_must_equal_supplied_event_count": true,
+    "committed_terminal_event_hash_is_required_and_must_equal_last_event_hash": true,
+    "each_previous_hash_must_equal_prior_event_hash": true,
+    "each_event_hash_is_recomputed": true,
+    "stage_id_ledger_must_equal_event_derived_ledger": true,
+    "stage_digest_ledger_must_equal_event_derived_ledger": true,
+    "stage_mapping_order_is_irrelevant": true,
+    "within_stage_event_order_is_preserved": true,
+    "duplicate_accesses_are_legal_and_reported": true,
+    "actual_artifact_ids_digests_and_event_hashes_are_not_emitted": true,
+    "automatic_external_anchor_verification": false,
+    "automatic_access_history_inference": false,
+    "real_world_log_completeness_assumed": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "decision_rule": {
+    "all_chain_commitment_and_ledger_checks_pass_gives": "evaluation_access_log_chain_consistent",
+    "any_recomputed_hash_previous_hash_count_terminal_or_ledger_mismatch_gives": "evaluation_access_log_chain_mismatch",
+    "mismatch_is_provenance_failure_not_statistical_uncertainty": true,
+    "no_attempt_is_made_to_repair_or_impute_events": true,
+    "no_aggregate_confidence_score": true
+  },
+  "known_truth_benchmark": {
+    "seed": 20260910,
+    "frozen_obligations": {
+      "clean_six_event_chain_is_consistent": true,
+      "duplicate_access_is_legal_and_reported": true,
+      "event_payload_mutation_is_detected": true,
+      "event_order_swap_is_detected": true,
+      "dropped_middle_event_is_detected": true,
+      "dropped_tail_is_detected_by_commitment": true,
+      "inserted_event_without_rehash_is_detected": true,
+      "wrong_committed_event_count_is_detected": true,
+      "wrong_terminal_hash_is_detected": true,
+      "stage_artifact_id_ledger_substitution_is_detected": true,
+      "stage_digest_ledger_substitution_is_detected": true,
+      "stage_mapping_order_is_invariant": true,
+      "sha256_hexadecimal_case_is_canonicalized": true,
+      "invalid_event_metadata_is_rejected": true,
+      "actual_ids_digests_and_event_hashes_are_not_emitted": true,
+      "no_external_anchor_or_history_inference_is_claimed": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "consistent_chain_proves_external_timestamping": false,
+    "consistent_chain_proves_third_party_commitment": false,
+    "consistent_chain_proves_real_world_access_history_complete": false,
+    "consistent_chain_proves_no_fabricated_whole_chain": false,
+    "consistent_chain_proves_genuine_predeclaration": false,
+    "consistent_chain_proves_no_indirect_information_transfer": false,
+    "consistent_chain_is_statistical_evidence": false,
+    "consistent_chain_identifies_correct_candidate": false,
+    "consistent_chain_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_submission_boundary": {
+    "forecast_assessment_v9_code_modified": false,
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
