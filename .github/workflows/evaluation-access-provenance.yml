@@ -1,0 +1,79 @@
+name: evaluation-access-provenance
+
+on:
+  pull_request:
+    paths:
+      - 'EVALUATION_ACCESS_PROVENANCE_CONTRACT.json'
+      - 'EVALUATION_ACCESS_PROVENANCE_VALIDATION_RECEIPT.json'
+      - 'odsp/evaluation_access_provenance.py'
+      - 'odsp/evaluation_access_provenance_benchmark.py'
+      - 'scripts/run_evaluation_access_provenance_benchmark.py'
+      - 'tests/test_evaluation_access_provenance.py'
+      - 'tests/test_evaluation_access_provenance_benchmark.py'
+      - 'tests/test_evaluation_access_provenance_contract.py'
+      - 'tests/test_evaluation_access_provenance_receipt.py'
+      - 'docs/evaluation_access_provenance.md'
+      - '.github/workflows/evaluation-access-provenance.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'EVALUATION_ACCESS_PROVENANCE_CONTRACT.json'
+      - 'EVALUATION_ACCESS_PROVENANCE_VALIDATION_RECEIPT.json'
+      - 'odsp/evaluation_access_provenance.py'
+      - 'odsp/evaluation_access_provenance_benchmark.py'
+      - 'scripts/run_evaluation_access_provenance_benchmark.py'
+      - 'tests/test_evaluation_access_provenance.py'
+      - 'tests/test_evaluation_access_provenance_benchmark.py'
+      - 'tests/test_evaluation_access_provenance_contract.py'
+      - 'tests/test_evaluation_access_provenance_receipt.py'
+      - 'docs/evaluation_access_provenance.md'
+      - '.github/workflows/evaluation-access-provenance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP development dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+      - name: Test evaluation-access provenance API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_evaluation_access_provenance.py \
+            tests/test_evaluation_access_provenance_benchmark.py \
+            tests/test_evaluation_access_provenance_contract.py
+          if [ -f tests/test_evaluation_access_provenance_receipt.py ]; then
+            python -m pytest -q tests/test_evaluation_access_provenance_receipt.py
+          fi
+      - name: Run frozen evaluation-access provenance benchmark
+        run: |
+          python scripts/run_evaluation_access_provenance_benchmark.py \
+            --output artifacts/EVALUATION_ACCESS_PROVENANCE_BENCHMARK.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/EVALUATION_ACCESS_PROVENANCE_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert len(r['checks']) == 15
+          assert all(row['passed'] for row in r['checks'])
+          assert r['clean']['separation_category'] == 'final_evaluation_not_accessed_in_declared_pre_final_stages'
+          assert r['single_leak']['separation_category'] == 'final_evaluation_access_leakage'
+          assert r['multi_stage_leak']['leaking_stage_count'] == 3
+          print(json.dumps(r, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: evaluation-access-provenance-benchmark
+          path: artifacts/EVALUATION_ACCESS_PROVENANCE_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90

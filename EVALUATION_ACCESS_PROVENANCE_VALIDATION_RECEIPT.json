@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-final-evaluation-access-provenance-validation",
+  "validated_date": "2026-09-09",
+  "contract": "EVALUATION_ACCESS_PROVENANCE_CONTRACT.json",
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 15,
+    "pre_final_stage_count": 3,
+    "clean_category": "final_evaluation_not_accessed_in_declared_pre_final_stages",
+    "single_leak_category": "final_evaluation_access_leakage",
+    "single_leak_stage_count": 1,
+    "single_leak_occurrence_count": 1,
+    "repeated_leak_occurrence_count": 2,
+    "multi_stage_leak_stage_count": 3,
+    "multi_stage_leak_occurrence_count": 4,
+    "multi_stage_maximum_stage_final_access_count": 2,
+    "clean_duplicate_nonfinal_access_count": 1,
+    "accessed_artifact_ids_emitted": false,
+    "automatic_access_history_inference": false,
+    "ledger_completeness_assumed": false,
+    "automatic_candidate_selection": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34314628370,
+    "artifact_id": 10089613588,
+    "artifact_digest": "sha256:77b485e1c4472f625874015eefd7d71068a1c98120ce5b24bbcbc9310a45fd60",
+    "head_sha": "b3ad8333c2e1e52ca3b870512d63e19cca4ca153",
+    "conclusion": "success"
+  },
+  "claim_boundary": {
+    "clean_declared_access_ledger_proves_complete_access_history": false,
+    "clean_declared_access_ledger_proves_no_indirect_information_transfer": false,
+    "clean_declared_access_ledger_proves_genuine_predeclaration": false,
+    "evaluation_access_provenance_identifies_correct_candidate": false,
+    "evaluation_access_provenance_is_statistical_evidence": false,
+    "evaluation_access_provenance_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_submission_preservation": {
+    "forecast_assessment_v6_code_modified": false,
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
