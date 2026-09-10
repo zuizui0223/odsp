@@ -6,7 +6,7 @@ from typing import Mapping, Sequence
 import re
 
 
-_SHA256_RE = re.compile(r"^sha256:([0-9a-fA-F]{64})$")
+_SHA256_RE = re.compile(r"^sha256:([0-9a-fA-F]{64})$", re.IGNORECASE)
 
 
 @dataclass(frozen=True)
