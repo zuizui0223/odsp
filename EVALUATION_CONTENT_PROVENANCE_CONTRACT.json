@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-evaluation-content-provenance",
+  "frozen_date": "2026-09-10",
+  "purpose": "machine-check caller-supplied SHA-256 content digests for pre-final evaluation access so a byte-identical copy of the declared final-evaluation artifact is detected even when artifact IDs differ",
+  "input_rule": {
+    "final_evaluation_digest_is_required": true,
+    "digest_algorithm": "sha256",
+    "digest_format": "sha256:<64 hexadecimal characters>",
+    "hexadecimal_case_is_canonicalized": true,
+    "pre_final_accesses_are_declared_by_named_stage": true,
+    "stage_names_are_canonicalized_and_unique": true,
+    "duplicate_nonfinal_digests_are_legal_and_reported": true,
+    "expected_stage_names_may_require_exact_coverage": true,
+    "actual_digests_are_not_emitted": true,
+    "artifact_bytes_are_not_loaded_or_hashed_automatically": true,
+    "unlogged_accesses_are_not_inferred": true,
+    "ledger_completeness_is_not_assumed": true,
+    "semantic_equivalence_is_not_inferred": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "decision_rule": {
+    "exact_final_digest_match_category": "final_evaluation_content_leakage",
+    "no_final_digest_match_category": "final_evaluation_content_not_accessed_in_declared_pre_final_stages",
+    "one_exact_digest_match_is_sufficient_for_leakage": true,
+    "repeated_matches_are_counted_as_occurrences": true,
+    "affected_stages_are_counted": true,
+    "maximum_per_stage_match_count_is_reported": true,
+    "duplicate_access_occurrences_are_reported": true,
+    "digest_match_is_provenance_evidence_not_statistical_evidence": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "seed": 20260910,
+    "frozen_obligations": {
+      "clean_three_stage_ledger_is_content_disjoint": true,
+      "duplicate_nonfinal_digest_is_legal_and_reported": true,
+      "single_exact_copy_is_detected": true,
+      "repeated_exact_copy_counts_occurrences_without_extra_unique_content": true,
+      "multi_stage_exact_copy_is_detected_and_counted": true,
+      "hexadecimal_case_is_canonicalized": true,
+      "invalid_digest_format_is_rejected": true,
+      "wrong_digest_algorithm_is_rejected": true,
+      "missing_digest_is_rejected": true,
+      "empty_stage_is_rejected": true,
+      "missing_expected_stage_is_rejected": true,
+      "unexpected_extra_stage_is_rejected": true,
+      "stage_mapping_order_is_invariant": true,
+      "actual_digests_are_not_emitted_and_no_semantic_or_history_inference_occurs": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "clean_digest_ledger_proves_complete_access_history": false,
+    "clean_digest_ledger_proves_no_indirect_information_transfer": false,
+    "clean_digest_ledger_detects_reencoded_or_semantically_equivalent_content": false,
+    "clean_digest_ledger_proves_genuine_predeclaration": false,
+    "content_provenance_identifies_correct_candidate": false,
+    "content_provenance_is_statistical_evidence": false,
+    "content_provenance_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_submission_boundary": {
+    "forecast_assessment_v7_code_modified": false,
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
