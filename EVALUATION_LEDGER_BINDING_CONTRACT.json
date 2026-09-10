@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-evaluation-ledger-binding-provenance",
+  "frozen_date": "2026-09-10",
+  "purpose": "machine-check that caller-supplied artifact-ID and SHA-256 access ledgers are internally bound to the same caller-supplied artifact manifest, including the declared final-evaluation artifact ID and digest",
+  "input_rule": {
+    "one_final_evaluation_artifact_id_is_required": true,
+    "one_final_evaluation_sha256_digest_is_required": true,
+    "artifact_digest_manifest_is_caller_supplied": true,
+    "artifact_digest_manifest_must_contain_final_artifact_id": true,
+    "all_accessed_artifact_ids_must_exist_in_manifest": true,
+    "artifact_id_and_digest_ledgers_must_have_same_stage_coverage": true,
+    "duplicate_accesses_are_legal": true,
+    "digest_order_within_stage_is_not_semantically_relevant": true,
+    "expected_stage_names_may_require_exact_coverage": true,
+    "sha256_hexadecimal_case_is_canonicalized": true,
+    "automatic_artifact_hashing": false
+  },
+  "decision_rule": {
+    "final_artifact_manifest_digest_must_equal_declared_final_digest": true,
+    "each_stage_declared_digest_multiset_must_equal_manifest_implied_digest_multiset": true,
+    "all_bindings_match_category": "evaluation_ledgers_consistently_bound",
+    "any_final_or_stage_binding_mismatch_category": "evaluation_ledger_binding_mismatch",
+    "final_digest_alias_ids_are_reported_but_not_themselves_leakage": true,
+    "artifact_ids_emitted": false,
+    "digests_emitted": false,
+    "automatic_access_history_inference": false,
+    "manifest_completeness_assumed": false,
+    "semantic_equivalence_inferred": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "seed": 20260910,
+    "frozen_obligations": {
+      "clean_three_stage_ledgers_are_consistently_bound": true,
+      "duplicate_accesses_are_legal_and_reported": true,
+      "final_content_alias_id_is_reported_without_forcing_mismatch": true,
+      "wrong_declared_final_digest_is_detected": true,
+      "one_stage_digest_substitution_is_detected": true,
+      "digest_order_within_stage_is_invariant": true,
+      "stage_mapping_order_is_invariant": true,
+      "artifact_id_relabeling_is_invariant": true,
+      "sha256_hexadecimal_case_is_canonicalized": true,
+      "unknown_accessed_artifact_id_is_rejected": true,
+      "missing_final_artifact_in_manifest_is_rejected": true,
+      "id_digest_stage_coverage_mismatch_is_rejected": true,
+      "empty_access_stage_is_rejected": true,
+      "invalid_digest_format_is_rejected": true,
+      "actual_ids_and_digests_are_not_emitted_and_no_history_or_semantic_inference_occurs": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "consistent_binding_proves_manifest_is_true": false,
+    "consistent_binding_proves_manifest_is_complete": false,
+    "consistent_binding_proves_complete_access_history": false,
+    "consistent_binding_proves_genuine_predeclaration": false,
+    "consistent_binding_detects_reencoded_or_semantically_equivalent_content": false,
+    "binding_audit_is_statistical_evidence": false,
+    "binding_audit_identifies_correct_candidate": false,
+    "binding_audit_identifies_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_submission_boundary": {
+    "forecast_assessment_v8_code_modified": false,
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
