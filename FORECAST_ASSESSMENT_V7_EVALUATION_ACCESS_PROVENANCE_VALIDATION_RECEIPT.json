@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-forecast-assessment-v7-evaluation-access-provenance-validation",
+  "validated_date": "2026-09-10",
+  "contract": "FORECAST_ASSESSMENT_V7_EVALUATION_ACCESS_PROVENANCE_CONTRACT.json",
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 15,
+    "clean_access_stage_count": 3,
+    "clean_access_category": "final_evaluation_not_accessed_in_declared_pre_final_stages",
+    "clean_certification_status": "certified",
+    "clean_operational_status": "admitted",
+    "access_leakage_category": "final_evaluation_access_leakage",
+    "access_leakage_stage_count": 1,
+    "access_leakage_occurrence_count": 1,
+    "access_leakage_maximum_stage_count": 1,
+    "access_leakage_certification_status": "unavailable",
+    "access_leakage_operational_status": "admitted_extended_unavailable",
+    "access_leakage_downstream_v6_status": "not_run_final_evaluation_access_leakage",
+    "access_leakage_provenance_blockers": [
+      "final_evaluation_access_leakage"
+    ],
+    "prior_v6_failure_certification_status": "not_certified",
+    "prior_v6_failure_statistical_blockers": [
+      "model_refit_uncertain"
+    ],
+    "clean_access_selection_leakage_provenance_blockers": [
+      "selection_validation_leakage"
+    ],
+    "clean_access_training_leakage_provenance_blockers": [
+      "training_validation_leakage"
+    ],
+    "clean_access_row_mismatch_provenance_blockers": [
+      "heldout_row_mismatch"
+    ],
+    "clean_access_scheme_sensitive_statistical_blockers": [
+      "refit_scheme_sensitive"
+    ],
+    "strict_extrapolation_warning_reasons": [
+      "strict_extrapolation",
+      "environmental_novelty"
+    ],
+    "strict_extrapolation_maximum_novelty_ratio": 34.562340935482716,
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34466954708,
+    "artifact_id": 10147926368,
+    "artifact_digest": "sha256:106ef1ec59f9791b2900c87079802ff0dea1be5f36d7176424c8d9a3221af0f1",
+    "head_sha": "2e6df890ac9f89ee1df30a1a9217b47c6baef9de",
+    "conclusion": "success"
+  },
+  "claim_boundary": {
+    "clean_declared_access_ledger_proves_complete_access_history": false,
+    "clean_declared_access_ledger_proves_no_indirect_information_transfer": false,
+    "clean_declared_access_ledger_proves_genuine_predeclaration": false,
+    "clean_declared_access_ledger_proves_final_evaluation_artifact_was_never_copied_or_reencoded": false,
+    "evaluation_access_provenance_identifies_correct_candidate": false,
+    "v7_certification_is_probability_of_correctness": false,
+    "v7_identifies_biological_mechanism": false,
+    "v7_guarantees_future_distribution_shift_performance": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_submission_preservation": {
+    "forecast_assessment_v6_code_modified": false,
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
