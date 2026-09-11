@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-evaluation-access-checkpoint-provenance",
+  "frozen_date": "2026-09-11",
+  "purpose": "machine-check that multiple caller-supplied checkpoint commitments match selected event hashes from one supplied evaluation-access log without claiming that the checkpoints were externally timestamped, independently witnessed, or created before the evaluation",
+  "checkpoint_schema": {
+    "event_hashes_are_sha256": true,
+    "at_least_two_checkpoints_are_required": true,
+    "checkpoint_index_is_zero_based_non_negative_integer": true,
+    "checkpoint_hash_uses_sha256": true,
+    "checkpoint_indices_must_be_unique": true,
+    "checkpoint_indices_must_be_within_event_hash_range": true,
+    "checkpoint_sequence_order_is_audited": true,
+    "terminal_event_checkpoint_is_required": true
+  },
+  "decision_rule": {
+    "all_checkpoint_hashes_match_and_order_is_increasing_and_terminal_checkpoint_present_gives": "evaluation_access_checkpoints_consistent",
+    "any_checkpoint_hash_mismatch_or_order_mismatch_or_missing_terminal_checkpoint_gives": "evaluation_access_checkpoint_mismatch",
+    "invalid_duplicate_or_out_of_range_checkpoint_metadata_is_rejected": true,
+    "mismatch_is_provenance_failure_not_statistical_uncertainty": true,
+    "checkpoint_indices_and_hashes_are_not_emitted": true,
+    "automatic_external_timestamp_verification": false,
+    "automatic_witness_identity_verification": false,
+    "checkpoint_preexistence_assumed": false,
+    "real_world_log_completeness_assumed": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "known_truth_benchmark": {
+    "seed": 20260911,
+    "frozen_obligations": {
+      "clean_three_checkpoint_set_is_consistent": true,
+      "middle_checkpoint_hash_substitution_is_detected": true,
+      "terminal_checkpoint_hash_substitution_is_detected": true,
+      "checkpoint_order_swap_is_detected": true,
+      "missing_terminal_checkpoint_is_detected": true,
+      "duplicate_checkpoint_index_is_rejected": true,
+      "out_of_range_checkpoint_index_is_rejected": true,
+      "negative_checkpoint_index_is_rejected": true,
+      "too_few_checkpoints_are_rejected": true,
+      "invalid_event_hash_is_rejected": true,
+      "invalid_checkpoint_hash_is_rejected": true,
+      "sha256_hexadecimal_case_is_canonicalized": true,
+      "consistent_additional_intermediate_checkpoint_is_allowed": true,
+      "actual_checkpoint_indices_and_hashes_are_not_emitted": true,
+      "no_external_timestamp_or_witness_or_preexistence_is_claimed": true,
+      "aggregate_confidence_score_emitted": false
+    }
+  },
+  "claim_boundary": {
+    "consistent_checkpoints_prove_external_timestamping": false,
+    "consistent_checkpoints_prove_independent_witnessing": false,
+    "consistent_checkpoints_prove_checkpoint_preexisted_evaluation": false,
+    "consistent_checkpoints_prove_no_whole_chain_and_checkpoint_cofabrication": false,
+    "consistent_checkpoints_prove_real_world_access_history_complete": false,
+    "consistent_checkpoints_prove_genuine_predeclaration": false,
+    "consistent_checkpoints_are_statistical_evidence": false,
+    "consistent_checkpoints_identify_correct_candidate": false,
+    "consistent_checkpoints_identify_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_submission_boundary": {
+    "forecast_assessment_v10_code_modified": false,
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
