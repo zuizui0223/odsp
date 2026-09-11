@@ -1,0 +1,71 @@
+name: n2-mee-review-docx-render
+
+on:
+  pull_request:
+    paths:
+      - 'N2_MEE_REVIEW_DOCX_RENDER_CONTRACT.json'
+      - 'manuscript/N2_MEE_MANUSCRIPT_DRAFT_v4.md'
+      - 'scripts/build_n2_mee_manuscript_v4.py'
+      - 'scripts/render_n2_mee_review_docx_v4.py'
+      - 'scripts/validate_n2_mee_review_docx_v4.py'
+      - 'tests/test_n2_mee_review_docx_render_contract.py'
+      - '.github/workflows/n2-mee-review-docx-render.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'N2_MEE_REVIEW_DOCX_RENDER_CONTRACT.json'
+      - 'manuscript/N2_MEE_MANUSCRIPT_DRAFT_v4.md'
+      - 'scripts/build_n2_mee_manuscript_v4.py'
+      - 'scripts/render_n2_mee_review_docx_v4.py'
+      - 'scripts/validate_n2_mee_review_docx_v4.py'
+      - 'tests/test_n2_mee_review_docx_render_contract.py'
+      - '.github/workflows/n2-mee-review-docx-render.yml'
+
+jobs:
+  render-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install package, render dependencies and pandoc
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+          python -m pip install 'python-docx>=1.1,<2'
+          sudo apt-get update -qq
+          sudo apt-get install -y pandoc
+
+      - name: Validate render contract
+        run: python -m pytest -q tests/test_n2_mee_review_docx_render_contract.py
+
+      - name: Build validated submission-facing anonymous manuscript Markdown
+        run: |
+          mkdir -p build/n2_mee_review_docx
+          python scripts/build_n2_mee_manuscript_v4.py \
+            --output build/n2_mee_review_docx/N2_MEE_MANUSCRIPT_DRAFT_v4.md \
+            --manifest build/n2_mee_review_docx/manuscript_v4_manifest.json
+
+      - name: Render anonymous review DOCX
+        run: |
+          python scripts/render_n2_mee_review_docx_v4.py \
+            --input build/n2_mee_review_docx/N2_MEE_MANUSCRIPT_DRAFT_v4.md \
+            --output build/n2_mee_review_docx/N2_MEE_ANONYMOUS_REVIEW_v4.docx \
+            --manifest build/n2_mee_review_docx/review_docx_manifest.json
+
+      - name: Fail-closed structural validation
+        run: |
+          python scripts/validate_n2_mee_review_docx_v4.py \
+            --docx build/n2_mee_review_docx/N2_MEE_ANONYMOUS_REVIEW_v4.docx \
+            --out-json build/n2_mee_review_docx/review_docx_validation.json
+
+      - name: Upload anonymous review DOCX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: n2-mee-anonymous-review-docx-v4
+          path: build/n2_mee_review_docx/
+          if-no-files-found: error
