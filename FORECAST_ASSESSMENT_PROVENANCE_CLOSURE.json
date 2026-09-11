@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "closure_id": "odsp-forecast-assessment-local-provenance-closure-v1",
+  "recorded_date": "2026-09-11",
+  "closure_status": "closed_pending_external_trust_root_or_distinct_local_gap",
+  "terminal_local_layer": "Forecast Assessment v11",
+  "terminal_merge_commit": "7b258d2e050dccbf83dd742a41797192ae276a09",
+  "purpose": "record that Forecast Assessment v11 closes the currently identified caller-supplied, locally machine-checkable provenance stack and prevent additional local commitment layers from being misrepresented as external trust evidence",
+  "locally_closed_stack": {
+    "checkpoint_to_event_hash_consistency": true,
+    "evaluation_access_log_chain_consistency": true,
+    "evaluation_ledger_binding_consistency": true,
+    "final_evaluation_content_reuse_detection": true,
+    "final_evaluation_artifact_id_reuse_detection": true,
+    "selection_validation_declared_overlap_detection": true,
+    "training_validation_declared_overlap_detection": true,
+    "heldout_row_alignment_audit": true,
+    "refit_scheme_sensitivity_audit": true,
+    "provenance_failures_are_separate_from_statistical_uncertainty": true,
+    "aggregate_confidence_score_emitted": false
+  },
+  "external_trust_boundary": {
+    "external_timestamping_proven": false,
+    "independent_witnessing_proven": false,
+    "checkpoint_preexistence_proven": false,
+    "real_world_access_history_completeness_proven": false,
+    "whole_chain_and_checkpoint_cofabrication_prevented": false,
+    "genuine_predeclaration_proven": false
+  },
+  "stronger_evidence_required": {
+    "external_timestamping": "an independently verifiable timestamp or append-only-log inclusion commitment tied to the relevant digest",
+    "independent_witnessing": "an independently controlled signed attestation with verifiable witness identity or key provenance",
+    "checkpoint_preexistence": "an external commitment demonstrably created before the protected evaluation-access event",
+    "real_world_access_history_completeness": "trusted execution or access infrastructure that can support completeness of the recorded history rather than a caller-supplied log alone",
+    "whole_chain_and_checkpoint_cofabrication": "an external trust anchor that existed before evaluation access and is not controlled solely by the same caller supplying the chain",
+    "genuine_predeclaration": "an independently timestamped or otherwise externally committed preregistration or declaration predating outcome access"
+  },
+  "extension_rule": {
+    "another_caller_supplied_local_hash_or_commitment_alone_justifies_v12": false,
+    "external_trust_claims_may_be_upgraded_by_local_self_consistency_alone": false,
+    "new_local_layer_requires_a_distinct_machine_checkable_gap_not_already_covered": true,
+    "new_external_trust_layer_requires_a_new_external_evidence_source_or_trust_root": true,
+    "any_future_extension_must_preserve_v11_frozen_contract_and_receipt": true,
+    "any_future_extension_must_preserve_provenance_statistical_separation": true,
+    "any_future_extension_must_not_reopen_closed_empirical_endpoints": true
+  },
+  "scientific_boundary": {
+    "chapter_n2_empirical_chain_is_reopened": false,
+    "gate_e_is_promoted": false,
+    "forecast_assessment_closure_adds_a_statistical_estimand": false,
+    "forecast_assessment_closure_adds_empirical_evidence": false,
+    "forecast_assessment_closure_identifies_biological_mechanism": false,
+    "forecast_assessment_closure_guarantees_future_performance": false
+  }
+}

@@ -1,0 +1,44 @@
+name: forecast-provenance-closure
+
+on:
+  pull_request:
+    paths:
+      - 'FORECAST_ASSESSMENT_PROVENANCE_CLOSURE.json'
+      - 'FORECAST_ASSESSMENT_V11_CHECKPOINT_CONTRACT.json'
+      - 'FORECAST_ASSESSMENT_V11_CHECKPOINT_VALIDATION_RECEIPT.json'
+      - 'docs/forecast_assessment_provenance_closure.md'
+      - 'odsp/forecast_assessment_v11.py'
+      - 'tests/test_forecast_assessment_provenance_closure.py'
+      - 'odsp/forecast_assessment_v12*'
+      - 'docs/forecast_assessment_v12*'
+      - 'tests/test_forecast_assessment_v12*'
+      - 'scripts/run_forecast_assessment_v12*'
+      - '.github/workflows/forecast-assessment-v12*'
+  push:
+    branches:
+      - main
+    paths:
+      - 'FORECAST_ASSESSMENT_PROVENANCE_CLOSURE.json'
+      - 'FORECAST_ASSESSMENT_V11_CHECKPOINT_CONTRACT.json'
+      - 'FORECAST_ASSESSMENT_V11_CHECKPOINT_VALIDATION_RECEIPT.json'
+      - 'docs/forecast_assessment_provenance_closure.md'
+      - 'odsp/forecast_assessment_v11.py'
+      - 'tests/test_forecast_assessment_provenance_closure.py'
+      - 'odsp/forecast_assessment_v12*'
+      - 'docs/forecast_assessment_v12*'
+      - 'tests/test_forecast_assessment_v12*'
+      - 'scripts/run_forecast_assessment_v12*'
+      - '.github/workflows/forecast-assessment-v12*'
+
+jobs:
+  closure-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install package and test runner
+        run: python -m pip install -e . pytest
+      - name: Enforce local provenance closure
+        run: python -m pytest -q tests/test_forecast_assessment_provenance_closure.py
