@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "receipt_id": "odsp-evaluation-access-checkpoint-validation",
+  "validated_date": "2026-09-11",
+  "contract": "EVALUATION_ACCESS_CHECKPOINT_CONTRACT.json",
+  "canonical_results": {
+    "passed": true,
+    "obligation_count": 16,
+    "clean": {
+      "category": "evaluation_access_checkpoints_consistent",
+      "event_count": 6,
+      "checkpoint_count": 3,
+      "matched_checkpoint_count": 3,
+      "mismatched_checkpoint_count": 0,
+      "checkpoint_order_strictly_increasing": true,
+      "terminal_checkpoint_present": true,
+      "checkpoints_consistent": true
+    },
+    "middle_mismatch": {
+      "category": "evaluation_access_checkpoint_mismatch",
+      "checkpoint_count": 3,
+      "matched_checkpoint_count": 2,
+      "mismatched_checkpoint_count": 1,
+      "checkpoint_order_strictly_increasing": true,
+      "terminal_checkpoint_present": true
+    },
+    "terminal_mismatch": {
+      "category": "evaluation_access_checkpoint_mismatch",
+      "checkpoint_count": 3,
+      "matched_checkpoint_count": 2,
+      "mismatched_checkpoint_count": 1,
+      "terminal_checkpoint_present": true
+    },
+    "order_mismatch": {
+      "category": "evaluation_access_checkpoint_mismatch",
+      "matched_checkpoint_count": 3,
+      "mismatched_checkpoint_count": 0,
+      "checkpoint_order_strictly_increasing": false,
+      "terminal_checkpoint_present": true
+    },
+    "missing_terminal": {
+      "category": "evaluation_access_checkpoint_mismatch",
+      "checkpoint_count": 2,
+      "matched_checkpoint_count": 2,
+      "mismatched_checkpoint_count": 0,
+      "terminal_checkpoint_present": false
+    },
+    "additional_checkpoint": {
+      "category": "evaluation_access_checkpoints_consistent",
+      "checkpoint_count": 4,
+      "matched_checkpoint_count": 4,
+      "mismatched_checkpoint_count": 0,
+      "terminal_checkpoint_present": true
+    },
+    "duplicate_index_rejected": true,
+    "out_of_range_rejected": true,
+    "negative_index_rejected": true,
+    "too_few_rejected": true,
+    "invalid_event_hash_rejected": true,
+    "invalid_checkpoint_hash_rejected": true,
+    "checkpoint_indices_emitted": false,
+    "checkpoint_hashes_emitted": false,
+    "automatic_external_timestamp_verification": false,
+    "automatic_witness_identity_verification": false,
+    "checkpoint_preexistence_assumed": false,
+    "real_world_log_completeness_assumed": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "first_green_validation": {
+    "workflow_run_id": 34567972492,
+    "artifact_id": 10186772427,
+    "artifact_digest": "sha256:409ec4eba0fcc2d5cad4f5497290f7358c04b18f01bebde688056ef8598107ff",
+    "head_sha": "67ce6208416527d51f399105b683d5c67f8a67b1",
+    "conclusion": "success"
+  },
+  "pre_green_test_repair": {
+    "description": "The first dedicated run stopped before the frozen benchmark because the contract test incorrectly required every frozen-obligation value to be true even though the contract intentionally records aggregate_confidence_score_emitted=false. Only that test expectation was repaired; contract, API, benchmark generator and decision rule were unchanged.",
+    "first_failed_workflow_run_id": 34567685041,
+    "contract_modified": false,
+    "api_modified": false,
+    "benchmark_generator_modified": false,
+    "decision_rule_modified": false
+  },
+  "claim_boundary": {
+    "consistent_checkpoints_prove_external_timestamping": false,
+    "consistent_checkpoints_prove_independent_witnessing": false,
+    "consistent_checkpoints_prove_checkpoint_preexisted_evaluation": false,
+    "consistent_checkpoints_prove_no_whole_chain_and_checkpoint_cofabrication": false,
+    "consistent_checkpoints_prove_real_world_access_history_complete": false,
+    "consistent_checkpoints_prove_genuine_predeclaration": false,
+    "consistent_checkpoints_are_statistical_evidence": false,
+    "consistent_checkpoints_identify_correct_candidate": false,
+    "consistent_checkpoints_identify_biological_mechanism": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "frozen_submission_preservation": {
+    "forecast_assessment_v10_code_modified": false,
+    "n2_mee_v4_manuscript_modified": false,
+    "n2_mee_v4_submission_artifact_modified": false,
+    "closed_empirical_endpoint_reopened": false
+  }
+}
