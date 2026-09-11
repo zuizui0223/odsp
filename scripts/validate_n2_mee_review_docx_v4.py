@@ -28,6 +28,17 @@ def _paragraph_text(paragraph: ET.Element) -> str:
     return "".join(node.text or "" for node in paragraph.findall(".//w:t", NS)).strip()
 
 
+def _page_field_paragraphs(archive: zipfile.ZipFile, footer_names: list[str]) -> list[ET.Element]:
+    paragraphs: list[ET.Element] = []
+    for name in footer_names:
+        footer = _read_xml(archive, name)
+        for paragraph in footer.findall(".//w:p", NS):
+            instructions = "".join(node.text or "" for node in paragraph.findall(".//w:instrText", NS))
+            if "PAGE" in instructions:
+                paragraphs.append(paragraph)
+    return paragraphs
+
+
 def validate(docx_path: Path) -> dict[str, object]:
     if not docx_path.exists():
         raise FileNotFoundError(docx_path)
@@ -68,8 +79,12 @@ def validate(docx_path: Path) -> dict[str, object]:
         )
 
         footer_names = sorted(name for name in names if name.startswith("word/footer") and name.endswith(".xml"))
-        footer_text = "\n".join(archive.read(name).decode("utf-8", errors="replace") for name in footer_names)
-        checks["page_number_field_present"] = bool(footer_names) and "PAGE" in footer_text and "instrText" in footer_text
+        page_paragraphs = _page_field_paragraphs(archive, footer_names)
+        checks["page_number_field_present"] = bool(page_paragraphs)
+        checks["page_number_paragraph_suppresses_line_numbering"] = bool(page_paragraphs) and all(
+            paragraph.find("./w:pPr/w:suppressLineNumbers", NS) is not None
+            for paragraph in page_paragraphs
+        )
 
         core = _read_xml(archive, "docProps/core.xml")
         creator = core.find("dc:creator", NS)
