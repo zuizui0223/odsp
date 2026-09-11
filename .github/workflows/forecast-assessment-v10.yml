@@ -1,0 +1,80 @@
+name: forecast-assessment-v10
+
+on:
+  pull_request:
+    paths:
+      - 'FORECAST_ASSESSMENT_V10_LOG_CHAIN_CONTRACT.json'
+      - 'FORECAST_ASSESSMENT_V10_LOG_CHAIN_VALIDATION_RECEIPT.json'
+      - 'odsp/forecast_assessment_v10.py'
+      - 'odsp/forecast_assessment_v10_benchmark.py'
+      - 'scripts/run_forecast_assessment_v10_benchmark.py'
+      - 'tests/test_forecast_assessment_v10.py'
+      - 'tests/test_forecast_assessment_v10_contract.py'
+      - 'tests/test_forecast_assessment_v10_benchmark.py'
+      - 'tests/test_forecast_assessment_v10_receipt.py'
+      - 'docs/forecast_assessment_v10_log_chain.md'
+      - '.github/workflows/forecast-assessment-v10.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'FORECAST_ASSESSMENT_V10_LOG_CHAIN_CONTRACT.json'
+      - 'FORECAST_ASSESSMENT_V10_LOG_CHAIN_VALIDATION_RECEIPT.json'
+      - 'odsp/forecast_assessment_v10.py'
+      - 'odsp/forecast_assessment_v10_benchmark.py'
+      - 'scripts/run_forecast_assessment_v10_benchmark.py'
+      - 'tests/test_forecast_assessment_v10.py'
+      - 'tests/test_forecast_assessment_v10_contract.py'
+      - 'tests/test_forecast_assessment_v10_benchmark.py'
+      - 'tests/test_forecast_assessment_v10_receipt.py'
+      - 'docs/forecast_assessment_v10_log_chain.md'
+      - '.github/workflows/forecast-assessment-v10.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP prediction dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev,predict]'
+      - name: Test Forecast Assessment v10 API and frozen contract
+        run: |
+          python -m pytest -q \
+            tests/test_forecast_assessment_v10.py \
+            tests/test_forecast_assessment_v10_contract.py
+          if [ -f tests/test_forecast_assessment_v10_receipt.py ]; then
+            python -m pytest -q tests/test_forecast_assessment_v10_receipt.py
+          fi
+      - name: Run frozen Forecast Assessment v10 benchmark
+        run: |
+          python scripts/run_forecast_assessment_v10_benchmark.py \
+            --output artifacts/FORECAST_ASSESSMENT_V10_LOG_CHAIN_BENCHMARK.json
+          python -m pytest -q tests/test_forecast_assessment_v10_benchmark.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('artifacts/FORECAST_ASSESSMENT_V10_LOG_CHAIN_BENCHMARK.json').read_text())
+          assert r['passed'] is True
+          assert len(r['checks']) == 18
+          assert all(row['passed'] for row in r['checks'])
+          assert r['clean_log_chain']['v10_certification']['certification_status'] == 'certified'
+          assert r['log_chain_mismatch']['downstream_v9_assessment'] is None
+          assert r['log_chain_mismatch']['v10_certification']['certification_status'] == 'unavailable'
+          assert r['clean_log_chain_binding_mismatch']['v10_certification']['certification_status'] == 'unavailable'
+          print(json.dumps(r, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: forecast-assessment-v10-log-chain-benchmark
+          path: artifacts/FORECAST_ASSESSMENT_V10_LOG_CHAIN_BENCHMARK.json
+          if-no-files-found: error
+          retention-days: 90
