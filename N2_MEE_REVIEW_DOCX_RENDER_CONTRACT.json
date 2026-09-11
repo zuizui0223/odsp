@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "contract_id": "n2-mee-anonymous-review-docx-render-v1",
+  "frozen_date": "2026-09-12",
+  "target_journal": "Methods in Ecology and Evolution",
+  "purpose": "render the already validated anonymous N2 MEE v4 manuscript into an initial-submission Word document that satisfies mechanical review-format requirements without changing scientific text or reopening any endpoint",
+  "source_rule": {
+    "source_is_output_of_existing_v4_manuscript_builder": true,
+    "scientific_v4_source_is_not_modified_by_rendering": true,
+    "empirical_endpoints_are_not_rerun": true,
+    "frozen_decision_rules_are_not_modified": true,
+    "n2_to_n3_boundary_is_not_modified": true
+  },
+  "render_requirements": {
+    "single_column": true,
+    "double_line_spacing": true,
+    "continuous_line_numbering": true,
+    "page_numbering": true,
+    "anonymous_main_document": true,
+    "author_and_last_modified_by_core_properties_blank": true,
+    "source_markdown_text_preserved_by_pandoc_conversion": true,
+    "title_page_not_embedded": true
+  },
+  "validation_requirements": {
+    "docx_opens_as_valid_zip_package": true,
+    "document_xml_present": true,
+    "styles_xml_present": true,
+    "footer_with_page_field_present": true,
+    "line_numbering_restart_is_continuous": true,
+    "line_numbering_count_by_is_one": true,
+    "column_count_is_one": true,
+    "all_nonempty_main_document_paragraphs_are_double_spaced": true,
+    "core_author_metadata_is_blank": true,
+    "manuscript_title_is_present": true,
+    "numbered_abstract_parts_1_to_4_are_present": true,
+    "data_and_code_for_peer_review_section_is_present": true
+  },
+  "claim_boundary": {
+    "render_validation_changes_scientific_evidence": false,
+    "render_validation_proves_journal_acceptance": false,
+    "render_validation_replaces_final_author_visual_check": false,
+    "render_validation_completes_author_metadata": false,
+    "render_validation_confirms_all_third_party_permissions": false
+  }
+}
