@@ -26,7 +26,7 @@ def test_v4_admin_documents_use_state_prediction_title_and_claim():
     assert "27 of 30" in cover
     assert "all 30" in cover
     assert "terminal result remains mixed" in cover
-    assert "not a workflow that merely links existing prediction algorithms" in cover
+    assert "methodological contribution is **not** a workflow" in cover
     assert "Random forests and multinomial regression are therefore demonstration engines" in cover
     assert "## Data sources" in title
     assert "10.5281/zenodo.10054153" in title
