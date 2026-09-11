@@ -17,11 +17,22 @@ from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
-from docx.shared import Inches, Pt
+from docx.shared import Inches, Pt, RGBColor
+
+
+BLACK = RGBColor(0, 0, 0)
+
+
+def _suppress_line_number(paragraph) -> None:
+    p_pr = paragraph._p.get_or_add_pPr()
+    for old in p_pr.findall(qn("w:suppressLineNumbers")):
+        p_pr.remove(old)
+    p_pr.append(OxmlElement("w:suppressLineNumbers"))
 
 
 def _set_page_field(paragraph) -> None:
     paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    _suppress_line_number(paragraph)
     run = paragraph.add_run()
     begin = OxmlElement("w:fldChar")
     begin.set(qn("w:fldCharType"), "begin")
@@ -84,16 +95,22 @@ def _format_document(document: Document) -> None:
     normal = document.styles["Normal"]
     normal.font.name = "Times New Roman"
     normal.font.size = Pt(12)
+    normal.font.color.rgb = BLACK
 
     for style_name in ("Normal", "Title", "Heading 1", "Heading 2", "Heading 3", "Caption"):
-        if style_name in document.styles:
+        try:
             style = document.styles[style_name]
-            style.paragraph_format.line_spacing = 2.0
-            style.paragraph_format.space_after = Pt(0)
+        except KeyError:
+            continue
+        style.font.color.rgb = BLACK
+        style.paragraph_format.line_spacing = 2.0
+        style.paragraph_format.space_after = Pt(0)
 
     for paragraph in _all_main_paragraphs(document):
         paragraph.paragraph_format.line_spacing = 2.0
         paragraph.paragraph_format.space_after = Pt(0)
+        for run in paragraph.runs:
+            run.font.color.rgb = BLACK
 
     for section in document.sections:
         _configure_section(section)
@@ -133,6 +150,8 @@ def render(markdown: Path, output: Path, manifest: Path | None = None) -> dict[s
         "double_line_spacing": True,
         "continuous_line_numbering": True,
         "page_numbering": True,
+        "footer_line_number_suppressed": True,
+        "review_text_color_black": True,
         "author_metadata_blank": True,
         "scientific_source_modified": False,
         "empirical_endpoint_rerun": False,
