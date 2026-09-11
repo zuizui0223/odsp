@@ -2,8 +2,9 @@
   "schema_version": 1,
   "closure_id": "odsp-forecast-assessment-local-provenance-closure-v1",
   "recorded_date": "2026-09-11",
+  "closure_status": "closed_pending_external_trust_root_or_distinct_local_gap",
   "terminal_local_layer": "Forecast Assessment v11",
-  "terminal_merge_commit": "7b258d2e0ac8cc0a641f3a4daa60731b670518cc",
+  "terminal_merge_commit": "7b258d2e050dccbf83dd742a41797192ae276a09",
   "purpose": "record that Forecast Assessment v11 closes the currently identified caller-supplied, locally machine-checkable provenance stack and prevent additional local commitment layers from being misrepresented as external trust evidence",
   "locally_closed_stack": {
     "checkpoint_to_event_hash_consistency": true,
