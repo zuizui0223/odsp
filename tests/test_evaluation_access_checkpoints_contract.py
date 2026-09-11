@@ -15,7 +15,12 @@ def test_evaluation_access_checkpoint_contract_is_frozen():
     assert contract["decision_rule"]["any_checkpoint_hash_mismatch_or_order_mismatch_or_missing_terminal_checkpoint_gives"] == "evaluation_access_checkpoint_mismatch"
     obligations = contract["known_truth_benchmark"]["frozen_obligations"]
     assert len(obligations) == 16
-    assert all(obligations.values())
+    assert all(
+        value is True
+        for key, value in obligations.items()
+        if key != "aggregate_confidence_score_emitted"
+    )
+    assert obligations["aggregate_confidence_score_emitted"] is False
     assert contract["claim_boundary"]["consistent_checkpoints_prove_external_timestamping"] is False
     assert contract["claim_boundary"]["consistent_checkpoints_prove_no_whole_chain_and_checkpoint_cofabrication"] is False
     assert contract["decision_rule"]["aggregate_confidence_score_emitted"] is False
