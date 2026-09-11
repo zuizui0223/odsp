@@ -1,10 +1,25 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "checklist_id": "n2-mee-state-prediction-v4-submission-checklist",
   "target_journal": "Methods in Ecology and Evolution",
   "article_type": "Research Article",
   "manuscript_title": "State-resolved ecological prediction: from flat suitability to transferable ecological-state distributions",
-  "guideline_checked_date": "2026-09-05",
+  "guideline_checked_date": "2026-09-12",
+  "official_policy_snapshot": {
+    "author_guidelines": "https://besjournals.onlinelibrary.wiley.com/hub/journal/2041210x/author-guidelines",
+    "aims_and_scope": "https://besjournals.onlinelibrary.wiley.com/hub/journal/2041210x/aims-and-scope/read-full-aims-and-scope",
+    "research_article_requires_methodological_contribution": true,
+    "simulation_or_benchmark_expected_before_empirical_application_for_new_computational_methods": true,
+    "broad_cross_taxon_or_cross_system_applicability_expected": true,
+    "mere_workflow_linking_existing_methods_is_not_sufficient": true,
+    "double_anonymous_review": true,
+    "anonymous_code_or_data_for_peer_review_required": true,
+    "title_page_uploaded_separately": true,
+    "title_page_data_sources_where_appropriate": true,
+    "ai_application_and_version_should_be_reported": true,
+    "third_party_datasets_must_be_publicly_reusable_or_permission_obtained": true,
+    "cover_letter_optional": true
+  },
   "validated_manuscript": {
     "word_count": 5443,
     "abstract_word_count": 350,
@@ -13,9 +28,13 @@
     "known_truth_validation_before_empirical_application": true,
     "prediction_target_P_A_given_X_explicit": true,
     "primary_independent_transfer_score_explicit": true,
+    "methodological_gap_is_independent_of_focal_taxon": true,
+    "upstream_prediction_learner_is_exchangeable": true,
+    "empirical_case_studies_are_not_the_novelty_claim": true,
     "no_retuning_statement_present": true,
     "ethics_statement_present": true,
-    "generative_ai_disclosure_present": true
+    "generative_ai_disclosure_present": true,
+    "generative_ai_application_and_version_named": true
   },
   "automatic_items": {
     "anonymous_main_manuscript_builds_deterministically": true,
@@ -27,9 +46,18 @@
     "anonymous_review_bundle_identity_scan_passed": true,
     "anonymous_review_bundle_internal_tests_passed": true,
     "anonymous_bundle_excludes_raw_internal_workflow_pr_provenance": true,
+    "anonymous_code_and_evidence_available_for_peer_review": true,
     "submitted_python_ai_annotations_present": true,
+    "ai_application_and_model_version_named": true,
     "open_source_license_present": true,
     "prospective_state_prediction_contracts_present": true,
+    "known_truth_benchmark_precedes_empirical_application": true,
+    "cross_axis_finite_discrete_generality_validated": true,
+    "cover_letter_states_method_is_not_a_workflow_linking_existing_learners": true,
+    "title_page_has_explicit_data_sources_section": true,
+    "primary_bop_reuse_rights_publicly_verified_as_cc0": true,
+    "primary_mh_reuse_rights_publicly_verified_as_cc0": true,
+    "snapshot_serengeti_is_publicly_archived_in_dryad": true,
     "mh_endpoint_remains_unavailable_without_rescue": true,
     "bop_endpoint_remains_mixed_without_relaxing_terminal_rule": true,
     "tawaki_bat_serengeti_endpoints_remain_closed": true,
@@ -37,6 +65,13 @@
     "separate_v4_title_page_template_present": true,
     "v4_cover_letter_draft_present": true,
     "historical_v3_submission_package_preserved": true
+  },
+  "desk_screening_positioning": {
+    "new_method_claim_is_prediction_target_plus_validation_architecture": true,
+    "new_method_claim_is_not_random_forest_or_multinomial_regression": true,
+    "new_method_claim_is_not_pipeline_composition": true,
+    "case_studies_demonstrate_use_and_failure_modes": true,
+    "residual_editorial_scope_judgment_remains": true
   },
   "scientific_claim_ceiling": {
     "state_resolved_prediction_framework_supported": true,
@@ -65,12 +100,19 @@
     "acknowledgements_finalized": false,
     "funding_statement_finalized": false,
     "conflict_of_interest_statement_finalized": false,
+    "third_party_data_reuse_terms_or_permissions_confirmed_for_all_sources": false,
     "v4_data_availability_wording_approved": false,
     "ethics_wording_approved": false,
     "generative_ai_disclosure_wording_approved": false,
     "optional_translated_abstract_decision_made": false,
     "submission_system_metadata_entered": false,
     "final_pdf_or_word_render_checked_for_double_spacing_continuous_line_numbers_and_page_numbers": false
+  },
+  "submission_options_not_readiness_gates": {
+    "cover_letter_is_optional": true,
+    "translated_abstract_is_optional": true,
+    "transparent_peer_review_opt_out_is_submission_system_choice": true,
+    "pre_submission_enquiry_is_available_but_not_required": true
   },
   "ready_for_author_metadata_completion": true,
   "ready_for_submission_without_author_metadata_completion": false
