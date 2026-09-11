@@ -34,6 +34,21 @@ Use only roles each author actually performed.
 - **[OTHER AUTHOR INITIALS, if applicable]**: [CRediT roles].
 - **AI-assisted code accountability**: at least one named author must explicitly accept responsibility for reviewing, validating and accepting all AI-assisted code and text included in the submission: **[AUTHOR INITIALS TO CONFIRM]**.
 
+## Data sources
+
+Primary prospective state-prediction applications:
+
+- **MH_ANTWERPEN** — Zenodo DOI `10.5281/zenodo.10054153`; archived bird-tracking data from the Research Institute for Nature and Forest / LifeWatch GPS tracking network.
+- **BOP_RODENT v3** — Zenodo DOI `10.5281/zenodo.10055071`; archived bird-tracking data from the Research Institute for Nature and Forest / LifeWatch GPS tracking network.
+
+Supporting diagnostic applications retained from earlier frozen endpoints:
+
+- Tawaki processed archive — Zenodo DOI `10.5281/zenodo.14849008`.
+- European free-tailed bat tracking — Movebank Data Repository DOI `10.5441/001/1.52nn82r9`.
+- Snapshot Serengeti — Dryad DOI `10.5061/dryad.5pt92`.
+
+Before submission, the corresponding author should confirm that the reuse terms or permissions for every third-party dataset used in the manuscript satisfy the journal's submission requirements. The current submission package does not redistribute the original tracking or camera-trap source data as newly authored data.
+
 ## Data availability statement
 
 This study reanalyses publicly archived ecological data. The prospective state-prediction applications use the MH_ANTWERPEN archive (Zenodo DOI `10.5281/zenodo.10054153`) and the fixed BOP_RODENT v3 archive (Zenodo DOI `10.5281/zenodo.10055071`). Supporting diagnostic applications use the Tawaki processed archive (Zenodo DOI `10.5281/zenodo.14849008`), European free-tailed bat tracking (Movebank Data Repository DOI `10.5441/001/1.52nn82r9`), and Snapshot Serengeti (Dryad DOI `10.5061/dryad.5pt92`). The code, prospective analysis contracts, deterministic validation benchmarks, sanitized scientific evidence summaries and state-prediction manuscript are supplied in a double-anonymous review archive. If accepted, the final code and documentation should be deposited in a public archival repository with a permanent identifier.

@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "audit_id": "n2-mee-submission-policy-audit-2026-09-12",
+  "audit_date": "2026-09-12",
+  "target_journal": "Methods in Ecology and Evolution",
+  "article_type": "Research Article",
+  "official_sources": {
+    "author_guidelines": "https://besjournals.onlinelibrary.wiley.com/hub/journal/2041210x/author-guidelines",
+    "aims_and_scope": "https://besjournals.onlinelibrary.wiley.com/hub/journal/2041210x/aims-and-scope/read-full-aims-and-scope",
+    "good_methods_paper_editorial": "https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.14232",
+    "ethics_editorial_2026": "https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210x.70290"
+  },
+  "journal_fit_checks": {
+    "methodological_gap_is_independent_of_focal_organism": true,
+    "method_is_broadly_applicable_across_declared_ecological_state_axes": true,
+    "known_truth_or_benchmark_validation_precedes_empirical_application": true,
+    "methodological_novelty_is_not_the_empirical_case_study": true,
+    "methodological_novelty_is_not_the_choice_of_random_forest_or_multinomial_regression": true,
+    "methodological_novelty_is_not_a_workflow_that_merely_links_existing_algorithms": true,
+    "methodological_core_is_state_probability_target_plus_lower_information_comparator_plus_independent_group_transfer_decision": true,
+    "residual_scope_decision_remains_editorial_judgment": true
+  },
+  "initial_submission_format_checks": {
+    "single_column_required": true,
+    "double_line_spacing_required": true,
+    "continuous_line_numbering_required": true,
+    "page_numbering_required": true,
+    "research_article_word_ceiling_7000_to_8000_including_references_and_captions": true,
+    "numbered_abstract_1_to_4_required": true,
+    "abstract_target_no_more_than_350_words": true,
+    "title_page_separate_not_for_review": true,
+    "double_anonymous_main_document": true,
+    "anonymous_code_or_data_for_peer_review_required": true,
+    "cover_letter_optional": true
+  },
+  "current_v4_status": {
+    "manuscript_word_count": 5443,
+    "abstract_word_count": 350,
+    "abstract_numbered_parts": 4,
+    "anonymous_review_bundle_available": true,
+    "anonymous_bundle_identity_scan_passed": true,
+    "anonymous_bundle_internal_tests_passed": true,
+    "title_page_template_available": true,
+    "title_page_data_sources_section_added": true,
+    "cover_letter_method_positioning_strengthened": true,
+    "manuscript_scientific_text_modified_by_this_audit": false,
+    "empirical_endpoint_rerun_by_this_audit": false,
+    "frozen_decision_rule_modified_by_this_audit": false
+  },
+  "ai_policy_check": {
+    "generative_ai_use_disclosed": true,
+    "application_named": "OpenAI ChatGPT",
+    "model_version_named": "GPT-5.6 Sol",
+    "submitted_ai_assisted_python_files_conservatively_annotated": true,
+    "named_author_acceptance_of_code_and_text_responsibility_requires_manual_confirmation": true
+  },
+  "third_party_data_reuse_check": {
+    "BOP_RODENT": {
+      "doi": "10.5281/zenodo.10055071",
+      "public_archive": true,
+      "reuse_status": "CC0-1.0 verified on Zenodo record",
+      "manual_permission_request_currently_indicated": false
+    },
+    "MH_ANTWERPEN": {
+      "doi": "10.5281/zenodo.10054153",
+      "public_archive": true,
+      "reuse_status": "CC0 reuse status verified in public LifeWatch/IMIS metadata for the archive",
+      "manual_permission_request_currently_indicated": false
+    },
+    "Snapshot_Serengeti": {
+      "doi": "10.5061/dryad.5pt92",
+      "public_archive": true,
+      "reuse_status": "public Dryad dataset; Dryad dataset terms use CC0 unless otherwise indicated",
+      "manual_permission_request_currently_indicated": false
+    },
+    "Tawaki_supporting_diagnostic": {
+      "doi": "10.5281/zenodo.14849008",
+      "public_archive": true,
+      "reuse_status": "publicly archived and cited; final submission-side terms confirmation retained as author gate",
+      "manual_permission_request_currently_indicated": null
+    },
+    "Tadarida_teniotis_supporting_diagnostic": {
+      "doi": "10.5441/001/1.52nn82r9",
+      "public_archive": true,
+      "reuse_status": "public Movebank Data Repository record; final submission-side terms confirmation retained as author gate",
+      "manual_permission_request_currently_indicated": null
+    },
+    "all_source_terms_final_author_confirmation_complete": false
+  },
+  "ethics_check": {
+    "new_animal_capture_handling_manipulation_or_field_sampling_in_present_study": false,
+    "present_study_is_reanalysis_of_archived_data": true,
+    "source_study_ethics_and_permits_remain_with_original_collectors": true,
+    "final_author_approval_of_ethics_wording_required": true
+  },
+  "remaining_manual_gates": [
+    "final authorship and order",
+    "affiliations and corresponding-author contact",
+    "all-author submission approval and no-concurrent-submission confirmation",
+    "final CRediT roles and named AI-accountable author",
+    "acknowledgements, funding and conflict-of-interest statements",
+    "final third-party data reuse terms or permission confirmation for every source",
+    "final approval of data availability, ethics and generative-AI wording",
+    "optional translated-abstract decision",
+    "submission-system metadata entry",
+    "final rendered-file check for double spacing, continuous line numbering and page numbering"
+  ],
+  "readiness": {
+    "scientific_and_technical_submission_package_ready": true,
+    "desk_screening_positioning_hardened": true,
+    "ready_for_author_metadata_completion": true,
+    "ready_for_submission_without_manual_author_gates": false
+  }
+}
