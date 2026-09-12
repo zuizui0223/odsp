@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "checklist_id": "n2-mee-state-prediction-v4-submission-checklist",
   "target_journal": "Methods in Ecology and Evolution",
   "article_type": "Research Article",
@@ -47,6 +47,9 @@
     "anonymous_review_bundle_internal_tests_passed": true,
     "anonymous_bundle_excludes_raw_internal_workflow_pr_provenance": true,
     "anonymous_code_and_evidence_available_for_peer_review": true,
+    "anonymous_review_docx_single_column_double_spaced_line_numbered_and_page_numbered": true,
+    "anonymous_review_docx_structural_validation_passed": true,
+    "anonymous_review_docx_25_page_development_visual_qa_passed": true,
     "submitted_python_ai_annotations_present": true,
     "ai_application_and_model_version_named": true,
     "open_source_license_present": true,
@@ -58,6 +61,7 @@
     "primary_bop_reuse_rights_publicly_verified_as_cc0": true,
     "primary_mh_reuse_rights_publicly_verified_as_cc0": true,
     "snapshot_serengeti_is_publicly_archived_in_dryad": true,
+    "submission_handoff_packet_generated_from_validated_v4_text": true,
     "mh_endpoint_remains_unavailable_without_rescue": true,
     "bop_endpoint_remains_mixed_without_relaxing_terminal_rule": true,
     "tawaki_bat_serengeti_endpoints_remain_closed": true,
@@ -106,7 +110,7 @@
     "generative_ai_disclosure_wording_approved": false,
     "optional_translated_abstract_decision_made": false,
     "submission_system_metadata_entered": false,
-    "final_pdf_or_word_render_checked_for_double_spacing_continuous_line_numbers_and_page_numbers": false
+    "final_author_visual_approval_of_exact_submission_files": false
   },
   "submission_options_not_readiness_gates": {
     "cover_letter_is_optional": true,
