@@ -1,0 +1,53 @@
+name: n2-mee-submission-handoff
+
+on:
+  pull_request:
+    paths:
+      - 'N2_MEE_SUBMISSION_HANDOFF_PACKET.json'
+      - 'N2_MEE_STATE_PREDICTION_V4_SUBMISSION_CHECKLIST.json'
+      - 'manuscript/N2_MEE_MANUSCRIPT_DRAFT_v4.md'
+      - 'manuscript/N2_MEE_TITLE_PAGE_TEMPLATE_v4.md'
+      - 'scripts/build_n2_mee_manuscript_v4.py'
+      - 'scripts/build_n2_mee_submission_handoff.py'
+      - 'tests/test_n2_mee_submission_handoff.py'
+      - 'docs/n2_mee_submission_handoff_2026-09-12.md'
+      - '.github/workflows/n2-mee-submission-handoff.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'N2_MEE_SUBMISSION_HANDOFF_PACKET.json'
+      - 'N2_MEE_STATE_PREDICTION_V4_SUBMISSION_CHECKLIST.json'
+      - 'manuscript/N2_MEE_MANUSCRIPT_DRAFT_v4.md'
+      - 'manuscript/N2_MEE_TITLE_PAGE_TEMPLATE_v4.md'
+      - 'scripts/build_n2_mee_manuscript_v4.py'
+      - 'scripts/build_n2_mee_submission_handoff.py'
+      - 'tests/test_n2_mee_submission_handoff.py'
+      - 'docs/n2_mee_submission_handoff_2026-09-12.md'
+      - '.github/workflows/n2-mee-submission-handoff.yml'
+
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install package and tests
+        run: python -m pip install -e '.[dev]'
+      - name: Validate canonical handoff
+        run: python -m pytest -q tests/test_n2_mee_submission_handoff.py tests/test_n2_mee_v4_submission_admin.py
+      - name: Regenerate handoff artifact
+        run: |
+          mkdir -p build/submission_handoff
+          python scripts/build_n2_mee_submission_handoff.py \
+            --json build/submission_handoff/N2_MEE_SUBMISSION_HANDOFF_PACKET.json \
+            --markdown build/submission_handoff/N2_MEE_SUBMISSION_HANDOFF.md
+          cmp N2_MEE_SUBMISSION_HANDOFF_PACKET.json build/submission_handoff/N2_MEE_SUBMISSION_HANDOFF_PACKET.json
+      - name: Upload handoff artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: n2-mee-submission-handoff
+          path: build/submission_handoff/
+          if-no-files-found: error
