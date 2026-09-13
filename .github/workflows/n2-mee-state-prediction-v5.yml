@@ -4,8 +4,10 @@ on:
   pull_request:
     paths:
       - "N2_MEE_STATE_PREDICTION_V5_CONTRACT.json"
+      - "N2_MEE_REVIEW_DISTRIBUTION_BOUNDARY_V5.json"
       - "BOP_RODENT_SPECIES_BASELINE_AMENDMENT_RECEIPT.json"
       - "odsp/bop_species_baseline.py"
+      - "scripts/audit_n2_mee_review_distribution.py"
       - "scripts/build_n2_mee_manuscript_v5.py"
       - "scripts/build_n2_mee_review_bundle_v5.py"
       - "tests/test_n2_mee_state_prediction_v5.py"
@@ -53,6 +55,13 @@ jobs:
           python scripts/build_n2_mee_review_bundle_v5.py
           --output build/state_prediction_v5/N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v5.zip
 
+      - name: Audit scientific-only v5 review distribution
+        run: >-
+          python scripts/audit_n2_mee_review_distribution.py
+          --bundle build/state_prediction_v5/N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v5.zip
+          --boundary N2_MEE_REVIEW_DISTRIBUTION_BOUNDARY_V5.json
+          --out-json build/state_prediction_v5/N2_MEE_REVIEW_DISTRIBUTION_AUDIT_V5.json
+
       - name: Install and test anonymous review bundle
         run: |
           rm -rf build/state_prediction_v5/review-unpacked
@@ -77,5 +86,6 @@ jobs:
             build/state_prediction_v5/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v5.md
             build/state_prediction_v5/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v5.manifest.json
             build/state_prediction_v5/N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v5.zip
+            build/state_prediction_v5/N2_MEE_REVIEW_DISTRIBUTION_AUDIT_V5.json
           if-no-files-found: error
           retention-days: 90
