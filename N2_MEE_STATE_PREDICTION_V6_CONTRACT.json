@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "contract_id": "n2-mee-state-prediction-manuscript-v6",
+  "date": "2026-09-13",
+  "purpose": "revise the MEE scientific surface so that ODSP is presented as ecological-state distribution prediction across validated state-space geometries, using the machine-checked common held-out log-score gain from n2-state-space-generality-v1, without changing any frozen empirical endpoint",
+  "base_manuscript": "n2-mee-state-prediction-manuscript-v5",
+  "title": "State-resolved ecological prediction: from flat suitability to transferable ecological-state distributions",
+  "required_new_evidence": [
+    "N2_STATE_SPACE_GENERALITY_CONTRACT.json",
+    "odsp/distributional_gain.py",
+    "odsp/state_space_generality_benchmark.py",
+    "odsp/continuous_state.py",
+    "odsp/circular_state.py",
+    "odsp/joint_state.py"
+  ],
+  "common_prediction_target": "q(A|X) on a scientifically declared ecological state space",
+  "common_primary_transfer_score": "G_j = E_heldout,j[log q_train(A|X) - log q0_train(A)]",
+  "validated_state_space_geometries": [
+    "finite_discrete",
+    "continuous_scalar",
+    "circular_scalar",
+    "continuous_x_circular_joint"
+  ],
+  "required_manuscript_changes": [
+    "Abstract and Introduction define a distributional target q(A|X) rather than restricting the framework to finite categorical P(A|X)",
+    "Methods distinguish probability mass from continuous, circular and joint densities and require richer and baseline scores to use the same reference measure",
+    "Methods state that the learner, lower-information comparator and independent validation unit remain explicit scientific design choices",
+    "Methods retain finite-discrete entropy, effective-state count, Brier score and top-1 metrics as state-space-specific rather than universal quantities",
+    "Results report the cross-geometry 10-of-10 benchmark and its maximum numerical error separately from the older 1873 finite-discrete representation obligations",
+    "Discussion distinguishes state-space estimand generality from biological generality and from finite-discrete information-theoretic summaries",
+    "The joint continuous-circular coupling gain is described only as directional predictive information and not as a causal or symmetric interaction"
+  ],
+  "empirical_endpoint_preservation": {
+    "mh_terminal_category": "empirical_state_prediction_unavailable",
+    "bop_terminal_category": "empirical_state_prediction_mixed",
+    "bop_positive_log_gain_individuals": 27,
+    "bop_eligible_individuals": 30,
+    "bop_post_outcome_species_decomposition_preserved": true,
+    "empirical_endpoint_rerun": false,
+    "primary_comparator_changed": false,
+    "terminal_reclassification_allowed": false
+  },
+  "claim_boundary": {
+    "state_space_generality_is_biological_generality": false,
+    "continuous_differential_entropy_claimed_coordinate_invariant": false,
+    "effective_state_count_exp_entropy_claimed_for_continuous_states": false,
+    "finite_discrete_brier_and_top1_claimed_universal": false,
+    "joint_coupling_gain_interpreted_causally": false,
+    "joint_coupling_gain_interpreted_as_symmetric_dependence": false,
+    "learner_fixed_by_framework": false,
+    "comparator_fixed_by_framework": false,
+    "independence_unit_fixed_by_framework": false,
+    "n2_to_n3_promoted": false
+  },
+  "historical_preservation": {
+    "v4_manuscript_overwritten": false,
+    "v5_manuscript_overwritten": false,
+    "v4_review_bundle_overwritten": false,
+    "v5_review_bundle_overwritten": false,
+    "frozen_v4_receipts_or_hashes_rewritten": false
+  }
+}
