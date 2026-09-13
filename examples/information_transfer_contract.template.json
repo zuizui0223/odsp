@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "endpoint_id": "camera_activity_information_transfer_v1",
+  "data": {
+    "path": "heldout_scores.csv",
+    "format": "csv"
+  },
+  "columns": {
+    "row_id": "event_id",
+    "group": "site_id",
+    "block": "visit_day",
+    "weight": null
+  },
+  "score": {
+    "kind": "log",
+    "name": "log_predictive_probability",
+    "orientation": "higher_is_better",
+    "common_scoring_rule": true,
+    "common_reference_measure": true
+  },
+  "evaluation": {
+    "analysis_mode": "confirmatory",
+    "heldout_predictions": true,
+    "same_rows_across_levels": true,
+    "heldout_outcome_not_used_for_prediction_or_selection": true,
+    "filtration_frozen_before_outcome_scoring": true,
+    "row_independence_if_no_block": false
+  },
+  "levels": [
+    {
+      "name": "pooled",
+      "information": [],
+      "score_column": "score_pooled"
+    },
+    {
+      "name": "species",
+      "information": ["species"],
+      "score_column": "score_species"
+    },
+    {
+      "name": "species_context",
+      "information": ["species", "temperature", "moonlight", "ndvi"],
+      "score_column": "score_full"
+    }
+  ],
+  "certification": {
+    "familywise_confidence_level": 0.95,
+    "bootstrap_draws": 4000,
+    "seed": 20260913,
+    "minimum_blocks_per_group": 8,
+    "gain_tolerance": 0.0
+  }
+}
