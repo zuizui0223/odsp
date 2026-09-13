@@ -46,6 +46,24 @@ This telescoping identity is exact. It does not require a particular learner or 
 
 The implementation is `odsp.predictive_resolution.decompose_predictive_resolution`.
 
+## Predictive transfer ceiling
+
+A positive total gain does not imply that every increase in predictive resolution transferred. ODSP therefore also reports a **point transfer ceiling**: the finest level reached by a consecutive run of positive adjacent held-out gains.
+
+For a group with
+
+```text
+pooled -> species            positive
+species -> local context     positive
+local context -> full model  non-positive
+```
+
+the point transfer ceiling is `local context`, even if the full model still has positive total gain relative to the pooled comparator.
+
+`all_group_point_transfer_ceiling` applies the same rule to the conservative all-group increment categories. It advances one level only when that adjacent increment is `generalizing` across every independent group. Once a resolution step fails, a later positive increment cannot skip over it and raise the ceiling.
+
+This is intentionally a **point-score diagnostic**. It does not replace the existing simultaneous bootstrap/refit-uncertainty machinery. An uncertainty-certified transfer ceiling requires uncertainty certification of the adjacent increments themselves.
+
 ## Log-score information identity
 
 The logarithmic score has an additional population interpretation. Let `p_k(A|C_k)` be the true conditional distribution and `q_k(A|C_k)` the fitted predictor at resolution level `k`. Define
@@ -84,7 +102,7 @@ species increment             > 0
 within-species context gain   < 0.
 ```
 
-The correct conclusion is that the broad species-level shift transferred, while the fitted finer context did not add transferable predictive utility. It is not evidence that within-species context contains intrinsically negative information.
+The correct conclusion is that the broad species-level shift transferred, while the fitted finer context did not add transferable predictive utility. Its point transfer ceiling is therefore `species`. It is not evidence that within-species context contains intrinsically negative information.
 
 ## Known-truth benchmark
 
@@ -96,6 +114,8 @@ With oracle predictors the two expected increments are positive:
 pooled -> species          0.14321854481691187 nats
 species -> species+context 0.014032432883159807 nats
 ```
+
+The oracle point transfer ceiling is therefore `species+context`.
 
 A deliberately misspecified richest predictor reverses the context effect while retaining the species effect. Its expected KL penalty relative to the oracle full predictor is
 
@@ -117,7 +137,7 @@ while the total pooled-comparator gain remains positive:
 = 0.08534588517942776 nats.
 ```
 
-Thus the positive-total / negative-fine-context pattern can arise under a fully known generating process for exactly the reason implied by the identity above.
+The misspecified point transfer ceiling stops at `species`. Thus the positive-total / negative-fine-context pattern can arise under a fully known generating process for exactly the reason implied by the identity above, and the ceiling distinguishes it from true transfer of the finest resolution.
 
 ## Design rules
 
@@ -128,6 +148,7 @@ The decomposition is valid only when the ladder is specified coherently.
 - Comparator levels should be declared before inspecting their held-out signs when the analysis is confirmatory.
 - Every intermediate comparator must assign finite score to every positive-weight held-out row. ODSP fails closed if an intermediate log-score comparator assigns zero predictive density/mass. The richest final predictor may assign zero density/mass; that is retained as a predictive failure (`-inf`).
 - A large pooled mean cannot rescue a conflicting independent group. Group sign classification remains separate from event-count pooling.
+- A positive total gain cannot override a failed finer-resolution increment; the transfer ceiling stops before the failed step.
 - Log-score increments may be interpreted as conditional information only in the oracle limit. Fitted held-out increments are **realized transfer increments**.
 - Other proper scores retain the predictive telescoping decomposition but do not inherit the Shannon conditional-mutual-information interpretation.
 
