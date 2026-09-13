@@ -38,11 +38,6 @@ release = ["build>=1.2", "twine>=6"]
 [project.scripts]
 odsp = "odsp.cli:main"
 
-[project.urls]
-Repository = "https://github.com/zuizui0223/odsp"
-Issues = "https://github.com/zuizui0223/odsp/issues"
-Documentation = "https://github.com/zuizui0223/odsp/blob/main/docs/endpoint_contract_cli_v1.md"
-
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["odsp*"]
