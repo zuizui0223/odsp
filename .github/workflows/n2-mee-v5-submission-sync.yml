@@ -5,6 +5,7 @@ on:
     paths:
       - 'N2_MEE_REVIEW_DOCX_RENDER_CONTRACT_V5.json'
       - 'N2_MEE_STATE_PREDICTION_V5_SUBMISSION_CHECKLIST.json'
+      - 'N2_MEE_SUBMISSION_HANDOFF_PACKET_V5.json'
       - 'manuscript/N2_MEE_TITLE_PAGE_TEMPLATE_v5.md'
       - 'manuscript/N2_MEE_COVER_LETTER_DRAFT_v5.md'
       - 'manuscript/N2_MEE_DISCLOSURE_DRAFTS_v5.md'
