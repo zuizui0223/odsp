@@ -38,6 +38,13 @@ def _abstract(text: str) -> str:
     return text[start:end]
 
 
+def _signed_addend(value: float) -> str:
+    """Render an additive term without producing visual forms such as '+ +0.5'."""
+    if value >= 0:
+        return f"+ {value:.5f}"
+    return f"- {abs(value):.5f}"
+
+
 def _receipt() -> dict[str, object]:
     value = json.loads(RECEIPT.read_text(encoding="utf-8"))
     if value["post_outcome_amendment"] is not True:
@@ -87,7 +94,7 @@ def build_manuscript_text() -> str:
     results_addition = results_anchor + (
         "\n\nThe post-outcome descriptive baseline decomposition clarified what the pooled-comparator gain contained. "
         f"Across all 30 individuals, the descriptive mean total gain `{overall['mean_total_gain']:.5f}` nats/event decomposed into only `{overall['mean_species_component']:.5f}` nats/event from replacing the pooled marginal with the training-fold species marginal and `{overall['mean_context_within_species_component']:.5f}` nats/event of residual gain for the context-conditioned model over that species marginal; the context component was positive for {overall['positive_context_component_count']}/30 individuals. "
-        f"The species means were heterogeneous: *B. buteo* `{b['mean_total_gain']:.5f} = {b['mean_species_component']:+.5f} + ({b['mean_context_within_species_component']:+.5f})`, *C. aeruginosus* `{a['mean_total_gain']:.5f} = {a['mean_species_component']:+.5f} + {a['mean_context_within_species_component']:+.5f}`, *C. cyaneus* `{c['mean_total_gain']:.5f} = {c['mean_species_component']:+.5f} + {c['mean_context_within_species_component']:+.5f}`, and *C. pygargus* `{p['mean_total_gain']:.5f} = {p['mean_species_component']:+.5f} + {p['mean_context_within_species_component']:+.5f}` nats/event (species-baseline plus within-species context component). "
+        f"The species means were heterogeneous: *B. buteo* `{b['mean_total_gain']:.5f} = {b['mean_species_component']:+.5f} {_signed_addend(b['mean_context_within_species_component'])}`, *C. aeruginosus* `{a['mean_total_gain']:.5f} = {a['mean_species_component']:+.5f} {_signed_addend(a['mean_context_within_species_component'])}`, *C. cyaneus* `{c['mean_total_gain']:.5f} = {c['mean_species_component']:+.5f} {_signed_addend(c['mean_context_within_species_component'])}`, and *C. pygargus* `{p['mean_total_gain']:.5f} = {p['mean_species_component']:+.5f} {_signed_addend(p['mean_context_within_species_component'])}` nats/event (species-baseline plus within-species context component). "
         "Thus the unusually large *C. pygargus* total gain was not primarily a species-baseline effect, whereas *B. buteo* showed the opposite pattern, with a positive species component but a slightly negative mean within-species context component. "
         "Species-specific four-state altitude counts are supplied in the anonymous review evidence. Because this decomposition was added after outcome access, it is descriptive and leaves the prospective pooled-baseline score, 27/30 result and `empirical_state_prediction_mixed` terminal category unchanged."
     )
