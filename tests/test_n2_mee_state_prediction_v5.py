@@ -70,5 +70,5 @@ def test_v5_reports_overall_and_species_decomposition_without_reclassification()
 def test_v5_discussion_does_not_recast_primary_gain_as_pure_context_or_causal_species_effect():
     text = build_v5_text()
     assert "not as a pure environmental-context effect" in text
-    assert "does not convert the BOP result into a causal species effect" in text
+    assert "without converting it into a causal species effect" in text
     assert "contextual prediction improves within every species" in text
