@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "contract_id": "n2-mee-anonymous-review-docx-render-v5",
+  "date": "2026-09-13",
+  "target_journal": "Methods in Ecology and Evolution",
+  "purpose": "render the validated N2 MEE v5 manuscript into an initial-submission Word document using the already validated v4 formatting implementation without changing scientific text or reopening any endpoint",
+  "source_rule": {
+    "source_is_output_of_v5_manuscript_builder": true,
+    "v4_renderer_implementation_reused": true,
+    "scientific_v5_source_is_not_modified_by_rendering": true,
+    "empirical_endpoints_are_not_rerun": true,
+    "frozen_decision_rules_are_not_modified": true,
+    "bop_primary_comparator_is_not_modified": true,
+    "bop_terminal_category_is_not_modified": true,
+    "n2_to_n3_boundary_is_not_modified": true
+  },
+  "render_requirements": {
+    "single_column": true,
+    "double_line_spacing": true,
+    "continuous_line_numbering": true,
+    "page_numbering": true,
+    "footer_page_number_is_not_itself_line_numbered": true,
+    "review_text_is_black": true,
+    "anonymous_main_document": true,
+    "author_and_last_modified_by_core_properties_blank": true,
+    "source_markdown_text_preserved_by_pandoc_conversion": true,
+    "title_page_not_embedded": true
+  },
+  "validation_requirements": {
+    "reuse_structural_validator_from_v4": true,
+    "docx_opens_as_valid_zip_package": true,
+    "continuous_line_numbering": true,
+    "single_column": true,
+    "all_nonempty_main_document_paragraphs_are_double_spaced": true,
+    "page_number_field_present": true,
+    "footer_page_number_paragraph_suppresses_line_numbering": true,
+    "core_author_metadata_is_blank": true,
+    "manuscript_title_is_present": true,
+    "numbered_abstract_parts_1_to_4_are_present": true,
+    "data_and_code_for_peer_review_section_is_present": true
+  },
+  "visual_qa_boundary": {
+    "v4_25_page_visual_qa_is_not_inherited_by_v5": true,
+    "v5_exact_upload_visual_approval_completed": false,
+    "v5_exact_upload_visual_approval_is_author_only_gate": true
+  },
+  "claim_boundary": {
+    "render_validation_changes_scientific_evidence": false,
+    "render_validation_proves_journal_acceptance": false,
+    "render_validation_replaces_final_author_visual_check": false,
+    "render_validation_completes_author_metadata": false
+  }
+}
