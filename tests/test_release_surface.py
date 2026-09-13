@@ -47,16 +47,20 @@ def test_r_guide_uses_reticulate_and_same_contract_runner():
     assert "multinomial_logit" in text
 
 
-def test_release_workflow_uses_oidc_and_creates_release_only_after_publish():
+def test_release_workflow_uses_oidc_and_supports_one_click_dispatch():
     text = (ROOT / ".github" / "workflows" / "publish-pypi.yml").read_text(
         encoding="utf-8"
     )
+    assert "workflow_dispatch:" in text
+    assert "default: '0.11.0'" in text
     assert "id-token: write" in text
     assert "pypa/gh-action-pypi-publish@release/v1" in text
     assert "name: pypi" in text
-    assert "needs: publish" in text
+    assert "needs: [build, publish]" in text
     assert "gh release create" in text
     assert "--verify-tag" in text
+    assert "--target \"${GITHUB_SHA}\"" in text
+    assert "requested version" in text
 
 
 def test_package_build_workflow_tests_built_wheel_not_only_editable_checkout():
