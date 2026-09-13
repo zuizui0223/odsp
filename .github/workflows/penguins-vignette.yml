@@ -1,0 +1,32 @@
+name: penguins-vignette
+
+on:
+  pull_request:
+    paths:
+      - 'examples/penguins/**'
+      - 'tests/test_penguins_vignette.py'
+      - '.github/workflows/penguins-vignette.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install ODSP prediction workflow
+        run: python -m pip install -e '.[dev,predict]'
+      - name: Prepare pinned public dataset
+        run: python examples/penguins/prepare_penguins.py
+      - name: Run vignette through installed CLI
+        run: odsp run --contract examples/penguins/endpoint.json --out examples/penguins/receipt.json
+      - name: Validate vignette and receipt path
+        run: python -m pytest -q tests/test_penguins_vignette.py
+      - name: Show compact receipt summary
+        run: python -c "import json; r=json.load(open('examples/penguins/receipt.json')); print(r['endpoint_id'], r['input_row_count'], r['result']['gain_category'])"
