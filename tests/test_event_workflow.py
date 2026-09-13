@@ -48,6 +48,7 @@ def _workflow_rows():
 
 
 def test_long_table_workflow_returns_exact_additive_baseline_decomposition():
+    pytest.importorskip("sklearn")
     spec = EventTableSpec(
         state="state",
         features=("x",),
@@ -174,11 +175,10 @@ def test_stratum_baseline_requires_declared_stratum():
         group="individual",
         fold="fold",
     )
-    estimator = make_state_classifier("multinomial_logit", random_state=11)
     with pytest.raises(ValueError, match="requires spec.stratum"):
         cross_validate_state_events(
             _workflow_rows(),
             spec=spec,
-            estimator=estimator,
+            estimator=object(),
             baseline="stratum",
         )
