@@ -38,7 +38,9 @@ def test_v5_submission_checklist_records_new_docx_validation_without_claiming_au
     assert auto["anonymous_review_docx_v5_development_visual_qa_passed"] is True
     assert auto["submission_handoff_packet_v5_generated"] is True
     receipt = checklist["mechanical_validation_receipt"]
-    assert receipt["artifact_id"] == 10311621287
+    assert receipt["development_visual_qa_artifact_id"] == 10311621287
+    assert receipt["final_canonical_artifact_id"] == 10311881324
+    assert receipt["final_canonical_head_sha"] == "5792107f9c974a846319af2517b8eaef6448a4e5"
     assert receipt["docx_structural_validation_passed"] is True
     assert receipt["development_visual_qa_passed"] is True
     assert receipt["development_visual_qa_page_count"] == 26
