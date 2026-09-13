@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "contract_id": "n2-mee-state-prediction-manuscript-v6-copyedit",
+  "date": "2026-09-13",
+  "purpose": "create a copy-edit-only successor to canonical v5 that adds abstract headroom and removes ambiguity between pooled-comparator species sign categories and within-species context gain",
+  "base_manuscript": "n2-mee-state-prediction-manuscript-v5",
+  "allowed_changes": [
+    "shorten abstract wording without changing scientific claims",
+    "replace unqualified species-level generalizing wording with pooled-comparator-qualified wording",
+    "advance review-draft version label from 5 to 6"
+  ],
+  "required_preservation": {
+    "v5_manuscript_overwritten": false,
+    "v5_handoff_packet_overwritten": false,
+    "v5_visual_qa_receipts_overwritten": false,
+    "empirical_endpoint_rerun": false,
+    "bop_primary_comparator_changed": false,
+    "bop_primary_terminal_changed": false,
+    "bop_post_outcome_decomposition_changed": false,
+    "mh_terminal_changed": false
+  },
+  "wording_requirement": {
+    "buteo_unqualified_generalizing_removed": true,
+    "species_category_explicitly_relative_to_prospectively_pooled_comparator": true,
+    "within_species_context_heterogeneity_retained": true
+  },
+  "abstract_requirement": {
+    "ceiling_words": 350,
+    "minimum_headroom_words": 10,
+    "claims_changed": false
+  },
+  "scientific_boundary": {
+    "copy_edit_only": true,
+    "new_empirical_evidence": false,
+    "prospective_status_changed": false,
+    "post_outcome_evidence_recast_as_prospective": false,
+    "causal_claim_added": false
+  }
+}
