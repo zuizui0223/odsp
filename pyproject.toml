@@ -22,3 +22,8 @@ include = ["odsp*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+markers = [
+  "core: scientific method, mathematical validation and empirical endpoint tests used as the fast default development lane",
+  "governance: provenance, trust, robustness and forecast-governance infrastructure tests maintained outside the default scientific lane",
+  "submission: manuscript, anonymous-review, rendering, handoff and submission-package tests covered by dedicated artifact workflows",
+]
