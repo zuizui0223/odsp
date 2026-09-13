@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "contract_id": "n2-mee-state-prediction-manuscript-v5",
+  "date": "2026-09-13",
+  "purpose": "advance the frozen v4 submission surface only by integrating the post-outcome descriptive BOP species-baseline decomposition and reviewer-facing interpretation, without changing any prospective endpoint, model, comparator or terminal category",
+  "base_manuscript": "n2-mee-state-prediction-manuscript-v4",
+  "title": "State-resolved ecological prediction: from flat suitability to transferable ecological-state distributions",
+  "required_new_evidence": [
+    "BOP_RODENT_SPECIES_BASELINE_AMENDMENT_RECEIPT.json"
+  ],
+  "bop_primary_endpoint_preserved": {
+    "prospective_primary_comparator": "pooled hierarchically weighted training marginal P(A)",
+    "positive_log_gain_individuals": 27,
+    "eligible_individuals": 30,
+    "terminal_category": "empirical_state_prediction_mixed",
+    "terminal_reclassification_allowed": false
+  },
+  "descriptive_decomposition": {
+    "post_outcome": true,
+    "formula_total": "G_total = mean_log_P_model - mean_log_P_pool",
+    "formula_species": "G_species = mean_log_P_species - mean_log_P_pool",
+    "formula_context": "G_context = mean_log_P_model - mean_log_P_species",
+    "additive_identity": "G_total = G_species + G_context",
+    "model_refit_performed": false,
+    "raw_source_data_reaccessed": false,
+    "retuning_performed": false,
+    "can_override_primary_terminal": false
+  },
+  "required_manuscript_changes": [
+    "Methods explicitly state that the original BOP comparator is pooled across species while species identity is a predictor",
+    "Methods define the post-outcome species/context additive decomposition and state that it cannot alter the prospective endpoint",
+    "Results report overall and species-level decomposition including the contrasting Buteo and Circus pygargus patterns",
+    "Results state that species-specific altitude-state counts are supplied in review evidence",
+    "Discussion limits the original BOP gain to species-aware prediction over a pooled marginal rather than a pure environmental-context effect",
+    "Discussion states that the decomposition shows context dominates the overall descriptive mean but component structure is heterogeneous among species"
+  ],
+  "anonymous_review_bundle": {
+    "version": 5,
+    "starts_from_frozen_v4_bundle": true,
+    "raw_internal_workflow_or_pr_provenance_included": false,
+    "bop_species_baseline_code_included": true,
+    "sanitized_bop_species_baseline_summary_included": true,
+    "raw_amendment_receipt_included": false,
+    "author_identity_allowed": false
+  },
+  "v4_preservation": {
+    "v4_manuscript_overwritten": false,
+    "v4_review_bundle_overwritten": false,
+    "v4_final_readiness_receipt_overwritten": false,
+    "v4_hashes_rewritten": false
+  },
+  "scientific_boundary": {
+    "closed_bop_endpoint_reopened": false,
+    "closed_mh_endpoint_reopened": false,
+    "bop_primary_comparator_replaced": false,
+    "bop_mixed_terminal_relaxed": false,
+    "species_component_interpreted_causally": false,
+    "within_species_context_component_claimed_universally_positive": false
+  }
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit the frozen v4 anonymous review ZIP as a scientific-only distribution."""
+"""Audit an anonymous MEE review ZIP against an explicit scientific boundary."""
 from __future__ import annotations
 
 import argparse
@@ -12,8 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 BOUNDARY = ROOT / "N2_MEE_REVIEW_DISTRIBUTION_BOUNDARY.json"
 
 
-def audit(bundle: Path) -> dict[str, object]:
-    boundary = json.loads(BOUNDARY.read_text(encoding="utf-8"))
+def audit(bundle: Path, *, boundary_path: Path = BOUNDARY) -> dict[str, object]:
+    boundary = json.loads(boundary_path.read_text(encoding="utf-8"))
     if not bundle.is_file():
         raise FileNotFoundError(bundle)
     with zipfile.ZipFile(bundle) as archive:
@@ -56,6 +56,7 @@ def audit(bundle: Path) -> dict[str, object]:
     return {
         "schema_version": 1,
         "boundary_id": boundary["boundary_id"],
+        "boundary": boundary_path.name,
         "bundle": bundle.as_posix(),
         "passed": True,
         "file_count": len(paths),
@@ -70,9 +71,10 @@ def audit(bundle: Path) -> dict[str, object]:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--bundle", type=Path, required=True)
+    parser.add_argument("--boundary", type=Path, default=BOUNDARY)
     parser.add_argument("--out-json", type=Path)
     args = parser.parse_args()
-    result = audit(args.bundle)
+    result = audit(args.bundle, boundary_path=args.boundary)
     if args.out_json is not None:
         args.out_json.parent.mkdir(parents=True, exist_ok=True)
         args.out_json.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")

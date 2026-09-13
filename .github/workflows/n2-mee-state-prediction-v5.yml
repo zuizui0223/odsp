@@ -1,0 +1,91 @@
+name: n2-mee-state-prediction-v5
+
+on:
+  pull_request:
+    paths:
+      - "N2_MEE_STATE_PREDICTION_V5_CONTRACT.json"
+      - "N2_MEE_REVIEW_DISTRIBUTION_BOUNDARY_V5.json"
+      - "BOP_RODENT_SPECIES_BASELINE_AMENDMENT_RECEIPT.json"
+      - "odsp/bop_species_baseline.py"
+      - "scripts/audit_n2_mee_review_distribution.py"
+      - "scripts/build_n2_mee_manuscript_v5.py"
+      - "scripts/build_n2_mee_review_bundle_v5.py"
+      - "tests/test_n2_mee_state_prediction_v5.py"
+      - "tests/test_n2_mee_state_prediction_v5_contract.py"
+      - "tests/test_n2_mee_review_package_v5.py"
+      - "tests/test_bop_species_baseline.py"
+      - ".github/workflows/n2-mee-state-prediction-v5.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install authoring dependencies
+        run: python -m pip install -e ".[dev,predict]"
+
+      - name: Validate v5 contract, manuscript and review bundle
+        run: >-
+          python -m pytest -q
+          tests/test_n2_mee_state_prediction_v5_contract.py
+          tests/test_n2_mee_state_prediction_v5.py
+          tests/test_n2_mee_review_package_v5.py
+          tests/test_bop_species_baseline.py
+
+      - name: Build v5 manuscript
+        run: >-
+          python scripts/build_n2_mee_manuscript_v5.py
+          --output build/state_prediction_v5/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v5.md
+          --manifest build/state_prediction_v5/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v5.manifest.json
+
+      - name: Build v5 anonymous review bundle
+        run: >-
+          python scripts/build_n2_mee_review_bundle_v5.py
+          --output build/state_prediction_v5/N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v5.zip
+
+      - name: Audit scientific-only v5 review distribution
+        run: >-
+          python scripts/audit_n2_mee_review_distribution.py
+          --bundle build/state_prediction_v5/N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v5.zip
+          --boundary N2_MEE_REVIEW_DISTRIBUTION_BOUNDARY_V5.json
+          --out-json build/state_prediction_v5/N2_MEE_REVIEW_DISTRIBUTION_AUDIT_V5.json
+
+      - name: Install and test anonymous review bundle
+        run: |
+          rm -rf build/state_prediction_v5/review-unpacked
+          mkdir -p build/state_prediction_v5/review-unpacked
+          python - <<'PY'
+          from pathlib import Path
+          import zipfile
+          src = Path('build/state_prediction_v5/N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v5.zip')
+          dst = Path('build/state_prediction_v5/review-unpacked')
+          with zipfile.ZipFile(src) as z:
+              z.extractall(dst)
+          PY
+          cd build/state_prediction_v5/review-unpacked
+          python -m pip install -e '.[dev,predict]'
+          python -m pytest -q
+
+      - name: Upload v5 review artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: n2-mee-state-prediction-v5
+          path: |
+            build/state_prediction_v5/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v5.md
+            build/state_prediction_v5/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v5.manifest.json
+            build/state_prediction_v5/N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v5.zip
+            build/state_prediction_v5/N2_MEE_REVIEW_DISTRIBUTION_AUDIT_V5.json
+          if-no-files-found: error
+          retention-days: 90
