@@ -9,6 +9,7 @@ from typing import Sequence
 
 from .endpoint_contract import run_endpoint_contract
 from .information_transfer_contract import run_information_transfer_contract
+from .refit_information_transfer_contract import run_refit_information_transfer_contract
 
 
 _EXPECTED_USER_ERRORS = (ValueError, TypeError, OSError, ImportError)
@@ -56,6 +57,14 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     _add_common_contract_arguments(transfer)
+    transfer_refits = subparsers.add_parser(
+        "transfer-refits",
+        help=(
+            "audit a long-form ensemble of upstream refit score tables under a "
+            "strict information filtration"
+        ),
+    )
+    _add_common_contract_arguments(transfer_refits)
     return parser
 
 
@@ -66,6 +75,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             receipt = run_endpoint_contract(args.contract)
         elif args.command == "transfer":
             receipt = run_information_transfer_contract(args.contract)
+        elif args.command == "transfer-refits":
+            receipt = run_refit_information_transfer_contract(args.contract)
         else:  # pragma: no cover - argparse constrains the command.
             raise AssertionError(f"unhandled command: {args.command}")
         _write_receipt(receipt, args.out)
