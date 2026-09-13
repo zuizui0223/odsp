@@ -1,0 +1,46 @@
+name: information-transfer-contract
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/information_transfer.py'
+      - 'odsp/predictive_resolution.py'
+      - 'odsp/predictive_resolution_certification.py'
+      - 'odsp/information_transfer_contract.py'
+      - 'odsp/cli.py'
+      - 'examples/information_transfer_contract.template.json'
+      - 'docs/external_score_information_transfer_v1.md'
+      - 'tests/test_information_transfer.py'
+      - 'tests/test_predictive_resolution.py'
+      - 'tests/test_predictive_resolution_certification.py'
+      - 'tests/test_information_transfer_contract.py'
+      - '.github/workflows/information-transfer-contract.yml'
+      - 'pyproject.toml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core package without prediction extra
+        run: python -m pip install -e '.[dev]'
+      - name: Run information-transfer method and contract tests
+        run: >-
+          python -m pytest -q
+          tests/test_information_transfer.py
+          tests/test_predictive_resolution.py
+          tests/test_predictive_resolution_certification.py
+          tests/test_information_transfer_contract.py
+      - name: Check installed external-score command
+        run: odsp transfer --help
+      - name: Validate shipped contract template
+        run: >-
+          python -c "import json; from pathlib import Path; from odsp.information_transfer_contract import validate_information_transfer_contract; validate_information_transfer_contract(json.loads(Path('examples/information_transfer_contract.template.json').read_text()))"
