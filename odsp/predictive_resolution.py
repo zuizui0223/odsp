@@ -52,6 +52,7 @@ class ResolutionGroupScore:
     increments: tuple[ResolutionIncrement, ...]
     total_gain: float
     additivity_error: float
+    point_transfer_ceiling: str
 
     def as_dict(self) -> dict[str, object]:
         return {
@@ -66,6 +67,7 @@ class ResolutionGroupScore:
             "increments": [row.as_dict() for row in self.increments],
             "total_gain": self.total_gain,
             "additivity_error": self.additivity_error,
+            "point_transfer_ceiling": self.point_transfer_ceiling,
         }
 
 
@@ -77,6 +79,7 @@ class PredictiveResolutionResult:
     groups: tuple[ResolutionGroupScore, ...]
     total_gain_category: str
     increment_categories: tuple[tuple[str, str, str], ...]
+    all_group_point_transfer_ceiling: str
 
     def as_dict(self) -> dict[str, object]:
         return {
@@ -92,6 +95,7 @@ class PredictiveResolutionResult:
                 }
                 for lower, upper, category in self.increment_categories
             ],
+            "all_group_point_transfer_ceiling": self.all_group_point_transfer_ceiling,
         }
 
 
@@ -174,6 +178,21 @@ def _difference(upper: float, lower: float) -> float:
     return float(upper - lower)
 
 
+def _point_transfer_ceiling(
+    levels: tuple[str, ...],
+    gains: Sequence[float],
+    *,
+    tolerance: float,
+) -> str:
+    ceiling = levels[0]
+    for index, gain in enumerate(gains):
+        if float(gain) > tolerance:
+            ceiling = levels[index + 1]
+        else:
+            break
+    return ceiling
+
+
 def decompose_predictive_resolution(
     levels: Sequence[tuple[str, Sequence[float]]],
     groups: Sequence[object],
@@ -196,6 +215,10 @@ def decompose_predictive_resolution(
     comparator cannot be rewarded merely because a richer level assigns positive
     density. The richest final level may contain ``-inf`` and is then
     conservatively scored as negative infinite gain.
+
+    ``point_transfer_ceiling`` is the finest consecutively reached level whose
+    adjacent gain remains strictly above ``gain_tolerance``. It is a point-score
+    diagnostic, not an uncertainty-certified endpoint.
     """
 
     if not math.isfinite(gain_tolerance) or gain_tolerance < 0:
@@ -248,6 +271,11 @@ def decompose_predictive_resolution(
                 "score ladder produced an undefined additive decomposition; "
                 "check intermediate support and score orientation"
             )
+        group_ceiling = _point_transfer_ceiling(
+            names,
+            [row.mean_gain for row in increments],
+            tolerance=gain_tolerance,
+        )
         rows.append(
             ResolutionGroupScore(
                 group=group,
@@ -258,6 +286,7 @@ def decompose_predictive_resolution(
                 increments=increments,
                 total_gain=float(total),
                 additivity_error=float(additivity_error),
+                point_transfer_ceiling=group_ceiling,
             )
         )
 
@@ -273,9 +302,17 @@ def decompose_predictive_resolution(
         )
         increment_categories.append((names[index], names[index + 1], category))
 
+    all_group_ceiling = names[0]
+    for index, (_, _, category) in enumerate(increment_categories):
+        if category == "generalizing":
+            all_group_ceiling = names[index + 1]
+        else:
+            break
+
     return PredictiveResolutionResult(
         levels=names,
         groups=tuple(rows),
         total_gain_category=total_category,
         increment_categories=tuple(increment_categories),
+        all_group_point_transfer_ceiling=all_group_ceiling,
     )
