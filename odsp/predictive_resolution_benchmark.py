@@ -17,6 +17,8 @@ class PredictiveResolutionBenchmark:
     misspecified_species_increment: float
     misspecified_context_increment: float
     misspecified_total_gain: float
+    oracle_point_transfer_ceiling: str
+    misspecified_point_transfer_ceiling: str
     oracle_additivity_error: float
     misspecified_additivity_error: float
     oracle_information_identity_error: float
@@ -162,6 +164,8 @@ def run_predictive_resolution_benchmark(
         misspecified_species_increment=bad_species,
         misspecified_context_increment=bad_context,
         misspecified_total_gain=bad_total,
+        oracle_point_transfer_ceiling=oracle.all_group_point_transfer_ceiling,
+        misspecified_point_transfer_ceiling=misspecified.all_group_point_transfer_ceiling,
         oracle_additivity_error=float(
             max(abs(row.additivity_error) for row in oracle.groups)
         ),
