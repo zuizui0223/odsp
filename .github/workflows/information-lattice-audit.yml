@@ -1,0 +1,36 @@
+name: information-lattice-audit
+
+on:
+  pull_request:
+    paths:
+      - 'ODSP_INFORMATION_LATTICE_AUDIT_CONTRACT_V1.json'
+      - 'odsp/information_lattice.py'
+      - 'docs/information_lattice_order_sensitivity_v1.md'
+      - 'tests/test_information_lattice.py'
+      - 'tests/test_information_lattice_method_contract.py'
+      - '.github/workflows/information-lattice-audit.yml'
+      - 'pyproject.toml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core package
+        run: python -m pip install -e '.[dev]'
+      - name: Run lattice method tests
+        run: >-
+          python -m pytest -q
+          tests/test_information_lattice.py
+          tests/test_information_lattice_method_contract.py
+      - name: Import lattice audit without prediction extra
+        run: >-
+          python -c "from odsp.information_lattice import audit_information_lattice, certify_information_lattice; print('information-lattice-ok')"
