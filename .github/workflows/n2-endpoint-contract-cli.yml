@@ -1,0 +1,41 @@
+name: n2-endpoint-contract-cli
+
+on:
+  pull_request:
+    paths:
+      - 'N2_ENDPOINT_CONTRACT_CLI_CONTRACT.json'
+      - 'odsp/endpoint_contract.py'
+      - 'odsp/cli.py'
+      - 'examples/endpoint_contract.template.json'
+      - 'tests/test_endpoint_contract_cli.py'
+      - 'tests/test_endpoint_contract_cli_contract.py'
+      - 'pyproject.toml'
+      - '.github/workflows/n2-endpoint-contract-cli.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install package and prediction extra
+        run: python -m pip install -e '.[dev,predict]'
+      - name: Run contract and CLI tests
+        run: >-
+          python -m pytest -q
+          tests/test_endpoint_contract_cli.py
+          tests/test_endpoint_contract_cli_contract.py
+          tests/test_event_workflow.py
+          tests/test_distributional_gain.py
+      - name: Check installed command
+        run: odsp --help
+      - name: Validate shipped template
+        run: >-
+          python -c "import json; from pathlib import Path; from odsp.endpoint_contract import validate_endpoint_contract; validate_endpoint_contract(json.loads(Path('examples/endpoint_contract.template.json').read_text()))"
