@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "contract_id": "n2-event-workflow-baseline-hierarchy-v1",
+  "date": "2026-09-13",
+  "purpose": "provide a reusable long-table workflow from event records to independently grouped state-prediction gains while keeping learner, independence unit, fold, stratum, comparator and training weighting explicit",
+  "public_workflow_surface": [
+    "odsp.workflow.EventTableSpec",
+    "odsp.workflow.prepare_event_table",
+    "odsp.workflow.equal_stratum_equal_group_training_weights",
+    "odsp.workflow.training_state_baselines",
+    "odsp.workflow.cross_validate_state_events"
+  ],
+  "baseline_semantics": {
+    "pooled": "training-only state marginal under the declared training weights",
+    "stratum": "training-only state marginal within the held-out group's declared stratum under the same training weights",
+    "decomposition": "G_pooled = G_stratum_shift + G_context_within_stratum",
+    "requested_baseline_does_not_change_model_fit": true
+  },
+  "independence_semantics": {
+    "group_is_scoring_unit": true,
+    "fold_is_training_exclusion_unit_when_declared": true,
+    "groups_may_not_span_folds": true,
+    "groups_may_not_span_strata": true,
+    "observation_mass_is_not_pooled_for_terminal_sign_classification": true
+  },
+  "bop_shadow_parity": {
+    "canonical_bop_endpoint_reimplemented": false,
+    "frozen_bop_artifacts_modified": false,
+    "generic_equal_stratum_equal_group_weighting_matches_bop_equal_species_equal_individual_event_weighting_family": true,
+    "synthetic_fold_marginals_must_match_bop_specific_reconstruction": true
+  },
+  "scientific_boundaries": {
+    "frozen_empirical_endpoint_rerun": false,
+    "frozen_terminal_reclassification": false,
+    "post_outcome_bop_decomposition_reinterpreted_as_prospective": false,
+    "baseline_choice_is_automatic": false,
+    "training_weight_policy_is_automatic": false,
+    "stratum_is_inferred_from_column_names": false,
+    "causality_claimed": false
+  }
+}
