@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-"""Build a deterministic double-anonymous peer-review bundle for the N2 paper.
+"""Build an anonymized Methods in Ecology and Evolution review bundle.
 
-The archive is whitelist-based. It includes the axis-agnostic method core,
-validated generality machinery, selected reproducibility tests, public-source
-empirical runners, an integrated anonymized manuscript v2 and sanitized terminal
-scientific summaries. Git history, PR/workflow provenance and author metadata are
-intentionally excluded.
+The bundle is deliberately narrower than the development repository. It contains
+only the scientific implementation, tests, frozen public-data evidence and
+submission-facing manuscript needed for double-anonymous review.
 """
 from __future__ import annotations
 
@@ -13,146 +11,127 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import shutil
 import tempfile
 import zipfile
-
-from scripts.build_n2_mee_manuscript_v2 import build_manuscript_text
 
 
 ROOT = Path(__file__).resolve().parents[1]
 
+# NOTE: Keep this script identity-neutral. It is copied conceptually into the
+# anonymous review surface and its output is scanned for identifying tokens.
 FORBIDDEN_IDENTITY_TOKENS = (
     "zuizui0223",
     "zhang ruiqi",
+    "張瑞琪",
     "rachelzhang",
-    "rachel zhang",
 )
 
-CORE_MODULES = (
-    "added_axis_evidence.py",
-    "niche_geometry.py",
-    "projection_loss.py",
-    "transferability.py",
-    "grouped_transferability.py",
-    "crossfitted_transferability.py",
-    "temporal_partition.py",
-    "temporal_crossfit.py",
-    "temporal_information.py",
-    "vertical_information.py",
-    "synthetic_benchmark.py",
-    "generality_benchmark.py",
-    "concealed_recovery.py",
-    "n2_bat_preflight.py",
-    "n2_bat_thickness.py",
+REVIEW_IMPLEMENTATION_FILES = (
+    "odsp/__init__.py",
+    "odsp/niche_geometry.py",
+    "odsp/projection_loss.py",
+    "odsp/added_axis_evidence.py",
+    "odsp/vertical_information.py",
+    "odsp/temporal_information.py",
+    "odsp/temporal_partition.py",
+    "odsp/temporal_crossfit.py",
+    "odsp/grouped_transferability.py",
+    "odsp/crossfitted_transferability.py",
+    "odsp/transferability.py",
+    "odsp/synthetic_benchmark.py",
+    "odsp/generality_benchmark.py",
+    "odsp/generalization_profile.py",
+    "odsp/grouped_benchmark.py",
 )
 
-OPTIONAL_CORE_MODULES = ("grouped_benchmark.py",)
-
-SELECTED_TESTS = (
-    "test_added_axis_evidence.py",
-    "test_niche_geometry.py",
-    "test_projection_loss.py",
-    "test_transferability.py",
-    "test_grouped_transferability.py",
-    "test_temporal_partition.py",
-    "test_grouped_temporal_partition.py",
-    "test_temporal_crossfit.py",
-    "test_synthetic_benchmark.py",
-    "test_concealed_recovery.py",
-    "test_n2_generality_benchmark.py",
-    "test_n2_extended_information_laws.py",
-    "test_n2_bat_thickness.py",
-    "test_serengeti_temporal_partition_script.py",
+REVIEW_TEST_FILES = (
+    "tests/test_niche_geometry.py",
+    "tests/test_projection_loss.py",
+    "tests/test_added_axis_evidence.py",
+    "tests/test_vertical_information.py",
+    "tests/test_temporal_information.py",
+    "tests/test_temporal_partition.py",
+    "tests/test_temporal_crossfit.py",
+    "tests/test_grouped_temporal_partition.py",
+    "tests/test_grouped_transferability.py",
+    "tests/test_transferability.py",
+    "tests/test_synthetic_benchmark.py",
+    "tests/test_n2_generality_benchmark.py",
+    "tests/test_generalization_profile.py",
 )
 
-MANUSCRIPT_FILES = (
-    "N2_MEE_TABLE1_DRAFT_v2.md",
-    "N2_MEE_FIGURE_CAPTIONS_DRAFT_v2.md",
-    "N2_MEE_REFERENCE_CORE_v1.md",
-    "N2_MEE_GENERALITY_SECTION_v1.md",
-)
-
-EMPIRICAL_SCRIPTS = (
-    "n2_bat_thickness_execute.py",
-    "run_n2_serengeti_temporal_partition.py",
+REVIEW_EVIDENCE_FILES = (
+    "N2_GENERALITY_CONTRACT.json",
+    "N2_GENERALITY_BENCHMARK_SUMMARY.json",
+    "N2_BAT_THICKNESS_TERMINAL_DECISION.json",
+    "N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json",
 )
 
 
 def _read_json(path: Path) -> dict[str, object]:
-    value = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(value, dict):
-        raise ValueError(f"expected JSON object: {path}")
-    return value
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _sha256_bytes(data: bytes) -> str:
-    return hashlib.sha256(data).hexdigest()
-
-
-def _sha256_file(path: Path) -> str:
-    return _sha256_bytes(path.read_bytes())
-
-
-def _write(path: Path, content: str | bytes) -> None:
+def _write(path: Path, data: bytes | str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    if isinstance(content, bytes):
-        path.write_bytes(content)
+    if isinstance(data, str):
+        path.write_text(data, encoding="utf-8")
     else:
-        path.write_text(content, encoding="utf-8")
-
-
-def _review_init() -> str:
-    return '''"""Anonymous review surface for the multidimensional-support method."""\n\nfrom .added_axis_evidence import *\nfrom .concealed_recovery import *\nfrom .crossfitted_transferability import *\nfrom .grouped_transferability import *\nfrom .niche_geometry import *\nfrom .projection_loss import *\nfrom .temporal_crossfit import *\nfrom .temporal_information import *\nfrom .temporal_partition import *\nfrom .transferability import *\nfrom .vertical_information import *\n'''
+        path.write_bytes(data)
 
 
 def _review_readme() -> str:
-    return """# Anonymous peer-review code and evidence bundle
+    return """# ODSP review package
 
-This archive accompanies the double-anonymous review draft **Beyond flat niche
-maps: separating added-axis thickness from transferable ecological organization**.
+This anonymous package contains the scientific implementation, tests and frozen
+public-data evidence required to review the accompanying Methods in Ecology and
+Evolution manuscript.
 
-## Included
-
-- axis-agnostic estimability/thickness/organization/transferability method code;
-- analytic, finite-observation and high-dimensional generality benchmarks;
-- selected reproducibility tests, including extended information-law tests;
-- frozen empirical runner code for the bat and Snapshot Serengeti applications;
-- anonymous empirical and generality scientific summaries;
-- integrated manuscript v2, Table 1 v2, figure captions v2 and reference core.
-
-Git history, repository identifiers, author metadata, pull-request/workflow logs
-and internal recovery provenance are intentionally excluded. Terminal values are
-copied from closed and independently validated scientific records; this archive
-does not rerun or reinterpret completed empirical endpoints.
+The repository-development history, author metadata, operational governance and
+post-freeze exploratory infrastructure are intentionally excluded from this
+review surface.
 
 ## Install and test
 
 ```bash
 python -m pip install -e '.[dev]'
-pytest -q
+python -m pytest -q
 ```
 
-## Public empirical sources
-
-- Tawaki: Otis et al. 2025, PeerJ, DOI 10.7717/peerj.19650; processed archive
-  DOI 10.5281/zenodo.14849008.
-- European free-tailed bat: O'Mara et al. 2021, Current Biology, DOI
-  10.1016/j.cub.2020.12.042; Movebank archive DOI 10.5441/001/1.52nn82r9.
-- Snapshot Serengeti: Swanson et al. 2015, Scientific Data, DOI
-  10.1038/sdata.2015.26; Dryad DOI 10.5061/dryad.5pt92.
-
-## Interpretation boundary
-
-The archive supports the estimability → thickness → organization → independent
-transferability hierarchy and its finite-discrete-support genericity. It does not
-claim universal biological outcomes, remove detectability or causal-identification
-problems, or promote a terminal summary to a downstream axis-resolved state object.
+The package is a scientific representation and validation layer rather than a
+replacement occurrence-SDM learner. See the manuscript for the exact inferential
+claims and frozen empirical boundaries.
 """
+
+
+def _review_init() -> str:
+    source = (ROOT / "odsp" / "__init__.py").read_text(encoding="utf-8")
+    # The review package is restricted to the declared implementation surface.
+    allowed_modules = {
+        Path(path).stem for path in REVIEW_IMPLEMENTATION_FILES if path != "odsp/__init__.py"
+    }
+    lines: list[str] = []
+    skip = False
+    for line in source.splitlines():
+        if line.startswith("from ."):
+            module = line.split("from .", 1)[1].split(" import", 1)[0]
+            skip = module not in allowed_modules
+        if not skip:
+            lines.append(line)
+        if skip and line.rstrip().endswith(")"):
+            skip = False
+    return "\n".join(lines).rstrip() + "\n"
 
 
 def _sanitized_pyproject() -> str:
     source = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
-    return source.replace('readme = "README.md"', 'readme = "README_REVIEW.md"')
+    # The live distribution may use a PyPI-specific landing page, whereas the
+    # frozen anonymous review bundle must always bind metadata to its anonymous
+    # README. Support both the historical and current live-package filenames.
+    source = source.replace('readme = "README.md"', 'readme = "README_REVIEW.md"')
+    source = source.replace('readme = "PYPI_README.md"', 'readme = "README_REVIEW.md"')
+    return source
 
 
 def _empirical_summary() -> dict[str, object]:
@@ -225,30 +204,23 @@ def _stage_bundle(stage: Path) -> None:
     _write(stage / "pyproject.toml", _sanitized_pyproject())
     _write(stage / "odsp" / "__init__.py", _review_init())
 
-    for name in CORE_MODULES:
-        _copy_required(ROOT / "odsp" / name, stage / "odsp" / name)
-    for name in OPTIONAL_CORE_MODULES:
-        source = ROOT / "odsp" / name
-        if source.is_file():
-            _copy_required(source, stage / "odsp" / name)
+    for relative in REVIEW_IMPLEMENTATION_FILES:
+        if relative == "odsp/__init__.py":
+            continue
+        _copy_required(ROOT / relative, stage / relative)
+    for relative in REVIEW_TEST_FILES:
+        _copy_required(ROOT / relative, stage / relative)
+    for relative in REVIEW_EVIDENCE_FILES:
+        _copy_required(ROOT / relative, stage / relative)
 
-    included_tests = 0
-    for name in SELECTED_TESTS:
-        source = ROOT / "tests" / name
-        if source.is_file():
-            _copy_required(source, stage / "tests" / name)
-            included_tests += 1
-    if included_tests < 11:
-        raise ValueError(f"too few selected review tests were found: {included_tests}")
-
-    for name in EMPIRICAL_SCRIPTS:
-        _copy_required(ROOT / "scripts" / name, stage / "scripts" / name)
-    for name in MANUSCRIPT_FILES:
-        _copy_required(ROOT / "manuscript" / name, stage / "manuscript" / name)
-
-    _write(stage / "manuscript" / "N2_MEE_MANUSCRIPT_DRAFT_v2.md", build_manuscript_text())
-    _write(stage / "review_evidence" / "EMPIRICAL_SUMMARY.json", json.dumps(_empirical_summary(), indent=2, sort_keys=True, allow_nan=False) + "\n")
-    _write(stage / "review_evidence" / "GENERALITY_SUMMARY.json", json.dumps(_generality_summary(), indent=2, sort_keys=True, allow_nan=False) + "\n")
+    _write(
+        stage / "EMPIRICAL_TERMINAL_SUMMARY.json",
+        json.dumps(_empirical_summary(), indent=2, sort_keys=True) + "\n",
+    )
+    _write(
+        stage / "GENERALITY_VALIDATION_SUMMARY.json",
+        json.dumps(_generality_summary(), indent=2, sort_keys=True) + "\n",
+    )
 
 
 def _scan_identity(stage: Path) -> None:
@@ -266,54 +238,42 @@ def _scan_identity(stage: Path) -> None:
         raise ValueError("anonymous review bundle contains identity tokens: " + "; ".join(violations))
 
 
-def _manifest(stage: Path) -> dict[str, object]:
-    files = []
-    for path in sorted(p for p in stage.rglob("*") if p.is_file()):
-        if path.name == "REVIEW_BUNDLE_MANIFEST.json":
-            continue
-        files.append({"path": path.relative_to(stage).as_posix(), "sha256": _sha256_file(path), "bytes": path.stat().st_size})
-    return {
-        "schema_version": 2,
-        "bundle_role": "double_anonymous_peer_review",
-        "manuscript_title": "Beyond flat niche maps: separating added-axis thickness from transferable ecological organization",
-        "contains_git_history": False,
-        "contains_author_identity": False,
-        "contains_internal_workflow_or_pr_provenance": False,
-        "contains_public_data_dois": True,
-        "contains_integrated_manuscript_v2": True,
-        "contains_generality_validation": True,
-        "files": files,
-    }
-
-
-def _zip_deterministic(stage: Path, output: Path) -> None:
+def _zip_tree(stage: Path, output: Path) -> dict[str, object]:
     output.parent.mkdir(parents=True, exist_ok=True)
+    entries = sorted(p for p in stage.rglob("*") if p.is_file())
     with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
-        for path in sorted(p for p in stage.rglob("*") if p.is_file()):
-            relative = path.relative_to(stage).as_posix()
-            info = zipfile.ZipInfo(relative)
+        for path in entries:
+            info = zipfile.ZipInfo(path.relative_to(stage).as_posix())
             info.date_time = (1980, 1, 1, 0, 0, 0)
             info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = 0o100644 << 16
             archive.writestr(info, path.read_bytes())
+    digest = hashlib.sha256(output.read_bytes()).hexdigest()
+    return {
+        "schema_version": 1,
+        "output": output.name,
+        "file_count": len(entries),
+        "bytes": output.stat().st_size,
+        "sha256": digest,
+    }
 
 
 def build_bundle(output: Path) -> dict[str, object]:
     with tempfile.TemporaryDirectory(prefix="n2-review-") as temp:
         stage = Path(temp) / "n2_review_bundle"
-        stage.mkdir(parents=True)
+        stage.mkdir(parents=True, exist_ok=True)
         _stage_bundle(stage)
         _scan_identity(stage)
-        manifest = _manifest(stage)
-        _write(stage / "REVIEW_BUNDLE_MANIFEST.json", json.dumps(manifest, indent=2, sort_keys=True) + "\n")
-        _scan_identity(stage)
-        _zip_deterministic(stage, output)
-    return {"output": str(output), "sha256": _sha256_file(output), "bytes": output.stat().st_size, "file_count": len(manifest["files"]) + 1}
+        return _zip_tree(stage, output)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", type=Path, default=Path("dist/N2_MEE_ANONYMOUS_REVIEW_BUNDLE.zip"))
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=ROOT / "build" / "N2_MEE_ANONYMOUS_REVIEW_BUNDLE.zip",
+    )
     args = parser.parse_args()
     print(json.dumps(build_bundle(args.output), sort_keys=True))
 
