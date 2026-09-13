@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-rodent-species-baseline-descriptive-amendment-v1",
+  "amendment_date": "2026-09-13",
+  "post_outcome_amendment": true,
+  "analysis_type": "descriptive_secondary_decomposition",
+  "purpose": "decompose the already frozen BOP_RODENT primary held-out log-score gain into a species-baseline component and a within-species context component without changing the prospective primary endpoint, model, folds, terminal rule or terminal category",
+  "frozen_primary_endpoint": {
+    "contract_id": "bop-rodent-state-prediction-v1",
+    "terminal_receipt": "BOP_RODENT_STATE_PREDICTION_TERMINAL_RECEIPT.json",
+    "terminal_category": "empirical_state_prediction_mixed",
+    "positive_individual_count": 27,
+    "eligible_individual_count": 30,
+    "primary_comparator": "hierarchically weighted pooled training marginal P(A)",
+    "must_not_be_reclassified_by_this_amendment": true
+  },
+  "source_evidence": {
+    "workflow_run_id": 33897335554,
+    "artifact_id": 9946375169,
+    "artifact_digest": "sha256:49291cf0f2c90955fc23bdc702ccef1ef8b710ce100c8e338c5fc6b91388b8f7",
+    "result_json_sha256": "9e681852d1982e03d9a0696ce5b78c8f367bbffcc401bc54e9b62368a211499d",
+    "required_fields": [
+      "admissions",
+      "fold_assignment",
+      "heldout_results"
+    ],
+    "model_refit_required": false,
+    "raw_source_data_reaccess_required": false
+  },
+  "state_order": [
+    "low_lt50",
+    "lower_mid_50_200",
+    "upper_mid_200_500",
+    "high_ge500"
+  ],
+  "baseline_reconstruction": {
+    "individual_state_distribution": "for each eligible training individual, raw frozen state counts divided by that individual's frozen thinned-event count",
+    "species_training_marginal": "within each fold and species, arithmetic mean of the training individuals' individual state distributions; this is exactly the frozen hierarchical weighting conditional on species",
+    "pooled_training_marginal": "within each fold, arithmetic mean of the admitted species training marginals; this is exactly the frozen equal-species hierarchical marginal",
+    "required_reconstruction_check": "for every held-out individual, the reconstructed pooled marginal mean log score must match the frozen primary_score.mean_marginal_log_score within 1e-10 nats"
+  },
+  "per_individual_decomposition": {
+    "total_gain": "G_total = mean_log_P_model - mean_log_P_pool",
+    "species_component": "G_species = mean_log_P_species - mean_log_P_pool",
+    "context_within_species_component": "G_context = mean_log_P_model - mean_log_P_species",
+    "identity": "G_total = G_species + G_context",
+    "required_additivity_tolerance": 1e-12
+  },
+  "reporting": {
+    "individual_rows": true,
+    "heldout_state_counts_by_individual": true,
+    "heldout_state_counts_by_species": true,
+    "fold_specific_species_training_marginals": true,
+    "species_mean_components": true,
+    "overall_mean_components": true,
+    "positive_context_component_counts": true,
+    "positive_species_component_counts": true,
+    "primary_terminal_decision_recomputed": false,
+    "primary_terminal_decision_changed": false
+  },
+  "claim_boundary": {
+    "supports": [
+      "descriptive quantification of how much of the frozen pooled-baseline gain is attributable to replacing the pooled marginal with a training-fold species marginal",
+      "descriptive quantification of the residual gain of the frozen species-aware context model over the corresponding training-fold species marginal"
+    ],
+    "does_not_support": [
+      "a causal effect of species identity",
+      "a newly prospective BOP endpoint",
+      "retuning or replacement of the frozen primary comparator",
+      "changing the 27/30 primary result or empirical_state_prediction_mixed terminal category",
+      "universal positive within-species context gain for every held-out individual or species"
+    ]
+  }
+}
