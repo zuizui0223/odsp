@@ -25,16 +25,37 @@ def test_score_ladder_telescopes_with_arbitrary_upstream_scores():
         ("pooled", "species", "generalizing"),
         ("species", "full", "generalizing"),
     )
+    assert result.all_group_point_transfer_ceiling == "full"
     assert len(result.groups) == 2
     for group in result.groups:
+        assert group.point_transfer_ceiling == "full"
         assert group.additivity_error == pytest.approx(0.0, abs=1e-15)
         assert group.total_gain == pytest.approx(
             sum(step.mean_gain for step in group.increments), abs=1e-15
         )
 
 
+def test_transfer_ceiling_stops_at_first_failed_resolution_even_if_total_is_positive():
+    result = decompose_predictive_resolution(
+        (
+            ("pooled", [-1.0, -1.0, -1.0, -1.0]),
+            ("species", [-0.6, -0.6, -0.6, -0.6]),
+            ("context", [-0.7, -0.7, -0.5, -0.5]),
+        ),
+        ["a", "a", "b", "b"],
+    )
+    assert result.total_gain_category == "generalizing"
+    assert result.increment_categories == (
+        ("pooled", "species", "generalizing"),
+        ("species", "context", "mixed"),
+    )
+    assert result.all_group_point_transfer_ceiling == "species"
+    ceilings = {row.group: row.point_transfer_ceiling for row in result.groups}
+    assert ceilings == {"a": "species", "b": "context"}
+
+
 def test_nonlog_proper_score_orientation_is_supported():
-    # Negative Brier score: larger is better.  The decomposition only requires
+    # Negative Brier score: larger is better. The decomposition only requires
     # commensurate row-wise scores, not a particular learner or state geometry.
     result = decompose_predictive_resolution(
         (
@@ -45,6 +66,7 @@ def test_nonlog_proper_score_orientation_is_supported():
         ["g1", "g1", "g2", "g2"],
     )
     assert result.total_gain_category == "generalizing"
+    assert result.all_group_point_transfer_ceiling == "full"
     assert all(abs(row.additivity_error) < 1e-15 for row in result.groups)
 
 
@@ -70,7 +92,9 @@ def test_intermediate_support_failure_is_fail_closed_but_final_failure_is_scored
     assert result.groups[0].total_gain == -math.inf
     assert result.groups[0].increments[-1].mean_gain == -math.inf
     assert result.groups[0].additivity_error == 0.0
+    assert result.groups[0].point_transfer_ceiling == "species"
     assert result.total_gain_category == "non_generalizing"
+    assert result.all_group_point_transfer_ceiling == "species"
 
 
 def test_zero_weight_rows_do_not_create_false_support_failures():
@@ -85,6 +109,7 @@ def test_zero_weight_rows_do_not_create_false_support_failures():
     )
     assert result.groups[0].positive_weight_row_count == 1
     assert result.groups[0].total_gain == pytest.approx(0.3)
+    assert result.groups[0].point_transfer_ceiling == "full"
 
 
 def test_known_truth_oracle_and_misspecification_identities():
@@ -108,6 +133,8 @@ def test_known_truth_oracle_and_misspecification_identities():
     assert benchmark.misspecified_total_gain == pytest.approx(
         0.08534588517942776, abs=1e-12
     )
+    assert benchmark.oracle_point_transfer_ceiling == "species+context"
+    assert benchmark.misspecified_point_transfer_ceiling == "species"
     assert benchmark.oracle_additivity_error < 1e-14
     assert benchmark.misspecified_additivity_error < 1e-14
     assert benchmark.oracle_information_identity_error < 1e-14
