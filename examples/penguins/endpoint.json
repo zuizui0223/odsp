@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "endpoint_id": "palmer_penguins_island_from_morphology_by_year_v1",
+  "data": {"path": "penguins_complete.csv", "format": "csv"},
+  "columns": {
+    "state": "island",
+    "features": ["bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"],
+    "group": "row_id",
+    "stratum": "sex",
+    "fold": "year",
+    "weight": null
+  },
+  "model": {
+    "kind": "multinomial_logit",
+    "random_state": 20260913,
+    "parameters": {"C": 1.0, "max_iter": 2000}
+  },
+  "baseline": "pooled",
+  "training_weight_policy": "equal_stratum_equal_group",
+  "gain_tolerance": 0.0
+}
