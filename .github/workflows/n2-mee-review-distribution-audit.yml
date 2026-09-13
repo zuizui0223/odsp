@@ -1,0 +1,50 @@
+name: n2-mee-review-distribution-audit
+
+on:
+  pull_request:
+    paths:
+      - "N2_MEE_REVIEW_DISTRIBUTION_BOUNDARY.json"
+      - "scripts/audit_n2_mee_review_distribution.py"
+      - "scripts/build_n2_mee_review_bundle.py"
+      - "scripts/build_n2_mee_review_bundle_v3.py"
+      - "scripts/build_n2_mee_review_bundle_v4.py"
+      - "docs/n2_mee_review_distribution_boundary_2026-09-13.md"
+      - ".github/workflows/n2-mee-review-distribution-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install package
+        run: python -m pip install -e ".[dev]"
+
+      - name: Build frozen v4 anonymous review bundle
+        run: >-
+          python scripts/build_n2_mee_review_bundle_v4.py
+          --output build/N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v4.zip
+
+      - name: Audit scientific-only distribution boundary
+        run: >-
+          python scripts/audit_n2_mee_review_distribution.py
+          --bundle build/N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v4.zip
+          --out-json build/N2_MEE_REVIEW_DISTRIBUTION_AUDIT.json
+
+      - name: Upload distribution audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: n2-mee-review-distribution-audit
+          path: build/N2_MEE_REVIEW_DISTRIBUTION_AUDIT.json
+          if-no-files-found: error
