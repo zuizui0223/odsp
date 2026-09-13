@@ -3,6 +3,7 @@ name: information-transfer-contract
 on:
   pull_request:
     paths:
+      - 'ODSP_EXTERNAL_SCORE_INFORMATION_TRANSFER_CONTRACT_V1.json'
       - 'odsp/information_transfer.py'
       - 'odsp/predictive_resolution.py'
       - 'odsp/predictive_resolution_certification.py'
@@ -14,6 +15,7 @@ on:
       - 'tests/test_predictive_resolution.py'
       - 'tests/test_predictive_resolution_certification.py'
       - 'tests/test_information_transfer_contract.py'
+      - 'tests/test_external_score_information_transfer_method_contract.py'
       - '.github/workflows/information-transfer-contract.yml'
       - 'pyproject.toml'
   workflow_dispatch:
@@ -39,6 +41,7 @@ jobs:
           tests/test_predictive_resolution.py
           tests/test_predictive_resolution_certification.py
           tests/test_information_transfer_contract.py
+          tests/test_external_score_information_transfer_method_contract.py
       - name: Check installed external-score command
         run: odsp transfer --help
       - name: Validate shipped contract template
