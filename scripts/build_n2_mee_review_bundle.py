@@ -152,7 +152,10 @@ problems, or promote a terminal summary to a downstream axis-resolved state obje
 
 def _sanitized_pyproject() -> str:
     source = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
-    return source.replace('readme = "README.md"', 'readme = "README_REVIEW.md"')
+    source = source.replace('readme = "README.md"', 'readme = "README_REVIEW.md"')
+    return source.replace(
+        'readme = "PYPI_README.md"', 'readme = "README_REVIEW.md"'
+    )
 
 
 def _empirical_summary() -> dict[str, object]:

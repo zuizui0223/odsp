@@ -1,0 +1,19 @@
+{
+  "title": "ODSP: state-resolved ecological prediction and independent transfer evaluation",
+  "upload_type": "software",
+  "description": "ODSP is a model-agnostic ecological prediction layer for explicit lower-information baselines, additive pooled-to-stratum-to-context decomposition, independently grouped held-out scoring, and auditable endpoint contracts.",
+  "creators": [
+    {
+      "name": "Zhang, Ruiqi"
+    }
+  ],
+  "license": "MIT",
+  "version": "0.11.0",
+  "keywords": [
+    "ecology",
+    "state-resolved prediction",
+    "transferability",
+    "information theory",
+    "ecological niche"
+  ]
+}

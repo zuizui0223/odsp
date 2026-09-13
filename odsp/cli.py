@@ -4,9 +4,13 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import sys
 from typing import Sequence
 
 from .endpoint_contract import run_endpoint_contract
+
+
+_EXPECTED_USER_ERRORS = (ValueError, TypeError, OSError, ImportError)
 
 
 def _write_receipt(receipt: dict[str, object], out: str | None) -> None:
@@ -34,15 +38,26 @@ def build_parser() -> argparse.ArgumentParser:
         "--out",
         help="receipt path; omit or use '-' to write JSON to stdout",
     )
+    run.add_argument(
+        "--debug",
+        action="store_true",
+        help="re-raise expected input/configuration errors with a Python traceback",
+    )
     return parser
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    if args.command == "run":
-        receipt = run_endpoint_contract(args.contract)
-        _write_receipt(receipt, args.out)
-        return 0
+    try:
+        if args.command == "run":
+            receipt = run_endpoint_contract(args.contract)
+            _write_receipt(receipt, args.out)
+            return 0
+    except _EXPECTED_USER_ERRORS as exc:
+        if getattr(args, "debug", False):
+            raise
+        print(f"odsp: error: {exc}", file=sys.stderr)
+        return 2
     raise AssertionError(f"unhandled command: {args.command}")
 
 
