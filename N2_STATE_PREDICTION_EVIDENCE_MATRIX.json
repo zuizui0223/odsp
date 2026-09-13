@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "matrix_id": "odsp-state-prediction-evidence-matrix-v1",
-  "date": "2026-09-13",
-  "purpose": "separate ODSP state-resolved prediction evidence from the earlier projection-loss diagnostic evidence while preserving both layers and the post-outcome descriptive BOP comparator decomposition",
+  "date": "2026-09-05",
+  "purpose": "separate ODSP state-resolved prediction evidence from the earlier projection-loss diagnostic evidence while preserving both layers",
   "method_position": {
     "primary_target": "P(A|X) or P(A|B)",
     "primary_validation": "independent-group log-score gain over a training marginal state distribution",
@@ -80,49 +80,12 @@
           "Circus pygargus": {"category": "generalizing", "positive": 9, "total": 9}
         }
       },
-      "descriptive_species_baseline_amendment": {
-        "source_receipt": "BOP_RODENT_SPECIES_BASELINE_AMENDMENT_RECEIPT.json",
-        "post_outcome_amendment": true,
-        "primary_comparator_and_terminal_rule_unchanged": true,
-        "decomposition": "G_total = G_species + G_context, where G_species replaces the pooled training marginal with the corresponding training-fold species marginal and G_context compares the frozen species-aware model with that species marginal",
-        "overall_mean_total_gain": 0.5709102207418053,
-        "overall_mean_species_component": 0.07279384812000286,
-        "overall_mean_context_within_species_component": 0.498116372621806,
-        "positive_context_component_individuals": 23,
-        "species": {
-          "Buteo buteo": {
-            "state_counts": {"low_lt50": 23504, "lower_mid_50_200": 4876, "upper_mid_200_500": 495, "high_ge500": 94},
-            "mean_total_gain": 0.2303113866257108,
-            "mean_species_component": 0.27361852000969283,
-            "mean_context_within_species_component": -0.04330713338398338
-          },
-          "Circus aeruginosus": {
-            "state_counts": {"low_lt50": 25605, "lower_mid_50_200": 6610, "upper_mid_200_500": 10309, "high_ge500": 2917},
-            "mean_total_gain": 0.34952380081933204,
-            "mean_species_component": -0.1487669183614932,
-            "mean_context_within_species_component": 0.4982907191808702
-          },
-          "Circus cyaneus": {
-            "state_counts": {"low_lt50": 12285, "lower_mid_50_200": 10212, "upper_mid_200_500": 4307, "high_ge500": 3028},
-            "mean_total_gain": 0.24554921871936009,
-            "mean_species_component": -0.10224615410116318,
-            "mean_context_within_species_component": 0.34779537282052564
-          },
-          "Circus pygargus": {
-            "state_counts": {"low_lt50": 9974, "lower_mid_50_200": 6678, "upper_mid_200_500": 27989, "high_ge500": 5772},
-            "mean_total_gain": 1.2461295036462299,
-            "mean_species_component": 0.3137586025836525,
-            "mean_context_within_species_component": 0.9323709010625478
-          }
-        },
-        "interpretation": "the large pooled-comparator gain is not generally explained by species identity alone: across individuals the descriptive mean context-within-species component is much larger than the species component; however Buteo buteo shows the opposite pattern, so the decomposition is heterogeneous and descriptive"
-      },
       "multinomial_logit_sensitivity": {
         "positive_gain_individuals": 22,
         "total_individuals": 30,
         "mean_gain_descriptive": 0.08617505942626986
       },
-      "interpretation": "state-resolved predictions improved the frozen primary pooled-baseline log score for most but not all independent individuals; a post-outcome descriptive decomposition shows that the average gain is dominated by within-species context rather than the pooled-to-species baseline shift, while the predeclared all-individual log-score rule remains mixed and unchanged"
+      "interpretation": "state-resolved predictions improved the primary log score for most but not all independent individuals; all individuals improved in Brier score, while the predeclared all-individual log-score rule retained a mixed terminal state"
     }
   ],
   "supporting_projection_and_transfer_diagnostics": [
@@ -149,23 +112,21 @@
       "role_in_v4": "demonstrates independently transferable organization on a non-vertical ecological state axis"
     }
   ],
-  "chapter_level_claim": "ODSP extends ecological prediction from a single collapsed suitability or support value to a probability distribution over declared ecological states, then asks whether the additional state resolution improves prediction in independent groups. Known-truth benchmarks recover stable, null and shifted predictive regimes; prospectively frozen public-data endpoints show both structural unavailability and strong but heterogeneous cross-individual state prediction. The BOP pooled-comparator primary endpoint remains mixed, while a post-outcome descriptive decomposition separates species-baseline and within-species-context contributions without reclassifying it.",
+  "chapter_level_claim": "ODSP extends ecological prediction from a single collapsed suitability or support value to a probability distribution over declared ecological states, then asks whether the additional state resolution improves prediction in independent groups. Known-truth benchmarks recover stable, null and shifted predictive regimes; prospectively frozen public-data endpoints show both structural unavailability and strong but heterogeneous cross-individual state prediction.",
   "claim_ceiling": {
     "supported": [
       "finite discrete state-resolved prediction",
       "model-agnostic probability-field scoring",
       "independent individual/group transfer evaluation",
       "empirical evidence that state resolution can add predictive information for many held-out individuals",
-      "descriptive separation of pooled-to-species baseline gain from within-species contextual gain for the frozen BOP result",
       "fail-closed reporting of unavailable and mixed outcomes"
     ],
     "not_supported": [
       "universal positive transfer across organisms or taxa",
-      "causal effects of predictor variables or species identity",
+      "causal effects of predictor variables",
       "fundamental niche inference",
       "automatic correction of observation or tag bias",
       "automatic conversion of absolute altitude to height above ground",
-      "replacement of the frozen BOP pooled comparator by the post-outcome species comparator",
       "automatic N2-to-N3 state promotion"
     ]
   }
