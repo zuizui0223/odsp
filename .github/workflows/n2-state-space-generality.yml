@@ -1,0 +1,46 @@
+name: n2-state-space-generality
+
+on:
+  pull_request:
+    paths:
+      - 'N2_STATE_SPACE_GENERALITY_CONTRACT.json'
+      - 'odsp/distributional_gain.py'
+      - 'odsp/state_space_generality_benchmark.py'
+      - 'odsp/continuous_state.py'
+      - 'odsp/circular_state.py'
+      - 'odsp/joint_state.py'
+      - 'odsp/state_prediction.py'
+      - 'scripts/run_state_space_generality_benchmark.py'
+      - 'tests/test_distributional_gain.py'
+      - 'tests/test_state_space_generality_benchmark.py'
+      - 'tests/test_state_space_generality_contract.py'
+      - '.github/workflows/n2-state-space-generality.yml'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install package
+        run: python -m pip install -e '.[dev]'
+      - name: Run state-space generality tests
+        run: >-
+          python -m pytest -q
+          tests/test_distributional_gain.py
+          tests/test_state_space_generality_benchmark.py
+          tests/test_state_space_generality_contract.py
+          tests/test_continuous_state.py
+          tests/test_circular_state.py
+          tests/test_joint_state.py
+          tests/test_state_prediction.py
+      - name: Build deterministic benchmark summary
+        run: python scripts/run_state_space_generality_benchmark.py
+      - name: Upload benchmark summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: n2-state-space-generality-benchmark
+          path: build/state_space_generality/N2_STATE_SPACE_GENERALITY_BENCHMARK_SUMMARY.json

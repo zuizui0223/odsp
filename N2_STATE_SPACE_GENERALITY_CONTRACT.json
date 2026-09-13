@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "contract_id": "n2-state-space-generality-v1",
+  "date": "2026-09-13",
+  "purpose": "extend N2 implementation-level generality from arbitrary finite-discrete axis partitions to multiple ecological-state geometries without changing any frozen empirical endpoint",
+  "common_estimand": "E_heldout[log q_train(A|X) - log q0_train(A)]",
+  "reference_measure_requirement": "the richer and lower-information log scores must be evaluated on the same realized held-out state against the same reference measure; any common log-Jacobian/reference-measure term therefore cancels",
+  "validated_state_spaces": [
+    {
+      "id": "finite_discrete",
+      "native_module": "odsp/state_prediction.py",
+      "probability_object": "probability mass P(A|X)",
+      "native_primary_field": "mean_log_score_gain"
+    },
+    {
+      "id": "continuous_scalar",
+      "native_module": "odsp/continuous_state.py",
+      "probability_object": "density p(a|X)",
+      "native_primary_field": "mean_log_density_gain"
+    },
+    {
+      "id": "circular_scalar",
+      "native_module": "odsp/circular_state.py",
+      "probability_object": "periodic density p(t|X)",
+      "native_primary_field": "mean_log_density_gain"
+    },
+    {
+      "id": "continuous_x_circular_joint",
+      "native_module": "odsp/joint_state.py",
+      "probability_object": "joint density p(z,t|X)",
+      "native_primary_field": "mean_joint_log_density_gain"
+    }
+  ],
+  "proof_obligations": [
+    "for each validated state space, the native primary gain equals the generic distributional gain on the same held-out values and weights within absolute tolerance 2e-10",
+    "for each validated state space, adding the same row-wise log reference-measure term to richer and baseline scores leaves the primary gain unchanged within absolute tolerance 2e-10",
+    "conflicting independent-group gains remain mixed regardless of observation-mass imbalance",
+    "all-positive independent-group gains are classified as generalizing"
+  ],
+  "implementation": {
+    "generic_score_module": "odsp/distributional_gain.py",
+    "benchmark_module": "odsp/state_space_generality_benchmark.py",
+    "benchmark_function": "run_state_space_generality_benchmark",
+    "expected_check_count": 10,
+    "absolute_tolerance": 2e-10
+  },
+  "scientific_boundaries": {
+    "empirical_endpoint_rerun": false,
+    "frozen_decision_rule_modified": false,
+    "bop_terminal_category_modified": false,
+    "mh_terminal_category_modified": false,
+    "n2_to_n3_promoted": false,
+    "state_space_generality_is_biological_generality": false,
+    "state_space_generality_implies_axis_representativeness": false,
+    "state_space_generality_implies_causality": false,
+    "state_space_generality_implies_transferability": false,
+    "learner_is_fixed_by_generic_core": false,
+    "comparator_is_fixed_by_generic_core": false,
+    "independence_unit_is_fixed_by_generic_core": false
+  }
+}
