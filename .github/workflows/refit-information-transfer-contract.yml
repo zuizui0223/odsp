@@ -1,0 +1,47 @@
+name: refit-information-transfer-contract
+
+on:
+  pull_request:
+    paths:
+      - 'ODSP_REFIT_INFORMATION_TRANSFER_CONTRACT_V1.json'
+      - 'odsp/refit_information_transfer.py'
+      - 'odsp/refit_information_transfer_contract.py'
+      - 'odsp/information_transfer.py'
+      - 'odsp/information_transfer_contract.py'
+      - 'odsp/cli.py'
+      - 'examples/refit_information_transfer_contract.template.json'
+      - 'docs/refit_aware_information_transfer_v1.md'
+      - 'docs/external_refit_information_transfer_v1.md'
+      - 'tests/test_refit_information_transfer.py'
+      - 'tests/test_refit_information_transfer_contract.py'
+      - 'tests/test_refit_information_transfer_method_contract.py'
+      - '.github/workflows/refit-information-transfer-contract.yml'
+      - 'pyproject.toml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core package without prediction extra
+        run: python -m pip install -e '.[dev]'
+      - name: Run refit-aware core and contract tests
+        run: >-
+          python -m pytest -q
+          tests/test_refit_information_transfer.py
+          tests/test_refit_information_transfer_contract.py
+          tests/test_refit_information_transfer_method_contract.py
+          tests/test_information_transfer_contract.py
+      - name: Check installed refit-transfer command
+        run: odsp transfer-refits --help
+      - name: Validate shipped refit contract template
+        run: >-
+          python -c "import json; from pathlib import Path; from odsp.refit_information_transfer_contract import validate_refit_information_transfer_contract; validate_refit_information_transfer_contract(json.loads(Path('examples/refit_information_transfer_contract.template.json').read_text()))"

@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-refit-information-transfer-v1",
+  "date": "2026-09-13",
+  "purpose": "extend external-score information transfer to an explicitly supplied upstream refit ensemble while preserving row alignment, information nesting and the full group-by-step family",
+  "command": "odsp transfer-refits --contract ENDPOINT.json",
+  "input_grain": "one record per refit_id by held-out row_id pair",
+  "alignment_requirements": [
+    "every refit contains exactly the same held-out row_id set",
+    "every refit-row pair is unique",
+    "group metadata are identical for a row_id across all refits",
+    "resampling-block metadata are identical for a row_id across all refits",
+    "row weights are identical for a row_id across all refits",
+    "all information levels are scored on the same held-out row within a refit"
+  ],
+  "refit_sampling_rule": "one selected refit ID is shared across every independent group and every adjacent information step within a nested Monte Carlo draw",
+  "block_sampling_rule": "within each independent group one validation-block resample is shared across every adjacent information step",
+  "certification_family": "all estimable independent-group by adjacent-information-step cells",
+  "refit_mixture": {
+    "weighting": "uniform",
+    "refit_independence_assumed": false,
+    "variance_divided_by_sqrt_refit_count": false,
+    "automatic_refit_scheme_inference": false
+  },
+  "confirmatory_rules": {
+    "heldout_predictions_required": true,
+    "same_rows_across_refits_required": true,
+    "same_rows_across_levels_required": true,
+    "heldout_outcome_must_not_be_used_for_prediction_or_selection": true,
+    "information_filtration_frozen_before_outcome_scoring": true,
+    "refit_scheme_frozen_before_outcome_scoring": true,
+    "reference_refit_id_required": true
+  },
+  "reported_ceilings": [
+    "reference-fit point transfer ceiling",
+    "reference-fit validation-block-certified transfer ceiling",
+    "point transfer ceiling for every supplied refit",
+    "uniform empirical-refit-mixture point transfer ceiling",
+    "joint refit-aware familywise-certified transfer ceiling"
+  ],
+  "hard_stops": [
+    "insufficient supplied refits",
+    "insufficient positive-mass validation blocks",
+    "missing or extra held-out row in any refit",
+    "duplicate refit_id by row_id pair",
+    "row metadata mismatch across refits",
+    "non-nested information filtration",
+    "non-finite comparator score on a positive-weight row in any refit",
+    "non-finite richest-level score makes the affected group-step cell unavailable"
+  ],
+  "non_override_rules": {
+    "reference_fit_can_override_refit_aware_failure": false,
+    "total_gain_can_override_failed_information_step": false,
+    "later_positive_step_can_skip_failed_step": false
+  },
+  "scientific_boundaries": {
+    "upstream_model_fitted_by_odsp": false,
+    "upstream_refits_generated_by_odsp": false,
+    "refit_scheme_selected_by_odsp": false,
+    "refit_independence_assumed": false,
+    "refit_aware_interval_is_exact_population_guarantee": false,
+    "supplied_refit_ensemble_claimed_to_span_all_model_uncertainty": false,
+    "chain_decomposition_claimed_as_novel": false,
+    "receipt_is_a_claim_of_causality": false
+  }
+}
