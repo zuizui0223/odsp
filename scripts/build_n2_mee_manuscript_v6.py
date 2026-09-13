@@ -19,7 +19,11 @@ import json
 from pathlib import Path
 import re
 
-from scripts.build_n2_mee_manuscript_v5 import build_manuscript_text as build_v5_text
+try:
+    from scripts.build_n2_mee_manuscript_v5 import build_manuscript_text as build_v5_text
+except ModuleNotFoundError:
+    # Support direct execution as ``python scripts/build_n2_mee_manuscript_v6.py``.
+    from build_n2_mee_manuscript_v5 import build_manuscript_text as build_v5_text
 
 
 def _replace_once(text: str, old: str, new: str) -> str:
