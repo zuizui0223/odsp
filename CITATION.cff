@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use ODSP, please cite the archived software release and the associated Methods in Ecology and Evolution article when available."
+title: "ODSP: state-resolved ecological prediction and independent transfer evaluation"
+type: software
+authors:
+  - family-names: Zhang
+    given-names: Ruiqi
+version: 0.11.0
+license: MIT
+repository-code: "https://github.com/zuizui0223/odsp"
+url: "https://github.com/zuizui0223/odsp"
+keywords:
+  - ecology
+  - state-resolved prediction
+  - transferability
+  - information theory
+  - ecological niche
