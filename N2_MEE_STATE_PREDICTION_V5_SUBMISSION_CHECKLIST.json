@@ -25,10 +25,10 @@
     "anonymous_review_bundle_v5_internal_tests_passed": true,
     "anonymous_review_bundle_v5_scientific_only_distribution_audit_passed": true,
     "bop_species_baseline_decomposition_sanitized_for_review": true,
-    "anonymous_review_docx_v5_generated": false,
-    "anonymous_review_docx_v5_structural_validation_passed": false,
-    "anonymous_review_docx_v5_development_visual_qa_passed": false,
-    "submission_handoff_packet_v5_generated": false,
+    "anonymous_review_docx_v5_generated": true,
+    "anonymous_review_docx_v5_structural_validation_passed": true,
+    "anonymous_review_docx_v5_development_visual_qa_passed": true,
+    "submission_handoff_packet_v5_generated": true,
     "cover_letter_v5_present": true,
     "title_page_v5_present": true,
     "disclosure_drafts_v5_present": true,
@@ -76,5 +76,19 @@
     "final_author_visual_approval_of_exact_submission_files": false
   },
   "ready_for_author_metadata_completion": true,
-  "ready_for_submission_without_author_metadata_completion": false
+  "ready_for_submission_without_author_metadata_completion": false,
+  "mechanical_validation_receipt": {
+    "source_head_sha": "1756afa062a58d99dbfeef5358e0ac899dc168f9",
+    "workflow_run_id": 34737586758,
+    "artifact_id": 10311621287,
+    "artifact_digest": "sha256:315111f38059c14a6787c94914c1ba3d118b934a509cb58d4ecd907e0e03c37c",
+    "manuscript_sha256": "cfa28849a3a2836b4e51c23c3a1a73c2154d402cac3d949bf2cf3d2536632466",
+    "docx_sha256": "4992ce7719f2e7f08f47b2583461b0946034cc9e26911d430f5568781a783eb6",
+    "docx_structural_validation_passed": true,
+    "development_visual_qa_passed": true,
+    "development_visual_qa_page_count": 26,
+    "observed_continuous_line_number_range": "1-526",
+    "v4_visual_qa_inherited": false,
+    "final_author_visual_approval_of_exact_upload_files": false
+  }
 }
