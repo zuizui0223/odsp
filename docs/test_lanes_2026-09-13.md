@@ -19,6 +19,17 @@ python -m pytest -m submission
 python -m pytest                 # explicit full suite when desired
 ```
 
+The aggregate governance workflow installs the normal development dependencies only. Predict-extra governance benchmarks that require scikit-learn may therefore skip there; they remain exercised by their existing dedicated `.[dev,predict]` workflows. This avoids recreating the previous long nested governance suite as a new default bottleneck.
+
+## First lane split measurement
+
+On the first PR run under Python 3.12:
+
+- `core`: 331 passed, 30 predict-extra skips, 352 deselected; 14.71 s;
+- `governance`: 255 passed, 30 predict-extra skips, 428 deselected; 31.99 s.
+
+The default four-version CI therefore no longer spends its time on the forecast/provenance/trust stack. These counts are descriptive of the repository at the split commit, not permanent thresholds.
+
 ## Policy
 
 The lane split changes test scheduling only. It does not delete tests, relax scientific assertions, change frozen endpoint results or claim that governance code is invalid. New ordinary scientific tests default to `core`; infrastructure tests move out of the core lane only when their filename explicitly matches the governance or submission policy.
