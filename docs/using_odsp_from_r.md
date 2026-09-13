@@ -97,4 +97,4 @@ Check which Python R is using with:
 py_config()
 ```
 
-For concise contract errors, use the normal runner. If you need a Python traceback while debugging, add `--debug` to the ODSP command after that option is available in your installed release.
+For concise contract errors, use the normal runner. If you need a Python traceback while debugging, add `--debug` to the `odsp run` arguments.
