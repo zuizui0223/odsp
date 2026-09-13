@@ -53,6 +53,8 @@ def test_release_workflow_uses_oidc_and_supports_one_click_dispatch():
     )
     assert "workflow_dispatch:" in text
     assert "default: '0.11.0'" in text
+    assert "elif event == 'workflow_dispatch':" in text
+    assert "requested != version" in text
     assert "id-token: write" in text
     assert "pypa/gh-action-pypi-publish@release/v1" in text
     assert "name: pypi" in text
