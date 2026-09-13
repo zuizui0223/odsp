@@ -143,3 +143,21 @@ def test_cli_writes_same_receipt_to_requested_path(tmp_path: Path):
     written = json.loads(receipt_path.read_text(encoding="utf-8"))
     direct = run_endpoint_contract(contract_path)
     assert written == direct
+
+
+def test_cli_formats_expected_user_error_without_traceback(tmp_path: Path, capsys):
+    missing = tmp_path / "missing-contract.json"
+    status = main(["run", "--contract", str(missing)])
+    captured = capsys.readouterr()
+
+    assert status == 2
+    assert captured.out == ""
+    assert captured.err.startswith("odsp: error:")
+    assert "Traceback" not in captured.err
+    assert captured.err.count("\n") == 1
+
+
+def test_cli_debug_reraises_expected_error(tmp_path: Path):
+    missing = tmp_path / "missing-contract.json"
+    with pytest.raises(OSError):
+        main(["run", "--contract", str(missing), "--debug"])
