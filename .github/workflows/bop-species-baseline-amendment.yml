@@ -1,0 +1,67 @@
+name: bop-species-baseline-amendment
+
+on:
+  pull_request:
+    paths:
+      - "BOP_RODENT_SPECIES_BASELINE_AMENDMENT_CONTRACT.json"
+      - "BOP_RODENT_SPECIES_BASELINE_AMENDMENT_RECEIPT.json"
+      - "odsp/bop_species_baseline.py"
+      - "scripts/build_bop_species_baseline_amendment.py"
+      - "scripts/validate_bop_species_baseline_amendment_receipt.py"
+      - "tests/test_bop_species_baseline.py"
+      - "tests/test_bop_species_baseline_amendment_contract.py"
+      - "tests/test_bop_species_baseline_amendment_receipt.py"
+      - ".github/workflows/bop-species-baseline-amendment.yml"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install package and test dependencies
+        run: python -m pip install -e ".[dev]"
+
+      - name: Validate amendment contract, API and canonical receipt
+        run: >-
+          python -m pytest -q
+          tests/test_bop_species_baseline.py
+          tests/test_bop_species_baseline_amendment_contract.py
+          tests/test_bop_species_baseline_amendment_receipt.py
+
+      - name: Download original frozen BOP result artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: bop-rodent-state-prediction-result
+          path: build/frozen-bop
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 33897335554
+
+      - name: Build descriptive species-baseline amendment
+        run: >-
+          python scripts/build_bop_species_baseline_amendment.py
+          --frozen-result build/frozen-bop/BOP_RODENT_STATE_PREDICTION_RESULT.json
+          --out build/BOP_RODENT_SPECIES_BASELINE_AMENDMENT_RESULT.json
+
+      - name: Validate generated result against canonical receipt
+        run: >-
+          python scripts/validate_bop_species_baseline_amendment_receipt.py
+          --result build/BOP_RODENT_SPECIES_BASELINE_AMENDMENT_RESULT.json
+
+      - name: Upload amendment result
+        uses: actions/upload-artifact@v4
+        with:
+          name: bop-rodent-species-baseline-amendment-result
+          path: build/BOP_RODENT_SPECIES_BASELINE_AMENDMENT_RESULT.json
+          if-no-files-found: error
