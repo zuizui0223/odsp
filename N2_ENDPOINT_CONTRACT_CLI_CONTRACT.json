@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "contract_id": "n2-executable-endpoint-contract-cli-v1",
+  "date": "2026-09-13",
+  "purpose": "make the generic event workflow operational through an explicit JSON contract and deterministic receipt without inferring scientific design choices",
+  "command": "odsp run --contract ENDPOINT.json",
+  "required_explicit_roles": [
+    "state column",
+    "feature columns",
+    "independent group column",
+    "optional stratum column",
+    "optional fold column",
+    "optional event-weight column",
+    "probabilistic learner",
+    "baseline",
+    "training weighting policy"
+  ],
+  "supported_input_formats": [
+    "csv",
+    "json row array"
+  ],
+  "supported_models": [
+    "random_forest",
+    "multinomial_logit"
+  ],
+  "supported_baselines": [
+    "pooled",
+    "stratum"
+  ],
+  "supported_training_weight_policies": [
+    "event_weight",
+    "equal_stratum_equal_group"
+  ],
+  "receipt_requirements": [
+    "endpoint_id",
+    "contract_sha256",
+    "data_sha256",
+    "input_row_count",
+    "declared scientific roles",
+    "model specification",
+    "independent-group scores",
+    "gain category"
+  ],
+  "scientific_boundaries": {
+    "column_roles_inferred": false,
+    "independence_unit_inferred": false,
+    "folds_inferred": false,
+    "strata_inferred": false,
+    "baseline_inferred": false,
+    "training_weight_policy_inferred": false,
+    "learner_selected_from_outcomes": false,
+    "frozen_empirical_endpoint_rerun": false,
+    "frozen_terminal_reclassification": false,
+    "receipt_is_a_claim_of_causality": false
+  }
+}

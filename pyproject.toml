@@ -15,6 +15,9 @@ dependencies = ["numpy>=1.24"]
 dev = ["pytest>=8", "pyproj>=3.6,<4"]
 predict = ["scikit-learn>=1.4,<2"]
 
+[project.scripts]
+odsp = "odsp.cli:main"
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["odsp*"]

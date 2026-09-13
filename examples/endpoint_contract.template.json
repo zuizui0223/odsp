@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "endpoint_id": "my-state-prediction-endpoint",
+  "data": {
+    "path": "events.csv",
+    "format": "csv"
+  },
+  "columns": {
+    "state": "state",
+    "features": [
+      "temperature",
+      "latitude",
+      "longitude"
+    ],
+    "group": "individual_id",
+    "stratum": "species",
+    "fold": "fold",
+    "weight": null
+  },
+  "model": {
+    "kind": "random_forest",
+    "random_state": 20260904,
+    "parameters": {
+      "n_estimators": 500,
+      "min_samples_leaf": 25,
+      "max_features": "sqrt"
+    }
+  },
+  "baseline": "pooled",
+  "training_weight_policy": "equal_stratum_equal_group",
+  "gain_tolerance": 0.0
+}
