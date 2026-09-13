@@ -1,0 +1,61 @@
+name: n2-mee-state-prediction-v6
+
+on:
+  pull_request:
+    paths:
+      - "N2_MEE_STATE_PREDICTION_V6_CONTRACT.json"
+      - "N2_STATE_SPACE_GENERALITY_CONTRACT.json"
+      - "odsp/distributional_gain.py"
+      - "odsp/state_space_generality_benchmark.py"
+      - "odsp/continuous_state.py"
+      - "odsp/circular_state.py"
+      - "odsp/joint_state.py"
+      - "scripts/build_n2_mee_manuscript_v6.py"
+      - "tests/test_n2_mee_state_prediction_v6.py"
+      - "tests/test_n2_mee_state_prediction_v6_contract.py"
+      - "tests/test_distributional_gain.py"
+      - "tests/test_state_space_generality_benchmark.py"
+      - ".github/workflows/n2-mee-state-prediction-v6.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install authoring dependencies
+        run: python -m pip install -e ".[dev,predict]"
+      - name: Validate v6 manuscript and cross-geometry core
+        run: >-
+          python -m pytest -q
+          tests/test_n2_mee_state_prediction_v6_contract.py
+          tests/test_n2_mee_state_prediction_v6.py
+          tests/test_distributional_gain.py
+          tests/test_state_space_generality_benchmark.py
+          tests/test_continuous_state.py
+          tests/test_circular_state.py
+          tests/test_joint_state.py
+          tests/test_state_prediction.py
+      - name: Build v6 manuscript
+        run: >-
+          python scripts/build_n2_mee_manuscript_v6.py
+          --output build/state_prediction_v6/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v6.md
+          --manifest build/state_prediction_v6/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v6.manifest.json
+      - name: Upload v6 manuscript artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: n2-mee-state-prediction-v6-manuscript
+          path: |
+            build/state_prediction_v6/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v6.md
+            build/state_prediction_v6/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v6.manifest.json
+          if-no-files-found: error
+          retention-days: 90
