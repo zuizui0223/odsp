@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 RECEIPT = ROOT / "BOP_RODENT_SPECIES_BASELINE_AMENDMENT_RECEIPT.json"
 PRIMARY = ROOT / "BOP_RODENT_STATE_PREDICTION_TERMINAL_RECEIPT.json"
+MATRIX = ROOT / "N2_STATE_PREDICTION_EVIDENCE_MATRIX.json"
 
 
 def _read(path: Path) -> dict[str, object]:
@@ -86,3 +87,30 @@ def test_amendment_did_not_refit_reaccess_or_retune():
     assert receipt["model_refit_performed"] is False
     assert receipt["raw_source_data_reaccessed"] is False
     assert receipt["retuning_performed"] is False
+
+
+def test_anonymous_evidence_matrix_exposes_amendment_without_reclassifying_bop():
+    receipt = _read(RECEIPT)
+    matrix = _read(MATRIX)
+    bop = next(
+        row for row in matrix["prospective_state_prediction_endpoints"]
+        if row["endpoint"] == "BOP_RODENT"
+    )
+    amendment = bop["descriptive_species_baseline_amendment"]
+    assert amendment["post_outcome_amendment"] is True
+    assert amendment["primary_comparator_and_terminal_rule_unchanged"] is True
+    assert bop["primary_random_forest"]["terminal_category"] == "empirical_state_prediction_mixed"
+    assert math.isclose(
+        amendment["overall_mean_species_component"],
+        receipt["overall_summary"]["mean_species_component"],
+        rel_tol=0.0,
+        abs_tol=1e-15,
+    )
+    assert math.isclose(
+        amendment["overall_mean_context_within_species_component"],
+        receipt["overall_summary"]["mean_context_within_species_component"],
+        rel_tol=0.0,
+        abs_tol=1e-15,
+    )
+    for species, receipt_row in receipt["species_summary"].items():
+        assert amendment["species"][species]["state_counts"] == receipt_row["state_counts"]
