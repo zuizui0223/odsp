@@ -4,19 +4,44 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "odsp-niche-geometry"
-version = "0.10.0"
-description = "Projection-aware state-resolved ecological prediction and multidimensional niche evidence"
-readme = "README.md"
+version = "0.11.0"
+description = "State-resolved ecological prediction with explicit baselines, grouped transfer scoring and auditable endpoint contracts"
+readme = "PYPI_README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
+keywords = [
+  "ecology",
+  "state-resolved prediction",
+  "transferability",
+  "information theory",
+  "biologging",
+  "species distribution models",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering",
+]
 dependencies = ["numpy>=1.24"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "pyproj>=3.6,<4"]
 predict = ["scikit-learn>=1.4,<2"]
+release = ["build>=1.2", "twine>=6"]
 
 [project.scripts]
 odsp = "odsp.cli:main"
+
+[project.urls]
+Repository = "https://github.com/zuizui0223/odsp"
+Issues = "https://github.com/zuizui0223/odsp/issues"
+Documentation = "https://github.com/zuizui0223/odsp/blob/main/docs/endpoint_contract_cli_v1.md"
 
 [tool.setuptools.packages.find]
 where = ["."]
