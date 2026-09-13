@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-external-score-information-transfer-v1",
+  "date": "2026-09-13",
+  "purpose": "separate upstream model fitting from ODSP information-transfer inference by accepting only precomputed held-out row-wise predictive scores under an explicit nested information filtration",
+  "command": "odsp transfer --contract ENDPOINT.json",
+  "required_explicit_roles": [
+    "unique held-out row id",
+    "independent group",
+    "optional resampling block",
+    "optional row weight",
+    "score semantics and orientation",
+    "ordered information levels",
+    "score column for every information level",
+    "evaluation provenance declarations",
+    "familywise certification settings"
+  ],
+  "forbidden_contract_roles": [
+    "learner kind",
+    "learner hyperparameters",
+    "feature selection rule",
+    "automatic information-level selection"
+  ],
+  "information_filtration_rule": "C0 must be a strict subset of C1, continuing by strict subset at every adjacent step",
+  "score_rules": {
+    "orientation": "higher_is_better",
+    "same_scoring_rule_across_levels": true,
+    "log_score_requires_common_reference_measure": true,
+    "same_heldout_rows_across_levels": true
+  },
+  "confirmatory_rules": {
+    "heldout_predictions_required": true,
+    "heldout_outcome_must_not_be_used_for_prediction_or_selection": true,
+    "filtration_frozen_before_outcome_scoring": true,
+    "blockless_certification_requires_explicit_row_independence_assertion": true
+  },
+  "certification_family": "all estimable independent-group by adjacent-information-step cells",
+  "ceiling_rule": "the transfer ceiling advances only through consecutive all-group positive or robust-positive information increments; total gain and later positive increments cannot skip a failed step",
+  "receipt_requirements": [
+    "endpoint id",
+    "contract SHA256",
+    "data SHA256",
+    "input row count",
+    "score contract",
+    "evaluation declarations",
+    "validated information levels and increments",
+    "independent-group point gains",
+    "point transfer ceiling",
+    "joint max-t certification",
+    "certified transfer ceiling",
+    "scientific boundary flags"
+  ],
+  "scientific_boundaries": {
+    "upstream_model_fitted_by_odsp": false,
+    "upstream_model_refit_uncertainty_included": false,
+    "score_columns_generated_by_odsp": false,
+    "information_sets_inferred": false,
+    "score_orientation_inferred": false,
+    "independence_unit_inferred": false,
+    "resampling_block_inferred": false,
+    "contract_declarations_empirically_verified_by_odsp": false,
+    "chain_decomposition_claimed_as_novel": false,
+    "receipt_is_a_claim_of_causality": false
+  }
+}
