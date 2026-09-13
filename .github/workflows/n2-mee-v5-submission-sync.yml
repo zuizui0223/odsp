@@ -1,0 +1,79 @@
+name: n2-mee-v5-submission-sync
+
+on:
+  pull_request:
+    paths:
+      - 'N2_MEE_REVIEW_DOCX_RENDER_CONTRACT_V5.json'
+      - 'N2_MEE_STATE_PREDICTION_V5_SUBMISSION_CHECKLIST.json'
+      - 'manuscript/N2_MEE_TITLE_PAGE_TEMPLATE_v5.md'
+      - 'manuscript/N2_MEE_COVER_LETTER_DRAFT_v5.md'
+      - 'manuscript/N2_MEE_DISCLOSURE_DRAFTS_v5.md'
+      - 'scripts/build_n2_mee_manuscript_v5.py'
+      - 'scripts/render_n2_mee_review_docx_v4.py'
+      - 'scripts/render_n2_mee_review_docx_v5.py'
+      - 'scripts/validate_n2_mee_review_docx_v4.py'
+      - 'scripts/build_n2_mee_submission_handoff_v5.py'
+      - 'tests/test_n2_mee_v5_submission_sync.py'
+      - '.github/workflows/n2-mee-v5-submission-sync.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install package, DOCX dependencies and pandoc
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev]'
+          python -m pip install 'python-docx>=1.1,<2'
+          sudo apt-get update -qq
+          sudo apt-get install -y pandoc
+
+      - name: Validate v5 submission contracts and metadata surfaces
+        run: python -m pytest -q tests/test_n2_mee_v5_submission_sync.py
+
+      - name: Build validated v5 manuscript Markdown
+        run: |
+          mkdir -p build/n2_mee_v5_submission
+          python scripts/build_n2_mee_manuscript_v5.py \
+            --output build/n2_mee_v5_submission/N2_MEE_MANUSCRIPT_DRAFT_v5.md \
+            --manifest build/n2_mee_v5_submission/manuscript_v5_manifest.json
+
+      - name: Render anonymous v5 review DOCX
+        run: |
+          python scripts/render_n2_mee_review_docx_v5.py \
+            --input build/n2_mee_v5_submission/N2_MEE_MANUSCRIPT_DRAFT_v5.md \
+            --output build/n2_mee_v5_submission/N2_MEE_ANONYMOUS_REVIEW_v5.docx \
+            --manifest build/n2_mee_v5_submission/review_docx_v5_manifest.json
+
+      - name: Fail-closed DOCX structural validation
+        run: |
+          python scripts/validate_n2_mee_review_docx_v4.py \
+            --docx build/n2_mee_v5_submission/N2_MEE_ANONYMOUS_REVIEW_v5.docx \
+            --out-json build/n2_mee_v5_submission/review_docx_v5_validation.json
+
+      - name: Build v5 submission-system handoff
+        run: |
+          python scripts/build_n2_mee_submission_handoff_v5.py \
+            --json build/n2_mee_v5_submission/N2_MEE_SUBMISSION_HANDOFF_PACKET_V5.json \
+            --markdown build/n2_mee_v5_submission/N2_MEE_SUBMISSION_HANDOFF_V5.md
+
+      - name: Upload v5 submission-sync artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: n2-mee-v5-submission-sync
+          path: build/n2_mee_v5_submission/
+          if-no-files-found: error
+          retention-days: 90
