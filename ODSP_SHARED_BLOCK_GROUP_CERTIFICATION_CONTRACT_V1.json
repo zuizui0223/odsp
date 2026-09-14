@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-shared-block-group-certification-v1",
+  "date": "2026-09-14",
+  "purpose": "preserve empirical cross-group covariance in familywise held-out gain certification when every group is observed on the same paired validation blocks",
+  "eligibility": {
+    "same_positive_mass_block_set_in_every_group": true,
+    "shared_blocks_are_caller_declared_exchangeable_validation_units": true,
+    "unbalanced_block_support_allowed": false,
+    "missing_shared_blocks_imputed": false,
+    "post_outcome_common_subset_selection_allowed": false,
+    "silent_fallback_to_independent_group_bootstrap": false
+  },
+  "resampling": {
+    "same_block_draw_shared_across_all_groups_and_contrasts": true,
+    "group_specific_block_weights_retained": true,
+    "single_global_studentized_max_t_family": "all_estimable_group_by_contrast_cells",
+    "validation_group_independence_assumed": false,
+    "shared_block_exchangeability_assumed": true
+  },
+  "supported_wrappers": [
+    "strict information-transfer filtration",
+    "complete information lattice"
+  ],
+  "fail_closed_rules": [
+    "group has zero positive score weight",
+    "positive-mass shared block support differs among groups",
+    "group-block has zero total weight",
+    "insufficient shared blocks",
+    "nonfinite positive-weight cell gain",
+    "missing or unhashable group/block label"
+  ],
+  "scientific_boundaries": {
+    "general_arbitrary_cross_group_dependence_solved": false,
+    "unbalanced_cluster_bootstrap_supported": false,
+    "spatial_random_field_dependence_removed": false,
+    "phylogenetic_dependence_removed": false,
+    "network_dependence_removed": false,
+    "paired_block_identity_inferred_from_outcomes": false,
+    "frozen_empirical_endpoint_rerun": false,
+    "frozen_terminal_reclassification": false
+  }
+}
