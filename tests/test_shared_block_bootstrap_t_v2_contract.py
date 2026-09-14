@@ -27,6 +27,11 @@ def test_shared_block_bootstrap_t_v2_contract_freezes_paired_studentization():
     assert boundary["missing_shared_blocks_imputed"] is False
     assert boundary["frozen_endpoint_rerun"] is False
     calibration = contract["calibration"]
+    assert calibration["seed"] == 20260914
+    assert calibration["simulations_per_scenario"] == 1000
+    assert calibration["bootstrap_draws_per_interval"] == 500
+    assert calibration["nominal_familywise_confidence_level"] == 0.95
+    assert calibration["acceptance_rule"].startswith("alpha + 2")
     assert calibration["predeclared_group_correlation"] == 0.7
     assert calibration["predeclared_contrast_correlation"] == 0.5
     assert len(calibration["predeclared_scenarios"]) == 4
