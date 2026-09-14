@@ -1,0 +1,46 @@
+{
+  "schema_version": 2,
+  "contract_id": "odsp-simultaneous-group-bootstrap-t-v2",
+  "date": "2026-09-14",
+  "purpose": "prospective familywise certification across held-out validation groups using replicate-specific cluster studentization",
+  "supersedes_for_new_endpoints": "fixed-scale standardized max-deviation interval used by simultaneous-group v1",
+  "does_not_reclassify": [
+    "frozen empirical endpoints",
+    "historical v1 validation receipts",
+    "historical manuscript results"
+  ],
+  "estimator": {
+    "group_gain": "ratio of weighted gain numerator sums to weighted mass sums over caller-declared exchangeable validation blocks",
+    "point_standard_error": "cluster ratio influence standard error recomputed from the original validation blocks",
+    "bootstrap_draw": "resample the original number of validation blocks with replacement within each independent group",
+    "replicate_standard_error": "recompute the same cluster ratio influence standard error inside each bootstrap replicate",
+    "max_t_statistic": "maximum across estimable groups of abs(theta_star - theta_hat) / se_star",
+    "interval": "theta_hat plus/minus bootstrap-t critical value times the original cluster ratio standard error"
+  },
+  "requirements": {
+    "heldout_predictions": true,
+    "caller_declared_exchangeable_blocks": true,
+    "independent_validation_groups": true,
+    "minimum_blocks_per_group_default": 8,
+    "minimum_bootstrap_draws": 500,
+    "familywise_confidence_level_default": 0.95
+  },
+  "zero_variance_rule": {
+    "zero_se_zero_displacement": "t contribution is zero",
+    "zero_se_nonzero_displacement": "t contribution is infinity and the simultaneous interval fails conservatively"
+  },
+  "references": {
+    "legacy_v1": "odsp.simultaneous_group_certification.audit_simultaneous_group_certification",
+    "prospective_v2": "odsp.simultaneous_group_certification_v2.audit_simultaneous_group_certification_v2",
+    "studentization_core": "odsp.bootstrap_t"
+  },
+  "scientific_boundaries": {
+    "upstream_model_refit_uncertainty_included": false,
+    "refit_ensemble_treated_as_independent_sample": false,
+    "group_independence_inferred": false,
+    "block_exchangeability_inferred": false,
+    "frozen_endpoint_rerun": false,
+    "frozen_terminal_reclassification": false,
+    "aggregate_confidence_score_emitted": false
+  }
+}
