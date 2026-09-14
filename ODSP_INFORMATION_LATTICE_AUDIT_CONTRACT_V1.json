@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-information-lattice-order-audit-v1",
+  "date": "2026-09-13",
+  "purpose": "prevent an arbitrary ordering of scientifically unordered information blocks from determining the claimed held-out transfer ceiling",
+  "input_requirements": {
+    "fixed_base_information": "declared before scoring",
+    "information_blocks": "non-empty, named, mutually variable-disjoint and disjoint from the fixed base",
+    "subset_score_table": "one held-out score vector for every one of the 2^m subsets of m declared information blocks",
+    "same_heldout_rows_across_all_nodes": true,
+    "same_scoring_rule_and_orientation_across_all_nodes": true,
+    "independent_groups_explicit": true
+  },
+  "edge_estimand": "held-out score gain for S -> S union {z} within each independent group",
+  "point_edge_success_rule": "an edge is generalizing only when its gain is positive in every independent group",
+  "path_statuses": [
+    "universal_full_transfer",
+    "order_sensitive_full_transfer",
+    "no_full_transfer"
+  ],
+  "path_rule": "a full path succeeds only when every consecutive edge in that information-block ordering is all-group successful; total full-vs-base gain cannot skip a failed edge",
+  "block_order_robust_rule": "one information block is order-robust generalizing only when every lattice edge adding that block is all-group positive",
+  "shapley_role": {
+    "reported": true,
+    "purpose": "descriptive order-average of held-out marginal score contribution",
+    "group_specific": true,
+    "adds_to_full_vs_base_group_gain_when_all_edges_finite": true,
+    "can_override_failed_edge": false,
+    "claimed_as_novel": false
+  },
+  "familywise_certification": {
+    "family": "all estimable independent-group by lattice-edge cells",
+    "same_block_draw_shared_across_edges_within_group": true,
+    "global_studentized_max_t": true,
+    "robust_path_uses_only_robust_generalizing_edges": true,
+    "unavailable_edge_can_be_crossed": false
+  },
+  "complexity": {
+    "node_count": "2^m",
+    "directed_edge_count": "m * 2^(m-1)",
+    "intended_use": "a modest number of scientifically meaningful information blocks rather than raw high-dimensional feature attribution"
+  },
+  "scientific_boundaries": {
+    "best_order_selected_from_heldout_outcomes": false,
+    "upstream_subset_models_fitted_by_odsp": false,
+    "information_blocks_selected_from_outcomes": false,
+    "shapley_average_used_as_confirmatory_override": false,
+    "upstream_refit_uncertainty_included": false,
+    "causal_attribution_claimed": false
+  }
+}
