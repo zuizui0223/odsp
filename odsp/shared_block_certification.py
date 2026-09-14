@@ -297,14 +297,10 @@ def certify_shared_block_gains(
     total_weight = np.sum(block_weight, axis=1)
     point = np.full((group_count, contrast_count), np.nan, dtype=float)
     for group_index in range(group_count):
-        if np.any(finite_cell[group_index]):
-            point[group_index, finite_cell[group_index]] = (
-                np.sum(
-                    block_numerator[
-                        group_index, :, finite_cell[group_index]
-                    ],
-                    axis=0,
-                )
+        finite = finite_cell[group_index]
+        if np.any(finite):
+            point[group_index, finite] = (
+                np.sum(block_numerator[group_index][:, finite], axis=0)
                 / total_weight[group_index]
             )
 
