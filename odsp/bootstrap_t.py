@@ -126,6 +126,11 @@ def studentized_max_t_critical_value(
     estimate also equals the point estimate to numerical tolerance.  A zero SE
     with a non-zero displacement contributes infinity, making the resulting
     interval fail conservatively rather than silently dividing by zero.
+
+    The critical value is the conservative empirical quantile (`method='higher'`)
+    rather than a linearly interpolated quantile.  This is especially important
+    when some fail-closed bootstrap statistics are infinite: interpolation
+    between a finite statistic and infinity is undefined and must not create NaN.
     """
 
     means = np.asarray(bootstrap_mean, dtype=float)
@@ -151,7 +156,7 @@ def studentized_max_t_critical_value(
     degenerate_moved = (~positive_se) & (displacement > epsilon)
     statistic[degenerate_moved] = np.inf
     maxima = np.max(statistic, axis=1)
-    return float(np.quantile(maxima, confidence_level))
+    return float(np.quantile(maxima, confidence_level, method="higher"))
 
 
 def simultaneous_bootstrap_t_bounds(
