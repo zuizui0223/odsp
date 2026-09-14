@@ -132,7 +132,7 @@ def _false_generalizing(result) -> bool:
 def run_shared_block_bootstrap_t_calibration(
     *,
     seed: int = 20260914,
-    simulations_per_scenario: int = 250,
+    simulations_per_scenario: int = 1000,
     bootstrap_draws: int = 500,
     group_count: int = 6,
     contrast_count: int = 2,
