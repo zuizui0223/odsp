@@ -46,6 +46,11 @@
   },
   "calibration": {
     "benchmark": "run_shared_block_bootstrap_t_calibration",
+    "seed": 20260914,
+    "simulations_per_scenario": 1000,
+    "bootstrap_draws_per_interval": 500,
+    "nominal_familywise_confidence_level": 0.95,
+    "acceptance_rule": "alpha + 2 * sqrt(alpha * (1 - alpha) / simulation_count)",
     "predeclared_group_count": 6,
     "predeclared_contrast_count": 2,
     "predeclared_group_correlation": 0.7,
