@@ -1,0 +1,39 @@
+name: bootstrap-t-v2
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/bootstrap_t.py'
+      - 'odsp/simultaneous_group_certification_v2.py'
+      - 'tests/test_bootstrap_t.py'
+      - 'tests/test_simultaneous_group_certification_v2.py'
+      - 'tests/test_simultaneous_group_bootstrap_t_v2_contract.py'
+      - 'ODSP_SIMULTANEOUS_GROUP_BOOTSTRAP_T_V2_CONTRACT.json'
+      - 'docs/simultaneous_group_bootstrap_t_v2.md'
+      - '.github/workflows/bootstrap-t-v2.yml'
+      - 'pyproject.toml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core package without prediction extra
+        run: python -m pip install -e '.[dev]'
+      - name: Run genuine bootstrap-t tests
+        run: >-
+          python -m pytest -q
+          tests/test_bootstrap_t.py
+          tests/test_simultaneous_group_certification_v2.py
+          tests/test_simultaneous_group_bootstrap_t_v2_contract.py
+      - name: Import prospective v2 without prediction extra
+        run: >-
+          python -c "from odsp.simultaneous_group_certification_v2 import audit_simultaneous_group_certification_v2; from odsp.bootstrap_t import studentized_max_t_critical_value; print('bootstrap-t-v2 import ok')"
