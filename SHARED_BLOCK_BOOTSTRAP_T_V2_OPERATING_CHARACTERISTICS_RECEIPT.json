@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "receipt_type": "odsp_shared_block_bootstrap_t_v2_operating_characteristics",
+  "date": "2026-09-14",
+  "benchmark_type": "known_global_null_familywise_coverage_with_correlated_paired_blocks",
+  "empirical_endpoint": false,
+  "frozen_endpoint_reclassified": false,
+  "first_1000_simulation_run": {
+    "github_actions_run_id": 34800919180,
+    "github_actions_job_id": 103843254035,
+    "workflow": "shared-block-bootstrap-t-v2",
+    "head_sha": "eed506625849075b1a5ac78b480e4ef2ba7fe456",
+    "seed": 20260914,
+    "simulations_per_scenario": 1000,
+    "bootstrap_draws_per_interval": 500,
+    "group_count": 6,
+    "contrast_count": 2,
+    "group_correlation": 0.7,
+    "contrast_correlation": 0.5,
+    "nominal_familywise_confidence_level": 0.95
+  },
+  "acceptance_rule": {
+    "metric": "v2_two_sided_familywise_noncoverage_rate",
+    "nominal_alpha": 0.05,
+    "simulation_count": 1000,
+    "formula": "alpha + 2 * sqrt(alpha * (1 - alpha) / simulation_count)",
+    "maximum_accepted_rate": 0.06378404875209027,
+    "applies_to": "every predeclared paired v2 global-null scenario",
+    "v1_used_for_acceptance": false,
+    "v1_role": "descriptive historical paired fixed-scale comparator only"
+  },
+  "scenarios": [
+    {
+      "scenario_id": "paired-normal-b8",
+      "distribution": "normal",
+      "blocks_per_group": 8,
+      "v1_two_sided_familywise_noncoverage_rate": 0.279,
+      "v2_two_sided_familywise_noncoverage_rate": 0.01,
+      "v1_terminal_false_generalizing_rate": 0.0,
+      "v2_terminal_false_generalizing_rate": 0.0,
+      "v2_monte_carlo_standard_error": 0.003146426544510455,
+      "v2_acceptance_pass": true
+    },
+    {
+      "scenario_id": "paired-normal-b20",
+      "distribution": "normal",
+      "blocks_per_group": 20,
+      "v1_two_sided_familywise_noncoverage_rate": 0.105,
+      "v2_two_sided_familywise_noncoverage_rate": 0.025,
+      "v1_terminal_false_generalizing_rate": 0.0,
+      "v2_terminal_false_generalizing_rate": 0.0,
+      "v2_monte_carlo_standard_error": 0.0049371044145328745,
+      "v2_acceptance_pass": true
+    },
+    {
+      "scenario_id": "paired-normal-b50",
+      "distribution": "normal",
+      "blocks_per_group": 50,
+      "v1_two_sided_familywise_noncoverage_rate": 0.086,
+      "v2_two_sided_familywise_noncoverage_rate": 0.051,
+      "v1_terminal_false_generalizing_rate": 0.0,
+      "v2_terminal_false_generalizing_rate": 0.0,
+      "v2_monte_carlo_standard_error": 0.00695693898205238,
+      "v2_acceptance_pass": true
+    },
+    {
+      "scenario_id": "paired-t3-b20",
+      "distribution": "student_t3",
+      "blocks_per_group": 20,
+      "v1_two_sided_familywise_noncoverage_rate": 0.088,
+      "v2_two_sided_familywise_noncoverage_rate": 0.016,
+      "v1_terminal_false_generalizing_rate": 0.0,
+      "v2_terminal_false_generalizing_rate": 0.0,
+      "v2_monte_carlo_standard_error": 0.003967870965643918,
+      "v2_acceptance_pass": true
+    }
+  ],
+  "summary": {
+    "predeclared_scenario_count": 4,
+    "v2_pass_count": 4,
+    "v2_fail_count": 0,
+    "qualification_pass": true,
+    "largest_v2_two_sided_familywise_noncoverage_rate": 0.051,
+    "largest_v1_two_sided_familywise_noncoverage_rate": 0.279
+  },
+  "scientific_boundary": {
+    "simulation_result_not_biological_evidence": true,
+    "no_empirical_endpoint_rerun": true,
+    "no_frozen_terminal_reclassification": true,
+    "v2_validation_sample_uncertainty_only": true,
+    "upstream_model_refit_uncertainty_included": false,
+    "calibration_validates_only_the_predeclared_balanced_paired_dependence_design": true,
+    "arbitrary_dependence_structures_validated": false
+  }
+}
