@@ -1,0 +1,41 @@
+name: information-transfer-bootstrap-t-v2
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/bootstrap_t.py'
+      - 'odsp/multicontrast_bootstrap_t.py'
+      - 'odsp/information_transfer_v2.py'
+      - 'odsp/information_lattice_v2.py'
+      - 'tests/test_multicontrast_bootstrap_t_v2.py'
+      - 'tests/test_information_lattice_v2.py'
+      - 'tests/test_information_transfer_bootstrap_t_v2_contract.py'
+      - 'ODSP_INFORMATION_TRANSFER_BOOTSTRAP_T_V2_CONTRACT.json'
+      - 'docs/information_transfer_bootstrap_t_v2.md'
+      - '.github/workflows/information-transfer-bootstrap-t-v2.yml'
+      - 'pyproject.toml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core package without prediction extra
+        run: python -m pip install -e '.[dev]'
+      - name: Run multicontrast v2 tests
+        run: >-
+          python -m pytest -q
+          tests/test_multicontrast_bootstrap_t_v2.py
+          tests/test_information_lattice_v2.py
+          tests/test_information_transfer_bootstrap_t_v2_contract.py
+      - name: Import v2 information surfaces without prediction extra
+        run: >-
+          python -c "from odsp.information_transfer_v2 import certify_information_transfer_v2; from odsp.information_lattice_v2 import certify_information_lattice_v2; from odsp.multicontrast_bootstrap_t import certify_independent_group_contrasts_v2; print('information-transfer-bootstrap-t-v2 import ok')"
