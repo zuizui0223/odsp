@@ -32,15 +32,45 @@ jobs:
           python -m pytest -q
           tests/test_bootstrap_t_operating_characteristics.py
           tests/test_bootstrap_t_v2_operating_characteristics_receipt.py
-      - name: Re-run and print full known-null calibration panel
+      - name: Re-run full panel and match frozen receipt
         run: |
           python - <<'PY'
           import json
+          from pathlib import Path
           from odsp.bootstrap_t_operating_characteristics import run_bootstrap_t_operating_characteristics
+
           result = run_bootstrap_t_operating_characteristics(
               seed=20260914,
               simulations=1000,
               bootstrap_draws=500,
           )
-          print('BOOTSTRAP_T_CALIBRATION_JSON=' + json.dumps(result.as_dict(), sort_keys=True))
+          observed = result.as_dict()
+          receipt = json.loads(
+              Path('BOOTSTRAP_T_V2_OPERATING_CHARACTERISTICS_RECEIPT.json').read_text(
+                  encoding='utf-8'
+              )
+          )
+          observed_by_id = {row['scenario_id']: row for row in observed['scenarios']}
+          fields = (
+              'v1_two_sided_familywise_noncoverage_rate',
+              'v2_two_sided_familywise_noncoverage_rate',
+              'v1_any_false_positive_cell_rate',
+              'v2_any_false_positive_cell_rate',
+              'v1_any_false_negative_cell_rate',
+              'v2_any_false_negative_cell_rate',
+              'v1_terminal_false_generalizing_rate',
+              'v2_terminal_false_generalizing_rate',
+              'v1_infinite_critical_rate',
+              'v2_infinite_critical_rate',
+              'v2_monte_carlo_standard_error',
+          )
+          assert set(observed_by_id) == {row['scenario_id'] for row in receipt['scenarios']}
+          for expected in receipt['scenarios']:
+              actual = observed_by_id[expected['scenario_id']]
+              for field in fields:
+                  assert abs(float(actual[field]) - float(expected[field])) <= 1e-15, (
+                      expected['scenario_id'], field, actual[field], expected[field]
+                  )
+          print('BOOTSTRAP_T_CALIBRATION_JSON=' + json.dumps(observed, sort_keys=True))
+          print('BOOTSTRAP_T_CALIBRATION_MATCHES_FROZEN_RECEIPT=true')
           PY
