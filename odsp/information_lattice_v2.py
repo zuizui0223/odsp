@@ -8,6 +8,7 @@ summaries remain descriptive point averages and cannot override edge failures.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import math
 from typing import Sequence
 
 import numpy as np
@@ -163,11 +164,7 @@ def certify_information_lattice_v2(
         for key, category in category_by_edge.items()
         if category == "robust_generalizing"
     }
-    total_paths = int(np.math.factorial(len(block_order))) if hasattr(np, "math") else 0
-    # NumPy 2 no longer exposes np.math; retain an explicit standard-library path.
-    if total_paths == 0:
-        import math
-        total_paths = math.factorial(len(block_order))
+    total_paths = math.factorial(len(block_order))
     robust_paths = _path_count(block_order, successful)
 
     return InformationLatticeV2Certification(
