@@ -177,7 +177,8 @@ def certify_independent_group_contrasts_v2(
 
     Non-finite gains in one cell make that cell unavailable but do not erase
     unrelated contrasts.  If ``blocks`` is omitted, every positive-weight row is
-    treated as its own exchangeable block and the assumption is recorded.
+    treated as its own exchangeable block and the assumption is recorded. Rows
+    with zero score weight are excluded from support checks and block numerators.
     """
 
     gain = np.asarray(row_gain, dtype=float)
@@ -213,7 +214,12 @@ def certify_independent_group_contrasts_v2(
     if not math.isfinite(gain_tolerance) or gain_tolerance < 0:
         raise ValueError("gain_tolerance must be finite and non-negative")
 
-    group_order = tuple(sorted(set(group.tolist()), key=lambda value: (type(value).__name__, repr(value))))
+    group_order = tuple(
+        sorted(
+            set(group.tolist()),
+            key=lambda value: (type(value).__name__, repr(value)),
+        )
+    )
     records: list[list[dict[str, object]]] = [[] for _ in range(contrast_count)]
     eligible: list[tuple[int, int]] = []
     sample_mean_columns: list[np.ndarray] = []
@@ -240,7 +246,7 @@ def certify_independent_group_contrasts_v2(
         block_weight = np.empty(block_count, dtype=float)
         block_numerator = np.zeros((block_count, contrast_count), dtype=float)
         for block_index, block_value in enumerate(block_order):
-            block_mask = local_block == block_value
+            block_mask = (local_block == block_value) & positive
             mass = float(np.sum(local_weight[block_mask]))
             if mass <= 0:
                 raise ValueError("every declared positive-support block must have positive mass")
@@ -254,12 +260,18 @@ def certify_independent_group_contrasts_v2(
 
         local_point = np.full(contrast_count, np.nan, dtype=float)
         local_se = np.full(contrast_count, np.nan, dtype=float)
+        if np.any(finite):
+            local_point[finite] = (
+                np.sum(block_numerator[:, finite], axis=0)
+                / float(np.sum(block_weight))
+            )
         if np.any(finite) and block_count >= 2:
             values, ses = ratio_mean_and_cluster_se(
                 block_numerator[:, finite],
                 block_weight,
             )
-            local_point[finite] = values
+            if not np.allclose(values, local_point[finite], rtol=0.0, atol=1e-12):
+                raise AssertionError("ratio point estimate disagrees with block aggregate mean")
             local_se[finite] = ses
 
         sampled_means: np.ndarray | None = None
@@ -290,10 +302,10 @@ def certify_independent_group_contrasts_v2(
                 "contrast": contrast,
                 "row_count": int(np.count_nonzero(mask)),
                 "block_count": block_count,
-                "total_weight": float(np.sum(local_weight)),
+                "total_weight": float(np.sum(local_weight[positive])),
                 "mean_gain": (
                     float(local_point[contrast_index])
-                    if is_finite and block_count >= 2
+                    if is_finite
                     else float("-inf")
                 ),
                 "studentizing_standard_error": (
