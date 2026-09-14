@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-bootstrap-inference-version-boundary-v1",
+  "date": "2026-09-15",
+  "purpose": "prevent frozen version-1 fixed-scale standardized max-deviation procedures from being described as replicate-studentized bootstrap-t",
+  "version_1": {
+    "status": "frozen_provenance_and_sensitivity",
+    "canonical_method_name": "fixed-scale standardized max-deviation bootstrap sensitivity",
+    "replicate_specific_studentizer_recomputed": false,
+    "classical_bootstrap_t_claim_allowed": false,
+    "historical_max_t_field_names_retained_for_compatibility": true,
+    "historical_empirical_receipts_rerun": false,
+    "historical_empirical_terminal_categories_reclassified": false
+  },
+  "version_2": {
+    "status": "prospective_confirmatory_validation_sample_inference",
+    "canonical_method_name": "replicate-studentized cluster bootstrap-t max-t",
+    "replicate_specific_studentizer_recomputed": true,
+    "classical_bootstrap_t_claim_allowed": true,
+    "known_null_operating_characteristics_required_for_declared_design": true
+  },
+  "sampling_design_routing": {
+    "independent_validation_groups": "version-2 independent-group bootstrap-t route",
+    "multiple_contrasts_within_independent_groups": "version-2 independent group by contrast bootstrap-t route",
+    "balanced_groups_paired_on_identical_exchangeable_blocks": "version-2 paired shared-block bootstrap-t route",
+    "arbitrary_unbalanced_or_structured_dependence": "unsupported by these bootstrap-t routes; fail closed"
+  },
+  "refit_ensemble_boundary": {
+    "automatic_probability_sample_interpretation": false,
+    "automatic_95_percent_confidence_interpretation": false,
+    "canonical_role": "empirical upstream-refit sensitivity unless a separate defensible sampling model is predeclared"
+  },
+  "reporting_hard_stops": {
+    "pooled_gain_can_override_failed_cell": false,
+    "best_information_path_can_override_failed_edge": false,
+    "reference_fit_can_override_refit_sensitivity_failure": false,
+    "shapley_average_can_override_failed_edge": false
+  }
+}
