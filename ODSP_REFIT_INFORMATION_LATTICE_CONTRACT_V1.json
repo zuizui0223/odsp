@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-refit-information-lattice-v1",
+  "date": "2026-09-14",
+  "purpose": "jointly audit information-order sensitivity and upstream-refit sensitivity without allowing a favorable reference fit, information order, path, Shapley average or refit average to override a failed held-out lattice edge",
+  "required_structure": {
+    "complete_boolean_subset_lattice": true,
+    "score_shape_at_each_node": "refit_by_heldout_row",
+    "same_refit_axis_at_every_node": true,
+    "same_heldout_rows_at_every_node": true,
+    "independent_group_labels_explicit": true,
+    "validation_block_labels_explicit": true,
+    "refit_ids_explicit_or_deterministically_generated": true,
+    "reference_refit_is_traceability_only": true
+  },
+  "resampling": {
+    "one_selected_refit_shared_across_all_group_edge_cells_per_draw": true,
+    "same_validation_block_draw_shared_across_edges_within_group": true,
+    "single_global_studentized_max_t_family": "all_estimable_group_by_lattice_edge_cells",
+    "refit_variability_divided_by_sqrt_refit_count": false
+  },
+  "fail_closed_rules": [
+    "missing subset node",
+    "duplicate subset node",
+    "mismatched refit or heldout-row axes",
+    "nonfinite comparator-node score on a positive-weight row in any refit",
+    "insufficient supplied refits",
+    "insufficient validation blocks in an independent group",
+    "nonfinite edge gain in any supplied refit",
+    "missing or unhashable group/block labels"
+  ],
+  "reported_separately": [
+    "reference-fit point path status",
+    "reference-fit block-certified path status",
+    "per-refit point path counts and statuses",
+    "refit-averaged point path status",
+    "refit-aware familywise-certified path status",
+    "per-edge refit sensitivity",
+    "per-block order-robust refit-aware status"
+  ],
+  "scientific_boundaries": {
+    "upstream_models_fitted_by_odsp": false,
+    "refit_scheme_inferred_by_odsp": false,
+    "refits_assumed_independent": false,
+    "reference_fit_can_override_refit_aware_failure": false,
+    "best_information_order_can_override_failed_edge": false,
+    "shapley_average_can_override_failed_edge": false,
+    "refit_average_can_override_failed_edge": false,
+    "universal_model_uncertainty_claim": false,
+    "raw_feature_attribution_target": false,
+    "frozen_empirical_endpoint_rerun": false,
+    "frozen_terminal_reclassification": false
+  }
+}
