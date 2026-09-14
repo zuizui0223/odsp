@@ -58,8 +58,9 @@ jobs:
               'v2_terminal_false_generalizing_rate',
               'v2_monte_carlo_standard_error',
           )
+          run = expected['first_1000_simulation_run']
           for scenario_id in sorted(frozen):
-              assert actual[scenario_id]['simulations'] == frozen[scenario_id]['simulations']
+              assert actual[scenario_id]['simulations'] == run['simulations_per_scenario']
               assert actual[scenario_id]['blocks_per_group'] == frozen[scenario_id]['blocks_per_group']
               assert actual[scenario_id]['distribution'] == frozen[scenario_id]['distribution']
               assert actual[scenario_id]['v2_acceptance_pass'] is True
@@ -67,7 +68,6 @@ jobs:
                   assert abs(float(actual[scenario_id][field]) - float(frozen[scenario_id][field])) <= 1e-15, (
                       scenario_id, field, actual[scenario_id][field], frozen[scenario_id][field]
                   )
-          run = expected['first_1000_simulation_run']
           assert observed['seed'] == run['seed']
           assert observed['simulations_per_scenario'] == run['simulations_per_scenario']
           assert observed['bootstrap_draws_per_interval'] == run['bootstrap_draws_per_interval']
