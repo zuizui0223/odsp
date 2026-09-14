@@ -1,0 +1,39 @@
+name: shared-block-group-certification
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/shared_block_certification.py'
+      - 'odsp/shared_block_information.py'
+      - 'odsp/information_transfer.py'
+      - 'odsp/information_lattice.py'
+      - 'tests/test_shared_block_information.py'
+      - 'tests/test_shared_block_group_method_contract.py'
+      - 'docs/shared_block_group_certification_v1.md'
+      - 'ODSP_SHARED_BLOCK_GROUP_CERTIFICATION_CONTRACT_V1.json'
+      - '.github/workflows/shared-block-group-certification.yml'
+      - 'pyproject.toml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core package without prediction extra
+        run: python -m pip install -e '.[dev]'
+      - name: Run paired shared-block tests
+        run: >-
+          python -m pytest -q
+          tests/test_shared_block_information.py
+          tests/test_shared_block_group_method_contract.py
+      - name: Import paired certification without prediction extra
+        run: >-
+          python -c "from odsp.shared_block_information import certify_shared_block_information_transfer, certify_shared_block_information_lattice; assert callable(certify_shared_block_information_transfer); assert callable(certify_shared_block_information_lattice)"
