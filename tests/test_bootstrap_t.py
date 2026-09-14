@@ -88,7 +88,9 @@ def test_studentized_max_t_uses_replicate_specific_se():
     manual = []
     for mean_row, se_row in zip(bootstrap_mean, bootstrap_se):
         manual.append(max(abs(mean_row - point) / se_row))
-    assert critical == pytest.approx(np.quantile(manual, 0.75))
+    assert critical == pytest.approx(
+        np.quantile(manual, 0.75, method="higher")
+    )
 
 
 def test_zero_dispersion_cell_is_zero_t_only_when_it_does_not_move():
@@ -118,3 +120,17 @@ def test_infinite_critical_value_fails_nonzero_se_cells_conservatively():
     assert lower[0] == upper[0] == pytest.approx(0.2)
     assert lower[1] == -math.inf
     assert upper[1] == math.inf
+
+
+def test_bootstrap_inputs_fail_closed():
+    with pytest.raises(ValueError, match="at least two blocks"):
+        ratio_mean_and_cluster_se(np.asarray([[1.0]]), np.asarray([1.0]))
+
+    numerator = np.asarray([[1.0], [2.0]], dtype=float)
+    weight = np.asarray([1.0, 1.0], dtype=float)
+    with pytest.raises(ValueError, match="draws x block_count"):
+        bootstrap_ratio_mean_and_cluster_se(
+            numerator,
+            weight,
+            np.asarray([[0, 2]], dtype=int),
+        )
