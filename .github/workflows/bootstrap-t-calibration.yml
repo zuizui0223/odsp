@@ -34,7 +34,7 @@ jobs:
           from odsp.bootstrap_t_operating_characteristics import run_bootstrap_t_operating_characteristics
           result = run_bootstrap_t_operating_characteristics(
               seed=20260914,
-              simulations=200,
+              simulations=1000,
               bootstrap_draws=500,
           )
           print('BOOTSTRAP_T_CALIBRATION_JSON=' + json.dumps(result.as_dict(), sort_keys=True))
