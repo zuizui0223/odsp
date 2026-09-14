@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "contract_id": "odsp-shared-block-bootstrap-t-v2",
+  "date": "2026-09-14",
+  "purpose": "prospective familywise certification for balanced paired validation groups using one shared block resample and replicate-specific cluster studentization",
+  "supersedes_for_new_endpoints": "fixed-scale shared-block max-deviation certification v1",
+  "does_not_reclassify": [
+    "frozen empirical endpoints",
+    "historical shared-block v1 receipts",
+    "historical manuscript results"
+  ],
+  "estimator": {
+    "cell_gain": "ratio of weighted gain numerator sums to weight masses over shared validation blocks",
+    "point_standard_error": "cluster ratio influence standard error computed separately for every group x contrast cell",
+    "bootstrap_draw": "sample the common block IDs once and reuse the identical sampled sequence across every group and contrast",
+    "replicate_standard_error": "recompute the cluster ratio influence standard error inside each bootstrap replicate for every estimable cell",
+    "max_t_statistic": "maximum across all estimable group x contrast cells of abs(theta_star - theta_hat) / se_star",
+    "interval": "theta_hat plus/minus bootstrap-t critical value times original-sample cluster ratio standard error"
+  },
+  "requirements": {
+    "heldout_predictions": true,
+    "caller_declared_exchangeable_shared_blocks": true,
+    "identical_positive_mass_block_support_across_groups": true,
+    "minimum_shared_blocks_default": 8,
+    "minimum_bootstrap_draws": 500,
+    "familywise_confidence_level_default": 0.95
+  },
+  "dependence": {
+    "validation_group_independence_assumed": false,
+    "cross_group_covariance_preserved_by_shared_block_draw": true,
+    "cross_contrast_covariance_preserved_by_shared_block_draw": true,
+    "unbalanced_shared_block_support": "fail closed"
+  },
+  "zero_variance_rule": {
+    "zero_se_zero_displacement": "t contribution is zero",
+    "zero_se_nonzero_displacement": "t contribution is infinity and the simultaneous interval fails conservatively"
+  },
+  "scientific_boundaries": {
+    "upstream_model_refit_uncertainty_included": false,
+    "arbitrary_spatial_dependence_supported": false,
+    "arbitrary_network_dependence_supported": false,
+    "missing_shared_blocks_imputed": false,
+    "frozen_endpoint_rerun": false,
+    "frozen_terminal_reclassification": false,
+    "aggregate_confidence_score_emitted": false
+  },
+  "calibration": {
+    "benchmark": "run_shared_block_bootstrap_t_calibration",
+    "predeclared_group_count": 6,
+    "predeclared_contrast_count": 2,
+    "predeclared_group_correlation": 0.7,
+    "predeclared_contrast_correlation": 0.5,
+    "predeclared_scenarios": [
+      "paired-normal-b8",
+      "paired-normal-b20",
+      "paired-normal-b50",
+      "paired-t3-b20"
+    ]
+  }
+}
