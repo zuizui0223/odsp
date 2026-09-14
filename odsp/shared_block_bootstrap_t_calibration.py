@@ -1,9 +1,14 @@
 """Known-null calibration benchmark for paired shared-block bootstrap-t v2.
 
 The simulated validation design deliberately induces strong cross-group and
-cross-contrast correlation through shared blocks.  The exact same synthetic
+cross-contrast correlation through shared blocks. The exact same synthetic
 world is evaluated by historical paired v1 fixed-scale standardization and by
 prospective paired v2 replicate-specific bootstrap-t.
+
+Synthetic worlds use an analytic common-factor construction for the separable
+Kronecker equicorrelation target. This avoids numerical eigendecomposition or
+Cholesky choices in ``numpy.random.multivariate_normal`` so a frozen seed maps
+to the same simulated worlds across BLAS/LAPACK implementations.
 
 This is a methodological operating-characteristics benchmark, not biological
 evidence.
@@ -17,6 +22,9 @@ import numpy as np
 
 from .shared_block_certification import certify_shared_block_gains
 from .shared_block_certification_v2 import certify_shared_block_gains_v2
+
+
+GENERATOR_VERSION = "analytic_separable_equicorrelation_common_factor_v1"
 
 
 @dataclass(frozen=True)
@@ -39,6 +47,7 @@ class SharedBlockCalibrationScenario:
 
 @dataclass(frozen=True)
 class SharedBlockCalibrationResult:
+    generator_version: str
     seed: int
     simulations_per_scenario: int
     bootstrap_draws_per_interval: int
@@ -56,12 +65,6 @@ class SharedBlockCalibrationResult:
         return payload
 
 
-def _equicorrelation(size: int, rho: float) -> np.ndarray:
-    matrix = np.full((size, size), float(rho), dtype=float)
-    np.fill_diagonal(matrix, 1.0)
-    return matrix
-
-
 def _world(
     rng: np.random.Generator,
     *,
@@ -72,23 +75,38 @@ def _world(
     contrast_rho: float,
     distribution: str,
 ) -> np.ndarray:
-    covariance = np.kron(
-        _equicorrelation(group_count, group_rho),
-        _equicorrelation(contrast_count, contrast_rho),
-    )
-    normal = rng.multivariate_normal(
-        mean=np.zeros(group_count * contrast_count),
-        cov=covariance,
-        size=blocks,
+    """Generate one separably correlated block world without matrix factorization.
+
+    For group indices g,g' and contrast indices c,c', the construction gives
+
+        Cov(X_gc, X_g'c')
+          = (rho_g + (1-rho_g) I[g=g'])
+            * (rho_c + (1-rho_c) I[c=c']).
+
+    This is exactly the Kronecker product of the two equicorrelation matrices.
+    Only ``Generator.standard_normal`` and scalar square roots are used, so the
+    seeded world does not depend on a linear-algebra factorization convention.
+    """
+
+    rg = float(group_rho)
+    rc = float(contrast_rho)
+    global_term = rng.standard_normal((blocks, 1, 1))
+    contrast_term = rng.standard_normal((blocks, 1, contrast_count))
+    group_term = rng.standard_normal((blocks, group_count, 1))
+    cell_term = rng.standard_normal((blocks, group_count, contrast_count))
+
+    values = (
+        math.sqrt(rg * rc) * global_term
+        + math.sqrt(rg * (1.0 - rc)) * contrast_term
+        + math.sqrt((1.0 - rg) * rc) * group_term
+        + math.sqrt((1.0 - rg) * (1.0 - rc)) * cell_term
     )
     if distribution == "normal":
-        values = normal
-    elif distribution == "student_t3":
+        return values
+    if distribution == "student_t3":
         scale = np.sqrt(rng.chisquare(df=3, size=blocks) / 3.0)
-        values = normal / scale[:, None]
-    else:
-        raise ValueError(f"unsupported distribution: {distribution}")
-    return values.reshape(blocks, group_count, contrast_count)
+        return values / scale[:, None, None]
+    raise ValueError(f"unsupported distribution: {distribution}")
 
 
 def _rows(values: np.ndarray) -> tuple[np.ndarray, tuple[str, ...], tuple[str, ...]]:
@@ -241,6 +259,7 @@ def run_shared_block_bootstrap_t_calibration(
         )
 
     return SharedBlockCalibrationResult(
+        generator_version=GENERATOR_VERSION,
         seed=seed,
         simulations_per_scenario=simulations_per_scenario,
         bootstrap_draws_per_interval=bootstrap_draws,
