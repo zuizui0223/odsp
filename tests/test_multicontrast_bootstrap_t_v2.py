@@ -92,6 +92,49 @@ def test_nonfinite_one_cell_is_unavailable_without_erasing_other_contrast():
     assert by_name["fine"].unavailable_group_count == 1
 
 
+def test_zero_weight_nonfinite_row_is_excluded_even_inside_positive_block():
+    groups = []
+    blocks = []
+    gains = []
+    weights = []
+    for group in ("a", "b"):
+        for block_index in range(10):
+            block = f"{group}-b{block_index:02d}"
+            groups.extend([group, group])
+            blocks.extend([block, block])
+            gains.append([0.3, 0.2])
+            gains.append([0.3, -math.inf])
+            weights.extend([1.0, 0.0])
+    result = certify_independent_group_contrasts_v2(
+        gains,
+        groups,
+        blocks=blocks,
+        contrast_names=["coarse", "fine"],
+        sample_weight=weights,
+        bootstrap_draws=500,
+        minimum_blocks_per_group=8,
+    )
+    assert all(summary.category == "robust_generalizing" for summary in result.contrasts)
+    assert result.all_cells_estimable is True
+
+
+def test_insufficient_blocks_keep_point_gain_but_uncertainty_is_unavailable():
+    groups, blocks = _two_groups(block_count=3)
+    result = certify_independent_group_contrasts_v2(
+        [[0.25] for _ in groups],
+        groups,
+        blocks=blocks,
+        contrast_names=["gain"],
+        bootstrap_draws=500,
+        minimum_blocks_per_group=8,
+    )
+    assert result.bootstrap_t_critical_value is None
+    summary = result.contrasts[0]
+    assert summary.category == "unavailable"
+    assert all(cell.mean_gain == pytest.approx(0.25) for cell in summary.groups)
+    assert all(cell.estimable is False for cell in summary.groups)
+
+
 def test_multicontrast_v2_is_row_order_invariant():
     groups, blocks = _two_groups()
     gains = np.asarray(
