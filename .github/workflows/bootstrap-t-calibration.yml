@@ -5,6 +5,8 @@ on:
     paths:
       - 'odsp/bootstrap_t_operating_characteristics.py'
       - 'tests/test_bootstrap_t_operating_characteristics.py'
+      - 'tests/test_bootstrap_t_v2_operating_characteristics_receipt.py'
+      - 'BOOTSTRAP_T_V2_OPERATING_CHARACTERISTICS_RECEIPT.json'
       - '.github/workflows/bootstrap-t-calibration.yml'
       - 'odsp/bootstrap_t.py'
       - 'odsp/simultaneous_group_certification.py'
@@ -25,9 +27,12 @@ jobs:
           python-version: '3.12'
       - name: Install core package
         run: python -m pip install -e '.[dev]'
-      - name: Run calibration benchmark tests
-        run: python -m pytest -q tests/test_bootstrap_t_operating_characteristics.py
-      - name: Run and print full known-null calibration panel
+      - name: Validate benchmark and frozen first-1000-run receipt
+        run: >-
+          python -m pytest -q
+          tests/test_bootstrap_t_operating_characteristics.py
+          tests/test_bootstrap_t_v2_operating_characteristics_receipt.py
+      - name: Re-run and print full known-null calibration panel
         run: |
           python - <<'PY'
           import json
