@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-transfer-ceiling-v2-operating-characteristics-v1",
+  "date": "2026-09-15",
+  "purpose": "qualify non-skippable information-transfer ceiling recovery under predeclared mixed positive, null and adverse step truths",
+  "generator_version": "analytic_independent_group_two_step_mixed_truth_v1",
+  "inference_target": "odsp.information_transfer_v2.certify_information_transfer_v2",
+  "fixed_design": {
+    "seed": 20260915,
+    "simulations_per_scenario": 1000,
+    "bootstrap_draws_per_interval": 500,
+    "group_count": 6,
+    "step_correlation": 0.4,
+    "noise_standard_deviation": 0.2,
+    "nominal_familywise_confidence_level": 0.95
+  },
+  "predeclared_scenarios": [
+    {"scenario_id": "strong-full-normal-b20", "distribution": "normal", "blocks_per_group": 20, "coarse_mean_gain": 0.45, "fine_mean_gain": 0.30, "truth_ceiling": "fine"},
+    {"scenario_id": "strong-full-normal-b50", "distribution": "normal", "blocks_per_group": 50, "coarse_mean_gain": 0.45, "fine_mean_gain": 0.30, "truth_ceiling": "fine"},
+    {"scenario_id": "weak-full-normal-b20", "distribution": "normal", "blocks_per_group": 20, "coarse_mean_gain": 0.45, "fine_mean_gain": 0.15, "truth_ceiling": "fine"},
+    {"scenario_id": "coarse-null-normal-b20", "distribution": "normal", "blocks_per_group": 20, "coarse_mean_gain": 0.45, "fine_mean_gain": 0.0, "truth_ceiling": "coarse"},
+    {"scenario_id": "coarse-adverse-normal-b20", "distribution": "normal", "blocks_per_group": 20, "coarse_mean_gain": 0.45, "fine_mean_gain": -0.10, "truth_ceiling": "coarse"},
+    {"scenario_id": "coarse-null-t3-b20", "distribution": "student_t3", "blocks_per_group": 20, "coarse_mean_gain": 0.45, "fine_mean_gain": 0.0, "truth_ceiling": "coarse"}
+  ],
+  "acceptance_rules": {
+    "strong-full-normal-b20": "exact_ceiling_recovery_rate >= 0.90",
+    "strong-full-normal-b50": "exact_ceiling_recovery_rate >= 0.98",
+    "weak-full-normal-b20": "descriptive power scenario; no acceptance threshold",
+    "coarse-null-normal-b20": "overreach_rate <= alpha + 2 Monte Carlo SE under alpha=0.05",
+    "coarse-adverse-normal-b20": "overreach_rate <= alpha + 2 Monte Carlo SE under alpha=0.05",
+    "coarse-null-t3-b20": "overreach_rate <= alpha + 2 Monte Carlo SE under alpha=0.05"
+  },
+  "null_overreach_maximum_at_1000_simulations": 0.06378404875209022,
+  "frozen_before_first_1000_simulation_result": true,
+  "scientific_boundaries": {
+    "simulation_result_is_biological_evidence": false,
+    "validation_groups_independent": true,
+    "upstream_refit_uncertainty_included": false,
+    "arbitrary_dependence_structures_validated": false,
+    "weak_positive_power_used_for_qualification": false,
+    "historical_empirical_endpoint_rerun": false,
+    "historical_terminal_category_reclassified": false
+  }
+}
