@@ -1,0 +1,44 @@
+{
+  "schema_version": 2,
+  "contract_id": "odsp-information-transfer-bootstrap-t-v2",
+  "date": "2026-09-14",
+  "purpose": "prospective replicate-studentized validation-sample certification across all independent-group by information-contrast cells",
+  "inference_core": "odsp.multicontrast_bootstrap_t.certify_independent_group_contrasts_v2",
+  "surfaces": {
+    "strict_filtration": "odsp.information_transfer_v2.certify_information_transfer_v2",
+    "complete_lattice": "odsp.information_lattice_v2.certify_information_lattice_v2"
+  },
+  "family_definition": {
+    "strict_filtration": "every estimable independent group x adjacent information step cell",
+    "complete_lattice": "every estimable independent group x directed lattice edge cell",
+    "critical_value": "one two-sided replicate-studentized max-t critical value over the entire family"
+  },
+  "resampling": {
+    "between_groups": "independent block resampling; this route requires validation-group independence",
+    "within_group": "one sampled block sequence is shared across all contrasts in that group",
+    "studentizer": "cluster ratio influence standard error recomputed inside every bootstrap replicate",
+    "row_independence_if_no_blocks": "explicitly recorded assumption"
+  },
+  "hard_stops": {
+    "nonfinite_group_contrast": "that cell is unavailable",
+    "insufficient_blocks": "that group x contrast cell is unavailable",
+    "filtration_failed_step": "certified transfer ceiling cannot skip the step",
+    "lattice_failed_edge": "failed edge remains failed even when total gain or Shapley average is positive",
+    "incomplete_lattice": "reject before inference"
+  },
+  "prohibited_rescues": [
+    "pooled total gain overriding a failed independent group",
+    "later positive filtration step jumping over an earlier failed step",
+    "best-path selection after observing lattice outcomes",
+    "Shapley contribution overriding a failed lattice edge"
+  ],
+  "scientific_boundaries": {
+    "validation_sample_uncertainty": true,
+    "upstream_model_refit_uncertainty_included": false,
+    "refit_ensemble_treated_as_probability_sample": false,
+    "validation_group_independence_inferred": false,
+    "block_exchangeability_inferred": false,
+    "frozen_v1_endpoint_rerun": false,
+    "frozen_v1_terminal_reclassification": false
+  }
+}
