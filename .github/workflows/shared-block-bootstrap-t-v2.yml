@@ -6,8 +6,10 @@ on:
       - 'odsp/bootstrap_t.py'
       - 'odsp/shared_block_certification.py'
       - 'odsp/shared_block_certification_v2.py'
+      - 'odsp/_shared_block_certification_v2_impl.py'
       - 'odsp/shared_block_bootstrap_t_calibration.py'
       - 'tests/test_shared_block_certification_v2.py'
+      - 'tests/test_shared_block_certification_v2_fail_closed.py'
       - 'tests/test_shared_block_bootstrap_t_v2_contract.py'
       - 'tests/test_shared_block_bootstrap_t_v2_receipt.py'
       - 'ODSP_SHARED_BLOCK_BOOTSTRAP_T_V2_CONTRACT.json'
@@ -30,10 +32,11 @@ jobs:
           python-version: '3.12'
       - name: Install core package without prediction extra
         run: python -m pip install -e '.[dev]'
-      - name: Run paired bootstrap-t v2 unit, contract and receipt tests
+      - name: Run paired bootstrap-t v2 unit, fail-closed, contract and receipt tests
         run: >-
           python -m pytest -q
           tests/test_shared_block_certification_v2.py
+          tests/test_shared_block_certification_v2_fail_closed.py
           tests/test_shared_block_bootstrap_t_v2_contract.py
           tests/test_shared_block_bootstrap_t_v2_receipt.py
       - name: Re-run deterministic correlated-null calibration and match frozen receipt
