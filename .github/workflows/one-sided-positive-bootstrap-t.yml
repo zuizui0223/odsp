@@ -71,14 +71,15 @@ jobs:
               'one_sided_familywise_false_positive_rate',
               'terminal_false_generalizing_rate',
               'monte_carlo_standard_error',
-              'maximum_accepted_rate',
           )
+          frozen_threshold = float(expected['acceptance_rule']['maximum_accepted_rate'])
           for scenario_id in sorted(frozen):
               assert actual[scenario_id]['simulations'] == run['simulations_per_scenario']
               assert actual[scenario_id]['blocks_per_group'] == frozen[scenario_id]['blocks_per_group']
               assert actual[scenario_id]['contrast_count'] == frozen[scenario_id]['contrast_count']
               assert actual[scenario_id]['distribution'] == frozen[scenario_id]['distribution']
               assert actual[scenario_id]['acceptance_pass'] is True
+              assert abs(float(actual[scenario_id]['maximum_accepted_rate']) - frozen_threshold) <= 1e-15
               for field in fields:
                   assert abs(float(actual[scenario_id][field]) - float(frozen[scenario_id][field])) <= 1e-15, (
                       scenario_id, field, actual[scenario_id][field], frozen[scenario_id][field]
