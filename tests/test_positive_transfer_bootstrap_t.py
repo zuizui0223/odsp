@@ -120,3 +120,18 @@ def test_insufficient_blocks_fail_directional_claim_closed():
     )
     assert audit.contrasts[0].category == "unavailable"
     assert audit.estimable_cell_count == 0
+
+
+def test_single_block_group_is_unavailable_not_an_exception():
+    groups, blocks = _rows(group_count=2, blocks_per_group=1)
+    audit = certify_independent_group_positive_transfer_v2(
+        [[0.5] for _ in groups],
+        groups,
+        blocks=blocks,
+        bootstrap_draws=500,
+        minimum_blocks_per_group=8,
+    )
+    assert audit.contrasts[0].category == "unavailable"
+    assert audit.estimable_cell_count == 0
+    assert all(cell.mean_gain == pytest.approx(0.5) for cell in audit.contrasts[0].groups)
+    assert all(cell.studentizing_standard_error is None for cell in audit.contrasts[0].groups)
