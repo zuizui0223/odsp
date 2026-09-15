@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-paired-directional-power-comparison-v1",
+  "date": "2026-09-15",
+  "purpose": "prospectively compare paired one-sided directional and paired two-sided v2 transfer ceilings on identical mixed-truth shared-block worlds",
+  "fixed_design": {
+    "seed": 20260915,
+    "simulations_per_scenario": 1000,
+    "bootstrap_draws_per_interval": 500,
+    "group_count": 6,
+    "group_correlation": 0.7,
+    "step_correlation": 0.4,
+    "noise_standard_deviation": 0.2,
+    "familywise_confidence_level": 0.95,
+    "same_world_per_method": true,
+    "same_shared_block_bootstrap_seed_per_method": true
+  },
+  "predeclared_scenarios": [
+    {"scenario_id":"paired-strong-full-normal-b20","distribution":"normal","blocks_per_group":20,"coarse_mean_gain":0.45,"fine_mean_gain":0.30,"truth_ceiling":"fine"},
+    {"scenario_id":"paired-strong-full-normal-b50","distribution":"normal","blocks_per_group":50,"coarse_mean_gain":0.45,"fine_mean_gain":0.30,"truth_ceiling":"fine"},
+    {"scenario_id":"paired-weak-full-normal-b20","distribution":"normal","blocks_per_group":20,"coarse_mean_gain":0.45,"fine_mean_gain":0.15,"truth_ceiling":"fine"},
+    {"scenario_id":"paired-coarse-null-normal-b20","distribution":"normal","blocks_per_group":20,"coarse_mean_gain":0.45,"fine_mean_gain":0.0,"truth_ceiling":"coarse"},
+    {"scenario_id":"paired-coarse-adverse-normal-b20","distribution":"normal","blocks_per_group":20,"coarse_mean_gain":0.45,"fine_mean_gain":-0.10,"truth_ceiling":"coarse"},
+    {"scenario_id":"paired-coarse-null-t3-b20","distribution":"student_t3","blocks_per_group":20,"coarse_mean_gain":0.45,"fine_mean_gain":0.0,"truth_ceiling":"coarse"}
+  ],
+  "qualification_rules": {
+    "paired_dataset_ceiling_regression_count": 0,
+    "coarse_truth_one_sided_overreach_maximum": 0.06378404875209022,
+    "power_gain_used_for_qualification": false,
+    "every_rule_required": true,
+    "frozen_before_first_1000_simulation_result": true
+  },
+  "scientific_boundaries": {
+    "exact_shared_block_support_required": true,
+    "validation_group_independence_assumed": false,
+    "shared_block_exchangeability_assumed": true,
+    "upstream_refit_uncertainty_included": false,
+    "one_sided_primary_only_for_predeclared_greater_alternative": true,
+    "two_sided_retained_for_bidirectional_inference": true,
+    "historical_empirical_endpoint_rerun": false,
+    "historical_terminal_category_reclassified": false
+  }
+}
