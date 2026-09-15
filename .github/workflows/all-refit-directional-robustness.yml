@@ -1,0 +1,40 @@
+name: all-refit-directional-robustness
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/refit_positive_robustness.py'
+      - 'odsp/refit_information_transfer.py'
+      - 'odsp/information_transfer_positive_v2.py'
+      - 'odsp/shared_block_positive_information.py'
+      - 'odsp/positive_transfer_bootstrap_t.py'
+      - 'odsp/shared_block_positive_certification.py'
+      - 'tests/test_refit_positive_robustness.py'
+      - 'tests/test_all_refit_directional_robustness_contract.py'
+      - 'ODSP_ALL_REFIT_DIRECTIONAL_ROBUSTNESS_CONTRACT.json'
+      - 'docs/all_refit_directional_robustness_v1.md'
+      - '.github/workflows/all-refit-directional-robustness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core package without prediction extra
+        run: python -m pip install -e '.[dev]'
+      - name: Run all-refit directional robustness tests
+        run: >-
+          python -m pytest -q
+          tests/test_refit_positive_robustness.py
+          tests/test_all_refit_directional_robustness_contract.py
+      - name: Import both fixed-refit-set robustness routes
+        run: >-
+          python -c "from odsp.refit_positive_robustness import certify_all_refit_positive_information_transfer_v2, certify_all_refit_shared_block_positive_information_transfer_v2; assert callable(certify_all_refit_positive_information_transfer_v2); assert callable(certify_all_refit_shared_block_positive_information_transfer_v2)"
