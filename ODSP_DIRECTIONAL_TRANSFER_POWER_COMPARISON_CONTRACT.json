@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-directional-transfer-power-comparison-v1",
+  "date": "2026-09-15",
+  "purpose": "prospectively compare the qualified one-sided directional transfer ceiling against the frozen two-sided v2 ceiling on exactly the same mixed-truth validation worlds",
+  "comparison": {
+    "reference_method": "two_sided_replicate_studentized_cluster_ratio_max_t_v2",
+    "candidate_method": "one_sided_replicate_studentized_cluster_ratio_max_t_v2",
+    "candidate_alternative": "greater",
+    "same_simulated_world_per_method": true,
+    "same_bootstrap_seed_per_method": true
+  },
+  "fixed_design": {
+    "seed": 20260915,
+    "simulations_per_scenario": 1000,
+    "bootstrap_draws_per_interval": 500,
+    "group_count": 6,
+    "step_correlation": 0.4,
+    "noise_standard_deviation": 0.2,
+    "familywise_confidence_level": 0.95,
+    "reference_generator_version": "analytic_independent_group_two_step_mixed_truth_v1"
+  },
+  "predeclared_scenarios": [
+    {"scenario_id": "strong-full-normal-b20", "distribution": "normal", "blocks_per_group": 20, "coarse_mean_gain": 0.45, "fine_mean_gain": 0.30, "truth_ceiling": "fine"},
+    {"scenario_id": "strong-full-normal-b50", "distribution": "normal", "blocks_per_group": 50, "coarse_mean_gain": 0.45, "fine_mean_gain": 0.30, "truth_ceiling": "fine"},
+    {"scenario_id": "weak-full-normal-b20", "distribution": "normal", "blocks_per_group": 20, "coarse_mean_gain": 0.45, "fine_mean_gain": 0.15, "truth_ceiling": "fine"},
+    {"scenario_id": "coarse-null-normal-b20", "distribution": "normal", "blocks_per_group": 20, "coarse_mean_gain": 0.45, "fine_mean_gain": 0.0, "truth_ceiling": "coarse"},
+    {"scenario_id": "coarse-adverse-normal-b20", "distribution": "normal", "blocks_per_group": 20, "coarse_mean_gain": 0.45, "fine_mean_gain": -0.10, "truth_ceiling": "coarse"},
+    {"scenario_id": "coarse-null-t3-b20", "distribution": "student_t3", "blocks_per_group": 20, "coarse_mean_gain": 0.45, "fine_mean_gain": 0.0, "truth_ceiling": "coarse"}
+  ],
+  "qualification_rules": {
+    "reference_two_sided_rates_must_match_frozen_receipt": true,
+    "candidate_ceiling_regression_count_across_paired_datasets": 0,
+    "coarse_truth_overreach_maximum_rate": 0.06378404875209022,
+    "weak_positive_power_gain_used_for_qualification": false,
+    "strong_positive_power_gain_used_for_qualification": false,
+    "all_predeclared_rules_must_pass": true
+  },
+  "reported_metrics": [
+    "two_sided_exact_ceiling_recovery_rate",
+    "one_sided_exact_ceiling_recovery_rate",
+    "exact_recovery_rate_difference",
+    "two_sided_overreach_rate",
+    "one_sided_overreach_rate",
+    "two_sided_underreach_rate",
+    "one_sided_underreach_rate",
+    "two_sided_full_ceiling_rate",
+    "one_sided_full_ceiling_rate",
+    "paired_dataset_ceiling_regression_count",
+    "paired_dataset_ceiling_advance_count"
+  ],
+  "scientific_boundaries": {
+    "simulation_result_not_biological_evidence": true,
+    "directional_candidate_only": true,
+    "candidate_does_not_replace_two_sided_inference_for_bidirectional_targets": true,
+    "validation_group_independence_assumed": true,
+    "upstream_model_refit_uncertainty_included": false,
+    "paired_or_arbitrary_dependence_validated": false,
+    "historical_empirical_endpoint_rerun": false,
+    "historical_terminal_category_reclassified": false
+  }
+}
