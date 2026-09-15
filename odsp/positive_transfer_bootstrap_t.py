@@ -1,26 +1,10 @@
 """One-sided familywise bootstrap-t for directional positive-transfer claims.
 
-ODSP's prospective version-2 simultaneous intervals are two-sided.  That is the
-right default when both positive and negative departures are scientific targets,
-but the confirmatory transfer claim used by a non-skippable ceiling is
-directional: every predeclared group x information contrast must have gain above
-a non-negative tolerance.
-
-This module therefore provides a separate one-sided lower-confidence procedure.
-It does not alter or reinterpret the frozen two-sided v2 route.  Within each
-independent validation group, one bootstrap block draw is shared across all
-contrasts.  Every replicate recomputes both the ratio-of-sums estimate and its
-cluster influence standard error.  The pivotal statistic is
-
-    T*_bj = (theta*_bj - theta_hat_j) / SE*_bj,
-
-and one common critical value is the requested quantile of ``max_j T*_bj`` over
-the complete estimable group x contrast family.  Simultaneous lower bounds are
-
-    L_j = theta_hat_j - c * SE_hat_j.
-
-The route assumes validation-group independence.  Balanced groups observed on a
-common exchangeable block set require a paired one-sided procedure instead.
+This module is separate from ODSP's two-sided v2 simultaneous interval. It is
+only for a predeclared directional claim that every required gain exceeds a
+non-negative tolerance. Within each independent validation group, one sampled
+block sequence is shared across all contrasts and every bootstrap replicate
+recomputes both the ratio-of-sums estimate and its cluster studentizer.
 """
 from __future__ import annotations
 
@@ -30,16 +14,8 @@ from typing import Sequence
 
 import numpy as np
 
-from .bootstrap_t import (
-    bootstrap_ratio_mean_and_cluster_se,
-    ratio_mean_and_cluster_se,
-)
-from .multicontrast_bootstrap_t import (
-    _contrast_names,
-    _labels,
-    _stable_group_seed,
-    _weights,
-)
+from .bootstrap_t import bootstrap_ratio_mean_and_cluster_se, ratio_mean_and_cluster_se
+from .multicontrast_bootstrap_t import _contrast_names, _labels, _stable_group_seed, _weights
 
 
 _EPS = 1e-15
@@ -136,16 +112,7 @@ def one_sided_lower_max_t_critical_value(
     confidence_level: float,
     epsilon: float = _EPS,
 ) -> float:
-    """Return a conservative one-sided max-t critical value.
-
-    A zero replicate SE with a positive displacement contributes ``+inf`` and
-    therefore fails closed.  A zero SE with no displacement contributes zero; a
-    negative displacement contributes ``-inf`` because it cannot threaten a
-    simultaneous lower confidence bound.  The empirical quantile uses
-    ``method='higher'`` and is floored at zero so lower bounds never exceed their
-    point estimates merely because every realized bootstrap t statistic is
-    negative.
-    """
+    """Return the one-sided familywise max-t critical value."""
 
     means = np.asarray(bootstrap_mean, dtype=float)
     ses = np.asarray(bootstrap_se, dtype=float)
@@ -305,10 +272,16 @@ def certify_independent_group_positive_transfer_v2(
         local_point = np.full(contrast_count, np.nan, dtype=float)
         local_se = np.full(contrast_count, np.nan, dtype=float)
         if np.any(finite):
+            local_point[finite] = (
+                np.sum(block_numerator[:, finite], axis=0)
+                / float(np.sum(block_weight))
+            )
+        if np.any(finite) and block_count >= 2:
             values, ses = ratio_mean_and_cluster_se(
                 block_numerator[:, finite], block_weight
             )
-            local_point[finite] = values
+            if not np.allclose(values, local_point[finite], rtol=0.0, atol=1e-12):
+                raise AssertionError("ratio point estimate disagrees with block aggregate mean")
             local_se[finite] = ses
 
         sampled_means: np.ndarray | None = None
