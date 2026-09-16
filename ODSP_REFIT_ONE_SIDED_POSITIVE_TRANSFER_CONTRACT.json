@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-refit-one-sided-positive-transfer-v1",
+  "date": "2026-09-16",
+  "purpose": "extend the qualified one-sided positive-transfer ceiling to an explicit upstream-refit sensitivity ensemble without treating refits as IID probability samples",
+  "directional_claim": "gain > declared tolerance",
+  "validation_inference": {
+    "method": "one-sided replicate-studentized cluster bootstrap-t within each supplied refit",
+    "familywise_family": "all independent group by adjacent information-step cells within one refit",
+    "confidence_interpretation": "conditional on the fitted refit and declared validation sampling design"
+  },
+  "upstream_refit_rule": {
+    "aggregation": "all supplied refits must be robust_generalizing for a step to pass",
+    "refit_ids_sorted_before_evaluation": true,
+    "reference_refit_can_override_failure": false,
+    "refit_independence_assumed": false,
+    "refit_population_confidence_interval_claimed": false,
+    "refit_ensemble_interpretation": "empirical sensitivity ensemble",
+    "refit_weighting": "no averaging for the confirmatory consensus decision"
+  },
+  "non_skippable_ceiling": true,
+  "minimum_refits_default": 8,
+  "minimum_blocks_per_group_default": 8,
+  "fail_closed": {
+    "insufficient_refits": "consensus steps unavailable and ceiling remains at base level",
+    "unavailable_any_refit_step": "consensus step unavailable",
+    "not_robust_any_refit_step": "consensus step does not pass",
+    "later_positive_step_can_skip_failed_step": false
+  },
+  "qualification_inheritance": {
+    "within_refit_one_sided_null_calibration_already_required": true,
+    "new_refit_population_fwer_claim": false,
+    "reason": "across-refit operation is deterministic sensitivity intersection, not a stochastic refit-population interval"
+  },
+  "scientific_boundaries": {
+    "upstream_model_fitting_performed_by_odsp": false,
+    "upstream_refit_scheme_inferred_by_odsp": false,
+    "supplied_refit_ensemble_claimed_complete": false,
+    "population_refit_uncertainty_claimed": false,
+    "untouched_external_validation_required_by_this_core_api": false,
+    "historical_empirical_endpoint_rerun": false,
+    "historical_terminal_category_reclassified": false
+  }
+}

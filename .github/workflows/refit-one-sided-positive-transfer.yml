@@ -1,0 +1,32 @@
+name: refit-one-sided-positive-transfer
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/refit_positive_information_transfer.py'
+      - 'odsp/information_transfer_positive_v2.py'
+      - 'odsp/refit_information_transfer.py'
+      - 'tests/test_refit_positive_information_transfer.py'
+      - 'ODSP_REFIT_ONE_SIDED_POSITIVE_TRANSFER_CONTRACT.json'
+      - '.github/workflows/refit-one-sided-positive-transfer.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core package without prediction extra
+        run: python -m pip install -e '.[dev]'
+      - name: Run refit-sensitive directional tests
+        run: python -m pytest -q tests/test_refit_positive_information_transfer.py
+      - name: Import refit directional API
+        run: >-
+          python -c "from odsp.refit_positive_information_transfer import certify_refit_positive_information_transfer; assert callable(certify_refit_positive_information_transfer)"
