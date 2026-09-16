@@ -10,6 +10,9 @@ from typing import Sequence
 from .endpoint_contract import run_endpoint_contract
 from .information_transfer_contract import run_information_transfer_contract
 from .refit_information_transfer_contract import run_refit_information_transfer_contract
+from .untouched_external_refit_positive_contract import (
+    run_untouched_external_refit_positive_contract,
+)
 
 
 _EXPECTED_USER_ERRORS = (ValueError, TypeError, OSError, ImportError)
@@ -65,6 +68,14 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     _add_common_contract_arguments(transfer_refits)
+    external_refits = subparsers.add_parser(
+        "transfer-refits-external",
+        help=(
+            "certify one-sided positive transfer across a frozen upstream-refit "
+            "ensemble on untouched external validation rows"
+        ),
+    )
+    _add_common_contract_arguments(external_refits)
     return parser
 
 
@@ -77,6 +88,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             receipt = run_information_transfer_contract(args.contract)
         elif args.command == "transfer-refits":
             receipt = run_refit_information_transfer_contract(args.contract)
+        elif args.command == "transfer-refits-external":
+            receipt = run_untouched_external_refit_positive_contract(args.contract)
         else:  # pragma: no cover - argparse constrains the command.
             raise AssertionError(f"unhandled command: {args.command}")
         _write_receipt(receipt, args.out)
