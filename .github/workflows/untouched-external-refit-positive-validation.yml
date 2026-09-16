@@ -1,0 +1,35 @@
+name: untouched-external-refit-positive-validation
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/refit_positive_information_transfer.py'
+      - 'odsp/untouched_external_refit_positive_contract.py'
+      - 'odsp/cli.py'
+      - 'tests/test_untouched_external_refit_positive_contract.py'
+      - 'docs/untouched_external_refit_positive_validation_v1.md'
+      - 'ODSP_UNTOUCHED_EXTERNAL_REFIT_POSITIVE_VALIDATION_CONTRACT_V1.json'
+      - '.github/workflows/untouched-external-refit-positive-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core package without prediction extra
+        run: python -m pip install -e '.[dev]'
+      - name: Run untouched external validation tests
+        run: python -m pytest -q tests/test_untouched_external_refit_positive_contract.py
+      - name: Import runtime contract
+        run: >-
+          python -c "from odsp.untouched_external_refit_positive_contract import run_untouched_external_refit_positive_contract; assert callable(run_untouched_external_refit_positive_contract)"
+      - name: Confirm installed CLI surface
+        run: odsp transfer-refits-external --help
