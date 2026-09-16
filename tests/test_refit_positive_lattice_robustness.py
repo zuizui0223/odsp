@@ -109,7 +109,7 @@ def test_different_successful_paths_across_refits_do_not_form_global_path():
     )
     assert tuple(row.robust_full_transfer_path_count for row in result.per_refit) == (1, 1)
     assert result.all_refit_robust_full_transfer_path_count == 0
-    assert result.all_refit_certified_path_status == "no_full_transfer_path"
+    assert result.all_refit_certified_path_status == "no_full_transfer"
     assert result.different_refit_paths_can_be_combined is False
     base_edges = [row for row in result.edges if not row.lower_blocks]
     assert all(row.category == "not_robust_across_refits" for row in base_edges)
