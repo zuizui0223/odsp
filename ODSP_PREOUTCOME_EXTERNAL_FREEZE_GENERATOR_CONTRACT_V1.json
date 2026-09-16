@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-preoutcome-external-freeze-generator-v1",
+  "date": "2026-09-16",
+  "purpose": "generate the semantic freeze artifact before untouched external outcomes are opened",
+  "canonical_cli": "odsp freeze-refits-external",
+  "inputs": {
+    "analysis_plan": "JSON with model-set ID, dataset ID, refit IDs, score semantics, strict information filtration and inferential settings",
+    "external_roster": "CSV or JSON records containing exactly one row_id field per external validation row"
+  },
+  "prohibited_plan_field": "frozen_at_utc",
+  "timestamp": {
+    "generated_by_odsp_runtime_utc_clock": true,
+    "caller_supplied_timestamp_allowed": false,
+    "independently_trusted_timestamp_authority_used": false
+  },
+  "roster": {
+    "outcome_columns_allowed": false,
+    "additional_columns_allowed": false,
+    "duplicate_row_ids_allowed": false,
+    "external_row_ids_sha256_generated": true
+  },
+  "manifest": {
+    "manifest_type": "odsp_pre_external_outcome_freeze_v1",
+    "existing_output_overwrite_allowed": false,
+    "semantic_lock_compatible_with_external_validation_v2": true
+  },
+  "receipt": {
+    "receipt_type": "odsp_pre_external_outcome_freeze_receipt_v1",
+    "manifest_sha256": true,
+    "freeze_plan_sha256": true,
+    "roster_file_sha256": true,
+    "external_row_ids_sha256": true,
+    "frozen_at_utc": true
+  },
+  "epistemic_boundary": {
+    "odsp_reads_external_outcomes_during_freeze": false,
+    "host_runtime_clock_independently_attested": false,
+    "external_outcomes_unavailable_through_all_other_channels_proven": false
+  }
+}
