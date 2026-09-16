@@ -9,10 +9,14 @@ from typing import Sequence
 
 from .endpoint_contract import run_endpoint_contract
 from .external_freeze_manifest import create_external_freeze_manifest
+from .external_paired_freeze_manifest import create_paired_external_freeze_manifest
 from .information_transfer_contract import run_information_transfer_contract
 from .refit_information_transfer_contract import run_refit_information_transfer_contract
 from .untouched_external_refit_positive_contract_v2 import (
     run_untouched_external_refit_positive_contract_v2,
+)
+from .untouched_external_refit_shared_block_positive_contract_v3 import (
+    run_untouched_external_refit_shared_block_positive_contract_v3,
 )
 
 
@@ -50,6 +54,20 @@ def _add_debug_argument(parser: argparse.ArgumentParser) -> None:
     )
 
 
+def _add_freeze_arguments(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("--plan", required=True, help="path to freeze-plan JSON")
+    parser.add_argument(
+        "--manifest-out",
+        required=True,
+        help="new freeze-manifest path; existing files are never overwritten",
+    )
+    parser.add_argument(
+        "--out",
+        help="freeze receipt path; omit or use '-' to write JSON to stdout",
+    )
+    _add_debug_argument(parser)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="odsp",
@@ -77,29 +95,40 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     _add_common_contract_arguments(transfer_refits)
+
     freeze_external = subparsers.add_parser(
         "freeze-refits-external",
         help=(
-            "create a non-overwriting pre-outcome semantic freeze manifest from "
-            "an analysis plan and outcome-free external row roster"
+            "create a non-overwriting pre-outcome semantic freeze manifest for "
+            "independent-group external validation"
         ),
     )
-    freeze_external.add_argument("--plan", required=True, help="path to freeze-plan JSON")
-    freeze_external.add_argument(
-        "--manifest-out", required=True, help="new freeze-manifest path; existing files are never overwritten"
-    )
-    freeze_external.add_argument(
-        "--out", help="freeze receipt path; omit or use '-' to write JSON to stdout"
-    )
-    _add_debug_argument(freeze_external)
+    _add_freeze_arguments(freeze_external)
     external_refits = subparsers.add_parser(
         "transfer-refits-external",
         help=(
             "certify one-sided positive transfer across a frozen upstream-refit "
-            "ensemble on untouched external validation rows with semantic freeze lock"
+            "ensemble on untouched independent-group external validation rows"
         ),
     )
     _add_common_contract_arguments(external_refits)
+
+    freeze_external_paired = subparsers.add_parser(
+        "freeze-refits-external-paired",
+        help=(
+            "create a non-overwriting pre-outcome semantic freeze manifest for "
+            "exact shared-block paired external validation"
+        ),
+    )
+    _add_freeze_arguments(freeze_external_paired)
+    external_refits_paired = subparsers.add_parser(
+        "transfer-refits-external-paired",
+        help=(
+            "certify all-refit one-sided positive transfer on untouched external "
+            "validation groups paired on exactly the same shared blocks"
+        ),
+    )
+    _add_common_contract_arguments(external_refits_paired)
     return parser
 
 
@@ -116,6 +145,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             receipt = create_external_freeze_manifest(args.plan, args.manifest_out)
         elif args.command == "transfer-refits-external":
             receipt = run_untouched_external_refit_positive_contract_v2(args.contract)
+        elif args.command == "freeze-refits-external-paired":
+            receipt = create_paired_external_freeze_manifest(args.plan, args.manifest_out)
+        elif args.command == "transfer-refits-external-paired":
+            receipt = run_untouched_external_refit_shared_block_positive_contract_v3(
+                args.contract
+            )
         else:  # pragma: no cover - argparse constrains the command.
             raise AssertionError(f"unhandled command: {args.command}")
         _write_receipt(receipt, args.out)
