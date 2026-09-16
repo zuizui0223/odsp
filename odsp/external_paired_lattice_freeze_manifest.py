@@ -2,11 +2,12 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+import hashlib
 import itertools
 import json
 import math
 from pathlib import Path
-from typing import Mapping
+from typing import Mapping, Sequence
 
 from .external_freeze_manifest import _file_sha256
 from .information_lattice import InformationBlock, _canonical_subset, _validate_blocks
@@ -19,6 +20,7 @@ from .information_transfer_contract import (
     _text,
     _validate_score_contract,
     _value,
+    _weight,
 )
 from .untouched_external_refit_positive_contract_v2 import _row_roster_sha256
 from .untouched_external_refit_shared_block_positive_contract_v3 import _VALIDATION_DESIGN
@@ -36,7 +38,14 @@ _TOP_LEVEL = {
     "nodes",
     "certification",
 }
-_ROSTER_FIELDS = {"path", "format", "row_id_column"}
+_ROSTER_FIELDS = {
+    "path",
+    "format",
+    "row_id_column",
+    "group_column",
+    "block_column",
+    "weight_column",
+}
 _BLOCK_FIELDS = {"name", "variables"}
 _NODE_FIELDS = {"blocks", "score_column"}
 _CERT_FIELDS = {
@@ -48,6 +57,34 @@ _CERT_FIELDS = {
     "minimum_shared_blocks",
     "gain_tolerance",
 }
+
+
+def _paired_row_metadata_sha256(
+    records: Sequence[tuple[str, str, str, float]],
+) -> str:
+    """Content-address the exact pre-outcome paired row assignment.
+
+    Records are canonicalized by row ID and serialized as compact sorted-key JSON,
+    avoiding dependence on input row order or delimiter escaping conventions.
+    """
+
+    canonical = [
+        {
+            "row_id": str(row_id),
+            "group": str(group),
+            "block": str(block),
+            "weight": float(weight),
+        }
+        for row_id, group, block, weight in records
+    ]
+    canonical.sort(key=lambda row: row["row_id"])
+    payload = json.dumps(
+        canonical,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ) + "\n"
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
 def _all_subsets(order: tuple[str, ...]) -> tuple[tuple[str, ...], ...]:
@@ -162,6 +199,12 @@ def validate_paired_external_lattice_freeze_plan(
     if roster_format not in {"csv", "json"}:
         raise ValueError("roster.format must be 'csv' or 'json'")
     row_id_column = _text(roster.get("row_id_column"), name="roster.row_id_column")
+    group_column = _text(roster.get("group_column"), name="roster.group_column")
+    block_column = _text(roster.get("block_column"), name="roster.block_column")
+    weight_column = _text(roster.get("weight_column"), name="roster.weight_column")
+    roster_columns = (row_id_column, group_column, block_column, weight_column)
+    if len(set(roster_columns)) != len(roster_columns):
+        raise ValueError("roster row_id, group, block and weight columns must be distinct")
 
     raw_refits = plan.get("refit_ids")
     if not isinstance(raw_refits, list):
@@ -210,7 +253,14 @@ def validate_paired_external_lattice_freeze_plan(
         "schema_version": 1,
         "upstream_model_set_id": model_set,
         "external_dataset_id": dataset_id,
-        "roster": {"path": roster_path, "format": roster_format, "row_id_column": row_id_column},
+        "roster": {
+            "path": roster_path,
+            "format": roster_format,
+            "row_id_column": row_id_column,
+            "group_column": group_column,
+            "block_column": block_column,
+            "weight_column": weight_column,
+        },
         "refit_ids": refit_ids,
         "score": score,
         "base_information": base,
@@ -253,23 +303,37 @@ def create_paired_external_lattice_freeze_manifest(
         raise FileNotFoundError(roster_path)
     rows = _read_rows(roster_path, str(roster_spec["format"]))
     row_id_column = str(roster_spec["row_id_column"])
+    group_column = str(roster_spec["group_column"])
+    block_column = str(roster_spec["block_column"])
+    weight_column = str(roster_spec["weight_column"])
+    expected_columns = {row_id_column, group_column, block_column, weight_column}
     row_ids: list[str] = []
+    paired_records: list[tuple[str, str, str, float]] = []
     for index, row in enumerate(rows):
         keys = set(row)
-        if keys != {row_id_column}:
-            extra = sorted(keys - {row_id_column})
-            missing = [] if row_id_column in keys else [row_id_column]
+        if keys != expected_columns:
+            extra = sorted(keys - expected_columns)
+            missing = sorted(expected_columns - keys)
             raise ValueError(
-                "pre-outcome roster must contain only the row_id column; "
+                "pre-outcome paired roster must contain only row_id, group, block and weight metadata; "
                 f"row={index}, missing={missing!r}, extra={extra!r}"
             )
-        row_ids.append(
-            _text(_value(row, row_id_column, row_index=index), name=f"row {index} row_id")
+        row_id = _text(_value(row, row_id_column, row_index=index), name=f"row {index} row_id")
+        group = _text(_value(row, group_column, row_index=index), name=f"row {index} group")
+        block = _text(_value(row, block_column, row_index=index), name=f"row {index} block")
+        weight = _weight(
+            _value(row, weight_column, row_index=index),
+            column=weight_column,
+            row_index=index,
         )
+        row_ids.append(row_id)
+        paired_records.append((row_id, group, block, weight))
     if not row_ids:
         raise ValueError("external row roster is empty")
     if len(row_ids) != len(set(row_ids)):
         raise ValueError("pre-outcome roster row IDs must be unique")
+    if not sum(record[3] for record in paired_records) > 0:
+        raise ValueError("pre-outcome paired roster weights must have positive total mass")
 
     frozen_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     manifest = {
@@ -279,6 +343,7 @@ def create_paired_external_lattice_freeze_manifest(
         "upstream_model_set_id": plan["upstream_model_set_id"],
         "external_dataset_id": plan["external_dataset_id"],
         "external_row_ids_sha256": _row_roster_sha256(row_ids),
+        "paired_row_metadata_sha256": _paired_row_metadata_sha256(paired_records),
         "validation_design": dict(_VALIDATION_DESIGN),
         "refit_ids": plan["refit_ids"],
         "score": plan["score"],
@@ -301,6 +366,7 @@ def create_paired_external_lattice_freeze_manifest(
         "roster_file_sha256": _file_sha256(roster_path),
         "frozen_at_utc": frozen_at,
         "external_row_ids_sha256": manifest["external_row_ids_sha256"],
+        "paired_row_metadata_sha256": manifest["paired_row_metadata_sha256"],
         "external_row_count": len(row_ids),
         "upstream_model_set_id": plan["upstream_model_set_id"],
         "external_dataset_id": plan["external_dataset_id"],
@@ -315,6 +381,7 @@ def create_paired_external_lattice_freeze_manifest(
             "manifest_overwrite_allowed": False,
             "roster_outcome_columns_allowed": False,
             "external_outcomes_read_by_freeze_generator": False,
+            "paired_row_metadata_frozen_before_outcome_access": True,
             "complete_lattice_node_table_frozen": True,
             "paired_shared_block_design_frozen": True,
             "four_or_more_information_blocks_allowed": False,
