@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-all-refit-paired-positive-lattice-v1",
+  "date": "2026-09-16",
+  "purpose": "compose calibrated paired directional lattice inference with fixed-set all-refit robustness",
+  "validation_design": {
+    "kind": "paired_shared_blocks",
+    "validation_group_independence_assumed": false,
+    "exact_positive_mass_shared_block_support_required": true,
+    "shared_block_exchangeability_assumed": true,
+    "missing_shared_blocks_imputed": false,
+    "same_shared_block_draw_used_across_all_groups_and_edges_within_refit": true
+  },
+  "lattice_scope": {
+    "complete_subset_table_required": true,
+    "minimum_information_blocks": 2,
+    "maximum_information_blocks": 3,
+    "qualified_edge_family_sizes": [4, 12],
+    "four_or_more_information_blocks_supported": false,
+    "best_path_can_override_failed_edge": false,
+    "shapley_can_override_failed_edge": false
+  },
+  "refit_axis": {
+    "fixed_supplied_set": true,
+    "composition_rule": "intersection_union_all_components_must_reject",
+    "all_supplied_refits_must_pass_the_same_edge": true,
+    "different_successful_paths_across_refits_can_be_combined": false,
+    "additional_refit_axis_multiplicity_correction_applied": false,
+    "refit_independence_assumed": false,
+    "refit_sampling_distribution_assumed": false,
+    "refit_population_generalization_claimed": false,
+    "reference_refit_can_override_failure": false,
+    "refit_average_can_override_failure": false
+  },
+  "inference": {
+    "alternative": "greater",
+    "within_refit_method": "paired_one_sided_replicate_studentized_bootstrap_t",
+    "familywise_family_within_refit": "all validation groups x all lattice edges",
+    "global_path_recomputed_from_all_refit_edge_intersection": true
+  },
+  "calibration_inheritance": {
+    "paired_directional_4_edge_null_panel_qualified": true,
+    "paired_directional_12_edge_null_panel_qualified": true,
+    "new_refit_population_calibration_claimed": false
+  },
+  "empirical_boundary": {
+    "historical_empirical_endpoint_rerun": false,
+    "historical_terminal_category_reclassified": false
+  }
+}
