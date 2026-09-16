@@ -5,8 +5,9 @@ import argparse
 import json
 from pathlib import Path
 import sys
-from typing import Sequence
+from typing import Mapping, Sequence
 
+from .confirmatory_method_routing import route_confirmatory_method
 from .endpoint_contract import run_endpoint_contract
 from .external_freeze_manifest import create_external_freeze_manifest
 from .external_paired_freeze_manifest import create_paired_external_freeze_manifest
@@ -27,6 +28,22 @@ from .untouched_external_refit_shared_block_positive_lattice_contract_v4 import 
 
 
 _EXPECTED_USER_ERRORS = (ValueError, TypeError, OSError, ImportError)
+_ROUTE_REQUEST_FIELDS = {
+    "alternative",
+    "validation_design",
+    "information_structure",
+    "upstream_refits",
+    "external_validation",
+    "contrast_count",
+    "information_block_count",
+}
+_ROUTE_REQUIRED_FIELDS = {
+    "alternative",
+    "validation_design",
+    "information_structure",
+    "upstream_refits",
+    "external_validation",
+}
 
 
 def _write_receipt(receipt: dict[str, object], out: str | None) -> None:
@@ -74,6 +91,46 @@ def _add_freeze_arguments(parser: argparse.ArgumentParser) -> None:
     _add_debug_argument(parser)
 
 
+def _run_method_route(path: str | Path) -> dict[str, object]:
+    request_path = Path(path)
+    try:
+        raw = json.loads(request_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ValueError("method-route request is not valid JSON") from exc
+    if not isinstance(raw, Mapping):
+        raise ValueError("method-route request must be a JSON object")
+    unknown = sorted(set(raw) - _ROUTE_REQUEST_FIELDS)
+    if unknown:
+        raise ValueError(
+            "method-route request contains unknown fields: " + ", ".join(unknown)
+        )
+    missing = sorted(_ROUTE_REQUIRED_FIELDS - set(raw))
+    if missing:
+        raise ValueError(
+            "method-route request is missing required fields: " + ", ".join(missing)
+        )
+    request = {key: raw[key] for key in raw}
+    decision = route_confirmatory_method(
+        alternative=request["alternative"],
+        validation_design=request["validation_design"],
+        information_structure=request["information_structure"],
+        upstream_refits=request["upstream_refits"],
+        external_validation=request["external_validation"],
+        contrast_count=request.get("contrast_count"),
+        information_block_count=request.get("information_block_count"),
+    )
+    return {
+        "receipt_type": "odsp_confirmatory_method_route_v1",
+        "request": request,
+        "decision": decision.as_dict(),
+        "governance": {
+            "routing_is_statistical_inference": False,
+            "historical_endpoint_reclassification_allowed": False,
+            "unknown_combination_policy": "fail_closed",
+        },
+    }
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="odsp",
@@ -101,6 +158,24 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     _add_common_contract_arguments(transfer_refits)
+
+    method_route = subparsers.add_parser(
+        "method-route",
+        help=(
+            "classify a prospective ODSP analysis request as primary confirmatory, "
+            "bidirectional confirmatory, sensitivity-only, or unqualified"
+        ),
+    )
+    method_route.add_argument(
+        "--request",
+        required=True,
+        help="path to a machine-readable method-routing request JSON",
+    )
+    method_route.add_argument(
+        "--out",
+        help="routing receipt path; omit or use '-' to write JSON to stdout",
+    )
+    _add_debug_argument(method_route)
 
     freeze_external = subparsers.add_parser(
         "freeze-refits-external",
@@ -164,6 +239,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             receipt = run_information_transfer_contract(args.contract)
         elif args.command == "transfer-refits":
             receipt = run_refit_information_transfer_contract(args.contract)
+        elif args.command == "method-route":
+            receipt = _run_method_route(args.request)
         elif args.command == "freeze-refits-external":
             receipt = create_external_freeze_manifest(args.plan, args.manifest_out)
         elif args.command == "transfer-refits-external":
