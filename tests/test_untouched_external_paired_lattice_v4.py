@@ -35,6 +35,19 @@ def _row_ids(group_count: int = 3, block_count: int = 8) -> list[str]:
     ]
 
 
+def _roster_rows(group_count: int = 3, block_count: int = 8) -> list[dict[str, object]]:
+    return [
+        {
+            "row_id": f"g{group_index}-b{block_index}",
+            "group": f"g{group_index}",
+            "block": f"b{block_index}",
+            "weight": 1.0,
+        }
+        for group_index in range(group_count)
+        for block_index in range(block_count)
+    ]
+
+
 def _blocks(names: tuple[str, ...]) -> list[dict[str, object]]:
     return [{"name": name, "variables": [name.lower()]} for name in names]
 
@@ -79,7 +92,14 @@ def _freeze_plan(names: tuple[str, ...] = ("A", "B")) -> dict[str, object]:
         "schema_version": 1,
         "upstream_model_set_id": "model-set-v4",
         "external_dataset_id": "external-dataset-v4",
-        "roster": {"path": "roster.csv", "format": "csv", "row_id_column": "row_id"},
+        "roster": {
+            "path": "roster.csv",
+            "format": "csv",
+            "row_id_column": "row_id",
+            "group_column": "group",
+            "block_column": "block",
+            "weight_column": "weight",
+        },
         "refit_ids": ["r00", "r01"],
         "score": _score_contract(),
         "base_information": [],
@@ -175,7 +195,7 @@ def _setup(
     support_mismatch: bool = False,
 ):
     roster = tmp_path / "roster.csv"
-    _write_csv(roster, [{"row_id": row_id} for row_id in _row_ids()])
+    _write_csv(roster, _roster_rows())
     plan = tmp_path / "freeze-plan.json"
     plan.write_text(json.dumps(_freeze_plan(names)), encoding="utf-8")
     manifest = tmp_path / "freeze-lattice.json"
@@ -207,6 +227,7 @@ def test_two_block_external_lattice_reaches_universal_all_refit_path(tmp_path: P
     assert receipt["result"]["all_refit_robust_full_transfer_path_count"] == 2
     assert receipt["result"]["all_refit_certified_path_status"] == "universal_full_transfer"
     assert receipt["boundaries"]["different_refit_paths_can_be_combined"] is False
+    assert receipt["boundaries"]["runtime_pairing_metadata_matches_frozen_manifest"] is True
 
 
 def test_different_refit_paths_do_not_form_external_global_path(tmp_path: Path):
@@ -226,7 +247,7 @@ def test_shared_block_support_mismatch_hard_stops_external_lattice(tmp_path: Pat
         {"r00": mapping, "r01": mapping},
         support_mismatch=True,
     )
-    with pytest.raises(ValueError, match="identical positive-mass block support"):
+    with pytest.raises(ValueError, match="paired_row_metadata_sha256|identical positive-mass block support"):
         run_untouched_external_paired_all_refit_lattice_contract_v4(contract)
 
 
@@ -245,7 +266,7 @@ def test_node_semantic_tamper_fails_even_when_manifest_hash_is_updated(tmp_path:
 
 def test_freeze_rejects_four_block_32_edge_lattice(tmp_path: Path):
     roster = tmp_path / "roster.csv"
-    _write_csv(roster, [{"row_id": row_id} for row_id in _row_ids()])
+    _write_csv(roster, _roster_rows())
     plan = _freeze_plan(("A", "B", "C", "D"))
     plan_path = tmp_path / "plan.json"
     plan_path.write_text(json.dumps(plan), encoding="utf-8")
