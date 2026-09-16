@@ -10,6 +10,9 @@ from typing import Sequence
 from .endpoint_contract import run_endpoint_contract
 from .external_freeze_manifest import create_external_freeze_manifest
 from .external_paired_freeze_manifest import create_paired_external_freeze_manifest
+from .external_paired_lattice_freeze_manifest import (
+    create_paired_external_lattice_freeze_manifest,
+)
 from .information_transfer_contract import run_information_transfer_contract
 from .refit_information_transfer_contract import run_refit_information_transfer_contract
 from .untouched_external_refit_positive_contract_v2 import (
@@ -17,6 +20,9 @@ from .untouched_external_refit_positive_contract_v2 import (
 )
 from .untouched_external_refit_shared_block_positive_contract_v3 import (
     run_untouched_external_refit_shared_block_positive_contract_v3,
+)
+from .untouched_external_refit_shared_block_positive_lattice_contract_v4 import (
+    run_untouched_external_paired_all_refit_lattice_contract_v4,
 )
 
 
@@ -129,6 +135,23 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     _add_common_contract_arguments(external_refits_paired)
+
+    freeze_external_paired_lattice = subparsers.add_parser(
+        "freeze-refits-external-paired-lattice",
+        help=(
+            "freeze a complete 2- or 3-block paired information lattice before "
+            "untouched external outcomes are accessed"
+        ),
+    )
+    _add_freeze_arguments(freeze_external_paired_lattice)
+    external_refits_paired_lattice = subparsers.add_parser(
+        "transfer-refits-external-paired-lattice",
+        help=(
+            "certify a frozen complete paired information lattice across every "
+            "supplied refit on untouched external validation rows"
+        ),
+    )
+    _add_common_contract_arguments(external_refits_paired_lattice)
     return parser
 
 
@@ -149,6 +172,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             receipt = create_paired_external_freeze_manifest(args.plan, args.manifest_out)
         elif args.command == "transfer-refits-external-paired":
             receipt = run_untouched_external_refit_shared_block_positive_contract_v3(
+                args.contract
+            )
+        elif args.command == "freeze-refits-external-paired-lattice":
+            receipt = create_paired_external_lattice_freeze_manifest(
+                args.plan, args.manifest_out
+            )
+        elif args.command == "transfer-refits-external-paired-lattice":
+            receipt = run_untouched_external_paired_all_refit_lattice_contract_v4(
                 args.contract
             )
         else:  # pragma: no cover - argparse constrains the command.
