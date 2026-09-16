@@ -1,0 +1,36 @@
+name: untouched-external-paired-all-refit-lattice-v4
+
+on:
+  push:
+    branches:
+      - 'method/paired-refit-untouched-external-lattice-v4'
+  pull_request:
+    paths:
+      - 'odsp/external_paired_lattice_freeze_manifest.py'
+      - 'odsp/untouched_external_refit_shared_block_positive_lattice_contract_v4.py'
+      - 'odsp/cli.py'
+      - 'ODSP_UNTOUCHED_EXTERNAL_PAIRED_ALL_REFIT_LATTICE_V4_CONTRACT.json'
+      - 'tests/test_untouched_external_paired_all_refit_lattice_v4.py'
+      - 'tests/test_untouched_external_paired_all_refit_lattice_v4_contract.py'
+      - 'tests/test_external_paired_lattice_pairing_freeze_regression.py'
+      - '.github/workflows/untouched-external-paired-all-refit-lattice-v4.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install -e . pytest
+      - run: >-
+          pytest -q
+          tests/test_untouched_external_paired_all_refit_lattice_v4.py
+          tests/test_untouched_external_paired_all_refit_lattice_v4_contract.py
+          tests/test_external_paired_lattice_pairing_freeze_regression.py
