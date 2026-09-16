@@ -1,0 +1,42 @@
+name: paired-refit-untouched-external-lattice-v4
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/external_paired_lattice_freeze_manifest.py'
+      - 'odsp/untouched_external_refit_shared_block_positive_lattice_contract_v4.py'
+      - 'odsp/refit_positive_lattice_robustness.py'
+      - 'odsp/shared_block_positive_information.py'
+      - 'odsp/shared_block_positive_certification.py'
+      - 'odsp/cli.py'
+      - 'tests/test_untouched_external_paired_lattice_v4.py'
+      - 'tests/test_refit_positive_lattice_robustness.py'
+      - 'ODSP_PAIRED_REFIT_UNTOUCHED_EXTERNAL_LATTICE_V4_CONTRACT.json'
+      - '.github/workflows/paired-refit-untouched-external-lattice-v4.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core package without prediction extra
+        run: python -m pip install -e '.[dev]'
+      - name: Run paired external lattice v4 tests
+        run: >-
+          python -m pytest -q
+          tests/test_untouched_external_paired_lattice_v4.py
+          tests/test_refit_positive_lattice_robustness.py
+      - name: Import paired external lattice APIs
+        run: >-
+          python -c "from odsp.external_paired_lattice_freeze_manifest import create_paired_external_lattice_freeze_manifest; from odsp.untouched_external_refit_shared_block_positive_lattice_contract_v4 import run_untouched_external_paired_all_refit_lattice_contract_v4; assert callable(create_paired_external_lattice_freeze_manifest); assert callable(run_untouched_external_paired_all_refit_lattice_contract_v4)"
+      - name: Confirm installed paired lattice CLI surfaces
+        run: >-
+          python -m odsp.cli --help | grep -E 'freeze-refits-external-paired-lattice|transfer-refits-external-paired-lattice'
