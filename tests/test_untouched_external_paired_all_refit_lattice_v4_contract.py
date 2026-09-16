@@ -11,6 +11,11 @@ def test_v4_contract_freezes_complete_lattice_before_outcome_access():
     payload = json.loads(CONTRACT.read_text(encoding="utf-8"))
     freeze = payload["pre_outcome_freeze"]
     assert freeze["external_row_roster_frozen"] is True
+    assert freeze["paired_row_metadata_frozen"] is True
+    assert freeze["pairing_metadata_fields"] == ["row_id", "group", "block", "weight"]
+    assert freeze["post_outcome_row_to_group_reassignment_allowed"] is False
+    assert freeze["post_outcome_row_to_block_reassignment_allowed"] is False
+    assert freeze["post_outcome_weight_change_allowed"] is False
     assert freeze["information_block_definitions_frozen"] is True
     assert freeze["complete_subset_node_table_frozen"] is True
     assert freeze["node_score_column_mapping_frozen"] is True
@@ -57,5 +62,7 @@ def test_v4_contract_keeps_external_provenance_boundary_explicit():
     external = payload["external_validation"]
     assert external["freeze_manifest_hash_verified"] is True
     assert external["freeze_manifest_semantics_verified"] is True
+    assert external["runtime_provenance_ids_must_match_frozen_manifest"] is True
+    assert external["runtime_pairing_metadata_must_match_frozen_manifest"] is True
     assert external["historical_non_access_independently_proven_by_odsp"] is False
     assert external["development_data_disjointness_independently_proven_by_odsp"] is False
