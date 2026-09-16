@@ -1,10 +1,11 @@
 """Untouched external paired all-refit directional lattice endpoint.
 
 The endpoint requires a pre-outcome semantic freeze of the complete lattice,
-including information-block definitions and every subset-node score column.  It
-then validates exact refit x row alignment and evaluates the frozen external
-scores with the calibrated 4-edge or 12-edge paired lattice family inside every
-supplied refit, followed by fixed-set all-refit edge intersection.
+including information-block definitions and every subset-node score column. It
+also freezes the exact row-to-group/shared-block/weight assignment used by the
+paired validation design. Final validation reconstructs those semantics from the
+external score table before running the calibrated 4-edge or 12-edge family in
+every supplied refit and intersecting robust edges across that fixed refit set.
 """
 from __future__ import annotations
 
@@ -15,7 +16,10 @@ from typing import Mapping
 
 import numpy as np
 
-from .external_paired_lattice_freeze_manifest import _validate_lattice_definition
+from .external_paired_lattice_freeze_manifest import (
+    _paired_row_metadata_sha256,
+    _validate_lattice_definition,
+)
 from .information_lattice import InformationBlock
 from .information_transfer_contract import (
     _mapping,
@@ -79,6 +83,7 @@ _MANIFEST_FIELDS = {
     "upstream_model_set_id",
     "external_dataset_id",
     "external_row_ids_sha256",
+    "paired_row_metadata_sha256",
     "validation_design",
     "refit_ids",
     "score",
@@ -101,20 +106,29 @@ def _validate_certification(raw: object) -> dict[str, object]:
         name="certification.familywise_lower_confidence_level",
     )
     if not math.isfinite(confidence) or not 0 < confidence < 1:
-        raise ValueError("certification.familywise_lower_confidence_level must lie strictly between zero and one")
-    draws = _required_int(cert.get("bootstrap_draws"), name="certification.bootstrap_draws")
+        raise ValueError(
+            "certification.familywise_lower_confidence_level must lie strictly between zero and one"
+        )
+    draws = _required_int(
+        cert.get("bootstrap_draws"), name="certification.bootstrap_draws"
+    )
     if draws < 500:
         raise ValueError("certification.bootstrap_draws must be >= 500")
     seed = _required_int(cert.get("seed"), name="certification.seed")
-    minimum_refits = _required_int(cert.get("minimum_refits"), name="certification.minimum_refits")
+    minimum_refits = _required_int(
+        cert.get("minimum_refits"), name="certification.minimum_refits"
+    )
     if minimum_refits < 2:
         raise ValueError("certification.minimum_refits must be >= 2")
     minimum_shared = _required_int(
-        cert.get("minimum_shared_blocks"), name="certification.minimum_shared_blocks"
+        cert.get("minimum_shared_blocks"),
+        name="certification.minimum_shared_blocks",
     )
     if minimum_shared < 2:
         raise ValueError("certification.minimum_shared_blocks must be >= 2")
-    tolerance = _required_float(cert.get("gain_tolerance"), name="certification.gain_tolerance")
+    tolerance = _required_float(
+        cert.get("gain_tolerance"), name="certification.gain_tolerance"
+    )
     if not math.isfinite(tolerance) or tolerance < 0:
         raise ValueError("certification.gain_tolerance must be finite and non-negative")
     return {
@@ -153,36 +167,42 @@ def validate_untouched_external_paired_lattice_contract(
 
     columns = _mapping(contract.get("columns"), name="columns")
     _reject_unknown(columns, _COLUMN_FIELDS, name="columns")
+    if columns.get("weight") is None:
+        raise ValueError(
+            "columns.weight is required for paired external lattice validation because row weights are frozen before outcome access"
+        )
     normalized_columns = {
         "row_id": _text(columns.get("row_id"), name="columns.row_id"),
         "refit_id": _text(columns.get("refit_id"), name="columns.refit_id"),
         "group": _text(columns.get("group"), name="columns.group"),
         "block": _text(columns.get("block"), name="columns.block"),
-        "weight": None,
+        "weight": _text(columns.get("weight"), name="columns.weight"),
     }
-    if columns.get("weight") is not None:
-        normalized_columns["weight"] = _text(columns.get("weight"), name="columns.weight")
     role_columns = [
         normalized_columns["row_id"],
         normalized_columns["refit_id"],
         normalized_columns["group"],
         normalized_columns["block"],
+        normalized_columns["weight"],
     ]
-    if normalized_columns["weight"] is not None:
-        role_columns.append(normalized_columns["weight"])
     if len(set(role_columns)) != len(role_columns):
-        raise ValueError("row_id, refit_id, group, block and weight columns must be distinct")
+        raise ValueError(
+            "row_id, refit_id, group, block and weight columns must be distinct"
+        )
 
     score = _validate_score_contract(contract.get("score"))
     external = _validate_external_validation(contract.get("external_validation"))
     blocks, nodes, base, edge_count = _validate_lattice_definition(
-        contract.get("information_blocks"), contract.get("nodes"), contract.get("base_information")
+        contract.get("information_blocks"),
+        contract.get("nodes"),
+        contract.get("base_information"),
     )
     score_columns = [str(node["score_column"]) for node in nodes]
     collision = sorted(set(score_columns) & set(role_columns))
     if collision:
         raise ValueError(
-            "lattice score columns must be distinct from row-role columns: " + ", ".join(collision)
+            "lattice score columns must be distinct from row-role columns: "
+            + ", ".join(collision)
         )
     cert = _validate_certification(contract.get("certification"))
     return {
@@ -202,13 +222,17 @@ def validate_untouched_external_paired_lattice_contract(
     }
 
 
-def load_untouched_external_paired_lattice_contract(path: str | Path) -> dict[str, object]:
+def load_untouched_external_paired_lattice_contract(
+    path: str | Path,
+) -> dict[str, object]:
     contract_path = Path(path)
     try:
         raw = json.loads(contract_path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
         raise ValueError("paired lattice external contract is not valid JSON") from exc
-    return validate_untouched_external_paired_lattice_contract(_mapping(raw, name="contract"))
+    return validate_untouched_external_paired_lattice_contract(
+        _mapping(raw, name="contract")
+    )
 
 
 def _runtime_table(contract_path: Path, contract: Mapping[str, object]):
@@ -226,18 +250,32 @@ def _runtime_table(contract_path: Path, contract: Mapping[str, object]):
     refit_id_col = str(columns["refit_id"])
     group_col = str(columns["group"])
     block_col = str(columns["block"])
-    weight_col = None if columns.get("weight") is None else str(columns["weight"])
+    weight_col = str(columns["weight"])
     nodes = contract["nodes"]
     assert isinstance(nodes, list)
 
     table: dict[str, dict[str, dict[str, object]]] = {}
     for row_index, row in enumerate(rows):
-        refit_id = _identifier(_value(row, refit_id_col, row_index=row_index), name=f"row {row_index} refit_id")
-        row_id = _identifier(_value(row, row_id_col, row_index=row_index), name=f"row {row_index} row_id")
-        group = _identifier(_value(row, group_col, row_index=row_index), name=f"row {row_index} group")
-        block = _identifier(_value(row, block_col, row_index=row_index), name=f"row {row_index} block")
-        weight = 1.0 if weight_col is None else _weight(
-            _value(row, weight_col, row_index=row_index), column=weight_col, row_index=row_index
+        refit_id = _identifier(
+            _value(row, refit_id_col, row_index=row_index),
+            name=f"row {row_index} refit_id",
+        )
+        row_id = _identifier(
+            _value(row, row_id_col, row_index=row_index),
+            name=f"row {row_index} row_id",
+        )
+        group = _identifier(
+            _value(row, group_col, row_index=row_index),
+            name=f"row {row_index} group",
+        )
+        block = _identifier(
+            _value(row, block_col, row_index=row_index),
+            name=f"row {row_index} block",
+        )
+        weight = _weight(
+            _value(row, weight_col, row_index=row_index),
+            column=weight_col,
+            row_index=row_index,
         )
         scores = [
             _score(
@@ -249,8 +287,15 @@ def _runtime_table(contract_path: Path, contract: Mapping[str, object]):
         ]
         local = table.setdefault(refit_id, {})
         if row_id in local:
-            raise ValueError(f"duplicate refit_id,row_id pair: ({refit_id!r}, {row_id!r})")
-        local[row_id] = {"group": group, "block": block, "weight": weight, "scores": scores}
+            raise ValueError(
+                f"duplicate refit_id,row_id pair: ({refit_id!r}, {row_id!r})"
+            )
+        local[row_id] = {
+            "group": group,
+            "block": block,
+            "weight": weight,
+            "scores": scores,
+        }
 
     refit_ids = tuple(sorted(table))
     if not refit_ids:
@@ -279,19 +324,29 @@ def _runtime_table(contract_path: Path, contract: Mapping[str, object]):
         weights.append(float(record["weight"]))
     if not sum(weights) > 0:
         raise ValueError("external row weights must have positive total mass")
+
     for refit_id in refit_ids[1:]:
         for index, row_id in enumerate(canonical_rows):
             record = table[refit_id][row_id]
             expected = (groups[index], shared_blocks[index], weights[index])
-            observed = (str(record["group"]), str(record["block"]), float(record["weight"]))
+            observed = (
+                str(record["group"]),
+                str(record["block"]),
+                float(record["weight"]),
+            )
             if observed != expected:
-                raise ValueError(f"external row metadata differs across refits for row_id {row_id!r}")
+                raise ValueError(
+                    f"external row metadata differs across refits for row_id {row_id!r}"
+                )
 
     refit_nodes: list[RefitInformationLatticeNodeScores] = []
     for node_index, node in enumerate(nodes):
         matrix = np.asarray(
             [
-                [float(table[refit_id][row_id]["scores"][node_index]) for row_id in canonical_rows]
+                [
+                    float(table[refit_id][row_id]["scores"][node_index])
+                    for row_id in canonical_rows
+                ]
                 for refit_id in refit_ids
             ],
             dtype=float,
@@ -302,7 +357,16 @@ def _runtime_table(contract_path: Path, contract: Mapping[str, object]):
                 score=matrix,
             )
         )
-    return data_path, rows, refit_ids, canonical_rows, groups, shared_blocks, weights, refit_nodes
+    return (
+        data_path,
+        rows,
+        refit_ids,
+        canonical_rows,
+        groups,
+        shared_blocks,
+        weights,
+        refit_nodes,
+    )
 
 
 def _load_manifest(path: Path) -> Mapping[str, object]:
@@ -314,7 +378,9 @@ def _load_manifest(path: Path) -> Mapping[str, object]:
         raise ValueError("paired lattice freeze manifest must be a JSON object")
     unknown = sorted(set(raw) - _MANIFEST_FIELDS)
     if unknown:
-        raise ValueError(f"paired lattice freeze manifest contains unknown fields: {unknown!r}")
+        raise ValueError(
+            f"paired lattice freeze manifest contains unknown fields: {unknown!r}"
+        )
     if raw.get("schema_version") != 1 or isinstance(raw.get("schema_version"), bool):
         raise ValueError("paired lattice freeze manifest schema_version must be 1")
     if _text(raw.get("manifest_type"), name="freeze manifest.manifest_type") != (
@@ -326,7 +392,9 @@ def _load_manifest(path: Path) -> Mapping[str, object]:
     return raw
 
 
-def verify_paired_external_lattice_semantic_lock(path: str | Path) -> dict[str, object]:
+def verify_paired_external_lattice_semantic_lock(
+    path: str | Path,
+) -> dict[str, object]:
     contract_path = Path(path)
     contract = load_untouched_external_paired_lattice_contract(contract_path)
     external = contract["external_validation"]
@@ -339,18 +407,39 @@ def verify_paired_external_lattice_semantic_lock(path: str | Path) -> dict[str, 
     if not freeze_path.is_file():
         raise FileNotFoundError(freeze_path)
     if _file_sha256(freeze_path) != str(freeze["sha256"]):
-        raise ValueError("freeze manifest SHA256 does not match the declared pre-outcome artifact")
+        raise ValueError(
+            "freeze manifest SHA256 does not match the declared pre-outcome artifact"
+        )
     manifest = _load_manifest(freeze_path)
-    _, _, refit_ids, canonical_rows, _, _, _, _ = _runtime_table(contract_path, contract)
+    (
+        _,
+        _,
+        refit_ids,
+        canonical_rows,
+        groups,
+        shared_blocks,
+        weights,
+        _,
+    ) = _runtime_table(contract_path, contract)
 
-    _assert_equal(str(manifest["frozen_at_utc"]), str(freeze["frozen_at_utc"]), field="frozen_at_utc")
     _assert_equal(
-        _text(manifest.get("upstream_model_set_id"), name="freeze manifest.upstream_model_set_id"),
+        str(manifest["frozen_at_utc"]),
+        str(freeze["frozen_at_utc"]),
+        field="frozen_at_utc",
+    )
+    _assert_equal(
+        _text(
+            manifest.get("upstream_model_set_id"),
+            name="freeze manifest.upstream_model_set_id",
+        ),
         str(contract["upstream_model_set_id"]),
         field="upstream_model_set_id",
     )
     _assert_equal(
-        _text(manifest.get("external_dataset_id"), name="freeze manifest.external_dataset_id"),
+        _text(
+            manifest.get("external_dataset_id"),
+            name="freeze manifest.external_dataset_id",
+        ),
         str(contract["external_dataset_id"]),
         field="external_dataset_id",
     )
@@ -359,18 +448,52 @@ def verify_paired_external_lattice_semantic_lock(path: str | Path) -> dict[str, 
         _row_roster_sha256(canonical_rows),
         field="external_row_ids_sha256",
     )
-    _assert_equal(tuple(sorted(str(item) for item in manifest["refit_ids"])), refit_ids, field="refit_ids")
+    runtime_paired_metadata_sha = _paired_row_metadata_sha256(
+        list(zip(canonical_rows, groups, shared_blocks, weights))
+    )
+    _assert_equal(
+        _text(
+            manifest.get("paired_row_metadata_sha256"),
+            name="freeze manifest.paired_row_metadata_sha256",
+        ),
+        runtime_paired_metadata_sha,
+        field="paired_row_metadata_sha256",
+    )
+    _assert_equal(
+        tuple(sorted(str(item) for item in manifest["refit_ids"])),
+        refit_ids,
+        field="refit_ids",
+    )
     _assert_equal(dict(manifest["score"]), dict(contract["score"]), field="score")
-    _assert_equal(list(manifest["base_information"]), list(contract["base_information"]), field="base_information")
-    _assert_equal(list(manifest["information_blocks"]), list(contract["information_blocks"]), field="information_blocks")
-    _assert_equal(list(manifest["nodes"]), list(contract["nodes"]), field="nodes")
-    _assert_equal(int(manifest["edge_count"]), int(contract["edge_count"]), field="edge_count")
-    _assert_equal(dict(manifest["certification"]), dict(contract["certification"]), field="certification")
+    _assert_equal(
+        list(manifest["base_information"]),
+        list(contract["base_information"]),
+        field="base_information",
+    )
+    _assert_equal(
+        list(manifest["information_blocks"]),
+        list(contract["information_blocks"]),
+        field="information_blocks",
+    )
+    _assert_equal(
+        list(manifest["nodes"]), list(contract["nodes"]), field="nodes"
+    )
+    _assert_equal(
+        int(manifest["edge_count"]),
+        int(contract["edge_count"]),
+        field="edge_count",
+    )
+    _assert_equal(
+        dict(manifest["certification"]),
+        dict(contract["certification"]),
+        field="certification",
+    )
     return {
         "manifest_type": "odsp_pre_external_outcome_paired_lattice_freeze_v1",
         "upstream_model_set_id": str(contract["upstream_model_set_id"]),
         "external_dataset_id": str(contract["external_dataset_id"]),
         "external_row_ids_sha256": str(manifest["external_row_ids_sha256"]),
+        "paired_row_metadata_sha256": runtime_paired_metadata_sha,
         "validation_design": dict(_VALIDATION_DESIGN),
         "refit_ids": list(refit_ids),
         "base_information": list(contract["base_information"]),
@@ -388,11 +511,21 @@ def run_untouched_external_paired_all_refit_lattice_contract_v4(
     contract_path = Path(path)
     semantic_lock = verify_paired_external_lattice_semantic_lock(contract_path)
     contract = load_untouched_external_paired_lattice_contract(contract_path)
-    data_path, rows, refit_ids, canonical_rows, groups, shared_blocks, weights, refit_nodes = _runtime_table(
-        contract_path, contract
-    )
+    (
+        data_path,
+        rows,
+        refit_ids,
+        canonical_rows,
+        groups,
+        shared_blocks,
+        weights,
+        refit_nodes,
+    ) = _runtime_table(contract_path, contract)
     info_blocks = tuple(
-        InformationBlock(name=str(row["name"]), variables=tuple(str(item) for item in row["variables"]))
+        InformationBlock(
+            name=str(row["name"]),
+            variables=tuple(str(item) for item in row["variables"]),
+        )
         for row in contract["information_blocks"]
     )
     cert = contract["certification"]
@@ -405,7 +538,9 @@ def run_untouched_external_paired_all_refit_lattice_contract_v4(
         base_information=contract["base_information"],
         refit_ids=refit_ids,
         sample_weight=weights,
-        familywise_lower_confidence_level=float(cert["familywise_lower_confidence_level"]),
+        familywise_lower_confidence_level=float(
+            cert["familywise_lower_confidence_level"]
+        ),
         bootstrap_draws=int(cert["bootstrap_draws"]),
         seed=int(cert["seed"]),
         minimum_refits=int(cert["minimum_refits"]),
@@ -448,6 +583,8 @@ def run_untouched_external_paired_all_refit_lattice_contract_v4(
             "freeze_manifest_hash_verified": True,
             "freeze_manifest_semantics_verified": True,
             "runtime_provenance_ids_match_frozen_manifest": True,
+            "paired_row_metadata_frozen_before_outcome_access": True,
+            "runtime_pairing_metadata_matches_frozen_manifest": True,
             "complete_lattice_node_table_frozen_before_outcome_access": True,
             "paired_shared_block_design_frozen_before_outcome_access": True,
             "different_refit_paths_can_be_combined": False,
