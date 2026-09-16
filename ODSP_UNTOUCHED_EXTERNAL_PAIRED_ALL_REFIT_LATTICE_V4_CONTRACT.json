@@ -9,6 +9,7 @@
     "external_row_roster_frozen": true,
     "paired_row_metadata_frozen": true,
     "pairing_metadata_fields": ["row_id", "group", "block", "weight"],
+    "pairing_metadata_digest": "sha256_of_canonical_row_id_sorted_json",
     "post_outcome_row_to_group_reassignment_allowed": false,
     "post_outcome_row_to_block_reassignment_allowed": false,
     "post_outcome_weight_change_allowed": false,
