@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-all-refit-directional-robustness-v1",
+  "date": "2026-09-15",
+  "purpose": "require prospectively directional positive-transfer certification in every member of a fixed supplied upstream-refit set",
+  "global_claim": {
+    "alternative": "every supplied refit robustly transfers every information step required by the reported ceiling",
+    "composition_rule": "intersection_union_all_components_must_reject",
+    "all_supplied_refits_must_pass": true,
+    "non_skippable_transfer_ceiling": true,
+    "reference_refit_can_override_failure": false,
+    "refit_average_can_override_failure": false,
+    "best_refit_can_override_failure": false
+  },
+  "component_inference": {
+    "independent_group_route": "certify_positive_information_transfer_v2",
+    "shared_block_route": "certify_shared_block_positive_information_transfer_v2",
+    "alternative": "greater",
+    "validation_familywise_control_applied_within_each_refit": true,
+    "replicate_specific_bootstrap_t": true,
+    "same_validation_bootstrap_seed_may_be_reused_across_refits": true
+  },
+  "refit_axis": {
+    "fixed_supplied_set": true,
+    "additional_refit_axis_multiplicity_correction_applied": false,
+    "refit_independence_assumed": false,
+    "refit_sampling_distribution_assumed": false,
+    "refit_population_generalization_claimed": false,
+    "minimum_refits_default": 2,
+    "minimum_refits_role": "minimum robustness set size, not an asymptotic sampling requirement",
+    "too_few_refits_behavior": "retain per-refit audits but mark global robustness unavailable and stop at the base level"
+  },
+  "validation_designs": {
+    "independent_groups": {
+      "supported": true,
+      "validation_group_independence_assumed": true,
+      "within_group_declared_block_exchangeability_assumed": true
+    },
+    "exact_shared_blocks": {
+      "supported": true,
+      "validation_group_independence_assumed": false,
+      "exact_positive_mass_shared_block_support_required": true,
+      "shared_block_exchangeability_assumed": true,
+      "missing_shared_blocks_imputed": false
+    }
+  },
+  "information_contract": {
+    "strict_information_filtration_required": true,
+    "all_refits_share_identical_information_levels": true,
+    "all_refits_share_identical_held_out_rows": true,
+    "all_refits_share_identical_row_metadata": true,
+    "comparator_score_must_be_finite_on_every_positive_weight_row_in_every_refit": true,
+    "richest_score_may_be_negative_infinity": true,
+    "richest_nonfinite_required_step_behavior": "that refit step is unavailable and the all-refit ceiling stops"
+  },
+  "legacy_refit_layer_boundary": {
+    "nested_refit_monte_carlo_retained": true,
+    "role": "sensitivity diagnostic",
+    "used_as_primary_refit_population_confidence_claim": false,
+    "supplied_refits_treated_as_independent_probability_sample": false
+  },
+  "external_model_boundary": {
+    "upstream_models_fitted_by_odsp": false,
+    "refit_scheme_inferred_by_odsp": false,
+    "refit_set_selected_by_odsp": false
+  },
+  "empirical_boundary": {
+    "historical_empirical_endpoint_rerun": false,
+    "historical_terminal_category_reclassified": false
+  }
+}
