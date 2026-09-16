@@ -8,6 +8,7 @@ import sys
 from typing import Sequence
 
 from .endpoint_contract import run_endpoint_contract
+from .external_freeze_manifest import create_external_freeze_manifest
 from .information_transfer_contract import run_information_transfer_contract
 from .refit_information_transfer_contract import run_refit_information_transfer_contract
 from .untouched_external_refit_positive_contract_v2 import (
@@ -34,6 +35,14 @@ def _add_common_contract_arguments(parser: argparse.ArgumentParser) -> None:
         "--out",
         help="receipt path; omit or use '-' to write JSON to stdout",
     )
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="re-raise expected input/configuration errors with a Python traceback",
+    )
+
+
+def _add_debug_argument(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--debug",
         action="store_true",
@@ -68,6 +77,21 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     _add_common_contract_arguments(transfer_refits)
+    freeze_external = subparsers.add_parser(
+        "freeze-refits-external",
+        help=(
+            "create a non-overwriting pre-outcome semantic freeze manifest from "
+            "an analysis plan and outcome-free external row roster"
+        ),
+    )
+    freeze_external.add_argument("--plan", required=True, help="path to freeze-plan JSON")
+    freeze_external.add_argument(
+        "--manifest-out", required=True, help="new freeze-manifest path; existing files are never overwritten"
+    )
+    freeze_external.add_argument(
+        "--out", help="freeze receipt path; omit or use '-' to write JSON to stdout"
+    )
+    _add_debug_argument(freeze_external)
     external_refits = subparsers.add_parser(
         "transfer-refits-external",
         help=(
@@ -88,6 +112,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             receipt = run_information_transfer_contract(args.contract)
         elif args.command == "transfer-refits":
             receipt = run_refit_information_transfer_contract(args.contract)
+        elif args.command == "freeze-refits-external":
+            receipt = create_external_freeze_manifest(args.plan, args.manifest_out)
         elif args.command == "transfer-refits-external":
             receipt = run_untouched_external_refit_positive_contract_v2(args.contract)
         else:  # pragma: no cover - argparse constrains the command.
