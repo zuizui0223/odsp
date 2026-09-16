@@ -42,7 +42,14 @@ def _plan(names: tuple[str, ...] = ("A", "B")) -> dict[str, object]:
         "schema_version": 1,
         "upstream_model_set_id": "paired-lattice-model-set-v1",
         "external_dataset_id": "paired-lattice-external-v1",
-        "roster": {"path": "roster.csv", "format": "csv", "row_id_column": "row_id"},
+        "roster": {
+            "path": "roster.csv",
+            "format": "csv",
+            "row_id_column": "row_id",
+            "group_column": "group",
+            "block_column": "block",
+            "weight_column": "weight",
+        },
         "refit_ids": ["r00", "r01"],
         "score": {
             "kind": "log",
@@ -72,9 +79,14 @@ def _plan(names: tuple[str, ...] = ("A", "B")) -> dict[str, object]:
     }
 
 
-def _row_ids(group_count: int = 3, block_count: int = 8) -> list[str]:
+def _roster_rows(group_count: int = 3, block_count: int = 8) -> list[dict[str, object]]:
     return [
-        f"g{group_index}-b{block_index}"
+        {
+            "row_id": f"g{group_index}-b{block_index}",
+            "group": f"g{group_index}",
+            "block": f"b{block_index}",
+            "weight": 1.0,
+        }
         for group_index in range(group_count)
         for block_index in range(block_count)
     ]
@@ -170,7 +182,7 @@ def _setup(
     support_mismatch: bool = False,
 ):
     roster = tmp_path / "roster.csv"
-    _write_csv(roster, [{"row_id": row_id} for row_id in _row_ids()])
+    _write_csv(roster, _roster_rows())
     plan = tmp_path / "freeze-plan.json"
     plan.write_text(json.dumps(_plan(names)), encoding="utf-8")
     manifest = tmp_path / "freeze-lattice.json"
@@ -201,6 +213,8 @@ def test_two_block_freeze_to_external_lattice_is_universal(tmp_path: Path):
     assert receipt["result"]["all_refit_robust_full_transfer_path_count"] == 2
     assert receipt["result"]["all_refit_certified_path_status"] == "universal_full_transfer"
     assert receipt["boundaries"]["complete_lattice_node_table_frozen_before_outcome_access"] is True
+    assert receipt["boundaries"]["paired_row_metadata_frozen_before_outcome_access"] is True
+    assert receipt["boundaries"]["runtime_pairing_metadata_matches_frozen_manifest"] is True
     assert receipt["boundaries"]["different_refit_paths_can_be_combined"] is False
 
 
@@ -225,7 +239,7 @@ def test_three_block_external_lattice_uses_calibrated_12_edge_family(tmp_path: P
 
 def test_shared_block_support_mismatch_hard_stops_v4(tmp_path: Path):
     _, _, endpoint = _setup(tmp_path, support_mismatch=True)
-    with pytest.raises(ValueError, match="identical positive-mass block support"):
+    with pytest.raises(ValueError, match="paired_row_metadata_sha256|identical positive-mass block support"):
         run_untouched_external_paired_all_refit_lattice_contract_v4(endpoint)
 
 
@@ -262,9 +276,11 @@ def test_four_block_lattice_is_rejected_during_freeze():
 
 def test_lattice_freeze_roster_rejects_outcome_columns(tmp_path: Path):
     roster = tmp_path / "roster.csv"
-    _write_csv(roster, [{"row_id": "r1", "outcome": 1}])
+    row = _roster_rows(group_count=1, block_count=1)[0]
+    row["outcome"] = 1
+    _write_csv(roster, [row])
     plan_payload = _plan()
     plan = tmp_path / "plan.json"
     plan.write_text(json.dumps(plan_payload), encoding="utf-8")
-    with pytest.raises(ValueError, match="only the row_id column"):
+    with pytest.raises(ValueError, match="paired roster must contain only"):
         create_paired_external_lattice_freeze_manifest(plan, tmp_path / "freeze.json")
