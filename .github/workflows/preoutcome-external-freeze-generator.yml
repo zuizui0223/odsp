@@ -1,0 +1,37 @@
+name: preoutcome-external-freeze-generator
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/external_freeze_manifest.py'
+      - 'odsp/untouched_external_refit_positive_contract_v2.py'
+      - 'odsp/cli.py'
+      - 'tests/test_external_freeze_manifest.py'
+      - 'docs/preoutcome_external_freeze_workflow_v1.md'
+      - 'ODSP_PREOUTCOME_EXTERNAL_FREEZE_GENERATOR_CONTRACT_V1.json'
+      - '.github/workflows/preoutcome-external-freeze-generator.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core package without prediction extra
+        run: python -m pip install -e '.[dev]'
+      - name: Run pre-outcome freeze tests
+        run: python -m pytest -q tests/test_external_freeze_manifest.py
+      - name: Import freeze and validation APIs
+        run: >-
+          python -c "from odsp.external_freeze_manifest import create_external_freeze_manifest; from odsp.untouched_external_refit_positive_contract_v2 import verify_freeze_manifest_semantic_lock; assert callable(create_external_freeze_manifest); assert callable(verify_freeze_manifest_semantic_lock)"
+      - name: Confirm installed CLI surfaces
+        run: |
+          odsp freeze-refits-external --help
+          odsp transfer-refits-external --help
