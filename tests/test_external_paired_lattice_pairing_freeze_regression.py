@@ -39,7 +39,14 @@ def _freeze_plan() -> dict[str, object]:
         "schema_version": 1,
         "upstream_model_set_id": "pairing-lock-models-v1",
         "external_dataset_id": "pairing-lock-external-v1",
-        "roster": {"path": "roster.csv", "format": "csv", "row_id_column": "row_id"},
+        "roster": {
+            "path": "roster.csv",
+            "format": "csv",
+            "row_id_column": "row_id",
+            "group_column": "group",
+            "block_column": "block",
+            "weight_column": "weight",
+        },
         "refit_ids": ["r00", "r01"],
         "score": {
             "kind": "log",
@@ -69,6 +76,19 @@ def _freeze_plan() -> dict[str, object]:
     }
 
 
+def _pairing_roster() -> list[dict[str, object]]:
+    return [
+        {
+            "row_id": f"{group}-b{block_i}",
+            "group": group,
+            "block": f"b{block_i}",
+            "weight": 1.0,
+        }
+        for group in ("g0", "g1")
+        for block_i in range(4)
+    ]
+
+
 def _score_rows() -> list[dict[str, object]]:
     rows: list[dict[str, object]] = []
     for refit in ("r00", "r01"):
@@ -93,6 +113,8 @@ def _contract(manifest: Path) -> dict[str, object]:
     return {
         "schema_version": 1,
         "endpoint_id": "pairing-freeze-regression-v4",
+        "upstream_model_set_id": plan["upstream_model_set_id"],
+        "external_dataset_id": plan["external_dataset_id"],
         "data": {"path": "scores.csv", "format": "csv"},
         "columns": {
             "row_id": "row_id",
@@ -134,8 +156,7 @@ def _contract(manifest: Path) -> dict[str, object]:
 
 def test_row_pairing_metadata_cannot_change_after_preoutcome_freeze(tmp_path: Path):
     roster = tmp_path / "roster.csv"
-    row_ids = [f"g{g}-b{b}" for g in range(2) for b in range(4)]
-    _write_csv(roster, [{"row_id": row_id} for row_id in row_ids])
+    _write_csv(roster, _pairing_roster())
 
     plan = tmp_path / "plan.json"
     plan.write_text(json.dumps(_freeze_plan()), encoding="utf-8")
