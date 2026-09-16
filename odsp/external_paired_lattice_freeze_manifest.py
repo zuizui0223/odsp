@@ -310,15 +310,15 @@ def create_paired_external_lattice_freeze_manifest(
         "edge_count": plan["edge_count"],
         "validation_design": dict(_VALIDATION_DESIGN),
         "boundaries": {
-            "manifest_timestamp_generated_by_odsp_runtime_clock": true,
-            "caller_supplied_freeze_timestamp_allowed": false,
-            "manifest_overwrite_allowed": false,
-            "roster_outcome_columns_allowed": false,
-            "external_outcomes_read_by_freeze_generator": false,
-            "complete_lattice_node_table_frozen": true,
-            "paired_shared_block_design_frozen": true,
-            "four_or_more_information_blocks_allowed": false,
-            "runtime_clock_independently_attested": false,
-            "trusted_timestamp_authority_used": false
-        }
+            "manifest_timestamp_generated_by_odsp_runtime_clock": True,
+            "caller_supplied_freeze_timestamp_allowed": False,
+            "manifest_overwrite_allowed": False,
+            "roster_outcome_columns_allowed": False,
+            "external_outcomes_read_by_freeze_generator": False,
+            "complete_lattice_node_table_frozen": True,
+            "paired_shared_block_design_frozen": True,
+            "four_or_more_information_blocks_allowed": False,
+            "runtime_clock_independently_attested": False,
+            "trusted_timestamp_authority_used": False,
+        },
     }
