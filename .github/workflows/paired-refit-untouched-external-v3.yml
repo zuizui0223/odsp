@@ -1,0 +1,49 @@
+name: paired-refit-untouched-external-v3
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/refit_positive_robustness.py'
+      - 'odsp/shared_block_positive_information.py'
+      - 'odsp/shared_block_positive_certification.py'
+      - 'odsp/untouched_external_refit_positive_contract.py'
+      - 'odsp/untouched_external_refit_positive_contract_v2.py'
+      - 'odsp/untouched_external_refit_shared_block_positive_contract_v3.py'
+      - 'odsp/external_freeze_manifest.py'
+      - 'odsp/external_paired_freeze_manifest.py'
+      - 'odsp/cli.py'
+      - 'tests/test_refit_positive_robustness.py'
+      - 'tests/test_untouched_external_refit_shared_block_positive_v3.py'
+      - 'tests/test_paired_refit_untouched_external_v3_contract.py'
+      - 'ODSP_ALL_REFIT_DIRECTIONAL_ROBUSTNESS_CONTRACT.json'
+      - 'ODSP_PAIRED_REFIT_UNTOUCHED_EXTERNAL_V3_CONTRACT.json'
+      - '.github/workflows/paired-refit-untouched-external-v3.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core package without prediction extra
+        run: python -m pip install -e '.[dev]'
+      - name: Run paired refit external endpoint tests
+        run: >-
+          python -m pytest -q
+          tests/test_refit_positive_robustness.py
+          tests/test_untouched_external_refit_shared_block_positive_v3.py
+          tests/test_paired_refit_untouched_external_v3_contract.py
+      - name: Import paired external APIs
+        run: >-
+          python -c "from odsp.refit_positive_robustness import certify_all_refit_shared_block_positive_information_transfer_v2; from odsp.external_paired_freeze_manifest import create_paired_external_freeze_manifest; from odsp.untouched_external_refit_shared_block_positive_contract_v3 import run_untouched_external_refit_shared_block_positive_contract_v3; assert callable(certify_all_refit_shared_block_positive_information_transfer_v2); assert callable(create_paired_external_freeze_manifest); assert callable(run_untouched_external_refit_shared_block_positive_contract_v3)"
+      - name: Confirm installed paired CLI surfaces
+        run: |
+          odsp --help | grep -q 'freeze-refits-external-paired'
+          odsp --help | grep -q 'transfer-refits-external-paired'
