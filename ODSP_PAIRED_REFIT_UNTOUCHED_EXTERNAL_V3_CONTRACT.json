@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-paired-refit-untouched-external-v3",
+  "date": "2026-09-16",
+  "purpose": "combine paired shared-block directional validation, fixed-set all-refit robustness and semantically locked untouched external validation",
+  "pre_outcome_freeze": {
+    "manifest_schema_version": 2,
+    "manifest_type": "odsp_pre_external_outcome_paired_freeze_v1",
+    "validation_design_kind": "paired_shared_blocks",
+    "external_row_roster_frozen": true,
+    "refit_ids_frozen": true,
+    "reference_refit_frozen": true,
+    "information_filtration_frozen": true,
+    "score_semantics_frozen": true,
+    "directional_alternative_frozen": true,
+    "familywise_confidence_frozen": true,
+    "bootstrap_draws_and_seed_frozen": true,
+    "minimum_refits_and_blocks_frozen": true,
+    "gain_tolerance_frozen": true
+  },
+  "validation_design": {
+    "validation_group_independence_assumed": false,
+    "exact_positive_mass_shared_block_support_required": true,
+    "same_block_draw_shared_across_all_groups_and_steps_within_refit": true,
+    "shared_block_exchangeability_assumed": true,
+    "missing_shared_blocks_imputed": false,
+    "post_outcome_common_block_subset_allowed": false
+  },
+  "refit_axis": {
+    "fixed_supplied_set": true,
+    "composition_rule": "intersection_union_all_components_must_reject",
+    "all_supplied_refits_must_pass_each_required_step": true,
+    "additional_refit_axis_multiplicity_correction_applied": false,
+    "refit_independence_assumed": false,
+    "refit_sampling_distribution_assumed": false,
+    "refit_population_generalization_claimed": false,
+    "reference_refit_can_override_failure": false,
+    "refit_average_can_override_failure": false
+  },
+  "external_validation": {
+    "dataset_role": "untouched_external_validation",
+    "external_rows_may_be_used_for_upstream_fit": false,
+    "external_rows_may_be_used_for_refit_generation": false,
+    "external_rows_may_be_used_for_model_or_filtration_selection": false,
+    "external_outcomes_may_be_used_for_development_decisions": false,
+    "freeze_manifest_hash_verified": true,
+    "freeze_manifest_semantics_verified": true,
+    "historical_non_access_independently_proven_by_odsp": false,
+    "development_data_disjointness_independently_proven_by_odsp": false
+  },
+  "claim_scope": {
+    "information_structure": "strict_nested_filtration",
+    "directional_alternative": "greater",
+    "non_skippable_transfer_ceiling": true,
+    "paired_lattice_claim_added_by_this_contract": false,
+    "arbitrary_cross_group_dependence_supported": false,
+    "upstream_models_fitted_by_odsp": false
+  },
+  "empirical_boundary": {
+    "historical_empirical_endpoint_rerun": false,
+    "historical_terminal_category_reclassified": false
+  }
+}
