@@ -50,6 +50,8 @@ from .untouched_external_refit_shared_block_positive_contract_v3 import (
 _TOP_LEVEL = {
     "schema_version",
     "endpoint_id",
+    "upstream_model_set_id",
+    "external_dataset_id",
     "data",
     "columns",
     "score",
@@ -135,6 +137,12 @@ def validate_untouched_external_paired_lattice_contract(
     if isinstance(version, bool) or version != 1:
         raise ValueError("schema_version must be 1")
     endpoint_id = _text(contract.get("endpoint_id"), name="endpoint_id")
+    model_set_id = _text(
+        contract.get("upstream_model_set_id"), name="upstream_model_set_id"
+    )
+    dataset_id = _text(
+        contract.get("external_dataset_id"), name="external_dataset_id"
+    )
 
     data = _mapping(contract.get("data"), name="data")
     _reject_unknown(data, _DATA_FIELDS, name="data")
@@ -180,6 +188,8 @@ def validate_untouched_external_paired_lattice_contract(
     return {
         "schema_version": 1,
         "endpoint_id": endpoint_id,
+        "upstream_model_set_id": model_set_id,
+        "external_dataset_id": dataset_id,
         "data": {"path": data_path, "format": data_format},
         "columns": normalized_columns,
         "score": score,
@@ -335,6 +345,16 @@ def verify_paired_external_lattice_semantic_lock(path: str | Path) -> dict[str, 
 
     _assert_equal(str(manifest["frozen_at_utc"]), str(freeze["frozen_at_utc"]), field="frozen_at_utc")
     _assert_equal(
+        _text(manifest.get("upstream_model_set_id"), name="freeze manifest.upstream_model_set_id"),
+        str(contract["upstream_model_set_id"]),
+        field="upstream_model_set_id",
+    )
+    _assert_equal(
+        _text(manifest.get("external_dataset_id"), name="freeze manifest.external_dataset_id"),
+        str(contract["external_dataset_id"]),
+        field="external_dataset_id",
+    )
+    _assert_equal(
         str(manifest["external_row_ids_sha256"]),
         _row_roster_sha256(canonical_rows),
         field="external_row_ids_sha256",
@@ -348,8 +368,8 @@ def verify_paired_external_lattice_semantic_lock(path: str | Path) -> dict[str, 
     _assert_equal(dict(manifest["certification"]), dict(contract["certification"]), field="certification")
     return {
         "manifest_type": "odsp_pre_external_outcome_paired_lattice_freeze_v1",
-        "upstream_model_set_id": _text(manifest.get("upstream_model_set_id"), name="freeze manifest.upstream_model_set_id"),
-        "external_dataset_id": _text(manifest.get("external_dataset_id"), name="freeze manifest.external_dataset_id"),
+        "upstream_model_set_id": str(contract["upstream_model_set_id"]),
+        "external_dataset_id": str(contract["external_dataset_id"]),
         "external_row_ids_sha256": str(manifest["external_row_ids_sha256"]),
         "validation_design": dict(_VALIDATION_DESIGN),
         "refit_ids": list(refit_ids),
@@ -402,6 +422,8 @@ def run_untouched_external_paired_all_refit_lattice_contract_v4(
     return {
         "receipt_type": "odsp_untouched_external_paired_all_refit_positive_lattice_endpoint_v4",
         "endpoint_id": contract["endpoint_id"],
+        "upstream_model_set_id": contract["upstream_model_set_id"],
+        "external_dataset_id": contract["external_dataset_id"],
         "contract_sha256": _file_sha256(contract_path),
         "data_sha256": _file_sha256(data_path),
         "freeze_manifest_sha256": _file_sha256(freeze_path),
@@ -425,6 +447,7 @@ def run_untouched_external_paired_all_refit_lattice_contract_v4(
             "untouched_external_validation_contract_satisfied": True,
             "freeze_manifest_hash_verified": True,
             "freeze_manifest_semantics_verified": True,
+            "runtime_provenance_ids_match_frozen_manifest": True,
             "complete_lattice_node_table_frozen_before_outcome_access": True,
             "paired_shared_block_design_frozen_before_outcome_access": True,
             "different_refit_paths_can_be_combined": False,
