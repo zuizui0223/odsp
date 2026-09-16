@@ -1,0 +1,31 @@
+name: confirmatory-method-routing
+
+on:
+  push:
+    branches:
+      - 'method/confirmatory-method-routing'
+  pull_request:
+    paths:
+      - 'odsp/confirmatory_method_routing.py'
+      - 'odsp/cli.py'
+      - 'ODSP_CONFIRMATORY_METHOD_ROUTING_CONTRACT.json'
+      - 'tests/test_confirmatory_method_routing.py'
+      - 'tests/test_confirmatory_method_routing_contract.py'
+      - '.github/workflows/confirmatory-method-routing.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core package with test dependencies
+        run: python -m pip install -e '.[dev]'
+      - name: Run routing tests
+        run: python -m pytest -q tests/test_confirmatory_method_routing.py
