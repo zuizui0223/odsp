@@ -121,6 +121,8 @@ def _external_contract(manifest: Path, names: tuple[str, ...] = ("A", "B")) -> d
     return {
         "schema_version": 1,
         "endpoint_id": "paired-lattice-external-v4",
+        "upstream_model_set_id": plan["upstream_model_set_id"],
+        "external_dataset_id": plan["external_dataset_id"],
         "data": {"path": "scores.csv", "format": "csv"},
         "columns": {
             "row_id": "row_id",
