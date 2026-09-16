@@ -13,6 +13,7 @@ def test_v4_contract_freezes_complete_lattice_before_outcome_access():
     assert freeze["external_row_roster_frozen"] is True
     assert freeze["paired_row_metadata_frozen"] is True
     assert freeze["pairing_metadata_fields"] == ["row_id", "group", "block", "weight"]
+    assert freeze["pairing_metadata_digest"] == "sha256_of_canonical_row_id_sorted_json"
     assert freeze["post_outcome_row_to_group_reassignment_allowed"] is False
     assert freeze["post_outcome_row_to_block_reassignment_allowed"] is False
     assert freeze["post_outcome_weight_change_allowed"] is False
