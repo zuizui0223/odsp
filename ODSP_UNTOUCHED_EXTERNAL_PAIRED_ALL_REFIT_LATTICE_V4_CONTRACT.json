@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-untouched-external-paired-all-refit-lattice-v4",
+  "date": "2026-09-16",
+  "purpose": "carry calibrated paired directional complete-lattice inference through fixed-set all-refit robustness to semantically frozen untouched external validation",
+  "pre_outcome_freeze": {
+    "manifest_type": "odsp_pre_external_outcome_paired_lattice_freeze_v1",
+    "external_dataset_id_frozen": true,
+    "external_row_roster_frozen": true,
+    "upstream_model_set_id_frozen": true,
+    "refit_ids_frozen": true,
+    "validation_design_frozen": true,
+    "score_semantics_frozen": true,
+    "base_information_frozen": true,
+    "information_block_definitions_frozen": true,
+    "complete_subset_node_table_frozen": true,
+    "node_score_column_mapping_frozen": true,
+    "edge_family_size_frozen": true,
+    "inferential_settings_frozen": true,
+    "caller_supplied_freeze_timestamp_allowed": false,
+    "manifest_overwrite_allowed": false,
+    "roster_outcome_columns_allowed": false
+  },
+  "lattice_scope": {
+    "complete_subset_table_required": true,
+    "supported_information_block_counts": [2, 3],
+    "qualified_edge_family_sizes": [4, 12],
+    "four_or_more_information_blocks_supported": false,
+    "best_path_can_override_failed_edge": false,
+    "shapley_can_override_failed_edge": false
+  },
+  "validation_design": {
+    "kind": "paired_shared_blocks",
+    "validation_group_independence_assumed": false,
+    "exact_positive_mass_shared_block_support_required": true,
+    "shared_block_exchangeability_assumed": true,
+    "missing_shared_blocks_imputed": false,
+    "post_outcome_common_block_subset_allowed": false
+  },
+  "refit_axis": {
+    "fixed_supplied_set": true,
+    "composition_rule": "intersection_union_all_components_must_reject",
+    "all_supplied_refits_must_pass_the_same_edge": true,
+    "different_successful_paths_across_refits_can_be_combined": false,
+    "additional_refit_axis_multiplicity_correction_applied": false,
+    "refit_independence_assumed": false,
+    "refit_sampling_distribution_assumed": false,
+    "refit_population_generalization_claimed": false,
+    "reference_or_average_refit_can_override_failure": false
+  },
+  "external_validation": {
+    "dataset_role": "untouched_external_validation",
+    "external_rows_may_be_used_for_upstream_fit_or_refit_generation": false,
+    "external_rows_may_be_used_for_model_or_information_structure_selection": false,
+    "external_outcomes_may_be_used_for_development_decisions": false,
+    "freeze_manifest_hash_verified": true,
+    "freeze_manifest_semantics_verified": true,
+    "historical_non_access_independently_proven_by_odsp": false,
+    "development_data_disjointness_independently_proven_by_odsp": false
+  },
+  "inference": {
+    "alternative": "greater",
+    "within_refit_method": "paired_one_sided_replicate_studentized_bootstrap_t",
+    "within_refit_family": "all_validation_groups_x_all_lattice_edges",
+    "global_path_recomputed_from_all_refit_edge_intersection": true,
+    "nonpositive_or_unavailable_edge_can_be_skipped": false
+  },
+  "calibration_inheritance": {
+    "paired_directional_4_edge_null_panel_qualified": true,
+    "paired_directional_12_edge_null_panel_qualified": true,
+    "new_refit_population_calibration_claimed": false
+  },
+  "empirical_boundary": {
+    "historical_empirical_endpoint_rerun": false,
+    "historical_terminal_category_reclassified": false
+  }
+}
