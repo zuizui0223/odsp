@@ -215,7 +215,11 @@ def test_shared_block_support_mismatch_hard_stops_external_endpoint(tmp_path: Pa
 
 def test_paired_freeze_manifest_cannot_be_used_by_independent_external_v2(tmp_path: Path):
     _, _, contract = _setup(tmp_path)
-    with pytest.raises(ValueError, match="schema_version must be 1"):
+    # The independent endpoint must fail closed on the paired-only manifest
+    # surface. It currently rejects the extra validation_design field before it
+    # reaches the schema-version check; either way, no paired manifest is
+    # accepted by the independent route.
+    with pytest.raises(ValueError, match="unknown fields: validation_design"):
         run_untouched_external_refit_positive_contract_v2(contract)
 
 
