@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-untouched-external-refit-positive-validation-v1",
+  "date": "2026-09-16",
+  "purpose": "make untouched external validation the terminal confirmatory route for one-sided positive information transfer under explicit upstream-refit sensitivity",
+  "required_dataset_role": "untouched_external_validation",
+  "pre_outcome_freeze": {
+    "concrete_manifest_file_required": true,
+    "manifest_sha256_verified_at_runtime": true,
+    "freeze_timestamp_must_precede_declared_first_external_outcome_access": true,
+    "models_frozen": true,
+    "refit_ensemble_frozen": true,
+    "information_filtration_frozen": true,
+    "score_rule_frozen": true,
+    "gain_tolerance_frozen": true,
+    "alternative_frozen": "greater"
+  },
+  "external_data_no_use_requirements": {
+    "development_data_disjoint": true,
+    "external_rows_used_for_upstream_fit": false,
+    "external_rows_used_for_refit_generation": false,
+    "external_rows_used_for_model_selection": false,
+    "external_rows_used_for_filtration_selection": false,
+    "external_outcomes_used_for_threshold_selection": false,
+    "external_outcomes_used_for_score_rule_selection": false,
+    "external_outcomes_used_for_any_development_decision": false
+  },
+  "alignment_requirements": {
+    "same_external_row_ids_across_refits": true,
+    "same_group_block_weight_metadata_for_row_across_refits": true,
+    "same_scored_external_rows_across_information_levels": true,
+    "duplicate_refit_row_pairs_forbidden": true
+  },
+  "inference": {
+    "within_refit": "one-sided familywise replicate-studentized cluster bootstrap-t",
+    "across_refits": "all-refit empirical sensitivity intersection",
+    "non_skippable_transfer_ceiling": true,
+    "reference_refit_can_override_consensus_failure": false,
+    "refit_population_confidence_claimed": false
+  },
+  "receipt_requirements": {
+    "contract_sha256": true,
+    "data_sha256": true,
+    "freeze_manifest_sha256": true,
+    "normalized_external_validation_declarations": true,
+    "refit_sensitive_directional_result": true
+  },
+  "epistemic_boundary": {
+    "odsp_can_verify_hashes_timestamps_and_contract_consistency": true,
+    "odsp_can_independently_prove_historical_no_prior_outcome_access": false,
+    "odsp_can_independently_prove_development_data_disjointness": false,
+    "provenance_declarations_are_user_supplied": true
+  },
+  "historical_boundary": {
+    "frozen_empirical_endpoint_rerun": false,
+    "historical_terminal_category_reclassified": false
+  }
+}
