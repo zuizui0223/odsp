@@ -1,0 +1,37 @@
+name: all-refit-paired-positive-lattice
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/refit_positive_lattice_robustness.py'
+      - 'odsp/refit_information_lattice.py'
+      - 'odsp/shared_block_positive_information.py'
+      - 'odsp/shared_block_positive_certification.py'
+      - 'tests/test_refit_positive_lattice_robustness.py'
+      - 'tests/test_all_refit_paired_positive_lattice_contract.py'
+      - 'ODSP_ALL_REFIT_PAIRED_POSITIVE_LATTICE_CONTRACT.json'
+      - '.github/workflows/all-refit-paired-positive-lattice.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core package without prediction extra
+        run: python -m pip install -e '.[dev]'
+      - name: Run all-refit paired lattice tests
+        run: >-
+          python -m pytest -q
+          tests/test_refit_positive_lattice_robustness.py
+          tests/test_all_refit_paired_positive_lattice_contract.py
+      - name: Import all-refit paired lattice API
+        run: >-
+          python -c "from odsp.refit_positive_lattice_robustness import certify_all_refit_shared_block_positive_information_lattice_v2; assert callable(certify_all_refit_shared_block_positive_information_lattice_v2)"
