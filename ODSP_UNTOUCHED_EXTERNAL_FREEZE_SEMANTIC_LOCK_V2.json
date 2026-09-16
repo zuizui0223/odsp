@@ -1,0 +1,70 @@
+{
+  "schema_version": 2,
+  "contract_id": "odsp-untouched-external-freeze-semantic-lock-v2",
+  "date": "2026-09-16",
+  "purpose": "ensure the hashed pre-outcome freeze artifact describes the exact untouched-external analysis actually executed",
+  "canonical_cli": "odsp transfer-refits-external",
+  "manifest": {
+    "schema_version": 1,
+    "manifest_type": "odsp_pre_external_outcome_freeze_v1",
+    "required_semantic_fields": [
+      "frozen_at_utc",
+      "upstream_model_set_id",
+      "external_dataset_id",
+      "external_row_ids_sha256",
+      "refit_ids",
+      "reference_refit_id",
+      "score",
+      "levels",
+      "certification"
+    ]
+  },
+  "runtime_exact_match_requirements": {
+    "freeze_timestamp": true,
+    "external_row_roster_sha256": true,
+    "refit_ids": true,
+    "reference_refit_id": true,
+    "score_semantics": true,
+    "information_level_names_and_sets": true,
+    "alternative": true,
+    "familywise_lower_confidence_level": true,
+    "bootstrap_draws": true,
+    "seed": true,
+    "minimum_refits": true,
+    "minimum_blocks_per_group": true,
+    "gain_tolerance": true
+  },
+  "external_dataset_lock": {
+    "external_dataset_id_required": true,
+    "external_row_roster_hash_required": true,
+    "row_roster_hash_definition": "SHA256 of sorted unique external row IDs joined by newline with a trailing newline",
+    "outcomes_included_in_pre_outcome_hash": false
+  },
+  "fail_closed": {
+    "valid_hash_but_wrong_manifest_semantics": true,
+    "refit_set_mismatch": true,
+    "row_roster_mismatch": true,
+    "filtration_mismatch": true,
+    "score_mismatch": true,
+    "inferential_setting_mismatch": true,
+    "manifest_internal_freeze_time_mismatch": true
+  },
+  "receipt": {
+    "receipt_type": "odsp_untouched_external_refit_positive_validation_endpoint_v2",
+    "freeze_manifest_semantics_verified": true,
+    "external_row_roster_locked_before_outcome_access": true,
+    "runtime_analysis_matches_frozen_manifest": true,
+    "upstream_model_set_id_recorded": true,
+    "external_dataset_id_recorded": true
+  },
+  "epistemic_boundary": {
+    "hash_and_semantic_consistency_machine_verified": true,
+    "historical_no_prior_outcome_access_independently_proven": false,
+    "development_data_disjointness_independently_proven": false,
+    "external_outcomes_are_not_pre_outcome_hashed": true
+  },
+  "version_boundary": {
+    "legacy_v1_hash_and_timestamp_runtime_retained_for_compatibility": true,
+    "canonical_external_cli_uses_v2_semantic_lock": true
+  }
+}
