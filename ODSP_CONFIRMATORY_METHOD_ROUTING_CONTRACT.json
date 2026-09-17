@@ -24,6 +24,11 @@
       "fail_closed": true
     }
   },
+  "surface_registry": {
+    "surface_name_alone_establishes_primary_claim": false,
+    "full_routing_context_required_for_primary_claim": true,
+    "surface_role_is_only_a_candidate_method_family": true
+  },
   "directional_primary_scope": {
     "independent_filtration_contrast_counts": [2, 4],
     "paired_filtration_contrast_counts": [2],
