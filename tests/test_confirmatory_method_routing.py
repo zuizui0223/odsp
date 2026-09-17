@@ -204,6 +204,15 @@ def test_independent_two_sided_complete_lattice_routes_to_v2():
     assert route.canonical_surface == "odsp.information_lattice_v2.certify_information_lattice_v2"
 
 
+def test_surface_name_alone_cannot_establish_primary_claim_eligibility():
+    classification = classify_existing_surface(
+        "odsp.information_transfer_positive_v2.certify_positive_information_transfer_v2"
+    )
+    assert classification.role == "primary_confirmatory"
+    assert classification.primary_for_claim is False
+    assert "full routing context" in classification.reason
+
+
 def test_legacy_fixed_scale_v1_surface_is_sensitivity_only():
     classification = classify_existing_surface(
         "odsp.simultaneous_group_certification.audit_simultaneous_group_certification"
