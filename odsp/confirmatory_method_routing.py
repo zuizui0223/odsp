@@ -376,8 +376,8 @@ def classify_existing_surface(surface: str) -> SurfaceClassification:
         return SurfaceClassification(
             surface=value,
             role="primary_confirmatory",
-            primary_for_claim=True,
-            reason="Canonical directional positive-transfer surface; primary status still depends on satisfying its declared design, calibration and provenance boundaries.",
+            primary_for_claim=False,
+            reason="Canonical directional positive-transfer method family; the surface name alone cannot establish primary claim eligibility. Full routing context must satisfy its declared design, family-size calibration and provenance boundaries.",
         )
     if value in _BIDIRECTIONAL_SURFACES:
         return SurfaceClassification(
