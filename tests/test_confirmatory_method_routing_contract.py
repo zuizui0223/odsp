@@ -47,6 +47,12 @@ def test_machine_contract_marks_legacy_and_refit_mixture_as_sensitivity_only():
     ] == "primary_confirmatory"
 
 
+def test_machine_contract_requires_full_routing_context_for_primary_claim():
+    payload = json.loads(CONTRACT.read_text(encoding="utf-8"))
+    assert payload["surface_registry"]["surface_name_alone_establishes_primary_claim"] is False
+    assert payload["surface_registry"]["full_routing_context_required_for_primary_claim"] is True
+
+
 def test_method_route_cli_emits_machine_readable_decision(tmp_path: Path, capsys):
     request = tmp_path / "request.json"
     request.write_text(
