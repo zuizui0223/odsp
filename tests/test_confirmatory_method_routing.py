@@ -190,7 +190,36 @@ def test_two_sided_v2_is_retained_for_bidirectional_not_primary_positive_claims(
     )
 
 
-def test_independent_two_sided_complete_lattice_routes_to_v2():
+def test_two_sided_independent_filtration_rejects_unqualified_family_size():
+    route = route_confirmatory_method(
+        alternative="two_sided",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="none",
+        external_validation="none",
+        contrast_count=3,
+    )
+    assert route.role == "unqualified"
+    assert route.canonical_surface is None
+    assert "2 or 4" in route.reason
+
+
+def test_independent_two_sided_two_block_complete_lattice_routes_to_v2():
+    route = route_confirmatory_method(
+        alternative="two_sided",
+        validation_design="independent_groups",
+        information_structure="complete_lattice",
+        upstream_refits="none",
+        external_validation="none",
+        information_block_count=2,
+    )
+    assert route.role == "bidirectional_confirmatory"
+    assert route.primary_for_claim is False
+    assert route.edge_count == 4
+    assert route.canonical_surface == "odsp.information_lattice_v2.certify_information_lattice_v2"
+
+
+def test_independent_two_sided_three_block_lattice_is_unqualified_without_12_edge_calibration():
     route = route_confirmatory_method(
         alternative="two_sided",
         validation_design="independent_groups",
@@ -199,9 +228,55 @@ def test_independent_two_sided_complete_lattice_routes_to_v2():
         external_validation="none",
         information_block_count=3,
     )
-    assert route.role == "bidirectional_confirmatory"
-    assert route.primary_for_claim is False
-    assert route.canonical_surface == "odsp.information_lattice_v2.certify_information_lattice_v2"
+    assert route.role == "unqualified"
+    assert route.edge_count == 12
+    assert route.canonical_surface is None
+    assert "4-edge" in route.reason
+
+
+def test_two_sided_fixed_set_independent_internal_route_remains_sensitivity_only():
+    route = route_confirmatory_method(
+        alternative="two_sided",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="fixed_set",
+        external_validation="none",
+        contrast_count=2,
+    )
+    assert route.role == "sensitivity_only"
+    assert route.canonical_surface == (
+        "odsp.refit_information_transfer.certify_refit_information_transfer"
+    )
+
+
+def test_two_sided_fixed_set_external_route_is_unqualified_without_external_endpoint():
+    route = route_confirmatory_method(
+        alternative="two_sided",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="fixed_set",
+        external_validation="untouched_frozen",
+        contrast_count=2,
+    )
+    assert route.role == "unqualified"
+    assert route.canonical_surface is None
+    assert route.requires_preoutcome_freeze is True
+    assert "external" in route.reason
+
+
+def test_two_sided_paired_fixed_set_route_is_unqualified_without_high_level_wrapper():
+    route = route_confirmatory_method(
+        alternative="two_sided",
+        validation_design="paired_shared_blocks",
+        information_structure="filtration",
+        upstream_refits="fixed_set",
+        external_validation="none",
+        contrast_count=2,
+    )
+    assert route.role == "unqualified"
+    assert route.canonical_surface is None
+    assert route.requires_exact_shared_block_support is True
+    assert "paired" in route.reason
 
 
 def test_surface_name_alone_cannot_establish_primary_claim_eligibility():
@@ -210,7 +285,7 @@ def test_surface_name_alone_cannot_establish_primary_claim_eligibility():
     )
     assert classification.role == "primary_confirmatory"
     assert classification.primary_for_claim is False
-    assert "full routing context" in classification.reason
+    assert "full routing context" in classification.reason.lower()
 
 
 def test_legacy_fixed_scale_v1_surface_is_sensitivity_only():
