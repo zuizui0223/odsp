@@ -30,6 +30,17 @@ def test_machine_contract_freezes_calibrated_directional_family_sizes():
     assert scope["four_or_more_paired_lattice_blocks_primary"] is False
 
 
+def test_machine_contract_freezes_calibrated_bidirectional_family_sizes():
+    payload = json.loads(CONTRACT.read_text(encoding="utf-8"))
+    scope = payload["bidirectional_confirmatory_scope"]
+    assert scope["independent_filtration_contrast_counts"] == [2, 4]
+    assert scope["independent_lattice_information_block_counts"] == [2]
+    assert scope["independent_lattice_edge_counts"] == [4]
+    assert scope["twelve_edge_independent_lattice_qualified"] is False
+    assert scope["paired_high_level_information_route_qualified"] is False
+    assert scope["untouched_external_route_qualified"] is False
+
+
 def test_machine_contract_marks_legacy_and_refit_mixture_as_sensitivity_only():
     payload = json.loads(CONTRACT.read_text(encoding="utf-8"))
     surfaces = payload["surface_roles"]
