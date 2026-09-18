@@ -102,9 +102,9 @@
     "independent_lattice_edge_counts": [
       4
     ],
-    "paired_high_level_two_sided_route_qualified": false,
-    "untouched_external_two_sided_route_qualified": false,
     "fixed_set_refit_two_sided_role": "sensitivity_only_internal_independent_design_only",
-    "twelve_edge_independent_lattice_qualified": false
+    "twelve_edge_independent_lattice_qualified": false,
+    "paired_high_level_information_route_qualified": false,
+    "untouched_external_route_qualified": false
   }
 }
