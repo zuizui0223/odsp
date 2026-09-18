@@ -138,6 +138,45 @@ def route_confirmatory_method(
         edge_count = blocks * 2 ** (blocks - 1)
 
     if alternative == "two_sided":
+        # No semantically frozen untouched-external two-sided endpoint is qualified.
+        # This hard stop must precede the historical refit sensitivity branch.
+        if external_validation != "none":
+            return _route(
+                "unqualified",
+                "No canonical two-sided semantically frozen untouched-external endpoint is qualified; external confirmatory routes are currently predeclared directional one-sided routes.",
+                requires_preoutcome_freeze=True,
+                requires_exact_shared_block_support=validation_design == "paired_shared_blocks",
+                edge_count=None if information_structure == "filtration" else edge_count,
+            )
+
+        # High-level paired two-sided information/refit wrappers are not qualified
+        # as prospective endpoints. Do not infer them from lower-level gain cores.
+        if validation_design != "independent_groups":
+            return _route(
+                "unqualified",
+                "No canonical high-level paired two-sided information endpoint is qualified for prospective routing; do not promote a lower-level shared-block gain core or historical refit wrapper by implication.",
+                requires_exact_shared_block_support=True,
+                edge_count=None if information_structure == "filtration" else edge_count,
+            )
+
+        # The prospective independent-group v2 operating-characteristic panel
+        # qualifies only 2- and 4-contrast simultaneous families.
+        if information_structure == "filtration" and contrasts not in {2, 4}:
+            return _route(
+                "unqualified",
+                "The prospectively qualified independent two-sided v2 null panel covers 2 or 4 simultaneous contrasts; other family sizes are not promoted to bidirectional confirmatory status.",
+            )
+
+        # A complete two-block lattice has four directed edges. The independent
+        # two-sided prospective panel does not qualify the 12-edge three-block
+        # lattice or larger families.
+        if information_structure == "complete_lattice" and edge_count != 4:
+            return _route(
+                "unqualified",
+                "Independent two-sided complete-lattice routing is prospectively qualified only for the 4-edge two-block family; no 12-edge or larger lattice calibration is frozen for this route.",
+                edge_count=edge_count,
+            )
+
         if upstream_refits == "fixed_set":
             return _route(
                 "sensitivity_only",
@@ -147,31 +186,18 @@ def route_confirmatory_method(
                     if information_structure == "filtration"
                     else "odsp.refit_information_lattice.certify_refit_information_lattice"
                 ),
-                requires_exact_shared_block_support=validation_design == "paired_shared_blocks",
                 edge_count=None if information_structure == "filtration" else edge_count,
             )
-        if external_validation != "none":
-            return _route(
-                "unqualified",
-                "No canonical two-sided semantically frozen untouched-external endpoint is qualified; the external primary routes are predeclared directional one-sided routes.",
-                requires_preoutcome_freeze=True,
-            )
-        if validation_design != "independent_groups":
-            return _route(
-                "unqualified",
-                "A high-level paired two-sided information wrapper is not the canonical confirmatory routing surface; do not promote a lower-level gain core into a new endpoint by implication.",
-                requires_exact_shared_block_support=True,
-                edge_count=None if information_structure == "filtration" else edge_count,
-            )
+
         if information_structure == "filtration":
             return _route(
                 "bidirectional_confirmatory",
-                "Genuine replicate-studentized two-sided v2 is retained when increases and decreases are both part of the predeclared scientific question; it is not the primary route for a positive-only claim.",
+                "Genuine replicate-studentized two-sided v2 is retained for predeclared bidirectional independent-group questions inside the prospectively calibrated 2/4-contrast family-size scope; it is not the primary route for a positive-only claim.",
                 canonical_surface="odsp.information_transfer_v2.certify_information_transfer_v2",
             )
         return _route(
             "bidirectional_confirmatory",
-            "Genuine replicate-studentized two-sided v2 complete-lattice inference is retained for predeclared bidirectional independent-group questions.",
+            "Genuine replicate-studentized two-sided v2 complete-lattice inference is retained only for the prospectively calibrated independent 4-edge two-block family.",
             canonical_surface="odsp.information_lattice_v2.certify_information_lattice_v2",
             edge_count=edge_count,
         )
