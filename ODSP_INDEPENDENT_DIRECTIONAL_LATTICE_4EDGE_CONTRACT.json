@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-independent-directional-lattice-4edge-v1",
+  "date": "2026-09-19",
+  "purpose": "qualify a two-block complete independent-group information lattice for predeclared positive-transfer claims by mapping its four directed edges onto the already prospectively qualified four-contrast one-sided bootstrap-t family",
+  "alternative": "greater",
+  "qualified_information_block_counts": [
+    2
+  ],
+  "qualified_edge_counts": [
+    4
+  ],
+  "three_block_twelve_edge_lattice_qualified": false,
+  "validation_groups_independent": true,
+  "upstream_refit_uncertainty_included": false,
+  "untouched_external_validation_included": false,
+  "inference_surface": "odsp.information_lattice_positive_v2.certify_positive_information_lattice_v2",
+  "qualification_inheritance": {
+    "new_null_simulation_claim": false,
+    "source_contract": "ODSP_ONE_SIDED_POSITIVE_BOOTSTRAP_T_CONTRACT.json",
+    "source_receipt": "ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json",
+    "required_contrast_count": 4,
+    "same_inference_core": "odsp.positive_transfer_bootstrap_t.certify_independent_group_positive_transfer_v2",
+    "rationale": "a complete two-block Boolean lattice has exactly four directed edges, all entered simultaneously as the four predeclared contrasts"
+  },
+  "governance": {
+    "total_gain_can_override_failed_edge": false,
+    "best_path_can_override_failed_edge": false,
+    "shapley_can_override_failed_edge": false,
+    "post_outcome_path_selection_allowed": false,
+    "historical_empirical_endpoint_rerun": false,
+    "historical_empirical_endpoint_reclassified": false
+  },
+  "boundaries": {
+    "arbitrary_family_size_generalization": false,
+    "three_or_more_information_blocks": false,
+    "validation_group_dependence_inferred": false,
+    "upstream_refit_population_inference": false
+  }
+}
