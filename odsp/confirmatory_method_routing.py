@@ -293,10 +293,33 @@ def route_confirmatory_method(
 
     # Directional complete lattice.
     assert information_structure == "complete_lattice"
+    if validation_design == "independent_groups":
+        if blocks != 2:
+            return _route(
+                "unqualified",
+                "The independent directional complete lattice is prospectively qualified only for 2 information blocks = 4 directed edges; 3-block / 12-edge and larger families remain unqualified.",
+                edge_count=edge_count,
+            )
+        if upstream_refits == "none" and external_validation == "none":
+            return _route(
+                "primary_confirmatory",
+                "The complete two-block independent lattice maps its four directed edges onto the already prospectively qualified four-contrast one-sided bootstrap-t family.",
+                canonical_surface=(
+                    "odsp.information_lattice_positive_v2."
+                    "certify_positive_information_lattice_v2"
+                ),
+                edge_count=edge_count,
+            )
+        return _route(
+            "unqualified",
+            "No fixed-set all-refit or semantically frozen untouched-external independent directional lattice endpoint is qualified yet; do not promote the fixed-score four-edge wrapper beyond its current scope.",
+            requires_preoutcome_freeze=external_validation != "none",
+            edge_count=edge_count,
+        )
     if validation_design != "paired_shared_blocks":
         return _route(
             "unqualified",
-            "ODSP has not qualified a canonical independent-group one-sided complete-lattice wrapper; do not infer one from lower-level contrast routines.",
+            "Unknown directional lattice validation design.",
             edge_count=edge_count,
         )
     if blocks not in {2, 3}:
@@ -356,6 +379,7 @@ def route_confirmatory_method(
 _PRIMARY_SURFACES = {
     "odsp.information_transfer_positive_v2.certify_positive_information_transfer_v2",
     "odsp.shared_block_positive_information.certify_shared_block_positive_information_transfer_v2",
+    "odsp.information_lattice_positive_v2.certify_positive_information_lattice_v2",
     "odsp.shared_block_positive_information.certify_shared_block_positive_information_lattice_v2",
     "odsp.refit_positive_robustness.certify_all_refit_positive_information_transfer_v2",
     "odsp.refit_positive_robustness.certify_all_refit_shared_block_positive_information_transfer_v2",
