@@ -310,9 +310,19 @@ def route_confirmatory_method(
                 ),
                 edge_count=edge_count,
             )
+        if upstream_refits == "fixed_set" and external_validation == "none":
+            return _route(
+                "primary_confirmatory",
+                "Each supplied refit is certified with the qualified independent four-edge lattice, and global paths are reconstructed only from edges robust in every supplied refit.",
+                canonical_surface=(
+                    "odsp.refit_positive_independent_lattice_robustness."
+                    "certify_all_refit_independent_positive_information_lattice_v2"
+                ),
+                edge_count=edge_count,
+            )
         return _route(
             "unqualified",
-            "No fixed-set all-refit or semantically frozen untouched-external independent directional lattice endpoint is qualified yet; do not promote the fixed-score four-edge wrapper beyond its current scope.",
+            "No semantically frozen untouched-external independent directional lattice endpoint is qualified yet; the fixed-score and fixed-set internal four-edge routes must not be promoted beyond their current scope.",
             requires_preoutcome_freeze=external_validation != "none",
             edge_count=edge_count,
         )
@@ -380,6 +390,7 @@ _PRIMARY_SURFACES = {
     "odsp.information_transfer_positive_v2.certify_positive_information_transfer_v2",
     "odsp.shared_block_positive_information.certify_shared_block_positive_information_transfer_v2",
     "odsp.information_lattice_positive_v2.certify_positive_information_lattice_v2",
+    "odsp.refit_positive_independent_lattice_robustness.certify_all_refit_independent_positive_information_lattice_v2",
     "odsp.shared_block_positive_information.certify_shared_block_positive_information_lattice_v2",
     "odsp.refit_positive_robustness.certify_all_refit_positive_information_transfer_v2",
     "odsp.refit_positive_robustness.certify_all_refit_shared_block_positive_information_transfer_v2",
