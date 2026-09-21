@@ -145,6 +145,20 @@ def test_primary_routes_emit_exact_frozen_qualification_evidence():
         "ODSP_ALL_REFIT_INDEPENDENT_DIRECTIONAL_LATTICE_4EDGE_CONTRACT.json",
     )
 
+    independent_external = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="fixed_set",
+        external_validation="untouched_frozen",
+        contrast_count=2,
+    )
+    assert independent_external.qualification_evidence == (
+        "ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json",
+        "ODSP_REFIT_ONE_SIDED_POSITIVE_TRANSFER_CONTRACT.json",
+        "ODSP_UNTOUCHED_EXTERNAL_FREEZE_SEMANTIC_LOCK_V2.json",
+    )
+
     paired_external_lattice = route_confirmatory_method(
         alternative="greater",
         validation_design="paired_shared_blocks",
