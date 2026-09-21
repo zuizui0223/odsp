@@ -10,6 +10,7 @@ from .external_freeze_manifest import (
     _file_sha256,
     load_external_freeze_plan,
 )
+from .frozen_confirmatory_route import build_frozen_confirmatory_route
 from .information_transfer_contract import _read_rows, _text, _value
 from .untouched_external_refit_positive_contract_v2 import _row_roster_sha256
 from .untouched_external_refit_shared_block_positive_contract_v3 import (
@@ -55,6 +56,11 @@ def create_paired_external_freeze_manifest(
     if len(set(row_ids)) != len(row_ids):
         raise ValueError("pre-outcome roster row IDs must be unique")
 
+    confirmatory_route = build_frozen_confirmatory_route(
+        validation_design="paired_shared_blocks",
+        information_structure="filtration",
+        contrast_count=len(plan["levels"]) - 1,
+    )
     frozen_at_utc = (
         datetime.now(timezone.utc)
         .replace(microsecond=0)
@@ -69,6 +75,7 @@ def create_paired_external_freeze_manifest(
         "external_dataset_id": plan["external_dataset_id"],
         "external_row_ids_sha256": _row_roster_sha256(row_ids),
         "validation_design": dict(_VALIDATION_DESIGN),
+        "confirmatory_route": confirmatory_route,
         "refit_ids": plan["refit_ids"],
         "reference_refit_id": plan["reference_refit_id"],
         "score": plan["score"],
@@ -99,6 +106,7 @@ def create_paired_external_freeze_manifest(
         "upstream_model_set_id": plan["upstream_model_set_id"],
         "external_dataset_id": plan["external_dataset_id"],
         "validation_design": dict(_VALIDATION_DESIGN),
+        "confirmatory_route": confirmatory_route,
         "refit_count": len(plan["refit_ids"]),
         "reference_refit_id": plan["reference_refit_id"],
         "boundaries": {
