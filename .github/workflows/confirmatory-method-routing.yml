@@ -6,11 +6,16 @@ on:
       - 'method/confirmatory-method-routing'
   pull_request:
     paths:
-      - 'odsp/confirmatory_method_routing.py'\n      - 'odsp/confirmatory_calibration_evidence.py'
+      - 'odsp/confirmatory_method_routing.py'
+      - 'odsp/confirmatory_calibration_evidence.py'
       - 'odsp/cli.py'
-      - 'ODSP_CONFIRMATORY_METHOD_ROUTING_CONTRACT.json'\n      - 'ODSP_CONFIRMATORY_CALIBRATION_EVIDENCE_REGISTRY.json'\n      - '*CALIBRATION_RECEIPT.json'\n      - '*OPERATING_CHARACTERISTICS_RECEIPT.json'
+      - 'ODSP_CONFIRMATORY_METHOD_ROUTING_CONTRACT.json'
+      - 'ODSP_CONFIRMATORY_CALIBRATION_EVIDENCE_REGISTRY.json'
+      - '*CALIBRATION_RECEIPT.json'
+      - '*OPERATING_CHARACTERISTICS_RECEIPT.json'
       - 'tests/test_confirmatory_method_routing.py'
-      - 'tests/test_confirmatory_method_routing_contract.py'\n      - 'tests/test_confirmatory_calibration_evidence.py'
+      - 'tests/test_confirmatory_method_routing_contract.py'
+      - 'tests/test_confirmatory_calibration_evidence.py'
       - '.github/workflows/confirmatory-method-routing.yml'
   workflow_dispatch:
 
@@ -31,4 +36,5 @@ jobs:
         run: >-
           python -m pytest -q
           tests/test_confirmatory_method_routing.py
-          tests/test_confirmatory_method_routing_contract.py\n          tests/test_confirmatory_calibration_evidence.py
+          tests/test_confirmatory_method_routing_contract.py
+          tests/test_confirmatory_calibration_evidence.py
