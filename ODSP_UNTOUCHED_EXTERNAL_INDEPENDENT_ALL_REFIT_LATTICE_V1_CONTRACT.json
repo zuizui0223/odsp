@@ -56,7 +56,7 @@
     "source_one_sided_contract": "ODSP_ONE_SIDED_POSITIVE_BOOTSTRAP_T_CONTRACT.json",
     "source_one_sided_receipt": "ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json",
     "required_simultaneous_contrast_count": 4,
-    "fixed_set_all_refit_contract": "ODSP_ALL_REFIT_DIRECTIONAL_ROBUSTNESS_CONTRACT.json"
+    "fixed_set_all_refit_contract": "ODSP_ALL_REFIT_INDEPENDENT_DIRECTIONAL_LATTICE_4EDGE_CONTRACT.json"
   },
   "refit_boundary": {
     "fixed_supplied_refit_set": true,
