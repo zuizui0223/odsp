@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 from odsp.cli import main
+from odsp.frozen_confirmatory_route import build_frozen_confirmatory_route
 from odsp.untouched_external_refit_positive_contract_v2 import (
     run_untouched_external_refit_positive_contract_v2,
     verify_freeze_manifest_semantic_lock,
@@ -59,6 +60,11 @@ def _manifest(rows: list[dict[str, object]]) -> dict[str, object]:
         "upstream_model_set_id": "models-v17",
         "external_dataset_id": "external-cohort-A",
         "external_row_ids_sha256": _roster_sha(rows),
+        "confirmatory_route": build_frozen_confirmatory_route(
+            validation_design="independent_groups",
+            information_structure="filtration",
+            contrast_count=2,
+        ),
         "refit_ids": [f"r{index:02d}" for index in range(8)],
         "reference_refit_id": "r00",
         "score": {
@@ -171,6 +177,7 @@ def test_semantic_lock_verifies_exact_runtime_analysis(tmp_path: Path):
     assert lock["upstream_model_set_id"] == "models-v17"
     assert lock["external_dataset_id"] == "external-cohort-A"
     assert lock["refit_ids"] == [f"r{index:02d}" for index in range(8)]
+    assert lock["confirmatory_route"]["role"] == "primary_confirmatory"
 
     receipt = run_untouched_external_refit_positive_contract_v2(contract_path)
     assert receipt["receipt_type"] == "odsp_untouched_external_refit_positive_validation_endpoint_v2"
@@ -238,3 +245,14 @@ def test_cli_uses_semantic_lock_not_legacy_hash_only_route(tmp_path: Path, capsy
     code = main(["transfer-refits-external", "--contract", str(contract_path)])
     assert code == 2
     assert "semantic mismatch for certification" in capsys.readouterr().err
+
+
+def test_frozen_confirmatory_route_must_match_runtime(tmp_path: Path):
+    _, _, manifest, manifest_path, contract, contract_path = _setup(tmp_path)
+    manifest["confirmatory_route"]["canonical_surface"] = (
+        "odsp.untouched_external_refit_shared_block_positive_contract_v3."
+        "run_untouched_external_refit_shared_block_positive_contract_v3"
+    )
+    _rewrite_manifest(manifest_path, manifest, contract_path, contract)
+    with pytest.raises(ValueError, match="confirmatory_route"):
+        verify_freeze_manifest_semantic_lock(contract_path)
