@@ -17,7 +17,7 @@
     ],
     "odsp.untouched_external_refit_positive_contract_v2.run_untouched_external_refit_positive_contract_v2": [
       "ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json",
-      "ODSP_ALL_REFIT_DIRECTIONAL_ROBUSTNESS_CONTRACT.json",
+      "ODSP_REFIT_ONE_SIDED_POSITIVE_TRANSFER_CONTRACT.json",
       "ODSP_UNTOUCHED_EXTERNAL_FREEZE_SEMANTIC_LOCK_V2.json"
     ],
     "odsp.shared_block_positive_information.certify_shared_block_positive_information_transfer_v2": [
