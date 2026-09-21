@@ -18,6 +18,7 @@ def test_machine_contract_freezes_independent_external_four_edge_scope():
     assert payload["validation_design"]["independent_groups"] is True
     assert payload["external_validation"]["row_design_metadata_frozen"] is True
     assert payload["refit_boundary"]["refit_population_generalization_claimed"] is False
+    assert payload["qualification_inheritance"]["fixed_set_all_refit_contract"] == "ODSP_ALL_REFIT_INDEPENDENT_DIRECTIONAL_LATTICE_4EDGE_CONTRACT.json"
 
 
 def test_router_promotes_only_frozen_fixed_set_independent_external_lattice():
