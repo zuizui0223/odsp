@@ -1,0 +1,33 @@
+name: independent-refit-untouched-external-lattice
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/external_independent_lattice_freeze_manifest.py'
+      - 'odsp/untouched_external_refit_independent_positive_lattice_contract_v1.py'
+      - 'odsp/confirmatory_method_routing.py'
+      - 'odsp/cli.py'
+      - 'tests/test_untouched_external_independent_all_refit_lattice_v1.py'
+      - 'tests/test_untouched_external_independent_all_refit_lattice_contract.py'
+      - 'ODSP_UNTOUCHED_EXTERNAL_INDEPENDENT_ALL_REFIT_LATTICE_V1_CONTRACT.json'
+      - '.github/workflows/independent-refit-untouched-external-lattice.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Run independent external lattice tests
+        run: >-
+          python -m pytest -q
+          tests/test_untouched_external_independent_all_refit_lattice_v1.py
+          tests/test_untouched_external_independent_all_refit_lattice_contract.py
