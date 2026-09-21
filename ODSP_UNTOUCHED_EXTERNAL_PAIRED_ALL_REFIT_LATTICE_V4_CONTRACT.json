@@ -8,7 +8,12 @@
     "external_dataset_id_frozen": true,
     "external_row_roster_frozen": true,
     "paired_row_metadata_frozen": true,
-    "pairing_metadata_fields": ["row_id", "group", "block", "weight"],
+    "pairing_metadata_fields": [
+      "row_id",
+      "group",
+      "block",
+      "weight"
+    ],
     "pairing_metadata_digest": "sha256_of_canonical_row_id_sorted_json",
     "post_outcome_row_to_group_reassignment_allowed": false,
     "post_outcome_row_to_block_reassignment_allowed": false,
@@ -25,12 +30,20 @@
     "inferential_settings_frozen": true,
     "caller_supplied_freeze_timestamp_allowed": false,
     "manifest_overwrite_allowed": false,
-    "roster_outcome_columns_allowed": false
+    "roster_outcome_columns_allowed": false,
+    "confirmatory_route_frozen": true,
+    "confirmatory_route_source": "odsp-confirmatory-method-routing-v1"
   },
   "lattice_scope": {
     "complete_subset_table_required": true,
-    "supported_information_block_counts": [2, 3],
-    "qualified_edge_family_sizes": [4, 12],
+    "supported_information_block_counts": [
+      2,
+      3
+    ],
+    "qualified_edge_family_sizes": [
+      4,
+      12
+    ],
     "four_or_more_information_blocks_supported": false,
     "best_path_can_override_failed_edge": false,
     "shapley_can_override_failed_edge": false
@@ -64,7 +77,9 @@
     "runtime_provenance_ids_must_match_frozen_manifest": true,
     "runtime_pairing_metadata_must_match_frozen_manifest": true,
     "historical_non_access_independently_proven_by_odsp": false,
-    "development_data_disjointness_independently_proven_by_odsp": false
+    "development_data_disjointness_independently_proven_by_odsp": false,
+    "runtime_confirmatory_route_must_match_frozen_manifest": true,
+    "route_family_tamper_with_updated_manifest_hash_allowed": false
   },
   "inference": {
     "alternative": "greater",
