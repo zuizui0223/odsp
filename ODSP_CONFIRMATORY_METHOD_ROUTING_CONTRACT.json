@@ -54,12 +54,14 @@
     "independent_lattice_edge_counts": [
       4
     ],
-    "independent_fixed_set_lattice_primary": true
+    "independent_fixed_set_lattice_primary": true,
+    "independent_fixed_set_lattice_external_primary": true
   },
   "external_validation": {
     "unfrozen_untouched_external_primary": false,
     "pre_outcome_semantic_freeze_required": true,
-    "canonical_external_primary_routes_require_fixed_supplied_refit_set": true
+    "canonical_external_primary_routes_require_fixed_supplied_refit_set": true,
+    "independent_four_edge_lattice_external_primary": true
   },
   "refit_boundary": {
     "fixed_supplied_refit_set_may_form_intersection_robustness_claim": true,
@@ -91,7 +93,8 @@
     "odsp.sampling_weight_sensitivity.audit_sampling_weight_sensitivity": "sensitivity_only",
     "odsp.block_definition_sensitivity.audit_block_definition_sensitivity": "sensitivity_only",
     "odsp.information_lattice_positive_v2.certify_positive_information_lattice_v2": "primary_confirmatory",
-    "odsp.refit_positive_independent_lattice_robustness.certify_all_refit_independent_positive_information_lattice_v2": "primary_confirmatory"
+    "odsp.refit_positive_independent_lattice_robustness.certify_all_refit_independent_positive_information_lattice_v2": "primary_confirmatory",
+    "odsp.untouched_external_refit_independent_positive_lattice_contract_v1.run_untouched_external_independent_all_refit_lattice_contract_v1": "primary_confirmatory"
   },
   "historical_governance": {
     "reclassify_frozen_empirical_endpoints": false,
