@@ -51,7 +51,7 @@ def _plan(tmp_path: Path, roster: Path) -> Path:
         },
         "refit_ids": ["r1", "r0"],
         "score": {
-            "kind": "proper_score",
+            "kind": "log",
             "name": "log",
             "orientation": "higher_is_better",
             "common_scoring_rule": True,
