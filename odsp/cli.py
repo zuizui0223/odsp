@@ -10,6 +10,9 @@ from typing import Mapping, Sequence
 from .confirmatory_method_routing import route_confirmatory_method
 from .endpoint_contract import run_endpoint_contract
 from .external_freeze_manifest import create_external_freeze_manifest
+from .external_independent_lattice_freeze_manifest import (
+    create_independent_external_lattice_freeze_manifest,
+)
 from .external_paired_freeze_manifest import create_paired_external_freeze_manifest
 from .external_paired_lattice_freeze_manifest import (
     create_paired_external_lattice_freeze_manifest,
@@ -18,6 +21,9 @@ from .information_transfer_contract import run_information_transfer_contract
 from .refit_information_transfer_contract import run_refit_information_transfer_contract
 from .untouched_external_refit_positive_contract_v2 import (
     run_untouched_external_refit_positive_contract_v2,
+)
+from .untouched_external_refit_independent_positive_lattice_contract_v1 import (
+    run_untouched_external_independent_all_refit_lattice_contract_v1,
 )
 from .untouched_external_refit_shared_block_positive_contract_v3 import (
     run_untouched_external_refit_shared_block_positive_contract_v3,
@@ -194,6 +200,23 @@ def build_parser() -> argparse.ArgumentParser:
     )
     _add_common_contract_arguments(external_refits)
 
+    freeze_external_independent_lattice = subparsers.add_parser(
+        "freeze-refits-external-independent-lattice",
+        help=(
+            "freeze a complete two-block independent information lattice before "
+            "untouched external outcomes are accessed"
+        ),
+    )
+    _add_freeze_arguments(freeze_external_independent_lattice)
+    external_refits_independent_lattice = subparsers.add_parser(
+        "transfer-refits-external-independent-lattice",
+        help=(
+            "certify a frozen independent four-edge lattice across every supplied "
+            "refit on untouched external validation rows"
+        ),
+    )
+    _add_common_contract_arguments(external_refits_independent_lattice)
+
     freeze_external_paired = subparsers.add_parser(
         "freeze-refits-external-paired",
         help=(
@@ -245,6 +268,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             receipt = create_external_freeze_manifest(args.plan, args.manifest_out)
         elif args.command == "transfer-refits-external":
             receipt = run_untouched_external_refit_positive_contract_v2(args.contract)
+        elif args.command == "freeze-refits-external-independent-lattice":
+            receipt = create_independent_external_lattice_freeze_manifest(
+                args.plan, args.manifest_out
+            )
+        elif args.command == "transfer-refits-external-independent-lattice":
+            receipt = run_untouched_external_independent_all_refit_lattice_contract_v1(
+                args.contract
+            )
         elif args.command == "freeze-refits-external-paired":
             receipt = create_paired_external_freeze_manifest(args.plan, args.manifest_out)
         elif args.command == "transfer-refits-external-paired":
