@@ -389,6 +389,7 @@ def create_paired_external_lattice_freeze_manifest(
             "manifest_overwrite_allowed": False,
             "roster_outcome_columns_allowed": False,
             "external_outcomes_read_by_freeze_generator": False,
+            "confirmatory_route_frozen_before_outcome_access": True,
             "paired_row_metadata_frozen_before_outcome_access": True,
             "complete_lattice_node_table_frozen": True,
             "paired_shared_block_design_frozen": True,
