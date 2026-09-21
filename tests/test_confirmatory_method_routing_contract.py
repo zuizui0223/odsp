@@ -86,11 +86,26 @@ def test_method_route_cli_emits_machine_readable_decision(tmp_path: Path, capsys
     assert receipt["request"]["information_block_count"] == 3
     assert receipt["decision"]["role"] == "primary_confirmatory"
     assert receipt["decision"]["edge_count"] == 12
+    assert receipt["decision"]["qualification_evidence"] == [
+        "PAIRED_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json",
+        "ODSP_ALL_REFIT_PAIRED_POSITIVE_LATTICE_CONTRACT.json",
+        "ODSP_UNTOUCHED_EXTERNAL_PAIRED_ALL_REFIT_LATTICE_V4_CONTRACT.json",
+    ]
     assert receipt["decision"]["cli_sequence"] == [
         "odsp freeze-refits-external-paired-lattice",
         "odsp transfer-refits-external-paired-lattice",
     ]
     assert receipt["governance"]["historical_endpoint_reclassification_allowed"] is False
+
+
+def test_machine_contract_requires_registered_frozen_qualification_evidence():
+    payload = json.loads(CONTRACT.read_text(encoding="utf-8"))
+    evidence = payload["qualification_evidence"]
+    assert evidence["registry_file"] == "ODSP_CONFIRMATORY_CALIBRATION_EVIDENCE_REGISTRY.json"
+    assert evidence["confirmatory_route_requires_registered_frozen_evidence"] is True
+    assert evidence["family_scope_verified_against_frozen_receipts_in_ci"] is True
+    assert evidence["runtime_recomputes_calibration"] is False
+    assert evidence["unqualified_route_evidence_must_be_empty"] is True
 
 
 def test_method_route_cli_fails_closed_on_invalid_request(tmp_path: Path, capsys):
