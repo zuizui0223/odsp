@@ -223,3 +223,36 @@ def test_paired_lattice_generator_freezes_canonical_route(tmp_path: Path):
         information_structure="complete_lattice",
         information_block_count=2,
     )
+
+
+def test_machine_contracts_freeze_and_reverify_confirmatory_route():
+    root = Path(".")
+    generator = json.loads(
+        (root / "ODSP_PREOUTCOME_EXTERNAL_FREEZE_GENERATOR_CONTRACT_V1.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    semantic = json.loads(
+        (root / "ODSP_UNTOUCHED_EXTERNAL_FREEZE_SEMANTIC_LOCK_V2.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    paired = json.loads(
+        (root / "ODSP_PAIRED_REFIT_UNTOUCHED_EXTERNAL_V3_CONTRACT.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    lattice = json.loads(
+        (root / "ODSP_UNTOUCHED_EXTERNAL_PAIRED_ALL_REFIT_LATTICE_V4_CONTRACT.json").read_text(
+            encoding="utf-8"
+        )
+    )
+
+    assert generator["manifest"]["confirmatory_route_frozen"] is True
+    assert generator["manifest"]["unqualified_route_manifest_creation_allowed"] is False
+    assert semantic["runtime_exact_match_requirements"]["confirmatory_route"] is True
+    assert semantic["fail_closed"]["confirmatory_route_mismatch"] is True
+    assert paired["pre_outcome_freeze"]["confirmatory_route_frozen"] is True
+    assert paired["external_validation"]["runtime_confirmatory_route_must_match_frozen_manifest"] is True
+    assert lattice["pre_outcome_freeze"]["confirmatory_route_frozen"] is True
+    assert lattice["external_validation"]["runtime_confirmatory_route_must_match_frozen_manifest"] is True
