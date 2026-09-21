@@ -115,5 +115,13 @@
     "twelve_edge_independent_lattice_qualified": false,
     "paired_high_level_information_route_qualified": false,
     "untouched_external_route_qualified": false
+  },
+  "qualification_evidence": {
+    "registry_file": "ODSP_CONFIRMATORY_CALIBRATION_EVIDENCE_REGISTRY.json",
+    "confirmatory_route_requires_registered_frozen_evidence": true,
+    "family_scope_verified_against_frozen_receipts_in_ci": true,
+    "runtime_recomputes_calibration": false,
+    "unqualified_route_evidence_must_be_empty": true,
+    "evidence_does_not_reclassify_historical_endpoints": true
   }
 }
