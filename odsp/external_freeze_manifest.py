@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Mapping
 
 from .frozen_confirmatory_route import build_frozen_confirmatory_route
+from .information_transfer import InformationLevelScore, validate_information_filtration
 from .information_transfer_contract import (
     _mapping,
     _read_rows,
