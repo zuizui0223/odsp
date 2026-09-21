@@ -11,6 +11,8 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from typing import Sequence
 
+from .confirmatory_calibration_evidence import qualification_evidence_for_surface
+
 
 _ROLES = {
     "primary_confirmatory",
@@ -36,6 +38,7 @@ class MethodRoute:
     requires_exact_shared_block_support: bool
     refit_population_generalization_claimed: bool
     historical_endpoint_reclassification_allowed: bool
+    qualification_evidence: tuple[str, ...] = ()
     edge_count: int | None = None
 
     def __post_init__(self) -> None:
@@ -45,6 +48,7 @@ class MethodRoute:
     def as_dict(self) -> dict[str, object]:
         payload = asdict(self)
         payload["cli_sequence"] = list(self.cli_sequence)
+        payload["qualification_evidence"] = list(self.qualification_evidence)
         return payload
 
 
@@ -69,6 +73,17 @@ def _route(
     requires_exact_shared_block_support: bool = False,
     edge_count: int | None = None,
 ) -> MethodRoute:
+    qualification_evidence: tuple[str, ...] = ()
+    if role in {"primary_confirmatory", "bidirectional_confirmatory"}:
+        if canonical_surface is None:
+            raise ValueError("confirmatory route requires a canonical method surface")
+        qualification_evidence = qualification_evidence_for_surface(canonical_surface)
+        if not qualification_evidence:
+            raise ValueError(
+                "confirmatory route lacks registered frozen qualification evidence: "
+                + canonical_surface
+            )
+
     return MethodRoute(
         role=role,
         primary_for_claim=role == "primary_confirmatory",
@@ -79,6 +94,7 @@ def _route(
         requires_exact_shared_block_support=requires_exact_shared_block_support,
         refit_population_generalization_claimed=False,
         historical_endpoint_reclassification_allowed=False,
+        qualification_evidence=qualification_evidence,
         edge_count=edge_count,
     )
 
