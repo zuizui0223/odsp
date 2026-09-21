@@ -115,6 +115,7 @@ def create_paired_external_freeze_manifest(
             "manifest_overwrite_allowed": False,
             "roster_outcome_columns_allowed": False,
             "external_outcomes_read_by_freeze_generator": False,
+            "confirmatory_route_frozen_before_outcome_access": True,
             "paired_shared_block_design_frozen": True,
             "validation_group_independence_assumed": False,
             "exact_positive_mass_shared_block_support_required": True,
