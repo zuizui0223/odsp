@@ -252,7 +252,6 @@ def create_external_freeze_manifest(
         "frozen_at_utc": frozen_at_utc,
         "upstream_model_set_id": plan["upstream_model_set_id"],
         "external_dataset_id": plan["external_dataset_id"],
-        "confirmatory_route": confirmatory_route,
         "external_row_ids_sha256": _row_roster_sha256(row_ids),
         "confirmatory_route": confirmatory_route,
         "refit_ids": plan["refit_ids"],
@@ -284,6 +283,7 @@ def create_external_freeze_manifest(
         "external_row_count": len(row_ids),
         "upstream_model_set_id": plan["upstream_model_set_id"],
         "external_dataset_id": plan["external_dataset_id"],
+        "confirmatory_route": confirmatory_route,
         "refit_count": len(plan["refit_ids"]),
         "reference_refit_id": plan["reference_refit_id"],
         "boundaries": {
@@ -292,6 +292,7 @@ def create_external_freeze_manifest(
             "manifest_overwrite_allowed": False,
             "roster_outcome_columns_allowed": False,
             "external_outcomes_read_by_freeze_generator": False,
+            "confirmatory_route_frozen_before_outcome_access": True,
             "runtime_clock_independently_attested": False,
             "trusted_timestamp_authority_used": False,
         },
