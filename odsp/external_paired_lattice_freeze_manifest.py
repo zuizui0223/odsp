@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Mapping, Sequence
 
 from .external_freeze_manifest import _file_sha256
+from .frozen_confirmatory_route import build_frozen_confirmatory_route
 from .information_lattice import InformationBlock, _canonical_subset, _validate_blocks
 from .information_transfer_contract import (
     _mapping,
@@ -335,6 +336,11 @@ def create_paired_external_lattice_freeze_manifest(
     if not sum(record[3] for record in paired_records) > 0:
         raise ValueError("pre-outcome paired roster weights must have positive total mass")
 
+    confirmatory_route = build_frozen_confirmatory_route(
+        validation_design="paired_shared_blocks",
+        information_structure="complete_lattice",
+        information_block_count=len(plan["information_blocks"]),
+    )
     frozen_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     manifest = {
         "schema_version": 1,
@@ -345,6 +351,7 @@ def create_paired_external_lattice_freeze_manifest(
         "external_row_ids_sha256": _row_roster_sha256(row_ids),
         "paired_row_metadata_sha256": _paired_row_metadata_sha256(paired_records),
         "validation_design": dict(_VALIDATION_DESIGN),
+        "confirmatory_route": confirmatory_route,
         "refit_ids": plan["refit_ids"],
         "score": plan["score"],
         "base_information": plan["base_information"],
@@ -375,6 +382,7 @@ def create_paired_external_lattice_freeze_manifest(
         "node_count": len(plan["nodes"]),
         "edge_count": plan["edge_count"],
         "validation_design": dict(_VALIDATION_DESIGN),
+        "confirmatory_route": confirmatory_route,
         "boundaries": {
             "manifest_timestamp_generated_by_odsp_runtime_clock": True,
             "caller_supplied_freeze_timestamp_allowed": False,
