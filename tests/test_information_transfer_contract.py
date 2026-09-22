@@ -228,3 +228,179 @@ def test_other_proper_score_does_not_require_reference_measure():
     }
     normalized = validate_information_transfer_contract(contract)
     assert normalized["score"]["kind"] == "other_proper"
+
+
+def test_population_summary_does_not_require_unanimous_positive_groups(tmp_path: Path):
+    data = tmp_path / "scores.csv"
+    contract_path = tmp_path / "endpoint.json"
+    rows = []
+    gains = [0.5, 0.5, 0.5, 0.5, -0.1]
+    for index, gain in enumerate(gains):
+        rows.append({
+            "row_id": f"row-{index}",
+            "group": f"g{index}",
+            "block": f"b{index}",
+            "weight": 1.0,
+            "pooled": -1.0,
+            "species": -0.5,
+            "full": -0.5 + gain,
+        })
+    with data.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    contract = _contract()
+    contract["certification"]["minimum_blocks_per_group"] = 2
+    _write_contract(contract_path, contract)
+
+    receipt = run_information_transfer_contract(contract_path)
+    population = receipt["population_result"]
+    second = population["steps"][1]
+    assert second["positive_group_count"] == 4
+    assert second["positive_group_fraction"] == pytest.approx(0.8)
+    assert second["mean_gain"] == pytest.approx(0.38)
+    assert second["mean_gain_status"] == "positive"
+    assert population["population_mean_supported_ceiling"] == "species_context"
+    assert receipt["point_result"]["predictive_result"]["all_group_point_transfer_ceiling"] == "species"
+
+
+def test_population_fraction_uses_wilson_without_cluster():
+    from odsp.information_transfer import InformationLevelScore, decompose_information_transfer
+    from odsp.population_transfer import summarize_population_transfer
+
+    gains = [0.5] * 27 + [-0.1] * 3
+    levels = (
+        InformationLevelScore("pooled", (), [0.0] * 30),
+        InformationLevelScore("richer", ("x",), gains),
+    )
+    point = decompose_information_transfer(levels, [f"g{i}" for i in range(30)])
+    summary = summarize_population_transfer(point, bootstrap_draws=500, seed=7)
+    step = summary.steps[0]
+    assert step.positive_group_fraction == pytest.approx(0.9)
+    assert step.positive_fraction_lower == pytest.approx(0.743789, abs=1e-6)
+    assert step.positive_fraction_lower_method == "wilson_score"
+
+
+def test_population_cluster_must_be_constant_within_group(tmp_path: Path):
+    data = tmp_path / "scores.csv"
+    contract_path = tmp_path / "endpoint.json"
+    rows = [
+        {"row_id": "r1", "group": "g1", "block": "b1", "weight": 1, "species_id": "s1", "pooled": -1, "species": -.5, "full": -.2},
+        {"row_id": "r2", "group": "g1", "block": "b2", "weight": 1, "species_id": "s2", "pooled": -1, "species": -.5, "full": -.2},
+    ]
+    with data.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    contract = _contract()
+    contract["columns"]["population_cluster"] = "species_id"
+    _write_contract(contract_path, contract)
+    with pytest.raises(ValueError, match="multiple population clusters"):
+        run_information_transfer_contract(contract_path)
+
+
+def test_population_summary_is_invariant_to_within_group_row_duplication():
+    from odsp.information_transfer import InformationLevelScore, decompose_information_transfer
+    from odsp.population_transfer import summarize_population_transfer
+
+    levels_a = (
+        InformationLevelScore("pooled", (), [0.0, 0.0]),
+        InformationLevelScore("richer", ("x",), [0.4, 0.2]),
+    )
+    point_a = decompose_information_transfer(levels_a, ["g1", "g2"])
+    summary_a = summarize_population_transfer(point_a, bootstrap_draws=500, seed=11)
+
+    levels_b = (
+        InformationLevelScore("pooled", (), [0.0] * 6),
+        InformationLevelScore("richer", ("x",), [0.4] * 5 + [0.2]),
+    )
+    point_b = decompose_information_transfer(
+        levels_b, ["g1"] * 5 + ["g2"]
+    )
+    summary_b = summarize_population_transfer(point_b, bootstrap_draws=500, seed=11)
+
+    assert summary_a.steps[0].mean_gain == pytest.approx(0.3)
+    assert summary_b.steps[0].mean_gain == pytest.approx(0.3)
+    assert summary_a.steps[0].positive_group_fraction == pytest.approx(1.0)
+    assert summary_b.steps[0].positive_group_fraction == pytest.approx(1.0)
+
+
+def test_population_status_does_not_acquire_all_group_n_penalty():
+    from odsp.information_transfer import InformationLevelScore, decompose_information_transfer
+    from odsp.population_transfer import summarize_population_transfer
+
+    small_gains = [0.5, 0.5, 0.5, 0.5, -0.1]
+    large_gains = small_gains * 6
+
+    small = decompose_information_transfer(
+        (
+            InformationLevelScore("pooled", (), [0.0] * len(small_gains)),
+            InformationLevelScore("richer", ("x",), small_gains),
+        ),
+        [f"s{i}" for i in range(len(small_gains))],
+    )
+    large = decompose_information_transfer(
+        (
+            InformationLevelScore("pooled", (), [0.0] * len(large_gains)),
+            InformationLevelScore("richer", ("x",), large_gains),
+        ),
+        [f"l{i}" for i in range(len(large_gains))],
+    )
+    small_summary = summarize_population_transfer(small, bootstrap_draws=1000, seed=17)
+    large_summary = summarize_population_transfer(large, bootstrap_draws=1000, seed=17)
+
+    assert small_summary.steps[0].mean_gain_status == "positive"
+    assert large_summary.steps[0].mean_gain_status == "positive"
+    assert small.predictive_result.all_group_point_transfer_ceiling == "pooled"
+    assert large.predictive_result.all_group_point_transfer_ceiling == "pooled"
+
+
+def test_declared_population_clusters_drive_cluster_bootstrap():
+    from odsp.information_transfer import InformationLevelScore, decompose_information_transfer
+    from odsp.population_transfer import summarize_population_transfer
+
+    gains = [0.2, 0.4, 0.6, 0.8]
+    point = decompose_information_transfer(
+        (
+            InformationLevelScore("pooled", (), [0.0] * 4),
+            InformationLevelScore("richer", ("x",), gains),
+        ),
+        ["g1", "g2", "g3", "g4"],
+    )
+    summary = summarize_population_transfer(
+        point,
+        group_clusters={"g1": "sp1", "g2": "sp1", "g3": "sp2", "g4": "sp2"},
+        bootstrap_draws=500,
+        seed=23,
+    )
+    receipt = summary.as_dict()
+    assert summary.cluster_count == 2
+    assert receipt["uncertainty"]["mean_interval_method"] == "cluster_percentile_bootstrap"
+    assert receipt["uncertainty"]["resampling_unit"] == "declared_population_cluster"
+    assert receipt["uncertainty"]["cluster_bootstrap_limitation"] is not None
+    assert receipt["familywise_confirmatory_claim"] is False
+
+
+def test_population_total_gain_is_reported_separately_from_stepwise_ceiling():
+    from odsp.information_transfer import InformationLevelScore, decompose_information_transfer
+    from odsp.population_transfer import summarize_population_transfer
+
+    species_step = [-0.2, -0.2, 0.3, 0.3, 0.3, 0.3]
+    context_step = [0.6] * 6
+    full = [a + b for a, b in zip(species_step, context_step)]
+    point = decompose_information_transfer(
+        (
+            InformationLevelScore("pooled", (), [0.0] * 6),
+            InformationLevelScore("species", ("species",), species_step),
+            InformationLevelScore(
+                "species_context", ("species", "context"), full
+            ),
+        ),
+        [f"g{i}" for i in range(6)],
+    )
+    summary = summarize_population_transfer(point, bootstrap_draws=1000, seed=31)
+
+    assert summary.total_gain.mean_gain_status == "positive"
+    assert summary.total_gain.mean_gain == pytest.approx(sum(full) / len(full))
+    assert summary.steps[0].mean_gain_status == "uncertain"
+    assert summary.population_mean_supported_ceiling == "pooled"

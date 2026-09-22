@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-rodent-population-transfer-descriptive-amendment-v1",
+  "amendment_date": "2026-09-22",
+  "post_outcome_amendment": true,
+  "analysis_type": "descriptive_secondary_population_transfer",
+  "purpose": "summarize the population distribution of already-frozen BOP individual held-out gains without changing the prospective primary endpoint, model, folds, comparator, terminal rule or terminal category",
+  "source_evidence": {
+    "species_baseline_amendment_contract_id": "bop-rodent-species-baseline-descriptive-amendment-v1",
+    "workflow_run_id": 34733014869,
+    "artifact_id": 10310047790,
+    "artifact_digest": "sha256:0bec74c68ffbd00cd4c1d3b08418d21f9f137726a525c579199398784772b6f5",
+    "result_json_sha256": "44a02f584b819a4af83c0d53684ed285cad322b1a3e5ef30aba605e5f3aff352"
+  },
+  "frozen_primary_endpoint": {
+    "terminal_category": "empirical_state_prediction_mixed",
+    "positive_individual_count": 27,
+    "eligible_individual_count": 30,
+    "mean_total_gain": 0.5709102207418053,
+    "must_not_be_reclassified_by_this_amendment": true
+  },
+  "population_estimand": {
+    "group": "heldout_individual",
+    "population_cluster": "species",
+    "equal_group_weight": true,
+    "confidence_level": 0.95,
+    "bootstrap_draws": 4000,
+    "seed": 20260913,
+    "gain_tolerance": 0.0,
+    "mean_interval_method": "cluster_percentile_bootstrap",
+    "positive_fraction_lower_method": "cluster_percentile_bootstrap",
+    "new_group_prediction_method": "normal_theory"
+  },
+  "reported_targets": {
+    "total_gain": "G_total = mean_log_P_model - mean_log_P_pool",
+    "species_step": "G_species = mean_log_P_species - mean_log_P_pool",
+    "context_step": "G_context = mean_log_P_model - mean_log_P_species",
+    "stepwise_ceiling_non_skippable": true
+  },
+  "claim_boundary": {
+    "supports": [
+      "descriptive population-mean transfer across the frozen eligible individuals with species-cluster resampling",
+      "descriptive prevalence of positive frozen individual gains",
+      "descriptive between-individual heterogeneity and a labelled normal-theory new-individual prediction interval",
+      "separate reporting of total first-to-final transfer and non-skippable adjacent-step support"
+    ],
+    "does_not_support": [
+      "a newly prospective BOP endpoint",
+      "replacement or reclassification of the frozen empirical_state_prediction_mixed primary endpoint",
+      "universal positive transfer in every individual or species",
+      "precise superpopulation inference from only four represented species clusters",
+      "random sampling of the represented species from a defined species superpopulation",
+      "a causal effect of species identity or context",
+      "model refitting, retuning or raw-source-data reanalysis"
+    ]
+  }
+}

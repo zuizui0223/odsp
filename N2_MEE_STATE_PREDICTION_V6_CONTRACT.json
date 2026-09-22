@@ -1,12 +1,14 @@
 {
   "schema_version": 1,
-  "contract_id": "n2-mee-state-prediction-manuscript-v6-copyedit",
-  "date": "2026-09-13",
-  "purpose": "create a copy-edit-only successor to canonical v5 that adds abstract headroom and removes ambiguity between pooled-comparator species sign categories and within-species context gain",
+  "contract_id": "n2-mee-state-prediction-manuscript-v6-population-amendment",
+  "date": "2026-09-22",
+  "purpose": "create a v6 successor to canonical v5 that preserves every prospective endpoint, retains the two reviewer-facing copy edits, and adds the explicitly post-outcome BOP population-transfer summary",
   "base_manuscript": "n2-mee-state-prediction-manuscript-v5",
+  "new_evidence": "BOP_RODENT_POPULATION_TRANSFER_AMENDMENT_RECEIPT.json",
   "allowed_changes": [
-    "shorten abstract wording without changing scientific claims",
+    "shorten abstract wording without changing its scientific claim direction",
     "replace unqualified species-level generalizing wording with pooled-comparator-qualified wording",
+    "add the frozen post-outcome descriptive BOP population-transfer methods, results and discussion",
     "advance review-draft version label from 5 to 6"
   ],
   "required_preservation": {
@@ -16,13 +18,25 @@
     "empirical_endpoint_rerun": false,
     "bop_primary_comparator_changed": false,
     "bop_primary_terminal_changed": false,
-    "bop_post_outcome_decomposition_changed": false,
+    "bop_existing_post_outcome_decomposition_changed": false,
     "mh_terminal_changed": false
+  },
+  "population_amendment": {
+    "post_outcome": true,
+    "analysis_type": "descriptive_secondary_population_transfer",
+    "familywise_confirmatory_claim": false,
+    "primary_endpoint_reclassified": false,
+    "group": "heldout_individual",
+    "population_cluster": "species",
+    "represented_cluster_count": 4,
+    "total_transfer_reported_separately_from_stepwise_ceiling": true
   },
   "wording_requirement": {
     "buteo_unqualified_generalizing_removed": true,
     "species_category_explicitly_relative_to_prospectively_pooled_comparator": true,
-    "within_species_context_heterogeneity_retained": true
+    "within_species_context_heterogeneity_retained": true,
+    "mixed_primary_endpoint_retained": true,
+    "four_species_cluster_limitation_stated": true
   },
   "abstract_requirement": {
     "ceiling_words": 350,
@@ -30,10 +44,11 @@
     "claims_changed": false
   },
   "scientific_boundary": {
-    "copy_edit_only": true,
-    "new_empirical_evidence": false,
+    "copy_edit_only": false,
+    "new_post_outcome_descriptive_summary": true,
     "prospective_status_changed": false,
     "post_outcome_evidence_recast_as_prospective": false,
-    "causal_claim_added": false
+    "causal_claim_added": false,
+    "universal_transfer_claim_added": false
   }
 }

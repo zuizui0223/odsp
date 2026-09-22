@@ -5,12 +5,18 @@ on:
     paths:
       - "BOP_RODENT_SPECIES_BASELINE_AMENDMENT_CONTRACT.json"
       - "BOP_RODENT_SPECIES_BASELINE_AMENDMENT_RECEIPT.json"
+      - "BOP_RODENT_POPULATION_TRANSFER_AMENDMENT_CONTRACT.json"
+      - "BOP_RODENT_POPULATION_TRANSFER_AMENDMENT_RECEIPT.json"
       - "odsp/bop_species_baseline.py"
+      - "odsp/population_transfer.py"
       - "scripts/build_bop_species_baseline_amendment.py"
       - "scripts/validate_bop_species_baseline_amendment_receipt.py"
+      - "scripts/build_bop_population_transfer_amendment.py"
+      - "scripts/validate_bop_population_transfer_amendment_receipt.py"
       - "tests/test_bop_species_baseline.py"
       - "tests/test_bop_species_baseline_amendment_contract.py"
       - "tests/test_bop_species_baseline_amendment_receipt.py"
+      - "tests/test_bop_population_transfer_amendment.py"
       - ".github/workflows/bop-species-baseline-amendment.yml"
   workflow_dispatch:
 
@@ -38,6 +44,7 @@ jobs:
           tests/test_bop_species_baseline.py
           tests/test_bop_species_baseline_amendment_contract.py
           tests/test_bop_species_baseline_amendment_receipt.py
+          tests/test_bop_population_transfer_amendment.py
 
       - name: Download original frozen BOP result artifact
         uses: actions/download-artifact@v4
@@ -59,9 +66,36 @@ jobs:
           python scripts/validate_bop_species_baseline_amendment_receipt.py
           --result build/BOP_RODENT_SPECIES_BASELINE_AMENDMENT_RESULT.json
 
-      - name: Upload amendment result
+      - name: Download frozen species-baseline amendment artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: bop-rodent-species-baseline-amendment-result
+          path: build/frozen-bop-population-source
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 34733014869
+
+      - name: Build descriptive population-transfer amendment
+        run: >-
+          python scripts/build_bop_population_transfer_amendment.py
+          --species-baseline-result build/frozen-bop-population-source/BOP_RODENT_SPECIES_BASELINE_AMENDMENT_RESULT.json
+          --out build/BOP_RODENT_POPULATION_TRANSFER_AMENDMENT_RESULT.json
+
+      - name: Validate population-transfer result against canonical receipt
+        run: >-
+          python scripts/validate_bop_population_transfer_amendment_receipt.py
+          --result build/BOP_RODENT_POPULATION_TRANSFER_AMENDMENT_RESULT.json
+
+      - name: Upload species-baseline amendment result
         uses: actions/upload-artifact@v4
         with:
           name: bop-rodent-species-baseline-amendment-result
           path: build/BOP_RODENT_SPECIES_BASELINE_AMENDMENT_RESULT.json
+          if-no-files-found: error
+
+      - name: Upload population-transfer amendment result
+        uses: actions/upload-artifact@v4
+        with:
+          name: bop-rodent-population-transfer-amendment-result
+          path: build/BOP_RODENT_POPULATION_TRANSFER_AMENDMENT_RESULT.json
           if-no-files-found: error

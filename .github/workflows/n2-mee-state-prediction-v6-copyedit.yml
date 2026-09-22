@@ -1,12 +1,15 @@
-name: n2-mee-state-prediction-v6-copyedit
+name: n2-mee-state-prediction-v6
 
 on:
   pull_request:
     paths:
       - 'N2_MEE_STATE_PREDICTION_V6_CONTRACT.json'
+      - 'BOP_RODENT_POPULATION_TRANSFER_AMENDMENT_RECEIPT.json'
+      - 'BOP_RODENT_POPULATION_TRANSFER_AMENDMENT_CONTRACT.json'
       - 'scripts/build_n2_mee_manuscript_v6.py'
       - 'tests/test_n2_mee_state_prediction_v6.py'
       - 'tests/test_n2_mee_state_prediction_v6_contract.py'
+      - 'tests/test_bop_population_transfer_amendment.py'
       - '.github/workflows/n2-mee-state-prediction-v6-copyedit.yml'
   workflow_dispatch:
 
@@ -24,12 +27,13 @@ jobs:
           python-version: '3.12'
       - name: Install package
         run: python -m pip install -e '.[dev,predict]'
-      - name: Validate v5 preservation and v6 copy edits
+      - name: Validate v5 preservation and v6 population amendment
         run: >-
           python -m pytest -q
           tests/test_n2_mee_state_prediction_v5.py
           tests/test_n2_mee_state_prediction_v6.py
           tests/test_n2_mee_state_prediction_v6_contract.py
+          tests/test_bop_population_transfer_amendment.py
       - name: Build v6 manuscript
         run: >-
           python scripts/build_n2_mee_manuscript_v6.py
@@ -38,7 +42,7 @@ jobs:
       - name: Upload v6 manuscript
         uses: actions/upload-artifact@v4
         with:
-          name: n2-mee-state-prediction-v6-copyedit
+          name: n2-mee-state-prediction-v6
           path: |
             build/state_prediction_v6/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v6.md
             build/state_prediction_v6/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v6.manifest.json

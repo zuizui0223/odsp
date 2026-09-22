@@ -19,6 +19,7 @@ import math
 from pathlib import Path
 from typing import Mapping
 
+from .population_transfer import summarize_population_transfer
 from .information_transfer import (
     InformationLevelScore,
     certify_information_transfer,
@@ -38,7 +39,7 @@ _TOP_LEVEL = {
     "certification",
 }
 _DATA_FIELDS = {"path", "format"}
-_COLUMN_FIELDS = {"row_id", "group", "block", "weight"}
+_COLUMN_FIELDS = {"row_id", "group", "block", "weight", "population_cluster"}
 _SCORE_FIELDS = {
     "kind",
     "name",
@@ -233,11 +234,19 @@ def validate_information_transfer_contract(
     group = _text(columns.get("group"), name="columns.group")
     block_raw = columns.get("block")
     weight_raw = columns.get("weight")
+    population_cluster_raw = columns.get("population_cluster")
     block = None if block_raw is None else _text(block_raw, name="columns.block")
     weight = None if weight_raw is None else _text(weight_raw, name="columns.weight")
-    role_columns = [row_id, group] + [value for value in (block, weight) if value is not None]
+    population_cluster = (
+        None
+        if population_cluster_raw is None
+        else _text(population_cluster_raw, name="columns.population_cluster")
+    )
+    role_columns = [row_id, group] + [
+        value for value in (block, weight, population_cluster) if value is not None
+    ]
     if len(set(role_columns)) != len(role_columns):
-        raise ValueError("row_id, group, block and weight columns must be distinct")
+        raise ValueError("row_id, group, block, weight and population_cluster columns must be distinct")
 
     score = _validate_score_contract(contract.get("score"))
     evaluation = _validate_evaluation_contract(
@@ -330,6 +339,7 @@ def validate_information_transfer_contract(
             "group": group,
             "block": block,
             "weight": weight,
+            "population_cluster": population_cluster,
         },
         "score": score,
         "evaluation": evaluation,
@@ -439,11 +449,19 @@ def run_information_transfer_contract(path: str | Path) -> dict[str, object]:
     group_column = str(columns["group"])
     block_column = None if columns.get("block") is None else str(columns["block"])
     weight_column = None if columns.get("weight") is None else str(columns["weight"])
+    population_cluster_column = (
+        None
+        if columns.get("population_cluster") is None
+        else str(columns["population_cluster"])
+    )
 
     row_ids: list[object] = []
     groups: list[object] = []
     blocks: list[object] | None = [] if block_column is not None else None
     weights: list[float] | None = [] if weight_column is not None else None
+    population_clusters: list[object] | None = (
+        [] if population_cluster_column is not None else None
+    )
     level_specs = contract["levels"]
     assert isinstance(level_specs, list)
     level_scores: list[list[float]] = [[] for _ in level_specs]
@@ -476,6 +494,14 @@ def run_information_transfer_contract(path: str | Path) -> dict[str, object]:
                 _weight(
                     _value(row, weight_column, row_index=row_index),
                     column=weight_column,
+                    row_index=row_index,
+                )
+            )
+        if population_clusters is not None and population_cluster_column is not None:
+            population_clusters.append(
+                _identifier(
+                    _value(row, population_cluster_column, row_index=row_index),
+                    column=population_cluster_column,
                     row_index=row_index,
                 )
             )
@@ -529,6 +555,25 @@ def run_information_transfer_contract(path: str | Path) -> dict[str, object]:
         gain_tolerance=float(certification_spec["gain_tolerance"]),
     )
 
+    group_cluster_map: dict[object, object] | None = None
+    if population_clusters is not None:
+        group_cluster_map = {}
+        for group, cluster in zip(groups, population_clusters):
+            previous = group_cluster_map.get(group)
+            if previous is not None and previous != cluster:
+                raise ValueError(
+                    f"group {group!r} belongs to multiple population clusters"
+                )
+            group_cluster_map[group] = cluster
+    population = summarize_population_transfer(
+        point,
+        group_clusters=group_cluster_map,
+        confidence_level=float(certification_spec["familywise_confidence_level"]),
+        bootstrap_draws=int(certification_spec["bootstrap_draws"]),
+        seed=int(certification_spec["seed"]),
+        gain_tolerance=float(certification_spec["gain_tolerance"]),
+    )
+
     evaluation = contract["evaluation"]
     assert isinstance(evaluation, Mapping)
     confirmatory_eligible = bool(
@@ -550,6 +595,7 @@ def run_information_transfer_contract(path: str | Path) -> dict[str, object]:
             "independence_unit": group_column,
             "resampling_block": block_column,
             "row_weight": weight_column,
+            "population_cluster": population_cluster_column,
             "levels": level_specs,
             "certification": certification_spec,
         },
@@ -557,6 +603,7 @@ def run_information_transfer_contract(path: str | Path) -> dict[str, object]:
         "evaluation_declarations": evaluation,
         "point_result": point.as_dict(),
         "certified_result": certified.as_dict(),
+        "population_result": population.as_dict(),
         "scientific_boundary": {
             "upstream_model_fitted_by_odsp": False,
             "upstream_model_refit_uncertainty_included": False,
@@ -568,6 +615,9 @@ def run_information_transfer_contract(path: str | Path) -> dict[str, object]:
             "strict_information_filtration_validated": True,
             "unique_heldout_row_ids_validated": True,
             "familywise_family_is_all_estimable_group_by_step_cells": True,
+            "population_summary_requires_all_groups_positive": False,
+            "all_group_certification_retained_as_conservative_secondary": True,
+            "population_cluster_inferred": False,
             "row_independence_assumed": block_column is None,
             "row_independence_explicitly_asserted": bool(
                 block_column is None

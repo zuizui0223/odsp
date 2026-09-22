@@ -16,12 +16,14 @@ def _abstract(text: str) -> str:
     return text[start:end]
 
 
-def test_v6_is_distinct_copy_edit_successor_without_mutating_v5_surface():
+def test_v6_adds_population_amendment_without_mutating_v5_surface():
     v5 = build_v5_text()
     v6 = build_v6_text()
     assert "anonymized state-prediction version 5" in v5
     assert "anonymized state-prediction version 6" not in v5
     assert "anonymized state-prediction version 6" in v6
+    assert "The population summary gave a more graded description" not in v5
+    assert "The population summary gave a more graded description" in v6
     assert v5 != v6
 
 
@@ -60,6 +62,23 @@ def test_v6_preserves_bop_decomposition_and_terminal_boundaries():
         "27/30 result and `empirical_state_prediction_mixed` terminal category unchanged",
         "not as a pure environmental-context effect",
         "without converting it into a causal species effect",
+    )
+    for phrase in required:
+        assert phrase in text
+
+
+def test_v6_reports_population_transfer_without_reclassifying_primary():
+    text = build_v6_text()
+    required = (
+        "95% species-cluster bootstrap interval of `[0.23969, 1.04119]`",
+        "cluster-bootstrap lower bound on the positive fraction was `0.793`",
+        "new-individual prediction interval was `[-0.423, 1.565]`",
+        "empirical 10th percentile was still positive (`0.120`)",
+        "pooled-to-species increment remained uncertain",
+        "species-to-context increment was positive",
+        "non-skippable stepwise population ceiling remained pooled",
+        "only four species clusters were represented",
+        "retain the prospective mixed endpoint",
     )
     for phrase in required:
         assert phrase in text
