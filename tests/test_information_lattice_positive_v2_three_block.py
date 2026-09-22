@@ -69,7 +69,7 @@ def test_four_block_independent_positive_lattice_remains_unqualified():
         )
 
 
-def test_router_promotes_fixed_score_three_block_independent_lattice_only_after_calibration():
+def test_router_promotes_fixed_score_and_fixed_set_three_block_independent_lattice_after_calibration():
     route = route_confirmatory_method(
         alternative="greater",
         validation_design="independent_groups",
@@ -92,7 +92,12 @@ def test_router_promotes_fixed_score_three_block_independent_lattice_only_after_
         external_validation="none",
         information_block_count=3,
     )
-    assert refit.role == "unqualified"
+    assert refit.role == "primary_confirmatory"
+    assert refit.edge_count == 12
+    assert refit.canonical_surface == (
+        "odsp.refit_positive_independent_lattice_robustness."
+        "certify_all_refit_independent_positive_information_lattice_v2"
+    )
 
     larger = route_confirmatory_method(
         alternative="greater",
