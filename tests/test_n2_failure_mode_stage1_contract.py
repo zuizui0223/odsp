@@ -151,3 +151,16 @@ def test_fit_failures_cannot_be_rescued_after_results_are_seen():
     assert learners["separation_rescue_allowed"] is False
     assert "unavailable" in learners["fit_failure_policy"]
     assert "do not add regularization" in learners["fit_failure_policy"]
+
+
+def test_old_v6_submission_package_is_explicitly_superseded():
+    receipt = json.loads(
+        (ROOT / "N2_V6_SUBMISSION_SUPERSESSION_RECEIPT.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert receipt["v6_submission_authorized"] is False
+    assert receipt["historical_readiness_receipt_deleted_or_rewritten"] is False
+    assert receipt["replacement_stage"] == CONTRACT.name
+    assert receipt["submission_state"]["old_v6_should_not_be_submitted"] is True
+    assert receipt["submission_state"]["old_v6_exact_upload_artifact_should_not_be_used"] is True
