@@ -170,3 +170,15 @@ def test_registry_family_scope_matches_frozen_receipts():
 
 def test_unknown_route_key_has_no_evidence():
     assert qualification_evidence_for_route_key("future|unknown") == ()
+
+
+def test_routing_contract_freezes_route_context_evidence_governance():
+    payload = json.loads(
+        Path("ODSP_CONFIRMATORY_METHOD_ROUTING_CONTRACT.json").read_text(encoding="utf-8")
+    )
+    evidence = payload["qualification_evidence"]
+    assert evidence["registry"] == "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V2.json"
+    assert evidence["keyed_by_full_route_context"] is True
+    assert evidence["surface_name_alone_is_sufficient"] is False
+    assert evidence["missing_evidence_policy"] == "unqualified"
+    assert evidence["runtime_recomputes_calibration"] is False
