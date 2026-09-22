@@ -595,6 +595,7 @@ def run_information_transfer_contract(path: str | Path) -> dict[str, object]:
             "independence_unit": group_column,
             "resampling_block": block_column,
             "row_weight": weight_column,
+            "population_cluster": population_cluster_column,
             "levels": level_specs,
             "certification": certification_spec,
         },
