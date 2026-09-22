@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-independent-directional-lattice-family-calibration-v1",
+  "date": "2026-09-22",
+  "purpose": "prospectively qualify the 12-contrast independent-group one-sided bootstrap-t family required by a complete three-information-block lattice before promoting that lattice to confirmatory use",
+  "family_mapping": {
+    "edge_count_formula": "m * 2^(m-1)",
+    "two_information_blocks": 4,
+    "three_information_blocks": 12,
+    "four_information_blocks": 32
+  },
+  "inherited_qualification": {
+    "four_edge_family_already_qualified": true,
+    "source_contract": "ODSP_ONE_SIDED_POSITIVE_BOOTSTRAP_T_CONTRACT.json",
+    "source_receipt": "ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json"
+  },
+  "fixed_null_calibration_design": {
+    "seed": 20260922,
+    "simulations_per_scenario": 1000,
+    "bootstrap_draws_per_interval": 500,
+    "group_count": 6,
+    "contrast_correlation": 0.5,
+    "familywise_lower_confidence_level": 0.95
+  },
+  "predeclared_null_scenarios": [
+    {
+      "scenario_id": "independent-c12-normal-b20",
+      "distribution": "normal",
+      "blocks_per_group": 20,
+      "contrast_count": 12
+    },
+    {
+      "scenario_id": "independent-c12-normal-b50",
+      "distribution": "normal",
+      "blocks_per_group": 50,
+      "contrast_count": 12
+    },
+    {
+      "scenario_id": "independent-c12-t3-b20",
+      "distribution": "student_t3",
+      "blocks_per_group": 20,
+      "contrast_count": 12
+    }
+  ],
+  "acceptance_rule": {
+    "metric": "one_sided_familywise_false_positive_rate",
+    "nominal_alpha": 0.05,
+    "maximum_accepted_rate_at_1000_simulations": 0.06378404875209022,
+    "requirement": "every predeclared 12-contrast scenario must pass",
+    "frozen_before_first_1000_simulation_result": true
+  },
+  "scientific_boundaries": {
+    "validation_groups_independent": true,
+    "within_group_cross_contrast_covariance_preserved": true,
+    "upstream_refit_uncertainty_included": false,
+    "untouched_external_validation_included": false,
+    "three_information_block_complete_lattice_targeted": true,
+    "four_or_more_information_block_complete_lattice_qualified": false,
+    "arbitrary_dependence_structures_validated": false,
+    "historical_empirical_endpoint_rerun": false,
+    "historical_terminal_category_reclassified": false
+  }
+}
