@@ -101,11 +101,11 @@ def test_different_successful_paths_across_refits_cannot_form_global_path():
     assert all(row.category == "not_robust_across_refits" for row in incoming)
 
 
-def test_three_block_all_refit_independent_lattice_hard_stops():
+def test_four_block_all_refit_independent_lattice_hard_stops():
     groups, blocks = _design()
-    names = ("A", "B", "C")
+    names = ("A", "B", "C", "D")
     mapping = {subset: 0.3 * len(subset) for subset in _all_subsets(names)}
-    with pytest.raises(ValueError, match="exactly 2 information blocks"):
+    with pytest.raises(ValueError, match="2 or 3 information blocks"):
         certify_all_refit_independent_positive_information_lattice_v2(
             _constant_nodes(names, [mapping, mapping], len(groups)),
             _blocks(names),
@@ -170,28 +170,31 @@ def test_refit_order_is_canonicalized():
     assert first.as_dict() == second.as_dict()
 
 
-def test_router_promotes_fixed_set_internal_independent_four_edge_lattice_only():
-    route = route_confirmatory_method(
-        alternative="greater",
-        validation_design="independent_groups",
-        information_structure="complete_lattice",
-        upstream_refits="fixed_set",
-        external_validation="none",
-        information_block_count=2,
-    )
-    assert route.role == "primary_confirmatory"
-    assert route.canonical_surface == (
-        "odsp.refit_positive_independent_lattice_robustness."
-        "certify_all_refit_independent_positive_information_lattice_v2"
-    )
-    assert route.refit_population_generalization_claimed is False
+def test_router_promotes_fixed_set_internal_independent_four_and_twelve_edge_lattices():
+    for block_count, edge_count in ((2, 4), (3, 12)):
+        route = route_confirmatory_method(
+            alternative="greater",
+            validation_design="independent_groups",
+            information_structure="complete_lattice",
+            upstream_refits="fixed_set",
+            external_validation="none",
+            information_block_count=block_count,
+        )
+        assert route.role == "primary_confirmatory"
+        assert route.edge_count == edge_count
+        assert route.canonical_surface == (
+            "odsp.refit_positive_independent_lattice_robustness."
+            "certify_all_refit_independent_positive_information_lattice_v2"
+        )
+        assert route.refit_population_generalization_claimed is False
 
-    external = route_confirmatory_method(
-        alternative="greater",
-        validation_design="independent_groups",
-        information_structure="complete_lattice",
-        upstream_refits="fixed_set",
-        external_validation="untouched_frozen",
-        information_block_count=2,
-    )
-    assert external.role == "unqualified"
+        external = route_confirmatory_method(
+            alternative="greater",
+            validation_design="independent_groups",
+            information_structure="complete_lattice",
+            upstream_refits="fixed_set",
+            external_validation="untouched_frozen",
+            information_block_count=block_count,
+        )
+        assert external.role == "unqualified"
+
