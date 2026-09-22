@@ -1,4 +1,4 @@
-name: independent-directional-lattice-4edge
+name: independent-directional-lattice-4-12edge
 
 on:
   pull_request:
@@ -6,8 +6,10 @@ on:
       - 'odsp/information_lattice_positive_v2.py'
       - 'odsp/confirmatory_method_routing.py'
       - 'ODSP_INDEPENDENT_DIRECTIONAL_LATTICE_4EDGE_CONTRACT.json'
+      - 'ODSP_INDEPENDENT_DIRECTIONAL_LATTICE_4_12EDGE_CONTRACT.json'
       - 'ODSP_CONFIRMATORY_METHOD_ROUTING_CONTRACT.json'
       - 'tests/test_information_lattice_positive_v2.py'
+      - 'tests/test_information_lattice_positive_v2_three_block.py'
       - 'tests/test_independent_directional_lattice_contract.py'
       - '.github/workflows/independent-directional-lattice-4edge.yml'
   workflow_dispatch:
@@ -29,6 +31,7 @@ jobs:
         run: >-
           python -m pytest -q
           tests/test_information_lattice_positive_v2.py
+          tests/test_information_lattice_positive_v2_three_block.py
           tests/test_independent_directional_lattice_contract.py
       - name: Import directional lattice API
         run: >-

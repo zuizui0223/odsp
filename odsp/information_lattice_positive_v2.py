@@ -1,12 +1,12 @@
-"""Directional one-sided certification for a two-block independent information lattice.
+"""Directional one-sided certification for qualified independent information lattices.
 
-This prospective wrapper is intentionally restricted to exactly two scientifically
-unordered information blocks. A complete two-block lattice has four directed
-edges, so its inferential family maps exactly onto the already prospectively
-qualified four-contrast independent-group one-sided bootstrap-t panel.
+The prospective wrapper accepts exactly two or three scientifically unordered
+information blocks. Complete two- and three-block lattices contain four and
+twelve directed edges, respectively, and map onto prospectively qualified
+independent-group one-sided bootstrap-t family sizes.
 
-The wrapper does not create a new null-calibration claim. Three-block (12-edge)
-and larger independent directional lattices remain unqualified.
+Four-block (32-edge) and larger independent directional lattices remain
+unqualified.
 """
 from __future__ import annotations
 
@@ -71,7 +71,9 @@ class PositiveInformationLatticeCertification:
     all_edges_robust_generalizing: bool
     alternative: str
     validation_group_independence_assumed: bool
+    calibrated_family_size_edge_count: int
     qualification_inherited_from_four_contrast_panel: bool
+    qualification_inherited_from_twelve_contrast_panel: bool
     total_gain_can_override_failed_edge: bool
     best_path_can_override_failed_edge: bool
     shapley_can_override_edge_failure: bool
@@ -92,7 +94,9 @@ class PositiveInformationLatticeCertification:
             "all_edges_robust_generalizing": self.all_edges_robust_generalizing,
             "alternative": self.alternative,
             "validation_group_independence_assumed": self.validation_group_independence_assumed,
+            "calibrated_family_size_edge_count": self.calibrated_family_size_edge_count,
             "qualification_inherited_from_four_contrast_panel": self.qualification_inherited_from_four_contrast_panel,
+            "qualification_inherited_from_twelve_contrast_panel": self.qualification_inherited_from_twelve_contrast_panel,
             "total_gain_can_override_failed_edge": self.total_gain_can_override_failed_edge,
             "best_path_can_override_failed_edge": self.best_path_can_override_failed_edge,
             "shapley_can_override_edge_failure": self.shapley_can_override_edge_failure,
@@ -130,19 +134,23 @@ def certify_positive_information_lattice_v2(
     minimum_blocks_per_group: int = 8,
     gain_tolerance: float = 0.0,
 ) -> PositiveInformationLatticeCertification:
-    """Certify all four edges of an independent two-block lattice directionally."""
+    """Certify every edge of a qualified 2- or 3-block independent lattice."""
 
     block_rows = _validate_blocks(information_blocks)
-    if len(block_rows) != 2:
+    if len(block_rows) not in {2, 3}:
         raise ValueError(
-            "independent directional lattice v1 is qualified for exactly 2 information blocks "
-            "(4 directed edges); 3-block / 12-edge and larger families remain unqualified"
+            "independent directional lattice is qualified for exactly 2 or 3 information blocks "
+            "(4 or 12 directed edges); 4-block / 32-edge and larger families remain unqualified"
         )
     block_order = tuple(row.name for row in block_rows)
     score_by_subset, _ = _validate_nodes(nodes, block_order)
     edge_defs = _edges(block_order)
-    if len(edge_defs) != 4:
-        raise AssertionError("a complete two-block lattice must contain exactly four directed edges")
+    expected_edge_count = 4 if len(block_order) == 2 else 12
+    if len(edge_defs) != expected_edge_count:
+        raise AssertionError(
+            f"a complete {len(block_order)}-block lattice must contain exactly "
+            f"{expected_edge_count} directed edges"
+        )
 
     point = audit_information_lattice(
         nodes,
@@ -212,7 +220,9 @@ def certify_positive_information_lattice_v2(
         all_edges_robust_generalizing=bool(robust_paths == total_paths),
         alternative="greater",
         validation_group_independence_assumed=True,
-        qualification_inherited_from_four_contrast_panel=True,
+        calibrated_family_size_edge_count=len(edge_defs),
+        qualification_inherited_from_four_contrast_panel=bool(len(edge_defs) == 4),
+        qualification_inherited_from_twelve_contrast_panel=bool(len(edge_defs) == 12),
         total_gain_can_override_failed_edge=False,
         best_path_can_override_failed_edge=False,
         shapley_can_override_edge_failure=False,

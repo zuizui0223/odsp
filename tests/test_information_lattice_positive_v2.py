@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import itertools
 import math
 
 import pytest
@@ -89,29 +90,17 @@ def test_two_block_independent_positive_lattice_preserves_order_sensitive_failur
     assert result.certified_path_status == "order_sensitive_full_transfer"
 
 
-def test_three_block_independent_positive_lattice_fails_closed_before_inference():
+def test_four_block_independent_positive_lattice_fails_closed_before_inference():
     groups, blocks = _rows()
     n = len(groups)
-    info = (
-        InformationBlock("A", ("a",)),
-        InformationBlock("B", ("b",)),
-        InformationBlock("C", ("c",)),
-    )
-    subsets = (
-        (),
-        ("A",),
-        ("B",),
-        ("C",),
-        ("A", "B"),
-        ("A", "C"),
-        ("B", "C"),
-        ("A", "B", "C"),
-    )
+    names = ("A", "B", "C", "D")
+    info = tuple(InformationBlock(name, (name.lower(),)) for name in names)
     nodes = tuple(
         InformationLatticeNodeScore(subset, [0.1 * len(subset)] * n)
-        for subset in subsets
+        for size in range(len(names) + 1)
+        for subset in itertools.combinations(names, size)
     )
-    with pytest.raises(ValueError, match="exactly 2 information blocks"):
+    with pytest.raises(ValueError, match="2 or 3 information blocks"):
         certify_positive_information_lattice_v2(
             nodes,
             info,
@@ -162,21 +151,22 @@ def test_nonfinite_richest_node_stops_incoming_edges_fail_closed():
     assert result.robust_full_transfer_path_count == 0
 
 
-def test_confirmatory_router_promotes_only_two_block_independent_directional_lattice():
-    route = route_confirmatory_method(
-        alternative="greater",
-        validation_design="independent_groups",
-        information_structure="complete_lattice",
-        upstream_refits="none",
-        external_validation="none",
-        information_block_count=2,
-    )
-    assert route.role == "primary_confirmatory"
-    assert route.primary_for_claim is True
-    assert route.edge_count == 4
-    assert route.canonical_surface == (
-        "odsp.information_lattice_positive_v2.certify_positive_information_lattice_v2"
-    )
+def test_confirmatory_router_promotes_qualified_independent_directional_lattices():
+    for block_count, edge_count in ((2, 4), (3, 12)):
+        route = route_confirmatory_method(
+            alternative="greater",
+            validation_design="independent_groups",
+            information_structure="complete_lattice",
+            upstream_refits="none",
+            external_validation="none",
+            information_block_count=block_count,
+        )
+        assert route.role == "primary_confirmatory"
+        assert route.primary_for_claim is True
+        assert route.edge_count == edge_count
+        assert route.canonical_surface == (
+            "odsp.information_lattice_positive_v2.certify_positive_information_lattice_v2"
+        )
 
     larger = route_confirmatory_method(
         alternative="greater",
@@ -184,7 +174,8 @@ def test_confirmatory_router_promotes_only_two_block_independent_directional_lat
         information_structure="complete_lattice",
         upstream_refits="none",
         external_validation="none",
-        information_block_count=3,
+        information_block_count=4,
     )
     assert larger.role == "unqualified"
-    assert larger.edge_count == 12
+    assert larger.edge_count == 32
+
