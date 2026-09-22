@@ -126,5 +126,14 @@
     "twelve_edge_independent_lattice_qualified": false,
     "paired_high_level_information_route_qualified": false,
     "untouched_external_route_qualified": false
+  },
+  "qualification_evidence": {
+    "registry": "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V2.json",
+    "keyed_by_full_route_context": true,
+    "surface_name_alone_is_sufficient": false,
+    "same_surface_may_have_distinct_family_evidence": true,
+    "missing_evidence_policy": "unqualified",
+    "runtime_recomputes_calibration": false,
+    "calibration_evidence_is_biological_evidence": false
   }
 }
