@@ -31,5 +31,7 @@ jobs:
       - name: Import runtime contract
         run: >-
           python -c "from odsp.untouched_external_refit_positive_contract import run_untouched_external_refit_positive_contract; assert callable(run_untouched_external_refit_positive_contract)"
-      - name: Confirm installed CLI surface
-        run: odsp transfer-refits-external --help
+      - name: Confirm compact canonical CLI and legacy compatibility
+        run: |
+          odsp transfer --help | grep -q 'external-refits'
+          odsp transfer-refits-external --help >/dev/null

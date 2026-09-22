@@ -43,7 +43,9 @@ jobs:
       - name: Import paired external APIs
         run: >-
           python -c "from odsp.refit_positive_robustness import certify_all_refit_shared_block_positive_information_transfer_v2; from odsp.external_paired_freeze_manifest import create_paired_external_freeze_manifest; from odsp.untouched_external_refit_shared_block_positive_contract_v3 import run_untouched_external_refit_shared_block_positive_contract_v3; assert callable(certify_all_refit_shared_block_positive_information_transfer_v2); assert callable(create_paired_external_freeze_manifest); assert callable(run_untouched_external_refit_shared_block_positive_contract_v3)"
-      - name: Confirm installed paired CLI surfaces
+      - name: Confirm compact canonical CLI and legacy compatibility
         run: |
-          odsp --help | grep -q 'freeze-refits-external-paired'
-          odsp --help | grep -q 'transfer-refits-external-paired'
+          odsp experimental freeze --help | grep -q 'paired'
+          odsp transfer --help | grep -q 'external-paired'
+          odsp freeze-refits-external-paired --help >/dev/null
+          odsp transfer-refits-external-paired --help >/dev/null

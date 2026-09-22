@@ -35,5 +35,7 @@ jobs:
       - name: Import semantic-lock runtime
         run: >-
           python -c "from odsp.untouched_external_refit_positive_contract_v2 import run_untouched_external_refit_positive_contract_v2, verify_freeze_manifest_semantic_lock; assert callable(run_untouched_external_refit_positive_contract_v2); assert callable(verify_freeze_manifest_semantic_lock)"
-      - name: Confirm installed canonical CLI surface
-        run: odsp transfer-refits-external --help
+      - name: Confirm compact canonical CLI and legacy compatibility
+        run: |
+          odsp transfer --help | grep -q 'external-refits'
+          odsp transfer-refits-external --help >/dev/null

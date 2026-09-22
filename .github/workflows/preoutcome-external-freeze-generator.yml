@@ -31,7 +31,9 @@ jobs:
       - name: Import freeze and validation APIs
         run: >-
           python -c "from odsp.external_freeze_manifest import create_external_freeze_manifest; from odsp.untouched_external_refit_positive_contract_v2 import verify_freeze_manifest_semantic_lock; assert callable(create_external_freeze_manifest); assert callable(verify_freeze_manifest_semantic_lock)"
-      - name: Confirm installed CLI surfaces
+      - name: Confirm compact canonical CLI and legacy compatibility
         run: |
-          odsp freeze-refits-external --help
-          odsp transfer-refits-external --help
+          odsp experimental freeze --help | grep -q 'external'
+          odsp transfer --help | grep -q 'external-refits'
+          odsp freeze-refits-external --help >/dev/null
+          odsp transfer-refits-external --help >/dev/null
