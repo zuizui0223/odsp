@@ -37,6 +37,9 @@ jobs:
       - name: Import paired external lattice APIs
         run: >-
           python -c "from odsp.external_paired_lattice_freeze_manifest import create_paired_external_lattice_freeze_manifest; from odsp.untouched_external_refit_shared_block_positive_lattice_contract_v4 import run_untouched_external_paired_all_refit_lattice_contract_v4; assert callable(create_paired_external_lattice_freeze_manifest); assert callable(run_untouched_external_paired_all_refit_lattice_contract_v4)"
-      - name: Confirm installed paired lattice CLI surfaces
-        run: >-
-          python -m odsp.cli --help | grep -E 'freeze-refits-external-paired-lattice|transfer-refits-external-paired-lattice'
+      - name: Confirm compact canonical CLI and legacy compatibility
+        run: |
+          odsp experimental freeze --help | grep -q 'paired-lattice'
+          odsp transfer --help | grep -q 'external-paired-lattice'
+          odsp freeze-refits-external-paired-lattice --help >/dev/null
+          odsp transfer-refits-external-paired-lattice --help >/dev/null
