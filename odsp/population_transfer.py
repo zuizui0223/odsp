@@ -56,18 +56,27 @@ class PopulationTransferSummary:
     def as_dict(self) -> dict[str, object]:
         return {
             "estimand": self.estimand,
-            "role": self.role,
+            "role": self.role,\n            "familywise_confirmatory_claim": False,
             "gain_tolerance": self.gain_tolerance,
             "group_count": self.group_count,
             "cluster_count": self.cluster_count,
             "cluster_variable_declared": self.cluster_variable_declared,
             "uncertainty": {
-                "mean_interval_method": "cluster_percentile_bootstrap",
+                "mean_interval_method": (
+                    "cluster_percentile_bootstrap"
+                    if self.cluster_variable_declared
+                    else "group_percentile_bootstrap"
+                ),
                 "confidence_level": self.confidence_level,
                 "bootstrap_draws": self.bootstrap_draws,
                 "seed": self.seed,
                 "resampling_unit": self.resampling_unit,
                 "within_group_refit_uncertainty_propagated": False,
+                "cluster_bootstrap_limitation": (
+                    "cluster-bootstrap uncertainty can be unstable with few declared population clusters"
+                    if self.cluster_variable_declared
+                    else None
+                ),
             },
             "steps": [step.as_dict() for step in self.steps],
             "population_mean_supported_ceiling": self.population_mean_supported_ceiling,
@@ -157,11 +166,14 @@ def summarize_population_transfer(
         boot_means = np.empty(bootstrap_draws, dtype=float)
         boot_positive = np.empty(bootstrap_draws, dtype=float)
         for draw in range(bootstrap_draws):
-            sampled_clusters = rng.choice(
-                cluster_labels, size=len(cluster_labels), replace=True
+            sampled_cluster_indices = rng.integers(
+                0, len(cluster_labels), size=len(cluster_labels)
             )
             sampled = np.concatenate(
-                [cluster_indices[cluster] for cluster in sampled_clusters]
+                [
+                    cluster_indices[cluster_labels[int(cluster_index)]]
+                    for cluster_index in sampled_cluster_indices
+                ]
             )
             draw_gains = gains[sampled]
             boot_means[draw] = float(np.mean(draw_gains))
@@ -226,7 +238,7 @@ def summarize_population_transfer(
 
     return PopulationTransferSummary(
         estimand="equal_weight_mean_gain_across_groups",
-        role="population_level_secondary_summary",
+        role="descriptive_population_level_secondary_summary",
         gain_tolerance=float(gain_tolerance),
         confidence_level=float(confidence_level),
         bootstrap_draws=int(bootstrap_draws),
