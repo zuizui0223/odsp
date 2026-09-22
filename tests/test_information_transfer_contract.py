@@ -277,7 +277,7 @@ def test_population_fraction_uses_wilson_without_cluster():
     summary = summarize_population_transfer(point, bootstrap_draws=500, seed=7)
     step = summary.steps[0]
     assert step.positive_group_fraction == pytest.approx(0.9)
-    assert step.positive_fraction_lower == pytest.approx(0.74398, abs=1e-4)
+    assert step.positive_fraction_lower == pytest.approx(0.743789, abs=1e-6)
     assert step.positive_fraction_lower_method == "wilson_score"
 
 
