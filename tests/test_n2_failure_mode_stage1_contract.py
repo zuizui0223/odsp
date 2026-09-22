@@ -227,3 +227,20 @@ def test_anchor_success_cannot_drop_unavailable_replicates():
     assert all(row["threshold"] == 0.95 for row in availability)
     assert all(row["acceptance"] == "point_estimate_gte" for row in availability)
     assert "method availability fraction" in contract["reported_outcomes_per_factorial_cell"]
+
+
+def test_random_streams_are_frozen_and_shard_invariant():
+    contract = _read()
+    random = contract["randomness"]
+
+    assert random["master_seed"] == 20260922
+    assert random["generator"] == "numpy.random.SeedSequence + default_rng"
+    assert "factorial_cell_index" in random["factorial_world_seed"]
+    assert "anchor_index" in random["confirmatory_world_seed"]
+    assert random["shard_invariance_required"] is True
+    assert random["execution_order_invariance_required"] is True
+    assert set(random["world_substreams"]) == {
+        "dgp",
+        "random_row_cv_folds",
+        "population_intervals",
+    }
