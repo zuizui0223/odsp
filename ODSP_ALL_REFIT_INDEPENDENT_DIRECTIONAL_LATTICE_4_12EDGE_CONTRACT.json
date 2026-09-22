@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-all-refit-independent-directional-lattice-4-12edge-v1",
+  "date": "2026-09-22",
+  "purpose": "extend the prospectively qualified independent 4- and 12-edge directional lattice families across a fixed supplied upstream-refit set using same-edge intersection robustness",
+  "alternative": "greater",
+  "validation_design": "independent_groups",
+  "qualified_information_block_counts": [
+    2,
+    3
+  ],
+  "qualified_edge_counts": [
+    4,
+    12
+  ],
+  "unqualified_next_information_block_count": 4,
+  "unqualified_next_edge_count": 32,
+  "intersection_union_rule_used": true,
+  "all_supplied_refits_must_pass_same_edge": true,
+  "different_refit_paths_can_be_combined": false,
+  "untouched_external_validation_included": false,
+  "qualification_inheritance": {
+    "source_contract": "ODSP_INDEPENDENT_DIRECTIONAL_LATTICE_4_12EDGE_CONTRACT.json",
+    "per_refit_familywise_certification_required": true,
+    "new_refit_population_fwer_claim": false,
+    "rationale": "the across-refit operation is a deterministic intersection over a fixed supplied robustness set; it does not create a refit-population sampling model"
+  },
+  "refit_boundary": {
+    "refit_independence_assumed": false,
+    "refit_sampling_distribution_assumed": false,
+    "refit_population_generalization_claimed": false,
+    "additional_refit_axis_multiplicity_correction_applied": false,
+    "reference_refit_can_override_failure": false,
+    "refit_average_can_override_failure": false
+  },
+  "governance": {
+    "total_gain_can_override_failed_edge": false,
+    "best_path_can_override_failed_edge": false,
+    "shapley_can_override_failed_edge": false,
+    "historical_empirical_endpoint_rerun": false,
+    "historical_empirical_endpoint_reclassified": false
+  }
+}
