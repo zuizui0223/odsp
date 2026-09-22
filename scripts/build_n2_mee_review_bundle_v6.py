@@ -175,10 +175,36 @@ def build_bundle(output: Path) -> dict[str, object]:
             stage / "manuscript" / "N2_MEE_FIGURE_CAPTIONS_DRAFT_v6.md",
         )
 
-        _copy(ROOT / "odsp" / "population_transfer.py", stage / "odsp" / "population_transfer.py")
-        _copy(
-            ROOT / "tests" / "test_information_transfer_contract.py",
-            stage / "tests" / "test_information_transfer_contract.py",
+        for name in (
+            "transferability.py",
+            "predictive_resolution.py",
+            "predictive_resolution_certification.py",
+            "information_transfer.py",
+            "population_transfer.py",
+        ):
+            _copy(ROOT / "odsp" / name, stage / "odsp" / name)
+
+        (stage / "tests" / "test_population_transfer_review.py").write_text(
+            """from odsp.information_transfer import InformationLevelScore, decompose_information_transfer
+from odsp.population_transfer import summarize_population_transfer
+
+
+def test_population_transfer_review_example():
+    gains = [0.5, 0.5, 0.5, 0.5, -0.1]
+    point = decompose_information_transfer(
+        (
+            InformationLevelScore("pooled", (), [0.0] * 5),
+            InformationLevelScore("richer", ("context",), gains),
+        ),
+        [f"g{i}" for i in range(5)],
+    )
+    summary = summarize_population_transfer(point, bootstrap_draws=500, seed=17)
+    assert summary.total_gain.mean_gain > 0
+    assert summary.total_gain.positive_group_count == 4
+    assert summary.total_gain.positive_group_fraction == 0.8
+    assert summary.population_mean_supported_ceiling == "richer"
+""",
+            encoding="utf-8",
         )
         _copy(
             ROOT / "N2_MEE_STATE_PREDICTION_V6_CONTRACT.json",
@@ -187,9 +213,12 @@ def build_bundle(output: Path) -> dict[str, object]:
 
         init_path = stage / "odsp" / "__init__.py"
         init_text = init_path.read_text(encoding="utf-8")
-        line = "from .population_transfer import *\n"
-        if line not in init_text:
-            init_text += line
+        for line in (
+            "from .information_transfer import *\n",
+            "from .population_transfer import *\n",
+        ):
+            if line not in init_text:
+                init_text += line
         init_path.write_text(init_text, encoding="utf-8")
 
         evidence_path = stage / "review_evidence" / "BOP_POPULATION_TRANSFER.json"
