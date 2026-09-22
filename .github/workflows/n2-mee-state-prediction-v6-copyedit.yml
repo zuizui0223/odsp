@@ -6,10 +6,19 @@ on:
       - 'N2_MEE_STATE_PREDICTION_V6_CONTRACT.json'
       - 'BOP_RODENT_POPULATION_TRANSFER_AMENDMENT_RECEIPT.json'
       - 'BOP_RODENT_POPULATION_TRANSFER_AMENDMENT_CONTRACT.json'
+      - 'manuscript/N2_MEE_COVER_LETTER_DRAFT_v6.md'
+      - 'manuscript/N2_MEE_DISCLOSURE_DRAFTS_v6.md'
+      - 'manuscript/N2_MEE_TITLE_PAGE_TEMPLATE_v6.md'
+      - 'odsp/population_transfer.py'
       - 'scripts/build_n2_mee_manuscript_v6.py'
+      - 'scripts/build_n2_mee_review_bundle_v6.py'
+      - 'scripts/render_n2_mee_review_docx_v6.py'
+      - 'scripts/build_n2_mee_submission_handoff_v6.py'
       - 'tests/test_n2_mee_state_prediction_v6.py'
       - 'tests/test_n2_mee_state_prediction_v6_contract.py'
       - 'tests/test_bop_population_transfer_amendment.py'
+      - 'tests/test_population_transfer.py'
+      - 'tests/test_n2_mee_v6_submission_sync.py'
       - '.github/workflows/n2-mee-state-prediction-v6-copyedit.yml'
   workflow_dispatch:
 
@@ -19,32 +28,74 @@ permissions:
 jobs:
   build-and-validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: .
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install package
-        run: python -m pip install -e '.[dev,predict]'
-      - name: Validate v5 preservation and v6 population amendment
+
+      - name: Install package and submission dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e '.[dev,predict]'
+          python -m pip install 'python-docx>=1.1,<2'
+          sudo apt-get update -qq
+          sudo apt-get install -y pandoc
+
+      - name: Validate v5 preservation, v6 population amendment and submission sync
         run: >-
           python -m pytest -q
           tests/test_n2_mee_state_prediction_v5.py
           tests/test_n2_mee_state_prediction_v6.py
           tests/test_n2_mee_state_prediction_v6_contract.py
           tests/test_bop_population_transfer_amendment.py
+          tests/test_population_transfer.py
+          tests/test_n2_mee_v6_submission_sync.py
+
       - name: Build v6 manuscript
         run: >-
           python scripts/build_n2_mee_manuscript_v6.py
-          --output build/state_prediction_v6/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v6.md
-          --manifest build/state_prediction_v6/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v6.manifest.json
-      - name: Upload v6 manuscript
+          --output build/state_prediction_v6/submission/N2_MEE_MANUSCRIPT_DRAFT_v6.md
+          --manifest build/state_prediction_v6/submission/N2_MEE_MANUSCRIPT_DRAFT_v6.manifest.json
+
+      - name: Render anonymous v6 review DOCX
+        run: >-
+          python scripts/render_n2_mee_review_docx_v6.py
+          --input build/state_prediction_v6/submission/N2_MEE_MANUSCRIPT_DRAFT_v6.md
+          --output build/state_prediction_v6/submission/N2_MEE_ANONYMOUS_REVIEW_v6.docx
+          --manifest build/state_prediction_v6/submission/review_docx_v6_manifest.json
+
+      - name: Fail-closed DOCX structural validation
+        run: >-
+          python scripts/validate_n2_mee_review_docx_v4.py
+          --docx build/state_prediction_v6/submission/N2_MEE_ANONYMOUS_REVIEW_v6.docx
+          --out-json build/state_prediction_v6/submission/review_docx_v6_validation.json
+
+      - name: Build anonymous v6 review code bundle
+        run: >-
+          python scripts/build_n2_mee_review_bundle_v6.py
+          --output build/state_prediction_v6/submission/N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v6.zip
+
+      - name: Build v6 submission-system handoff
+        run: >-
+          python scripts/build_n2_mee_submission_handoff_v6.py
+          --docx-validation build/state_prediction_v6/submission/review_docx_v6_validation.json
+          --json build/state_prediction_v6/submission/N2_MEE_SUBMISSION_HANDOFF_PACKET_V6.json
+          --markdown build/state_prediction_v6/submission/N2_MEE_SUBMISSION_HANDOFF_V6.md
+
+      - name: Add non-anonymous administrative drafts
+        run: |
+          cp manuscript/N2_MEE_TITLE_PAGE_TEMPLATE_v6.md build/state_prediction_v6/submission/
+          cp manuscript/N2_MEE_COVER_LETTER_DRAFT_v6.md build/state_prediction_v6/submission/
+          cp manuscript/N2_MEE_DISCLOSURE_DRAFTS_v6.md build/state_prediction_v6/submission/
+
+      - name: Upload synchronized v6 submission artifact
         uses: actions/upload-artifact@v4
         with:
           name: n2-mee-state-prediction-v6
-          path: |
-            build/state_prediction_v6/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v6.md
-            build/state_prediction_v6/manuscript/N2_MEE_MANUSCRIPT_DRAFT_v6.manifest.json
+          path: build/state_prediction_v6/submission/
           if-no-files-found: error
           retention-days: 90
