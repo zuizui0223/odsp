@@ -83,3 +83,13 @@ def test_bop_population_transfer_reuses_pinned_species_baseline_artifact():
     assert receipt["model_refit_performed"] is False
     assert receipt["raw_source_data_reaccessed"] is False
     assert receipt["retuning_performed"] is False
+
+
+def test_bop_population_transfer_validation_provenance_is_pinned():
+    receipt = _read(RECEIPT)
+    provenance = receipt["validation_provenance"]
+    assert provenance["source_head_sha"] == "9923d2c6fda1eaf283e94e4ba46fe81d2bd395d7"
+    assert provenance["workflow_run_id"] == 35686930897
+    assert provenance["artifact_id"] == 10676618536
+    assert provenance["artifact_digest"] == "sha256:4e9eaffa59cdd072e5efc05e22bb0a13946254814ce0ba5ab7a6688cb3f46674"
+    assert provenance["result_json_sha256"] == "7e5f302e8346145ff60b3c53dae6fdf57d623299db7a094bad9896a6e8de8d8d"
