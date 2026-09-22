@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 import re
+
+from odsp.cli import build_parser
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -75,3 +78,31 @@ def test_package_build_workflow_tests_built_wheel_not_only_editable_checkout():
     assert "pip install dist/*.whl" in text
     assert "/tmp/odsp-wheel/bin/odsp --help" in text
     assert re.search(r"version\('odsp-niche-geometry'\).*0\.11\.0", text)
+
+
+def test_method_surface_is_frozen_at_ten_top_level_commands():
+    freeze = json.loads(
+        (ROOT / "ODSP_METHOD_SURFACE_FREEZE_V1.json").read_text(encoding="utf-8")
+    )
+    parser = build_parser()
+    subparser_actions = [
+        action
+        for action in parser._actions
+        if isinstance(action, argparse._SubParsersAction)
+    ]
+    assert len(subparser_actions) == 1
+    observed = list(subparser_actions[0].choices)
+
+    assert freeze["stable_user_entrypoints"] == ["run", "transfer"]
+    assert observed == freeze["frozen_top_level_cli"]
+    assert len(observed) == 10
+    assert freeze["policy"]["new_top_level_cli_commands_allowed_before_v6_submission"] is False
+    assert freeze["policy"]["new_inferential_variant_families_allowed_before_v6_submission"] is False
+    assert freeze["deferred_cleanup"]["method_route_growth_allowed"] is False
+
+
+def test_cli_help_explains_stable_vs_advanced_surface():
+    parser = build_parser()
+    help_text = parser.format_help()
+    assert "Stable entry points: 'odsp run' and 'odsp transfer'." in help_text
+    assert "frozen advanced compatibility surfaces" in help_text
