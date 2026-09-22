@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import itertools
+import json
+from pathlib import Path
 
 import pytest
 
@@ -102,3 +104,19 @@ def test_router_promotes_fixed_score_three_block_independent_lattice_only_after_
     )
     assert larger.role == "unqualified"
     assert larger.edge_count == 32
+
+
+def test_machine_contract_freezes_independent_four_and_twelve_edge_scope():
+    payload = json.loads(
+        Path("ODSP_INDEPENDENT_DIRECTIONAL_LATTICE_4_12EDGE_CONTRACT.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert payload["qualified_information_block_counts"] == [2, 3]
+    assert payload["qualified_edge_counts"] == [4, 12]
+    assert payload["unqualified_next_edge_count"] == 32
+    assert payload["qualification_sources"]["twelve_edge"]["receipt"] == (
+        "INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json"
+    )
+    assert payload["boundaries"]["upstream_refit_uncertainty_included"] is False
+    assert payload["boundaries"]["untouched_external_validation_included"] is False
