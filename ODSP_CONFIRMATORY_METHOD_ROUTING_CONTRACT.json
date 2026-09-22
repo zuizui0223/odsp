@@ -58,10 +58,12 @@
     ],
     "independent_fixed_set_lattice_primary": true,
     "independent_fixed_set_lattice_information_block_counts": [
-      2
+      2,
+      3
     ],
     "independent_fixed_set_lattice_edge_counts": [
-      4
+      4,
+      12
     ],
     "independent_four_or_more_lattice_blocks_primary": false
   },
