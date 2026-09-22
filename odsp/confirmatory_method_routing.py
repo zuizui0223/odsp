@@ -311,15 +311,9 @@ def route_confirmatory_method(
                 edge_count=edge_count,
             )
         if upstream_refits == "fixed_set" and external_validation == "none":
-            if blocks != 2:
-                return _route(
-                    "unqualified",
-                    "All-refit independent directional lattice robustness is currently qualified only for the 2-block / 4-edge family; the 3-block / 12-edge fixed-set refit extension requires a separate governance step.",
-                    edge_count=edge_count,
-                )
             return _route(
                 "primary_confirmatory",
-                "Each supplied refit is certified with the qualified independent four-edge lattice, and global paths are reconstructed only from edges robust in every supplied refit.",
+                "Each supplied refit is certified with the qualified independent 4- or 12-edge lattice, and global paths are reconstructed only from the same edges robust in every supplied refit.",
                 canonical_surface=(
                     "odsp.refit_positive_independent_lattice_robustness."
                     "certify_all_refit_independent_positive_information_lattice_v2"
@@ -328,7 +322,7 @@ def route_confirmatory_method(
             )
         return _route(
             "unqualified",
-            "No semantically frozen untouched-external independent directional lattice endpoint is qualified yet; internal fixed-score 4/12-edge and fixed-set four-edge routes must not be promoted beyond their current scope.",
+            "No semantically frozen untouched-external independent directional lattice endpoint is qualified yet; internal fixed-score and fixed-set 4/12-edge routes must not be promoted beyond their current scope.",
             requires_preoutcome_freeze=external_validation != "none",
             edge_count=edge_count,
         )

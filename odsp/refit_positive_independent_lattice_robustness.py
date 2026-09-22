@@ -1,9 +1,9 @@
-"""Fixed-set all-refit robustness for independent directional four-edge lattices.
+"""Fixed-set all-refit robustness for qualified independent directional lattices.
 
 Each supplied upstream refit is evaluated separately with the qualified
-independent-group one-sided two-block lattice. Across refits, an edge is robust
-only when that same edge is robust in every supplied refit. Global paths are
-recomputed from the intersection of robust edges, so successful paths from
+independent-group one-sided 2- or 3-block lattice. Across refits, an edge is
+robust only when that same edge is robust in every supplied refit. Global paths
+are recomputed from the intersection of robust edges, so successful paths from
 different refits can never be combined.
 
 The supplied refits are a fixed robustness set, not a probability sample.
@@ -216,14 +216,15 @@ def certify_all_refit_independent_positive_information_lattice_v2(
     minimum_blocks_per_group: int = 8,
     gain_tolerance: float = 0.0,
 ) -> AllRefitIndependentPositiveLatticeCertification:
-    """Require the same independent directional four-edge lattice in every refit."""
+    """Require the same qualified independent directional lattice in every refit."""
 
     block_rows = _validate_blocks(information_blocks)
     block_order = tuple(row.name for row in block_rows)
-    if len(block_order) != 2:
+    if len(block_order) not in {2, 3}:
         raise ValueError(
-            "all-refit independent directional lattice is qualified for exactly 2 "
-            "information blocks (4 directed edges)"
+            "all-refit independent directional lattice is qualified for exactly 2 or 3 "
+            "information blocks (4 or 12 directed edges); 4-block / 32-edge and larger "
+            "families remain unqualified"
         )
     base = tuple(str(value).strip() for value in base_information)
     if any(not value for value in base) or len(set(base)) != len(base):
@@ -281,8 +282,12 @@ def certify_all_refit_independent_positive_information_lattice_v2(
             )
 
     edge_defs = _edges(block_order)
-    if len(edge_defs) != 4:
-        raise AssertionError("complete two-block lattice must contain four directed edges")
+    expected_edge_count = 4 if len(block_order) == 2 else 12
+    if len(edge_defs) != expected_edge_count:
+        raise AssertionError(
+            f"complete {len(block_order)}-block lattice must contain "
+            f"{expected_edge_count} directed edges"
+        )
 
     audits: list[RefitIndependentPositiveLatticeAudit] = []
     per_edge_categories: list[list[str]] = [[] for _ in edge_defs]
@@ -305,8 +310,10 @@ def certify_all_refit_independent_positive_information_lattice_v2(
             gain_tolerance=gain_tolerance,
         )
         categories = tuple(edge.category for edge in result.edges)
-        if len(categories) != 4:
-            raise AssertionError("independent four-edge lattice changed across refits")
+        if len(categories) != expected_edge_count:
+            raise AssertionError(
+                "independent lattice edge family changed across refits"
+            )
         for edge_index, category in enumerate(categories):
             per_edge_categories[edge_index].append(category)
         audits.append(
@@ -370,9 +377,9 @@ def certify_all_refit_independent_positive_information_lattice_v2(
     return AllRefitIndependentPositiveLatticeCertification(
         schema_version=1,
         design="independent_groups",
-        information_block_count=2,
-        edge_count=4,
-        calibrated_family_size_edge_count=4,
+        information_block_count=len(block_order),
+        edge_count=len(edge_defs),
+        calibrated_family_size_edge_count=len(edge_defs),
         refit_count=refit_count,
         refit_ids=ids,
         minimum_refits=minimum_refits,
