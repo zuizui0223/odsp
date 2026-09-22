@@ -11,6 +11,11 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from typing import Sequence
 
+from .confirmatory_route_evidence import (
+    qualification_evidence_for_route_key,
+    route_evidence_key,
+)
+
 
 _ROLES = {
     "primary_confirmatory",
@@ -36,6 +41,8 @@ class MethodRoute:
     requires_exact_shared_block_support: bool
     refit_population_generalization_claimed: bool
     historical_endpoint_reclassification_allowed: bool
+    qualification_key: str | None = None
+    qualification_evidence: tuple[str, ...] = ()
     edge_count: int | None = None
 
     def __post_init__(self) -> None:
@@ -45,6 +52,7 @@ class MethodRoute:
     def as_dict(self) -> dict[str, object]:
         payload = asdict(self)
         payload["cli_sequence"] = list(self.cli_sequence)
+        payload["qualification_evidence"] = list(self.qualification_evidence)
         return payload
 
 
@@ -67,6 +75,8 @@ def _route(
     cli_sequence: Sequence[str] = (),
     requires_preoutcome_freeze: bool = False,
     requires_exact_shared_block_support: bool = False,
+    qualification_key: str | None = None,
+    qualification_evidence: Sequence[str] = (),
     edge_count: int | None = None,
 ) -> MethodRoute:
     return MethodRoute(
@@ -79,6 +89,8 @@ def _route(
         requires_exact_shared_block_support=requires_exact_shared_block_support,
         refit_population_generalization_claimed=False,
         historical_endpoint_reclassification_allowed=False,
+        qualification_key=qualification_key,
+        qualification_evidence=tuple(qualification_evidence),
         edge_count=edge_count,
     )
 
@@ -120,13 +132,64 @@ def route_confirmatory_method(
         external_validation, _EXTERNAL_MODES, name="external_validation"
     )
 
-    if upstream_refits == "stochastic_population":
+    def routed(
+        role: str,
+        reason: str,
+        *,
+        canonical_surface: str | None = None,
+        cli_sequence: Sequence[str] = (),
+        requires_preoutcome_freeze: bool = False,
+        requires_exact_shared_block_support: bool = False,
+        edge_count: int | None = None,
+    ) -> MethodRoute:
+        if role in {"primary_confirmatory", "bidirectional_confirmatory"}:
+            key = route_evidence_key(
+                alternative=alternative,
+                validation_design=validation_design,
+                information_structure=information_structure,
+                upstream_refits=upstream_refits,
+                external_validation=external_validation,
+                contrast_count=contrast_count,
+                information_block_count=information_block_count,
+            )
+            evidence = qualification_evidence_for_route_key(key)
+            if not evidence:
+                return _route(
+                    "unqualified",
+                    "Confirmatory route lacks registered frozen qualification evidence: "
+                    + key,
+                    requires_preoutcome_freeze=requires_preoutcome_freeze,
+                    requires_exact_shared_block_support=requires_exact_shared_block_support,
+                    edge_count=edge_count,
+                )
+            return _route(
+                role,
+                reason,
+                canonical_surface=canonical_surface,
+                cli_sequence=cli_sequence,
+                requires_preoutcome_freeze=requires_preoutcome_freeze,
+                requires_exact_shared_block_support=requires_exact_shared_block_support,
+                qualification_key=key,
+                qualification_evidence=evidence,
+                edge_count=edge_count,
+            )
         return _route(
+            role,
+            reason,
+            canonical_surface=canonical_surface,
+            cli_sequence=cli_sequence,
+            requires_preoutcome_freeze=requires_preoutcome_freeze,
+            requires_exact_shared_block_support=requires_exact_shared_block_support,
+            edge_count=edge_count,
+        )
+
+    if upstream_refits == "stochastic_population":
+        return routed(
             "unqualified",
             "ODSP has no fit-sampling model that supports confidence statements about a refit population; use a fixed supplied refit set only as an intersection robustness claim.",
         )
     if external_validation == "untouched_unfrozen":
-        return _route(
+        return routed(
             "unqualified",
             "Untouched external confirmatory inference requires a pre-outcome semantic freeze; an unfrozen external analysis is not a confirmatory ODSP route.",
         )
@@ -141,7 +204,7 @@ def route_confirmatory_method(
         # No semantically frozen untouched-external two-sided endpoint is qualified.
         # This hard stop must precede the historical refit sensitivity branch.
         if external_validation != "none":
-            return _route(
+            return routed(
                 "unqualified",
                 "No canonical two-sided semantically frozen untouched-external endpoint is qualified; external confirmatory routes are currently predeclared directional one-sided routes.",
                 requires_preoutcome_freeze=True,
@@ -152,7 +215,7 @@ def route_confirmatory_method(
         # High-level paired two-sided information/refit wrappers are not qualified
         # as prospective endpoints. Do not infer them from lower-level gain cores.
         if validation_design != "independent_groups":
-            return _route(
+            return routed(
                 "unqualified",
                 "No canonical high-level paired two-sided information endpoint is qualified for prospective routing; do not promote a lower-level shared-block gain core or historical refit wrapper by implication.",
                 requires_exact_shared_block_support=True,
@@ -162,7 +225,7 @@ def route_confirmatory_method(
         # The prospective independent-group v2 operating-characteristic panel
         # qualifies only 2- and 4-contrast simultaneous families.
         if information_structure == "filtration" and contrasts not in {2, 4}:
-            return _route(
+            return routed(
                 "unqualified",
                 "The prospectively qualified independent two-sided v2 null panel covers 2 or 4 simultaneous contrasts; other family sizes are not promoted to bidirectional confirmatory status.",
             )
@@ -171,14 +234,14 @@ def route_confirmatory_method(
         # two-sided prospective panel does not qualify the 12-edge three-block
         # lattice or larger families.
         if information_structure == "complete_lattice" and edge_count != 4:
-            return _route(
+            return routed(
                 "unqualified",
                 "Independent two-sided complete-lattice routing is prospectively qualified only for the 4-edge two-block family; no 12-edge or larger lattice calibration is frozen for this route.",
                 edge_count=edge_count,
             )
 
         if upstream_refits == "fixed_set":
-            return _route(
+            return routed(
                 "sensitivity_only",
                 "Two-sided refit-aware mixture inference remains a sensitivity analysis because the supplied refits are not a probability sample from a defined fit population.",
                 canonical_surface=(
@@ -190,12 +253,12 @@ def route_confirmatory_method(
             )
 
         if information_structure == "filtration":
-            return _route(
+            return routed(
                 "bidirectional_confirmatory",
                 "Genuine replicate-studentized two-sided v2 is retained for predeclared bidirectional independent-group questions inside the prospectively calibrated 2/4-contrast family-size scope; it is not the primary route for a positive-only claim.",
                 canonical_surface="odsp.information_transfer_v2.certify_information_transfer_v2",
             )
-        return _route(
+        return routed(
             "bidirectional_confirmatory",
             "Genuine replicate-studentized two-sided v2 complete-lattice inference is retained only for the prospectively calibrated independent 4-edge two-block family.",
             canonical_surface="odsp.information_lattice_v2.certify_information_lattice_v2",
@@ -206,24 +269,24 @@ def route_confirmatory_method(
     if information_structure == "filtration":
         if validation_design == "independent_groups":
             if contrasts not in {2, 4}:
-                return _route(
+                return routed(
                     "unqualified",
                     "The prospectively qualified independent one-sided null panel covers 2 or 4 simultaneous contrasts; other family sizes are not promoted to primary confirmatory status.",
                 )
             if upstream_refits == "none" and external_validation == "none":
-                return _route(
+                return routed(
                     "primary_confirmatory",
                     "Predeclared positive transfer in independent validation groups uses the qualified one-sided v2 familywise lower bootstrap-t route.",
                     canonical_surface="odsp.information_transfer_positive_v2.certify_positive_information_transfer_v2",
                 )
             if upstream_refits == "fixed_set" and external_validation == "none":
-                return _route(
+                return routed(
                     "primary_confirmatory",
                     "Each supplied refit is certified separately and the same step must pass in every refit; the refit axis is a fixed-set intersection, not a population confidence distribution.",
                     canonical_surface="odsp.refit_positive_robustness.certify_all_refit_positive_information_transfer_v2",
                 )
             if upstream_refits == "fixed_set" and external_validation == "untouched_frozen":
-                return _route(
+                return routed(
                     "primary_confirmatory",
                     "Semantically frozen untouched external validation with a fixed refit set uses the independent all-refit one-sided external endpoint.",
                     canonical_surface=(
@@ -236,7 +299,7 @@ def route_confirmatory_method(
                     ),
                     requires_preoutcome_freeze=True,
                 )
-            return _route(
+            return routed(
                 "unqualified",
                 "There is no canonical semantically frozen independent external one-sided endpoint without the fixed supplied refit-set contract.",
                 requires_preoutcome_freeze=external_validation != "none",
@@ -244,13 +307,13 @@ def route_confirmatory_method(
 
         # paired shared-block filtration
         if contrasts != 2:
-            return _route(
+            return routed(
                 "unqualified",
                 "The paired directional filtration null qualification is prospective for exactly 2 contrasts; larger families must not borrow the separate 4/12-edge lattice calibration.",
                 requires_exact_shared_block_support=True,
             )
         if upstream_refits == "none" and external_validation == "none":
-            return _route(
+            return routed(
                 "primary_confirmatory",
                 "Predeclared positive transfer in paired validation groups uses the qualified shared-block one-sided v2 route with exact common positive-mass support.",
                 canonical_surface=(
@@ -260,7 +323,7 @@ def route_confirmatory_method(
                 requires_exact_shared_block_support=True,
             )
         if upstream_refits == "fixed_set" and external_validation == "none":
-            return _route(
+            return routed(
                 "primary_confirmatory",
                 "The same paired directional step must pass in every supplied refit; different refits cannot rescue one another.",
                 canonical_surface=(
@@ -270,7 +333,7 @@ def route_confirmatory_method(
                 requires_exact_shared_block_support=True,
             )
         if upstream_refits == "fixed_set" and external_validation == "untouched_frozen":
-            return _route(
+            return routed(
                 "primary_confirmatory",
                 "The paired all-refit directional filtration is confirmatory externally only through its pre-outcome semantic freeze endpoint.",
                 canonical_surface=(
@@ -284,7 +347,7 @@ def route_confirmatory_method(
                 requires_preoutcome_freeze=True,
                 requires_exact_shared_block_support=True,
             )
-        return _route(
+        return routed(
             "unqualified",
             "There is no canonical semantically frozen paired external directional endpoint without the fixed supplied refit-set contract.",
             requires_preoutcome_freeze=external_validation != "none",
@@ -295,13 +358,13 @@ def route_confirmatory_method(
     assert information_structure == "complete_lattice"
     if validation_design == "independent_groups":
         if blocks not in {2, 3}:
-            return _route(
+            return routed(
                 "unqualified",
                 "The independent directional complete lattice is prospectively qualified only for 2 or 3 information blocks = 4 or 12 directed edges; 4-block / 32-edge and larger families remain unqualified.",
                 edge_count=edge_count,
             )
         if upstream_refits == "none" and external_validation == "none":
-            return _route(
+            return routed(
                 "primary_confirmatory",
                 "The complete independent lattice maps all directed edges onto a prospectively qualified one-sided bootstrap-t family: four edges for two blocks or twelve edges for three blocks.",
                 canonical_surface=(
@@ -311,7 +374,7 @@ def route_confirmatory_method(
                 edge_count=edge_count,
             )
         if upstream_refits == "fixed_set" and external_validation == "none":
-            return _route(
+            return routed(
                 "primary_confirmatory",
                 "Each supplied refit is certified with the qualified independent 4- or 12-edge lattice, and global paths are reconstructed only from the same edges robust in every supplied refit.",
                 canonical_surface=(
@@ -320,27 +383,27 @@ def route_confirmatory_method(
                 ),
                 edge_count=edge_count,
             )
-        return _route(
+        return routed(
             "unqualified",
             "No semantically frozen untouched-external independent directional lattice endpoint is qualified yet; internal fixed-score and fixed-set 4/12-edge routes must not be promoted beyond their current scope.",
             requires_preoutcome_freeze=external_validation != "none",
             edge_count=edge_count,
         )
     if validation_design != "paired_shared_blocks":
-        return _route(
+        return routed(
             "unqualified",
             "Unknown directional lattice validation design.",
             edge_count=edge_count,
         )
     if blocks not in {2, 3}:
-        return _route(
+        return routed(
             "unqualified",
             "The paired directional complete lattice is qualified only for 2 or 3 information blocks, corresponding to 4 or 12 directed edges.",
             requires_exact_shared_block_support=True,
             edge_count=edge_count,
         )
     if upstream_refits == "none" and external_validation == "none":
-        return _route(
+        return routed(
             "primary_confirmatory",
             "Every edge of the calibrated paired directional lattice is certified in one family; failed edges cannot be rescued by a best path or Shapley summary.",
             canonical_surface=(
@@ -351,7 +414,7 @@ def route_confirmatory_method(
             edge_count=edge_count,
         )
     if upstream_refits == "fixed_set" and external_validation == "none":
-        return _route(
+        return routed(
             "primary_confirmatory",
             "Each paired lattice is certified separately in every supplied refit, then global paths are recomputed from the same-edge intersection across refits.",
             canonical_surface=(
@@ -362,7 +425,7 @@ def route_confirmatory_method(
             edge_count=edge_count,
         )
     if upstream_refits == "fixed_set" and external_validation == "untouched_frozen":
-        return _route(
+        return routed(
             "primary_confirmatory",
             "The complete paired lattice, refit IDs, row pairing metadata and inferential settings must all be frozen before untouched external outcomes are opened.",
             canonical_surface=(
@@ -377,7 +440,7 @@ def route_confirmatory_method(
             requires_exact_shared_block_support=True,
             edge_count=edge_count,
         )
-    return _route(
+    return routed(
         "unqualified",
         "There is no canonical semantically frozen paired lattice external endpoint without the fixed supplied refit-set contract.",
         requires_preoutcome_freeze=external_validation != "none",
