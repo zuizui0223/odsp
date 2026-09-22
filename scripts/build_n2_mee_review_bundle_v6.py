@@ -177,8 +177,8 @@ def build_bundle(output: Path) -> dict[str, object]:
 
         _copy(ROOT / "odsp" / "population_transfer.py", stage / "odsp" / "population_transfer.py")
         _copy(
-            ROOT / "tests" / "test_bop_population_transfer_amendment.py",
-            stage / "tests" / "test_bop_population_transfer_amendment.py",
+            ROOT / "tests" / "test_information_transfer_contract.py",
+            stage / "tests" / "test_information_transfer_contract.py",
         )
         _copy(
             ROOT / "N2_MEE_STATE_PREDICTION_V6_CONTRACT.json",
