@@ -32,20 +32,85 @@
       "rho_when_correlated": 0.7
     },
     "event_independence": "events are conditionally independent given layer and X",
-    "group_random_effect": 0.0,
+    "group_random_effect": 0,
     "reason_no_group_random_effect": "stage 1 isolates layer-identity confounding rather than mixing it with a second latent-group failure mode"
   },
   "factorial_design": {
-    "layer_effect_scale": [0.0, 0.5, 1.0, 2.0],
-    "within_layer_context_effect": [0.0, 0.25, 0.5],
-    "group_count": [5, 12, 30],
-    "events_per_group": [30, 100, 300],
-    "layer_count": [2, 4, 10],
-    "context_layer_correlation": ["none", "rho_0.7"],
-    "focal_learner_layer_identity": ["included", "excluded"],
+    "layer_effect_scale": [
+      0,
+      0.5,
+      1,
+      2
+    ],
+    "within_layer_context_effect": [
+      0,
+      0.25,
+      0.5
+    ],
+    "group_count": [
+      5,
+      12,
+      30
+    ],
+    "events_per_group": [
+      30,
+      100,
+      300
+    ],
+    "layer_count": [
+      2,
+      4,
+      10
+    ],
+    "context_layer_correlation": [
+      "none",
+      "rho_0.7"
+    ],
+    "focal_learner_layer_identity": [
+      "included",
+      "excluded"
+    ],
     "structural_eligibility_rule": "group_count >= 2 * layer_count",
-    "structurally_excluded_group_layer_pairs": [[5, 4], [5, 10], [12, 10]],
-    "eligible_group_layer_pairs": [[5, 2], [12, 2], [12, 4], [30, 2], [30, 4], [30, 10]],
+    "structurally_excluded_group_layer_pairs": [
+      [
+        5,
+        4
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        12,
+        10
+      ]
+    ],
+    "eligible_group_layer_pairs": [
+      [
+        5,
+        2
+      ],
+      [
+        12,
+        2
+      ],
+      [
+        12,
+        4
+      ],
+      [
+        30,
+        2
+      ],
+      [
+        30,
+        4
+      ],
+      [
+        30,
+        10
+      ]
+    ],
     "eligible_factorial_cell_count": 864,
     "replicates_per_factorial_cell": 128,
     "factorial_result_role": "mechanism map and effect-size surface; not used alone to decide the primary claim"
@@ -64,7 +129,9 @@
       "layer-only model Y ~ layer",
       "layer-plus-context model Y ~ layer + X"
     ],
-    "reason_audit_model_is_fit_when_focal_learner_excludes_layer": "the audit estimates context transfer conditional on layer even when the deployed or published focal learner omitted layer and allowed context to proxy it"
+    "reason_audit_model_is_fit_when_focal_learner_excludes_layer": "the audit estimates context transfer conditional on layer even when the deployed or published focal learner omitted layer and allowed context to proxy it",
+    "fit_failure_policy": "if a prespecified logistic fit fails to converge or is non-finite, that method/world is unavailable; do not add regularization, switch learners or alter folds after result access",
+    "separation_rescue_allowed": false
   },
   "cross_validation": {
     "random_row_cv": {
@@ -157,10 +224,13 @@
     "context_truth_is_zero_when_within_layer_context_effect_is_zero": true,
     "bop_calibration": {
       "reference_empirical_species_component_nats": 0.27,
-      "predeclared_realistic_window_nats": [0.20, 0.35],
+      "predeclared_realistic_window_nats": [
+        0.2,
+        0.35
+      ],
       "anchor_layer_count": 4,
       "anchor_group_count": 30,
-      "anchor_layer_effect_scale": 2.0,
+      "anchor_layer_effect_scale": 2,
       "deterministic_oracle_layer_gain_nats_under_balanced_30_group_allocation": 0.2664659336361246,
       "must_fall_inside_realistic_window_before_stochastic_execution": true
     }
@@ -185,8 +255,8 @@
     "anchors": [
       {
         "anchor_id": "A_explicit_layer_pooled_reference",
-        "layer_effect_scale": 2.0,
-        "within_layer_context_effect": 0.0,
+        "layer_effect_scale": 2,
+        "within_layer_context_effect": 0,
         "group_count": 30,
         "events_per_group": 100,
         "layer_count": 4,
@@ -195,8 +265,8 @@
       },
       {
         "anchor_id": "B_context_proxy_for_layer",
-        "layer_effect_scale": 2.0,
-        "within_layer_context_effect": 0.0,
+        "layer_effect_scale": 2,
+        "within_layer_context_effect": 0,
         "group_count": 30,
         "events_per_group": 100,
         "layer_count": 4,
@@ -205,8 +275,8 @@
       },
       {
         "anchor_id": "C_proxy_negative_control",
-        "layer_effect_scale": 2.0,
-        "within_layer_context_effect": 0.0,
+        "layer_effect_scale": 2,
+        "within_layer_context_effect": 0,
         "group_count": 30,
         "events_per_group": 100,
         "layer_count": 4,
@@ -215,7 +285,7 @@
       },
       {
         "anchor_id": "D_context_power_correlated",
-        "layer_effect_scale": 2.0,
+        "layer_effect_scale": 2,
         "within_layer_context_effect": 0.5,
         "group_count": 30,
         "events_per_group": 100,
@@ -225,7 +295,7 @@
       },
       {
         "anchor_id": "E_context_power_uncorrelated",
-        "layer_effect_scale": 2.0,
+        "layer_effect_scale": 2,
         "within_layer_context_effect": 0.5,
         "group_count": 30,
         "events_per_group": 100,
@@ -235,7 +305,7 @@
       },
       {
         "anchor_id": "F_high_information_bias_correlated",
-        "layer_effect_scale": 2.0,
+        "layer_effect_scale": 2,
         "within_layer_context_effect": 0.5,
         "group_count": 30,
         "events_per_group": 300,
@@ -245,7 +315,7 @@
       },
       {
         "anchor_id": "G_high_information_bias_uncorrelated",
-        "layer_effect_scale": 2.0,
+        "layer_effect_scale": 2,
         "within_layer_context_effect": 0.5,
         "group_count": 30,
         "events_per_group": 300,
@@ -257,26 +327,93 @@
   },
   "success_rules": {
     "monte_carlo_null_rate_ceiling_at_1000_replicates": 0.06378404875209022,
-    "central_failure_mode": [
-      "A_explicit_layer_pooled_reference: lower 95% Monte Carlo bound for group_cv_pooled_log_gain false-positive rate > 0.50",
-      "B_context_proxy_for_layer: lower 95% Monte Carlo bound for group_cv_pooled_log_gain false-positive rate > 0.50"
+    "false_positive_failure_mode": [
+      {
+        "anchor_id": "A_explicit_layer_pooled_reference",
+        "method_id": "group_cv_pooled_log_gain",
+        "quantity": "false_positive_rate",
+        "acceptance": "wilson_95_lower_bound_gt",
+        "threshold": 0.5
+      },
+      {
+        "anchor_id": "B_context_proxy_for_layer",
+        "method_id": "group_cv_pooled_log_gain",
+        "quantity": "false_positive_rate",
+        "acceptance": "wilson_95_lower_bound_gt",
+        "threshold": 0.5
+      }
     ],
-    "mechanism_negative_control": "C_proxy_negative_control: group_cv_pooled_log_gain false-positive rate <= 0.06378404875209022",
+    "mechanism_negative_control": [
+      {
+        "anchor_id": "C_proxy_negative_control",
+        "method_id": "group_cv_pooled_log_gain",
+        "quantity": "false_positive_rate",
+        "acceptance": "point_estimate_lte",
+        "threshold": 0.06378404875209022
+      }
+    ],
     "correction_type_i_error": [
-      "A_explicit_layer_pooled_reference: group_cv_layer_decomposed_context_gain false-positive rate <= 0.06378404875209022",
-      "B_context_proxy_for_layer: group_cv_layer_decomposed_context_gain false-positive rate <= 0.06378404875209022",
-      "C_proxy_negative_control: group_cv_layer_decomposed_context_gain false-positive rate <= 0.06378404875209022"
+      {
+        "anchor_id": "A_explicit_layer_pooled_reference",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "false_positive_rate",
+        "acceptance": "point_estimate_lte",
+        "threshold": 0.06378404875209022
+      },
+      {
+        "anchor_id": "B_context_proxy_for_layer",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "false_positive_rate",
+        "acceptance": "point_estimate_lte",
+        "threshold": 0.06378404875209022
+      },
+      {
+        "anchor_id": "C_proxy_negative_control",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "false_positive_rate",
+        "acceptance": "point_estimate_lte",
+        "threshold": 0.06378404875209022
+      }
     ],
     "correction_power": [
-      "D_context_power_correlated: group_cv_layer_decomposed_context_gain power >= 0.80",
-      "E_context_power_uncorrelated: group_cv_layer_decomposed_context_gain power >= 0.80"
+      {
+        "anchor_id": "D_context_power_correlated",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "power",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.8
+      },
+      {
+        "anchor_id": "E_context_power_uncorrelated",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "power",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.8
+      }
     ],
     "high_information_bias": [
-      "F_high_information_bias_correlated: absolute mean audit context-component bias <= 0.02 nats/event",
-      "G_high_information_bias_uncorrelated: absolute mean audit context-component bias <= 0.02 nats/event"
+      {
+        "anchor_id": "F_high_information_bias_correlated",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "absolute_mean_bias_nats_per_event",
+        "acceptance": "point_estimate_lte",
+        "threshold": 0.02
+      },
+      {
+        "anchor_id": "G_high_information_bias_uncorrelated",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "absolute_mean_bias_nats_per_event",
+        "acceptance": "point_estimate_lte",
+        "threshold": 0.02
+      }
     ],
-    "bop_reality_check": "the deterministic anchor layer gain must remain inside [0.20, 0.35] nats/event",
-    "all_rules_for_full_claim": true
+    "bop_reality_check": {
+      "quantity": "deterministic_oracle_layer_gain_nats_under_balanced_30_group_allocation",
+      "acceptance": "inside_closed_interval",
+      "lower": 0.2,
+      "upper": 0.35
+    },
+    "full_claim_requires_all_rules": true
   },
   "decision_tree_after_single_execution": {
     "full_failure_mode_paper": "all success_rules pass",
