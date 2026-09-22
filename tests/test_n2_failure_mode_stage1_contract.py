@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import itertools
 import json
+import math
 from pathlib import Path
 
 
@@ -173,3 +174,42 @@ def test_layer_allocation_is_deterministic_and_matches_bop_oracle_contract():
     contract = _read()
     allocation = contract["data_generating_process"]["layer_assignment"]
     assert "first group_count mod layer_count layers receive one extra group" in allocation
+
+
+def test_bop_oracle_gain_recomputes_from_frozen_dgp():
+    contract = _read()
+    dgp = contract["data_generating_process"]
+    calibration = contract["oracle_targets"]["bop_calibration"]
+
+    raw = [-1.0, -1.0 / 3.0, 1.0 / 3.0, 1.0]
+    mean = sum(raw) / len(raw)
+    variance = sum((value - mean) ** 2 for value in raw) / len(raw)
+    scale = math.sqrt(variance)
+    z = [(value - mean) / scale for value in raw]
+    counts = [8, 8, 7, 7]
+    weights = [count / 30.0 for count in counts]
+    delta = calibration["anchor_layer_effect_scale"]
+    intercept = dgp["intercept"]
+    probabilities = [
+        1.0 / (1.0 + math.exp(-(intercept + delta * value)))
+        for value in z
+    ]
+    pooled = sum(weight * probability for weight, probability in zip(weights, probabilities))
+    gain = sum(
+        weight
+        * (
+            probability * math.log(probability / pooled)
+            + (1.0 - probability)
+            * math.log((1.0 - probability) / (1.0 - pooled))
+        )
+        for weight, probability in zip(weights, probabilities)
+    )
+
+    assert math.isclose(
+        gain,
+        calibration[
+            "deterministic_oracle_layer_gain_nats_under_balanced_30_group_allocation"
+        ],
+        rel_tol=0.0,
+        abs_tol=1e-15,
+    )
