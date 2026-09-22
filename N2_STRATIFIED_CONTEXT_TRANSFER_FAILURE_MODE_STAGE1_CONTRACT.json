@@ -254,7 +254,8 @@
     "random-row minus group-CV optimism",
     "AUC diagnostic declaration rate",
     "accuracy diagnostic declaration rate",
-    "AUC estimable-group fraction"
+    "AUC estimable-group fraction",
+    "method availability fraction"
   ],
   "confirmatory_anchor_execution": {
     "replicates_per_anchor": 1000,
@@ -331,7 +332,9 @@
         "context_layer_correlation": "none",
         "focal_learner_layer_identity": "included"
       }
-    ]
+    ],
+    "rate_denominator_rule": "all planned replicates; unavailable replicates count as non-positive declarations for false-positive-rate and power calculations, and availability is reported separately",
+    "minimum_primary_method_availability": 0.95
   },
   "success_rules": {
     "monte_carlo_null_rate_ceiling_at_1000_replicates": 0.06378404875209022,
@@ -421,7 +424,79 @@
       "lower": 0.2,
       "upper": 0.35
     },
-    "full_claim_requires_all_rules": true
+    "full_claim_requires_all_rules": true,
+    "primary_method_availability": [
+      {
+        "anchor_id": "A_explicit_layer_pooled_reference",
+        "method_id": "group_cv_pooled_log_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "A_explicit_layer_pooled_reference",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "B_context_proxy_for_layer",
+        "method_id": "group_cv_pooled_log_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "B_context_proxy_for_layer",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "C_proxy_negative_control",
+        "method_id": "group_cv_pooled_log_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "C_proxy_negative_control",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "D_context_power_correlated",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "E_context_power_uncorrelated",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "F_high_information_bias_correlated",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "G_high_information_bias_uncorrelated",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      }
+    ]
   },
   "decision_tree_after_single_execution": {
     "full_failure_mode_paper": "all success_rules pass",
