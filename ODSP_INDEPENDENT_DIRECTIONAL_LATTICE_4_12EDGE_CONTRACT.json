@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-independent-directional-lattice-4-12edge-v1",
+  "date": "2026-09-22",
+  "purpose": "promote fixed-score independent-group one-sided complete information lattices for the prospectively qualified 4- and 12-edge family sizes",
+  "alternative": "greater",
+  "qualified_information_block_counts": [
+    2,
+    3
+  ],
+  "qualified_edge_counts": [
+    4,
+    12
+  ],
+  "unqualified_next_information_block_count": 4,
+  "unqualified_next_edge_count": 32,
+  "inference_surface": "odsp.information_lattice_positive_v2.certify_positive_information_lattice_v2",
+  "qualification_sources": {
+    "four_edge": {
+      "contract": "ODSP_ONE_SIDED_POSITIVE_BOOTSTRAP_T_CONTRACT.json",
+      "receipt": "ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json",
+      "contrast_count": 4
+    },
+    "twelve_edge": {
+      "contract": "ODSP_INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_CONTRACT.json",
+      "receipt": "INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json",
+      "contrast_count": 12
+    }
+  },
+  "governance": {
+    "complete_lattice_required": true,
+    "total_gain_can_override_failed_edge": false,
+    "best_path_can_override_failed_edge": false,
+    "shapley_can_override_failed_edge": false,
+    "post_outcome_path_selection_allowed": false,
+    "historical_empirical_endpoint_rerun": false,
+    "historical_empirical_endpoint_reclassified": false
+  },
+  "boundaries": {
+    "validation_groups_independent": true,
+    "upstream_refit_uncertainty_included": false,
+    "untouched_external_validation_included": false,
+    "four_or_more_information_blocks_qualified": false,
+    "arbitrary_family_size_generalization": false
+  }
+}
