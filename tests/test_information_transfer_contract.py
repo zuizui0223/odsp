@@ -379,3 +379,28 @@ def test_declared_population_clusters_drive_cluster_bootstrap():
     assert receipt["uncertainty"]["resampling_unit"] == "declared_population_cluster"
     assert receipt["uncertainty"]["cluster_bootstrap_limitation"] is not None
     assert receipt["familywise_confirmatory_claim"] is False
+
+
+def test_population_total_gain_is_reported_separately_from_stepwise_ceiling():
+    from odsp.information_transfer import InformationLevelScore, decompose_information_transfer
+    from odsp.population_transfer import summarize_population_transfer
+
+    species_step = [-0.2, -0.2, 0.3, 0.3, 0.3, 0.3]
+    context_step = [0.6] * 6
+    full = [a + b for a, b in zip(species_step, context_step)]
+    point = decompose_information_transfer(
+        (
+            InformationLevelScore("pooled", (), [0.0] * 6),
+            InformationLevelScore("species", ("species",), species_step),
+            InformationLevelScore(
+                "species_context", ("species", "context"), full
+            ),
+        ),
+        [f"g{i}" for i in range(6)],
+    )
+    summary = summarize_population_transfer(point, bootstrap_draws=1000, seed=31)
+
+    assert summary.total_gain.mean_gain_status == "positive"
+    assert summary.total_gain.mean_gain == pytest.approx(sum(full) / len(full))
+    assert summary.steps[0].mean_gain_status == "uncertain"
+    assert summary.population_mean_supported_ceiling == "pooled"
