@@ -19,7 +19,8 @@ import math
 from pathlib import Path
 from typing import Mapping
 
-from .population_transfer import summarize_population_transfer\nfrom .information_transfer import (
+from .population_transfer import summarize_population_transfer
+from .information_transfer import (
     InformationLevelScore,
     certify_information_transfer,
     decompose_information_transfer,
@@ -458,6 +459,9 @@ def run_information_transfer_contract(path: str | Path) -> dict[str, object]:
     groups: list[object] = []
     blocks: list[object] | None = [] if block_column is not None else None
     weights: list[float] | None = [] if weight_column is not None else None
+    population_clusters: list[object] | None = (
+        [] if population_cluster_column is not None else None
+    )
     level_specs = contract["levels"]
     assert isinstance(level_specs, list)
     level_scores: list[list[float]] = [[] for _ in level_specs]
@@ -597,7 +601,8 @@ def run_information_transfer_contract(path: str | Path) -> dict[str, object]:
         "score_contract": score_spec,
         "evaluation_declarations": evaluation,
         "point_result": point.as_dict(),
-        "certified_result": certified.as_dict(),\n        "population_result": population.as_dict(),
+        "certified_result": certified.as_dict(),
+        "population_result": population.as_dict(),
         "scientific_boundary": {
             "upstream_model_fitted_by_odsp": False,
             "upstream_model_refit_uncertainty_included": False,
