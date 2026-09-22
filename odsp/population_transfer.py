@@ -56,7 +56,8 @@ class PopulationTransferSummary:
     def as_dict(self) -> dict[str, object]:
         return {
             "estimand": self.estimand,
-            "role": self.role,\n            "familywise_confirmatory_claim": False,
+            "role": self.role,
+            "familywise_confirmatory_claim": False,
             "gain_tolerance": self.gain_tolerance,
             "group_count": self.group_count,
             "cluster_count": self.cluster_count,
