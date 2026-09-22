@@ -25,7 +25,7 @@ It is not the stronger question:
 
 ## Reported quantities
 
-For every adjacent information step, `odsp.population_transfer` reports:
+For the total first-to-final gain and for every adjacent information step, `odsp.population_transfer` reports:
 
 - equal-weight mean group gain;
 - percentile bootstrap interval for that mean;
@@ -44,6 +44,15 @@ and the positive-fraction lower bound also comes from the cluster bootstrap.
 With few population clusters this uncertainty estimate can be unstable; the
 receipt records that limitation rather than silently treating within-cluster
 groups as independent.
+
+## Total transfer versus stepwise attribution
+
+The total first-to-final gain is reported directly because it answers whether the
+complete added information representation improves prediction over the declared
+baseline. It is not blocked by an intermediate decomposition step.
+
+The stepwise ceiling is a separate attribution question: whether every declared
+increment on the path is itself supported at the population-mean level.
 
 ## Non-skippable population ceiling
 
