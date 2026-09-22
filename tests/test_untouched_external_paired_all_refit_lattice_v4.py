@@ -216,6 +216,9 @@ def test_two_block_freeze_to_external_lattice_is_universal(tmp_path: Path):
     assert receipt["boundaries"]["paired_row_metadata_frozen_before_outcome_access"] is True
     assert receipt["boundaries"]["runtime_pairing_metadata_matches_frozen_manifest"] is True
     assert receipt["boundaries"]["different_refit_paths_can_be_combined"] is False
+    assert receipt["boundaries"]["confirmatory_route_verified"] is True
+    assert receipt["confirmatory_route"]["verified"] is True
+    assert receipt["confirmatory_route"]["qualification_evidence"]
 
 
 def test_crossed_refit_paths_do_not_create_external_global_path(tmp_path: Path):
