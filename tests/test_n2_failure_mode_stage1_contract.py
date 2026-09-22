@@ -76,6 +76,9 @@ def test_primary_inference_uses_group_cv_population_mean_not_unanimity():
     assert rule["group_unit"] == "independent simulated group"
     assert rule["group_weight"] == "equal"
     assert rule["confidence_level"] == 0.95
+    assert rule["interval"]["switch_threshold_group_count"] == 10
+    assert "Student t interval" in rule["interval"]["fewer_than_10_independent_groups"]
+    assert "percentile bootstrap" in rule["interval"]["at_least_10_independent_groups"]
     assert rule["positive_transfer"] == "lower confidence bound > 0"
     assert rule["unanimity_rule_used"] is False
 
