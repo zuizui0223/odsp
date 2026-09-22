@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "receipt_type": "odsp_independent_c4_one_sided_support_envelope",
+  "date": "2026-09-21",
+  "generator_version": "analytic_independent_group_c4_support_envelope_one_sided_v1",
+  "empirical_endpoint": false,
+  "first_1000_simulation_run": {
+    "github_actions_run_id": 35553098486,
+    "github_actions_job_id": 106191409010,
+    "head_sha": "78bc7c884c271b4d33b2370a1a49af7ba83f9e1c",
+    "seed": 20260921,
+    "simulations_per_scenario": 1000,
+    "bootstrap_draws_per_interval": 500,
+    "group_count": 6,
+    "contrast_count": 4,
+    "contrast_correlation": 0.5,
+    "familywise_lower_confidence_level": 0.95
+  },
+  "acceptance_rule": {
+    "maximum_accepted_rate_at_1000_simulations": 0.06378404875209022,
+    "all_scenarios_required": true
+  },
+  "scenarios": [
+    {
+      "scenario_id": "c4-support-normal-b8",
+      "distribution": "normal",
+      "blocks_per_group": 8,
+      "contrast_count": 4,
+      "one_sided_familywise_false_positive_rate": 0.015,
+      "terminal_false_generalizing_rate": 0,
+      "monte_carlo_standard_error": 0.003843826218756514,
+      "acceptance_pass": true
+    },
+    {
+      "scenario_id": "c4-support-normal-b20",
+      "distribution": "normal",
+      "blocks_per_group": 20,
+      "contrast_count": 4,
+      "one_sided_familywise_false_positive_rate": 0.036,
+      "terminal_false_generalizing_rate": 0,
+      "monte_carlo_standard_error": 0.005891010100144117,
+      "acceptance_pass": true
+    },
+    {
+      "scenario_id": "c4-support-normal-b50",
+      "distribution": "normal",
+      "blocks_per_group": 50,
+      "contrast_count": 4,
+      "one_sided_familywise_false_positive_rate": 0.048,
+      "terminal_false_generalizing_rate": 0,
+      "monte_carlo_standard_error": 0.006759881655768835,
+      "acceptance_pass": true
+    },
+    {
+      "scenario_id": "c4-support-t3-b8",
+      "distribution": "student_t3",
+      "blocks_per_group": 8,
+      "contrast_count": 4,
+      "one_sided_familywise_false_positive_rate": 0.003,
+      "terminal_false_generalizing_rate": 0,
+      "monte_carlo_standard_error": 0.001729450779872038,
+      "acceptance_pass": true
+    },
+    {
+      "scenario_id": "c4-support-t3-b20",
+      "distribution": "student_t3",
+      "blocks_per_group": 20,
+      "contrast_count": 4,
+      "one_sided_familywise_false_positive_rate": 0.017,
+      "terminal_false_generalizing_rate": 0,
+      "monte_carlo_standard_error": 0.004087909000944126,
+      "acceptance_pass": true
+    },
+    {
+      "scenario_id": "c4-support-t3-b50",
+      "distribution": "student_t3",
+      "blocks_per_group": 50,
+      "contrast_count": 4,
+      "one_sided_familywise_false_positive_rate": 0.026,
+      "terminal_false_generalizing_rate": 0,
+      "monte_carlo_standard_error": 0.0050322956987840055,
+      "acceptance_pass": true
+    }
+  ],
+  "summary": {
+    "qualification_pass": true,
+    "largest_familywise_false_positive_rate": 0.048,
+    "support_anchor_counts": [
+      8,
+      20,
+      50
+    ],
+    "arbitrary_intermediate_or_larger_block_count_proven": false
+  },
+  "scientific_boundary": {
+    "validation_groups_independent": true,
+    "within_group_cross_contrast_covariance_preserved": true,
+    "upstream_refit_uncertainty_included": false,
+    "untouched_external_validation_included": false,
+    "historical_empirical_endpoint_rerun": false,
+    "historical_terminal_category_reclassified": false
+  }
+}
