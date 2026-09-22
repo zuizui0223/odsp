@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "receipt_id": "n2-v6-submission-superseded-by-failure-mode-reframe-2026-09-22",
+  "date": "2026-09-22",
+  "supersedes_for_submission": "N2_MEE_STATE_PREDICTION_V6_SUBMISSION_READINESS_RECEIPT.json",
+  "historical_readiness_receipt_deleted_or_rewritten": false,
+  "v6_submission_authorized": false,
+  "reason": "N2 scientific positioning changed from an ODSP framework paper to a failure-mode paper about pooled-reference skill being misattributed to context transfer; the v6 manuscript no longer represents the intended primary scientific claim",
+  "replacement_stage": "N2_STRATIFIED_CONTEXT_TRANSFER_FAILURE_MODE_STAGE1_CONTRACT.json",
+  "new_primary_claim_family": "prediction skill is not equivalent to transfer of the claimed information",
+  "preserved_evidence": [
+    "BOP prospective mixed endpoint remains frozen",
+    "BOP species-baseline decomposition remains valid descriptive evidence",
+    "BOP population summary remains descriptive evidence subject to the pending few-cluster interval correction"
+  ],
+  "frozen_do_not_extend": [
+    "new certification families",
+    "new lattice qualifications",
+    "new provenance layers"
+  ],
+  "allowed_before_new_manuscript": [
+    "few-cluster population interval bug fix",
+    "stage-1 frozen known-truth implementation and one-shot execution",
+    "stage-2 real-data re-evaluation under the new failure-mode question",
+    "submission-surface cleanup required by the rewritten manuscript"
+  ],
+  "submission_state": {
+    "old_v6_should_not_be_submitted": true,
+    "old_v6_exact_upload_artifact_should_not_be_used": true,
+    "new_manuscript_version_not_yet_assigned": true
+  }
+}
