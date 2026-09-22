@@ -2,25 +2,14 @@
   "schema_version": 1,
   "freeze_id": "odsp-method-surface-freeze-v1",
   "freeze_date": "2026-09-22",
-  "trigger": "state-prediction manuscript v6 submission preparation",
+  "trigger": "post-consolidation surface freeze after CLI merge #170 and N2 failure-mode reframe",
   "purpose": "stop inferential surface growth while preserving backward compatibility for already qualified contracts",
   "stable_user_entrypoints": [
     "run",
     "transfer"
   ],
-  "frozen_top_level_cli": [
-    "run",
-    "transfer",
-    "transfer-refits",
-    "method-route",
-    "freeze-refits-external",
-    "transfer-refits-external",
-    "freeze-refits-external-paired",
-    "transfer-refits-external-paired",
-    "freeze-refits-external-paired-lattice",
-    "transfer-refits-external-paired-lattice"
-  ],
   "advanced_compatibility_surfaces": [
+    "experimental",
     "transfer-refits",
     "method-route",
     "freeze-refits-external",
@@ -38,12 +27,28 @@
     "documentation_and_packaging_work_allowed": true,
     "existing_contract_reproducibility_work_allowed": true,
     "population_transfer_summary_is_descriptive_not_a_new_familywise_variant": true,
-    "historical_endpoint_reclassification_allowed": false
+    "historical_endpoint_reclassification_allowed": false,
+    "new_public_top_level_cli_commands_allowed_before_rewritten_n2_manuscript": false
   },
   "deferred_cleanup": {
-    "goal": "reduce advanced transfer/refit/lattice entry points behind a smaller transfer-oriented interface without breaking frozen contracts",
-    "timing": "after manuscript submission",
+    "goal": "keep run/transfer as ordinary stable entry points, experimental as the single visible advanced namespace, and retire hidden legacy aliases only through an explicit compatibility cycle",
+    "timing": "after rewritten N2 manuscript and release stabilization",
     "compatibility_requirement": "existing command names and receipts require an explicit deprecation/migration cycle",
     "method_route_growth_allowed": false
-  }
+  },
+  "public_top_level_cli": [
+    "run",
+    "transfer",
+    "experimental"
+  ],
+  "hidden_legacy_aliases": [
+    "transfer-refits",
+    "method-route",
+    "freeze-refits-external",
+    "transfer-refits-external",
+    "freeze-refits-external-paired",
+    "transfer-refits-external-paired",
+    "freeze-refits-external-paired-lattice",
+    "transfer-refits-external-paired-lattice"
+  ]
 }

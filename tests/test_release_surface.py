@@ -80,7 +80,7 @@ def test_package_build_workflow_tests_built_wheel_not_only_editable_checkout():
     assert re.search(r"version\('odsp-niche-geometry'\).*0\.11\.0", text)
 
 
-def test_method_surface_is_frozen_at_ten_top_level_commands():
+def test_method_surface_is_frozen_at_three_public_commands_plus_hidden_aliases():
     freeze = json.loads(
         (ROOT / "ODSP_METHOD_SURFACE_FREEZE_V1.json").read_text(encoding="utf-8")
     )
@@ -94,9 +94,11 @@ def test_method_surface_is_frozen_at_ten_top_level_commands():
     observed = list(subparser_actions[0].choices)
 
     assert freeze["stable_user_entrypoints"] == ["run", "transfer"]
-    assert observed == freeze["frozen_top_level_cli"]
-    assert len(observed) == 10
-    assert freeze["policy"]["new_top_level_cli_commands_allowed_before_v6_submission"] is False
+    assert freeze["public_top_level_cli"] == ["run", "transfer", "experimental"]
+    assert observed == freeze["public_top_level_cli"] + freeze["hidden_legacy_aliases"]
+    assert len(freeze["public_top_level_cli"]) == 3
+    assert len(freeze["hidden_legacy_aliases"]) == 8
+    assert freeze["policy"]["new_public_top_level_cli_commands_allowed_before_rewritten_n2_manuscript"] is False
     assert freeze["policy"]["new_inferential_variant_families_allowed_before_v6_submission"] is False
     assert freeze["deferred_cleanup"]["method_route_growth_allowed"] is False
 

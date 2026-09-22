@@ -1,0 +1,528 @@
+{
+  "schema_version": 1,
+  "contract_id": "n2-stratified-context-transfer-failure-mode-stage1-v1",
+  "freeze_date": "2026-09-22",
+  "status": "pre_result_frozen",
+  "purpose": "test whether predictive skill measured against a pooled baseline falsely attributes layer identity to context information transfer, and whether a layer-conditioned additive score decomposition removes that failure",
+  "primary_claim_if_supported": "Predictive skill is not equivalent to transfer of the claimed information: when outcomes differ among layers, skill against a pooled reference can be credited to context even when the true within-layer context effect is zero; conditioning the reference on layer separates layer identity from within-layer context transfer.",
+  "relationship_to_odsp": {
+    "odsp_is_primary_scientific_claim": false,
+    "odsp_role": "implementation of held-out score accounting and population-level transfer summaries",
+    "new_certification_family_introduced": false,
+    "lattice_used_in_stage1": false,
+    "all_group_unanimity_rule_used": false
+  },
+  "prerequisites": {
+    "population_mean_decision_rule": "95% interval for the equal-weight mean across independent groups; declare positive transfer only when the lower bound is greater than zero",
+    "population_cluster_used_for_stage1_primary_inference": false,
+    "reason_population_cluster_not_used": "layer is a fixed simulated design factor; the stage-1 estimand is the equal-weight mean across the finite designed mix of independent groups, not a superpopulation of random layers",
+    "few_cluster_bug_must_be_fixed_before_stage2_real_data_or_manuscript_submission": true,
+    "few_cluster_fix_is_only_allowed_population_transfer_inference_change_before_stage2": true
+  },
+  "data_generating_process": {
+    "outcome": "binary ecological state Y",
+    "link": "logit",
+    "linear_predictor": "logit P(Y=1) = intercept + layer_effect_scale * z_layer + within_layer_context_effect * X",
+    "intercept": -0.5,
+    "layer_score_definition": "for K layers, z_layer is equally spaced from -1 to 1, then centered and scaled to population SD 1",
+    "layer_assignment": "groups are allocated as evenly as possible among layers; layers are ordered by z_layer and the first group_count mod layer_count layers receive one extra group; group identifiers are then deterministic",
+    "context_generation": {
+      "uncorrelated": "X = epsilon, epsilon ~ Normal(0,1)",
+      "correlated": "X = rho * z_layer + sqrt(1-rho^2) * epsilon",
+      "rho_when_correlated": 0.7
+    },
+    "event_independence": "events are conditionally independent given layer and X",
+    "group_random_effect": 0,
+    "reason_no_group_random_effect": "stage 1 isolates layer-identity confounding rather than mixing it with a second latent-group failure mode"
+  },
+  "factorial_design": {
+    "layer_effect_scale": [
+      0,
+      0.5,
+      1,
+      2
+    ],
+    "within_layer_context_effect": [
+      0,
+      0.25,
+      0.5
+    ],
+    "group_count": [
+      5,
+      12,
+      30
+    ],
+    "events_per_group": [
+      30,
+      100,
+      300
+    ],
+    "layer_count": [
+      2,
+      4,
+      10
+    ],
+    "context_layer_correlation": [
+      "none",
+      "rho_0.7"
+    ],
+    "focal_learner_layer_identity": [
+      "included",
+      "excluded"
+    ],
+    "structural_eligibility_rule": "group_count >= 2 * layer_count",
+    "structurally_excluded_group_layer_pairs": [
+      [
+        5,
+        4
+      ],
+      [
+        5,
+        10
+      ],
+      [
+        12,
+        10
+      ]
+    ],
+    "eligible_group_layer_pairs": [
+      [
+        5,
+        2
+      ],
+      [
+        12,
+        2
+      ],
+      [
+        12,
+        4
+      ],
+      [
+        30,
+        2
+      ],
+      [
+        30,
+        4
+      ],
+      [
+        30,
+        10
+      ]
+    ],
+    "eligible_factorial_cell_count": 864,
+    "replicates_per_factorial_cell": 64,
+    "factorial_result_role": "mechanism map and effect-size surface; 64 replicates and 500-draw within-world intervals are descriptive and do not decide the primary claim",
+    "population_interval_bootstrap_draws_per_world": 500
+  },
+  "learners": {
+    "family": "correctly specified logistic regression",
+    "solver_contract": "unpenalized maximum-likelihood logistic regression with fixed convergence tolerance and maximum iterations, identical across methods",
+    "focal_context_only": "Y ~ X",
+    "focal_layer_plus_context": "Y ~ layer + X",
+    "focal_model_selection": {
+      "included": "focal_layer_plus_context",
+      "excluded": "focal_context_only"
+    },
+    "audit_models_always_fit": [
+      "pooled intercept-only model",
+      "layer-only model Y ~ layer",
+      "layer-plus-context model Y ~ layer + X"
+    ],
+    "reason_audit_model_is_fit_when_focal_learner_excludes_layer": "the audit estimates context transfer conditional on layer even when the deployed or published focal learner omitted layer and allowed context to proxy it",
+    "fit_failure_policy": "if a prespecified logistic fit fails to converge or is non-finite, that method/world is unavailable; do not add regularization, switch learners or alter folds after result access",
+    "separation_rescue_allowed": false
+  },
+  "cross_validation": {
+    "random_row_cv": {
+      "folds": 5,
+      "assignment": "seeded row-level folds shared by all compared models within a simulated world",
+      "role": "diagnostic of conventional row-level validation"
+    },
+    "group_cv": {
+      "folds": 5,
+      "assignment": "whole independent groups are assigned to folds with layer-stratified round-robin allocation; no group appears in training and testing for the same fold",
+      "minimum_training_support": "the structural eligibility rule guarantees at least one training group from every layer whenever a group from that layer is held out",
+      "role": "primary validation design"
+    },
+    "paired_comparison": "all evaluation methods use the same generated world and deterministic fold assignments"
+  },
+  "score_definitions": {
+    "primary_proper_score": "held-out log score; larger is better",
+    "pooled_reference": "held-out score of the intercept-only model fitted on the corresponding training fold",
+    "layer_conditioned_reference": "held-out score of the layer-only model fitted on the corresponding training fold",
+    "naive_pooled_gain": "score(focal learner) - score(pooled reference)",
+    "audit_layer_component": "score(layer-only) - score(pooled reference)",
+    "audit_context_component": "score(layer-plus-context) - score(layer-only)",
+    "audit_identity": "score(layer-plus-context) - score(pooled) = audit_layer_component + audit_context_component",
+    "required_additivity_tolerance": 1e-12
+  },
+  "evaluation_methods": [
+    {
+      "method_id": "random_row_cv_pooled_log_gain",
+      "validation": "random_row_cv",
+      "reference": "pooled",
+      "metric": "log_score_gain",
+      "inferential_role": "diagnostic"
+    },
+    {
+      "method_id": "group_cv_pooled_log_gain",
+      "validation": "group_cv",
+      "reference": "pooled",
+      "metric": "log_score_gain",
+      "inferential_role": "primary_failure_mode"
+    },
+    {
+      "method_id": "group_cv_layer_decomposed_context_gain",
+      "validation": "group_cv",
+      "reference": "layer_conditioned",
+      "metric": "audit_context_component",
+      "inferential_role": "primary_correction"
+    },
+    {
+      "method_id": "random_row_cv_auc",
+      "validation": "random_row_cv",
+      "reference": "chance_auc_0.5",
+      "metric": "auc_minus_0.5",
+      "inferential_role": "diagnostic_nonadditive"
+    },
+    {
+      "method_id": "group_cv_auc",
+      "validation": "group_cv",
+      "reference": "chance_auc_0.5",
+      "metric": "auc_minus_0.5",
+      "inferential_role": "diagnostic_nonadditive"
+    },
+    {
+      "method_id": "random_row_cv_accuracy",
+      "validation": "random_row_cv",
+      "reference": "training_fold_pooled_majority_classifier",
+      "metric": "accuracy_gain",
+      "inferential_role": "diagnostic_nonadditive"
+    },
+    {
+      "method_id": "group_cv_accuracy",
+      "validation": "group_cv",
+      "reference": "training_fold_pooled_majority_classifier",
+      "metric": "accuracy_gain",
+      "inferential_role": "diagnostic_nonadditive"
+    }
+  ],
+  "population_decision_rule": {
+    "group_unit": "independent simulated group",
+    "group_weight": "equal",
+    "confidence_level": 0.95,
+    "interval": {
+      "fewer_than_10_independent_groups": "two-sided Student t interval for the equal-weight group mean with df = group_count - 1",
+      "at_least_10_independent_groups": "group percentile bootstrap; 500 draws in the descriptive factorial map and 4000 draws in confirmatory anchors",
+      "switch_threshold_group_count": 10,
+      "factorial_bootstrap_draws": 500,
+      "confirmatory_anchor_bootstrap_draws": 4000
+    },
+    "positive_transfer": "lower confidence bound > 0",
+    "nonpositive_or_uncertain": "lower confidence bound <= 0",
+    "auc_unavailable_rule": "a group lacking both outcome classes has unavailable group AUC and is excluded only from the AUC diagnostic with the estimable fraction reported; no value is imputed",
+    "unanimity_rule_used": false,
+    "reason_for_small_group_switch": "avoid discrete percentile-bootstrap intervals becoming spuriously narrow when only a few independent resampling units exist"
+  },
+  "oracle_targets": {
+    "context_transfer_truth": "expected log-score gain of the true P(Y|layer,X) over true P(Y|layer)",
+    "layer_transfer_truth": "expected log-score gain of the true P(Y|layer) over the true pooled P(Y)",
+    "context_truth_is_zero_when_within_layer_context_effect_is_zero": true,
+    "bop_calibration": {
+      "reference_empirical_species_component_nats": 0.27,
+      "predeclared_realistic_window_nats": [
+        0.2,
+        0.35
+      ],
+      "anchor_layer_count": 4,
+      "anchor_group_count": 30,
+      "anchor_layer_effect_scale": 2,
+      "deterministic_oracle_layer_gain_nats_under_balanced_30_group_allocation": 0.2664659336361246,
+      "must_fall_inside_realistic_window_before_stochastic_execution": true
+    }
+  },
+  "reported_outcomes_per_factorial_cell": [
+    "false_positive_rate when within_layer_context_effect = 0",
+    "power when within_layer_context_effect > 0",
+    "mean estimated naive pooled gain",
+    "mean estimated audit layer component",
+    "mean estimated audit context component",
+    "audit context-component bias relative to oracle context transfer",
+    "mean interval width",
+    "random-row minus group-CV optimism",
+    "AUC diagnostic declaration rate",
+    "accuracy diagnostic declaration rate",
+    "AUC estimable-group fraction",
+    "method availability fraction"
+  ],
+  "confirmatory_anchor_execution": {
+    "replicates_per_anchor": 1000,
+    "bootstrap_draws_per_population_interval": 4000,
+    "master_seed": 20260922,
+    "anchors": [
+      {
+        "anchor_id": "A_explicit_layer_pooled_reference",
+        "layer_effect_scale": 2,
+        "within_layer_context_effect": 0,
+        "group_count": 30,
+        "events_per_group": 100,
+        "layer_count": 4,
+        "context_layer_correlation": "none",
+        "focal_learner_layer_identity": "included"
+      },
+      {
+        "anchor_id": "B_context_proxy_for_layer",
+        "layer_effect_scale": 2,
+        "within_layer_context_effect": 0,
+        "group_count": 30,
+        "events_per_group": 100,
+        "layer_count": 4,
+        "context_layer_correlation": "rho_0.7",
+        "focal_learner_layer_identity": "excluded"
+      },
+      {
+        "anchor_id": "C_proxy_negative_control",
+        "layer_effect_scale": 2,
+        "within_layer_context_effect": 0,
+        "group_count": 30,
+        "events_per_group": 100,
+        "layer_count": 4,
+        "context_layer_correlation": "none",
+        "focal_learner_layer_identity": "excluded"
+      },
+      {
+        "anchor_id": "D_context_power_correlated",
+        "layer_effect_scale": 2,
+        "within_layer_context_effect": 0.5,
+        "group_count": 30,
+        "events_per_group": 100,
+        "layer_count": 4,
+        "context_layer_correlation": "rho_0.7",
+        "focal_learner_layer_identity": "included"
+      },
+      {
+        "anchor_id": "E_context_power_uncorrelated",
+        "layer_effect_scale": 2,
+        "within_layer_context_effect": 0.5,
+        "group_count": 30,
+        "events_per_group": 100,
+        "layer_count": 4,
+        "context_layer_correlation": "none",
+        "focal_learner_layer_identity": "included"
+      },
+      {
+        "anchor_id": "F_high_information_bias_correlated",
+        "layer_effect_scale": 2,
+        "within_layer_context_effect": 0.5,
+        "group_count": 30,
+        "events_per_group": 300,
+        "layer_count": 4,
+        "context_layer_correlation": "rho_0.7",
+        "focal_learner_layer_identity": "included"
+      },
+      {
+        "anchor_id": "G_high_information_bias_uncorrelated",
+        "layer_effect_scale": 2,
+        "within_layer_context_effect": 0.5,
+        "group_count": 30,
+        "events_per_group": 300,
+        "layer_count": 4,
+        "context_layer_correlation": "none",
+        "focal_learner_layer_identity": "included"
+      }
+    ],
+    "rate_denominator_rule": "all planned replicates; unavailable replicates count as non-positive declarations for false-positive-rate and power calculations, and availability is reported separately",
+    "minimum_primary_method_availability": 0.95
+  },
+  "success_rules": {
+    "monte_carlo_null_rate_ceiling_at_1000_replicates": 0.06378404875209022,
+    "false_positive_failure_mode": [
+      {
+        "anchor_id": "A_explicit_layer_pooled_reference",
+        "method_id": "group_cv_pooled_log_gain",
+        "quantity": "false_positive_rate",
+        "acceptance": "wilson_95_lower_bound_gt",
+        "threshold": 0.5
+      },
+      {
+        "anchor_id": "B_context_proxy_for_layer",
+        "method_id": "group_cv_pooled_log_gain",
+        "quantity": "false_positive_rate",
+        "acceptance": "wilson_95_lower_bound_gt",
+        "threshold": 0.5
+      }
+    ],
+    "mechanism_negative_control": [
+      {
+        "anchor_id": "C_proxy_negative_control",
+        "method_id": "group_cv_pooled_log_gain",
+        "quantity": "false_positive_rate",
+        "acceptance": "point_estimate_lte",
+        "threshold": 0.06378404875209022
+      }
+    ],
+    "correction_type_i_error": [
+      {
+        "anchor_id": "A_explicit_layer_pooled_reference",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "false_positive_rate",
+        "acceptance": "point_estimate_lte",
+        "threshold": 0.06378404875209022
+      },
+      {
+        "anchor_id": "B_context_proxy_for_layer",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "false_positive_rate",
+        "acceptance": "point_estimate_lte",
+        "threshold": 0.06378404875209022
+      },
+      {
+        "anchor_id": "C_proxy_negative_control",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "false_positive_rate",
+        "acceptance": "point_estimate_lte",
+        "threshold": 0.06378404875209022
+      }
+    ],
+    "correction_power": [
+      {
+        "anchor_id": "D_context_power_correlated",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "power",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.8
+      },
+      {
+        "anchor_id": "E_context_power_uncorrelated",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "power",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.8
+      }
+    ],
+    "high_information_bias": [
+      {
+        "anchor_id": "F_high_information_bias_correlated",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "absolute_mean_bias_nats_per_event",
+        "acceptance": "point_estimate_lte",
+        "threshold": 0.02
+      },
+      {
+        "anchor_id": "G_high_information_bias_uncorrelated",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "absolute_mean_bias_nats_per_event",
+        "acceptance": "point_estimate_lte",
+        "threshold": 0.02
+      }
+    ],
+    "bop_reality_check": {
+      "quantity": "deterministic_oracle_layer_gain_nats_under_balanced_30_group_allocation",
+      "acceptance": "inside_closed_interval",
+      "lower": 0.2,
+      "upper": 0.35
+    },
+    "full_claim_requires_all_rules": true,
+    "primary_method_availability": [
+      {
+        "anchor_id": "A_explicit_layer_pooled_reference",
+        "method_id": "group_cv_pooled_log_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "A_explicit_layer_pooled_reference",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "B_context_proxy_for_layer",
+        "method_id": "group_cv_pooled_log_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "B_context_proxy_for_layer",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "C_proxy_negative_control",
+        "method_id": "group_cv_pooled_log_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "C_proxy_negative_control",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "D_context_power_correlated",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "E_context_power_uncorrelated",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "F_high_information_bias_correlated",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      },
+      {
+        "anchor_id": "G_high_information_bias_uncorrelated",
+        "method_id": "group_cv_layer_decomposed_context_gain",
+        "quantity": "availability_fraction",
+        "acceptance": "point_estimate_gte",
+        "threshold": 0.95
+      }
+    ]
+  },
+  "decision_tree_after_single_execution": {
+    "full_failure_mode_paper": "all success_rules pass",
+    "narrow_explicit_layer_only_paper": "A and all correction validity rules pass, but B fails; remove the claim that correlated context reliably proxies omitted layer identity",
+    "diagnostic_only_rescope": "false-positive control passes but either D or E power is below 0.80; do not claim the correction preserves useful sensitivity",
+    "central_claim_withdrawn": "A fails at the BOP-calibrated layer effect, the deterministic BOP reality check fails, or the decomposed context test exceeds the null error ceiling in any primary null anchor",
+    "no_post_result_threshold_changes": true,
+    "no_selective_anchor_deletion": true
+  },
+  "single_execution_governance": {
+    "contract_must_be_merged_before_simulation_result_exists": true,
+    "confirmatory_results_generated_once": true,
+    "factorial_grid_and_anchor_results_emitted_in_the_same_workflow": true,
+    "seed_changes_after_result_access_forbidden": true,
+    "factor_level_changes_after_result_access_forbidden": true,
+    "success_threshold_changes_after_result_access_forbidden": true,
+    "bug_fix_policy": "a material implementation bug invalidates the affected run; fix under a new contract version and retain the invalidated receipt rather than silently rerunning v1",
+    "exploratory_followups_must_be_labeled_exploratory": true
+  },
+  "scientific_boundaries": {
+    "simulation_establishes_real_world_prevalence_of_the_failure_mode": false,
+    "auc_or_accuracy_identifies_information_source": false,
+    "random_row_cv_used_for_primary_claim": false,
+    "layer_conditioning_proves_causality": false,
+    "odsp_framework_novelty_is_primary_claim": false,
+    "all_group_unanimity_supports_primary_claim": false,
+    "stage2_real_data_required_for_ecological_relevance": true
+  }
+}
