@@ -60,6 +60,14 @@ jobs:
           python scripts/build_n2_mee_review_bundle_v6.py
           --output build/n2_mee_v6_submission/N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v6.zip
 
+      - name: Validate added population-transfer code inside review bundle
+        run: |
+          rm -rf build/v6_bundle_check
+          mkdir -p build/v6_bundle_check
+          unzip -q build/n2_mee_v6_submission/N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v6.zip -d build/v6_bundle_check
+          cd build/v6_bundle_check
+          python -m pytest -q tests/test_population_transfer_review.py
+
       - name: Render anonymous v6 review DOCX
         run: |
           python scripts/render_n2_mee_review_docx_v6.py             --input build/n2_mee_v6_submission/N2_MEE_MANUSCRIPT_DRAFT_v6.md             --output build/n2_mee_v6_submission/N2_MEE_ANONYMOUS_REVIEW_v6.docx             --manifest build/n2_mee_v6_submission/review_docx_v6_manifest.json
