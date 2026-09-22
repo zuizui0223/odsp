@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "receipt_id": "n2-mee-state-prediction-v6-submission-readiness-2026-09-22",
+  "validated_date": "2026-09-22",
+  "target_journal": "Methods in Ecology and Evolution",
+  "manuscript_version": 6,
+  "source": {
+    "population_estimand_merge_commit": "6900926ffc138ff53e22a1bae0e776016e0fe80d",
+    "submission_sync_pr": 168,
+    "submission_sync_head_sha": "f24fa7a6b593da33e0038f1a4ed192607ddff703",
+    "submission_sync_merge_commit": "10d1fa34abbc885d5c7442a9c029c524ff1d12bd",
+    "method_surface_freeze_merge_commit": "f527b1c2a6a1629c898e0f04075df7f43f2d9094"
+  },
+  "submission_artifact": {
+    "workflow_run_id": 35688663685,
+    "artifact_id": 10677921242,
+    "artifact_name": "n2-mee-v6-submission-sync",
+    "artifact_digest": "sha256:bc1eb0d2113e764505a65f4a64af1945cdb564080bb813d8c26f41a50c9ec79c",
+    "source_head_sha": "f24fa7a6b593da33e0038f1a4ed192607ddff703",
+    "retention_expires": "2026-12-21"
+  },
+  "canonical_file_hashes": {
+    "N2_MEE_MANUSCRIPT_DRAFT_v6.md": "97b9a931fbc49a498925cd307b6f550d6d80de72025b728623b3d7794891c73e",
+    "N2_MEE_ANONYMOUS_REVIEW_v6.docx": "cc2207cd7e73b7cf6ddf4c88fc1e376a12a20b42faf4db5d0138a13fb7671017",
+    "N2_MEE_ANONYMOUS_REVIEW_BUNDLE_v6.zip": "bd3935fc4c7789cd71e8a372205ba46482218a778a2dc516cf9e8b086b7ac552",
+    "N2_MEE_SUBMISSION_HANDOFF_PACKET_V6.json": "eda68864d1945def5f2251114c21ca2955a5c2a9a6f17ec60d9f247059060e91",
+    "N2_MEE_COVER_LETTER_DRAFT_v6.md": "baadaa7624e13ef7001f1a55e144f81123f7ca306466a2edcd53998462a98afb",
+    "N2_MEE_DISCLOSURE_DRAFTS_v6.md": "e8cec95b108dcf37a985715b9899f0430d4dde280559e6ad800ea2479de00d23",
+    "N2_MEE_TITLE_PAGE_TEMPLATE_v6.md": "8145c15d3b0fb9eb57936e02e8f53260e9fc094120524124444c54069e725d86"
+  },
+  "mechanical_validation": {
+    "abstract_word_count": 333,
+    "abstract_ceiling_words": 350,
+    "review_docx_structural_validation_passed": true,
+    "review_docx_nonempty_main_paragraph_count": 142,
+    "review_docx_rendered_page_count": 28,
+    "review_docx_visual_qa_completed": true,
+    "review_docx_clipping_or_overlap_detected": false,
+    "review_docx_author_metadata_blank": true,
+    "review_bundle_identity_scan_passed": true,
+    "review_bundle_internal_workflow_or_artifact_provenance_included": false,
+    "final_author_visual_approval_completed": false
+  },
+  "scientific_boundary": {
+    "bop_prospective_terminal_category": "empirical_state_prediction_mixed",
+    "bop_prospective_positive_individual_count": 27,
+    "bop_prospective_scored_individual_count": 30,
+    "bop_population_summary_post_outcome": true,
+    "bop_population_summary_descriptive_only": true,
+    "bop_population_cluster_count": 4,
+    "bop_total_mean_gain": 0.5709102207418053,
+    "bop_total_mean_gain_lower": 0.23968851406795652,
+    "bop_total_mean_gain_upper": 1.0411910572857963,
+    "bop_new_individual_prediction_lower": -0.4232296596168067,
+    "bop_new_individual_prediction_upper": 1.5650501011004172,
+    "bop_stepwise_population_ceiling": "pooled",
+    "primary_endpoint_reclassified": false,
+    "empirical_endpoint_rerun": false,
+    "model_refit_performed": false,
+    "raw_source_data_reaccessed": false,
+    "retuning_performed": false
+  },
+  "submission_state": {
+    "scientific_and_mechanical_package_ready": true,
+    "ready_for_author_metadata_completion": true,
+    "ready_for_submission": false,
+    "remaining_author_only_gates": [
+      "final author list and order",
+      "affiliations and corresponding-author contact",
+      "final CRediT roles and AI-code accountable author",
+      "acknowledgements and funding",
+      "conflict-of-interest confirmation",
+      "all-author submission approval",
+      "not-under-consideration-elsewhere confirmation",
+      "third-party reuse terms or permissions confirmation",
+      "final approval of data, ethics and generative-AI wording",
+      "translated-abstract decision",
+      "final visual approval of the exact upload files"
+    ]
+  }
+}
