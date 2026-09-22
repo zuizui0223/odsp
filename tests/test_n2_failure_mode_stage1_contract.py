@@ -50,7 +50,7 @@ def test_factorial_grid_has_exact_predeclared_size_and_structural_exclusions():
     assert design["eligible_factorial_cell_count"] == 864
     assert excluded_pairs == {(5, 4), (5, 10), (12, 10)}
     assert {tuple(x) for x in design["structurally_excluded_group_layer_pairs"]} == excluded_pairs
-    assert design["replicates_per_factorial_cell"] == 128
+    assert design["replicates_per_factorial_cell"] == 64\n    assert design["population_interval_bootstrap_draws_per_world"] == 500
 
 
 def test_bop_calibration_is_predeclared_and_in_realistic_window():
@@ -78,7 +78,7 @@ def test_primary_inference_uses_group_cv_population_mean_not_unanimity():
     assert rule["confidence_level"] == 0.95
     assert rule["interval"]["switch_threshold_group_count"] == 10
     assert "Student t interval" in rule["interval"]["fewer_than_10_independent_groups"]
-    assert "percentile bootstrap" in rule["interval"]["at_least_10_independent_groups"]
+    assert "percentile bootstrap" in rule["interval"]["at_least_10_independent_groups"]\n    assert rule["interval"]["factorial_bootstrap_draws"] == 500\n    assert rule["interval"]["confirmatory_anchor_bootstrap_draws"] == 4000
     assert rule["positive_transfer"] == "lower confidence bound > 0"
     assert rule["unanimity_rule_used"] is False
 
@@ -164,3 +164,9 @@ def test_old_v6_submission_package_is_explicitly_superseded():
     assert receipt["replacement_stage"] == CONTRACT.name
     assert receipt["submission_state"]["old_v6_should_not_be_submitted"] is True
     assert receipt["submission_state"]["old_v6_exact_upload_artifact_should_not_be_used"] is True
+
+
+def test_layer_allocation_is_deterministic_and_matches_bop_oracle_contract():
+    contract = _read()
+    allocation = contract["data_generating_process"]["layer_assignment"]
+    assert "first group_count mod layer_count layers receive one extra group" in allocation
