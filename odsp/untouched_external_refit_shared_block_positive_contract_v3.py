@@ -16,6 +16,7 @@ from typing import Mapping
 
 import numpy as np
 
+from ._confirmatory_execution_guard import verify_confirmatory_execution_route
 from .information_transfer_contract import _read_rows, _score, _text, _value, _weight
 from .refit_information_transfer import RefitInformationLevelScores
 from .refit_positive_robustness import (
@@ -315,6 +316,17 @@ def run_untouched_external_refit_shared_block_positive_contract_v3(
     contract_path = Path(path)
     semantic_lock = verify_paired_external_freeze_semantic_lock(contract_path)
     contract = load_untouched_external_refit_positive_contract(contract_path)
+    levels = contract["levels"]
+    assert isinstance(levels, list)
+    confirmatory_route = verify_confirmatory_execution_route(
+        validation_design="paired_shared_blocks",
+        information_structure="filtration",
+        canonical_surface=(
+            "odsp.untouched_external_refit_shared_block_positive_contract_v3."
+            "run_untouched_external_refit_shared_block_positive_contract_v3"
+        ),
+        contrast_count=len(levels) - 1,
+    )
     data_path, rows, refit_ids, canonical_rows, groups, blocks, weights, refit_levels = (
         _runtime_table(contract_path, contract)
     )
@@ -354,6 +366,7 @@ def run_untouched_external_refit_shared_block_positive_contract_v3(
         "external_heldout_row_count": len(canonical_rows),
         "external_validation": external,
         "freeze_manifest_semantic_lock": semantic_lock,
+        "confirmatory_route": confirmatory_route,
         "scientific_roles": {
             "alternative": "greater",
             "dataset_role": "untouched_external_validation",
@@ -368,6 +381,7 @@ def run_untouched_external_refit_shared_block_positive_contract_v3(
             "freeze_manifest_semantics_verified": True,
             "external_row_roster_locked_before_outcome_access": True,
             "runtime_analysis_matches_frozen_manifest": True,
+            "confirmatory_route_verified": True,
             "paired_shared_block_design_frozen_before_outcome_access": True,
             "exact_positive_mass_shared_block_support_required": True,
             "missing_shared_blocks_imputed": False,
