@@ -135,6 +135,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="odsp",
         description="Run explicit ecological prediction and information-transfer contracts.",
+        epilog=(
+            "Stable entry points: 'odsp run' and 'odsp transfer'. "
+            "Other top-level commands are frozen advanced compatibility surfaces "
+            "for existing qualified contracts; the public command set is not open-ended."
+        ),
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
     run = subparsers.add_parser(
