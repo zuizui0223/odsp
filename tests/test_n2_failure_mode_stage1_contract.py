@@ -113,7 +113,14 @@ def test_confirmatory_anchors_and_success_rules_are_frozen():
     assert anchors["C_proxy_negative_control"]["context_layer_correlation"] == "none"
 
     assert rules["monte_carlo_null_rate_ceiling_at_1000_replicates"] == 0.06378404875209022
-    assert rules["all_rules_for_full_claim"] is True
+    assert rules["full_claim_requires_all_rules"] is True
+    failure_rules = rules["false_positive_failure_mode"]
+    assert {row["anchor_id"] for row in failure_rules} == {
+        "A_explicit_layer_pooled_reference",
+        "B_context_proxy_for_layer",
+    }
+    assert all(row["acceptance"] == "wilson_95_lower_bound_gt" for row in failure_rules)
+    assert all(row["threshold"] == 0.50 for row in failure_rules)
 
 
 def test_contract_contains_real_withdrawal_paths_and_no_post_result_retuning():
@@ -132,3 +139,12 @@ def test_contract_contains_real_withdrawal_paths_and_no_post_result_retuning():
     assert governance["seed_changes_after_result_access_forbidden"] is True
     assert governance["factor_level_changes_after_result_access_forbidden"] is True
     assert governance["success_threshold_changes_after_result_access_forbidden"] is True
+
+
+def test_fit_failures_cannot_be_rescued_after_results_are_seen():
+    contract = _read()
+    learners = contract["learners"]
+
+    assert learners["separation_rescue_allowed"] is False
+    assert "unavailable" in learners["fit_failure_policy"]
+    assert "do not add regularization" in learners["fit_failure_policy"]
