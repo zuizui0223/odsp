@@ -180,13 +180,17 @@ def build_bundle(output: Path) -> dict[str, object]:
             stage / "manuscript" / "N2_MEE_FIGURE_CAPTIONS_DRAFT_v6.md",
         )
 
+        for name in (
+            "population_transfer.py",
+            "information_transfer.py",
+            "predictive_resolution.py",
+            "predictive_resolution_certification.py",
+            "transferability.py",
+        ):
+            _copy(ROOT / "odsp" / name, stage / "odsp" / name)
         _copy(
-            ROOT / "odsp" / "population_transfer.py",
-            stage / "odsp" / "population_transfer.py",
-        )
-        _copy(
-            ROOT / "tests" / "test_bop_population_transfer_amendment.py",
-            stage / "tests" / "test_bop_population_transfer_amendment.py",
+            ROOT / "tests" / "test_population_transfer.py",
+            stage / "tests" / "test_population_transfer.py",
         )
         _copy(
             ROOT / "N2_MEE_STATE_PREDICTION_V6_CONTRACT.json",
