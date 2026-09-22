@@ -212,11 +212,16 @@
     "group_unit": "independent simulated group",
     "group_weight": "equal",
     "confidence_level": 0.95,
-    "interval": "group percentile bootstrap with 4000 draws because no higher-level population cluster is declared in stage 1",
+    "interval": {
+      "fewer_than_10_independent_groups": "two-sided Student t interval for the equal-weight group mean with df = group_count - 1",
+      "at_least_10_independent_groups": "group percentile bootstrap with 4000 draws",
+      "switch_threshold_group_count": 10
+    },
     "positive_transfer": "lower confidence bound > 0",
     "nonpositive_or_uncertain": "lower confidence bound <= 0",
     "auc_unavailable_rule": "a group lacking both outcome classes has unavailable group AUC and is excluded only from the AUC diagnostic with the estimable fraction reported; no value is imputed",
-    "unanimity_rule_used": false
+    "unanimity_rule_used": false,
+    "reason_for_small_group_switch": "avoid discrete percentile-bootstrap intervals becoming spuriously narrow when only a few independent resampling units exist"
   },
   "oracle_targets": {
     "context_transfer_truth": "expected log-score gain of the true P(Y|layer,X) over true P(Y|layer)",
