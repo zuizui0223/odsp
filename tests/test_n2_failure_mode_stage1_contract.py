@@ -102,6 +102,9 @@ def test_confirmatory_anchors_and_success_rules_are_frozen():
     assert execution["replicates_per_anchor"] == 1000
     assert execution["bootstrap_draws_per_population_interval"] == 4000
     assert execution["master_seed"] == 20260922
+    assert execution["minimum_primary_method_availability"] == 0.95
+    assert "all planned replicates" in execution["rate_denominator_rule"]
+    assert "unavailable replicates count as non-positive" in execution["rate_denominator_rule"]
     assert set(anchors) == {
         "A_explicit_layer_pooled_reference",
         "B_context_proxy_for_layer",
@@ -213,3 +216,14 @@ def test_bop_oracle_gain_recomputes_from_frozen_dgp():
         rel_tol=0.0,
         abs_tol=1e-15,
     )
+
+
+def test_anchor_success_cannot_drop_unavailable_replicates():
+    contract = _read()
+    rules = contract["success_rules"]
+    availability = rules["primary_method_availability"]
+
+    assert availability
+    assert all(row["threshold"] == 0.95 for row in availability)
+    assert all(row["acceptance"] == "point_estimate_gte" for row in availability)
+    assert "method availability fraction" in contract["reported_outcomes_per_factorial_cell"]
