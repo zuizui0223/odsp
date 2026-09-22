@@ -17,6 +17,7 @@ class PopulationTransferStep:
     upper_level: str
     group_count: int
     cluster_count: int
+    bootstrap_seed: int
     mean_gain: float
     mean_gain_lower: float
     mean_gain_upper: float
@@ -170,6 +171,7 @@ def _summarize_gain_vector(
         upper_level=upper_level,
         group_count=int(values.size),
         cluster_count=len(cluster_labels),
+        bootstrap_seed=int(seed),
         mean_gain=mean_gain,
         mean_gain_lower=float(lower),
         mean_gain_upper=float(upper),
