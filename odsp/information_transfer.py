@@ -1,4 +1,4 @@
-"""Fail-closed information-filtration layer for predictive transfer ladders.
+r"""Fail-closed information-filtration layer for predictive transfer ladders.
 
 The low-level predictive score ladder is algebraically valid for any ordered set
 of commensurate held-out score vectors.  Interpreting adjacent steps as added
