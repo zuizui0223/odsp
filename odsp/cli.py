@@ -44,6 +44,14 @@ _ROUTE_REQUIRED_FIELDS = {
     "upstream_refits",
     "external_validation",
 }
+_TRANSFER_VARIANTS = (
+    "scores",
+    "refits",
+    "external-refits",
+    "external-paired",
+    "external-paired-lattice",
+)
+_FREEZE_VARIANTS = ("external", "paired", "paired-lattice")
 
 
 def _write_receipt(receipt: dict[str, object], out: str | None) -> None:
@@ -91,6 +99,51 @@ def _add_freeze_arguments(parser: argparse.ArgumentParser) -> None:
     _add_debug_argument(parser)
 
 
+def _add_method_route_arguments(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "--request",
+        required=True,
+        help="path to a machine-readable method-routing request JSON",
+    )
+    parser.add_argument(
+        "--out",
+        help="routing receipt path; omit or use '-' to write JSON to stdout",
+    )
+    _add_debug_argument(parser)
+
+
+def _run_transfer_variant(variant: str, contract: str | Path) -> dict[str, object]:
+    runners = {
+        "scores": run_information_transfer_contract,
+        "refits": run_refit_information_transfer_contract,
+        "external-refits": run_untouched_external_refit_positive_contract_v2,
+        "external-paired": run_untouched_external_refit_shared_block_positive_contract_v3,
+        "external-paired-lattice": run_untouched_external_paired_all_refit_lattice_contract_v4,
+    }
+    try:
+        runner = runners[variant]
+    except KeyError as exc:  # pragma: no cover - argparse constrains the variant.
+        raise ValueError(f"unknown transfer variant: {variant}") from exc
+    return runner(contract)
+
+
+def _run_freeze_variant(
+    variant: str,
+    plan: str | Path,
+    manifest_out: str | Path,
+) -> dict[str, object]:
+    runners = {
+        "external": create_external_freeze_manifest,
+        "paired": create_paired_external_freeze_manifest,
+        "paired-lattice": create_paired_external_lattice_freeze_manifest,
+    }
+    try:
+        runner = runners[variant]
+    except KeyError as exc:  # pragma: no cover - argparse constrains the variant.
+        raise ValueError(f"unknown freeze variant: {variant}") from exc
+    return runner(plan, manifest_out)
+
+
 def _run_method_route(path: str | Path) -> dict[str, object]:
     request_path = Path(path)
     try:
@@ -136,7 +189,11 @@ def build_parser() -> argparse.ArgumentParser:
         prog="odsp",
         description="Run explicit ecological prediction and information-transfer contracts.",
     )
-    subparsers = parser.add_subparsers(dest="command", required=True)
+    subparsers = parser.add_subparsers(
+        dest="command",
+        required=True,
+        metavar="{run,transfer,experimental}",
+    )
     run = subparsers.add_parser(
         "run",
         help="fit a bundled reference learner and execute a state-prediction contract",
@@ -150,81 +207,89 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     _add_common_contract_arguments(transfer)
+    transfer.add_argument(
+        "--variant",
+        choices=_TRANSFER_VARIANTS,
+        default="scores",
+        help=(
+            "transfer contract family; 'scores' is the stable default, while "
+            "refit/external/paired/lattice families reuse their existing schemas"
+        ),
+    )
+
+    experimental = subparsers.add_parser(
+        "experimental",
+        help=(
+            "advanced governance and pre-outcome freeze operations; statistical "
+            "methods remain unchanged"
+        ),
+    )
+    experimental_subparsers = experimental.add_subparsers(
+        dest="experimental_command",
+        required=True,
+        metavar="{method-route,freeze}",
+    )
+    experimental_method_route = experimental_subparsers.add_parser(
+        "method-route",
+        help="inspect the frozen confirmatory-method routing registry",
+    )
+    _add_method_route_arguments(experimental_method_route)
+    experimental_freeze = experimental_subparsers.add_parser(
+        "freeze",
+        help="create a pre-outcome freeze manifest for an advanced transfer variant",
+    )
+    experimental_freeze.add_argument(
+        "--variant",
+        choices=_FREEZE_VARIANTS,
+        required=True,
+        help="freeze-manifest family",
+    )
+    _add_freeze_arguments(experimental_freeze)
+
+    # Legacy command spellings remain executable for scripts and frozen receipts,
+    # but are intentionally hidden from the public help surface.
     transfer_refits = subparsers.add_parser(
         "transfer-refits",
-        help=(
-            "audit a long-form ensemble of upstream refit score tables under a "
-            "strict information filtration"
-        ),
+        help=argparse.SUPPRESS,
     )
     _add_common_contract_arguments(transfer_refits)
 
     method_route = subparsers.add_parser(
         "method-route",
-        help=(
-            "classify a prospective ODSP analysis request as primary confirmatory, "
-            "bidirectional confirmatory, sensitivity-only, or unqualified"
-        ),
+        help=argparse.SUPPRESS,
     )
-    method_route.add_argument(
-        "--request",
-        required=True,
-        help="path to a machine-readable method-routing request JSON",
-    )
-    method_route.add_argument(
-        "--out",
-        help="routing receipt path; omit or use '-' to write JSON to stdout",
-    )
-    _add_debug_argument(method_route)
+    _add_method_route_arguments(method_route)
 
     freeze_external = subparsers.add_parser(
         "freeze-refits-external",
-        help=(
-            "create a non-overwriting pre-outcome semantic freeze manifest for "
-            "independent-group external validation"
-        ),
+        help=argparse.SUPPRESS,
     )
     _add_freeze_arguments(freeze_external)
     external_refits = subparsers.add_parser(
         "transfer-refits-external",
-        help=(
-            "certify one-sided positive transfer across a frozen upstream-refit "
-            "ensemble on untouched independent-group external validation rows"
-        ),
+        help=argparse.SUPPRESS,
     )
     _add_common_contract_arguments(external_refits)
 
     freeze_external_paired = subparsers.add_parser(
         "freeze-refits-external-paired",
-        help=(
-            "create a non-overwriting pre-outcome semantic freeze manifest for "
-            "exact shared-block paired external validation"
-        ),
+        help=argparse.SUPPRESS,
     )
     _add_freeze_arguments(freeze_external_paired)
     external_refits_paired = subparsers.add_parser(
         "transfer-refits-external-paired",
-        help=(
-            "certify all-refit one-sided positive transfer on untouched external "
-            "validation groups paired on exactly the same shared blocks"
-        ),
+        help=argparse.SUPPRESS,
     )
     _add_common_contract_arguments(external_refits_paired)
 
     freeze_external_paired_lattice = subparsers.add_parser(
         "freeze-refits-external-paired-lattice",
-        help=(
-            "freeze a complete 2- or 3-block paired information lattice before "
-            "untouched external outcomes are accessed"
-        ),
+        help=argparse.SUPPRESS,
     )
     _add_freeze_arguments(freeze_external_paired_lattice)
     external_refits_paired_lattice = subparsers.add_parser(
         "transfer-refits-external-paired-lattice",
-        help=(
-            "certify a frozen complete paired information lattice across every "
-            "supplied refit on untouched external validation rows"
-        ),
+        help=argparse.SUPPRESS,
     )
     _add_common_contract_arguments(external_refits_paired_lattice)
     return parser
@@ -236,7 +301,20 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.command == "run":
             receipt = run_endpoint_contract(args.contract)
         elif args.command == "transfer":
-            receipt = run_information_transfer_contract(args.contract)
+            receipt = _run_transfer_variant(args.variant, args.contract)
+        elif args.command == "experimental":
+            if args.experimental_command == "method-route":
+                receipt = _run_method_route(args.request)
+            elif args.experimental_command == "freeze":
+                receipt = _run_freeze_variant(
+                    args.variant,
+                    args.plan,
+                    args.manifest_out,
+                )
+            else:  # pragma: no cover - argparse constrains the command.
+                raise AssertionError(
+                    f"unhandled experimental command: {args.experimental_command}"
+                )
         elif args.command == "transfer-refits":
             receipt = run_refit_information_transfer_contract(args.contract)
         elif args.command == "method-route":
