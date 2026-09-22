@@ -524,5 +524,18 @@
     "odsp_framework_novelty_is_primary_claim": false,
     "all_group_unanimity_supports_primary_claim": false,
     "stage2_real_data_required_for_ecological_relevance": true
+  },
+  "randomness": {
+    "master_seed": 20260922,
+    "generator": "numpy.random.SeedSequence + default_rng",
+    "factorial_world_seed": "SeedSequence([master_seed, 0, factorial_cell_index, replicate_index])",
+    "confirmatory_world_seed": "SeedSequence([master_seed, 1, anchor_index, replicate_index])",
+    "world_substreams": {
+      "dgp": "spawned substream 0",
+      "random_row_cv_folds": "spawned substream 1",
+      "population_intervals": "spawned substream 2"
+    },
+    "shard_invariance_required": true,
+    "execution_order_invariance_required": true
   }
 }
