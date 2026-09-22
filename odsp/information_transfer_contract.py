@@ -233,9 +233,17 @@ def validate_information_transfer_contract(
     group = _text(columns.get("group"), name="columns.group")
     block_raw = columns.get("block")
     weight_raw = columns.get("weight")
+    population_cluster_raw = columns.get("population_cluster")
     block = None if block_raw is None else _text(block_raw, name="columns.block")
     weight = None if weight_raw is None else _text(weight_raw, name="columns.weight")
-    role_columns = [row_id, group] + [value for value in (block, weight) if value is not None]
+    population_cluster = (
+        None
+        if population_cluster_raw is None
+        else _text(population_cluster_raw, name="columns.population_cluster")
+    )
+    role_columns = [row_id, group] + [
+        value for value in (block, weight, population_cluster) if value is not None
+    ]
     if len(set(role_columns)) != len(role_columns):
         raise ValueError("row_id, group, block, weight and population_cluster columns must be distinct")
 
@@ -330,6 +338,7 @@ def validate_information_transfer_contract(
             "group": group,
             "block": block,
             "weight": weight,
+            "population_cluster": population_cluster,
         },
         "score": score,
         "evaluation": evaluation,
