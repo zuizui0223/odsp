@@ -248,48 +248,28 @@ def build_parser() -> argparse.ArgumentParser:
 
     # Legacy command spellings remain executable for scripts and frozen receipts,
     # but are intentionally hidden from the public help surface.
-    transfer_refits = subparsers.add_parser(
-        "transfer-refits",
-        help=argparse.SUPPRESS,
-    )
+    transfer_refits = subparsers.add_parser("transfer-refits")
     _add_common_contract_arguments(transfer_refits)
 
-    method_route = subparsers.add_parser(
-        "method-route",
-        help=argparse.SUPPRESS,
-    )
+    method_route = subparsers.add_parser("method-route")
     _add_method_route_arguments(method_route)
 
-    freeze_external = subparsers.add_parser(
-        "freeze-refits-external",
-        help=argparse.SUPPRESS,
-    )
+    freeze_external = subparsers.add_parser("freeze-refits-external")
     _add_freeze_arguments(freeze_external)
-    external_refits = subparsers.add_parser(
-        "transfer-refits-external",
-        help=argparse.SUPPRESS,
-    )
+    external_refits = subparsers.add_parser("transfer-refits-external")
     _add_common_contract_arguments(external_refits)
 
-    freeze_external_paired = subparsers.add_parser(
-        "freeze-refits-external-paired",
-        help=argparse.SUPPRESS,
-    )
+    freeze_external_paired = subparsers.add_parser("freeze-refits-external-paired")
     _add_freeze_arguments(freeze_external_paired)
-    external_refits_paired = subparsers.add_parser(
-        "transfer-refits-external-paired",
-        help=argparse.SUPPRESS,
-    )
+    external_refits_paired = subparsers.add_parser("transfer-refits-external-paired")
     _add_common_contract_arguments(external_refits_paired)
 
     freeze_external_paired_lattice = subparsers.add_parser(
-        "freeze-refits-external-paired-lattice",
-        help=argparse.SUPPRESS,
+        "freeze-refits-external-paired-lattice"
     )
     _add_freeze_arguments(freeze_external_paired_lattice)
     external_refits_paired_lattice = subparsers.add_parser(
-        "transfer-refits-external-paired-lattice",
-        help=argparse.SUPPRESS,
+        "transfer-refits-external-paired-lattice"
     )
     _add_common_contract_arguments(external_refits_paired_lattice)
     return parser
