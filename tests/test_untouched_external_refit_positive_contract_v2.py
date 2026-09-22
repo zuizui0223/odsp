@@ -177,6 +177,10 @@ def test_semantic_lock_verifies_exact_runtime_analysis(tmp_path: Path):
     assert receipt["boundaries"]["freeze_manifest_semantics_verified"] is True
     assert receipt["boundaries"]["external_row_roster_locked_before_outcome_access"] is True
     assert receipt["boundaries"]["runtime_analysis_matches_frozen_manifest"] is True
+    assert receipt["boundaries"]["confirmatory_route_verified"] is True
+    assert receipt["confirmatory_route"]["verified"] is True
+    assert receipt["confirmatory_route"]["role"] == "primary_confirmatory"
+    assert receipt["confirmatory_route"]["qualification_evidence"]
     assert receipt["result"]["refit_consensus_certified_transfer_ceiling"] == "fine"
 
 
@@ -238,3 +242,34 @@ def test_cli_uses_semantic_lock_not_legacy_hash_only_route(tmp_path: Path, capsy
     code = main(["transfer-refits-external", "--contract", str(contract_path)])
     assert code == 2
     assert "semantic mismatch for certification" in capsys.readouterr().err
+
+
+def test_external_v2_rejects_unqualified_three_contrast_family(tmp_path: Path):
+    rows = _rows()
+    for row in rows:
+        row["score_middle"] = 0.55
+    data = tmp_path / "scores.csv"
+    _write_csv(data, rows)
+
+    manifest = _manifest(rows)
+    manifest["levels"] = [
+        {"name": "pooled", "information": []},
+        {"name": "coarse", "information": ["coarse"]},
+        {"name": "middle", "information": ["coarse", "middle"]},
+        {"name": "fine", "information": ["coarse", "middle", "fine"]},
+    ]
+    manifest_path = tmp_path / "freeze.json"
+    manifest_path.write_text(json.dumps(manifest, sort_keys=True), encoding="utf-8")
+
+    contract = _contract(_sha256(manifest_path))
+    contract["levels"] = [
+        {"name": "pooled", "information": [], "score_column": "score_pooled"},
+        {"name": "coarse", "information": ["coarse"], "score_column": "score_coarse"},
+        {"name": "middle", "information": ["coarse", "middle"], "score_column": "score_middle"},
+        {"name": "fine", "information": ["coarse", "middle", "fine"], "score_column": "score_fine"},
+    ]
+    contract_path = tmp_path / "endpoint.json"
+    contract_path.write_text(json.dumps(contract), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="qualified primary confirmatory route|unqualified"):
+        run_untouched_external_refit_positive_contract_v2(contract_path)
