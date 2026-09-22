@@ -4,7 +4,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 import math
 from statistics import NormalDist
-from typing import Mapping
+from typing import Mapping, Sequence
 
 import numpy as np
 
@@ -50,6 +50,7 @@ class PopulationTransferSummary:
     cluster_count: int
     cluster_variable_declared: bool
     resampling_unit: str
+    total_gain: PopulationTransferStep
     steps: tuple[PopulationTransferStep, ...]
     population_mean_supported_ceiling: str
 
@@ -79,6 +80,7 @@ class PopulationTransferSummary:
                     else None
                 ),
             },
+            "total_gain": self.total_gain.as_dict(),
             "steps": [step.as_dict() for step in self.steps],
             "population_mean_supported_ceiling": self.population_mean_supported_ceiling,
         }
@@ -102,6 +104,91 @@ def _status(lower: float, upper: float, tolerance: float) -> str:
     return "uncertain"
 
 
+def _summarize_gain_vector(
+    gains: Sequence[float],
+    *,
+    lower_level: str,
+    upper_level: str,
+    cluster_labels: tuple[object, ...],
+    cluster_indices: Mapping[object, np.ndarray],
+    cluster_variable_declared: bool,
+    confidence_level: float,
+    bootstrap_draws: int,
+    seed: int,
+    gain_tolerance: float,
+) -> PopulationTransferStep:
+    values = np.asarray(gains, dtype=float)
+    if values.ndim != 1 or values.size == 0 or not np.isfinite(values).all():
+        raise ValueError("population summary requires finite non-empty group gains")
+
+    rng = np.random.default_rng(seed)
+    alpha = 1.0 - confidence_level
+    boot_means = np.empty(bootstrap_draws, dtype=float)
+    boot_positive = np.empty(bootstrap_draws, dtype=float)
+    for draw in range(bootstrap_draws):
+        sampled_cluster_indices = rng.integers(
+            0, len(cluster_labels), size=len(cluster_labels)
+        )
+        sampled = np.concatenate(
+            [
+                cluster_indices[cluster_labels[int(cluster_index)]]
+                for cluster_index in sampled_cluster_indices
+            ]
+        )
+        draw_gains = values[sampled]
+        boot_means[draw] = float(np.mean(draw_gains))
+        boot_positive[draw] = float(np.mean(draw_gains > gain_tolerance))
+
+    mean_gain = float(np.mean(values))
+    lower, upper = np.quantile(boot_means, [alpha / 2.0, 1.0 - alpha / 2.0])
+    positive_count = int(np.count_nonzero(values > gain_tolerance))
+    positive_fraction = float(positive_count / values.size)
+    if cluster_variable_declared:
+        positive_lower = float(np.quantile(boot_positive, alpha / 2.0))
+        positive_method = "cluster_percentile_bootstrap"
+    else:
+        positive_lower = _wilson_lower(
+            positive_count, int(values.size), confidence_level
+        )
+        positive_method = "wilson_score"
+
+    sd = float(np.std(values, ddof=1)) if values.size >= 2 else None
+    if sd is not None:
+        z = NormalDist().inv_cdf(1.0 - alpha / 2.0)
+        half_width = z * sd * math.sqrt(1.0 + 1.0 / values.size)
+        prediction_lower = float(mean_gain - half_width)
+        prediction_upper = float(mean_gain + half_width)
+        prediction_method = "normal_theory"
+        prediction_assumption = "approximately_normal_group_gain_distribution"
+    else:
+        prediction_lower = prediction_upper = None
+        prediction_method = prediction_assumption = None
+
+    p10, p50, p90 = np.quantile(values, [0.1, 0.5, 0.9])
+    return PopulationTransferStep(
+        lower_level=lower_level,
+        upper_level=upper_level,
+        group_count=int(values.size),
+        cluster_count=len(cluster_labels),
+        mean_gain=mean_gain,
+        mean_gain_lower=float(lower),
+        mean_gain_upper=float(upper),
+        mean_gain_status=_status(float(lower), float(upper), gain_tolerance),
+        positive_group_count=positive_count,
+        positive_group_fraction=positive_fraction,
+        positive_fraction_lower=positive_lower,
+        positive_fraction_lower_method=positive_method,
+        group_gain_sd=sd,
+        prediction_lower=prediction_lower,
+        prediction_upper=prediction_upper,
+        prediction_method=prediction_method,
+        prediction_assumption=prediction_assumption,
+        empirical_p10=float(p10),
+        empirical_p50=float(p50),
+        empirical_p90=float(p90),
+    )
+
+
 def summarize_population_transfer(
     result: InformationTransferResult,
     *,
@@ -111,7 +198,7 @@ def summarize_population_transfer(
     seed: int = 20260913,
     gain_tolerance: float = 0.0,
 ) -> PopulationTransferSummary:
-    """Summarize adjacent transfer gains for a population of independent groups."""
+    """Summarize total and adjacent gains for a population of independent groups."""
     if not 0.0 < confidence_level < 1.0:
         raise ValueError("confidence_level must lie strictly between zero and one")
     if bootstrap_draws < 500:
@@ -151,89 +238,41 @@ def summarize_population_transfer(
         )
         for cluster in cluster_labels
     }
-    rng = np.random.default_rng(seed)
-    alpha = 1.0 - confidence_level
-    step_rows: list[PopulationTransferStep] = []
 
-    for step_index, step in enumerate(result.steps):
-        gains = np.asarray(
-            [row.increments[step_index].mean_gain for row in groups], dtype=float
+    levels = result.predictive_result.levels
+    total_gain = _summarize_gain_vector(
+        [row.total_gain for row in groups],
+        lower_level=levels[0],
+        upper_level=levels[-1],
+        cluster_labels=cluster_labels,
+        cluster_indices=cluster_indices,
+        cluster_variable_declared=declared,
+        confidence_level=confidence_level,
+        bootstrap_draws=bootstrap_draws,
+        seed=seed,
+        gain_tolerance=gain_tolerance,
+    )
+
+    step_rows = tuple(
+        _summarize_gain_vector(
+            [row.increments[step_index].mean_gain for row in groups],
+            lower_level=step.lower_level,
+            upper_level=step.upper_level,
+            cluster_labels=cluster_labels,
+            cluster_indices=cluster_indices,
+            cluster_variable_declared=declared,
+            confidence_level=confidence_level,
+            bootstrap_draws=bootstrap_draws,
+            seed=seed + step_index + 1,
+            gain_tolerance=gain_tolerance,
         )
-        if not np.isfinite(gains).all():
-            raise ValueError(
-                "population summary requires finite group gains for every summarized step"
-            )
-        mean_gain = float(np.mean(gains))
-        boot_means = np.empty(bootstrap_draws, dtype=float)
-        boot_positive = np.empty(bootstrap_draws, dtype=float)
-        for draw in range(bootstrap_draws):
-            sampled_cluster_indices = rng.integers(
-                0, len(cluster_labels), size=len(cluster_labels)
-            )
-            sampled = np.concatenate(
-                [
-                    cluster_indices[cluster_labels[int(cluster_index)]]
-                    for cluster_index in sampled_cluster_indices
-                ]
-            )
-            draw_gains = gains[sampled]
-            boot_means[draw] = float(np.mean(draw_gains))
-            boot_positive[draw] = float(np.mean(draw_gains > gain_tolerance))
+        for step_index, step in enumerate(result.steps)
+    )
 
-        lower, upper = np.quantile(boot_means, [alpha / 2.0, 1.0 - alpha / 2.0])
-        positive_count = int(np.count_nonzero(gains > gain_tolerance))
-        positive_fraction = float(positive_count / gains.size)
-        if declared:
-            positive_lower = float(np.quantile(boot_positive, alpha / 2.0))
-            positive_method = "cluster_percentile_bootstrap"
-        else:
-            positive_lower = _wilson_lower(
-                positive_count, int(gains.size), confidence_level
-            )
-            positive_method = "wilson_score"
-
-        sd = float(np.std(gains, ddof=1)) if gains.size >= 2 else None
-        if sd is not None:
-            z = NormalDist().inv_cdf(1.0 - alpha / 2.0)
-            half_width = z * sd * math.sqrt(1.0 + 1.0 / gains.size)
-            prediction_lower = float(mean_gain - half_width)
-            prediction_upper = float(mean_gain + half_width)
-            prediction_method = "normal_theory"
-            prediction_assumption = "approximately_normal_group_gain_distribution"
-        else:
-            prediction_lower = prediction_upper = None
-            prediction_method = prediction_assumption = None
-
-        p10, p50, p90 = np.quantile(gains, [0.1, 0.5, 0.9])
-        step_rows.append(
-            PopulationTransferStep(
-                lower_level=step.lower_level,
-                upper_level=step.upper_level,
-                group_count=int(gains.size),
-                cluster_count=len(cluster_labels),
-                mean_gain=mean_gain,
-                mean_gain_lower=float(lower),
-                mean_gain_upper=float(upper),
-                mean_gain_status=_status(float(lower), float(upper), gain_tolerance),
-                positive_group_count=positive_count,
-                positive_group_fraction=positive_fraction,
-                positive_fraction_lower=positive_lower,
-                positive_fraction_lower_method=positive_method,
-                group_gain_sd=sd,
-                prediction_lower=prediction_lower,
-                prediction_upper=prediction_upper,
-                prediction_method=prediction_method,
-                prediction_assumption=prediction_assumption,
-                empirical_p10=float(p10),
-                empirical_p50=float(p50),
-                empirical_p90=float(p90),
-            )
-        )
-
-    ceiling = result.predictive_result.levels[0]
+    ceiling = levels[0]
     for index, row in enumerate(step_rows):
         if row.mean_gain_status == "positive":
-            ceiling = result.predictive_result.levels[index + 1]
+            ceiling = levels[index + 1]
         else:
             break
 
@@ -248,6 +287,7 @@ def summarize_population_transfer(
         cluster_count=len(cluster_labels),
         cluster_variable_declared=declared,
         resampling_unit=resampling_unit,
-        steps=tuple(step_rows),
+        total_gain=total_gain,
+        steps=step_rows,
         population_mean_supported_ceiling=ceiling,
     )
