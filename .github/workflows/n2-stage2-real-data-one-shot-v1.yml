@@ -1,0 +1,73 @@
+name: n2-stage2-real-data-one-shot-v1
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'N2_STAGE2_EXECUTION_ARMED.json'
+
+permissions:
+  contents: read
+
+jobs:
+  execute:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Verify one-shot arming event and frozen contract ancestry
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+
+          marker = json.loads(Path("N2_STAGE2_EXECUTION_ARMED.json").read_text())
+          expected = "8a83079f395b7e22bf82d87a430d8169247bf996"
+          if marker["contract_merge_sha"] != expected:
+              raise SystemExit("stage2 armed contract SHA mismatch")
+          subprocess.run(["git", "merge-base", "--is-ancestor", expected, "HEAD"], check=True)
+          added = subprocess.check_output(
+              ["git", "diff", "--diff-filter=A", "--name-only", "HEAD^", "HEAD"],
+              text=True,
+          ).splitlines()
+          if "N2_STAGE2_EXECUTION_ARMED.json" not in added:
+              raise SystemExit("one-shot marker was not newly added; refusing rerun")
+          PY
+
+      - name: Install package with prediction extra
+        run: python -m pip install -e '.[predict]'
+
+      - name: Download pinned Palmer Penguins source
+        run: |
+          mkdir -p build/stage2
+          python - <<'PY'
+          from pathlib import Path
+          from urllib.request import urlopen
+
+          url = "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/8957207b78d6ccd1b4654a9dd9c9041b657478ab/inst/extdata/penguins.csv"
+          data = urlopen(url, timeout=60).read()
+          Path("build/stage2/penguins.csv").write_bytes(data)
+          PY
+
+      - name: Execute frozen fresh Palmer analysis once
+        run: >-
+          python scripts/run_n2_stage2_real_data.py
+          --source build/stage2/penguins.csv
+          --contract N2_POOLED_REFERENCE_FAILURE_MODE_STAGE2_REAL_DATA_CONTRACT.json
+          --out build/stage2/N2_STAGE2_REAL_DATA_RESULT_V1.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: n2-stage2-real-data-v1
+          path: build/stage2/N2_STAGE2_REAL_DATA_RESULT_V1.json
+          if-no-files-found: error
+          retention-days: 90
