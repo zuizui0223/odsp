@@ -31,6 +31,9 @@ def test_bop_population_result_builds_bounded_n3_transfer_value_payload():
         population_result=population,
         group_semantics="heldout individual",
         population_cluster_semantics="species",
+        score_kind="log",
+        score_name="mean_log_predictive_probability",
+        score_unit="nats_per_event",
         source_receipt=BOP.name,
         source_contract="BOP_RODENT_POPULATION_TRANSFER_AMENDMENT_CONTRACT_V2.json",
     ).as_dict()
@@ -43,6 +46,13 @@ def test_bop_population_result_builds_bounded_n3_transfer_value_payload():
     }
     assert payload["semantics"]["group"] == "heldout individual"
     assert payload["semantics"]["population_cluster"] == "species"
+    assert payload["semantics"]["gain_tolerance"] == 0.0
+    assert payload["semantics"]["score"] == {
+        "kind": "log",
+        "name": "mean_log_predictive_probability",
+        "unit": "nats_per_event",
+        "orientation": "higher_is_better",
+    }
     assert payload["provenance"]["source_population_fingerprint"] == population_result_fingerprint(
         population
     )
@@ -55,6 +65,9 @@ def test_uncertain_bop_steps_carry_zero_conservative_value_not_fake_priority():
         population_result=_bop_population(),
         group_semantics="heldout individual",
         population_cluster_semantics="species",
+        score_kind="log",
+        score_name="mean_log_predictive_probability",
+        score_unit="nats_per_event",
     )
 
     assert payload.total_value.mean_status == "uncertain"
@@ -88,6 +101,9 @@ def test_positive_step_exposes_expected_and_conservative_value_without_ranking_p
         population_result=population,
         group_semantics="site",
         population_cluster_semantics="region",
+        score_kind="log",
+        score_name="mean_log_predictive_probability",
+        score_unit="nats_per_site",
     ).as_dict()
 
     assert payload["total_value"]["expected_gain"] == pytest.approx(
@@ -109,6 +125,9 @@ def test_payload_tampering_cannot_promote_state_or_survey_action():
         population_result=_bop_population(),
         group_semantics="heldout individual",
         population_cluster_semantics="species",
+        score_kind="log",
+        score_name="mean_log_predictive_probability",
+        score_unit="nats_per_event",
     ).as_dict()
 
     forged = copy.deepcopy(payload)
@@ -131,6 +150,9 @@ def test_payload_rejects_noncontiguous_information_chain():
             evidence_id="broken-chain",
             population_result=population,
             group_semantics="heldout individual",
+            score_kind="log",
+            score_name="mean_log_predictive_probability",
+            score_unit="nats_per_event",
         )
 
 
@@ -151,3 +173,20 @@ def test_transfer_value_schema_and_contract_preserve_chapter_ownership():
     assert contract["compatibility"]["new_top_level_cli_command_added"] is False
     assert contract["downstream_boundary"]["n4_owner"] == "ACSP"
     assert contract["accepted_source"]["requires_contiguous_adjacent_steps"] is True
+
+
+def test_score_currency_tampering_breaks_payload_fingerprint():
+    payload = build_population_transfer_value_handoff(
+        evidence_id="bop-rodent-population-transfer-v2",
+        population_result=_bop_population(),
+        group_semantics="heldout individual",
+        population_cluster_semantics="species",
+        score_kind="log",
+        score_name="mean_log_predictive_probability",
+        score_unit="nats_per_event",
+    ).as_dict()
+
+    forged = copy.deepcopy(payload)
+    forged["semantics"]["score"]["unit"] = "nats_per_site"
+    with pytest.raises(ValueError, match="fingerprint mismatch"):
+        validate_population_transfer_value_handoff(forged)
