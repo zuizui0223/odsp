@@ -262,6 +262,77 @@ def _auc(y: np.ndarray, score: np.ndarray) -> float | None:
     return (rank_sum - positives * (positives + 1) / 2.0) / (positives * negatives)
 
 
+def _population_intervals_many(
+    values_by_name: Mapping[str, Sequence[float]],
+    *,
+    confidence_level: float,
+    bootstrap_draws: int,
+    seed: int,
+    switch_threshold: int,
+) -> dict[str, PopulationInterval]:
+    arrays = {
+        name: np.asarray(values, dtype=float)
+        for name, values in values_by_name.items()
+    }
+    if not arrays:
+        raise ValueError("at least one population metric is required")
+    sizes = {value.size for value in arrays.values()}
+    if len(sizes) != 1:
+        raise ValueError("paired population metrics must use the same groups")
+    group_count = sizes.pop()
+    if group_count < 2 or any(
+        value.ndim != 1 or not np.all(np.isfinite(value))
+        for value in arrays.values()
+    ):
+        raise ValueError("population interval requires at least two finite group values")
+
+    alpha = 1.0 - float(confidence_level)
+    result: dict[str, PopulationInterval] = {}
+    if group_count < int(switch_threshold):
+        df = int(group_count - 1)
+        if confidence_level != 0.95 or df not in _T95:
+            raise ValueError("small-group Student t table supports frozen 95% rule only")
+        for name, data in arrays.items():
+            estimate = float(np.mean(data))
+            se = float(np.std(data, ddof=1) / math.sqrt(group_count))
+            half = _T95[df] * se
+            lower = estimate - half
+            upper = estimate + half
+            result[name] = PopulationInterval(
+                estimate=estimate,
+                lower=float(lower),
+                upper=float(upper),
+                method=f"student_t_df_{df}",
+                group_count=int(group_count),
+                declared_positive=bool(lower > 0.0),
+            )
+        return result
+
+    rng = np.random.default_rng(int(seed))
+    weights = rng.multinomial(
+        int(group_count),
+        np.full(int(group_count), 1.0 / float(group_count)),
+        size=int(bootstrap_draws),
+    ).astype(float)
+    weights /= float(group_count)
+    names = list(arrays)
+    matrix = np.column_stack([arrays[name] for name in names])
+    bootstrap_means = weights @ matrix
+    lower = np.quantile(bootstrap_means, alpha / 2.0, axis=0)
+    upper = np.quantile(bootstrap_means, 1.0 - alpha / 2.0, axis=0)
+    estimate = np.mean(matrix, axis=0)
+    for index, name in enumerate(names):
+        result[name] = PopulationInterval(
+            estimate=float(estimate[index]),
+            lower=float(lower[index]),
+            upper=float(upper[index]),
+            method=f"group_percentile_bootstrap_{int(bootstrap_draws)}",
+            group_count=int(group_count),
+            declared_positive=bool(lower[index] > 0.0),
+        )
+    return result
+
+
 def _population_interval(
     values: Sequence[float],
     *,
@@ -270,37 +341,13 @@ def _population_interval(
     seed: int,
     switch_threshold: int,
 ) -> PopulationInterval:
-    data = np.asarray(values, dtype=float)
-    if data.ndim != 1 or data.size < 2 or not np.all(np.isfinite(data)):
-        raise ValueError("population interval requires at least two finite group values")
-    estimate = float(np.mean(data))
-    alpha = 1.0 - float(confidence_level)
-    if data.size < int(switch_threshold):
-        df = int(data.size - 1)
-        if confidence_level != 0.95 or df not in _T95:
-            raise ValueError("small-group Student t table supports frozen 95% rule only")
-        se = float(np.std(data, ddof=1) / math.sqrt(data.size))
-        half = _T95[df] * se
-        lower = estimate - half
-        upper = estimate + half
-        method = f"student_t_df_{df}"
-    else:
-        rng = np.random.default_rng(int(seed))
-        indices = rng.integers(0, data.size, size=(int(bootstrap_draws), data.size))
-        means = np.mean(data[indices], axis=1)
-        lower, upper = np.quantile(means, [alpha / 2.0, 1.0 - alpha / 2.0])
-        lower = float(lower)
-        upper = float(upper)
-        method = f"group_percentile_bootstrap_{int(bootstrap_draws)}"
-    return PopulationInterval(
-        estimate=estimate,
-        lower=float(lower),
-        upper=float(upper),
-        method=method,
-        group_count=int(data.size),
-        declared_positive=bool(lower > 0.0),
-    )
-
+    return _population_intervals_many(
+        {"value": values},
+        confidence_level=confidence_level,
+        bootstrap_draws=bootstrap_draws,
+        seed=seed,
+        switch_threshold=switch_threshold,
+    )["value"]
 
 def _simulate_world(
     scenario: Stage1Scenario,
@@ -550,48 +597,30 @@ def run_world(
     interval_seed_base = int(seed) * 100
     switch = int(rule["interval"]["switch_threshold_group_count"])
     confidence = float(rule["confidence_level"])
-    primary = _population_interval(
-        group_metrics["pooled_gain"],
+    paired_values: dict[str, Sequence[float]] = {
+        "group_cv_pooled_log_gain": group_metrics["pooled_gain"],
+        "group_cv_layer_decomposed_context_gain": group_metrics["context_component"],
+        "group_cv_layer_component": group_metrics["layer_component"],
+        "group_cv_accuracy": group_metrics["accuracy_gain"],
+    }
+    if random_metrics["available"]:
+        paired_values["random_row_cv_pooled_log_gain"] = random_metrics["pooled_gain"]
+    paired_intervals = _population_intervals_many(
+        paired_values,
         confidence_level=confidence,
         bootstrap_draws=int(bootstrap_draws),
         seed=interval_seed_base + 1,
         switch_threshold=switch,
     )
-    corrected = _population_interval(
-        group_metrics["context_component"],
-        confidence_level=confidence,
-        bootstrap_draws=int(bootstrap_draws),
-        seed=interval_seed_base + 2,
-        switch_threshold=switch,
-    )
-    layer_component = _population_interval(
-        group_metrics["layer_component"],
-        confidence_level=confidence,
-        bootstrap_draws=int(bootstrap_draws),
-        seed=interval_seed_base + 3,
-        switch_threshold=switch,
-    )
-    result.update(
-        {
-            "group_cv_pooled_log_gain": primary.as_dict(),
-            "group_cv_layer_decomposed_context_gain": corrected.as_dict(),
-            "group_cv_layer_component": layer_component.as_dict(),
-            "group_cv_identity_error": float(group_metrics["identity_error"]),
-        }
-    )
-
-    if random_metrics["available"]:
-        random_interval = _population_interval(
-            random_metrics["pooled_gain"],
-            confidence_level=confidence,
-            bootstrap_draws=int(bootstrap_draws),
-            seed=interval_seed_base + 4,
-            switch_threshold=switch,
-        )
-        result["random_row_cv_pooled_log_gain"] = random_interval.as_dict()
+    for name, interval in paired_intervals.items():
+        result[name] = interval.as_dict()
+    primary = paired_intervals["group_cv_pooled_log_gain"]
+    if "random_row_cv_pooled_log_gain" in paired_intervals:
         result["random_row_minus_group_cv_optimism"] = float(
-            random_interval.estimate - primary.estimate
+            paired_intervals["random_row_cv_pooled_log_gain"].estimate
+            - primary.estimate
         )
+    result["group_cv_identity_error"] = float(group_metrics["identity_error"])
 
     auc_values = np.asarray(group_metrics["auc_minus_half"], dtype=float)
     auc_finite = np.isfinite(auc_values)
@@ -601,19 +630,10 @@ def run_world(
             auc_values[auc_finite],
             confidence_level=confidence,
             bootstrap_draws=int(bootstrap_draws),
-            seed=interval_seed_base + 5,
+            seed=interval_seed_base + 2,
             switch_threshold=switch,
         )
         result["group_cv_auc"] = auc_interval.as_dict()
-
-    accuracy_interval = _population_interval(
-        group_metrics["accuracy_gain"],
-        confidence_level=confidence,
-        bootstrap_draws=int(bootstrap_draws),
-        seed=interval_seed_base + 6,
-        switch_threshold=switch,
-    )
-    result["group_cv_accuracy"] = accuracy_interval.as_dict()
     return result
 
 
