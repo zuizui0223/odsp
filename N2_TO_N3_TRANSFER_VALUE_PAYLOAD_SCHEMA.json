@@ -70,7 +70,9 @@
       "required": [
         "group",
         "population_cluster",
-        "estimand"
+        "estimand",
+        "gain_tolerance",
+        "score"
       ],
       "properties": {
         "group": {
@@ -85,6 +87,39 @@
         },
         "estimand": {
           "const": "equal_weight_mean_gain_across_groups"
+        },
+        "gain_tolerance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "score": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "name",
+            "unit",
+            "orientation"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "log",
+                "other_proper"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "orientation": {
+              "const": "higher_is_better"
+            }
+          }
         }
       }
     },
