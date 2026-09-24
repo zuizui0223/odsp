@@ -29,7 +29,7 @@
     "estimand": "equal_weight_mean_gain_across_groups",
     "role": "descriptive_population_level_secondary_summary",
     "familywise_confirmatory_claim": false,
-    "gain_tolerance": 0.0,
+    "gain_tolerance": 0,
     "group_count": 30,
     "cluster_count": 4,
     "cluster_variable_declared": true,
@@ -143,5 +143,12 @@
   },
   "model_refit_performed": false,
   "raw_source_data_reaccessed": false,
-  "retuning_performed": false
+  "retuning_performed": false,
+  "validation_provenance": {
+    "source_head_sha": "8a2944ee08463a3b428954cd74da455fdf484324",
+    "workflow_run_id": 35988157400,
+    "artifact_id": 10802594595,
+    "artifact_digest": "sha256:19b13824cdc95c070c0b524bcf195c33857c0647e5aa7fc0709302c5d440a366",
+    "result_json_sha256": "de72da8f84db42963f6bcb7e56f9fd9f1bed02945cb3efd9740b5f51ae07d234"
+  }
 }
