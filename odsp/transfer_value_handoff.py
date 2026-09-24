@@ -243,6 +243,114 @@ def _parse_step(value: Mapping[str, object], *, name: str) -> TransferValueStep:
     )
 
 
+
+def _parse_handoff_step(
+    value: Mapping[str, object],
+    *,
+    name: str,
+) -> TransferValueStep:
+    lower = _clean_text(value.get("lower_level"), name=f"{name}.lower_level")
+    upper = _clean_text(value.get("upper_level"), name=f"{name}.upper_level")
+    if lower == upper:
+        raise ValueError(f"{name} lower_level and upper_level must differ")
+
+    expected = _finite_number(
+        value.get("expected_gain"), name=f"{name}.expected_gain"
+    )
+    interval_lower = _finite_number(
+        value.get("mean_interval_lower"), name=f"{name}.mean_interval_lower"
+    )
+    interval_upper = _finite_number(
+        value.get("mean_interval_upper"), name=f"{name}.mean_interval_upper"
+    )
+    if interval_lower > interval_upper:
+        raise ValueError(f"{name} mean interval is reversed")
+
+    status = _clean_text(value.get("mean_status"), name=f"{name}.mean_status")
+    if status not in _ALLOWED_STATUS:
+        raise ValueError(f"{name} has unsupported mean_status: {status!r}")
+    if status == "positive" and not interval_lower > 0.0:
+        raise ValueError(f"{name} positive status requires lower interval bound > 0")
+    if status == "nonpositive" and not interval_upper <= 0.0:
+        raise ValueError(f"{name} nonpositive status requires upper interval bound <= 0")
+    if status == "uncertain" and not interval_lower <= 0.0 < interval_upper:
+        raise ValueError(f"{name} uncertain status requires interval crossing zero")
+
+    conservative = _finite_number(
+        value.get("conservative_mean_value"),
+        name=f"{name}.conservative_mean_value",
+    )
+    expected_conservative = max(0.0, interval_lower)
+    if not math.isclose(conservative, expected_conservative, rel_tol=0.0, abs_tol=1e-15):
+        raise ValueError(
+            f"{name} conservative_mean_value must equal max(0, mean_interval_lower)"
+        )
+
+    fraction = _finite_number(
+        value.get("positive_group_fraction"),
+        name=f"{name}.positive_group_fraction",
+    )
+    fraction_lower = _finite_number(
+        value.get("positive_fraction_lower"),
+        name=f"{name}.positive_fraction_lower",
+    )
+    if not 0.0 <= fraction_lower <= fraction <= 1.0:
+        raise ValueError(
+            f"{name} positive fractions must satisfy 0 <= lower <= fraction <= 1"
+        )
+    method = _clean_text(
+        value.get("positive_fraction_lower_method"),
+        name=f"{name}.positive_fraction_lower_method",
+    )
+
+    prediction_lower = _optional_finite_number(
+        value.get("prediction_lower"), name=f"{name}.prediction_lower"
+    )
+    prediction_upper = _optional_finite_number(
+        value.get("prediction_upper"), name=f"{name}.prediction_upper"
+    )
+    prediction_method = _optional_text(
+        value.get("prediction_method"), name=f"{name}.prediction_method"
+    )
+    if (prediction_lower is None) != (prediction_upper is None):
+        raise ValueError(
+            f"{name} prediction interval must provide both bounds or neither"
+        )
+    if (
+        prediction_lower is not None
+        and prediction_upper is not None
+        and prediction_lower > prediction_upper
+    ):
+        raise ValueError(f"{name} prediction interval is reversed")
+    if prediction_lower is None and prediction_method is not None:
+        raise ValueError(f"{name} prediction_method requires a prediction interval")
+
+    p10 = _finite_number(value.get("empirical_p10"), name=f"{name}.empirical_p10")
+    p50 = _finite_number(value.get("empirical_p50"), name=f"{name}.empirical_p50")
+    p90 = _finite_number(value.get("empirical_p90"), name=f"{name}.empirical_p90")
+    if not p10 <= p50 <= p90:
+        raise ValueError(f"{name} empirical quantiles must be ordered")
+
+    return TransferValueStep(
+        lower_level=lower,
+        upper_level=upper,
+        expected_gain=expected,
+        mean_interval_lower=interval_lower,
+        mean_interval_upper=interval_upper,
+        mean_status=status,
+        conservative_mean_value=conservative,
+        positive_group_fraction=fraction,
+        positive_fraction_lower=fraction_lower,
+        positive_fraction_lower_method=method,
+        prediction_lower=prediction_lower,
+        prediction_upper=prediction_upper,
+        prediction_method=prediction_method,
+        empirical_p10=p10,
+        empirical_p50=p50,
+        empirical_p90=p90,
+    )
+
+
 def _validate_chain(total: TransferValueStep, steps: Sequence[TransferValueStep]) -> None:
     if not steps:
         raise ValueError("population_result must contain at least one adjacent step")
@@ -402,9 +510,9 @@ def validate_population_transfer_value_handoff(payload: Mapping[str, object]) ->
         isinstance(value, Mapping) for value in steps_raw
     ):
         raise ValueError("steps must be a non-empty list of objects")
-    total = _parse_step(total_raw, name="total_value")
+    total = _parse_handoff_step(total_raw, name="total_value")
     steps = tuple(
-        _parse_step(value, name=f"steps[{index}]")
+        _parse_handoff_step(value, name=f"steps[{index}]")
         for index, value in enumerate(steps_raw)
     )
     _validate_chain(total, steps)
