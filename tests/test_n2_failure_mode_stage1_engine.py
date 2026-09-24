@@ -122,6 +122,10 @@ def test_one_world_preserves_additive_score_identity():
     assert result["group_cv_identity_error"] <= 1e-12
     assert "group_cv_pooled_log_gain" in result
     assert "group_cv_layer_decomposed_context_gain" in result
+    assert "group_cv_accuracy" in result
+    assert "random_row_cv_accuracy" in result
+    assert "group_cv_auc_estimable_fraction" in result
+    assert "random_row_cv_auc_estimable_fraction" in result
 
 
 def test_tiny_factorial_fixture_runs_without_opening_frozen_execution():
