@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "receipt_id": "n2-stratified-context-transfer-failure-mode-stage1-result-v1",
+  "validated_date": "2026-09-24",
+  "contract_id": "n2-stratified-context-transfer-failure-mode-stage1-v1",
+  "contract_merge_sha": "05609e5a9fe4200d9cd7a1f46c807f9f682b1c72",
+  "execution_engine_merge_sha": "4932ecf2ffa8ae391ffcd0cf8cbb7f2cafbe272e",
+  "one_shot_execution": {
+    "workflow_run_id": 35946823632,
+    "run_attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "job_count": 168,
+    "all_jobs_successful": true,
+    "workflow_dispatch_enabled": false,
+    "rerun_same_v1_permitted": false
+  },
+  "canonical_result_artifact": {
+    "artifact_id": 10787511129,
+    "artifact_name": "n2-stage1-one-shot-v1",
+    "artifact_digest": "sha256:0308db85fca81e9699175eaf892e87007b1282a05a23a8ff9ef01edb5ba00744",
+    "result_filename": "N2_STAGE1_FAILURE_MODE_RESULT_V1.json",
+    "result_json_sha256": "be9d594bb22f646129652091492e4ca01373dd443a069fcedb8fd8aad1b53a29",
+    "factorial_cell_count": 864
+  },
+  "frozen_decision": {
+    "full_claim_supported": true,
+    "decision_tree_matches": {
+      "full_failure_mode_paper": true,
+      "narrow_explicit_layer_only_paper": false,
+      "diagnostic_only_rescope": false,
+      "central_claim_withdrawn": false
+    },
+    "single_posthoc_decision_category_invented": false,
+    "post_result_threshold_changes_permitted": false
+  },
+  "bop_reality_check": {
+    "frozen_expected_layer_gain_nats": 0.2664659336361246,
+    "observed_oracle_layer_gain_nats": 0.26646593363612436,
+    "absolute_error": 2.220446049250313e-16,
+    "predeclared_realistic_window_nats": [0.2, 0.35],
+    "passed": true
+  },
+  "confirmatory_anchors": {
+    "A_explicit_layer_pooled_reference": {
+      "context_truth_nats": 0.0,
+      "pooled_reference_false_positive_rate": 1.0,
+      "pooled_reference_false_positive_wilson_95_lower": 0.9961732415144449,
+      "pooled_reference_mean_gain_nats": 0.2685063935614071,
+      "decomposed_context_false_positive_rate": 0.0,
+      "decomposed_context_mean_gain_nats": -0.00023499522790046024,
+      "primary_method_availability": 1.0
+    },
+    "B_context_proxy_for_layer": {
+      "context_truth_nats": 0.0,
+      "pooled_reference_false_positive_rate": 1.0,
+      "pooled_reference_false_positive_wilson_95_lower": 0.9961732415144449,
+      "pooled_reference_mean_gain_nats": 0.1255859822878728,
+      "decomposed_context_false_positive_rate": 0.0,
+      "decomposed_context_mean_gain_nats": -0.00022712827761299143,
+      "primary_method_availability": 1.0
+    },
+    "C_proxy_negative_control": {
+      "context_truth_nats": 0.0,
+      "pooled_reference_false_positive_rate": 0.0,
+      "pooled_reference_mean_gain_nats": -0.00021416877844406985,
+      "decomposed_context_false_positive_rate": 0.001,
+      "decomposed_context_mean_gain_nats": -0.0002029707065518007,
+      "primary_method_availability": 1.0
+    },
+    "D_context_power_correlated": {
+      "oracle_context_gain_nats": 0.007154355134091395,
+      "decomposed_context_power": 0.959,
+      "decomposed_context_mean_gain_nats": 0.006914851637137263,
+      "absolute_mean_bias_nats": 0.00023950349695413264,
+      "primary_method_availability": 1.0
+    },
+    "E_context_power_uncorrelated": {
+      "oracle_context_gain_nats": 0.015822820801429955,
+      "decomposed_context_power": 1.0,
+      "decomposed_context_mean_gain_nats": 0.015452708904567757,
+      "absolute_mean_bias_nats": 0.00037011189686219845,
+      "primary_method_availability": 1.0
+    },
+    "F_high_information_bias_correlated": {
+      "oracle_context_gain_nats": 0.007154355134091395,
+      "decomposed_context_mean_gain_nats": 0.007102529096231485,
+      "absolute_mean_bias_nats": 0.00005182603785991013,
+      "primary_method_availability": 1.0
+    },
+    "G_high_information_bias_uncorrelated": {
+      "oracle_context_gain_nats": 0.015822820801429955,
+      "decomposed_context_mean_gain_nats": 0.015847254101410795,
+      "absolute_mean_bias_nats": 0.000024433299980839568,
+      "primary_method_availability": 1.0
+    }
+  },
+  "factorial_descriptive_summary": {
+    "null_context_cells": 288,
+    "all_null_cells_mean_pooled_reference_positive_rate": 0.5047200520833334,
+    "all_null_cells_mean_decomposed_context_positive_rate": 0.001681857638888889,
+    "all_null_cells_max_decomposed_context_positive_rate": 0.046875,
+    "failure_relevant_null_cells": {
+      "definition": "layer effect > 0 and either layer is included in the focal learner or correlated context is used while layer is excluded",
+      "cell_count": 162,
+      "mean_pooled_reference_positive_rate": 0.8961226851851852,
+      "median_pooled_reference_positive_rate": 1.0,
+      "fraction_of_cells_with_positive_rate_gt_0_5": 0.8950617283950617,
+      "mean_decomposed_context_positive_rate": 0.0010609567901234567,
+      "max_decomposed_context_positive_rate": 0.03125
+    },
+    "bop_realistic_layer_gain_cells": {
+      "oracle_layer_gain_window_nats": [0.2, 0.35],
+      "failure_relevant_cell_count": 54,
+      "mean_pooled_reference_positive_rate": 0.9510995370370371,
+      "median_pooled_reference_positive_rate": 1.0,
+      "fraction_of_cells_with_positive_rate_gt_0_5": 0.9444444444444444,
+      "mean_decomposed_context_positive_rate": 0.00028935185185185184,
+      "max_decomposed_context_positive_rate": 0.015625,
+      "uncorrelated_layer_omitted_negative_control_mean_pooled_positive_rate": 0.0008680555555555555
+    },
+    "positive_context_cells": {
+      "cell_count": 576,
+      "mean_absolute_decomposed_context_bias_nats": 0.0009017536988423364,
+      "median_absolute_decomposed_context_bias_nats": 0.0004225908791335941,
+      "max_absolute_decomposed_context_bias_nats": 0.011731399962150044
+    }
+  },
+  "metric_diagnostics_at_primary_null_anchors": {
+    "A_explicit_layer_pooled_reference": {
+      "group_cv_log_gain_positive_rate": 1.0,
+      "group_cv_accuracy_positive_rate": 1.0,
+      "group_cv_auc_positive_rate": 0.062
+    },
+    "B_context_proxy_for_layer": {
+      "group_cv_log_gain_positive_rate": 1.0,
+      "group_cv_accuracy_positive_rate": 1.0,
+      "group_cv_auc_positive_rate": 0.041
+    },
+    "C_proxy_negative_control": {
+      "group_cv_log_gain_positive_rate": 0.0,
+      "group_cv_accuracy_positive_rate": 0.0,
+      "group_cv_auc_positive_rate": 0.054
+    }
+  },
+  "scientific_interpretation": {
+    "supported": [
+      "with BOP-scale layer effects, a pooled reference misattributes layer identity to the claimed transfer signal with near-certain frequency even under independent-group cross-validation",
+      "when context is correlated with an omitted layer variable, context can proxy layer identity and produce the same false transfer conclusion",
+      "a layer-conditioned additive decomposition removes the false transfer signal while preserving high power for genuine within-layer context effects",
+      "the failure is a reference-definition problem rather than a random-row cross-validation leakage problem",
+      "groupwise AUC is largely insensitive to this exact intercept-like layer-confounding failure, whereas log score and accuracy can declare improvement"
+    ],
+    "not_supported": [
+      "the prevalence of this failure mode in published ecological studies",
+      "a causal interpretation of layer or context",
+      "universal superiority of one predictive metric",
+      "submission of the superseded v6 framework manuscript"
+    ],
+    "stage2_required": true
+  }
+}
