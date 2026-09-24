@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "contract_id": "n2-to-n3-transfer-value-handoff-v1",
+  "fixed_date": "2026-09-24",
+  "program_id": "niche-to-survey-four-chapter-v1",
+  "producer": {
+    "chapter": "N2",
+    "repository": "zuizui0223/odsp"
+  },
+  "consumer": {
+    "chapter": "N3",
+    "system": "EOG"
+  },
+  "payload_schema_id": "n2-to-n3-transfer-value-payload-v1",
+  "payload_schema": "N2_TO_N3_TRANSFER_VALUE_PAYLOAD_SCHEMA.json",
+  "purpose": "carry population-level predictive value of adding information layers into N3 without promoting an axis-resolved state object or ranking survey locations",
+  "accepted_source": {
+    "required_estimand": "equal_weight_mean_gain_across_groups",
+    "required_population_result_familywise_confirmatory_claim": false,
+    "requires_total_gain": true,
+    "requires_contiguous_adjacent_steps": true,
+    "accepts_positive_uncertain_and_nonpositive_steps": true
+  },
+  "value_fields": {
+    "expected_gain": "population mean held-out score gain",
+    "conservative_mean_value": "max(0, lower bound of population mean interval)",
+    "positive_group_fraction": "observed fraction of independent groups above the declared gain tolerance",
+    "positive_fraction_lower": "source-reported lower bound retained with its method label",
+    "prediction_interval": "source-reported labelled new-group prediction interval when available",
+    "empirical_quantiles": [
+      "p10",
+      "p50",
+      "p90"
+    ]
+  },
+  "downstream_boundary": {
+    "n3_may": "combine transfer value with EOG world/reachability structure and preserve uncertainty",
+    "n3_may_not": [
+      "reinterpret the payload as an axis-resolved state artifact",
+      "infer a state map from transfer value alone",
+      "rank spatial survey patches directly from this payload"
+    ],
+    "n4_owner": "ACSP",
+    "n4_required_for": [
+      "spatial patch ranking",
+      "survey site selection",
+      "action recommendation"
+    ],
+    "transfer_value_is_not_expected_information_gain_from_future_sampling": true,
+    "transfer_value_is_not_causal_value": true
+  },
+  "compatibility": {
+    "existing_n2_to_n3_state_payload_replaced": false,
+    "state_payload_schema": "N2_TO_N3_PAYLOAD_SCHEMA.json",
+    "relationship": "parallel payload families with non-overlapping semantics",
+    "new_top_level_cli_command_added": false
+  }
+}
