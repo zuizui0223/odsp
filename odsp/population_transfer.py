@@ -259,6 +259,8 @@ def _summarize_gain_vector(
         mean_gain=mean_gain,
         mean_gain_lower=float(lower),
         mean_gain_upper=float(upper),
+        mean_gain_interval_method=mean_interval_method,
+        mean_gain_interval_df=interval_df,
         mean_gain_status=_status(float(lower), float(upper), gain_tolerance),
         positive_group_count=positive_count,
         positive_group_fraction=positive_fraction,
