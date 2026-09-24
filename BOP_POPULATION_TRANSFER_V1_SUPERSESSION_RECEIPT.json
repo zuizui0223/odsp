@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-population-transfer-v1-superseded-by-few-cluster-correction-v2",
+  "date": "2026-09-24",
+  "historical_receipt": "BOP_RODENT_POPULATION_TRANSFER_AMENDMENT_RECEIPT.json",
+  "corrected_receipt": "BOP_RODENT_POPULATION_TRANSFER_CORRECTION_RECEIPT_V2.json",
+  "historical_receipt_deleted_or_rewritten": false,
+  "historical_v1_inference_should_be_used": false,
+  "reason": "with four species clusters, percentile cluster-bootstrap intervals and prevalence lower bounds were too discrete and could be anti-conservative; corrected inference preserves the equal-individual estimand and uses CR1 cluster-robust Student-t uncertainty",
+  "historical_v1_total_mean_interval": [0.23968851406795652, 1.0411910572857963],
+  "corrected_v2_total_mean_interval": [-0.2930008079265227, 1.4348212494101333],
+  "historical_v1_positive_fraction_lower": 0.7931034482758621,
+  "corrected_v2_positive_fraction_lower": 0.7047792140906237,
+  "prospective_primary_endpoint_changed": false,
+  "raw_data_reaccessed": false,
+  "model_refit_performed": false,
+  "retuning_performed": false
+}
