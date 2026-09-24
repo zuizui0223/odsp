@@ -1,0 +1,300 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/zuizui0223/odsp/N2_TO_N3_TRANSFER_VALUE_PAYLOAD_SCHEMA.json",
+  "title": "ODSP N2 to N3 transfer-value payload v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "program_id",
+    "producer",
+    "target",
+    "evidence_id",
+    "semantics",
+    "total_value",
+    "steps",
+    "boundary",
+    "provenance",
+    "fingerprint"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "n2-to-n3-transfer-value-payload-v1"
+    },
+    "program_id": {
+      "const": "niche-to-survey-four-chapter-v1"
+    },
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chapter",
+        "repository"
+      ],
+      "properties": {
+        "chapter": {
+          "const": "N2"
+        },
+        "repository": {
+          "const": "zuizui0223/odsp"
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chapter",
+        "system",
+        "role"
+      ],
+      "properties": {
+        "chapter": {
+          "const": "N3"
+        },
+        "system": {
+          "const": "EOG"
+        },
+        "role": {
+          "const": "information_transfer_value_for_downstream_reachability"
+        }
+      }
+    },
+    "evidence_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "semantics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "group",
+        "population_cluster",
+        "estimand",
+        "gain_tolerance",
+        "score"
+      ],
+      "properties": {
+        "group": {
+          "type": "string",
+          "minLength": 1
+        },
+        "population_cluster": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "estimand": {
+          "const": "equal_weight_mean_gain_across_groups"
+        },
+        "gain_tolerance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "score": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "name",
+            "unit",
+            "orientation"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "log",
+                "other_proper"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1
+            },
+            "orientation": {
+              "const": "higher_is_better"
+            }
+          }
+        }
+      }
+    },
+    "total_value": {
+      "$ref": "#/$defs/value_step"
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/value_step"
+      }
+    },
+    "boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "is_state_artifact",
+        "authorizes_state_promotion",
+        "authorizes_spatial_patch_ranking",
+        "authorizes_survey_site_selection",
+        "authorizes_n4_action",
+        "n4_survey_action_owner",
+        "interpretation"
+      ],
+      "properties": {
+        "is_state_artifact": {
+          "const": false
+        },
+        "authorizes_state_promotion": {
+          "const": false
+        },
+        "authorizes_spatial_patch_ranking": {
+          "const": false
+        },
+        "authorizes_survey_site_selection": {
+          "const": false
+        },
+        "authorizes_n4_action": {
+          "const": false
+        },
+        "n4_survey_action_owner": {
+          "const": "ACSP"
+        },
+        "interpretation": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_population_fingerprint",
+        "source_receipt",
+        "source_contract"
+      ],
+      "properties": {
+        "source_population_fingerprint": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "source_receipt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_contract": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "$defs": {
+    "value_step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lower_level",
+        "upper_level",
+        "expected_gain",
+        "mean_interval_lower",
+        "mean_interval_upper",
+        "mean_status",
+        "conservative_mean_value",
+        "positive_group_fraction",
+        "positive_fraction_lower",
+        "positive_fraction_lower_method",
+        "prediction_lower",
+        "prediction_upper",
+        "prediction_method",
+        "empirical_p10",
+        "empirical_p50",
+        "empirical_p90"
+      ],
+      "properties": {
+        "lower_level": {
+          "type": "string",
+          "minLength": 1
+        },
+        "upper_level": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected_gain": {
+          "type": "number"
+        },
+        "mean_interval_lower": {
+          "type": "number"
+        },
+        "mean_interval_upper": {
+          "type": "number"
+        },
+        "mean_status": {
+          "enum": [
+            "positive",
+            "uncertain",
+            "nonpositive"
+          ]
+        },
+        "conservative_mean_value": {
+          "type": "number",
+          "minimum": 0
+        },
+        "positive_group_fraction": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "positive_fraction_lower": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "positive_fraction_lower_method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prediction_lower": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "prediction_upper": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "prediction_method": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "empirical_p10": {
+          "type": "number"
+        },
+        "empirical_p50": {
+          "type": "number"
+        },
+        "empirical_p90": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

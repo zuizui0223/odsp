@@ -130,6 +130,13 @@ from .temporal_partition import (
     score_identity_temporal_transferability,
     temporal_partition_profile,
 )
+from .transfer_value_handoff import (
+    TransferValueHandoff,
+    TransferValueStep,
+    build_population_transfer_value_handoff,
+    population_result_fingerprint,
+    validate_population_transfer_value_handoff,
+)
 from .transferability import (
     ConditionalTransferabilityScore,
     base_added_mutual_information,
@@ -185,6 +192,8 @@ __all__ = [
     "TemporalObservation",
     "TemporalPartitionDecision",
     "TemporalPartitionProfile",
+    "TransferValueHandoff",
+    "TransferValueStep",
     "TrustedStatePredictionSummary",
     "VerticalFieldMap",
     "VerticalObservation",
@@ -193,6 +202,7 @@ __all__ = [
     "base_added_mutual_information",
     "build_grouped_n2_to_n3_payload",
     "build_n2_to_n3_payload",
+    "build_population_transfer_value_handoff",
     "classify_grouped_temporal_partition_result",
     "classify_independent_gains",
     "classify_temporal_partition_result",
@@ -216,6 +226,7 @@ __all__ = [
     "normalize_inaturalist_time",
     "normalize_occurrence_time",
     "normalize_vertical_information",
+    "population_result_fingerprint",
     "projection_overlap_profile",
     "run_concealed_recovery_benchmark",
     "run_n2_generality_benchmark",
@@ -235,5 +246,6 @@ __all__ = [
     "temporal_partition_profile",
     "trusted_state_predictions",
     "validate_n2_to_n3_payload",
+    "validate_population_transfer_value_handoff",
     "validate_serengeti_terminal_result",
 ]

@@ -1,0 +1,35 @@
+name: transfer-value-handoff
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/transfer_value_handoff.py'
+      - 'odsp/__init__.py'
+      - 'N2_TO_N3_TRANSFER_VALUE_PAYLOAD_SCHEMA.json'
+      - 'N2_TO_N3_TRANSFER_VALUE_HANDOFF_CONTRACT.json'
+      - 'scripts/build_population_transfer_value_handoff.py'
+      - 'tests/test_transfer_value_handoff.py'
+      - 'docs/transfer_value_handoff_v1.md'
+      - '.github/workflows/transfer-value-handoff.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install package and test dependencies
+        run: python -m pip install -e '.[dev]'
+      - name: Validate transfer-value handoff
+        run: >-
+          python -m pytest -q
+          tests/test_transfer_value_handoff.py
+          tests/test_release_surface.py
+      - name: Compile builder
+        run: python -m py_compile scripts/build_population_transfer_value_handoff.py
