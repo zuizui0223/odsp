@@ -68,3 +68,14 @@ def test_v2_does_not_change_frozen_primary_or_refit_any_model():
     assert receipt["model_refit_performed"] is False
     assert receipt["raw_source_data_reaccessed"] is False
     assert receipt["retuning_performed"] is False
+
+
+def test_v2_validation_provenance_is_pinned():
+    receipt = _read(RECEIPT)
+    provenance = receipt["validation_provenance"]
+
+    assert provenance["source_head_sha"] == "8a2944ee08463a3b428954cd74da455fdf484324"
+    assert provenance["workflow_run_id"] == 35988157400
+    assert provenance["artifact_id"] == 10802594595
+    assert provenance["artifact_digest"] == "sha256:19b13824cdc95c070c0b524bcf195c33857c0647e5aa7fc0709302c5d440a366"
+    assert provenance["result_json_sha256"] == "de72da8f84db42963f6bcb7e56f9fd9f1bed02945cb3efd9740b5f51ae07d234"
