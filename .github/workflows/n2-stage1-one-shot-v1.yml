@@ -28,6 +28,8 @@ jobs:
           import subprocess
           from pathlib import Path
 
+          if os.environ.get("GITHUB_RUN_ATTEMPT") != "1":
+              raise SystemExit("same v1 workflow rerun is forbidden by the frozen contract")
           marker = json.loads(Path("N2_STAGE1_EXECUTION_ARMED.json").read_text())
           expected = "05609e5a9fe4200d9cd7a1f46c807f9f682b1c72"
           if marker["contract_merge_sha"] != expected:
