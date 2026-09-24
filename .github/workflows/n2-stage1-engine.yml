@@ -1,0 +1,41 @@
+name: n2-stage1-engine
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/n2_failure_mode_stage1.py'
+      - 'scripts/run_n2_failure_mode_stage1_shard.py'
+      - 'scripts/aggregate_n2_failure_mode_stage1.py'
+      - 'tests/test_n2_failure_mode_stage1_engine.py'
+      - 'N2_STAGE1_EXECUTION_ARMED.json'
+      - '.github/workflows/n2-stage1-one-shot-v1.yml'
+      - '.github/workflows/n2-stage1-engine.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install package
+        run: python -m pip install -e '.[dev]'
+      - name: Validate stage1 engine without opening frozen results
+        run: >-
+          python -m pytest -q
+          tests/test_n2_failure_mode_stage1_contract.py
+          tests/test_n2_failure_mode_stage1_engine.py
+      - name: Compile runners
+        run: >-
+          python -m py_compile
+          scripts/run_n2_failure_mode_stage1_shard.py
+          scripts/aggregate_n2_failure_mode_stage1.py
+      - name: Confirm one-shot workflow has no manual dispatch
+        run: |
+          grep -q "^  push:" .github/workflows/n2-stage1-one-shot-v1.yml
+          ! grep -q "workflow_dispatch" .github/workflows/n2-stage1-one-shot-v1.yml

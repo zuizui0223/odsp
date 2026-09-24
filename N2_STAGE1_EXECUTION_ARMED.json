@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "execution_id": "n2-stage1-one-shot-v1",
+  "contract_id": "n2-stratified-context-transfer-failure-mode-stage1-v1",
+  "contract_merge_sha": "05609e5a9fe4200d9cd7a1f46c807f9f682b1c72",
+  "engine_version": 1,
+  "factorial_shard_count": 96,
+  "anchor_shards_per_anchor": 10,
+  "anchor_count": 7,
+  "auto_execute_on_first_main_addition": true,
+  "workflow_dispatch_enabled": false,
+  "rerun_same_v1_after_material_failure_allowed": false,
+  "result_artifact_name": "n2-stage1-one-shot-v1"
+}
