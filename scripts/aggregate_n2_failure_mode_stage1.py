@@ -81,11 +81,11 @@ def _evaluate_rule(
     }
 
 
-def _decision(rule_groups: Mapping[str, list[dict[str, object]]], bop_passed: bool) -> str:
+def _decision_tree_matches(
+    rule_groups: Mapping[str, list[dict[str, object]]],
+    bop_passed: bool,
+) -> dict[str, bool]:
     all_rules = [row for values in rule_groups.values() for row in values]
-    if bop_passed and all(bool(row["passed"]) for row in all_rules):
-        return "full_failure_mode_paper"
-
     failure = {
         (row["anchor_id"], row["method_id"]): bool(row["passed"])
         for row in rule_groups["false_positive_failure_mode"]
@@ -94,26 +94,27 @@ def _decision(rule_groups: Mapping[str, list[dict[str, object]]], bop_passed: bo
     availability_ok = all(
         bool(row["passed"]) for row in rule_groups["primary_method_availability"]
     )
-    if (
-        not bop_passed
-        or not failure.get(
-            ("A_explicit_layer_pooled_reference", "group_cv_pooled_log_gain"), False
-        )
-        or not type1_ok
-        or not availability_ok
-    ):
-        return "central_claim_withdrawn"
-
-    if not all(bool(row["passed"]) for row in rule_groups["correction_power"]):
-        return "diagnostic_only_rescope"
-
-    if not failure.get(
+    a_ok = failure.get(
+        ("A_explicit_layer_pooled_reference", "group_cv_pooled_log_gain"), False
+    )
+    b_ok = failure.get(
         ("B_context_proxy_for_layer", "group_cv_pooled_log_gain"), False
-    ):
-        return "narrow_explicit_layer_only_paper"
-
-    return "full_claim_not_supported_other_rule_failure"
-
+    )
+    power_ok = all(bool(row["passed"]) for row in rule_groups["correction_power"])
+    return {
+        "full_failure_mode_paper": bool(
+            bop_passed and all(bool(row["passed"]) for row in all_rules)
+        ),
+        "narrow_explicit_layer_only_paper": bool(
+            bop_passed and a_ok and type1_ok and availability_ok and not b_ok
+        ),
+        "diagnostic_only_rescope": bool(
+            bop_passed and a_ok and type1_ok and availability_ok and not power_ok
+        ),
+        "central_claim_withdrawn": bool(
+            (not bop_passed) or (not a_ok) or (not type1_ok) or (not availability_ok)
+        ),
+    }
 
 def aggregate(input_dir: Path, contract_path: Path) -> dict[str, object]:
     contract = load_stage1_contract(contract_path)
@@ -202,7 +203,7 @@ def aggregate(input_dir: Path, contract_path: Path) -> dict[str, object]:
     )
     bop_passed = bool(bop["passed"] and bop["inside_frozen_window"])
 
-    decision = _decision(groups, bop_passed)
+    decision_matches = _decision_tree_matches(groups, bop_passed)
     return {
         "schema_version": 1,
         "receipt_type": "n2_stratified_context_transfer_failure_mode_stage1_v1",
@@ -216,8 +217,9 @@ def aggregate(input_dir: Path, contract_path: Path) -> dict[str, object]:
         "confirmatory_anchors": anchor_summaries,
         "success_rule_evaluation": groups,
         "bop_reality_check": bop,
-        "decision": decision,
-        "full_claim_supported": bool(decision == "full_failure_mode_paper"),
+        "decision_tree_matches": decision_matches,
+        "full_claim_supported": bool(decision_matches["full_failure_mode_paper"]),
+        "single_posthoc_decision_category_invented": False,
         "historical_v6_submission_reopened": False,
         "post_result_threshold_changes_permitted": False,
     }
@@ -238,7 +240,7 @@ def main() -> None:
     print(
         json.dumps(
             {
-                "decision": result["decision"],
+                "decision_tree_matches": result["decision_tree_matches"],
                 "full_claim_supported": result["full_claim_supported"],
                 "factorial_cell_count": result["factorial"]["cell_count"],
             },
