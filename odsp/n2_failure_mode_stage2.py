@@ -407,6 +407,7 @@ def stage2_synthesis(
     penguins_result: Mapping[str, object],
     *,
     bop_v2_receipt: Mapping[str, object],
+    bop_species_receipt: Mapping[str, object],
     serengeti_receipt: Mapping[str, object],
 ) -> dict[str, object]:
     bop_population = bop_v2_receipt["population_result"]
@@ -414,12 +415,30 @@ def stage2_synthesis(
     bop_context = bop_population["steps"][1]
     bop_comparison = _comparison(bop_total, bop_context)
 
+    species_summary = bop_species_receipt["species_summary"]
+    buteo = species_summary["Buteo buteo"]
+    buteo_sentinel = {
+        "species": "Buteo buteo",
+        "mean_total_gain": float(buteo["mean_total_gain"]),
+        "mean_species_component": float(buteo["mean_species_component"]),
+        "mean_within_species_context_component": float(
+            buteo["mean_context_within_species_component"]
+        ),
+        "point_sign_reversal": bool(
+            float(buteo["mean_total_gain"]) > 0.0
+            and float(buteo["mean_context_within_species_component"]) <= 0.0
+        ),
+        "descriptive_only": True,
+        "included_in_system_flip_denominator": False,
+    }
+
     systems = {
         "BOP_RODENT": {
             "failure_mode_eligible": True,
             "fresh": False,
             "comparison": bop_comparison,
             "population_cluster_count": bop_population["cluster_count"],
+            "motivating_buteo_sentinel": buteo_sentinel,
         },
         "PALMER_PENGUINS": {
             "failure_mode_eligible": True,
