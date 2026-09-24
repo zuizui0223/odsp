@@ -27,6 +27,17 @@ equal_weight_mean_gain_across_groups
 The source must remain a descriptive population summary rather than a new
 familywise confirmatory claim.
 
+The payload also requires explicit score currency:
+
+- score kind;
+- score name;
+- score unit;
+- higher-is-better orientation;
+- gain tolerance copied from the source population result.
+
+Numeric transfer values must not be compared across payloads unless these score
+semantics and the biological target are commensurate.
+
 ## Value carried downstream
 
 For total transfer and each adjacent information step, the payload carries:
@@ -90,6 +101,9 @@ payload = build_population_transfer_value_handoff(
     population_result=receipt["population_result"],
     group_semantics="heldout site",
     population_cluster_semantics="region",
+    score_kind="log",
+    score_name="mean_heldout_log_predictive_density",
+    score_unit="nats_per_site",
     source_receipt="endpoint.receipt.json",
 ).as_dict()
 ```
