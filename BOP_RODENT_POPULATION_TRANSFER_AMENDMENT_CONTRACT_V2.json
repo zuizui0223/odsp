@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "contract_id": "bop-rodent-population-transfer-descriptive-amendment-v2",
+  "amendment_date": "2026-09-24",
+  "post_outcome_amendment": true,
+  "analysis_type": "descriptive_secondary_population_transfer",
+  "supersedes": {
+    "contract_id": "bop-rodent-population-transfer-descriptive-amendment-v1",
+    "reason": "v1 used a percentile cluster bootstrap with only four species clusters; the finite resampling support produced anti-conservative intervals and an inflated positive-fraction lower bound",
+    "v1_receipt_deleted_or_rewritten": false,
+    "v1_population_inference_should_not_be_used": true
+  },
+  "purpose": "recompute the population distribution of already-frozen BOP individual held-out gains with a predeclared few-cluster correction, without changing the prospective primary endpoint, model, folds, comparator, terminal rule or terminal category",
+  "source_evidence": {
+    "species_baseline_amendment_contract_id": "bop-rodent-species-baseline-descriptive-amendment-v1",
+    "workflow_run_id": 34733014869,
+    "artifact_id": 10310047790,
+    "artifact_digest": "sha256:0bec74c68ffbd00cd4c1d3b08418d21f9f137726a525c579199398784772b6f5",
+    "result_json_sha256": "44a02f584b819a4af83c0d53684ed285cad322b1a3e5ef30aba605e5f3aff352"
+  },
+  "frozen_primary_endpoint": {
+    "terminal_category": "empirical_state_prediction_mixed",
+    "positive_individual_count": 27,
+    "eligible_individual_count": 30,
+    "mean_total_gain": 0.5709102207418053,
+    "must_not_be_reclassified_by_this_amendment": true
+  },
+  "population_estimand": {
+    "group": "heldout_individual",
+    "population_cluster": "species",
+    "equal_group_weight": true,
+    "confidence_level": 0.95,
+    "small_cluster_threshold": 10,
+    "observed_cluster_count": 4,
+    "mean_interval_method_when_cluster_count_below_threshold": "CR1 cluster-robust standard error for the equal-weight group mean with Student t critical value and df = G - 1",
+    "positive_fraction_lower_method_when_cluster_count_below_threshold": "group-level Wilson score lower bound; explicitly descriptive and not a cluster-robust prevalence confidence bound",
+    "cluster_bootstrap_used_for_bop_v2": false,
+    "bootstrap_draws_if_cluster_count_at_least_threshold": 4000,
+    "seed": 20260913,
+    "gain_tolerance": 0.0,
+    "new_group_prediction_method": "normal_theory_descriptive"
+  },
+  "reported_targets": {
+    "total_gain": "G_total = mean_log_P_model - mean_log_P_pool",
+    "species_step": "G_species = mean_log_P_species - mean_log_P_pool",
+    "context_step": "G_context = mean_log_P_model - mean_log_P_species",
+    "stepwise_ceiling_non_skippable": true
+  },
+  "claim_boundary": {
+    "supports": [
+      "descriptive equal-individual mean and heterogeneity of the frozen BOP gains",
+      "few-cluster-robust uncertainty for the equal-individual mean using species as the declared dependence cluster",
+      "descriptive observed fraction of individuals with positive gain and a separately labelled group-level Wilson lower bound",
+      "separate reporting of total first-to-final transfer and adjacent additive components"
+    ],
+    "does_not_support": [
+      "a newly prospective BOP endpoint",
+      "replacement or reclassification of the frozen empirical_state_prediction_mixed primary endpoint",
+      "a positive BOP population-mean transfer conclusion when the corrected four-cluster t interval crosses zero",
+      "a cluster-robust confidence bound for the positive-individual fraction",
+      "precise superpopulation inference from four represented species",
+      "random sampling of represented species from a defined species superpopulation",
+      "a causal effect of species identity or context",
+      "model refitting, retuning or raw-source-data reanalysis"
+    ]
+  }
+}
