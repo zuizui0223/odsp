@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "contract_id": "n2-mee-pooled-reference-failure-mode-manuscript-v1",
+  "date": "2026-09-24",
+  "target_journal": "Methods in Ecology and Evolution",
+  "article_type": "Research Article",
+  "working_title": "Predictive skill can misidentify information transfer in hierarchical ecological data",
+  "one_sentence_claim": "When ecological prediction is evaluated against a pooled reference, layer identity can be credited to the contextual information under study; matching the reference to the claim separates layer identity from within-layer transfer.",
+  "positioning": {
+    "framework_paper": false,
+    "failure_mode_paper": true,
+    "odsp_is_primary_novelty_claim": false,
+    "odsp_role": "implementation of explicit held-out score decomposition and reproducible audits",
+    "stage1_known_truth_is_primary_mechanistic_evidence": true,
+    "stage2_real_data_is_empirical_triangulation": true
+  },
+  "canonical_evidence": {
+    "stage1_contract": "N2_STRATIFIED_CONTEXT_TRANSFER_FAILURE_MODE_STAGE1_CONTRACT.json",
+    "stage1_result": "N2_STAGE1_FAILURE_MODE_RESULT_RECEIPT_V1.json",
+    "stage2_contract": "N2_POOLED_REFERENCE_FAILURE_MODE_STAGE2_REAL_DATA_CONTRACT.json",
+    "stage2_result": "N2_STAGE2_REAL_DATA_RESULT_RECEIPT_V1.json",
+    "bop_species_decomposition": "BOP_RODENT_SPECIES_BASELINE_AMENDMENT_RECEIPT.json",
+    "bop_population_corrected": "BOP_RODENT_POPULATION_TRANSFER_AMENDMENT_RECEIPT_V2.json",
+    "serengeti_semantic_control": "N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json"
+  },
+  "abstract": {
+    "maximum_words": 350,
+    "required_sequence": [
+      "problem: predictive improvement does not identify which information caused the improvement",
+      "mechanism: pooled reference conflates layer identity with within-layer context",
+      "known-truth result: BOP-scale layer effects yield near-certain pooled-reference false transfer while conditioned decomposition controls error",
+      "fresh real-data result: Palmer Penguins reverses from positive pooled morphology gain to negative species-conditioned morphology gain",
+      "scope control: pooled reference remains appropriate when identity itself is the claim, as in Snapshot Serengeti",
+      "conclusion: reference information must match the information-transfer claim"
+    ],
+    "framework_language_in_first_two_sentences": false
+  },
+  "introduction": {
+    "paragraph_count_target": 4,
+    "paragraph_roles": [
+      "ecologists often interpret held-out predictive improvement as evidence that newly added context transfers",
+      "hierarchical identity creates a hidden comparator problem; introduce the Buteo buteo motivating decomposition without treating it as confirmatory",
+      "define explicit-layer and proxy-layer failure modes and state why group CV alone cannot fix a reference-definition error",
+      "state preregistered known-truth and real-data tests and the falsification/withdrawal logic"
+    ],
+    "buteo_opening_numbers": {
+      "mean_total_gain": 0.2303113866257108,
+      "mean_species_component": 0.27361852000969283,
+      "mean_context_component": -0.04330713338398338,
+      "status": "post-outcome descriptive motivating example"
+    }
+  },
+  "core_equations": {
+    "explicit_layer_identity": "Delta_total = [S(full)-S(layer)] + [S(layer)-S(pool)] = Delta_context + Delta_layer",
+    "failure_condition": "Delta_total > 0 does not imply Delta_context > 0",
+    "proxy_case": "when context X correlates with omitted layer L, S(X)-S(pool) can be positive even if true within-layer context information is zero",
+    "score": "held-out mean log predictive probability; larger is better"
+  },
+  "methods_sections": [
+    "Claim-aligned reference principle and additive decomposition",
+    "Stage 1 preregistered known-truth experiment",
+    "Population-mean decision rule and few-cluster correction",
+    "Stage 2 preregistered real-data triangulation",
+    "Implementation and reproducibility"
+  ],
+  "stage1_results_required": {
+    "anchor_A_pooled_false_positive_rate": 1.0,
+    "anchor_A_decomposed_false_positive_rate": 0.0,
+    "anchor_B_pooled_false_positive_rate": 1.0,
+    "anchor_B_decomposed_false_positive_rate": 0.0,
+    "anchor_C_pooled_false_positive_rate": 0.0,
+    "anchor_C_decomposed_false_positive_rate": 0.001,
+    "failure_relevant_null_cell_count": 162,
+    "failure_relevant_mean_pooled_positive_rate": 0.8961226851851852,
+    "failure_relevant_fraction_cells_rate_gt_0_5": 0.8950617283950617,
+    "failure_relevant_mean_decomposed_positive_rate": 0.0010609567901234567,
+    "bop_realistic_failure_cell_count": 54,
+    "bop_realistic_mean_pooled_positive_rate": 0.9510995370370371,
+    "bop_realistic_fraction_cells_rate_gt_0_5": 0.9444444444444444,
+    "bop_realistic_mean_decomposed_positive_rate": 0.00028935185185185184,
+    "context_power_correlated": 0.959,
+    "context_power_uncorrelated": 1.0,
+    "high_information_max_bias_ceiling_observed": 0.00005182603785991013
+  },
+  "stage2_results_required": {
+    "palmer_penguins": {
+      "naive_pooled_mean_gain": 0.3894565006712757,
+      "naive_pooled_95_interval": [0.27893400203849444, 0.4999789993040569],
+      "audit_layer_mean_gain": 0.5360132625954789,
+      "audit_context_mean_gain": -0.08374806363025576,
+      "audit_context_95_interval": [-0.09022391720325132, -0.0772722100572602],
+      "decision": "fresh_empirical_reversal"
+    },
+    "bop_population": {
+      "total_mean_gain": 0.5709102207418053,
+      "corrected_95_interval": [-0.29300080792551697, 1.4348212494091275],
+      "status": "uncertain",
+      "role": "do not use as a positive population-mean result"
+    },
+    "buteo_sentinel": {
+      "total": 0.2303113866257108,
+      "layer": 0.27361852000969283,
+      "context": -0.04330713338398338,
+      "role": "descriptive motivating example only"
+    },
+    "serengeti": {
+      "heldout_gains": [0.0572411993741857, 0.045158861333215006, 0.04514355468571751],
+      "role": "semantic negative control",
+      "interpretation": "pooled identity-blind reference is appropriate because species identity itself is the claimed transferred information"
+    }
+  },
+  "figures": [
+    {
+      "figure": 1,
+      "purpose": "failure-mode schematic",
+      "panels": [
+        "explicit-layer case: full model versus pooled reference conflates layer and context",
+        "proxy-layer case: context correlated with omitted layer inherits layer signal",
+        "claim-aligned reference principle"
+      ]
+    },
+    {
+      "figure": 2,
+      "purpose": "known-truth evidence",
+      "panels": [
+        "anchor A/B/C false-positive rates for pooled versus decomposed context",
+        "factorial heatmap of pooled false-transfer rate",
+        "factorial heatmap of decomposed false-transfer rate",
+        "power and bias for genuine context effects"
+      ]
+    },
+    {
+      "figure": 3,
+      "purpose": "real-data triangulation",
+      "panels": [
+        "Palmer Penguins naive pooled gain versus layer and corrected context components with CR1+t2 intervals",
+        "Buteo buteo descriptive decomposition",
+        "Snapshot Serengeti semantic control"
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "table": 1,
+      "purpose": "predeclared empirical roles and comparator semantics",
+      "rows": ["BOP_RODENT", "PALMER_PENGUINS", "SNAPSHOT_SERENGETI"]
+    }
+  ],
+  "discussion_structure": [
+    "predictive validation protects against overfitting but does not identify the information source",
+    "group cross-validation cannot repair a comparator that omits a relevant layer",
+    "conditioning is claim-dependent rather than universally preferable; Serengeti defines the boundary",
+    "implications for SDMs and hierarchical ecological prediction, including esdm",
+    "limitations: Stage 2 is triangulation rather than literature prevalence; few layers limit superpopulation inference; decomposition is not causal identification"
+  ],
+  "supplement_only": [
+    "Tawaki",
+    "Tadarida bat",
+    "MH_ANTWERPEN",
+    "historical certification-family and lattice development",
+    "superseded v1-v6 framework manuscript materials"
+  ],
+  "prohibited_claims": [
+    "ODSP is a new ecological prediction framework as the central paper contribution",
+    "BOP shows a positive population-mean context transfer after the four-cluster correction",
+    "the two Stage-2 failure-eligible systems estimate the prevalence of the problem in ecology",
+    "AUC is generally inferior to log score",
+    "conditioning on a layer establishes causality",
+    "pooled references are intrinsically wrong",
+    "all hierarchical models should condition on the same layer"
+  ],
+  "stage4": {
+    "required_for_submission": false,
+    "if_done": "published-study reanalyses are scope-expansion evidence only and cannot alter the Stage1/Stage2 core conclusion"
+  },
+  "development_freeze": {
+    "new_certification_families_allowed": false,
+    "new_lattice_qualifications_allowed": false,
+    "new_primary_real_data_systems_allowed": false,
+    "bug_fixes_allowed": true,
+    "manuscript_figures_tables_and_reproducibility_work_allowed": true
+  }
+}
