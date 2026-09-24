@@ -73,11 +73,9 @@ def test_bop_v1_is_preserved_as_history_but_not_valid_for_current_inference():
 def test_bop_v2_uses_same_checksum_pinned_source_and_no_refit():
     contract = _read(CONTRACT)
     receipt = _read(RECEIPT)
-    assert receipt["source_evidence"] == contract["source_evidence"] | {
-        "species_baseline_amendment_contract_id": contract["source_evidence"][
-            "species_baseline_amendment_contract_id"
-        ]
-    } if False else receipt["source_evidence"]
+    assert receipt["source_evidence"]["workflow_run_id"] == contract["source_evidence"]["workflow_run_id"]
+    assert receipt["source_evidence"]["artifact_id"] == contract["source_evidence"]["artifact_id"]
+    assert receipt["source_evidence"]["artifact_digest"] == contract["source_evidence"]["artifact_digest"]
     assert receipt["source_evidence"]["artifact_id"] == 10310047790
     assert receipt["source_evidence"]["result_json_sha256"] == (
         "44a02f584b819a4af83c0d53684ed285cad322b1a3e5ef30aba605e5f3aff352"
