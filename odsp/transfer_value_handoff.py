@@ -61,6 +61,10 @@ class TransferValueHandoff:
     group_semantics: str
     population_cluster_semantics: str | None
     estimand: str
+    gain_tolerance: float
+    score_kind: str
+    score_name: str
+    score_unit: str
     total_value: TransferValueStep
     steps: tuple[TransferValueStep, ...]
     source_population_fingerprint: str
@@ -86,6 +90,13 @@ class TransferValueHandoff:
                 "group": self.group_semantics,
                 "population_cluster": self.population_cluster_semantics,
                 "estimand": self.estimand,
+                "gain_tolerance": self.gain_tolerance,
+                "score": {
+                    "kind": self.score_kind,
+                    "name": self.score_name,
+                    "unit": self.score_unit,
+                    "orientation": "higher_is_better",
+                },
             },
             "total_value": self.total_value.as_dict(),
             "steps": [step.as_dict() for step in self.steps],
@@ -369,6 +380,9 @@ def build_population_transfer_value_handoff(
     population_result: Mapping[str, object],
     group_semantics: str,
     population_cluster_semantics: str | None = None,
+    score_kind: str,
+    score_name: str,
+    score_unit: str,
     source_receipt: str | None = None,
     source_contract: str | None = None,
 ) -> TransferValueHandoff:
@@ -379,6 +393,9 @@ def build_population_transfer_value_handoff(
     population_cluster_semantics = _optional_text(
         population_cluster_semantics, name="population_cluster_semantics"
     )
+    score_kind = _clean_text(score_kind, name="score_kind")
+    score_name = _clean_text(score_name, name="score_name")
+    score_unit = _clean_text(score_unit, name="score_unit")
     source_receipt = _optional_text(source_receipt, name="source_receipt")
     source_contract = _optional_text(source_contract, name="source_contract")
 
@@ -387,6 +404,12 @@ def build_population_transfer_value_handoff(
         raise ValueError("transfer-value payload v1 requires equal_weight_mean_gain_across_groups")
     if population_result.get("familywise_confirmatory_claim") is not False:
         raise ValueError("transfer-value payload v1 requires familywise_confirmatory_claim=false")
+    gain_tolerance = _finite_number(
+        population_result.get("gain_tolerance"),
+        name="population_result.gain_tolerance",
+    )
+    if gain_tolerance < 0.0:
+        raise ValueError("population_result.gain_tolerance must be non-negative")
 
     total_raw = population_result.get("total_gain")
     steps_raw = population_result.get("steps")
@@ -419,6 +442,13 @@ def build_population_transfer_value_handoff(
             "group": group_semantics,
             "population_cluster": population_cluster_semantics,
             "estimand": estimand,
+            "gain_tolerance": gain_tolerance,
+            "score": {
+                "kind": score_kind,
+                "name": score_name,
+                "unit": score_unit,
+                "orientation": "higher_is_better",
+            },
         },
         "total_value": total.as_dict(),
         "steps": [step.as_dict() for step in steps],
@@ -453,6 +483,10 @@ def build_population_transfer_value_handoff(
         group_semantics=group_semantics,
         population_cluster_semantics=population_cluster_semantics,
         estimand=estimand,
+        gain_tolerance=gain_tolerance,
+        score_kind=score_kind,
+        score_name=score_name,
+        score_unit=score_unit,
         total_value=total,
         steps=steps,
         source_population_fingerprint=source_fingerprint,
@@ -524,6 +558,19 @@ def validate_population_transfer_value_handoff(payload: Mapping[str, object]) ->
     estimand = _clean_text(semantics.get("estimand"), name="semantics.estimand")
     if estimand != "equal_weight_mean_gain_across_groups":
         raise ValueError("unsupported transfer-value estimand")
+    gain_tolerance = _finite_number(
+        semantics.get("gain_tolerance"), name="semantics.gain_tolerance"
+    )
+    if gain_tolerance < 0.0:
+        raise ValueError("semantics.gain_tolerance must be non-negative")
+    score = semantics.get("score")
+    if not isinstance(score, Mapping):
+        raise ValueError("semantics.score must be an object")
+    score_kind = _clean_text(score.get("kind"), name="semantics.score.kind")
+    score_name = _clean_text(score.get("name"), name="semantics.score.name")
+    score_unit = _clean_text(score.get("unit"), name="semantics.score.unit")
+    if score.get("orientation") != "higher_is_better":
+        raise ValueError("semantics.score.orientation must be higher_is_better")
 
     source_population_fingerprint = provenance.get("source_population_fingerprint")
     if not isinstance(source_population_fingerprint, str) or not _SHA256_RE.fullmatch(source_population_fingerprint):
@@ -545,6 +592,13 @@ def validate_population_transfer_value_handoff(payload: Mapping[str, object]) ->
             "group": group_semantics,
             "population_cluster": cluster_semantics,
             "estimand": estimand,
+            "gain_tolerance": gain_tolerance,
+            "score": {
+                "kind": score_kind,
+                "name": score_name,
+                "unit": score_unit,
+                "orientation": "higher_is_better",
+            },
         },
         "total_value": total.as_dict(),
         "steps": [step.as_dict() for step in steps],
