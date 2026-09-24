@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "execution_id": "n2-stage2-palmer-penguins-one-shot-v1",
+  "contract_id": "n2-pooled-reference-failure-mode-stage2-real-data-v1",
+  "contract_merge_sha": "8a83079f395b7e22bf82d87a430d8169247bf996",
+  "few_cluster_fix_merge_sha": "6bc65a1a5575d61835838e711d6f0221af320034",
+  "fresh_system": "PALMER_PENGUINS",
+  "auto_execute_on_first_main_addition": true,
+  "workflow_dispatch_enabled": false,
+  "rerun_same_v1_after_material_failure_allowed": false,
+  "result_artifact_name": "n2-stage2-real-data-one-shot-v1"
+}
