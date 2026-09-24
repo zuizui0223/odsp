@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "receipt_id": "n2-pooled-reference-failure-mode-stage2-real-data-result-receipt-v1",
+  "validated_date": "2026-09-24",
+  "contract_id": "n2-pooled-reference-failure-mode-stage2-real-data-v1",
+  "contract_merge_sha": "8a83079f395b7e22bf82d87a430d8169247bf996",
+  "few_cluster_fix_merge_sha": "6bc65a1a5575d61835838e711d6f0221af320034",
+  "execution_engine_merge_sha": "79570b6ddb7cf4cf8c56a077871fe90d36f2ac94",
+  "one_shot_execution": {
+    "workflow_run_id": 35992702616,
+    "run_attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "workflow_dispatch_enabled": false,
+    "rerun_same_v1_permitted": false
+  },
+  "canonical_result_artifact": {
+    "artifact_id": 10804873232,
+    "artifact_name": "n2-stage2-real-data-one-shot-v1",
+    "artifact_digest": "sha256:f7383597df4b1d06f778533da8c4d1162c64be6d7d9aa79e562f44ad1546f6b2",
+    "penguins_result_filename": "N2_STAGE2_PALMER_PENGUINS_RESULT_V1.json",
+    "penguins_result_sha256": "fb52d398c8000ddea9757045b40b12b0f261b33e1ab3a062be35a528607a45ab",
+    "aggregate_result_filename": "N2_STAGE2_REAL_DATA_RESULT_V1.json",
+    "aggregate_result_sha256": "7ed9e31ccdcae648596c0ebb01ed5020fb680c850e0f58cf0866b74128ccbb19"
+  },
+  "fresh_palmer_penguins": {
+    "prepared_row_count": 342,
+    "years": ["2007", "2008", "2009"],
+    "species": ["Adelie", "Chinstrap", "Gentoo"],
+    "raw_csv_sha256": "f204db2c753b0937caac3cb35258562c14f073e4bbc76be24b4c51ce22767a93",
+    "upstream_commit": "8957207b78d6ccd1b4654a9dd9c9041b657478ab",
+    "naive_pooled_gain": {
+      "mean_gain": 0.3894565006712757,
+      "mean_gain_lower": 0.27893400203849444,
+      "mean_gain_upper": 0.4999789993040569,
+      "mean_gain_status": "positive",
+      "mean_gain_interval_method": "cluster_robust_t_cr1",
+      "mean_gain_interval_df": 2,
+      "positive_group_count": 257,
+      "positive_group_fraction": 0.7514619883040936,
+      "positive_fraction_lower": 0.7030363241890208
+    },
+    "audit_layer_component": {
+      "mean_gain": 0.5360132625954789,
+      "mean_gain_lower": 0.4798876979807491,
+      "mean_gain_upper": 0.5921388272102086,
+      "mean_gain_status": "positive"
+    },
+    "audit_context_gain": {
+      "mean_gain": -0.08374806363025576,
+      "mean_gain_lower": -0.09022391720325132,
+      "mean_gain_upper": -0.0772722100572602,
+      "mean_gain_status": "nonpositive",
+      "mean_gain_interval_method": "cluster_robust_t_cr1",
+      "mean_gain_interval_df": 2,
+      "positive_group_count": 55,
+      "positive_group_fraction": 0.1608187134502924,
+      "positive_fraction_lower": 0.12568596291976808
+    },
+    "audit_total_gain": {
+      "mean_gain": 0.4522651989652231,
+      "mean_gain_lower": 0.391539236357672,
+      "mean_gain_upper": 0.5129911615727742,
+      "mean_gain_status": "positive"
+    },
+    "audit_additivity_max_abs_error": 1.1102230246251565e-16,
+    "decision_components": {
+      "point_sign_reversal": true,
+      "inferential_downgrade": true,
+      "strong_attenuation": true
+    },
+    "decision": "fresh_empirical_reversal"
+  },
+  "bop_rodent": {
+    "population_v2_total_mean_gain": 0.5709102207418053,
+    "population_v2_total_status": "uncertain",
+    "population_v2_context_mean_gain": 0.498116372621806,
+    "population_v2_context_status": "uncertain",
+    "system_level_point_sign_reversal": false,
+    "system_level_inferential_downgrade": false,
+    "system_level_strong_attenuation": false,
+    "buteo_motivating_sentinel": {
+      "mean_total_gain": 0.2303113866257108,
+      "mean_species_component": 0.27361852000969283,
+      "mean_context_within_species_component": -0.04330713338398338,
+      "descriptive_point_sign_reversal": true,
+      "included_in_system_flip_denominator": false
+    }
+  },
+  "snapshot_serengeti_semantic_control": {
+    "terminal_category": "temporal_partition_generalizing",
+    "transfer_category": "generalizing",
+    "heldout_gains": [
+      0.0572411993741857,
+      0.045158861333215006,
+      0.04514355468571751
+    ],
+    "pooled_reference_scientifically_appropriate": true,
+    "reason": "species identity itself is the transferred information being claimed; conditioning species away would answer a different question",
+    "included_in_system_flip_denominator": false
+  },
+  "stage2_counts": {
+    "system_count": 2,
+    "point_sign_reversal_count": 1,
+    "inferential_downgrade_count": 1,
+    "strong_attenuation_count": 1,
+    "prevalence_or_meta_analytic_rate_claimed": false
+  },
+  "scientific_interpretation": {
+    "supported": [
+      "the fresh Palmer Penguins proxy-layer test reverses: morphology appears strongly transferable against a pooled island marginal, but the species-conditioned morphology increment is negative",
+      "the Palmer Penguins result is consistent with the Stage-1 failure mode in which context correlated with layer identity can proxy that layer under a pooled reference",
+      "Buteo buteo remains a descriptive motivating example in which positive pooled gain is dominated by the species component and the within-species context component is negative",
+      "the corrected four-species BOP population intervals are too uncertain to count as a system-level inferential reversal",
+      "Snapshot Serengeti provides a semantic control showing that a pooled reference is appropriate when species identity itself is the scientific information being transferred",
+      "the central rule is therefore reference-to-claim alignment, not a blanket preference for conditioned references"
+    ],
+    "not_supported": [
+      "the prevalence of pooled-reference failure in ecological literature",
+      "a causal effect of penguin species, morphology or island",
+      "a causal effect of raptor species or environmental context",
+      "a claim that pooled references are intrinsically invalid",
+      "a claim that every hierarchical ecological prediction requires the same conditioning variable"
+    ]
+  },
+  "paper_position_after_stage2": {
+    "stage1_known_truth_is_primary_mechanistic_evidence": true,
+    "fresh_real_data_reversal_observed": true,
+    "semantic_negative_control_observed": true,
+    "framework_paper_positioning_should_not_be_restored": true,
+    "failure_mode_paper_positioning_supported": true,
+    "stage4_published_study_reanalysis_required_for_core_claim": false,
+    "stage4_role_if_done": "scope expansion only"
+  }
+}
