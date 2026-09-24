@@ -28,6 +28,7 @@ def build(source: Path, contract_path: Path) -> dict[str, object]:
     contract = load_stage2_contract(contract_path)
     penguins = run_penguins_stage2(source, contract=contract)
     bop = _read(ROOT / "BOP_RODENT_POPULATION_TRANSFER_AMENDMENT_RECEIPT_V2.json")
+    bop_species = _read(ROOT / "BOP_RODENT_SPECIES_BASELINE_AMENDMENT_RECEIPT.json")
     serengeti = _read(ROOT / "N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json")
 
     if bop["contract_id"] != "bop-rodent-population-transfer-descriptive-amendment-v2":
@@ -40,6 +41,7 @@ def build(source: Path, contract_path: Path) -> dict[str, object]:
     synthesis = stage2_synthesis(
         penguins,
         bop_v2_receipt=bop,
+        bop_species_receipt=bop_species,
         serengeti_receipt=serengeti,
     )
     return {
