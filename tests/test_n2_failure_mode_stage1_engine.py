@@ -56,9 +56,14 @@ def test_group_cv_fold_assignment_is_layer_stratified_and_no_group_is_split():
     layer = group_layer_indices(12, 4)
     folds = _group_folds(layer, 5)
     assert folds.shape == (12,)
+    assert set(folds.tolist()) == {0, 1, 2, 3, 4}
     for layer_id in range(4):
         local = folds[layer == layer_id]
         assert len(set(local.tolist())) == 3
+
+    smallest = group_layer_indices(5, 2)
+    smallest_folds = _group_folds(smallest, 5)
+    assert set(smallest_folds.tolist()) == {0, 1, 2, 3, 4}
 
 
 def test_oracle_context_gain_is_zero_at_null_and_positive_when_context_matters():
