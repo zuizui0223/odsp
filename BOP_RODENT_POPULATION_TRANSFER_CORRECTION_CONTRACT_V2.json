@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-rodent-population-transfer-few-cluster-correction-v2",
+  "amendment_date": "2026-09-24",
+  "post_outcome_amendment": true,
+  "analysis_type": "descriptive_secondary_population_transfer_correction",
+  "supersedes_inference_from_contract_id": "bop-rodent-population-transfer-descriptive-amendment-v1",
+  "reason_for_correction": "the v1 percentile cluster bootstrap can become discrete and anti-conservative with only four species clusters; v2 preserves the equal-individual estimand but uses few-cluster robust uncertainty",
+  "source_evidence": {
+    "species_baseline_amendment_contract_id": "bop-rodent-species-baseline-descriptive-amendment-v1",
+    "workflow_run_id": 34733014869,
+    "artifact_id": 10310047790,
+    "artifact_digest": "sha256:0bec74c68ffbd00cd4c1d3b08418d21f9f137726a525c579199398784772b6f5",
+    "result_json_sha256": "44a02f584b819a4af83c0d53684ed285cad322b1a3e5ef30aba605e5f3aff352"
+  },
+  "frozen_primary_endpoint": {
+    "terminal_category": "empirical_state_prediction_mixed",
+    "positive_individual_count": 27,
+    "eligible_individual_count": 30,
+    "mean_total_gain": 0.5709102207418053,
+    "must_not_be_reclassified_by_this_correction": true
+  },
+  "population_estimand": {
+    "group": "heldout_individual",
+    "population_cluster": "species",
+    "equal_group_weight": true,
+    "confidence_level": 0.95,
+    "few_resampling_unit_threshold": 10,
+    "observed_cluster_count": 4,
+    "mean_interval_method_when_cluster_count_below_threshold": "intercept-only CR1 cluster-robust standard error with Student-t critical value on G-1 degrees of freedom",
+    "positive_fraction_lower_method": "minimum of group-level Wilson score lower bound and cluster-aware CR1 Student-t lower bound on the binary positive-gain indicator",
+    "bootstrap_draws": 4000,
+    "seed": 20260913,
+    "gain_tolerance": 0.0,
+    "new_group_prediction_method": "normal_theory"
+  },
+  "score_reconstruction": {
+    "pooled": "0 for every held-out individual",
+    "species": "G_species from the frozen species-baseline decomposition",
+    "species_context": "G_total = G_species + G_context from the frozen decomposition",
+    "purpose": "feed the frozen per-individual gains through the same public information-transfer and population-summary path used by future real-data applications"
+  },
+  "claim_boundary": {
+    "supports": [
+      "descriptive equal-individual mean and prevalence summaries with uncertainty that acknowledges only four represented species clusters",
+      "historical correction of the v1 few-cluster bootstrap inference without changing any frozen per-individual gain"
+    ],
+    "does_not_support": [
+      "a newly prospective BOP endpoint",
+      "replacement or reclassification of the frozen empirical_state_prediction_mixed primary endpoint",
+      "a claim that the species-cluster population mean total gain is robustly positive",
+      "random sampling of the four represented species from a defined species superpopulation",
+      "a causal effect of species identity or context",
+      "model refitting, retuning or raw-source-data reanalysis"
+    ]
+  }
+}

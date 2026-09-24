@@ -355,7 +355,7 @@ def test_population_status_does_not_acquire_all_group_n_penalty():
     assert large.predictive_result.all_group_point_transfer_ceiling == "pooled"
 
 
-def test_declared_population_clusters_drive_cluster_bootstrap():
+def test_few_declared_population_clusters_use_cluster_robust_t_fallback():
     from odsp.information_transfer import InformationLevelScore, decompose_information_transfer
     from odsp.population_transfer import summarize_population_transfer
 
@@ -374,11 +374,47 @@ def test_declared_population_clusters_drive_cluster_bootstrap():
         seed=23,
     )
     receipt = summary.as_dict()
+    step = summary.steps[0]
     assert summary.cluster_count == 2
-    assert receipt["uncertainty"]["mean_interval_method"] == "cluster_percentile_bootstrap"
+    assert receipt["uncertainty"]["mean_interval_method"] == "cluster_robust_t_cr1"
+    assert receipt["uncertainty"]["few_cluster_fallback_applied"] is True
+    assert receipt["uncertainty"]["few_resampling_unit_threshold"] == 10
     assert receipt["uncertainty"]["resampling_unit"] == "declared_population_cluster"
     assert receipt["uncertainty"]["cluster_bootstrap_limitation"] is not None
+    assert step.mean_gain_interval_method == "cluster_robust_t_cr1"
+    assert step.mean_gain_lower < 0 < step.mean_gain_upper
+    assert step.positive_fraction_cluster_aware_lower == pytest.approx(1.0)
+    assert step.positive_fraction_wilson_lower < 1.0
+    assert step.positive_fraction_lower == pytest.approx(
+        step.positive_fraction_wilson_lower
+    )
+    assert "minimum_of_wilson_score" in step.positive_fraction_lower_method
     assert receipt["familywise_confirmatory_claim"] is False
+
+
+def test_ten_declared_clusters_retain_cluster_bootstrap():
+    from odsp.information_transfer import InformationLevelScore, decompose_information_transfer
+    from odsp.population_transfer import summarize_population_transfer
+
+    gains = [0.2 + 0.01 * i for i in range(10)]
+    groups = [f"g{i}" for i in range(10)]
+    point = decompose_information_transfer(
+        (
+            InformationLevelScore("pooled", (), [0.0] * 10),
+            InformationLevelScore("richer", ("x",), gains),
+        ),
+        groups,
+    )
+    summary = summarize_population_transfer(
+        point,
+        group_clusters={group: f"sp{i}" for i, group in enumerate(groups)},
+        bootstrap_draws=500,
+        seed=23,
+    )
+    receipt = summary.as_dict()
+    assert receipt["uncertainty"]["mean_interval_method"] == "cluster_percentile_bootstrap"
+    assert receipt["uncertainty"]["few_cluster_fallback_applied"] is False
+    assert summary.steps[0].mean_gain_interval_method == "cluster_percentile_bootstrap"
 
 
 def test_population_total_gain_is_reported_separately_from_stepwise_ceiling():
@@ -404,3 +440,28 @@ def test_population_total_gain_is_reported_separately_from_stepwise_ceiling():
     assert summary.total_gain.mean_gain == pytest.approx(sum(full) / len(full))
     assert summary.steps[0].mean_gain_status == "uncertain"
     assert summary.population_mean_supported_ceiling == "pooled"
+
+
+def test_student_t_quantile_matches_known_critical_value():
+    from odsp.population_transfer import _student_t_quantile
+
+    assert _student_t_quantile(0.975, 3) == pytest.approx(
+        3.182446305284, abs=1e-10
+    )
+
+
+def test_few_independent_groups_use_student_t_not_discrete_bootstrap():
+    from odsp.information_transfer import InformationLevelScore, decompose_information_transfer
+    from odsp.population_transfer import summarize_population_transfer
+
+    gains = [0.5, 0.5, 0.5, 0.5, -0.1]
+    point = decompose_information_transfer(
+        (
+            InformationLevelScore("pooled", (), [0.0] * 5),
+            InformationLevelScore("richer", ("x",), gains),
+        ),
+        [f"g{i}" for i in range(5)],
+    )
+    summary = summarize_population_transfer(point, bootstrap_draws=500, seed=2)
+    assert summary.steps[0].mean_gain_interval_method == "student_t"
+    assert summary.steps[0].mean_gain_status == "positive"
