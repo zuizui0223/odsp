@@ -18,6 +18,7 @@ import math
 from pathlib import Path
 from typing import Mapping, Sequence
 
+from ._confirmatory_execution_guard import verify_confirmatory_execution_route
 from .information_transfer_contract import _mapping, _reject_unknown, _text
 from .untouched_external_refit_positive_contract import (
     _file_sha256,
@@ -320,12 +321,26 @@ def run_untouched_external_refit_positive_contract_v2(
     """Run the untouched external endpoint only after semantic freeze verification."""
 
     semantic_lock = verify_freeze_manifest_semantic_lock(path)
+    contract = load_untouched_external_refit_positive_contract(path)
+    levels = contract["levels"]
+    assert isinstance(levels, list)
+    confirmatory_route = verify_confirmatory_execution_route(
+        validation_design="independent_groups",
+        information_structure="filtration",
+        canonical_surface=(
+            "odsp.untouched_external_refit_positive_contract_v2."
+            "run_untouched_external_refit_positive_contract_v2"
+        ),
+        contrast_count=len(levels) - 1,
+    )
     receipt = run_untouched_external_refit_positive_contract(path)
     receipt["receipt_type"] = "odsp_untouched_external_refit_positive_validation_endpoint_v2"
     receipt["freeze_manifest_semantic_lock"] = semantic_lock
+    receipt["confirmatory_route"] = confirmatory_route
     boundaries = dict(receipt["boundaries"])
     boundaries["freeze_manifest_semantics_verified"] = True
     boundaries["external_row_roster_locked_before_outcome_access"] = True
     boundaries["runtime_analysis_matches_frozen_manifest"] = True
+    boundaries["confirmatory_route_verified"] = True
     receipt["boundaries"] = boundaries
     return receipt

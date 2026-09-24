@@ -16,6 +16,7 @@ from typing import Mapping
 
 import numpy as np
 
+from ._confirmatory_execution_guard import verify_confirmatory_execution_route
 from .external_paired_lattice_freeze_manifest import (
     _paired_row_metadata_sha256,
     _validate_lattice_definition,
@@ -511,6 +512,17 @@ def run_untouched_external_paired_all_refit_lattice_contract_v4(
     contract_path = Path(path)
     semantic_lock = verify_paired_external_lattice_semantic_lock(contract_path)
     contract = load_untouched_external_paired_lattice_contract(contract_path)
+    information_blocks = contract["information_blocks"]
+    assert isinstance(information_blocks, list)
+    confirmatory_route = verify_confirmatory_execution_route(
+        validation_design="paired_shared_blocks",
+        information_structure="complete_lattice",
+        canonical_surface=(
+            "odsp.untouched_external_refit_shared_block_positive_lattice_contract_v4."
+            "run_untouched_external_paired_all_refit_lattice_contract_v4"
+        ),
+        information_block_count=len(information_blocks),
+    )
     (
         data_path,
         rows,
@@ -569,6 +581,7 @@ def run_untouched_external_paired_all_refit_lattice_contract_v4(
         "edge_count": int(contract["edge_count"]),
         "external_validation": external,
         "freeze_manifest_semantic_lock": semantic_lock,
+        "confirmatory_route": confirmatory_route,
         "scientific_roles": {
             "alternative": "greater",
             "dataset_role": "untouched_external_validation",
@@ -586,6 +599,7 @@ def run_untouched_external_paired_all_refit_lattice_contract_v4(
             "paired_row_metadata_frozen_before_outcome_access": True,
             "runtime_pairing_metadata_matches_frozen_manifest": True,
             "complete_lattice_node_table_frozen_before_outcome_access": True,
+            "confirmatory_route_verified": True,
             "paired_shared_block_design_frozen_before_outcome_access": True,
             "different_refit_paths_can_be_combined": False,
             "four_or_more_information_blocks_supported": False,

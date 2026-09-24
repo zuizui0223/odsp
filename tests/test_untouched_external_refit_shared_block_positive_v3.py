@@ -197,6 +197,9 @@ def test_paired_external_v3_reaches_full_all_refit_ceiling(tmp_path: Path):
     assert receipt["scientific_roles"]["validation_design"] == "paired_shared_blocks"
     assert receipt["boundaries"]["validation_group_independence_assumed"] is False
     assert receipt["boundaries"]["exact_positive_mass_shared_block_support_required"] is True
+    assert receipt["boundaries"]["confirmatory_route_verified"] is True
+    assert receipt["confirmatory_route"]["verified"] is True
+    assert receipt["confirmatory_route"]["qualification_evidence"]
 
 
 def test_one_failed_refit_stops_paired_external_ceiling(tmp_path: Path):
