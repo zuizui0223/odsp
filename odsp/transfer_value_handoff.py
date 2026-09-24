@@ -394,6 +394,8 @@ def build_population_transfer_value_handoff(
         population_cluster_semantics, name="population_cluster_semantics"
     )
     score_kind = _clean_text(score_kind, name="score_kind")
+    if score_kind not in {"log", "other_proper"}:
+        raise ValueError("score_kind must be log or other_proper")
     score_name = _clean_text(score_name, name="score_name")
     score_unit = _clean_text(score_unit, name="score_unit")
     source_receipt = _optional_text(source_receipt, name="source_receipt")
@@ -567,6 +569,8 @@ def validate_population_transfer_value_handoff(payload: Mapping[str, object]) ->
     if not isinstance(score, Mapping):
         raise ValueError("semantics.score must be an object")
     score_kind = _clean_text(score.get("kind"), name="semantics.score.kind")
+    if score_kind not in {"log", "other_proper"}:
+        raise ValueError("semantics.score.kind must be log or other_proper")
     score_name = _clean_text(score.get("name"), name="semantics.score.name")
     score_unit = _clean_text(score.get("unit"), name="semantics.score.unit")
     if score.get("orientation") != "higher_is_better":
