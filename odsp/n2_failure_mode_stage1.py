@@ -607,6 +607,7 @@ def run_world(
     }
     if random_metrics["available"]:
         paired_values["random_row_cv_pooled_log_gain"] = random_metrics["pooled_gain"]
+        paired_values["random_row_cv_accuracy"] = random_metrics["accuracy_gain"]
     paired_intervals = _population_intervals_many(
         paired_values,
         confidence_level=confidence,
@@ -636,6 +637,22 @@ def run_world(
             switch_threshold=switch,
         )
         result["group_cv_auc"] = auc_interval.as_dict()
+
+    if random_metrics["available"]:
+        random_auc = np.asarray(random_metrics["auc_minus_half"], dtype=float)
+        random_auc_finite = np.isfinite(random_auc)
+        result["random_row_cv_auc_estimable_fraction"] = float(
+            np.mean(random_auc_finite)
+        )
+        if int(np.sum(random_auc_finite)) >= 2:
+            random_auc_interval = _population_interval(
+                random_auc[random_auc_finite],
+                confidence_level=confidence,
+                bootstrap_draws=int(bootstrap_draws),
+                seed=interval_seed_base + 3,
+                switch_threshold=switch,
+            )
+            result["random_row_cv_auc"] = random_auc_interval.as_dict()
     return result
 
 
@@ -714,10 +731,17 @@ def summarize_replicates(
     ]
     auc = method_summary("group_cv_auc")
     accuracy = method_summary("group_cv_accuracy")
+    random_auc = method_summary("random_row_cv_auc")
+    random_accuracy = method_summary("random_row_cv_accuracy")
     auc_fraction = [
         float(row["group_cv_auc_estimable_fraction"])
         for row in worlds
         if "group_cv_auc_estimable_fraction" in row
+    ]
+    random_auc_fraction = [
+        float(row["random_row_cv_auc_estimable_fraction"])
+        for row in worlds
+        if "random_row_cv_auc_estimable_fraction" in row
     ]
 
     return {
@@ -732,8 +756,13 @@ def summarize_replicates(
         ),
         "group_cv_auc": auc,
         "group_cv_accuracy": accuracy,
+        "random_row_cv_auc": random_auc,
+        "random_row_cv_accuracy": random_accuracy,
         "auc_estimable_group_fraction_mean": (
             float(np.mean(auc_fraction)) if auc_fraction else None
+        ),
+        "random_row_auc_estimable_group_fraction_mean": (
+            float(np.mean(random_auc_fraction)) if random_auc_fraction else None
         ),
     }
 
