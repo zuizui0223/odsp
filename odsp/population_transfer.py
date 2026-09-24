@@ -11,6 +11,19 @@ import numpy as np
 from .information_transfer import InformationTransferResult
 
 
+_SMALL_CLUSTER_THRESHOLD = 10
+_T95 = {
+    1: 12.7062047364,
+    2: 4.30265272975,
+    3: 3.18244630528,
+    4: 2.77644510520,
+    5: 2.57058183564,
+    6: 2.44691184879,
+    7: 2.36462425101,
+    8: 2.30600413503,
+}
+
+
 @dataclass(frozen=True)
 class PopulationTransferStep:
     lower_level: str
@@ -21,6 +34,8 @@ class PopulationTransferStep:
     mean_gain: float
     mean_gain_lower: float
     mean_gain_upper: float
+    mean_gain_interval_method: str
+    mean_gain_interval_df: int | None
     mean_gain_status: str
     positive_group_count: int
     positive_group_fraction: float
@@ -66,17 +81,29 @@ class PopulationTransferSummary:
             "cluster_variable_declared": self.cluster_variable_declared,
             "uncertainty": {
                 "mean_interval_method": (
-                    "cluster_percentile_bootstrap"
+                    "cluster_robust_t_cr1"
                     if self.cluster_variable_declared
-                    else "group_percentile_bootstrap"
+                    and self.cluster_count < _SMALL_CLUSTER_THRESHOLD
+                    else (
+                        "cluster_percentile_bootstrap"
+                        if self.cluster_variable_declared
+                        else "group_percentile_bootstrap"
+                    )
                 ),
                 "confidence_level": self.confidence_level,
                 "bootstrap_draws": self.bootstrap_draws,
                 "seed": self.seed,
                 "resampling_unit": self.resampling_unit,
                 "within_group_refit_uncertainty_propagated": False,
+                "small_cluster_threshold": _SMALL_CLUSTER_THRESHOLD,
+                "small_cluster_policy": (
+                    "for fewer than 10 declared population clusters, mean-gain intervals use CR1 cluster-robust standard errors with a Student t critical value on G-1 df; positive-fraction cluster bounds are unavailable and the reported lower bound is a descriptive group-level Wilson fallback"
+                    if self.cluster_variable_declared
+                    and self.cluster_count < _SMALL_CLUSTER_THRESHOLD
+                    else None
+                ),
                 "cluster_bootstrap_limitation": (
-                    "cluster-bootstrap uncertainty can be unstable with few declared population clusters"
+                    "cluster bootstrap is used only with at least 10 declared population clusters"
                     if self.cluster_variable_declared
                     else None
                 ),
@@ -105,6 +132,45 @@ def _status(lower: float, upper: float, tolerance: float) -> str:
     return "uncertain"
 
 
+def _cluster_robust_t_interval(
+    values: np.ndarray,
+    *,
+    cluster_labels: tuple[object, ...],
+    cluster_indices: Mapping[object, np.ndarray],
+    confidence_level: float,
+) -> tuple[float, float, int]:
+    cluster_count = len(cluster_labels)
+    if cluster_count < 2:
+        raise ValueError(
+            "at least two declared population clusters are required for clustered mean uncertainty"
+        )
+    if confidence_level != 0.95:
+        raise ValueError(
+            "small-cluster CR1 Student t fallback is frozen for 95% confidence only"
+        )
+    df = cluster_count - 1
+    if df not in _T95:
+        raise ValueError("small-cluster Student t critical value is unavailable")
+    estimate = float(np.mean(values))
+    residual = values - estimate
+    cluster_scores = np.asarray(
+        [
+            float(np.sum(residual[cluster_indices[cluster]]))
+            for cluster in cluster_labels
+        ],
+        dtype=float,
+    )
+    variance = (
+        cluster_count
+        / (cluster_count - 1.0)
+        * float(np.sum(cluster_scores * cluster_scores))
+        / float(values.size * values.size)
+    )
+    se = math.sqrt(max(0.0, variance))
+    half_width = _T95[df] * se
+    return estimate - half_width, estimate + half_width, df
+
+
 def _summarize_gain_vector(
     gains: Sequence[float],
     *,
@@ -122,36 +188,54 @@ def _summarize_gain_vector(
     if values.ndim != 1 or values.size == 0 or not np.isfinite(values).all():
         raise ValueError("population summary requires finite non-empty group gains")
 
-    rng = np.random.default_rng(seed)
     alpha = 1.0 - confidence_level
-    boot_means = np.empty(bootstrap_draws, dtype=float)
-    boot_positive = np.empty(bootstrap_draws, dtype=float)
-    for draw in range(bootstrap_draws):
-        sampled_cluster_indices = rng.integers(
-            0, len(cluster_labels), size=len(cluster_labels)
-        )
-        sampled = np.concatenate(
-            [
-                cluster_indices[cluster_labels[int(cluster_index)]]
-                for cluster_index in sampled_cluster_indices
-            ]
-        )
-        draw_gains = values[sampled]
-        boot_means[draw] = float(np.mean(draw_gains))
-        boot_positive[draw] = float(np.mean(draw_gains > gain_tolerance))
-
     mean_gain = float(np.mean(values))
-    lower, upper = np.quantile(boot_means, [alpha / 2.0, 1.0 - alpha / 2.0])
     positive_count = int(np.count_nonzero(values > gain_tolerance))
     positive_fraction = float(positive_count / values.size)
-    if cluster_variable_declared:
-        positive_lower = float(np.quantile(boot_positive, alpha / 2.0))
-        positive_method = "cluster_percentile_bootstrap"
-    else:
+    interval_df: int | None = None
+
+    if cluster_variable_declared and len(cluster_labels) < _SMALL_CLUSTER_THRESHOLD:
+        lower, upper, interval_df = _cluster_robust_t_interval(
+            values,
+            cluster_labels=cluster_labels,
+            cluster_indices=cluster_indices,
+            confidence_level=confidence_level,
+        )
+        mean_interval_method = "cluster_robust_t_cr1"
         positive_lower = _wilson_lower(
             positive_count, int(values.size), confidence_level
         )
-        positive_method = "wilson_score"
+        positive_method = "wilson_score_group_level_small_cluster_fallback"
+    else:
+        rng = np.random.default_rng(seed)
+        boot_means = np.empty(bootstrap_draws, dtype=float)
+        boot_positive = np.empty(bootstrap_draws, dtype=float)
+        for draw in range(bootstrap_draws):
+            sampled_cluster_indices = rng.integers(
+                0, len(cluster_labels), size=len(cluster_labels), endpoint=False
+            )
+            sampled = np.concatenate(
+                [
+                    cluster_indices[cluster_labels[int(cluster_index)]]
+                    for cluster_index in sampled_cluster_indices
+                ]
+            )
+            draw_gains = values[sampled]
+            boot_means[draw] = float(np.mean(draw_gains))
+            boot_positive[draw] = float(np.mean(draw_gains > gain_tolerance))
+        lower, upper = np.quantile(
+            boot_means, [alpha / 2.0, 1.0 - alpha / 2.0]
+        )
+        if cluster_variable_declared:
+            mean_interval_method = "cluster_percentile_bootstrap"
+            positive_lower = float(np.quantile(boot_positive, alpha / 2.0))
+            positive_method = "cluster_percentile_bootstrap"
+        else:
+            mean_interval_method = "group_percentile_bootstrap"
+            positive_lower = _wilson_lower(
+                positive_count, int(values.size), confidence_level
+            )
+            positive_method = "wilson_score"
 
     sd = float(np.std(values, ddof=1)) if values.size >= 2 else None
     if sd is not None:
@@ -175,6 +259,8 @@ def _summarize_gain_vector(
         mean_gain=mean_gain,
         mean_gain_lower=float(lower),
         mean_gain_upper=float(upper),
+        mean_gain_interval_method=mean_interval_method,
+        mean_gain_interval_df=interval_df,
         mean_gain_status=_status(float(lower), float(upper), gain_tolerance),
         positive_group_count=positive_count,
         positive_group_fraction=positive_fraction,

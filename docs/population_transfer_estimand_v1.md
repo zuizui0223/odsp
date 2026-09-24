@@ -28,7 +28,7 @@ It is not the stronger question:
 For the total first-to-final gain and for every adjacent information step, `odsp.population_transfer` reports:
 
 - equal-weight mean group gain;
-- percentile bootstrap interval for that mean;
+- an uncertainty interval for that mean, with the method determined by the declared resampling structure;
 - fraction of observed groups with gain above the declared tolerance;
 - a lower bound for that positive fraction;
 - between-group standard deviation;
@@ -39,11 +39,25 @@ For the total first-to-final gain and for every adjacent information step, `odsp
 If no higher-level population cluster is declared, groups are the resampling
 units and the positive-fraction lower bound is Wilson's score bound.
 
-If `columns.population_cluster` is declared, complete clusters are resampled
-and the positive-fraction lower bound also comes from the cluster bootstrap.
-With few population clusters this uncertainty estimate can be unstable; the
-receipt records that limitation rather than silently treating within-cluster
-groups as independent.
+If `columns.population_cluster` is declared and at least 10 independent
+clusters are represented, complete clusters are resampled and the mean interval
+uses the cluster percentile bootstrap.
+
+For fewer than 10 declared population clusters, ODSP does **not** use the
+cluster percentile bootstrap. The equal-group mean is retained as the estimand,
+but its uncertainty is estimated with a CR1 cluster-robust standard error and a
+Student t critical value with `G - 1` degrees of freedom. This avoids a
+pathology of very small cluster bootstraps, where only a few distinct resamples
+exist and percentile intervals can become spuriously narrow.
+
+The positive-group fraction has no analogous reliable cluster-bootstrap lower
+bound at very small `G`. In that case the cluster lower bound is treated as
+unavailable and the receipt reports the ordinary group-level Wilson lower bound
+only as a **descriptive fallback**. It must not be described as a cluster-robust
+superpopulation confidence bound.
+
+With only one declared population cluster, clustered mean uncertainty is
+unidentified and the summary fails closed.
 
 ## Total transfer versus stepwise attribution
 
@@ -91,5 +105,7 @@ The contract accepts those scientific design declarations but cannot verify
 them empirically.
 
 No BCa, bootstrap-t, max-t, hierarchical random-effects model, or Bayesian
-prevalence layer is introduced here. The purpose of this module is to change the
-estimand, not add another interval family.
+prevalence layer is introduced here. The CR1+t fallback is a narrow repair for
+the finite-support failure of few-cluster percentile bootstrap, not a new
+certification family. The purpose of this module remains to report the population
+estimand without allowing uncertainty machinery to create artificial certainty.
