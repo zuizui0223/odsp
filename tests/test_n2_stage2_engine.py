@@ -119,6 +119,15 @@ def test_stage2_synthesis_keeps_serengeti_out_of_failure_denominator():
             ],
         }
     }
+    bop_species = {
+        "species_summary": {
+            "Buteo buteo": {
+                "mean_total_gain": 0.2303113866257108,
+                "mean_species_component": 0.27361852000969283,
+                "mean_context_within_species_component": -0.04330713338398338,
+            }
+        }
+    }
     serengeti = {
         "terminal_category": "temporal_partition_generalizing",
         "transfer_category": "generalizing",
@@ -128,9 +137,13 @@ def test_stage2_synthesis_keeps_serengeti_out_of_failure_denominator():
     result = stage2_synthesis(
         penguins,
         bop_v2_receipt=bop,
+        bop_species_receipt=bop_species,
         serengeti_receipt=serengeti,
     )
     assert result["descriptive_counts"]["failure_eligible_system_count"] == 2
+    sentinel = result["systems"]["BOP_RODENT"]["motivating_buteo_sentinel"]
+    assert sentinel["point_sign_reversal"] is True
+    assert sentinel["included_in_system_flip_denominator"] is False
     assert result["systems"]["SNAPSHOT_SERENGETI"]["failure_mode_eligible"] is False
     assert "species identity is itself" in result["systems"]["SNAPSHOT_SERENGETI"]["semantic_control"]
     assert result["descriptive_counts"]["prevalence_or_meta_analytic_rate_claimed"] is False
