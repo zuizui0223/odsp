@@ -19,7 +19,13 @@
     "required_population_result_familywise_confirmatory_claim": false,
     "requires_total_gain": true,
     "requires_contiguous_adjacent_steps": true,
-    "accepts_positive_uncertain_and_nonpositive_steps": true
+    "accepts_positive_uncertain_and_nonpositive_steps": true,
+    "requires_gain_tolerance": true,
+    "requires_score_semantics": true,
+    "allowed_score_kinds": [
+      "log",
+      "other_proper"
+    ]
   },
   "value_fields": {
     "expected_gain": "population mean held-out score gain",
@@ -31,7 +37,8 @@
       "p10",
       "p50",
       "p90"
-    ]
+    ],
+    "score_semantics": "score kind, name, unit and higher-is-better orientation are carried so downstream values are not compared across incompatible currencies"
   },
   "downstream_boundary": {
     "n3_may": "combine transfer value with EOG world/reachability structure and preserve uncertainty",
@@ -47,7 +54,8 @@
       "action recommendation"
     ],
     "transfer_value_is_not_expected_information_gain_from_future_sampling": true,
-    "transfer_value_is_not_causal_value": true
+    "transfer_value_is_not_causal_value": true,
+    "cross_endpoint_comparison_rule": "do not compare numeric transfer values across payloads unless score kind, score name, unit and target semantics are commensurate"
   },
   "compatibility": {
     "existing_n2_to_n3_state_payload_replaced": false,
