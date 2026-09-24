@@ -233,10 +233,12 @@ def _balanced_row_folds(rng: np.random.Generator, n: int, folds: int = 5) -> np.
 
 def _group_folds(group_layer: np.ndarray, folds: int = 5) -> np.ndarray:
     result = np.empty(group_layer.size, dtype=int)
+    start = 0
     for layer in sorted(set(group_layer.tolist())):
         ids = np.flatnonzero(group_layer == layer)
         for offset, group in enumerate(ids.tolist()):
-            result[group] = int(offset % folds)
+            result[group] = int((start + offset) % folds)
+        start = int((start + ids.size) % folds)
     return result
 
 
