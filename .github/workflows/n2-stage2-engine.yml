@@ -1,0 +1,43 @@
+name: n2-stage2-engine
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/n2_stage2_penguins.py'
+      - 'scripts/run_n2_stage2_penguins.py'
+      - 'scripts/aggregate_n2_stage2_real_data.py'
+      - 'tests/test_n2_stage2_penguins_engine.py'
+      - 'tests/test_n2_stage2_real_data_aggregator.py'
+      - 'N2_STAGE2_EXECUTION_ARMED.json'
+      - '.github/workflows/n2-stage2-real-data-one-shot-v1.yml'
+      - '.github/workflows/n2-stage2-engine.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install package with prediction dependencies
+        run: python -m pip install -e '.[dev,predict]'
+      - name: Validate Stage2 engine without opening fresh public data
+        run: >-
+          python -m pytest -q
+          tests/test_n2_stage2_real_data_contract.py
+          tests/test_n2_stage2_penguins_engine.py
+          tests/test_n2_stage2_real_data_aggregator.py
+      - name: Compile Stage2 runners
+        run: >-
+          python -m py_compile
+          scripts/run_n2_stage2_penguins.py
+          scripts/aggregate_n2_stage2_real_data.py
+      - name: Confirm one-shot workflow has no manual dispatch
+        run: |
+          grep -q "^  push:" .github/workflows/n2-stage2-real-data-one-shot-v1.yml
+          ! grep -q "workflow_dispatch" .github/workflows/n2-stage2-real-data-one-shot-v1.yml
