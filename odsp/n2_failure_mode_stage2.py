@@ -380,10 +380,13 @@ def run_penguins_stage2(
     corrected = audit_population.steps[1]
     return {
         "source_sha256": _sha256(Path(source_path)),
+        "source_upstream_commit": PENGUINS_UPSTREAM_COMMIT,
         "prepared_row_count": len(rows),
         "species": list(species_labels),
         "islands": list(classes),
         "years": list(years),
+        "naive_point_result": naive_point.as_dict(),
+        "audit_point_result": audit_point.as_dict(),
         "naive_population_result": naive_population.as_dict(),
         "audit_population_result": audit_population.as_dict(),
         "comparison": _comparison(
