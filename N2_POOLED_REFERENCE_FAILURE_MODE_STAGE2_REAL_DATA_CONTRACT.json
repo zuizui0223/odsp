@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "contract_id": "n2-pooled-reference-failure-mode-stage2-real-data-v1",
+  "freeze_date": "2026-09-24",
+  "status": "pre_fresh_result_frozen",
+  "prerequisites": {
+    "stage1_result_receipt": "N2_STAGE1_FAILURE_MODE_RESULT_RECEIPT_V1.json",
+    "stage1_full_claim_supported": true,
+    "few_cluster_fix_merge_sha": "6bc65a1a5575d61835838e711d6f0221af320034",
+    "bop_population_v2_receipt": "BOP_RODENT_POPULATION_TRANSFER_AMENDMENT_RECEIPT_V2.json"
+  },
+  "question": "In real public datasets with hierarchical ecological structure, how much does a pooled-reference predictive-skill claim weaken after the reference is conditioned on the layer whose identity should not be credited to the claimed contextual transfer, and when is a pooled reference instead scientifically appropriate because identity itself is the claimed information?",
+  "paper_role": {
+    "stage1_is_primary_mechanistic_evidence": true,
+    "stage2_estimates_published_ecology_prevalence": false,
+    "stage2_role": "empirical triangulation and scope control",
+    "odsp_role": "score accounting and reproducible implementation only"
+  },
+  "systems": [
+    {
+      "system_id": "BOP_RODENT",
+      "role": "frozen_explicit_layer_motivating_example",
+      "fresh_outcome": false,
+      "failure_mode_eligible": true,
+      "state": "four-state absolute altitude",
+      "layer": "species",
+      "claimed_context": "environmental, spatial and temporal predictors beyond species identity",
+      "independent_group": "heldout individual",
+      "population_cluster": "species",
+      "source": {
+        "species_baseline_artifact_id": 10310047790,
+        "species_baseline_result_sha256": "44a02f584b819a4af83c0d53684ed285cad322b1a3e5ef30aba605e5f3aff352",
+        "corrected_population_receipt": "BOP_RODENT_POPULATION_TRANSFER_AMENDMENT_RECEIPT_V2.json"
+      },
+      "naive_quantity": "frozen full species+context model log-score gain over pooled training marginal",
+      "corrected_quantity": "same frozen full model log-score gain over training-fold species marginal",
+      "model_refit": false,
+      "raw_data_reaccess": false,
+      "predeclared_motivating_sentinel": {
+        "species": "Buteo buteo",
+        "descriptive_only": true,
+        "known_before_stage2_freeze": true,
+        "quantity": "compare frozen species mean total gain with frozen species mean within-species context component",
+        "included_in_system_flip_denominator": false
+      }
+    },
+    {
+      "system_id": "PALMER_PENGUINS",
+      "role": "fresh_proxy_layer_test",
+      "fresh_outcome": true,
+      "failure_mode_eligible": true,
+      "state": "island",
+      "layer": "species",
+      "claimed_context": "four morphology measurements",
+      "independent_group": "penguin row",
+      "population_cluster": "collection year",
+      "source": {
+        "dataset": "palmerpenguins simplified data",
+        "upstream_commit": "8957207b78d6ccd1b4654a9dd9c9041b657478ab",
+        "url": "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/8957207b78d6ccd1b4654a9dd9c9041b657478ab/inst/extdata/penguins.csv",
+        "license": "CC0 1.0"
+      },
+      "preprocessing": {
+        "retain_complete_cases_for": ["species", "island", "year", "bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"],
+        "row_id": "synthetic source-row identifier before filtering",
+        "no_species_or_island_relabeling": true,
+        "no_post_result_row_exclusion": true
+      },
+      "validation": {
+        "fold": "year",
+        "folds_are_held_out_together": true,
+        "score_unit": "individual penguin row",
+        "population_dependence_cluster": "year"
+      },
+      "learner": {
+        "kind": "random_forest",
+        "random_state": 20260913,
+        "parameters": {"n_estimators": 300, "min_samples_leaf": 3, "n_jobs": 1},
+        "naive_model": "island ~ morphology",
+        "audit_full_model": "island ~ species_onehot + morphology",
+        "species_encoding": "one-hot in sorted canonical species order",
+        "training_weight_policy": "equal species, then equal individual within species",
+        "no_retuning_after_outcome": true
+      },
+      "score_accounting": {
+        "pooled_reference": "training-fold island marginal under the frozen equal-species equal-individual weights",
+        "layer_reference": "training-fold island marginal conditional on species under the same weights",
+        "naive_pooled_gain": "context-only morphology model minus pooled reference",
+        "audit_layer_component": "species baseline minus pooled reference",
+        "audit_context_gain": "species+morphology model minus species baseline",
+        "proxy_case_not_an_additive_identity_with_naive_model": true
+      }
+    },
+    {
+      "system_id": "SNAPSHOT_SERENGETI",
+      "role": "frozen_semantic_negative_control",
+      "fresh_outcome": false,
+      "failure_mode_eligible": false,
+      "source": {
+        "contract": "N2_TEMPORAL_PARTITION_CONTRACT.json",
+        "terminal_receipt": "N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json"
+      },
+      "state": "six four-hour detected-time bins",
+      "claimed_information": "species identity",
+      "independent_group": "heldout site fold",
+      "comparison": "P(T|species) versus species-blind P(T)",
+      "semantic_reason_pooled_reference_is_appropriate": "species identity itself is the transferred information being claimed, so conditioning it away would answer a different scientific question",
+      "included_in_system_flip_denominator": false,
+      "endpoint_rerun": false,
+      "required_control_interpretation": "the failure-mode correction is conditional on the scientific claim; pooled references are not intrinsically wrong"
+    }
+  ],
+  "fresh_result_count": 1,
+  "failure_eligible_system_count": 2,
+  "primary_reporting": {
+    "population_mean_status": {
+      "positive": "95% mean-gain interval lower bound > 0",
+      "nonpositive": "95% mean-gain interval upper bound <= 0",
+      "uncertain": "interval crosses 0"
+    },
+    "point_sign_reversal": "naive pooled-reference mean gain > 0 and corrected context mean gain <= 0",
+    "inferential_downgrade": "naive population mean status is positive and corrected context status is not positive",
+    "strong_attenuation": "naive pooled-reference mean gain > 0 and absolute corrected context mean gain <= 0.5 * absolute naive pooled-reference mean gain",
+    "system_flip_denominator": ["BOP_RODENT", "PALMER_PENGUINS"],
+    "report_counts_separately": [
+      "point_sign_reversal_count",
+      "inferential_downgrade_count",
+      "strong_attenuation_count"
+    ],
+    "prevalence_or_meta_analytic_rate_claimed": false
+  },
+  "uncertainty": {
+    "use_population_transfer_v2_few_cluster_policy": true,
+    "declared_population_clusters_below_10_use_CR1_t": true,
+    "positive_fraction_small_cluster_Wilson_is_descriptive_only": true,
+    "no_all_group_unanimity_primary_decision": true
+  },
+  "fresh_penguins_decision": {
+    "fresh_empirical_reversal": "point_sign_reversal OR inferential_downgrade",
+    "fresh_empirical_attenuation": "no reversal/downgrade but strong_attenuation",
+    "fresh_empirical_no_support": "none of the above",
+    "stage1_claim_reclassified_by_stage2": false
+  },
+  "governance": {
+    "contract_must_merge_before_fresh_penguins_result_is_generated": true,
+    "penguins_stage2_execution_once": true,
+    "no_model_parameter_changes_after_result_access": true,
+    "no_layer_change_after_result_access": true,
+    "no_dataset_addition_to_primary_denominator_after_result_access": true,
+    "additional_public_reanalyses_after_stage2_are_stage4_or_exploratory": true,
+    "BOP_and_Serengeti_are_read_only_frozen_evidence": true
+  },
+  "scientific_boundaries": {
+    "two_failure_eligible_systems_do_not_estimate_literature_prevalence": true,
+    "BOP_small_cluster_uncertainty_limits_population_generalization": true,
+    "Penguins_island_prediction_is_not_a_causal_morphology_claim": true,
+    "Serengeti_control_prevents_blanket_rejection_of_pooled_references": true,
+    "stage2_does_not_replace_stage1_known_truth_evidence": true
+  }
+}
