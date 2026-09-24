@@ -15,6 +15,9 @@ def main() -> None:
     parser.add_argument("--evidence-id", required=True)
     parser.add_argument("--group-semantics", required=True)
     parser.add_argument("--population-cluster-semantics")
+    parser.add_argument("--score-kind", required=True, choices=("log", "other_proper"))
+    parser.add_argument("--score-name", required=True)
+    parser.add_argument("--score-unit", required=True)
     parser.add_argument("--source-contract")
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
@@ -29,6 +32,9 @@ def main() -> None:
         population_result=population,
         group_semantics=args.group_semantics,
         population_cluster_semantics=args.population_cluster_semantics,
+        score_kind=args.score_kind,
+        score_name=args.score_name,
+        score_unit=args.score_unit,
         source_receipt=args.receipt.name,
         source_contract=args.source_contract,
     ).as_dict()
