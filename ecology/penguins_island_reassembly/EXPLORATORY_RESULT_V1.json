@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "result_id": "palmer-adelie-island-reassembly-exploratory-result-v1",
+  "date": "2026-09-26",
+  "status": "exploratory_not_confirmatory",
+  "source": {
+    "repository": "allisonhorst/palmerpenguins",
+    "commit": "8957207b78d6ccd1b4654a9dd9c9041b657478ab",
+    "file": "inst/extdata/penguins_raw.csv",
+    "adelie_rows_raw": 152
+  },
+  "frozen_n2_context": {
+    "naive_pooled_morphology_gain": 0.3894565006712757,
+    "species_layer_gain": 0.5360132625954789,
+    "species_conditioned_morphology_gain": -0.08374806363025576,
+    "interpretation": "archipelago-scale morphology-to-island skill is dominated by species identity rather than a transferable within-species morphology signal"
+  },
+  "within_adelie_models": {
+    "Culmen Length (mm)": {
+      "n": 146,
+      "fixed_island_partial_r2": 0.016633372656765677,
+      "fixed_island_delta_aicc": 1.99788229988485,
+      "island_by_year_partial_r2_given_main": 0.02822189007879304,
+      "island_by_year_delta_aicc": 5.115113517958321
+    },
+    "Culmen Depth (mm)": {
+      "n": 146,
+      "fixed_island_partial_r2": 0.015375350305374466,
+      "fixed_island_delta_aicc": 2.184540940564869,
+      "island_by_year_partial_r2_given_main": 0.08478819326044912,
+      "island_by_year_delta_aicc": -3.6407948558533096
+    },
+    "Flipper Length (mm)": {
+      "n": 146,
+      "fixed_island_partial_r2": 0.047879756134015454,
+      "fixed_island_delta_aicc": -2.716557711641144,
+      "island_by_year_partial_r2_given_main": 0.04717204612162672,
+      "island_by_year_delta_aicc": 2.2399150557552048
+    },
+    "Body Mass (g)": {
+      "n": 146,
+      "fixed_island_partial_r2": 0.002933748139328413,
+      "fixed_island_delta_aicc": 4.01782158173819,
+      "island_by_year_partial_r2_given_main": 0.10753556678949323,
+      "island_by_year_delta_aicc": -7.315448291429448
+    },
+    "Delta 15 N (o/oo)": {
+      "n": 139,
+      "fixed_island_partial_r2": 0.03234868353888689,
+      "fixed_island_delta_aicc": -0.0994732228099906,
+      "island_by_year_partial_r2_given_main": 0.0923852472875699,
+      "island_by_year_delta_aicc": -4.105504579352441
+    },
+    "Delta 13 C (o/oo)": {
+      "n": 139,
+      "fixed_island_partial_r2": 0.008114288384689722,
+      "fixed_island_delta_aicc": 3.338841683775229,
+      "island_by_year_partial_r2_given_main": 0.02858241555860441,
+      "island_by_year_delta_aicc": 5.337658425619509
+    }
+  },
+  "sign_reversal_summary": {
+    "Culmen Length (mm)": 3,
+    "Culmen Depth (mm)": 3,
+    "Flipper Length (mm)": 2,
+    "Body Mass (g)": 3,
+    "Delta 15 N (o/oo)": 3,
+    "Delta 13 C (o/oo)": 3,
+    "denominator_pairwise_island_contrasts": 3,
+    "note": "count of pairwise island contrasts whose equal-sex mean difference changed sign across the three years"
+  },
+  "cross_year_transfer": {
+    "structural_morphology": {
+      "features": [
+        "Culmen Length (mm)",
+        "Culmen Depth (mm)",
+        "Flipper Length (mm)"
+      ],
+      "n_complete": 146,
+      "chance_balanced_accuracy": 0.3333333333333333,
+      "fold_balanced_accuracy": {
+        "PAL0708": 0.32573099415204676,
+        "PAL0809": 0.3680555555555555,
+        "PAL0910": 0.3333333333333333
+      },
+      "mean_balanced_accuracy": 0.34237329434697855
+    },
+    "isotopic_niche": {
+      "features": [
+        "Delta 15 N (o/oo)",
+        "Delta 13 C (o/oo)"
+      ],
+      "n_complete": 139,
+      "chance_balanced_accuracy": 0.3333333333333333,
+      "fold_balanced_accuracy": {
+        "PAL0708": 0.3333333333333333,
+        "PAL0809": 0.3333333333333333,
+        "PAL0910": 0.3541666666666667
+      },
+      "mean_balanced_accuracy": 0.34027777777777773
+    }
+  },
+  "provisional_ecological_read": {
+    "supported_descriptively": [
+      "Across the full penguin assemblage, island-associated morphology is primarily compositional because species identity carries more predictive information than morphology within species.",
+      "Within Adelie penguins, persistent island main effects are weak for most traits over 2007-2009.",
+      "Bill depth, body mass and delta15N show more support for island-by-year structure than for a single fixed island contrast.",
+      "Island ranking reversals are common and held-out-year island classification from structural morphology or isotopes is essentially at the one-third reference."
+    ],
+    "not_supported": [
+      "local adaptation among the three islands",
+      "individual phenotypic plasticity",
+      "a causal effect of island geomorphology, snow or sea ice on the observed trait differences",
+      "a general island-biogeographic law beyond this short Palmer Archipelago panel"
+    ]
+  },
+  "next_test": "Freeze an environmental-mechanism extension before joining PAL-LTER sea-ice, snow/phenology and colony-abundance data."
+}
