@@ -244,3 +244,20 @@ def test_paired_freeze_generator_rejects_outcome_columns(tmp_path: Path):
     plan.write_text(json.dumps(plan_payload), encoding="utf-8")
     with pytest.raises(ValueError, match="only the row_id column"):
         create_paired_external_freeze_manifest(plan, tmp_path / "freeze.json")
+
+
+def test_paired_confirmatory_route_tamper_fails_even_with_updated_manifest_hash(
+    tmp_path: Path,
+):
+    manifest, _, contract_path = _setup(tmp_path)
+    payload = json.loads(manifest.read_text(encoding="utf-8"))
+    payload["confirmatory_route"]["canonical_surface"] = (
+        "odsp.untouched_external_refit_positive_contract_v2."
+        "run_untouched_external_refit_positive_contract_v2"
+    )
+    manifest.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    contract["external_validation"]["freeze_manifest"]["sha256"] = _sha256(manifest)
+    contract_path.write_text(json.dumps(contract), encoding="utf-8")
+    with pytest.raises(ValueError, match="confirmatory_route"):
+        run_untouched_external_refit_shared_block_positive_contract_v3(contract_path)

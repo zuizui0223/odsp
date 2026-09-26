@@ -16,7 +16,9 @@
     "familywise_confidence_frozen": true,
     "bootstrap_draws_and_seed_frozen": true,
     "minimum_refits_and_blocks_frozen": true,
-    "gain_tolerance_frozen": true
+    "gain_tolerance_frozen": true,
+    "confirmatory_route_frozen": true,
+    "confirmatory_route_source": "odsp-confirmatory-method-routing-v1"
   },
   "validation_design": {
     "validation_group_independence_assumed": false,
@@ -46,7 +48,9 @@
     "freeze_manifest_hash_verified": true,
     "freeze_manifest_semantics_verified": true,
     "historical_non_access_independently_proven_by_odsp": false,
-    "development_data_disjointness_independently_proven_by_odsp": false
+    "development_data_disjointness_independently_proven_by_odsp": false,
+    "runtime_confirmatory_route_must_match_frozen_manifest": true,
+    "route_family_tamper_with_updated_manifest_hash_allowed": false
   },
   "claim_scope": {
     "information_structure": "strict_nested_filtration",
