@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "contract_id": "palmer-adelie-island-reassembly-exploratory-v1",
+  "date": "2026-09-26",
+  "status": "exploratory_hypothesis_generation",
+  "relation_to_odsp": {
+    "frozen_n2_untouched": true,
+    "n2_receipt": "N2_STAGE2_REAL_DATA_RESULT_RECEIPT_V1.json",
+    "role": "biological follow-up motivated by the N2 morphology-to-island reversal"
+  },
+  "ecological_question": "Across neighboring Palmer Archipelago islands, is apparent penguin trait differentiation generated mainly by species turnover, or does a persistent within-species island phenotype remain after restricting to Adelie penguins?",
+  "focal_species": "Pygoscelis adeliae",
+  "islands": [
+    "Biscoe",
+    "Dream",
+    "Torgersen"
+  ],
+  "years": [
+    "PAL0708",
+    "PAL0809",
+    "PAL0910"
+  ],
+  "source": {
+    "repository": "allisonhorst/palmerpenguins",
+    "commit": "8957207b78d6ccd1b4654a9dd9c9041b657478ab",
+    "file": "inst/extdata/penguins_raw.csv",
+    "license": "CC0 1.0"
+  },
+  "hypotheses": [
+    {
+      "id": "H1_turnover",
+      "statement": "Archipelago-scale morphology-to-island predictability is dominated by species composition rather than persistent within-species island morphology.",
+      "evidence": "frozen N2 pooled versus species-conditioned score decomposition"
+    },
+    {
+      "id": "H2_persistent_island",
+      "statement": "If islands maintain persistent Adelie phenotypes, island main effects should improve fit after sex, year, laying date and clutch completion are controlled.",
+      "outcomes": [
+        "Culmen Length (mm)",
+        "Culmen Depth (mm)",
+        "Flipper Length (mm)",
+        "Body Mass (g)",
+        "Delta 15 N (o/oo)",
+        "Delta 13 C (o/oo)"
+      ]
+    },
+    {
+      "id": "H3_temporal_reassembly",
+      "statement": "If within-species island states are temporally labile, island-by-year terms should outperform a fixed-island model and island rankings should reverse among years."
+    },
+    {
+      "id": "H4_cross_year_transfer",
+      "statement": "A persistent island phenotype should allow island identity learned from two years to classify held-out-year Adelie individuals above the one-third balanced-accuracy reference."
+    }
+  ],
+  "model_sequence": {
+    "baseline": "trait ~ sex + year + egg_day + clutch_completion",
+    "fixed_island": "baseline + island",
+    "reassembly": "fixed_island + island:year",
+    "comparison": [
+      "partial_R2",
+      "AICc"
+    ]
+  },
+  "transfer_test": {
+    "fold": "leave_one_year_out",
+    "structural_features": [
+      "Culmen Length (mm)",
+      "Culmen Depth (mm)",
+      "Flipper Length (mm)"
+    ],
+    "isotopic_features": [
+      "Delta 15 N (o/oo)",
+      "Delta 13 C (o/oo)"
+    ],
+    "preprocessing": "training-fold sex residualization and training SD scaling",
+    "classifier": "nearest island centroid",
+    "metric": "balanced accuracy",
+    "chance_reference": 0.3333333333333333
+  },
+  "interpretation_boundaries": [
+    "Do not claim local adaptation from this observational dataset.",
+    "Do not interpret island-by-year structural differences as individual plasticity; different adults were sampled.",
+    "Body mass is a condition-sensitive trait measured during egg laying.",
+    "Blood stable isotopes integrate pre-breeding foraging over prior weeks and are not local-island foraging measurements.",
+    "Three years and three islands are a short, small replication window; long-term PAL-LTER data are needed for environmental mechanism tests."
+  ],
+  "next_gate": {
+    "name": "environmental_mechanism_extension",
+    "required_data": [
+      "island-specific breeding phenology or snow/geomorphology",
+      "regional sea-ice metrics",
+      "colony abundance/composition"
+    ],
+    "freeze_before_testing": true
+  }
+}
