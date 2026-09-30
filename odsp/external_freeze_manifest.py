@@ -18,6 +18,7 @@ import math
 from pathlib import Path
 from typing import Mapping
 
+from .frozen_confirmatory_route import build_frozen_confirmatory_route
 from .information_transfer import InformationLevelScore, validate_information_filtration
 from .information_transfer_contract import (
     _mapping,
@@ -240,6 +241,11 @@ def create_external_freeze_manifest(
     if len(set(row_ids)) != len(row_ids):
         raise ValueError("pre-outcome roster row IDs must be unique")
 
+    confirmatory_route = build_frozen_confirmatory_route(
+        validation_design="independent_groups",
+        information_structure="filtration",
+        contrast_count=len(plan["levels"]) - 1,
+    )
     frozen_at_utc = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     manifest = {
         "schema_version": 1,
@@ -248,6 +254,7 @@ def create_external_freeze_manifest(
         "upstream_model_set_id": plan["upstream_model_set_id"],
         "external_dataset_id": plan["external_dataset_id"],
         "external_row_ids_sha256": _row_roster_sha256(row_ids),
+        "confirmatory_route": confirmatory_route,
         "refit_ids": plan["refit_ids"],
         "reference_refit_id": plan["reference_refit_id"],
         "score": plan["score"],
@@ -277,6 +284,7 @@ def create_external_freeze_manifest(
         "external_row_count": len(row_ids),
         "upstream_model_set_id": plan["upstream_model_set_id"],
         "external_dataset_id": plan["external_dataset_id"],
+        "confirmatory_route": confirmatory_route,
         "refit_count": len(plan["refit_ids"]),
         "reference_refit_id": plan["reference_refit_id"],
         "boundaries": {
@@ -285,6 +293,7 @@ def create_external_freeze_manifest(
             "manifest_overwrite_allowed": False,
             "roster_outcome_columns_allowed": False,
             "external_outcomes_read_by_freeze_generator": False,
+            "confirmatory_route_frozen_before_outcome_access": True,
             "runtime_clock_independently_attested": False,
             "trusted_timestamp_authority_used": False,
         },

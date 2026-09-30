@@ -18,6 +18,7 @@ import math
 from pathlib import Path
 from typing import Mapping, Sequence
 
+from .frozen_confirmatory_route import verify_frozen_confirmatory_route
 from .information_transfer_contract import _mapping, _reject_unknown, _text
 from .untouched_external_refit_positive_contract import (
     _file_sha256,
@@ -35,6 +36,7 @@ _MANIFEST_FIELDS = {
     "upstream_model_set_id",
     "external_dataset_id",
     "external_row_ids_sha256",
+    "confirmatory_route",
     "refit_ids",
     "reference_refit_id",
     "score",
@@ -288,6 +290,13 @@ def verify_freeze_manifest_semantic_lock(
     ]
     _assert_equal(frozen_levels, runtime_levels, field="levels")
 
+    confirmatory_route = verify_frozen_confirmatory_route(
+        manifest.get("confirmatory_route"),
+        validation_design="independent_groups",
+        information_structure="filtration",
+        contrast_count=len(runtime_levels) - 1,
+    )
+
     frozen_cert = _normalize_manifest_certification(manifest.get("certification"))
     runtime_cert = {
         "alternative": str(cert["alternative"]),
@@ -309,6 +318,7 @@ def verify_freeze_manifest_semantic_lock(
         "reference_refit_id": frozen_reference,
         "score": frozen_score,
         "levels": frozen_levels,
+        "confirmatory_route": confirmatory_route,
         "certification": frozen_cert,
         "freeze_manifest_semantic_lock_verified": True,
     }
@@ -327,5 +337,7 @@ def run_untouched_external_refit_positive_contract_v2(
     boundaries["freeze_manifest_semantics_verified"] = True
     boundaries["external_row_roster_locked_before_outcome_access"] = True
     boundaries["runtime_analysis_matches_frozen_manifest"] = True
+    boundaries["confirmatory_route_locked_before_outcome_access"] = True
+    boundaries["runtime_confirmatory_route_matches_frozen_manifest"] = True
     receipt["boundaries"] = boundaries
     return receipt

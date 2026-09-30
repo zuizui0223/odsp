@@ -16,6 +16,7 @@ from typing import Mapping
 
 import numpy as np
 
+from .frozen_confirmatory_route import verify_frozen_confirmatory_route
 from .information_transfer_contract import _read_rows, _score, _text, _value, _weight
 from .refit_information_transfer import RefitInformationLevelScores
 from .refit_positive_robustness import (
@@ -43,6 +44,7 @@ _MANIFEST_FIELDS = {
     "external_dataset_id",
     "external_row_ids_sha256",
     "validation_design",
+    "confirmatory_route",
     "refit_ids",
     "reference_refit_id",
     "score",
@@ -276,6 +278,12 @@ def verify_paired_external_freeze_semantic_lock(
         for level in contract["levels"]
     ]
     _assert_equal(frozen_levels, runtime_levels, field="levels")
+    confirmatory_route = verify_frozen_confirmatory_route(
+        manifest.get("confirmatory_route"),
+        validation_design="paired_shared_blocks",
+        information_structure="filtration",
+        contrast_count=len(runtime_levels) - 1,
+    )
     frozen_cert = _normalize_manifest_certification(manifest.get("certification"))
     runtime_cert = {
         "alternative": str(cert["alternative"]),
@@ -304,6 +312,7 @@ def verify_paired_external_freeze_semantic_lock(
         "reference_refit_id": frozen_reference,
         "score": frozen_score,
         "levels": frozen_levels,
+        "confirmatory_route": confirmatory_route,
         "certification": frozen_cert,
         "freeze_manifest_semantic_lock_verified": True,
     }
@@ -368,6 +377,8 @@ def run_untouched_external_refit_shared_block_positive_contract_v3(
             "freeze_manifest_semantics_verified": True,
             "external_row_roster_locked_before_outcome_access": True,
             "runtime_analysis_matches_frozen_manifest": True,
+            "confirmatory_route_locked_before_outcome_access": True,
+            "runtime_confirmatory_route_matches_frozen_manifest": True,
             "paired_shared_block_design_frozen_before_outcome_access": True,
             "exact_positive_mass_shared_block_support_required": True,
             "missing_shared_blocks_imputed": False,

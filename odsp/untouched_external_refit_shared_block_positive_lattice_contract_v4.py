@@ -16,6 +16,7 @@ from typing import Mapping
 
 import numpy as np
 
+from .frozen_confirmatory_route import verify_frozen_confirmatory_route
 from .external_paired_lattice_freeze_manifest import (
     _paired_row_metadata_sha256,
     _validate_lattice_definition,
@@ -85,6 +86,7 @@ _MANIFEST_FIELDS = {
     "external_row_ids_sha256",
     "paired_row_metadata_sha256",
     "validation_design",
+    "confirmatory_route",
     "refit_ids",
     "score",
     "base_information",
@@ -483,6 +485,12 @@ def verify_paired_external_lattice_semantic_lock(
         int(contract["edge_count"]),
         field="edge_count",
     )
+    confirmatory_route = verify_frozen_confirmatory_route(
+        manifest.get("confirmatory_route"),
+        validation_design="paired_shared_blocks",
+        information_structure="complete_lattice",
+        information_block_count=len(contract["information_blocks"]),
+    )
     _assert_equal(
         dict(manifest["certification"]),
         dict(contract["certification"]),
@@ -500,6 +508,7 @@ def verify_paired_external_lattice_semantic_lock(
         "information_blocks": list(contract["information_blocks"]),
         "nodes": list(contract["nodes"]),
         "edge_count": int(contract["edge_count"]),
+        "confirmatory_route": confirmatory_route,
         "certification": dict(contract["certification"]),
         "freeze_manifest_semantic_lock_verified": True,
     }
@@ -587,6 +596,8 @@ def run_untouched_external_paired_all_refit_lattice_contract_v4(
             "runtime_pairing_metadata_matches_frozen_manifest": True,
             "complete_lattice_node_table_frozen_before_outcome_access": True,
             "paired_shared_block_design_frozen_before_outcome_access": True,
+            "confirmatory_route_locked_before_outcome_access": True,
+            "runtime_confirmatory_route_matches_frozen_manifest": True,
             "different_refit_paths_can_be_combined": False,
             "four_or_more_information_blocks_supported": False,
             "validation_group_independence_assumed": False,

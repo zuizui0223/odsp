@@ -23,7 +23,11 @@
   "manifest": {
     "manifest_type": "odsp_pre_external_outcome_freeze_v1",
     "existing_output_overwrite_allowed": false,
-    "semantic_lock_compatible_with_external_validation_v2": true
+    "semantic_lock_compatible_with_external_validation_v2": true,
+    "confirmatory_route_frozen": true,
+    "confirmatory_route_source": "odsp-confirmatory-method-routing-v1",
+    "unqualified_route_manifest_creation_allowed": false,
+    "runtime_route_semantic_reverification_required": true
   },
   "receipt": {
     "receipt_type": "odsp_pre_external_outcome_freeze_receipt_v1",
