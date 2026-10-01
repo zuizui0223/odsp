@@ -1,0 +1,144 @@
+{
+  "schema_version": 3,
+  "registry_id": "odsp-confirmatory-route-evidence-v3",
+  "date": "2026-10-01",
+  "purpose": "bind each confirmatory route to an ordered qualification evidence chain and the exact SHA256 content identity of every admitted evidence artifact",
+  "key_semantics": {
+    "includes": [
+      "alternative",
+      "validation_design",
+      "information_structure",
+      "upstream_refits",
+      "external_validation",
+      "contrast_count_or_information_block_count",
+      "edge_count_for_lattice"
+    ],
+    "surface_name_alone_is_sufficient": false,
+    "same_surface_may_have_distinct_family_evidence": true
+  },
+  "governance": {
+    "routing_is_statistical_inference": false,
+    "runtime_recomputes_calibration": false,
+    "missing_confirmatory_evidence_policy": "unqualified",
+    "sensitivity_and_unqualified_routes_carry_evidence": false,
+    "historical_empirical_endpoint_rerun": false,
+    "historical_terminal_reclassification": false,
+    "artifact_content_identity_frozen": true,
+    "same_filename_changed_content_detected": true,
+    "evidence_order_is_semantic": true,
+    "source_ci_verifies_registry_sha256_against_repository_bytes": true,
+    "registry_v2_retained_for_historical_provenance": true
+  },
+  "artifact_sha256": {
+    "INDEPENDENT_C4_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json": "17d64fede53a1dcb12c3a81bb325fdd80b626ac06a48c180c158316b9bea7007",
+    "INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json": "552ff692b2dbb31a61765720393804595723c0ffa66be8262295260148e8fa6e",
+    "MULTICONTRAST_BOOTSTRAP_T_V2_OPERATING_CHARACTERISTICS_RECEIPT.json": "40c00b38316df9a0109ec6aca1c7fe6c2b7548a1b2ee01a85df80fded91f1a2e",
+    "ODSP_ALL_REFIT_DIRECTIONAL_ROBUSTNESS_CONTRACT.json": "5b69958df43d4b4b7ac14851401218f5ad8086e032fd75bad1cbb46456d508bf",
+    "ODSP_ALL_REFIT_INDEPENDENT_DIRECTIONAL_LATTICE_4_12EDGE_CONTRACT.json": "2938e2e881ed3e8f54f960cd797a940a9962f1aedcadb306d9bcfaf5acbbc371",
+    "ODSP_ALL_REFIT_PAIRED_POSITIVE_LATTICE_CONTRACT.json": "7979268574dc3f13e0619e02b34017cfd8af67414045b3f094d51e3e73cdcd76",
+    "ODSP_INDEPENDENT_DIRECTIONAL_LATTICE_4_12EDGE_CONTRACT.json": "f41e37d0303737b2f4ae99f77fb17415ffebcaef18f8cd77b23bbf3e1731614e",
+    "ODSP_INFORMATION_TRANSFER_BOOTSTRAP_T_V2_CONTRACT.json": "ecf523b936b5264633e9f7f7d070b48fa75a8ba23168a856dcad1a11c49f265b",
+    "ODSP_PAIRED_REFIT_UNTOUCHED_EXTERNAL_V3_CONTRACT.json": "bc4f35f15d2b91fcddc028635dad683d14843fa25904625626a9ebad90eac9e4",
+    "ODSP_REFIT_ONE_SIDED_POSITIVE_TRANSFER_CONTRACT.json": "c29b95b9b83329005b0dd49a1fe911e2f5fbebe5a7319f41875a396a31015cb3",
+    "ODSP_UNTOUCHED_EXTERNAL_FREEZE_SEMANTIC_LOCK_V2.json": "cc4e66bf1b8fe3448493517f4f2119a1ba4af9ea053c026673b48abbb185faf5",
+    "ODSP_UNTOUCHED_EXTERNAL_PAIRED_ALL_REFIT_LATTICE_V4_CONTRACT.json": "a6e09c958f7e51e9f77124711b1ed5f67c63a579b45f34d266a6da237cd04430",
+    "ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json": "a80a92f82487a3eba8298de9bf15cee189a3b417503ae727e981a5f11ac0ccef",
+    "PAIRED_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json": "664dcb27526464e9f3f70cb09de6c6d7df525009c8c41280d74967d85610a960",
+    "PAIRED_ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json": "54f45559b9fcc6db6a42058cd6a76dd7fef6b48810258003eb019cbc0dfd0098"
+  },
+  "evidence_by_route_key": {
+    "alternative=greater|validation_design=independent_groups|information_structure=complete_lattice|upstream_refits=fixed_set|external_validation=none|information_block_count=2|edge_count=4": [
+      "ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json",
+      "INDEPENDENT_C4_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json",
+      "ODSP_INDEPENDENT_DIRECTIONAL_LATTICE_4_12EDGE_CONTRACT.json",
+      "ODSP_ALL_REFIT_INDEPENDENT_DIRECTIONAL_LATTICE_4_12EDGE_CONTRACT.json"
+    ],
+    "alternative=greater|validation_design=independent_groups|information_structure=complete_lattice|upstream_refits=fixed_set|external_validation=none|information_block_count=3|edge_count=12": [
+      "INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json",
+      "ODSP_INDEPENDENT_DIRECTIONAL_LATTICE_4_12EDGE_CONTRACT.json",
+      "ODSP_ALL_REFIT_INDEPENDENT_DIRECTIONAL_LATTICE_4_12EDGE_CONTRACT.json"
+    ],
+    "alternative=greater|validation_design=independent_groups|information_structure=complete_lattice|upstream_refits=none|external_validation=none|information_block_count=2|edge_count=4": [
+      "ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json",
+      "INDEPENDENT_C4_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json",
+      "ODSP_INDEPENDENT_DIRECTIONAL_LATTICE_4_12EDGE_CONTRACT.json"
+    ],
+    "alternative=greater|validation_design=independent_groups|information_structure=complete_lattice|upstream_refits=none|external_validation=none|information_block_count=3|edge_count=12": [
+      "INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json",
+      "ODSP_INDEPENDENT_DIRECTIONAL_LATTICE_4_12EDGE_CONTRACT.json"
+    ],
+    "alternative=greater|validation_design=independent_groups|information_structure=filtration|upstream_refits=fixed_set|external_validation=none|contrast_count=2": [
+      "ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json",
+      "ODSP_ALL_REFIT_DIRECTIONAL_ROBUSTNESS_CONTRACT.json"
+    ],
+    "alternative=greater|validation_design=independent_groups|information_structure=filtration|upstream_refits=fixed_set|external_validation=none|contrast_count=4": [
+      "ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json",
+      "INDEPENDENT_C4_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json",
+      "ODSP_ALL_REFIT_DIRECTIONAL_ROBUSTNESS_CONTRACT.json"
+    ],
+    "alternative=greater|validation_design=independent_groups|information_structure=filtration|upstream_refits=fixed_set|external_validation=untouched_frozen|contrast_count=2": [
+      "ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json",
+      "ODSP_REFIT_ONE_SIDED_POSITIVE_TRANSFER_CONTRACT.json",
+      "ODSP_UNTOUCHED_EXTERNAL_FREEZE_SEMANTIC_LOCK_V2.json"
+    ],
+    "alternative=greater|validation_design=independent_groups|information_structure=filtration|upstream_refits=fixed_set|external_validation=untouched_frozen|contrast_count=4": [
+      "ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json",
+      "INDEPENDENT_C4_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json",
+      "ODSP_REFIT_ONE_SIDED_POSITIVE_TRANSFER_CONTRACT.json",
+      "ODSP_UNTOUCHED_EXTERNAL_FREEZE_SEMANTIC_LOCK_V2.json"
+    ],
+    "alternative=greater|validation_design=independent_groups|information_structure=filtration|upstream_refits=none|external_validation=none|contrast_count=2": [
+      "ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json"
+    ],
+    "alternative=greater|validation_design=independent_groups|information_structure=filtration|upstream_refits=none|external_validation=none|contrast_count=4": [
+      "ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json",
+      "INDEPENDENT_C4_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json"
+    ],
+    "alternative=greater|validation_design=paired_shared_blocks|information_structure=complete_lattice|upstream_refits=fixed_set|external_validation=none|information_block_count=2|edge_count=4": [
+      "PAIRED_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json",
+      "ODSP_ALL_REFIT_PAIRED_POSITIVE_LATTICE_CONTRACT.json"
+    ],
+    "alternative=greater|validation_design=paired_shared_blocks|information_structure=complete_lattice|upstream_refits=fixed_set|external_validation=none|information_block_count=3|edge_count=12": [
+      "PAIRED_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json",
+      "ODSP_ALL_REFIT_PAIRED_POSITIVE_LATTICE_CONTRACT.json"
+    ],
+    "alternative=greater|validation_design=paired_shared_blocks|information_structure=complete_lattice|upstream_refits=fixed_set|external_validation=untouched_frozen|information_block_count=2|edge_count=4": [
+      "PAIRED_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json",
+      "ODSP_ALL_REFIT_PAIRED_POSITIVE_LATTICE_CONTRACT.json",
+      "ODSP_UNTOUCHED_EXTERNAL_PAIRED_ALL_REFIT_LATTICE_V4_CONTRACT.json"
+    ],
+    "alternative=greater|validation_design=paired_shared_blocks|information_structure=complete_lattice|upstream_refits=fixed_set|external_validation=untouched_frozen|information_block_count=3|edge_count=12": [
+      "PAIRED_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json",
+      "ODSP_ALL_REFIT_PAIRED_POSITIVE_LATTICE_CONTRACT.json",
+      "ODSP_UNTOUCHED_EXTERNAL_PAIRED_ALL_REFIT_LATTICE_V4_CONTRACT.json"
+    ],
+    "alternative=greater|validation_design=paired_shared_blocks|information_structure=complete_lattice|upstream_refits=none|external_validation=none|information_block_count=2|edge_count=4": [
+      "PAIRED_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json"
+    ],
+    "alternative=greater|validation_design=paired_shared_blocks|information_structure=complete_lattice|upstream_refits=none|external_validation=none|information_block_count=3|edge_count=12": [
+      "PAIRED_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json"
+    ],
+    "alternative=greater|validation_design=paired_shared_blocks|information_structure=filtration|upstream_refits=fixed_set|external_validation=none|contrast_count=2": [
+      "PAIRED_ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json",
+      "ODSP_ALL_REFIT_DIRECTIONAL_ROBUSTNESS_CONTRACT.json"
+    ],
+    "alternative=greater|validation_design=paired_shared_blocks|information_structure=filtration|upstream_refits=fixed_set|external_validation=untouched_frozen|contrast_count=2": [
+      "PAIRED_ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json",
+      "ODSP_ALL_REFIT_DIRECTIONAL_ROBUSTNESS_CONTRACT.json",
+      "ODSP_PAIRED_REFIT_UNTOUCHED_EXTERNAL_V3_CONTRACT.json"
+    ],
+    "alternative=greater|validation_design=paired_shared_blocks|information_structure=filtration|upstream_refits=none|external_validation=none|contrast_count=2": [
+      "PAIRED_ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json"
+    ],
+    "alternative=two_sided|validation_design=independent_groups|information_structure=complete_lattice|upstream_refits=none|external_validation=none|information_block_count=2|edge_count=4": [
+      "MULTICONTRAST_BOOTSTRAP_T_V2_OPERATING_CHARACTERISTICS_RECEIPT.json",
+      "ODSP_INFORMATION_TRANSFER_BOOTSTRAP_T_V2_CONTRACT.json"
+    ],
+    "alternative=two_sided|validation_design=independent_groups|information_structure=filtration|upstream_refits=none|external_validation=none|contrast_count=2": [
+      "MULTICONTRAST_BOOTSTRAP_T_V2_OPERATING_CHARACTERISTICS_RECEIPT.json"
+    ],
+    "alternative=two_sided|validation_design=independent_groups|information_structure=filtration|upstream_refits=none|external_validation=none|contrast_count=4": [
+      "MULTICONTRAST_BOOTSTRAP_T_V2_OPERATING_CHARACTERISTICS_RECEIPT.json"
+    ]
+  }
+}
