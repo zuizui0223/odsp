@@ -18,8 +18,7 @@ from odsp.frozen_confirmatory_route import (
 
 
 REGISTRY = Path("ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V3.json")
-CONTENT_LOCK = Path("ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V1.json")
-
+CONTENT_LOCK = Path("ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V1.json")\nROUTING_CONTRACT = Path("ODSP_CONFIRMATORY_METHOD_ROUTING_CONTRACT.json")\n
 
 def _all_registered_artifacts() -> set[str]:
     return {
@@ -115,3 +114,11 @@ def test_content_lock_contract_freezes_exact_ordered_artifact_digests():
     assert payload["runtime"]["same_filename_changed_content_allowed"] is False
     assert payload["historical_governance"]["empirical_endpoint_rerun"] is False
     assert payload["historical_governance"]["terminal_reclassification"] is False
+
+
+def test_routing_contract_points_to_content_locked_v3_registry():
+    payload = json.loads(ROUTING_CONTRACT.read_text(encoding="utf-8"))
+    assert payload["qualification_evidence"]["registry"] == (
+        "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V3.json"
+    )
+    assert payload["qualification_evidence"]["artifact_sha256_frozen"] is True
