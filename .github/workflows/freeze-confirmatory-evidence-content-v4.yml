@@ -6,6 +6,8 @@ on:
       - 'odsp/confirmatory_route_evidence.py'
       - 'odsp/frozen_confirmatory_route.py'
       - 'ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V3.json'
+      - 'ODSP_CONFIRMATORY_METHOD_ROUTING_CONTRACT.json'
+      - 'tests/test_confirmatory_route_evidence_v2.py'
       - 'ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V1.json'
       - 'tests/test_confirmatory_evidence_content_lock_v1.py'
       - '.github/workflows/freeze-confirmatory-evidence-content-v4.yml'
