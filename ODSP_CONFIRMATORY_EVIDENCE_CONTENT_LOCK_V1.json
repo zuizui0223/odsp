@@ -39,5 +39,11 @@
     "empirical_endpoint_rerun": false,
     "terminal_reclassification": false,
     "evidence_registry_v2_deleted_or_rewritten": false
+  },
+  "migration": {
+    "legacy_manifest_auto_upgrade_allowed": false,
+    "post_outcome_retroactive_upgrade_allowed": false,
+    "pre_outcome_regeneration_allowed": true,
+    "rationale": "content identity must be frozen before external outcome access; a digest added after access is not prospective evidence"
   }
 }
