@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-confirmatory-evidence-content-lock-v1",
+  "date": "2026-10-01",
+  "purpose": "freeze exact content identity of every qualification evidence artifact before untouched external outcomes are opened",
+  "composes_with": {
+    "routing_contract": "odsp-confirmatory-method-routing-v1",
+    "evidence_registry": "odsp-confirmatory-route-evidence-v3",
+    "frozen_route_layer": "odsp.frozen_confirmatory_route"
+  },
+  "freeze": {
+    "qualification_registry_id_frozen": true,
+    "qualification_key_frozen": true,
+    "artifact_name_frozen": true,
+    "artifact_sha256_frozen": true,
+    "evidence_order_is_semantic": true,
+    "pre_outcome": true
+  },
+  "source_validation": {
+    "source_ci_verifies_registered_sha256_against_repository_bytes": true,
+    "missing_artifact_digest_fails_closed": true,
+    "malformed_artifact_digest_fails_closed": true,
+    "duplicate_evidence_artifact_forbidden": true
+  },
+  "runtime": {
+    "exact_snapshot_match_required": true,
+    "same_filename_changed_content_allowed": false,
+    "calibration_recomputed": false,
+    "frozen_manifest_artifact_bytes_required_at_runtime": false,
+    "current_registered_snapshot_recomputed_from_route_key": true
+  },
+  "scope": {
+    "applies_to_canonical_untouched_external_confirmatory_routes": true,
+    "changes_statistical_estimand": false,
+    "changes_bootstrap_algorithm": false,
+    "changes_refit_sampling_interpretation": false
+  },
+  "historical_governance": {
+    "empirical_endpoint_rerun": false,
+    "terminal_reclassification": false,
+    "evidence_registry_v2_deleted_or_rewritten": false
+  }
+}
