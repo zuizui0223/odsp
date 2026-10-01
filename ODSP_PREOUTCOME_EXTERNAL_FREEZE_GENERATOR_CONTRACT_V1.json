@@ -27,7 +27,10 @@
     "confirmatory_route_frozen": true,
     "confirmatory_route_source": "odsp-confirmatory-method-routing-v1",
     "unqualified_route_manifest_creation_allowed": false,
-    "runtime_route_semantic_reverification_required": true
+    "runtime_route_semantic_reverification_required": true,
+    "qualification_key_frozen": true,
+    "qualification_evidence_chain_frozen": true,
+    "qualification_evidence_order_is_semantic": true
   },
   "receipt": {
     "receipt_type": "odsp_pre_external_outcome_freeze_receipt_v1",

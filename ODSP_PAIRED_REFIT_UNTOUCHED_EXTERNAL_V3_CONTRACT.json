@@ -18,7 +18,9 @@
     "minimum_refits_and_blocks_frozen": true,
     "gain_tolerance_frozen": true,
     "confirmatory_route_frozen": true,
-    "confirmatory_route_source": "odsp-confirmatory-method-routing-v1"
+    "confirmatory_route_source": "odsp-confirmatory-method-routing-v1",
+    "qualification_key_frozen": true,
+    "qualification_evidence_chain_frozen": true
   },
   "validation_design": {
     "validation_group_independence_assumed": false,
@@ -50,7 +52,9 @@
     "historical_non_access_independently_proven_by_odsp": false,
     "development_data_disjointness_independently_proven_by_odsp": false,
     "runtime_confirmatory_route_must_match_frozen_manifest": true,
-    "route_family_tamper_with_updated_manifest_hash_allowed": false
+    "route_family_tamper_with_updated_manifest_hash_allowed": false,
+    "runtime_qualification_evidence_must_match_frozen_manifest": true,
+    "qualification_evidence_tamper_with_updated_manifest_hash_allowed": false
   },
   "claim_scope": {
     "information_structure": "strict_nested_filtration",

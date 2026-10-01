@@ -19,6 +19,8 @@ _ROUTE_FIELDS = {
     "contrast_count",
     "information_block_count",
     "edge_count",
+    "qualification_key",
+    "qualification_evidence",
 }
 
 
@@ -47,6 +49,10 @@ def build_frozen_confirmatory_route(
         )
     if decision.canonical_surface is None:
         raise ValueError("primary_confirmatory route has no canonical surface")
+    if not decision.qualification_key or not decision.qualification_evidence:
+        raise ValueError(
+            "primary_confirmatory route is missing registered qualification evidence"
+        )
 
     return {
         "router_contract_id": ROUTER_CONTRACT_ID,
@@ -60,6 +66,8 @@ def build_frozen_confirmatory_route(
         "contrast_count": contrast_count,
         "information_block_count": information_block_count,
         "edge_count": decision.edge_count,
+        "qualification_key": decision.qualification_key,
+        "qualification_evidence": list(decision.qualification_evidence),
     }
 
 
@@ -92,6 +100,24 @@ def normalize_frozen_confirmatory_route(raw: object) -> dict[str, object]:
             )
         return int(value)
 
+    evidence_raw = raw["qualification_evidence"]
+    if not isinstance(evidence_raw, list) or not evidence_raw:
+        raise ValueError(
+            "freeze manifest confirmatory_route.qualification_evidence must be a non-empty JSON array"
+        )
+    evidence: list[str] = []
+    for index, item in enumerate(evidence_raw):
+        if not isinstance(item, str) or not item.strip():
+            raise ValueError(
+                "freeze manifest confirmatory_route.qualification_evidence"
+                f"[{index}] must be non-empty text"
+            )
+        evidence.append(item.strip())
+    if len(evidence) != len(set(evidence)):
+        raise ValueError(
+            "freeze manifest confirmatory_route.qualification_evidence must not contain duplicates"
+        )
+
     return {
         "router_contract_id": _text("router_contract_id"),
         "role": _text("role"),
@@ -104,6 +130,8 @@ def normalize_frozen_confirmatory_route(raw: object) -> dict[str, object]:
         "contrast_count": _optional_int("contrast_count"),
         "information_block_count": _optional_int("information_block_count"),
         "edge_count": _optional_int("edge_count"),
+        "qualification_key": _text("qualification_key"),
+        "qualification_evidence": evidence,
     }
 
 

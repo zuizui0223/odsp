@@ -34,7 +34,9 @@
     "minimum_refits": true,
     "minimum_blocks_per_group": true,
     "gain_tolerance": true,
-    "confirmatory_route": true
+    "confirmatory_route": true,
+    "qualification_key": true,
+    "qualification_evidence_chain": true
   },
   "external_dataset_lock": {
     "external_dataset_id_required": true,
@@ -51,7 +53,8 @@
     "inferential_setting_mismatch": true,
     "manifest_internal_freeze_time_mismatch": true,
     "confirmatory_route_mismatch": true,
-    "route_family_tamper_with_updated_manifest_hash": true
+    "route_family_tamper_with_updated_manifest_hash": true,
+    "qualification_evidence_mismatch": true
   },
   "receipt": {
     "receipt_type": "odsp_untouched_external_refit_positive_validation_endpoint_v2",
@@ -61,7 +64,9 @@
     "upstream_model_set_id_recorded": true,
     "external_dataset_id_recorded": true,
     "confirmatory_route_locked_before_outcome_access": true,
-    "runtime_confirmatory_route_matches_frozen_manifest": true
+    "runtime_confirmatory_route_matches_frozen_manifest": true,
+    "qualification_evidence_locked_before_outcome_access": true,
+    "runtime_qualification_evidence_matches_frozen_manifest": true
   },
   "epistemic_boundary": {
     "hash_and_semantic_consistency_machine_verified": true,
