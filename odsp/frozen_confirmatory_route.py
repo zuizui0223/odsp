@@ -4,7 +4,11 @@ from __future__ import annotations
 from typing import Mapping
 
 from .confirmatory_method_routing import route_confirmatory_method
-from .confirmatory_route_evidence import (\n    QUALIFICATION_EVIDENCE_REGISTRY_ID,\n    qualification_evidence_artifacts_for_route_key,\n)\n
+from .confirmatory_route_evidence import (
+    QUALIFICATION_EVIDENCE_REGISTRY_ID,
+    qualification_evidence_artifacts_for_route_key,
+)
+
 
 ROUTER_CONTRACT_ID = "odsp-confirmatory-method-routing-v1"
 _ROUTE_FIELDS = {
