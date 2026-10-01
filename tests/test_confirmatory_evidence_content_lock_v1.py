@@ -116,6 +116,9 @@ def test_content_lock_contract_freezes_exact_ordered_artifact_digests():
     assert payload["runtime"]["same_filename_changed_content_allowed"] is False
     assert payload["historical_governance"]["empirical_endpoint_rerun"] is False
     assert payload["historical_governance"]["terminal_reclassification"] is False
+    assert payload["migration"]["legacy_manifest_auto_upgrade_allowed"] is False
+    assert payload["migration"]["post_outcome_retroactive_upgrade_allowed"] is False
+    assert payload["migration"]["pre_outcome_regeneration_allowed"] is True
 
 
 def test_routing_contract_points_to_content_locked_v3_registry():
