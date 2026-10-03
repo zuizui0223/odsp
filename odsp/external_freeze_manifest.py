@@ -29,11 +29,17 @@ from .information_transfer_contract import (
     _value,
 )
 from .untouched_external_refit_positive_contract_v2 import _row_roster_sha256
+from .upstream_model_artifact_lock import (
+    MODEL_ARTIFACT_LOCK_ID,
+    normalize_upstream_model_artifact_declarations,
+    snapshot_upstream_model_artifacts,
+)
 
 
 _PLAN_FIELDS = {
     "schema_version",
     "upstream_model_set_id",
+    "upstream_model_artifacts",
     "external_dataset_id",
     "roster",
     "refit_ids",
@@ -116,6 +122,9 @@ def validate_external_freeze_plan(plan: Mapping[str, object]) -> dict[str, objec
     )
     if reference_refit_id not in refit_ids:
         raise ValueError("reference_refit_id must identify one frozen refit_id")
+    model_artifacts = normalize_upstream_model_artifact_declarations(
+        plan.get("upstream_model_artifacts"), refit_ids=refit_ids
+    )
 
     score = _validate_score_contract(plan.get("score"))
 
@@ -177,6 +186,7 @@ def validate_external_freeze_plan(plan: Mapping[str, object]) -> dict[str, objec
     return {
         "schema_version": 1,
         "upstream_model_set_id": model_set_id,
+        "upstream_model_artifacts": [dict(row) for row in model_artifacts],
         "external_dataset_id": dataset_id,
         "roster": {
             "path": roster_path,
@@ -241,6 +251,12 @@ def create_external_freeze_manifest(
     if len(set(row_ids)) != len(row_ids):
         raise ValueError("pre-outcome roster row IDs must be unique")
 
+    model_artifact_snapshot = snapshot_upstream_model_artifacts(
+        plan["upstream_model_artifacts"],
+        base_dir=plan_path.parent,
+        refit_ids=plan["refit_ids"],
+    )
+
     confirmatory_route = build_frozen_confirmatory_route(
         validation_design="independent_groups",
         information_structure="filtration",
@@ -252,6 +268,8 @@ def create_external_freeze_manifest(
         "manifest_type": "odsp_pre_external_outcome_freeze_v1",
         "frozen_at_utc": frozen_at_utc,
         "upstream_model_set_id": plan["upstream_model_set_id"],
+        "upstream_model_artifact_lock_id": MODEL_ARTIFACT_LOCK_ID,
+        "upstream_model_artifact_snapshot": [dict(row) for row in model_artifact_snapshot],
         "external_dataset_id": plan["external_dataset_id"],
         "external_row_ids_sha256": _row_roster_sha256(row_ids),
         "confirmatory_route": confirmatory_route,
@@ -283,6 +301,8 @@ def create_external_freeze_manifest(
         "external_row_ids_sha256": manifest["external_row_ids_sha256"],
         "external_row_count": len(row_ids),
         "upstream_model_set_id": plan["upstream_model_set_id"],
+        "upstream_model_artifact_lock_id": MODEL_ARTIFACT_LOCK_ID,
+        "upstream_model_artifact_snapshot": [dict(row) for row in model_artifact_snapshot],
         "external_dataset_id": plan["external_dataset_id"],
         "confirmatory_route": confirmatory_route,
         "refit_count": len(plan["refit_ids"]),
@@ -294,6 +314,8 @@ def create_external_freeze_manifest(
             "roster_outcome_columns_allowed": False,
             "external_outcomes_read_by_freeze_generator": False,
             "confirmatory_route_frozen_before_outcome_access": True,
+            "upstream_model_artifact_bytes_frozen_before_outcome_access": True,
+            "model_artifact_local_paths_are_semantic": False,
             "runtime_clock_independently_attested": False,
             "trusted_timestamp_authority_used": False,
         },
