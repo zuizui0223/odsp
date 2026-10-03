@@ -34,7 +34,10 @@
     "confirmatory_route_frozen": true,
     "confirmatory_route_source": "odsp-confirmatory-method-routing-v1",
     "qualification_key_frozen": true,
-    "qualification_evidence_chain_frozen": true
+    "qualification_evidence_chain_frozen": true,
+    "upstream_model_artifact_content_frozen": true,
+    "model_artifact_lock_id": "odsp-upstream-model-artifact-lock-v1",
+    "model_artifact_local_path_is_semantic": false
   },
   "lattice_scope": {
     "complete_subset_table_required": true,
@@ -83,7 +86,11 @@
     "runtime_confirmatory_route_must_match_frozen_manifest": true,
     "route_family_tamper_with_updated_manifest_hash_allowed": false,
     "runtime_qualification_evidence_must_match_frozen_manifest": true,
-    "qualification_evidence_tamper_with_updated_manifest_hash_allowed": false
+    "qualification_evidence_tamper_with_updated_manifest_hash_allowed": false,
+    "runtime_model_artifact_content_must_match_frozen_manifest": true,
+    "model_artifact_content_mismatch_fails_closed": true,
+    "score_table_derivation_from_frozen_models_proven": false,
+    "historical_freeze_artifact_auto_upgraded": false
   },
   "inference": {
     "alternative": "greater",
