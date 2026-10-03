@@ -197,8 +197,11 @@ def validate_untouched_external_refit_positive_contract(
     if isinstance(version, bool) or version != 1:
         raise ValueError("schema_version must be 1")
     endpoint_id = _text(contract.get("endpoint_id"), name="endpoint_id")
-    model_artifacts = normalize_upstream_model_artifact_declarations(
-        contract.get("upstream_model_artifacts")
+    raw_model_artifacts = contract.get("upstream_model_artifacts")
+    model_artifacts = (
+        ()
+        if raw_model_artifacts is None
+        else normalize_upstream_model_artifact_declarations(raw_model_artifacts)
     )
 
     data = _mapping(contract.get("data"), name="data")
