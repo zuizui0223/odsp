@@ -36,8 +36,10 @@ def test_independent_four_and_twelve_edge_routes_have_distinct_evidence_chains()
     assert four.qualification_key != twelve.qualification_key
     assert four.qualification_evidence != twelve.qualification_evidence
     assert "INDEPENDENT_C4_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" in four.qualification_evidence
+    assert "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" not in four.qualification_evidence
     assert "INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json" not in four.qualification_evidence
     assert "INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json" in twelve.qualification_evidence
+    assert "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" in twelve.qualification_evidence
 
 
 def test_all_refit_independent_lattice_evidence_tracks_family_size():
@@ -61,7 +63,9 @@ def test_all_refit_independent_lattice_evidence_tracks_family_size():
     assert common in four.qualification_evidence
     assert common in twelve.qualification_evidence
     assert "INDEPENDENT_C4_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" in four.qualification_evidence
+    assert "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" not in four.qualification_evidence
     assert "INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json" in twelve.qualification_evidence
+    assert "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" in twelve.qualification_evidence
 
 
 def test_independent_c4_filtration_carries_support_envelope_evidence():
@@ -130,7 +134,9 @@ def test_independent_external_lattice_evidence_is_family_specific_and_frozen():
     assert four.qualification_evidence[-1] == external
     assert twelve.qualification_evidence[-1] == external
     assert "INDEPENDENT_C4_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" in four.qualification_evidence
+    assert "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" not in four.qualification_evidence
     assert "INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json" in twelve.qualification_evidence
+    assert "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" in twelve.qualification_evidence
     assert four.qualification_key != twelve.qualification_key
 
 
@@ -185,6 +191,14 @@ def test_registry_family_scope_matches_frozen_receipts():
     )
     assert c4["summary"]["support_anchor_counts"] == [8, 20, 50]
     assert c4["summary"]["qualification_pass"] is True
+
+    c12 = json.loads(
+        Path("INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json").read_text()
+    )
+    assert c12["summary"]["support_anchor_counts"] == [8, 20, 50]
+    assert c12["summary"]["group_count_anchor"] == 6
+    assert c12["summary"]["contrast_count"] == 12
+    assert c12["summary"]["qualification_pass"] is True
 
     independent_lattice = json.loads(
         Path("INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json").read_text()
