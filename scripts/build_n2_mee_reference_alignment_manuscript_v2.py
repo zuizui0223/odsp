@@ -141,7 +141,7 @@ We refer to these as total, layer and context increments. The decomposition does
 
 With oracle conditional distributions under log score, expected score differences connect naturally to conditional information. Our fitted ecological models are not assumed to be oracle distributions, so the manuscript uses the more limited phrase **realized held-out predictive information increment**. This keeps the interpretation predictive and avoids turning a score difference into a causal quantity.
 
-The comparator defines the predictive information increment being measured. Reference-to-claim alignment therefore proceeds from the scientific sentence, not from a universal ranking of baselines. If species identity is already assumed and context is focal, the reference should know species. If species identity itself is focal, the reference should not know species.
+In other words, the comparator defines the predictive information increment being measured. Reference-to-claim alignment therefore proceeds from the scientific sentence, not from a universal ranking of baselines. If species identity is already assumed and context is focal, the reference should know species. If species identity itself is focal, the reference should not know species.
 
 ### 2.2 Stage 1: preregistered known-truth identification and power experiment
 
