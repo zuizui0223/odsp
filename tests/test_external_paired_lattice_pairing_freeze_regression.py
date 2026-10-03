@@ -38,6 +38,10 @@ def _freeze_plan() -> dict[str, object]:
     return {
         "schema_version": 1,
         "upstream_model_set_id": "pairing-lock-models-v1",
+        "upstream_model_artifacts": [
+            {"refit_id": refit_id, "artifact_id": "fit", "path": f"models/{refit_id}.bin"}
+            for refit_id in ("r00", "r01")
+        ],
         "external_dataset_id": "pairing-lock-external-v1",
         "roster": {
             "path": "roster.csv",
@@ -114,6 +118,7 @@ def _contract(manifest: Path) -> dict[str, object]:
         "schema_version": 1,
         "endpoint_id": "pairing-freeze-regression-v4",
         "upstream_model_set_id": plan["upstream_model_set_id"],
+        "upstream_model_artifacts": plan["upstream_model_artifacts"],
         "external_dataset_id": plan["external_dataset_id"],
         "data": {"path": "scores.csv", "format": "csv"},
         "columns": {
@@ -158,8 +163,15 @@ def test_row_pairing_metadata_cannot_change_after_preoutcome_freeze(tmp_path: Pa
     roster = tmp_path / "roster.csv"
     _write_csv(roster, _pairing_roster())
 
+    plan_payload = _freeze_plan()
+    for artifact in plan_payload["upstream_model_artifacts"]:
+        model_path = tmp_path / artifact["path"]
+        model_path.parent.mkdir(parents=True, exist_ok=True)
+        model_path.write_bytes(
+            f"{artifact['refit_id']}:{artifact['artifact_id']}".encode("utf-8")
+        )
     plan = tmp_path / "plan.json"
-    plan.write_text(json.dumps(_freeze_plan()), encoding="utf-8")
+    plan.write_text(json.dumps(plan_payload), encoding="utf-8")
     manifest = tmp_path / "freeze.json"
     create_paired_external_lattice_freeze_manifest(plan, manifest)
 
