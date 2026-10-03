@@ -24,10 +24,23 @@ def _write_csv(path: Path, rows: list[dict[str, object]]) -> None:
         writer.writerows(rows)
 
 
+def _materialize_model_artifacts(tmp_path: Path, plan: dict[str, object]) -> None:
+    for artifact in plan["upstream_model_artifacts"]:
+        model_path = tmp_path / artifact["path"]
+        model_path.parent.mkdir(parents=True, exist_ok=True)
+        model_path.write_bytes(
+            f"{artifact['refit_id']}:{artifact['artifact_id']}".encode("utf-8")
+        )
+
+
 def _filtration_plan() -> dict[str, object]:
     return {
         "schema_version": 1,
         "upstream_model_set_id": "models-v1",
+        "upstream_model_artifacts": [
+            {"refit_id": refit_id, "artifact_id": "fit", "path": f"models/{refit_id}.bin"}
+            for refit_id in ("r00", "r01")
+        ],
         "external_dataset_id": "external-v1",
         "roster": {"path": "roster.csv", "format": "csv", "row_id_column": "row_id"},
         "refit_ids": ["r00", "r01"],
@@ -60,6 +73,10 @@ def _paired_lattice_plan() -> dict[str, object]:
     return {
         "schema_version": 1,
         "upstream_model_set_id": "models-v1",
+        "upstream_model_artifacts": [
+            {"refit_id": refit_id, "artifact_id": "fit", "path": f"models/{refit_id}.bin"}
+            for refit_id in ("r00", "r01")
+        ],
         "external_dataset_id": "external-v1",
         "roster": {
             "path": "roster.csv",
@@ -143,8 +160,10 @@ def test_independent_generator_freezes_route_and_evidence(tmp_path: Path):
         tmp_path / "roster.csv",
         [{"row_id": f"g{g}-b{b}"} for g in range(2) for b in range(8)],
     )
+    plan_payload = _filtration_plan()
+    _materialize_model_artifacts(tmp_path, plan_payload)
     plan = tmp_path / "plan.json"
-    plan.write_text(json.dumps(_filtration_plan()), encoding="utf-8")
+    plan.write_text(json.dumps(plan_payload), encoding="utf-8")
     manifest = tmp_path / "freeze.json"
     create_external_freeze_manifest(plan, manifest)
     payload = json.loads(manifest.read_text(encoding="utf-8"))
@@ -161,8 +180,10 @@ def test_paired_generator_freezes_route_and_evidence(tmp_path: Path):
         tmp_path / "roster.csv",
         [{"row_id": f"g{g}-b{b}"} for g in range(3) for b in range(8)],
     )
+    plan_payload = _filtration_plan()
+    _materialize_model_artifacts(tmp_path, plan_payload)
     plan = tmp_path / "plan.json"
-    plan.write_text(json.dumps(_filtration_plan()), encoding="utf-8")
+    plan.write_text(json.dumps(plan_payload), encoding="utf-8")
     manifest = tmp_path / "freeze.json"
     create_paired_external_freeze_manifest(plan, manifest)
     payload = json.loads(manifest.read_text(encoding="utf-8"))
@@ -187,8 +208,10 @@ def test_paired_lattice_generator_freezes_route_and_evidence(tmp_path: Path):
             for b in range(8)
         ],
     )
+    plan_payload = _paired_lattice_plan()
+    _materialize_model_artifacts(tmp_path, plan_payload)
     plan = tmp_path / "plan.json"
-    plan.write_text(json.dumps(_paired_lattice_plan()), encoding="utf-8")
+    plan.write_text(json.dumps(plan_payload), encoding="utf-8")
     manifest = tmp_path / "freeze.json"
     create_paired_external_lattice_freeze_manifest(plan, manifest)
     payload = json.loads(manifest.read_text(encoding="utf-8"))
