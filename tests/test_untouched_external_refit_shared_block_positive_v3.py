@@ -71,6 +71,10 @@ def _freeze_plan() -> dict[str, object]:
     return {
         "schema_version": 1,
         "upstream_model_set_id": "paired-model-set-v1",
+        "upstream_model_artifacts": [
+            {"refit_id": refit_id, "artifact_id": "fit", "path": f"models/{refit_id}.bin"}
+            for refit_id in ("r00", "r01", "r02")
+        ],
         "external_dataset_id": "paired-external-v1",
         "roster": {"path": "roster.csv", "format": "csv", "row_id_column": "row_id"},
         "refit_ids": ["r00", "r01", "r02"],
@@ -104,6 +108,7 @@ def _external_contract(manifest: Path) -> dict[str, object]:
     return {
         "schema_version": 1,
         "endpoint_id": "paired-external-test-v3",
+        "upstream_model_artifacts": _freeze_plan()["upstream_model_artifacts"],
         "data": {"path": "scores.csv", "format": "csv"},
         "columns": {
             "row_id": "row_id",
@@ -168,8 +173,15 @@ def _setup(
 ):
     roster = tmp_path / "roster.csv"
     _write_csv(roster, [{"row_id": row_id} for row_id in _row_ids()])
+    plan_payload = _freeze_plan()
+    for artifact in plan_payload["upstream_model_artifacts"]:
+        model_path = tmp_path / artifact["path"]
+        model_path.parent.mkdir(parents=True, exist_ok=True)
+        model_path.write_bytes(
+            f"{artifact['refit_id']}:{artifact['artifact_id']}".encode("utf-8")
+        )
     plan = tmp_path / "freeze-plan.json"
-    plan.write_text(json.dumps(_freeze_plan()), encoding="utf-8")
+    plan.write_text(json.dumps(plan_payload), encoding="utf-8")
     manifest = tmp_path / "freeze-paired.json"
     create_paired_external_freeze_manifest(plan, manifest)
     scores = tmp_path / "scores.csv"
@@ -261,3 +273,14 @@ def test_paired_confirmatory_route_tamper_fails_even_with_updated_manifest_hash(
     contract_path.write_text(json.dumps(contract), encoding="utf-8")
     with pytest.raises(ValueError, match="confirmatory_route"):
         run_untouched_external_refit_shared_block_positive_contract_v3(contract_path)
+
+
+def test_paired_external_v3_model_bytes_cannot_change_after_freeze(tmp_path: Path):
+    manifest, _, contract = _setup(tmp_path)
+    payload = json.loads(manifest.read_text(encoding="utf-8"))
+    assert payload["upstream_model_artifact_lock_id"] == (
+        "odsp-upstream-model-artifact-lock-v1"
+    )
+    (tmp_path / "models/r01.bin").write_bytes(b"mutated-after-freeze")
+    with pytest.raises(ValueError, match="upstream model artifact snapshot mismatch"):
+        run_untouched_external_refit_shared_block_positive_contract_v3(contract)
