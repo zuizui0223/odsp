@@ -34,7 +34,7 @@ def test_independent_external_route_snapshot_reaches_statistical_core():
     for required in (
         "odsp/untouched_external_refit_positive_contract_v2.py",
         "odsp/frozen_confirmatory_route.py",
-        "odsp/refit_positive_robustness.py",
+        "odsp/refit_positive_information_transfer.py",
         "odsp/information_transfer_positive_v2.py",
         "odsp/positive_transfer_bootstrap_t.py",
         "odsp/bootstrap_t.py",
