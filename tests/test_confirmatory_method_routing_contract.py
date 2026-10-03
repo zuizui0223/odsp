@@ -28,6 +28,9 @@ def test_machine_contract_freezes_calibrated_directional_family_sizes():
     assert scope["paired_lattice_information_block_counts"] == [2, 3]
     assert scope["paired_lattice_edge_counts"] == [4, 12]
     assert scope["four_or_more_paired_lattice_blocks_primary"] is False
+    assert scope["independent_fixed_set_untouched_external_lattice_primary"] is True
+    assert scope["independent_fixed_set_untouched_external_lattice_information_block_counts"] == [2, 3]
+    assert scope["independent_fixed_set_untouched_external_lattice_edge_counts"] == [4, 12]
 
 
 def test_machine_contract_freezes_calibrated_bidirectional_family_sizes():
@@ -55,6 +58,9 @@ def test_machine_contract_marks_legacy_and_refit_mixture_as_sensitivity_only():
     ] == "bidirectional_confirmatory"
     assert surfaces[
         "odsp.information_transfer_positive_v2.certify_positive_information_transfer_v2"
+    ] == "primary_confirmatory"
+    assert surfaces[
+        "odsp.untouched_external_refit_independent_positive_lattice_contract_v5.run_untouched_external_independent_all_refit_lattice_contract_v5"
     ] == "primary_confirmatory"
 
 
