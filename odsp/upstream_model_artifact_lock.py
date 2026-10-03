@@ -131,8 +131,8 @@ def normalize_upstream_model_artifact_snapshot(
 
     frozen_refits = _normalized_refit_ids(refit_ids)
     frozen_refit_set = set(frozen_refits)
-    if not isinstance(raw, list) or not raw:
-        raise ValueError("upstream model artifact snapshot must be a non-empty JSON array")
+    if not isinstance(raw, Sequence) or isinstance(raw, (str, bytes, bytearray)) or not raw:
+        raise ValueError("upstream model artifact snapshot must be a non-empty sequence")
     rows: list[dict[str, str]] = []
     seen: set[tuple[str, str]] = set()
     represented: set[str] = set()
