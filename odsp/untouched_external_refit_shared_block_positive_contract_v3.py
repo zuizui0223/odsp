@@ -27,6 +27,10 @@ from .untouched_external_refit_positive_contract import (
     _identifier,
     load_untouched_external_refit_positive_contract,
 )
+from .upstream_model_artifact_lock import (
+    MODEL_ARTIFACT_LOCK_ID,
+    verify_optional_upstream_model_artifact_lock,
+)
 from .untouched_external_refit_positive_contract_v2 import (
     _assert_equal,
     _normalize_manifest_certification,
@@ -41,6 +45,8 @@ _MANIFEST_FIELDS = {
     "manifest_type",
     "frozen_at_utc",
     "upstream_model_set_id",
+    "upstream_model_artifact_lock_id",
+    "upstream_model_artifact_snapshot",
     "external_dataset_id",
     "external_row_ids_sha256",
     "validation_design",
@@ -256,6 +262,13 @@ def verify_paired_external_freeze_semantic_lock(
         )
     )
     _assert_equal(frozen_refits, refit_ids, field="refit_ids")
+    model_lock_id, runtime_model_snapshot = verify_optional_upstream_model_artifact_lock(
+        frozen_lock_id=manifest.get("upstream_model_artifact_lock_id"),
+        frozen_snapshot=manifest.get("upstream_model_artifact_snapshot"),
+        declarations=contract["upstream_model_artifacts"],
+        base_dir=contract_path.parent,
+        refit_ids=refit_ids,
+    )
 
     cert = contract["certification"]
     assert isinstance(cert, Mapping)
@@ -302,6 +315,8 @@ def verify_paired_external_freeze_semantic_lock(
             manifest.get("upstream_model_set_id"),
             name="freeze manifest.upstream_model_set_id",
         ),
+        "upstream_model_artifact_lock_id": model_lock_id,
+        "upstream_model_artifact_snapshot": [dict(row) for row in runtime_model_snapshot],
         "external_dataset_id": _text(
             manifest.get("external_dataset_id"),
             name="freeze manifest.external_dataset_id",
@@ -352,6 +367,9 @@ def run_untouched_external_refit_shared_block_positive_contract_v3(
     if not freeze_path.is_absolute():
         freeze_path = contract_path.parent / freeze_path
 
+    model_artifact_content_locked = (
+        semantic_lock["upstream_model_artifact_lock_id"] == MODEL_ARTIFACT_LOCK_ID
+    )
     return {
         "receipt_type": "odsp_untouched_external_refit_shared_block_positive_validation_endpoint_v3",
         "endpoint_id": contract["endpoint_id"],
@@ -379,6 +397,10 @@ def run_untouched_external_refit_shared_block_positive_contract_v3(
             "runtime_analysis_matches_frozen_manifest": True,
             "confirmatory_route_locked_before_outcome_access": True,
             "runtime_confirmatory_route_matches_frozen_manifest": True,
+            "upstream_model_artifact_bytes_frozen_before_outcome_access": model_artifact_content_locked,
+            "runtime_model_artifact_bytes_match_frozen_manifest": model_artifact_content_locked,
+            "historical_freeze_artifact_auto_upgraded": False,
+            "score_table_derivation_from_frozen_models_independently_proven": False,
             "paired_shared_block_design_frozen_before_outcome_access": True,
             "exact_positive_mass_shared_block_support_required": True,
             "missing_shared_blocks_imputed": False,
