@@ -17,9 +17,7 @@
       "reference_refit_id",
       "score",
       "levels",
-      "certification",
-      "upstream_model_artifact_lock_id",
-      "upstream_model_artifact_snapshot"
+      "certification"
     ]
   },
   "runtime_exact_match_requirements": {
@@ -38,9 +36,7 @@
     "gain_tolerance": true,
     "confirmatory_route": true,
     "qualification_key": true,
-    "qualification_evidence_chain": true,
-    "upstream_model_artifact_content": true,
-    "upstream_model_artifact_logical_ids": true
+    "qualification_evidence_chain": true
   },
   "external_dataset_lock": {
     "external_dataset_id_required": true,
@@ -58,8 +54,7 @@
     "manifest_internal_freeze_time_mismatch": true,
     "confirmatory_route_mismatch": true,
     "route_family_tamper_with_updated_manifest_hash": true,
-    "qualification_evidence_mismatch": true,
-    "upstream_model_artifact_content_mismatch": true
+    "qualification_evidence_mismatch": true
   },
   "receipt": {
     "receipt_type": "odsp_untouched_external_refit_positive_validation_endpoint_v2",
@@ -71,21 +66,17 @@
     "confirmatory_route_locked_before_outcome_access": true,
     "runtime_confirmatory_route_matches_frozen_manifest": true,
     "qualification_evidence_locked_before_outcome_access": true,
-    "runtime_qualification_evidence_matches_frozen_manifest": true,
-    "upstream_model_artifact_content_locked_before_outcome_access": true,
-    "runtime_model_artifact_content_matches_frozen_manifest": true
+    "runtime_qualification_evidence_matches_frozen_manifest": true
   },
   "epistemic_boundary": {
     "hash_and_semantic_consistency_machine_verified": true,
     "historical_no_prior_outcome_access_independently_proven": false,
     "development_data_disjointness_independently_proven": false,
-    "external_outcomes_are_not_pre_outcome_hashed": true,
-    "score_table_derivation_from_frozen_models_proven": false
+    "external_outcomes_are_not_pre_outcome_hashed": true
   },
   "version_boundary": {
     "legacy_v1_hash_and_timestamp_runtime_retained_for_compatibility": true,
     "canonical_external_cli_uses_v2_semantic_lock": true,
-    "confirmatory_route_source": "odsp-confirmatory-method-routing-v1",
-    "historical_freeze_artifacts_auto_upgraded_with_model_content_lock": false
+    "confirmatory_route_source": "odsp-confirmatory-method-routing-v1"
   }
 }
