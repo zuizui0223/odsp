@@ -3,6 +3,11 @@ from __future__ import annotations
 
 from typing import Mapping
 
+from .confirmatory_environment_lock import (
+    ENVIRONMENT_LOCK_ID,
+    normalize_runtime_environment_snapshot,
+    runtime_environment_snapshot_for_surface,
+)
 from .confirmatory_implementation_lock import (
     IMPLEMENTATION_LOCK_ID,
     implementation_source_snapshot_for_surface,
@@ -33,6 +38,8 @@ _ROUTE_FIELDS = {
     "qualification_evidence_artifacts",
     "implementation_lock_id",
     "implementation_source_snapshot",
+    "environment_lock_id",
+    "runtime_environment_snapshot",
 }
 
 
@@ -71,6 +78,9 @@ def build_frozen_confirmatory_route(
     implementation_snapshot = implementation_source_snapshot_for_surface(
         decision.canonical_surface
     )
+    environment_snapshot = runtime_environment_snapshot_for_surface(
+        decision.canonical_surface
+    )
     if not evidence_artifacts:
         raise ValueError(
             "primary_confirmatory route is missing registered qualification evidence SHA256"
@@ -96,6 +106,8 @@ def build_frozen_confirmatory_route(
         "implementation_source_snapshot": [
             dict(row) for row in implementation_snapshot
         ],
+        "environment_lock_id": ENVIRONMENT_LOCK_ID,
+        "runtime_environment_snapshot": environment_snapshot,
     }
 
 
@@ -255,6 +267,10 @@ def normalize_frozen_confirmatory_route(raw: object) -> dict[str, object]:
             "must not contain duplicate source paths"
         )
 
+    environment_snapshot = normalize_runtime_environment_snapshot(
+        raw["runtime_environment_snapshot"]
+    )
+
     return {
         "router_contract_id": _text("router_contract_id"),
         "role": _text("role"),
@@ -273,6 +289,8 @@ def normalize_frozen_confirmatory_route(raw: object) -> dict[str, object]:
         "qualification_evidence_artifacts": snapshot,
         "implementation_lock_id": _text("implementation_lock_id"),
         "implementation_source_snapshot": implementation_snapshot,
+        "environment_lock_id": _text("environment_lock_id"),
+        "runtime_environment_snapshot": environment_snapshot,
     }
 
 
