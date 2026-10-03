@@ -143,6 +143,17 @@ With oracle conditional distributions under log score, expected score difference
 
 In other words, the comparator defines the predictive information increment being measured. Reference-to-claim alignment therefore proceeds from the scientific sentence, not from a universal ranking of baselines. If species identity is already assumed and context is focal, the reference should know species. If species identity itself is focal, the reference should not know species.
 
+### 2.1.1 Scientific claim determines the lower-information reference
+
+| Example | Scientific claim | Information treated as already known | Focal information | Lower-information reference | Richer prediction | Interpretable held-out increment |
+| --- | --- | --- | --- | --- | --- | --- |
+| Stage-1 explicit layer | Context transfers beyond layer identity | Layer identity | Context | Layer-conditioned outcome distribution | Layer + context | Context beyond layer |
+| Stage-1 proxy audit | Context adds information after layer is made explicit | Layer identity | Context | Layer-aware predictive distribution | Layer + context | Context beyond explicit layer |
+| Palmer Penguins | Morphology adds island information beyond species | Species identity | Morphology | Species-conditioned island distribution | Species + morphology | Morphology beyond species |
+| Snapshot Serengeti | Species identity predicts detected time | No species information | Species identity | Species-blind pooled time distribution | Species-conditioned time distribution | Species identity beyond pooling |
+
+The table makes the rule operational. The reference is not selected because it is always more complex, more conservative or harder to beat. It is selected because its information set matches what the scientific sentence places on the left side of “beyond”. The same system can legitimately support more than one row if the study asks more than one question.
+
 ### 2.2 Stage 1: preregistered known-truth identification and power experiment
 
 The Stage-1 contract was merged before any simulation result was generated and was executed once. Binary outcomes followed a logistic data-generating process with an intercept, a layer effect and a within-layer context effect. The factorial design varied layer effect, true context effect, number of independent groups, observations per group, number of layers, layer-context correlation and whether layer identity entered the learner.
