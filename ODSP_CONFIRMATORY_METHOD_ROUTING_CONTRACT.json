@@ -138,5 +138,16 @@
     "artifact_sha256_frozen": true,
     "same_filename_changed_content_detected": true,
     "content_lock_contract": "ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V1.json"
+  },
+  "implementation_identity": {
+    "contract": "ODSP_CONFIRMATORY_IMPLEMENTATION_LOCK_V1.json",
+    "implementation_lock_id": "odsp-confirmatory-implementation-lock-v1",
+    "canonical_surface_module_is_root": true,
+    "recursive_odsp_internal_import_closure": true,
+    "ordered_source_path_sha256_snapshot": true,
+    "pre_outcome_freeze_required": true,
+    "runtime_exact_snapshot_match_required": true,
+    "dynamic_odsp_imports_qualified": false,
+    "unrelated_repository_files_included": false
   }
 }

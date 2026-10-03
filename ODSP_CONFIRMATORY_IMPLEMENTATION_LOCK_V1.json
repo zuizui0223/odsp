@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-confirmatory-implementation-lock-v1",
+  "date": "2026-10-03",
+  "purpose": "freeze the exact ODSP internal source implementation used by a canonical untouched-external confirmatory route before outcome access",
+  "discovery": {
+    "root": "canonical_surface module",
+    "method": "recursive static AST traversal of ODSP-internal Python imports",
+    "imports_executed": false,
+    "external_library_source_frozen": false,
+    "dynamic_odsp_imports_allowed": false,
+    "wildcard_relative_or_odsp_imports_allowed": false
+  },
+  "freeze": {
+    "implementation_lock_id_frozen": true,
+    "ordered_source_paths_frozen": true,
+    "source_sha256_frozen": true,
+    "pre_outcome": true
+  },
+  "runtime": {
+    "implementation_closure_recomputed": true,
+    "exact_snapshot_match_required": true,
+    "same_path_changed_content_allowed": false
+  },
+  "scope": {
+    "applies_to_canonical_untouched_external_confirmatory_routes": true,
+    "unrelated_repository_files_included": false,
+    "changes_statistical_estimand": false,
+    "recomputes_calibration": false
+  },
+  "historical_governance": {
+    "empirical_endpoint_rerun": false,
+    "terminal_reclassification": false,
+    "post_outcome_retroactive_upgrade_allowed": false
+  }
+}
