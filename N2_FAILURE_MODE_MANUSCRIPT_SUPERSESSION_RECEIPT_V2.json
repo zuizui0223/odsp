@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "receipt_id": "n2-failure-mode-manuscript-supersession-v2",
+  "date": "2026-10-03",
+  "historical_failure_mode_contract": "N2_MEE_FAILURE_MODE_MANUSCRIPT_V1_CONTRACT.json",
+  "historical_failure_mode_v1_preserved": true,
+  "historical_failure_mode_v1_submission_authorized": false,
+  "replacement_contract": "N2_MEE_REFERENCE_ALIGNMENT_MANUSCRIPT_V2_CONTRACT.json",
+  "replacement_positioning": "reference_to_claim_alignment",
+  "reason": "the frozen evidence supports a constructive general principle about the semantics of predictive score contrasts; failure cases are retained as stress tests rather than the paper's scientific identity",
+  "stage1_result_rerun": false,
+  "stage2_result_rerun": false,
+  "frozen_stage1_decision_rewritten": false,
+  "frozen_stage2_decision_rewritten": false,
+  "method_surface_growth_authorized": false,
+  "provenance_hardening_added_to_manuscript": false
+}

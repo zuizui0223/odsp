@@ -1,0 +1,196 @@
+{
+  "schema_version": 2,
+  "contract_id": "n2-mee-reference-to-claim-alignment-manuscript-v2",
+  "date": "2026-10-03",
+  "target_journal": "Methods in Ecology and Evolution",
+  "article_type": "Research Article",
+  "working_title": "Claim-aligned reference models isolate transferable predictive information in hierarchical ecological data",
+  "one_sentence_claim": "A held-out score gain measures information relative to its reference; aligning that reference with the scientific claim separates identity information from the focal transferable predictive increment.",
+  "positioning": {
+    "reference_to_claim_alignment_paper": true,
+    "failure_mode_paper": false,
+    "framework_paper": false,
+    "odsp_is_primary_novelty_claim": false,
+    "odsp_role": "supporting implementation for held-out score accounting, frozen experiments and reproducible audits",
+    "stage1_role": "known_truth_identification_and_power_test",
+    "penguins_role": "fresh_empirical_sign_reversal",
+    "buteo_role": "post_outcome_motivating_decomposition_only",
+    "serengeti_role": "semantic_boundary_control",
+    "published_literature_prevalence_claimed": false
+  },
+  "scientific_principle": {
+    "name": "reference-to-claim alignment",
+    "statement": "the comparator defines the predictive information increment being measured; every information layer excluded from the focal transfer claim must already be represented in the reference",
+    "not_a_rule_to_condition_every_reference": true,
+    "identity_is_focal_information_boundary": "when identity itself is the claimed transferable information, an identity-blind pooled reference is appropriate",
+    "predictive_generalization_distinct_from_information_attribution": true,
+    "causal_identification_claimed": false
+  },
+  "conceptual_bridge": {
+    "heldout_score_identity": "Delta_total = [S(layer)-S(pool)] + [S(full)-S(layer)]",
+    "focal_increment": "Delta_focal = S(full)-S(reference_aligned_to_claim)",
+    "log_score_information_interpretation": "under an oracle conditional distribution, an expected log-score increment corresponds to conditional information; finite-sample ODSP estimates are interpreted as realized held-out predictive increments rather than causal information",
+    "proper_scoring_reference": "Gneiting and Raftery 2007",
+    "structured_cv_reference": "Roberts et al. 2017",
+    "baseline_selection_context": "Stapper and Funk 2025 preprint"
+  },
+  "canonical_evidence": {
+    "stage1_contract": "N2_STRATIFIED_CONTEXT_TRANSFER_FAILURE_MODE_STAGE1_CONTRACT.json",
+    "stage1_result": "N2_STAGE1_FAILURE_MODE_RESULT_RECEIPT_V1.json",
+    "stage2_contract": "N2_POOLED_REFERENCE_FAILURE_MODE_STAGE2_REAL_DATA_CONTRACT.json",
+    "stage2_result": "N2_STAGE2_REAL_DATA_RESULT_RECEIPT_V1.json",
+    "bop_species_decomposition": "BOP_RODENT_SPECIES_BASELINE_AMENDMENT_RECEIPT.json",
+    "bop_population_corrected": "BOP_RODENT_POPULATION_TRANSFER_AMENDMENT_RECEIPT_V2.json",
+    "serengeti_semantic_control": "N2_SERENGETI_TEMPORAL_TERMINAL_RECEIPT.json",
+    "historical_failure_mode_manuscript": "N2_MEE_FAILURE_MODE_MANUSCRIPT_V1_CONTRACT.json"
+  },
+  "abstract": {
+    "maximum_words": 350,
+    "required_sequence": [
+      "problem: predictive improvement is always relative to a reference, but ecological interpretations often name a narrower information source than that reference contrast isolates",
+      "principle: define the reference from the scientific claim",
+      "known-truth identification: pooled reference credits layer identity or its proxy to context, while claim-aligned conditioning controls false attribution",
+      "power: conditioning retains sensitivity to real context information",
+      "fresh empirical sign reversal: Palmer Penguins",
+      "semantic boundary: Snapshot Serengeti shows pooling is correct when identity is itself the claim",
+      "conclusion: reference-to-claim alignment turns predictive skill into an interpretable information contrast"
+    ],
+    "failure_mode_language_allowed_as_primary_framing": false
+  },
+  "stage1_results_required": {
+    "anchor_A_pooled_positive_rate": 1,
+    "anchor_A_conditioned_context_rate": 0,
+    "anchor_B_pooled_positive_rate": 1,
+    "anchor_B_conditioned_context_rate": 0,
+    "anchor_C_pooled_positive_rate": 0,
+    "anchor_C_conditioned_context_rate": 0.001,
+    "failure_relevant_null_cell_count": 162,
+    "failure_relevant_mean_pooled_positive_rate": 0.8961226851851852,
+    "bop_realistic_mean_pooled_positive_rate": 0.9510995370370371,
+    "context_power_correlated": 0.959,
+    "context_power_uncorrelated": 1,
+    "auc_anchor_A_positive_rate": 0.062,
+    "auc_anchor_B_positive_rate": 0.041
+  },
+  "stage2_results_required": {
+    "palmer_penguins": {
+      "row_count": 342,
+      "cluster_count": 3,
+      "cluster_df": 2,
+      "naive_pooled_mean_gain": 0.3894565006712757,
+      "naive_pooled_95_interval": [
+        0.27893400203849444,
+        0.4999789993040569
+      ],
+      "layer_mean_gain": 0.5360132625954789,
+      "context_mean_gain": -0.08374806363025576,
+      "context_95_interval": [
+        -0.09022391720325132,
+        -0.0772722100572602
+      ],
+      "total_audit_mean_gain": 0.4522651989652231,
+      "decision": "fresh_empirical_reversal"
+    },
+    "buteo_sentinel": {
+      "total": 0.2303113866257108,
+      "layer": 0.27361852000969283,
+      "context": -0.04330713338398338,
+      "role": "motivation_only"
+    },
+    "bop_population": {
+      "total_mean_gain": 0.5709102207418053,
+      "corrected_95_interval": [
+        -0.29300080792551697,
+        1.4348212494091275
+      ],
+      "status": "uncertain"
+    },
+    "serengeti": {
+      "heldout_gains": [
+        0.0572411993741857,
+        0.045158861333215006,
+        0.04514355468571751
+      ],
+      "pooled_reference_scientifically_appropriate": true
+    }
+  },
+  "manuscript_structure": [
+    "Introduction: predictive skill is a contrast, not an attribution",
+    "Principle: claim-aligned references define the estimand",
+    "Known-truth identification and power",
+    "Fresh real-data sign reversal",
+    "Semantic boundary control",
+    "Practical reference-selection workflow",
+    "Discussion: implications for ecological prediction"
+  ],
+  "figures": [
+    {
+      "figure": 1,
+      "purpose": "claim-to-reference map",
+      "panels": [
+        "identity not focal: condition identity in reference",
+        "identity focal: pooled reference",
+        "proxy path: context recovers identity signal"
+      ]
+    },
+    {
+      "figure": 2,
+      "purpose": "known-truth identification and power",
+      "panels": [
+        "A/B/C declaration rates",
+        "factorial null map",
+        "true-context power",
+        "AUC versus log-score diagnostic"
+      ]
+    },
+    {
+      "figure": 3,
+      "purpose": "empirical triangulation",
+      "panels": [
+        "Palmer naive versus claim-aligned gains",
+        "Buteo descriptive decomposition",
+        "Serengeti semantic boundary"
+      ]
+    }
+  ],
+  "table1": {
+    "title": "Scientific claim determines the lower-information reference",
+    "columns": [
+      "system",
+      "target",
+      "information already assumed",
+      "focal information",
+      "reference",
+      "full predictor",
+      "interpretable increment"
+    ]
+  },
+  "limitations": [
+    "Stage 2 does not estimate prevalence in published ecological studies",
+    "Penguins has three dependence clusters, so mean intervals use CR1 with t(2) and superpopulation certainty is limited",
+    "BOP has four species clusters and is descriptive for the present paper",
+    "score decomposition attributes predictive information, not biological causality",
+    "the scientific hierarchy must be declared; software cannot infer the correct claim"
+  ],
+  "development_freeze": {
+    "new_certification_families_allowed": false,
+    "new_lattice_qualifications_allowed": false,
+    "new_untouched_external_provenance_layers_allowed": false,
+    "new_primary_real_data_systems_allowed": false,
+    "stage1_rerun_allowed": false,
+    "stage2_rerun_allowed": false,
+    "manuscript_only_reframe": true
+  },
+  "manuscript_quality": {
+    "target_main_text_word_range": [
+      3800,
+      5500
+    ],
+    "title_must_not_contain": [
+      "failure",
+      "misidentify"
+    ],
+    "abstract_primary_frame": "constructive_reference_alignment_principle",
+    "historical_failure_language_allowed_only_for_stress_test_interpretation": true
+  }
+}
