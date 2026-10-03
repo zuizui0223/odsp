@@ -89,6 +89,13 @@ def test_runtime_rejects_tampered_implementation_digest():
         )
 
 
+def test_surface_snapshot_requires_declared_callable_to_exist():
+    with pytest.raises(ValueError, match="callable"):
+        implementation_source_snapshot_for_surface(
+            "odsp.untouched_external_refit_positive_contract_v2.missing_callable"
+        )
+
+
 def test_surface_snapshot_fails_closed_outside_odsp_package():
     with pytest.raises(ValueError, match="odsp"):
         implementation_source_snapshot_for_surface("thirdparty.module.run")
