@@ -45,6 +45,9 @@ def test_environment_snapshot_fails_closed_when_external_import_has_no_distribut
         "run_untouched_external_refit_positive_contract_v2"
     )
     monkeypatch.setattr(environment_lock.metadata, "packages_distributions", lambda: {})
+    def _missing_distribution(_name: str) -> str:
+        raise environment_lock.metadata.PackageNotFoundError(_name)
+    monkeypatch.setattr(environment_lock.metadata, "version", _missing_distribution)
     with pytest.raises(ValueError, match="cannot map external import"):
         runtime_environment_snapshot_for_surface(surface)
 
