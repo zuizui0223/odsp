@@ -10,8 +10,6 @@ from __future__ import annotations
 import ast
 import hashlib
 from pathlib import Path
-from typing import Iterable
-
 
 IMPLEMENTATION_LOCK_ID = "odsp-confirmatory-implementation-lock-v1"
 _PACKAGE_NAME = "odsp"
@@ -119,12 +117,31 @@ def _module_name_from_surface(surface: str) -> str:
     value = str(surface).strip()
     if not value or "." not in value:
         raise ValueError("canonical surface must be a fully qualified odsp callable")
-    module_name, _callable = value.rsplit(".", 1)
+    module_name, callable_name = value.rsplit(".", 1)
     if not module_name.startswith(_PACKAGE_NAME + "."):
         raise ValueError("canonical surface must resolve inside the odsp package")
-    if _module_path(module_name) is None:
+    path = _module_path(module_name)
+    if path is None:
         raise ValueError(
             f"canonical surface module does not exist inside odsp: {module_name}"
+        )
+    if not callable_name:
+        raise ValueError("canonical surface callable must be non-empty")
+    try:
+        tree = ast.parse(path.read_text(encoding="utf-8"), filename=path.as_posix())
+    except SyntaxError as exc:
+        raise ValueError(
+            f"cannot parse canonical surface module inside odsp: {module_name}"
+        ) from exc
+    declared = {
+        node.name
+        for node in tree.body
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+    }
+    if callable_name not in declared:
+        raise ValueError(
+            "canonical surface callable does not exist as a top-level function: "
+            f"{value}"
         )
     return module_name
 
