@@ -45,7 +45,8 @@
     "ODSP_UNTOUCHED_EXTERNAL_PAIRED_ALL_REFIT_LATTICE_V4_CONTRACT.json": "a6e09c958f7e51e9f77124711b1ed5f67c63a579b45f34d266a6da237cd04430",
     "ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json": "a80a92f82487a3eba8298de9bf15cee189a3b417503ae727e981a5f11ac0ccef",
     "PAIRED_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json": "664dcb27526464e9f3f70cb09de6c6d7df525009c8c41280d74967d85610a960",
-    "PAIRED_ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json": "54f45559b9fcc6db6a42058cd6a76dd7fef6b48810258003eb019cbc0dfd0098"
+    "PAIRED_ONE_SIDED_POSITIVE_BOOTSTRAP_T_NULL_CALIBRATION_RECEIPT.json": "54f45559b9fcc6db6a42058cd6a76dd7fef6b48810258003eb019cbc0dfd0098",
+    "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json": "cde0b86d8c2e11ce94b111a6b42663814e257efcc4aa0e2cdddbb70c88041838"
   },
   "evidence_by_route_key": {
     "alternative=greater|validation_design=independent_groups|information_structure=complete_lattice|upstream_refits=fixed_set|external_validation=none|information_block_count=2|edge_count=4": [
@@ -56,6 +57,7 @@
     ],
     "alternative=greater|validation_design=independent_groups|information_structure=complete_lattice|upstream_refits=fixed_set|external_validation=none|information_block_count=3|edge_count=12": [
       "INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json",
+      "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json",
       "ODSP_INDEPENDENT_DIRECTIONAL_LATTICE_4_12EDGE_CONTRACT.json",
       "ODSP_ALL_REFIT_INDEPENDENT_DIRECTIONAL_LATTICE_4_12EDGE_CONTRACT.json"
     ],
@@ -68,6 +70,7 @@
     ],
     "alternative=greater|validation_design=independent_groups|information_structure=complete_lattice|upstream_refits=fixed_set|external_validation=untouched_frozen|information_block_count=3|edge_count=12": [
       "INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json",
+      "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json",
       "ODSP_INDEPENDENT_DIRECTIONAL_LATTICE_4_12EDGE_CONTRACT.json",
       "ODSP_ALL_REFIT_INDEPENDENT_DIRECTIONAL_LATTICE_4_12EDGE_CONTRACT.json",
       "ODSP_UNTOUCHED_EXTERNAL_INDEPENDENT_ALL_REFIT_LATTICE_V5_CONTRACT.json"
@@ -79,6 +82,7 @@
     ],
     "alternative=greater|validation_design=independent_groups|information_structure=complete_lattice|upstream_refits=none|external_validation=none|information_block_count=3|edge_count=12": [
       "INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json",
+      "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json",
       "ODSP_INDEPENDENT_DIRECTIONAL_LATTICE_4_12EDGE_CONTRACT.json"
     ],
     "alternative=greater|validation_design=independent_groups|information_structure=filtration|upstream_refits=fixed_set|external_validation=none|contrast_count=2": [
