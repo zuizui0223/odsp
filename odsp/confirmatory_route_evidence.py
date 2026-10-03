@@ -229,7 +229,6 @@ _register(
         information_block_count=3,
     ),
     _INDEPENDENT_LATTICE_12,
-    _C12_ENVELOPE,
     _INDEPENDENT_LATTICE,
 )
 _register(
@@ -256,7 +255,6 @@ _register(
         information_block_count=3,
     ),
     _INDEPENDENT_LATTICE_12,
-    _C12_ENVELOPE,
     _INDEPENDENT_LATTICE,
     _ALL_REFIT_INDEPENDENT_LATTICE,
 )
