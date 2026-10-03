@@ -107,6 +107,33 @@ def test_paired_external_lattice_evidence_is_route_specific_and_frozen():
     )
 
 
+def test_independent_external_lattice_evidence_is_family_specific_and_frozen():
+    four = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="complete_lattice",
+        upstream_refits="fixed_set",
+        external_validation="untouched_frozen",
+        information_block_count=2,
+    )
+    twelve = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="complete_lattice",
+        upstream_refits="fixed_set",
+        external_validation="untouched_frozen",
+        information_block_count=3,
+    )
+    external = "ODSP_UNTOUCHED_EXTERNAL_INDEPENDENT_ALL_REFIT_LATTICE_V5_CONTRACT.json"
+    assert four.role == "primary_confirmatory"
+    assert twelve.role == "primary_confirmatory"
+    assert four.qualification_evidence[-1] == external
+    assert twelve.qualification_evidence[-1] == external
+    assert "INDEPENDENT_C4_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" in four.qualification_evidence
+    assert "INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json" in twelve.qualification_evidence
+    assert four.qualification_key != twelve.qualification_key
+
+
 def test_unqualified_and_sensitivity_routes_have_no_qualification_chain():
     unqualified = route_confirmatory_method(
         alternative="greater",
@@ -130,14 +157,16 @@ def test_unqualified_and_sensitivity_routes_have_no_qualification_chain():
     assert sensitivity.qualification_evidence == ()
 
 
-def test_registry_matches_python_and_all_evidence_files_exist():
+def test_historical_v2_registry_is_retained_as_a_current_registry_subset():
     payload = json.loads(REGISTRY.read_text(encoding="utf-8"))
     assert payload["schema_version"] == 2
     assert payload["registry_id"] == "odsp-confirmatory-route-evidence-v2"
-    assert payload["evidence_by_route_key"] == {
-        key: list(value)
-        for key, value in sorted(CONFIRMATORY_EVIDENCE_BY_ROUTE_KEY.items())
-    }
+    historical = payload["evidence_by_route_key"]
+    assert historical
+    for key, chain in historical.items():
+        assert key in CONFIRMATORY_EVIDENCE_BY_ROUTE_KEY
+        assert list(CONFIRMATORY_EVIDENCE_BY_ROUTE_KEY[key]) == chain
+
     for key, evidence in CONFIRMATORY_EVIDENCE_BY_ROUTE_KEY.items():
         assert qualification_evidence_for_route_key(key) == evidence
         assert evidence
