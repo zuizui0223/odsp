@@ -62,12 +62,21 @@ def _distribution_versions_for_modules(
     package_map = metadata.packages_distributions()
     distribution_names: set[str] = set()
     for module in modules:
-        candidates = package_map.get(module) or ()
+        candidates = tuple(package_map.get(module) or ())
         if not candidates:
-            raise ValueError(
-                "confirmatory runtime environment cannot map external import "
-                f"{module!r} to an installed distribution"
-            )
+            # Python/importlib.metadata versions differ in how completely
+            # packages_distributions() reconstructs top-level import mappings.
+            # A same-name installed distribution is an unambiguous conservative
+            # fallback (for example numpy -> numpy); absence of both mappings
+            # still fails closed.
+            try:
+                metadata.version(module)
+            except metadata.PackageNotFoundError as exc:
+                raise ValueError(
+                    "confirmatory runtime environment cannot map external import "
+                    f"{module!r} to an installed distribution"
+                ) from exc
+            candidates = (module,)
         for candidate in candidates:
             name = str(candidate).strip()
             if not name:
