@@ -383,9 +383,20 @@ def route_confirmatory_method(
                 ),
                 edge_count=edge_count,
             )
+        if upstream_refits == "fixed_set" and external_validation == "untouched_frozen":
+            return routed(
+                "primary_confirmatory",
+                "The independent all-refit 4/12-edge lattice is confirmatory on untouched external rows only through the pre-outcome semantic-freeze endpoint; row/group/block/weight metadata, complete node table, route evidence, implementation identity, runtime environment and upstream model bytes are frozen before outcome access.",
+                canonical_surface=(
+                    "odsp.untouched_external_refit_independent_positive_lattice_contract_v5."
+                    "run_untouched_external_independent_all_refit_lattice_contract_v5"
+                ),
+                requires_preoutcome_freeze=True,
+                edge_count=edge_count,
+            )
         return routed(
             "unqualified",
-            "No semantically frozen untouched-external independent directional lattice endpoint is qualified yet; internal fixed-score and fixed-set 4/12-edge routes must not be promoted beyond their current scope.",
+            "No independent directional lattice route is qualified for this refit/external combination.",
             requires_preoutcome_freeze=external_validation != "none",
             edge_count=edge_count,
         )
@@ -454,6 +465,7 @@ _PRIMARY_SURFACES = {
     "odsp.shared_block_positive_information.certify_shared_block_positive_information_transfer_v2",
     "odsp.information_lattice_positive_v2.certify_positive_information_lattice_v2",
     "odsp.refit_positive_independent_lattice_robustness.certify_all_refit_independent_positive_information_lattice_v2",
+    "odsp.untouched_external_refit_independent_positive_lattice_contract_v5.run_untouched_external_independent_all_refit_lattice_contract_v5",
     "odsp.shared_block_positive_information.certify_shared_block_positive_information_lattice_v2",
     "odsp.refit_positive_robustness.certify_all_refit_positive_information_transfer_v2",
     "odsp.refit_positive_robustness.certify_all_refit_shared_block_positive_information_transfer_v2",
