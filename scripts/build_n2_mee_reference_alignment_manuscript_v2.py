@@ -137,7 +137,7 @@ S(full) - S(pool)
   = [S(layer) - S(pool)]
   + [S(full) - S(layer)].
 
-We refer to these as total, layer and context increments. The decomposition does not require a causal interpretation. It assigns realized held-out score contributions to nested information contrasts.
+We refer to these as total, layer and context increments. The decomposition does not require a causal interpretation. It assigns realized held-out score contributions to nested information contrasts. The additive identity is elementary algebra rather than a new theorem; the methodological contribution is to use the information content of the reference prospectively to define which ecological claim a held-out score increment can support.
 
 With oracle conditional distributions under log score, expected score differences connect naturally to conditional information. Our fitted ecological models are not assumed to be oracle distributions, so the manuscript uses the more limited phrase **realized held-out predictive information increment**. This keeps the interpretation predictive and avoids turning a score difference into a causal quantity.
 
