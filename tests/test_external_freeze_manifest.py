@@ -13,6 +13,7 @@ from odsp.external_freeze_manifest import (
     validate_external_freeze_plan,
 )
 from odsp.untouched_external_refit_positive_contract_v2 import (
+    run_untouched_external_refit_positive_contract_v2,
     verify_freeze_manifest_semantic_lock,
 )
 
@@ -240,6 +241,9 @@ def test_existing_manifest_is_never_overwritten(tmp_path: Path):
 def test_refit_plan_must_satisfy_minimum_refit_count():
     plan = _plan()
     plan["refit_ids"] = ["r00", "r01"]
+    plan["upstream_model_artifacts"] = [
+        row for row in plan["upstream_model_artifacts"] if row["refit_id"] in {"r00", "r01"}
+    ]
     plan["reference_refit_id"] = "r00"
     with pytest.raises(ValueError, match="do not satisfy"):
         validate_external_freeze_plan(plan)
