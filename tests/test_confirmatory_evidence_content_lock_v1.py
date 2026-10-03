@@ -121,6 +121,17 @@ def test_content_lock_contract_freezes_exact_ordered_artifact_digests():
     assert payload["migration"]["pre_outcome_regeneration_allowed"] is True
 
 
+def test_dedicated_content_lock_workflow_watches_every_registered_artifact():
+    workflow = Path(".github/workflows/freeze-confirmatory-evidence-content-v4.yml").read_text(
+        encoding="utf-8"
+    )
+    for artifact in sorted(_all_registered_artifacts()):
+        assert artifact in workflow, (
+            "dedicated content-lock workflow does not watch registered evidence artifact "
+            f"{artifact}"
+        )
+
+
 def test_routing_contract_points_to_content_locked_v3_registry():
     payload = json.loads(ROUTING_CONTRACT.read_text(encoding="utf-8"))
     assert payload["qualification_evidence"]["registry"] == (
