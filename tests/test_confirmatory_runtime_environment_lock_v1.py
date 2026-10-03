@@ -32,6 +32,7 @@ def test_environment_snapshot_captures_python_and_external_distributions():
     assert snapshot["python"]["implementation"]
     assert isinstance(snapshot["python"]["major"], int)
     assert isinstance(snapshot["python"]["minor"], int)
+    assert isinstance(snapshot["python"]["micro"], int)
     assert "numpy" in snapshot["external_modules"]
     assert "numpy" in _distribution_names(snapshot)
 
@@ -89,6 +90,7 @@ def test_environment_lock_contract_freezes_runtime_dependency_identity():
     assert payload["contract_id"] == ENVIRONMENT_LOCK_ID
     assert payload["freeze"]["python_implementation_frozen"] is True
     assert payload["freeze"]["python_major_minor_frozen"] is True
+    assert payload["freeze"]["python_patch_version_frozen"] is True
     assert payload["freeze"]["external_import_module_names_frozen"] is True
     assert payload["freeze"]["external_distribution_versions_frozen"] is True
     assert payload["runtime"]["exact_snapshot_match_required"] is True
