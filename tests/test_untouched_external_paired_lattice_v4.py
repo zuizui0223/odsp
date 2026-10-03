@@ -91,6 +91,10 @@ def _freeze_plan(names: tuple[str, ...] = ("A", "B")) -> dict[str, object]:
     return {
         "schema_version": 1,
         "upstream_model_set_id": "model-set-v4",
+        "upstream_model_artifacts": [
+            {"refit_id": refit_id, "artifact_id": "fit", "path": f"models/{refit_id}.bin"}
+            for refit_id in ("r00", "r01")
+        ],
         "external_dataset_id": "external-dataset-v4",
         "roster": {
             "path": "roster.csv",
@@ -141,6 +145,7 @@ def _contract(manifest: Path, names: tuple[str, ...] = ("A", "B")) -> dict[str, 
         "schema_version": 1,
         "endpoint_id": "paired-lattice-v4-test",
         "upstream_model_set_id": "model-set-v4",
+        "upstream_model_artifacts": _freeze_plan(names)["upstream_model_artifacts"],
         "external_dataset_id": "external-dataset-v4",
         "data": {"path": "scores.csv", "format": "csv"},
         "columns": {
@@ -196,8 +201,15 @@ def _setup(
 ):
     roster = tmp_path / "roster.csv"
     _write_csv(roster, _roster_rows())
+    plan_payload = _freeze_plan(names)
+    for artifact in plan_payload["upstream_model_artifacts"]:
+        model_path = tmp_path / artifact["path"]
+        model_path.parent.mkdir(parents=True, exist_ok=True)
+        model_path.write_bytes(
+            f"{artifact['refit_id']}:{artifact['artifact_id']}".encode("utf-8")
+        )
     plan = tmp_path / "freeze-plan.json"
-    plan.write_text(json.dumps(_freeze_plan(names)), encoding="utf-8")
+    plan.write_text(json.dumps(plan_payload), encoding="utf-8")
     manifest = tmp_path / "freeze-lattice.json"
     create_paired_external_lattice_freeze_manifest(plan, manifest)
     scores = tmp_path / "scores.csv"
@@ -268,6 +280,10 @@ def test_freeze_rejects_four_block_32_edge_lattice(tmp_path: Path):
     roster = tmp_path / "roster.csv"
     _write_csv(roster, _roster_rows())
     plan = _freeze_plan(("A", "B", "C", "D"))
+    for artifact in plan["upstream_model_artifacts"]:
+        model_path = tmp_path / artifact["path"]
+        model_path.parent.mkdir(parents=True, exist_ok=True)
+        model_path.write_bytes(b"frozen-fit")
     plan_path = tmp_path / "plan.json"
     plan_path.write_text(json.dumps(plan), encoding="utf-8")
     with pytest.raises(ValueError, match="qualified only for 2 or 3 information blocks"):
