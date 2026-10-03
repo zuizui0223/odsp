@@ -17,13 +17,15 @@
     "python_major_minor_frozen": true,
     "external_import_module_names_frozen": true,
     "external_distribution_versions_frozen": true,
-    "pre_outcome": true
+    "pre_outcome": true,
+    "python_patch_version_frozen": true
   },
   "runtime": {
     "snapshot_recomputed": true,
     "exact_snapshot_match_required": true,
     "distribution_version_drift_allowed": false,
-    "python_major_minor_drift_allowed": false
+    "python_major_minor_drift_allowed": false,
+    "python_patch_version_drift_allowed": false
   },
   "scope": {
     "applies_to_new_canonical_untouched_external_freezes": true,
