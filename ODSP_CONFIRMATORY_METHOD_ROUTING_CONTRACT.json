@@ -161,6 +161,7 @@
     "pre_outcome_freeze_required": true,
     "runtime_exact_snapshot_match_required": true,
     "platform_and_blas_identity_frozen": false,
-    "bitwise_reproducibility_claimed": false
+    "bitwise_reproducibility_claimed": false,
+    "python_patch_version_frozen": true
   }
 }
