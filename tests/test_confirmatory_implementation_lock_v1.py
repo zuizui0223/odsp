@@ -92,3 +92,37 @@ def test_runtime_rejects_tampered_implementation_digest():
 def test_surface_snapshot_fails_closed_outside_odsp_package():
     with pytest.raises(ValueError, match="odsp"):
         implementation_source_snapshot_for_surface("thirdparty.module.run")
+
+
+def test_implementation_lock_contract_freezes_internal_source_identity():
+    payload = json.loads(
+        Path("ODSP_CONFIRMATORY_IMPLEMENTATION_LOCK_V1.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert payload["schema_version"] == 1
+    assert payload["contract_id"] == IMPLEMENTATION_LOCK_ID
+    assert payload["discovery"]["method"] == (
+        "recursive static AST traversal of ODSP-internal Python imports"
+    )
+    assert payload["discovery"]["imports_executed"] is False
+    assert payload["discovery"]["dynamic_odsp_imports_allowed"] is False
+    assert payload["freeze"]["source_sha256_frozen"] is True
+    assert payload["runtime"]["exact_snapshot_match_required"] is True
+    assert payload["scope"]["recomputes_calibration"] is False
+    assert payload["historical_governance"][
+        "post_outcome_retroactive_upgrade_allowed"
+    ] is False
+
+
+def test_routing_contract_requires_implementation_identity_for_external_freezes():
+    payload = json.loads(
+        Path("ODSP_CONFIRMATORY_METHOD_ROUTING_CONTRACT.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    lock = payload["implementation_identity"]
+    assert lock["contract"] == "ODSP_CONFIRMATORY_IMPLEMENTATION_LOCK_V1.json"
+    assert lock["implementation_lock_id"] == IMPLEMENTATION_LOCK_ID
+    assert lock["pre_outcome_freeze_required"] is True
+    assert lock["runtime_exact_snapshot_match_required"] is True
