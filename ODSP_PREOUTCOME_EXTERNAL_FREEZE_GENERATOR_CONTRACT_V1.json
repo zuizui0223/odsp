@@ -6,7 +6,8 @@
   "canonical_cli": "odsp freeze-refits-external",
   "inputs": {
     "analysis_plan": "JSON with model-set ID, dataset ID, refit IDs, score semantics, strict information filtration and inferential settings",
-    "external_roster": "CSV or JSON records containing exactly one row_id field per external validation row"
+    "external_roster": "CSV or JSON records containing exactly one row_id field per external validation row",
+    "upstream_model_artifacts": "one or more regular-file artifacts per frozen refit, declared by refit_id, artifact_id and local path"
   },
   "prohibited_plan_field": "frozen_at_utc",
   "timestamp": {
@@ -30,7 +31,15 @@
     "runtime_route_semantic_reverification_required": true,
     "qualification_key_frozen": true,
     "qualification_evidence_chain_frozen": true,
-    "qualification_evidence_order_is_semantic": true
+    "qualification_evidence_order_is_semantic": true,
+    "upstream_model_artifact_content_frozen": true,
+    "model_artifact_lock_id": "odsp-upstream-model-artifact-lock-v1",
+    "model_artifact_snapshot_fields": [
+      "refit_id",
+      "artifact_id",
+      "sha256"
+    ],
+    "model_artifact_local_path_is_semantic": false
   },
   "receipt": {
     "receipt_type": "odsp_pre_external_outcome_freeze_receipt_v1",
@@ -43,6 +52,7 @@
   "epistemic_boundary": {
     "odsp_reads_external_outcomes_during_freeze": false,
     "host_runtime_clock_independently_attested": false,
-    "external_outcomes_unavailable_through_all_other_channels_proven": false
+    "external_outcomes_unavailable_through_all_other_channels_proven": false,
+    "score_table_derivation_from_frozen_models_proven": false
   }
 }

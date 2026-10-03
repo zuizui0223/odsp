@@ -24,12 +24,18 @@ from .information_transfer_contract import (
     _weight,
 )
 from .untouched_external_refit_positive_contract_v2 import _row_roster_sha256
+from .upstream_model_artifact_lock import (
+    MODEL_ARTIFACT_LOCK_ID,
+    normalize_upstream_model_artifact_declarations,
+    snapshot_upstream_model_artifacts,
+)
 from .untouched_external_refit_shared_block_positive_contract_v3 import _VALIDATION_DESIGN
 
 
 _TOP_LEVEL = {
     "schema_version",
     "upstream_model_set_id",
+    "upstream_model_artifacts",
     "external_dataset_id",
     "roster",
     "refit_ids",
@@ -213,6 +219,9 @@ def validate_paired_external_lattice_freeze_plan(
     refit_ids = sorted(_text(item, name=f"refit_ids[{i}]") for i, item in enumerate(raw_refits))
     if len(refit_ids) != len(set(refit_ids)):
         raise ValueError("refit_ids must be unique")
+    model_artifacts = normalize_upstream_model_artifact_declarations(
+        plan.get("upstream_model_artifacts"), refit_ids=refit_ids
+    )
 
     score = _validate_score_contract(plan.get("score"))
     blocks, nodes, base, edge_count = _validate_lattice_definition(
@@ -253,6 +262,7 @@ def validate_paired_external_lattice_freeze_plan(
     return {
         "schema_version": 1,
         "upstream_model_set_id": model_set,
+        "upstream_model_artifacts": [dict(row) for row in model_artifacts],
         "external_dataset_id": dataset_id,
         "roster": {
             "path": roster_path,
@@ -336,6 +346,12 @@ def create_paired_external_lattice_freeze_manifest(
     if not sum(record[3] for record in paired_records) > 0:
         raise ValueError("pre-outcome paired roster weights must have positive total mass")
 
+    model_artifact_snapshot = snapshot_upstream_model_artifacts(
+        plan["upstream_model_artifacts"],
+        base_dir=plan_path.parent,
+        refit_ids=plan["refit_ids"],
+    )
+
     confirmatory_route = build_frozen_confirmatory_route(
         validation_design="paired_shared_blocks",
         information_structure="complete_lattice",
@@ -347,6 +363,8 @@ def create_paired_external_lattice_freeze_manifest(
         "manifest_type": "odsp_pre_external_outcome_paired_lattice_freeze_v1",
         "frozen_at_utc": frozen_at,
         "upstream_model_set_id": plan["upstream_model_set_id"],
+        "upstream_model_artifact_lock_id": MODEL_ARTIFACT_LOCK_ID,
+        "upstream_model_artifact_snapshot": [dict(row) for row in model_artifact_snapshot],
         "external_dataset_id": plan["external_dataset_id"],
         "external_row_ids_sha256": _row_roster_sha256(row_ids),
         "paired_row_metadata_sha256": _paired_row_metadata_sha256(paired_records),
@@ -376,6 +394,8 @@ def create_paired_external_lattice_freeze_manifest(
         "paired_row_metadata_sha256": manifest["paired_row_metadata_sha256"],
         "external_row_count": len(row_ids),
         "upstream_model_set_id": plan["upstream_model_set_id"],
+        "upstream_model_artifact_lock_id": MODEL_ARTIFACT_LOCK_ID,
+        "upstream_model_artifact_snapshot": [dict(row) for row in model_artifact_snapshot],
         "external_dataset_id": plan["external_dataset_id"],
         "refit_count": len(plan["refit_ids"]),
         "information_block_count": len(plan["information_blocks"]),
@@ -390,6 +410,8 @@ def create_paired_external_lattice_freeze_manifest(
             "roster_outcome_columns_allowed": False,
             "external_outcomes_read_by_freeze_generator": False,
             "confirmatory_route_frozen_before_outcome_access": True,
+            "upstream_model_artifact_bytes_frozen_before_outcome_access": True,
+            "model_artifact_local_paths_are_semantic": False,
             "paired_row_metadata_frozen_before_outcome_access": True,
             "complete_lattice_node_table_frozen": True,
             "paired_shared_block_design_frozen": True,

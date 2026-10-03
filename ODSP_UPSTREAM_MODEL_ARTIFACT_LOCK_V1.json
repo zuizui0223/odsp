@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "lock_id": "odsp-upstream-model-artifact-lock-v1",
+  "date": "2026-10-03",
+  "purpose": "freeze exact upstream model artifact bytes for every supplied refit before untouched external outcomes are accessed",
+  "identity": {
+    "semantic_fields": [
+      "refit_id",
+      "artifact_id",
+      "sha256"
+    ],
+    "local_path_is_semantic": false,
+    "ordering": "refit_id_then_artifact_id"
+  },
+  "freeze": {
+    "all_refits_require_artifact": true,
+    "artifact_sha256_frozen": true,
+    "symlink_artifacts_allowed": false,
+    "directory_artifacts_allowed": false,
+    "duplicate_logical_artifacts_allowed": false,
+    "unknown_refit_artifacts_allowed": false,
+    "local_path_is_semantic": false
+  },
+  "runtime": {
+    "exact_logical_id_and_sha256_match_required": true,
+    "artifact_paths_may_move_if_bytes_and_logical_ids_match": true,
+    "one_byte_change_invalidates_lock": true
+  },
+  "boundaries": {
+    "proves_model_artifact_content_identity": true,
+    "proves_score_table_was_generated_by_frozen_models": false,
+    "refit_population_sampling_claim": false,
+    "statistical_estimand_changed": false,
+    "calibration_recomputed": false,
+    "historical_freeze_artifacts_auto_upgraded": false
+  },
+  "integrations": {
+    "canonical_new_freeze_routes": [
+      "odsp_pre_external_outcome_freeze_v1",
+      "odsp_pre_external_outcome_paired_freeze_v1",
+      "odsp_pre_external_outcome_paired_lattice_freeze_v1"
+    ],
+    "runtime_verification_routes": [
+      "odsp_untouched_external_refit_positive_validation_endpoint_v2",
+      "odsp_untouched_external_refit_shared_block_positive_validation_endpoint_v3",
+      "odsp_untouched_external_paired_all_refit_positive_lattice_endpoint_v4"
+    ],
+    "historical_qualification_evidence_artifacts_rewritten": false,
+    "historical_freeze_artifacts_auto_upgraded": false
+  }
+}

@@ -13,6 +13,7 @@ from odsp.external_freeze_manifest import (
     validate_external_freeze_plan,
 )
 from odsp.untouched_external_refit_positive_contract_v2 import (
+    run_untouched_external_refit_positive_contract_v2,
     verify_freeze_manifest_semantic_lock,
 )
 
@@ -40,6 +41,14 @@ def _plan() -> dict[str, object]:
     return {
         "schema_version": 1,
         "upstream_model_set_id": "models-v17",
+        "upstream_model_artifacts": [
+            {
+                "refit_id": f"r{index:02d}",
+                "artifact_id": "fit",
+                "path": f"models/r{index:02d}.bin",
+            }
+            for index in range(8)
+        ],
         "external_dataset_id": "external-cohort-A",
         "roster": {"path": "roster.csv", "format": "csv", "row_id_column": "row_id"},
         "refit_ids": [f"r{index:02d}" for index in range(8)],
@@ -70,7 +79,15 @@ def _plan() -> dict[str, object]:
 
 def _write_plan(tmp_path: Path, plan: dict[str, object] | None = None) -> Path:
     path = tmp_path / "freeze-plan.json"
-    path.write_text(json.dumps(_plan() if plan is None else plan), encoding="utf-8")
+    payload = _plan() if plan is None else plan
+    for artifact in payload["upstream_model_artifacts"]:
+        model_path = tmp_path / artifact["path"]
+        model_path.parent.mkdir(parents=True, exist_ok=True)
+        if not model_path.exists():
+            model_path.write_bytes(
+                f"{artifact['refit_id']}:{artifact['artifact_id']}".encode("utf-8")
+            )
+    path.write_text(json.dumps(payload), encoding="utf-8")
     return path
 
 
@@ -111,6 +128,7 @@ def _external_contract(manifest: dict[str, object], manifest_path: Path) -> dict
     return {
         "schema_version": 1,
         "endpoint_id": "generated-freeze-roundtrip-v1",
+        "upstream_model_artifacts": _plan()["upstream_model_artifacts"],
         "data": {"path": "scores.csv", "format": "csv"},
         "columns": {
             "row_id": "row_id",
@@ -223,6 +241,9 @@ def test_existing_manifest_is_never_overwritten(tmp_path: Path):
 def test_refit_plan_must_satisfy_minimum_refit_count():
     plan = _plan()
     plan["refit_ids"] = ["r00", "r01"]
+    plan["upstream_model_artifacts"] = [
+        row for row in plan["upstream_model_artifacts"] if row["refit_id"] in {"r00", "r01"}
+    ]
     plan["reference_refit_id"] = "r00"
     with pytest.raises(ValueError, match="do not satisfy"):
         validate_external_freeze_plan(plan)
@@ -246,3 +267,31 @@ def test_cli_generates_manifest_and_receipt(tmp_path: Path, capsys):
     receipt = json.loads(capsys.readouterr().out)
     assert receipt["receipt_type"] == "odsp_pre_external_outcome_freeze_receipt_v1"
     assert receipt["manifest_sha256"] == _sha256(manifest_path)
+
+
+def test_upstream_model_artifact_bytes_are_frozen_before_external_outcomes(tmp_path: Path):
+    _roster(tmp_path)
+    plan_path = _write_plan(tmp_path)
+    manifest_path = tmp_path / "freeze.json"
+    create_external_freeze_manifest(plan_path, manifest_path)
+    _write_scores(tmp_path)
+
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert manifest["upstream_model_artifact_lock_id"] == (
+        "odsp-upstream-model-artifact-lock-v1"
+    )
+    assert len(manifest["upstream_model_artifact_snapshot"]) == 8
+    assert all(
+        set(row) == {"refit_id", "artifact_id", "sha256"}
+        for row in manifest["upstream_model_artifact_snapshot"]
+    )
+
+    endpoint_path = tmp_path / "endpoint.json"
+    endpoint_path.write_text(
+        json.dumps(_external_contract(manifest, manifest_path)), encoding="utf-8"
+    )
+
+    # Same model-set ID, same refit IDs, same route; only one serialized fit byte changes.
+    (tmp_path / "models/r03.bin").write_bytes(b"post-freeze-mutated-fit")
+    with pytest.raises(ValueError, match="upstream model artifact snapshot mismatch"):
+        run_untouched_external_refit_positive_contract_v2(endpoint_path)

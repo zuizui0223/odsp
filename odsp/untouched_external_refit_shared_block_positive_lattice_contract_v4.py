@@ -50,12 +50,18 @@ from .untouched_external_refit_positive_contract_v2 import (
 from .untouched_external_refit_shared_block_positive_contract_v3 import (
     _VALIDATION_DESIGN,
 )
+from .upstream_model_artifact_lock import (
+    MODEL_ARTIFACT_LOCK_ID,
+    normalize_upstream_model_artifact_declarations,
+    verify_optional_upstream_model_artifact_lock,
+)
 
 
 _TOP_LEVEL = {
     "schema_version",
     "endpoint_id",
     "upstream_model_set_id",
+    "upstream_model_artifacts",
     "external_dataset_id",
     "data",
     "columns",
@@ -82,6 +88,8 @@ _MANIFEST_FIELDS = {
     "manifest_type",
     "frozen_at_utc",
     "upstream_model_set_id",
+    "upstream_model_artifact_lock_id",
+    "upstream_model_artifact_snapshot",
     "external_dataset_id",
     "external_row_ids_sha256",
     "paired_row_metadata_sha256",
@@ -156,6 +164,12 @@ def validate_untouched_external_paired_lattice_contract(
     model_set_id = _text(
         contract.get("upstream_model_set_id"), name="upstream_model_set_id"
     )
+    raw_model_artifacts = contract.get("upstream_model_artifacts")
+    model_artifacts = (
+        ()
+        if raw_model_artifacts is None
+        else normalize_upstream_model_artifact_declarations(raw_model_artifacts)
+    )
     dataset_id = _text(
         contract.get("external_dataset_id"), name="external_dataset_id"
     )
@@ -211,6 +225,7 @@ def validate_untouched_external_paired_lattice_contract(
         "schema_version": 1,
         "endpoint_id": endpoint_id,
         "upstream_model_set_id": model_set_id,
+        "upstream_model_artifacts": [dict(row) for row in model_artifacts],
         "external_dataset_id": dataset_id,
         "data": {"path": data_path, "format": data_format},
         "columns": normalized_columns,
@@ -466,6 +481,13 @@ def verify_paired_external_lattice_semantic_lock(
         refit_ids,
         field="refit_ids",
     )
+    model_lock_id, runtime_model_snapshot = verify_optional_upstream_model_artifact_lock(
+        frozen_lock_id=manifest.get("upstream_model_artifact_lock_id"),
+        frozen_snapshot=manifest.get("upstream_model_artifact_snapshot"),
+        declarations=contract["upstream_model_artifacts"],
+        base_dir=contract_path.parent,
+        refit_ids=refit_ids,
+    )
     _assert_equal(dict(manifest["score"]), dict(contract["score"]), field="score")
     _assert_equal(
         list(manifest["base_information"]),
@@ -499,6 +521,8 @@ def verify_paired_external_lattice_semantic_lock(
     return {
         "manifest_type": "odsp_pre_external_outcome_paired_lattice_freeze_v1",
         "upstream_model_set_id": str(contract["upstream_model_set_id"]),
+        "upstream_model_artifact_lock_id": model_lock_id,
+        "upstream_model_artifact_snapshot": [dict(row) for row in runtime_model_snapshot],
         "external_dataset_id": str(contract["external_dataset_id"]),
         "external_row_ids_sha256": str(manifest["external_row_ids_sha256"]),
         "paired_row_metadata_sha256": runtime_paired_metadata_sha,
@@ -563,6 +587,9 @@ def run_untouched_external_paired_all_refit_lattice_contract_v4(
     freeze_path = Path(str(freeze["path"]))
     if not freeze_path.is_absolute():
         freeze_path = contract_path.parent / freeze_path
+    model_artifact_content_locked = (
+        semantic_lock["upstream_model_artifact_lock_id"] == MODEL_ARTIFACT_LOCK_ID
+    )
     return {
         "receipt_type": "odsp_untouched_external_paired_all_refit_positive_lattice_endpoint_v4",
         "endpoint_id": contract["endpoint_id"],
@@ -598,6 +625,10 @@ def run_untouched_external_paired_all_refit_lattice_contract_v4(
             "paired_shared_block_design_frozen_before_outcome_access": True,
             "confirmatory_route_locked_before_outcome_access": True,
             "runtime_confirmatory_route_matches_frozen_manifest": True,
+            "upstream_model_artifact_bytes_frozen_before_outcome_access": model_artifact_content_locked,
+            "runtime_model_artifact_bytes_match_frozen_manifest": model_artifact_content_locked,
+            "historical_freeze_artifact_auto_upgraded": False,
+            "score_table_derivation_from_frozen_models_independently_proven": False,
             "different_refit_paths_can_be_combined": False,
             "four_or_more_information_blocks_supported": False,
             "validation_group_independence_assumed": False,
