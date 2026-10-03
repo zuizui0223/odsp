@@ -269,25 +269,39 @@ def verify_freeze_manifest_semantic_lock(
 
     frozen_refit_ids = tuple(sorted(_string_list(manifest.get("refit_ids"), name="freeze manifest.refit_ids")))
     _assert_equal(frozen_refit_ids, tuple(refit_ids), field="refit_ids")
-    frozen_model_lock_id = _text(
-        manifest.get("upstream_model_artifact_lock_id"),
-        name="freeze manifest.upstream_model_artifact_lock_id",
-    )
-    _assert_equal(
-        frozen_model_lock_id,
-        MODEL_ARTIFACT_LOCK_ID,
-        field="upstream_model_artifact_lock_id",
-    )
-    frozen_model_snapshot = normalize_upstream_model_artifact_snapshot(
-        manifest.get("upstream_model_artifact_snapshot"),
-        refit_ids=frozen_refit_ids,
-    )
-    runtime_model_snapshot = verify_upstream_model_artifact_snapshot(
-        frozen_model_snapshot,
-        contract["upstream_model_artifacts"],
-        base_dir=contract_path.parent,
-        refit_ids=frozen_refit_ids,
-    )
+    raw_model_lock_id = manifest.get("upstream_model_artifact_lock_id")
+    raw_model_snapshot = manifest.get("upstream_model_artifact_snapshot")
+    if (raw_model_lock_id is None) != (raw_model_snapshot is None):
+        raise ValueError(
+            "freeze manifest must contain both upstream model artifact lock ID and snapshot, or neither for historical compatibility"
+        )
+    if raw_model_lock_id is None:
+        frozen_model_lock_id = None
+        runtime_model_snapshot: tuple[dict[str, str], ...] = ()
+    else:
+        frozen_model_lock_id = _text(
+            raw_model_lock_id,
+            name="freeze manifest.upstream_model_artifact_lock_id",
+        )
+        _assert_equal(
+            frozen_model_lock_id,
+            MODEL_ARTIFACT_LOCK_ID,
+            field="upstream_model_artifact_lock_id",
+        )
+        frozen_model_snapshot = normalize_upstream_model_artifact_snapshot(
+            raw_model_snapshot,
+            refit_ids=frozen_refit_ids,
+        )
+        if not contract["upstream_model_artifacts"]:
+            raise ValueError(
+                "runtime contract must declare upstream_model_artifacts for a content-locked freeze manifest"
+            )
+        runtime_model_snapshot = verify_upstream_model_artifact_snapshot(
+            frozen_model_snapshot,
+            contract["upstream_model_artifacts"],
+            base_dir=contract_path.parent,
+            refit_ids=frozen_refit_ids,
+        )
 
     cert = contract["certification"]
     assert isinstance(cert, Mapping)
@@ -367,8 +381,12 @@ def run_untouched_external_refit_positive_contract_v2(
     boundaries["runtime_analysis_matches_frozen_manifest"] = True
     boundaries["confirmatory_route_locked_before_outcome_access"] = True
     boundaries["runtime_confirmatory_route_matches_frozen_manifest"] = True
-    boundaries["upstream_model_artifact_bytes_frozen_before_outcome_access"] = True
-    boundaries["runtime_model_artifact_bytes_match_frozen_manifest"] = True
+    model_artifact_content_locked = (
+        semantic_lock["upstream_model_artifact_lock_id"] == MODEL_ARTIFACT_LOCK_ID
+    )
+    boundaries["upstream_model_artifact_bytes_frozen_before_outcome_access"] = model_artifact_content_locked
+    boundaries["runtime_model_artifact_bytes_match_frozen_manifest"] = model_artifact_content_locked
+    boundaries["historical_freeze_artifact_auto_upgraded"] = False
     boundaries["score_table_derivation_from_frozen_models_independently_proven"] = False
     receipt["boundaries"] = boundaries
     return receipt
