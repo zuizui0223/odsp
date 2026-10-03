@@ -8,8 +8,9 @@
     "external_import_discovery": "static AST scan of absolute imports in that closure",
     "imports_executed_for_discovery": false,
     "stdlib_modules_excluded": true,
-    "distribution_mapping": "importlib.metadata.packages_distributions",
-    "unmapped_external_import_allowed": false
+    "distribution_mapping": "importlib.metadata.packages_distributions with verified same-name metadata.version fallback",
+    "unmapped_external_import_allowed": false,
+    "same_name_distribution_fallback_requires_installed_distribution": true
   },
   "freeze": {
     "environment_lock_id_frozen": true,
