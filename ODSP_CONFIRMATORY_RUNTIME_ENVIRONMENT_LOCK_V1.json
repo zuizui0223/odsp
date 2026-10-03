@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-confirmatory-runtime-environment-lock-v1",
+  "date": "2026-10-03",
+  "purpose": "freeze runtime dependency identity for new untouched-external confirmatory freezes in addition to ODSP source-content identity",
+  "discovery": {
+    "source_scope": "recursive ODSP implementation source closure already defined by odsp-confirmatory-implementation-lock-v1",
+    "external_import_discovery": "static AST scan of absolute imports in that closure",
+    "imports_executed_for_discovery": false,
+    "stdlib_modules_excluded": true,
+    "distribution_mapping": "importlib.metadata.packages_distributions",
+    "unmapped_external_import_allowed": false
+  },
+  "freeze": {
+    "environment_lock_id_frozen": true,
+    "python_implementation_frozen": true,
+    "python_major_minor_frozen": true,
+    "external_import_module_names_frozen": true,
+    "external_distribution_versions_frozen": true,
+    "pre_outcome": true
+  },
+  "runtime": {
+    "snapshot_recomputed": true,
+    "exact_snapshot_match_required": true,
+    "distribution_version_drift_allowed": false,
+    "python_major_minor_drift_allowed": false
+  },
+  "scope": {
+    "applies_to_new_canonical_untouched_external_freezes": true,
+    "changes_statistical_estimand": false,
+    "changes_bootstrap_algorithm": false,
+    "changes_refit_sampling_interpretation": false,
+    "external_library_source_frozen": false,
+    "platform_and_blas_identity_frozen": false,
+    "bitwise_reproducibility_claimed": false
+  },
+  "historical_governance": {
+    "empirical_endpoint_rerun": false,
+    "terminal_reclassification": false,
+    "legacy_freeze_auto_upgrade_allowed": false,
+    "post_outcome_retroactive_upgrade_allowed": false
+  }
+}
