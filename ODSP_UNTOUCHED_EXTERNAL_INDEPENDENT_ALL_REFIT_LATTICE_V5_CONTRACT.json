@@ -1,0 +1,66 @@
+{
+  "contract_id": "odsp-untouched-external-independent-all-refit-lattice-v5",
+  "date": "2026-10-03",
+  "inference": {
+    "across_refit_rule": "same_edge_must_pass_in_every_supplied_refit",
+    "alternative": "greater",
+    "different_refit_paths_can_be_combined": false,
+    "four_or_more_information_blocks_qualified": false,
+    "information_structure": "complete_lattice",
+    "qualified_edge_counts": [
+      4,
+      12
+    ],
+    "qualified_information_block_counts": [
+      2,
+      3
+    ],
+    "refit_population_generalization_claimed": false,
+    "validation_design": "independent_groups",
+    "within_refit_method": "independent_group_one_sided_replicate_studentized_bootstrap_t"
+  },
+  "pre_outcome_freeze": {
+    "certification_settings_frozen": true,
+    "complete_lattice_node_table_frozen": true,
+    "confirmatory_route_and_qualification_evidence_frozen": true,
+    "external_outcomes_in_freeze_artifact": false,
+    "implementation_source_closure_frozen": true,
+    "row_group_block_weight_assignment_frozen": true,
+    "runtime_environment_frozen": true,
+    "score_semantics_frozen": true,
+    "upstream_model_artifact_bytes_frozen": true,
+    "upstream_refit_ids_frozen": true
+  },
+  "purpose": "extend the already-qualified independent one-sided 4/12-edge complete-lattice and fixed-set all-refit robustness route to untouched external validation without adding a new inferential family",
+  "runtime_exact_match": {
+    "base_information": true,
+    "certification": true,
+    "confirmatory_route": true,
+    "edge_count": true,
+    "external_row_ids": true,
+    "independent_row_metadata_sha256": true,
+    "information_blocks": true,
+    "nodes": true,
+    "refit_ids": true,
+    "score": true,
+    "upstream_model_artifact_snapshot": true
+  },
+  "schema_version": 1,
+  "scientific_boundaries": {
+    "cross_group_shared_resampling": false,
+    "development_data_disjointness_independently_proven": false,
+    "external_no_prior_outcome_access_independently_proven": false,
+    "fixed_refit_set_is_probability_sample": false,
+    "historical_empirical_endpoint_rerun": false,
+    "historical_terminal_reclassification": false,
+    "score_table_derivation_from_frozen_model_bytes_independently_proven": false,
+    "validation_group_independence_assumed": true,
+    "within_group_block_exchangeability_assumed": true
+  },
+  "surface_governance": {
+    "method_surface_freeze_respected": true,
+    "new_public_top_level_cli_command_added": false,
+    "new_public_transfer_variant_added": false,
+    "python_contract_api_only": true
+  }
+}
