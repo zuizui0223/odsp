@@ -154,4 +154,11 @@ def test_router_promotes_fixed_set_three_block_independent_lattice():
         external_validation="untouched_frozen",
         information_block_count=3,
     )
-    assert external.role == "unqualified"
+    assert external.role == "primary_confirmatory"
+    assert external.edge_count == 12
+    assert external.requires_preoutcome_freeze is True
+    assert external.cli_sequence == ()
+    assert external.canonical_surface == (
+        "odsp.untouched_external_refit_independent_positive_lattice_contract_v5."
+        "run_untouched_external_independent_all_refit_lattice_contract_v5"
+    )

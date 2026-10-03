@@ -153,13 +153,21 @@ def test_frozen_route_builds_only_primary_external_routes():
     )
 
 
-def test_frozen_route_rejects_unqualified_external_route():
-    with pytest.raises(ValueError, match="not primary_confirmatory"):
-        build_frozen_confirmatory_route(
-            validation_design="independent_groups",
-            information_structure="complete_lattice",
-            information_block_count=2,
-        )
+def test_frozen_route_builds_independent_external_lattice_route():
+    frozen = build_frozen_confirmatory_route(
+        validation_design="independent_groups",
+        information_structure="complete_lattice",
+        information_block_count=2,
+    )
+    assert frozen["role"] == "primary_confirmatory"
+    assert frozen["edge_count"] == 4
+    assert frozen["canonical_surface"] == (
+        "odsp.untouched_external_refit_independent_positive_lattice_contract_v5."
+        "run_untouched_external_independent_all_refit_lattice_contract_v5"
+    )
+    assert frozen["qualification_evidence"][-1] == (
+        "ODSP_UNTOUCHED_EXTERNAL_INDEPENDENT_ALL_REFIT_LATTICE_V5_CONTRACT.json"
+    )
 
 
 def test_frozen_route_verifier_rejects_method_family_tamper():

@@ -38,12 +38,14 @@
     "canonical_new_freeze_routes": [
       "odsp_pre_external_outcome_freeze_v1",
       "odsp_pre_external_outcome_paired_freeze_v1",
-      "odsp_pre_external_outcome_paired_lattice_freeze_v1"
+      "odsp_pre_external_outcome_paired_lattice_freeze_v1",
+      "odsp_pre_external_outcome_independent_lattice_freeze_v1"
     ],
     "runtime_verification_routes": [
       "odsp_untouched_external_refit_positive_validation_endpoint_v2",
       "odsp_untouched_external_refit_shared_block_positive_validation_endpoint_v3",
-      "odsp_untouched_external_paired_all_refit_positive_lattice_endpoint_v4"
+      "odsp_untouched_external_paired_all_refit_positive_lattice_endpoint_v4",
+      "odsp_untouched_external_independent_all_refit_positive_lattice_endpoint_v5"
     ],
     "historical_qualification_evidence_artifacts_rewritten": false,
     "historical_freeze_artifacts_auto_upgraded": false
