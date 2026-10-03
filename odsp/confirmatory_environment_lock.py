@@ -110,6 +110,7 @@ def runtime_environment_snapshot_for_surface(
             "implementation": str(sys.implementation.name),
             "major": int(sys.version_info.major),
             "minor": int(sys.version_info.minor),
+            "micro": int(sys.version_info.micro),
         },
         "external_modules": list(modules),
         "distributions": [dict(row) for row in distributions],
@@ -135,16 +136,18 @@ def normalize_runtime_environment_snapshot(raw: object) -> dict[str, object]:
         "implementation",
         "major",
         "minor",
+        "micro",
     }:
         raise ValueError(
             "runtime environment python identity fields must be exactly "
-            "['implementation', 'major', 'minor']"
+            "['implementation', 'major', 'micro', 'minor']"
         )
     implementation = python["implementation"]
     if not isinstance(implementation, str) or not implementation.strip():
         raise ValueError("runtime environment python implementation must be text")
     major = python["major"]
     minor = python["minor"]
+    micro = python["micro"]
     if (
         isinstance(major, bool)
         or not isinstance(major, int)
@@ -152,9 +155,12 @@ def normalize_runtime_environment_snapshot(raw: object) -> dict[str, object]:
         or isinstance(minor, bool)
         or not isinstance(minor, int)
         or minor < 0
+        or isinstance(micro, bool)
+        or not isinstance(micro, int)
+        or micro < 0
     ):
         raise ValueError(
-            "runtime environment python major/minor versions must be integers"
+            "runtime environment python major/minor/micro versions must be integers"
         )
 
     modules_raw = raw["external_modules"]
@@ -208,6 +214,7 @@ def normalize_runtime_environment_snapshot(raw: object) -> dict[str, object]:
             "implementation": implementation.strip(),
             "major": int(major),
             "minor": int(minor),
+            "micro": int(micro),
         },
         "external_modules": modules,
         "distributions": rows,
