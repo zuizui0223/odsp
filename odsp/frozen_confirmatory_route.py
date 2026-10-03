@@ -3,6 +3,10 @@ from __future__ import annotations
 
 from typing import Mapping
 
+from .confirmatory_implementation_lock import (
+    IMPLEMENTATION_LOCK_ID,
+    implementation_source_snapshot_for_surface,
+)
 from .confirmatory_method_routing import route_confirmatory_method
 from .confirmatory_route_evidence import (
     QUALIFICATION_EVIDENCE_REGISTRY_ID,
@@ -27,6 +31,8 @@ _ROUTE_FIELDS = {
     "qualification_registry_id",
     "qualification_evidence",
     "qualification_evidence_artifacts",
+    "implementation_lock_id",
+    "implementation_source_snapshot",
 }
 
 
@@ -62,6 +68,9 @@ def build_frozen_confirmatory_route(
     evidence_artifacts = qualification_evidence_artifacts_for_route_key(
         decision.qualification_key
     )
+    implementation_snapshot = implementation_source_snapshot_for_surface(
+        decision.canonical_surface
+    )
     if not evidence_artifacts:
         raise ValueError(
             "primary_confirmatory route is missing registered qualification evidence SHA256"
@@ -83,6 +92,10 @@ def build_frozen_confirmatory_route(
         "qualification_registry_id": QUALIFICATION_EVIDENCE_REGISTRY_ID,
         "qualification_evidence": list(decision.qualification_evidence),
         "qualification_evidence_artifacts": [dict(row) for row in evidence_artifacts],
+        "implementation_lock_id": IMPLEMENTATION_LOCK_ID,
+        "implementation_source_snapshot": [
+            dict(row) for row in implementation_snapshot
+        ],
     }
 
 
@@ -185,6 +198,63 @@ def normalize_frozen_confirmatory_route(raw: object) -> dict[str, object]:
             "artifact digest snapshot are not exactly aligned"
         )
 
+    implementation_raw = raw["implementation_source_snapshot"]
+    if not isinstance(implementation_raw, list) or not implementation_raw:
+        raise ValueError(
+            "freeze manifest confirmatory_route.implementation_source_snapshot "
+            "must be a non-empty JSON array"
+        )
+    implementation_snapshot: list[dict[str, str]] = []
+    for index, item in enumerate(implementation_raw):
+        if not isinstance(item, Mapping):
+            raise ValueError(
+                "freeze manifest confirmatory_route.implementation_source_snapshot"
+                f"[{index}] must be a JSON object"
+            )
+        if set(item) != {"path", "sha256"}:
+            raise ValueError(
+                "freeze manifest confirmatory_route.implementation_source_snapshot"
+                f"[{index}] fields must be exactly ['path', 'sha256']"
+            )
+        path = item["path"]
+        digest = item["sha256"]
+        if not isinstance(path, str) or not path.strip().startswith("odsp/"):
+            raise ValueError(
+                "freeze manifest confirmatory_route.implementation_source_snapshot"
+                f"[{index}].path must be an odsp/ source path"
+            )
+        path = path.strip()
+        if not isinstance(digest, str):
+            raise ValueError(
+                "freeze manifest confirmatory_route.implementation_source_snapshot"
+                f"[{index}].sha256 must be lowercase SHA256 text"
+            )
+        digest = digest.strip()
+        if len(digest) != 64 or digest.lower() != digest:
+            raise ValueError(
+                "freeze manifest confirmatory_route.implementation_source_snapshot"
+                f"[{index}].sha256 must be lowercase SHA256 text"
+            )
+        try:
+            int(digest, 16)
+        except ValueError as exc:
+            raise ValueError(
+                "freeze manifest confirmatory_route.implementation_source_snapshot"
+                f"[{index}].sha256 must be lowercase SHA256 text"
+            ) from exc
+        implementation_snapshot.append({"path": path, "sha256": digest})
+    implementation_paths = [row["path"] for row in implementation_snapshot]
+    if implementation_paths != sorted(implementation_paths):
+        raise ValueError(
+            "freeze manifest confirmatory_route.implementation_source_snapshot "
+            "must be sorted by source path"
+        )
+    if len(implementation_paths) != len(set(implementation_paths)):
+        raise ValueError(
+            "freeze manifest confirmatory_route.implementation_source_snapshot "
+            "must not contain duplicate source paths"
+        )
+
     return {
         "router_contract_id": _text("router_contract_id"),
         "role": _text("role"),
@@ -201,6 +271,8 @@ def normalize_frozen_confirmatory_route(raw: object) -> dict[str, object]:
         "qualification_registry_id": _text("qualification_registry_id"),
         "qualification_evidence": evidence,
         "qualification_evidence_artifacts": snapshot,
+        "implementation_lock_id": _text("implementation_lock_id"),
+        "implementation_source_snapshot": implementation_snapshot,
     }
 
 
