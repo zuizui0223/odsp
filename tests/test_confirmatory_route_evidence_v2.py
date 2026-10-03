@@ -39,7 +39,7 @@ def test_independent_four_and_twelve_edge_routes_have_distinct_evidence_chains()
     assert "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" not in four.qualification_evidence
     assert "INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json" not in four.qualification_evidence
     assert "INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json" in twelve.qualification_evidence
-    assert "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" in twelve.qualification_evidence
+    assert "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" not in twelve.qualification_evidence
 
 
 def test_all_refit_independent_lattice_evidence_tracks_family_size():
@@ -65,7 +65,7 @@ def test_all_refit_independent_lattice_evidence_tracks_family_size():
     assert "INDEPENDENT_C4_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" in four.qualification_evidence
     assert "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" not in four.qualification_evidence
     assert "INDEPENDENT_DIRECTIONAL_LATTICE_FAMILY_CALIBRATION_RECEIPT.json" in twelve.qualification_evidence
-    assert "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" in twelve.qualification_evidence
+    assert "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" not in twelve.qualification_evidence
 
 
 def test_independent_c4_filtration_carries_support_envelope_evidence():
