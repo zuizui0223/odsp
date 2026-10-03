@@ -254,3 +254,49 @@ def verify_upstream_model_artifact_snapshot(
             f"frozen={list(frozen)!r}, runtime={list(current)!r}"
         )
     return current
+
+
+def verify_optional_upstream_model_artifact_lock(
+    *,
+    frozen_lock_id: object,
+    frozen_snapshot: object,
+    declarations: object,
+    base_dir: str | Path,
+    refit_ids: Sequence[object],
+) -> tuple[str | None, tuple[dict[str, str], ...]]:
+    """Verify a new content lock while preserving historical no-lock artifacts.
+
+    Both frozen lock fields must be present together. If neither is present, the
+    historical artifact remains readable but is not silently upgraded.
+    """
+
+    if (frozen_lock_id is None) != (frozen_snapshot is None):
+        raise ValueError(
+            "freeze manifest must contain both upstream model artifact lock ID "
+            "and snapshot, or neither for historical compatibility"
+        )
+    if frozen_lock_id is None:
+        return None, ()
+    lock_id = _text(
+        frozen_lock_id, name="freeze manifest.upstream_model_artifact_lock_id"
+    )
+    if lock_id != MODEL_ARTIFACT_LOCK_ID:
+        raise ValueError(
+            "freeze manifest semantic mismatch for upstream_model_artifact_lock_id: "
+            f"frozen={lock_id!r}, runtime={MODEL_ARTIFACT_LOCK_ID!r}"
+        )
+    snapshot = normalize_upstream_model_artifact_snapshot(
+        frozen_snapshot, refit_ids=refit_ids
+    )
+    if not declarations:
+        raise ValueError(
+            "runtime contract must declare upstream_model_artifacts for a "
+            "content-locked freeze manifest"
+        )
+    current = verify_upstream_model_artifact_snapshot(
+        snapshot,
+        declarations,
+        base_dir=base_dir,
+        refit_ids=refit_ids,
+    )
+    return lock_id, current
