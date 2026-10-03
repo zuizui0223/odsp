@@ -43,6 +43,55 @@ def _normalized_refit_ids(refit_ids: Sequence[object]) -> tuple[str, ...]:
     return tuple(sorted(rows))
 
 
+def normalize_upstream_model_artifact_declarations(
+    raw: object,
+    *,
+    refit_ids: Sequence[object] | None = None,
+) -> tuple[dict[str, str], ...]:
+    """Validate logical artifact declarations without reading artifact bytes."""
+
+    if not isinstance(raw, Sequence) or isinstance(raw, (str, bytes, bytearray)) or not raw:
+        raise ValueError("upstream_model_artifacts must be a non-empty sequence")
+    allowed_refits = None if refit_ids is None else set(_normalized_refit_ids(refit_ids))
+    rows: list[dict[str, str]] = []
+    seen: set[tuple[str, str]] = set()
+    represented: set[str] = set()
+    for index, item in enumerate(raw):
+        if not isinstance(item, Mapping):
+            raise ValueError(f"upstream_model_artifacts[{index}] must be an object")
+        if set(item) != _DECLARATION_FIELDS:
+            raise ValueError(
+                f"upstream_model_artifacts[{index}] fields must be exactly "
+                "['artifact_id', 'path', 'refit_id']"
+            )
+        refit_id = _text(item.get("refit_id"), name=f"upstream_model_artifacts[{index}].refit_id")
+        artifact_id = _text(
+            item.get("artifact_id"), name=f"upstream_model_artifacts[{index}].artifact_id"
+        )
+        path = _text(item.get("path"), name=f"upstream_model_artifacts[{index}].path")
+        if allowed_refits is not None and refit_id not in allowed_refits:
+            raise ValueError(
+                f"upstream model artifact references unknown frozen refit {refit_id!r}"
+            )
+        key = (refit_id, artifact_id)
+        if key in seen:
+            raise ValueError(
+                f"duplicate upstream model artifact logical identity: "
+                f"refit_id={refit_id!r}, artifact_id={artifact_id!r}"
+            )
+        seen.add(key)
+        represented.add(refit_id)
+        rows.append({"refit_id": refit_id, "artifact_id": artifact_id, "path": path})
+
+    if allowed_refits is not None:
+        missing = sorted(allowed_refits - represented)
+        if missing:
+            raise ValueError(f"missing artifacts for frozen refit(s): {missing!r}")
+
+    rows.sort(key=lambda row: (row["refit_id"], row["artifact_id"]))
+    return tuple(rows)
+
+
 def snapshot_upstream_model_artifacts(
     declarations: Sequence[Mapping[str, object]] | object,
     *,
