@@ -175,11 +175,13 @@ def test_new_model_lock_contract_declares_all_canonical_external_integrations():
         "odsp_pre_external_outcome_freeze_v1",
         "odsp_pre_external_outcome_paired_freeze_v1",
         "odsp_pre_external_outcome_paired_lattice_freeze_v1",
+        "odsp_pre_external_outcome_independent_lattice_freeze_v1",
     ]
     assert integrations["runtime_verification_routes"] == [
         "odsp_untouched_external_refit_positive_validation_endpoint_v2",
         "odsp_untouched_external_refit_shared_block_positive_validation_endpoint_v3",
         "odsp_untouched_external_paired_all_refit_positive_lattice_endpoint_v4",
+        "odsp_untouched_external_independent_all_refit_positive_lattice_endpoint_v5",
     ]
     assert integrations["historical_qualification_evidence_artifacts_rewritten"] is False
     assert integrations["historical_freeze_artifacts_auto_upgraded"] is False
