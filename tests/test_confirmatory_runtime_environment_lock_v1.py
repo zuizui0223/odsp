@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pytest
 
+import odsp.confirmatory_environment_lock as environment_lock
 from odsp.confirmatory_environment_lock import (
     ENVIRONMENT_LOCK_ID,
     runtime_environment_snapshot_for_surface,
@@ -33,6 +34,18 @@ def test_environment_snapshot_captures_python_and_external_distributions():
     assert isinstance(snapshot["python"]["minor"], int)
     assert "numpy" in snapshot["external_modules"]
     assert "numpy" in _distribution_names(snapshot)
+
+
+def test_environment_snapshot_fails_closed_when_external_import_has_no_distribution(
+    monkeypatch,
+):
+    surface = (
+        "odsp.untouched_external_refit_positive_contract_v2."
+        "run_untouched_external_refit_positive_contract_v2"
+    )
+    monkeypatch.setattr(environment_lock.metadata, "packages_distributions", lambda: {})
+    with pytest.raises(ValueError, match="cannot map external import"):
+        runtime_environment_snapshot_for_surface(surface)
 
 
 def test_new_frozen_confirmatory_route_includes_runtime_environment_lock():
