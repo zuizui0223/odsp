@@ -18,7 +18,8 @@
     "symlink_artifacts_allowed": false,
     "directory_artifacts_allowed": false,
     "duplicate_logical_artifacts_allowed": false,
-    "unknown_refit_artifacts_allowed": false
+    "unknown_refit_artifacts_allowed": false,
+    "local_path_is_semantic": false
   },
   "runtime": {
     "exact_logical_id_and_sha256_match_required": true,
