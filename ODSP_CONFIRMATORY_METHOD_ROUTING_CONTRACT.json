@@ -149,5 +149,18 @@
     "runtime_exact_snapshot_match_required": true,
     "dynamic_odsp_imports_qualified": false,
     "unrelated_repository_files_included": false
+  },
+  "runtime_environment_identity": {
+    "contract": "ODSP_CONFIRMATORY_RUNTIME_ENVIRONMENT_LOCK_V1.json",
+    "environment_lock_id": "odsp-confirmatory-runtime-environment-lock-v1",
+    "canonical_surface_implementation_closure_is_discovery_scope": true,
+    "python_implementation_frozen": true,
+    "python_major_minor_frozen": true,
+    "external_import_module_names_frozen": true,
+    "external_distribution_versions_frozen": true,
+    "pre_outcome_freeze_required": true,
+    "runtime_exact_snapshot_match_required": true,
+    "platform_and_blas_identity_frozen": false,
+    "bitwise_reproducibility_claimed": false
   }
 }
