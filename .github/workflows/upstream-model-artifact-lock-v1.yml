@@ -1,0 +1,29 @@
+name: upstream-model-artifact-lock-v1
+
+on:
+  push:
+    branches:
+      - 'method/freeze-upstream-model-artifacts-v1'
+  pull_request:
+    paths:
+      - 'odsp/upstream_model_artifact_lock.py'
+      - 'ODSP_UPSTREAM_MODEL_ARTIFACT_LOCK_V1.json'
+      - 'tests/test_upstream_model_artifact_lock_v1.py'
+      - '.github/workflows/upstream-model-artifact-lock-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core package with test dependencies
+        run: python -m pip install -e '.[dev]'
+      - name: Run upstream model artifact lock tests
+        run: python -m pytest -q tests/test_upstream_model_artifact_lock_v1.py
