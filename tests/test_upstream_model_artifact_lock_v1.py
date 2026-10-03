@@ -165,36 +165,21 @@ def test_machine_contract_freezes_model_artifact_content_boundary():
     assert payload["boundaries"]["proves_score_table_was_generated_by_frozen_models"] is False
 
 
-def test_canonical_external_contracts_publish_model_content_lock_boundary():
-    root = Path(".")
-    generator = json.loads(
-        (root / "ODSP_PREOUTCOME_EXTERNAL_FREEZE_GENERATOR_CONTRACT_V1.json").read_text(
-            encoding="utf-8"
-        )
-    )
-    independent = json.loads(
-        (root / "ODSP_UNTOUCHED_EXTERNAL_FREEZE_SEMANTIC_LOCK_V2.json").read_text(
-            encoding="utf-8"
-        )
-    )
-    paired = json.loads(
-        (root / "ODSP_PAIRED_REFIT_UNTOUCHED_EXTERNAL_V3_CONTRACT.json").read_text(
-            encoding="utf-8"
-        )
-    )
-    lattice = json.loads(
-        (root / "ODSP_UNTOUCHED_EXTERNAL_PAIRED_ALL_REFIT_LATTICE_V4_CONTRACT.json").read_text(
-            encoding="utf-8"
-        )
-    )
 
-    assert generator["manifest"]["upstream_model_artifact_content_frozen"] is True
-    assert generator["manifest"]["model_artifact_local_path_is_semantic"] is False
-    assert independent["runtime_exact_match_requirements"]["upstream_model_artifact_content"] is True
-    assert independent["epistemic_boundary"]["score_table_derivation_from_frozen_models_proven"] is False
-    assert paired["pre_outcome_freeze"]["upstream_model_artifact_content_frozen"] is True
-    assert paired["external_validation"]["runtime_model_artifact_content_must_match_frozen_manifest"] is True
-    assert paired["external_validation"]["score_table_derivation_from_frozen_models_proven"] is False
-    assert lattice["pre_outcome_freeze"]["upstream_model_artifact_content_frozen"] is True
-    assert lattice["external_validation"]["runtime_model_artifact_content_must_match_frozen_manifest"] is True
-    assert lattice["external_validation"]["score_table_derivation_from_frozen_models_proven"] is False
+def test_new_model_lock_contract_declares_all_canonical_external_integrations():
+    payload = json.loads(
+        Path("ODSP_UPSTREAM_MODEL_ARTIFACT_LOCK_V1.json").read_text(encoding="utf-8")
+    )
+    integrations = payload["integrations"]
+    assert integrations["canonical_new_freeze_routes"] == [
+        "odsp_pre_external_outcome_freeze_v1",
+        "odsp_pre_external_outcome_paired_freeze_v1",
+        "odsp_pre_external_outcome_paired_lattice_freeze_v1",
+    ]
+    assert integrations["runtime_verification_routes"] == [
+        "odsp_untouched_external_refit_positive_validation_endpoint_v2",
+        "odsp_untouched_external_refit_shared_block_positive_validation_endpoint_v3",
+        "odsp_untouched_external_paired_all_refit_positive_lattice_endpoint_v4",
+    ]
+    assert integrations["historical_qualification_evidence_artifacts_rewritten"] is False
+    assert integrations["historical_freeze_artifacts_auto_upgraded"] is False
