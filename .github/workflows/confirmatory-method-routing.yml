@@ -11,6 +11,8 @@ on:
       - 'odsp/cli.py'
       - 'ODSP_CONFIRMATORY_METHOD_ROUTING_CONTRACT.json'
       - 'ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V2.json'
+      - 'ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V3.json'
+      - 'ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V1.json'
       - 'tests/test_confirmatory_method_routing.py'
       - 'tests/test_confirmatory_method_routing_contract.py'
       - 'tests/test_confirmatory_route_evidence_v2.py'

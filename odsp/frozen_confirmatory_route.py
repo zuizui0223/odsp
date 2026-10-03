@@ -4,6 +4,10 @@ from __future__ import annotations
 from typing import Mapping
 
 from .confirmatory_method_routing import route_confirmatory_method
+from .confirmatory_route_evidence import (
+    QUALIFICATION_EVIDENCE_REGISTRY_ID,
+    qualification_evidence_artifacts_for_route_key,
+)
 
 
 ROUTER_CONTRACT_ID = "odsp-confirmatory-method-routing-v1"
@@ -20,7 +24,9 @@ _ROUTE_FIELDS = {
     "information_block_count",
     "edge_count",
     "qualification_key",
+    "qualification_registry_id",
     "qualification_evidence",
+    "qualification_evidence_artifacts",
 }
 
 
@@ -53,6 +59,13 @@ def build_frozen_confirmatory_route(
         raise ValueError(
             "primary_confirmatory route is missing registered qualification evidence"
         )
+    evidence_artifacts = qualification_evidence_artifacts_for_route_key(
+        decision.qualification_key
+    )
+    if not evidence_artifacts:
+        raise ValueError(
+            "primary_confirmatory route is missing registered qualification evidence SHA256"
+        )
 
     return {
         "router_contract_id": ROUTER_CONTRACT_ID,
@@ -67,7 +80,9 @@ def build_frozen_confirmatory_route(
         "information_block_count": information_block_count,
         "edge_count": decision.edge_count,
         "qualification_key": decision.qualification_key,
+        "qualification_registry_id": QUALIFICATION_EVIDENCE_REGISTRY_ID,
         "qualification_evidence": list(decision.qualification_evidence),
+        "qualification_evidence_artifacts": [dict(row) for row in evidence_artifacts],
     }
 
 
@@ -118,6 +133,58 @@ def normalize_frozen_confirmatory_route(raw: object) -> dict[str, object]:
             "freeze manifest confirmatory_route.qualification_evidence must not contain duplicates"
         )
 
+    snapshot_raw = raw["qualification_evidence_artifacts"]
+    if not isinstance(snapshot_raw, list) or not snapshot_raw:
+        raise ValueError(
+            "freeze manifest confirmatory_route.qualification_evidence_artifacts "
+            "must be a non-empty JSON array"
+        )
+    snapshot: list[dict[str, str]] = []
+    for index, item in enumerate(snapshot_raw):
+        if not isinstance(item, Mapping):
+            raise ValueError(
+                "freeze manifest confirmatory_route.qualification_evidence_artifacts"
+                f"[{index}] must be a JSON object"
+            )
+        if set(item) != {"artifact", "sha256"}:
+            raise ValueError(
+                "freeze manifest confirmatory_route.qualification_evidence_artifacts"
+                f"[{index}] fields must be exactly ['artifact', 'sha256']"
+            )
+        artifact = item["artifact"]
+        digest = item["sha256"]
+        if not isinstance(artifact, str) or not artifact.strip():
+            raise ValueError(
+                "freeze manifest confirmatory_route.qualification_evidence_artifacts"
+                f"[{index}].artifact must be non-empty text"
+            )
+        artifact = artifact.strip()
+        if not isinstance(digest, str):
+            raise ValueError(
+                "freeze manifest confirmatory_route.qualification_evidence_artifacts"
+                f"[{index}].sha256 must be lowercase SHA256 text"
+            )
+        digest = digest.strip()
+        if len(digest) != 64 or digest.lower() != digest:
+            raise ValueError(
+                "freeze manifest confirmatory_route.qualification_evidence_artifacts"
+                f"[{index}].sha256 must be lowercase SHA256 text"
+            )
+        try:
+            int(digest, 16)
+        except ValueError as exc:
+            raise ValueError(
+                "freeze manifest confirmatory_route.qualification_evidence_artifacts"
+                f"[{index}].sha256 must be lowercase SHA256 text"
+            ) from exc
+        snapshot.append({"artifact": artifact, "sha256": digest})
+    snapshot_names = [row["artifact"] for row in snapshot]
+    if snapshot_names != evidence:
+        raise ValueError(
+            "freeze manifest confirmatory_route qualification evidence names and "
+            "artifact digest snapshot are not exactly aligned"
+        )
+
     return {
         "router_contract_id": _text("router_contract_id"),
         "role": _text("role"),
@@ -131,7 +198,9 @@ def normalize_frozen_confirmatory_route(raw: object) -> dict[str, object]:
         "information_block_count": _optional_int("information_block_count"),
         "edge_count": _optional_int("edge_count"),
         "qualification_key": _text("qualification_key"),
+        "qualification_registry_id": _text("qualification_registry_id"),
         "qualification_evidence": evidence,
+        "qualification_evidence_artifacts": snapshot,
     }
 
 
