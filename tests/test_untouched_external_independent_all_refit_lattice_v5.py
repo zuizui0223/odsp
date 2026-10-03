@@ -218,7 +218,18 @@ def test_two_block_independent_external_lattice_is_universal(tmp_path: Path):
 
 
 def test_three_block_independent_external_lattice_uses_12_edge_family(tmp_path: Path):
-    _, _, endpoint = _setup(tmp_path, ("A", "B", "C"))
+    manifest, _, endpoint = _setup(tmp_path, ("A", "B", "C"))
+    frozen = json.loads(manifest.read_text(encoding="utf-8"))
+    evidence = frozen["confirmatory_route"]["qualification_evidence"]
+    assert "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json" in evidence
+    evidence_artifacts = {
+        row["artifact"]: row["sha256"]
+        for row in frozen["confirmatory_route"]["qualification_evidence_artifacts"]
+    }
+    assert evidence_artifacts[
+        "INDEPENDENT_C12_ONE_SIDED_SUPPORT_ENVELOPE_RECEIPT.json"
+    ] == "cde0b86d8c2e11ce94b111a6b42663814e257efcc4aa0e2cdddbb70c88041838"
+
     receipt = run_untouched_external_independent_all_refit_lattice_contract_v5(endpoint)
     assert receipt["information_block_count"] == 3
     assert receipt["edge_count"] == 12
