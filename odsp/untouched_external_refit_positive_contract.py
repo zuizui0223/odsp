@@ -39,11 +39,13 @@ from .refit_information_transfer import RefitInformationLevelScores
 from .refit_positive_information_transfer import (
     certify_refit_positive_information_transfer,
 )
+from .upstream_model_artifact_lock import normalize_upstream_model_artifact_declarations
 
 
 _TOP_LEVEL = {
     "schema_version",
     "endpoint_id",
+    "upstream_model_artifacts",
     "data",
     "columns",
     "score",
@@ -195,6 +197,9 @@ def validate_untouched_external_refit_positive_contract(
     if isinstance(version, bool) or version != 1:
         raise ValueError("schema_version must be 1")
     endpoint_id = _text(contract.get("endpoint_id"), name="endpoint_id")
+    model_artifacts = normalize_upstream_model_artifact_declarations(
+        contract.get("upstream_model_artifacts")
+    )
 
     data = _mapping(contract.get("data"), name="data")
     _reject_unknown(data, _DATA_FIELDS, name="data")
@@ -289,6 +294,7 @@ def validate_untouched_external_refit_positive_contract(
     return {
         "schema_version": 1,
         "endpoint_id": endpoint_id,
+        "upstream_model_artifacts": [dict(row) for row in model_artifacts],
         "data": {"path": data_path, "format": data_format},
         "columns": normalized_columns,
         "score": score,
