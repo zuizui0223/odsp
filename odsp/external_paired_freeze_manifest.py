@@ -13,6 +13,10 @@ from .external_freeze_manifest import (
 from .frozen_confirmatory_route import build_frozen_confirmatory_route
 from .information_transfer_contract import _read_rows, _text, _value
 from .untouched_external_refit_positive_contract_v2 import _row_roster_sha256
+from .upstream_model_artifact_lock import (
+    MODEL_ARTIFACT_LOCK_ID,
+    snapshot_upstream_model_artifacts,
+)
 from .untouched_external_refit_shared_block_positive_contract_v3 import (
     _VALIDATION_DESIGN,
 )
@@ -56,6 +60,12 @@ def create_paired_external_freeze_manifest(
     if len(set(row_ids)) != len(row_ids):
         raise ValueError("pre-outcome roster row IDs must be unique")
 
+    model_artifact_snapshot = snapshot_upstream_model_artifacts(
+        plan["upstream_model_artifacts"],
+        base_dir=plan_path.parent,
+        refit_ids=plan["refit_ids"],
+    )
+
     confirmatory_route = build_frozen_confirmatory_route(
         validation_design="paired_shared_blocks",
         information_structure="filtration",
@@ -72,6 +82,8 @@ def create_paired_external_freeze_manifest(
         "manifest_type": "odsp_pre_external_outcome_paired_freeze_v1",
         "frozen_at_utc": frozen_at_utc,
         "upstream_model_set_id": plan["upstream_model_set_id"],
+        "upstream_model_artifact_lock_id": MODEL_ARTIFACT_LOCK_ID,
+        "upstream_model_artifact_snapshot": [dict(row) for row in model_artifact_snapshot],
         "external_dataset_id": plan["external_dataset_id"],
         "external_row_ids_sha256": _row_roster_sha256(row_ids),
         "validation_design": dict(_VALIDATION_DESIGN),
@@ -104,6 +116,8 @@ def create_paired_external_freeze_manifest(
         "external_row_ids_sha256": manifest["external_row_ids_sha256"],
         "external_row_count": len(row_ids),
         "upstream_model_set_id": plan["upstream_model_set_id"],
+        "upstream_model_artifact_lock_id": MODEL_ARTIFACT_LOCK_ID,
+        "upstream_model_artifact_snapshot": [dict(row) for row in model_artifact_snapshot],
         "external_dataset_id": plan["external_dataset_id"],
         "validation_design": dict(_VALIDATION_DESIGN),
         "confirmatory_route": confirmatory_route,
@@ -116,6 +130,8 @@ def create_paired_external_freeze_manifest(
             "roster_outcome_columns_allowed": False,
             "external_outcomes_read_by_freeze_generator": False,
             "confirmatory_route_frozen_before_outcome_access": True,
+            "upstream_model_artifact_bytes_frozen_before_outcome_access": True,
+            "model_artifact_local_paths_are_semantic": False,
             "paired_shared_block_design_frozen": True,
             "validation_group_independence_assumed": False,
             "exact_positive_mass_shared_block_support_required": True,
