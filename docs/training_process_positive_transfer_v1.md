@@ -45,16 +45,23 @@ The validation blocks are not redrawn separately for each refit. Doing so would
 incorrectly make one validation dataset look like R independent validation
 datasets.
 
-The v1 point studentizer combines two first-order components: the standard error
-of refit-specific group gains across training-process draws and the cluster-ratio
-standard error across validation blocks after averaging the refits. The crossed
-interaction remains present in the bootstrap distribution, but v1 does not
-separately identify an interaction variance component in the studentizer.
+The v1 studentizer follows the standard two-way clustering
+inclusion-exclusion construction. It computes the refit-cluster variance and the
+validation-block-cluster variance from the ratio influence residuals, then
+subtracts the refit-by-block intersection variance. In finite samples the raw
+two-way estimate can fall below one of its one-way components, so ODSP uses a
+fail-closed scalar safeguard: the final variance is the maximum of the raw
+two-way estimate and the two one-way estimates. This preserves the exact
+validation-only reduction when all refits are identical and the training-only
+reduction when validation blocks carry no variation.
 
-That last point is exactly why this module is not yet a confirmatory route.
-Prospective null calibration must show that the resulting one-sided max-t
-procedure actually controls the advertised familywise error before routing can
-be promoted.
+The resampling design is the nonparametric row-by-column or pigeonhole pattern
+of Owen (2007): training draws and validation blocks are resampled separately.
+The inclusion-exclusion studentizer is the corresponding multiway-clustering
+logic of Cameron, Gelbach & Miller (2011). Those results motivate the structure,
+but they do not by themselves qualify this particular one-sided, ratio,
+familywise max-t endpoint. Prospective null calibration still has to establish
+its operating characteristics before routing can be promoted.
 
 ## Required provenance
 
