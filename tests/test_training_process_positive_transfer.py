@@ -13,6 +13,8 @@ from odsp.refit_positive_robustness import (
     certify_all_refit_positive_information_transfer_v2,
 )
 from odsp.training_process_positive_transfer import (
+    _bootstrap_components,
+    _crossed_components,
     certify_training_process_positive_information_transfer_v1,
     certify_training_process_positive_transfer_v1,
 )
@@ -45,6 +47,29 @@ def _core(gain, **kwargs):
         minimum_blocks_per_group=8,
         **kwargs,
     )
+
+
+def test_vectorized_crossed_bootstrap_matches_replicate_reference():
+    rng = np.random.default_rng(991)
+    numerator = rng.normal(size=(5, 7, 3))
+    weight = rng.uniform(0.5, 1.5, size=7)
+    refit_draws = rng.integers(0, 5, size=(23, 5))
+    block_draws = rng.integers(0, 7, size=(23, 7))
+
+    means, ses = _bootstrap_components(
+        numerator,
+        weight,
+        refit_draws,
+        block_draws,
+    )
+    for draw_index in range(refit_draws.shape[0]):
+        local = numerator[
+            refit_draws[draw_index]
+        ][:, block_draws[draw_index], :]
+        local_weight = weight[block_draws[draw_index]]
+        mean, _, _, _, se, _ = _crossed_components(local, local_weight)
+        assert means[draw_index] == pytest.approx(mean, abs=1e-12)
+        assert ses[draw_index] == pytest.approx(se, abs=1e-12)
 
 
 def test_identical_refits_reduce_to_validation_only_one_sided_route():
