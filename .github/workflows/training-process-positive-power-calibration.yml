@@ -1,0 +1,45 @@
+name: training-process-positive-power-calibration
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/training_process_positive_transfer.py'
+      - 'odsp/training_process_positive_calibration.py'
+      - 'odsp/training_process_positive_power_calibration.py'
+      - 'tests/test_training_process_positive_transfer.py'
+      - 'tests/test_training_process_positive_power_calibration.py'
+      - 'ODSP_TRAINING_PROCESS_POSITIVE_TRANSFER_CONTRACT.json'
+      - 'ODSP_TRAINING_PROCESS_POSITIVE_POWER_CALIBRATION_CONTRACT.json'
+      - 'scripts/run_training_process_positive_power_calibration.py'
+      - '.github/workflows/training-process-positive-power-calibration.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qualify-power:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core package
+        run: python -m pip install -e '.[dev]'
+      - name: Run focused power calibration tests
+        run: >-
+          python -m pytest -q
+          tests/test_training_process_positive_transfer.py
+          tests/test_training_process_positive_power_calibration.py
+      - name: Run frozen first-1000 power qualification
+        run: |
+          python scripts/run_training_process_positive_power_calibration.py \
+            --output /tmp/training-process-power.json \
+            --seed 20261006 \
+            --simulations 1000 \
+            --bootstrap-draws 500
+          echo 'TRAINING_PROCESS_POWER_CALIBRATION_BEGIN'
+          cat /tmp/training-process-power.json
+          echo 'TRAINING_PROCESS_POWER_CALIBRATION_END'

@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-positive-power-calibration-v1",
+  "frozen_date": "2026-10-04",
+  "purpose": "prospectively test whether the null-qualified two-contrast crossed training-process route retains useful simultaneous power under standardized positive process-mean alternatives",
+  "route_under_test": {
+    "alternative": "greater",
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "contrast_count": 2,
+    "upstream_refits": "predeclared_training_process",
+    "external_validation": "none"
+  },
+  "generator": {
+    "generator_version": "crossed_training_refit_validation_standardized_power_c2_v1",
+    "base_worlds": "same six crossed random-effects scenario families frozen for the null qualification",
+    "positive_shift_applied_to": "every group x contrast process mean",
+    "translation_invariance_used": true,
+    "translation_invariance_claim": "adding a common gain shift changes point and bootstrap means by the same amount while leaving crossed studentizers and centered max-t statistics unchanged"
+  },
+  "standardized_alternatives": {
+    "oracle_cell_standard_error_formula_normal": "sqrt(training_sd^2/R + validation_sd^2/B + interaction_sd^2/(R*B))",
+    "student_t3_variance_multiplier": 3.0,
+    "moderate_shift_standard_errors": 3.0,
+    "moderate_role": "descriptive power only",
+    "strong_shift_standard_errors": 5.0,
+    "strong_role": "qualification gate"
+  },
+  "qualification_run": {
+    "seed": 20261006,
+    "simulations_per_scenario": 1000,
+    "bootstrap_draws_per_interval": 500,
+    "group_count": 6,
+    "contrast_count": 2,
+    "training_cross_cell_correlation": 0.35,
+    "contrast_correlation": 0.5,
+    "familywise_lower_confidence_level": 0.95
+  },
+  "acceptance_rule": {
+    "metric": "terminal power that every group x both ordered contrasts is simultaneously robust_positive",
+    "minimum_strong_terminal_power": 0.8,
+    "strong_power_must_be_at_least_moderate_power": true,
+    "every_predeclared_scenario_must_pass": true
+  },
+  "prequalification_history": {
+    "power_results_observed_before_this_freeze": false,
+    "threshold_tuned_to_power_results": false,
+    "null_qualification_results_were_known_before_power_freeze": true,
+    "null_results_used_to_change_power_threshold": false
+  },
+  "scope_boundary": {
+    "contrast_count_4_qualified": false,
+    "paired_shared_blocks_qualified": false,
+    "complete_lattice_qualified": false,
+    "untouched_external_qualified": false,
+    "fixed_set_refit_results_reclassified": false,
+    "historical_empirical_results_reclassified": false
+  },
+  "promotion_rule": {
+    "power_panel_alone_promotes_primary_route": false,
+    "power_panel_is_required_after_null_qualification": true,
+    "additional_required_evidence": [
+      "content-locked training-process manifest and generated-model provenance receipt",
+      "training-validation provenance verification",
+      "confirmatory implementation identity lock",
+      "runtime environment lock",
+      "qualification evidence content lock",
+      "routing registry update on a later commit"
+    ]
+  }
+}
