@@ -28,8 +28,20 @@ the crossed expectation
 
 E_r E_v D(r, v; g, c).
 
-It is not the minimum over refits, the probability that a future individual
-refit passes, or a statement that all possible refits are positive.
+The r expectation is over the **frozen resampling-and-fitting process conditional
+on the frozen training source**. In v1 that process is an independent stratified
+bootstrap of the declared training units, coupled to a predeclared fit-seed
+policy and frozen fitting implementation. It is not a second claim about
+uncertainty from drawing an entirely new ecological training dataset from some
+larger source population.
+
+The v expectation is over the declared validation population represented by the
+validation-block sampling design.
+
+Therefore the v1 estimand is not the minimum over refits, the probability that a
+future individual refit passes, a statement that all possible refits are
+positive, or a population-level claim about every possible original training
+sample.
 
 ## Crossed bootstrap
 
@@ -48,12 +60,15 @@ datasets.
 The v1 studentizer follows the standard two-way clustering
 inclusion-exclusion construction. It computes the refit-cluster variance and the
 validation-block-cluster variance from the ratio influence residuals, then
-subtracts the refit-by-block intersection variance. In finite samples the raw
-two-way estimate can fall below one of its one-way components, so ODSP uses a
-fail-closed scalar safeguard: the final variance is the maximum of the raw
-two-way estimate and the two one-way estimates. This preserves the exact
-validation-only reduction when all refits are identical and the training-only
-reduction when validation blocks carry no variation.
+subtracts the refit-by-block intersection variance.
+
+A finite-sample two-way variance estimate need not be non-negative. ODSP therefore
+uses an explicitly conservative scalar safeguard: the reported variance is the
+maximum of the raw two-way estimate, the training-axis one-way estimate, the
+validation-axis one-way estimate, and zero. This is a practical fail-closed rule,
+not a theorem imported unchanged from the multiway-clustering literature. It
+also preserves the exact validation-only reduction when all refits are identical
+and the training-only reduction when validation blocks carry no variation.
 
 The resampling design is the nonparametric row-by-column or pigeonhole pattern
 of Owen (2007): training draws and validation blocks are resampled separately.
@@ -67,15 +82,25 @@ its operating characteristics before routing can be promoted.
 
 A numeric refit-by-validation score tensor cannot establish that its rows are
 valid draws from the intended process. Confirmatory use therefore requires a
-pre-outcome process manifest that freezes the resampling population and units,
-stratification or blocking rules, resampling algorithm, number of refits, RNG
-and fit-seed policy, fitting and preprocessing implementation, and the
-training-validation separation rules. The generated refits then need a receipt
-that binds them back to that manifest.
+pre-outcome process manifest that freezes the empirical training source and
+resampling units, stratification rules, resampling algorithm, number of refits,
+RNG and fit-seed policy, fitting and preprocessing implementation, and the
+training-validation separation rules.
 
-The current numeric core accepts a process ID and manifest SHA256 so that this
-future provenance layer has a hard attachment point. It does not manufacture
-that provenance itself.
+The process manifest is deliberately narrower than a generic list of models.
+Dependent K-fold or jackknife collections and hand-picked seed sets are not
+silently reinterpreted as an independent process sample. For v1, the admissible
+process family is independent stratified bootstrap draws with replacement from
+the frozen training roster.
+
+The generated model artifacts also need a generation/provenance receipt that
+binds each refit back to the frozen manifest. A manifest proves what was planned;
+it does not by itself prove that the supplied model bytes were actually produced
+by that plan.
+
+The current numeric core accepts a process ID and manifest SHA256 so that the
+provenance layer has a hard attachment point. It does not manufacture that
+provenance itself.
 
 The first prospective qualification is intentionally narrower than the numeric
 API: independent validation groups, an ordered filtration with exactly two
