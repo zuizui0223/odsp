@@ -24,7 +24,6 @@ from typing import Sequence
 
 import numpy as np
 
-from .bootstrap_t import ratio_mean_and_cluster_se
 from .information_transfer import (
     InformationLevelScore,
     InformationTransferStep,
