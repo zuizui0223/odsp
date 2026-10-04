@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "receipt_type": "odsp_training_process_positive_power_calibration_v1",
+  "date": "2026-10-04",
+  "benchmark_type": "standardized_positive_process_mean_terminal_power",
+  "empirical_endpoint": false,
+  "historical_fixed_set_endpoint_reclassified": false,
+  "first_1000_simulation_run": {
+    "github_actions_run_id": 37210129138,
+    "github_actions_job_id": 111459445739,
+    "workflow": "training-process-positive-power-calibration",
+    "head_sha": "ec0fd15a90e117757bd18100ecfa830b1e02adba",
+    "seed": 20261006,
+    "simulations_per_scenario": 1000,
+    "bootstrap_draws_per_interval": 500,
+    "group_count": 6,
+    "contrast_count": 2,
+    "training_cross_cell_correlation": 0.35,
+    "contrast_correlation": 0.5,
+    "familywise_lower_confidence_level": 0.95,
+    "generator_version": "crossed_training_refit_validation_standardized_power_c2_v1"
+  },
+  "acceptance_rule": {
+    "metric": "terminal power that every group x both ordered contrasts is simultaneously robust_positive",
+    "moderate_shift_standard_errors": 3.0,
+    "moderate_role": "descriptive_only",
+    "strong_shift_standard_errors": 5.0,
+    "minimum_strong_terminal_power": 0.8,
+    "strong_power_must_be_at_least_moderate_power": true,
+    "every_predeclared_scenario_must_pass": true
+  },
+  "scenarios": [
+    {"scenario_id":"balanced-normal-r8-b8","distribution":"normal","refit_count":8,"blocks_per_group":8,"contrast_count":2,"training_sd":0.5,"validation_sd":0.5,"interaction_sd":0.5,"simulations":1000,"oracle_cell_standard_error":0.2576941016011038,"moderate_standardized_shift":3.0,"moderate_gain_shift":0.7730823048033113,"moderate_terminal_power":0.001,"strong_standardized_shift":5.0,"strong_gain_shift":1.288470508005519,"strong_terminal_power":0.496,"strong_power_monte_carlo_standard_error":0.01581088232832058,"minimum_accepted_strong_terminal_power":0.8,"monotonic_power":true,"acceptance_pass":false},
+    {"scenario_id":"training-dominant-normal-r8-b20","distribution":"normal","refit_count":8,"blocks_per_group":20,"contrast_count":2,"training_sd":0.8,"validation_sd":0.2,"interaction_sd":0.5,"simulations":1000,"oracle_cell_standard_error":0.2890717903912452,"moderate_standardized_shift":3.0,"moderate_gain_shift":0.8672153711737356,"moderate_terminal_power":0.002,"strong_standardized_shift":5.0,"strong_gain_shift":1.445358951956226,"strong_terminal_power":0.187,"strong_power_monte_carlo_standard_error":0.012330085157856777,"minimum_accepted_strong_terminal_power":0.8,"monotonic_power":true,"acceptance_pass":false},
+    {"scenario_id":"validation-dominant-normal-r20-b8","distribution":"normal","refit_count":20,"blocks_per_group":8,"contrast_count":2,"training_sd":0.2,"validation_sd":0.8,"interaction_sd":0.5,"simulations":1000,"oracle_cell_standard_error":0.2890717903912452,"moderate_standardized_shift":3.0,"moderate_gain_shift":0.8672153711737356,"moderate_terminal_power":0.0,"strong_standardized_shift":5.0,"strong_gain_shift":1.445358951956226,"strong_terminal_power":0.086,"strong_power_monte_carlo_standard_error":0.008865889690267977,"minimum_accepted_strong_terminal_power":0.8,"monotonic_power":true,"acceptance_pass":false},
+    {"scenario_id":"interaction-dominant-normal-r8-b8","distribution":"normal","refit_count":8,"blocks_per_group":8,"contrast_count":2,"training_sd":0.1,"validation_sd":0.1,"interaction_sd":1.0,"simulations":1000,"oracle_cell_standard_error":0.13462912017836262,"moderate_standardized_shift":3.0,"moderate_gain_shift":0.4038873605350879,"moderate_terminal_power":0.0,"strong_standardized_shift":5.0,"strong_gain_shift":0.6731456008918131,"strong_terminal_power":0.241,"strong_power_monte_carlo_standard_error":0.013524755080961725,"minimum_accepted_strong_terminal_power":0.8,"monotonic_power":true,"acceptance_pass":false},
+    {"scenario_id":"balanced-t3-r8-b20","distribution":"student_t3","refit_count":8,"blocks_per_group":20,"contrast_count":2,"training_sd":0.5,"validation_sd":0.5,"interaction_sd":0.5,"simulations":1000,"oracle_cell_standard_error":0.3686970300938156,"moderate_standardized_shift":3.0,"moderate_gain_shift":1.106091090281447,"moderate_terminal_power":0.116,"strong_standardized_shift":5.0,"strong_gain_shift":1.843485150469078,"strong_terminal_power":0.628,"strong_power_monte_carlo_standard_error":0.015284501954594399,"minimum_accepted_strong_terminal_power":0.8,"monotonic_power":true,"acceptance_pass":false},
+    {"scenario_id":"balanced-normal-r20-b20","distribution":"normal","refit_count":20,"blocks_per_group":20,"contrast_count":2,"training_sd":0.5,"validation_sd":0.5,"interaction_sd":0.5,"simulations":1000,"oracle_cell_standard_error":0.16007810593582122,"moderate_standardized_shift":3.0,"moderate_gain_shift":0.4802343178074637,"moderate_terminal_power":0.033,"strong_standardized_shift":5.0,"strong_gain_shift":0.8003905296791061,"strong_terminal_power":0.84,"strong_power_monte_carlo_standard_error":0.011593101396951551,"minimum_accepted_strong_terminal_power":0.8,"monotonic_power":true,"acceptance_pass":true}
+  ],
+  "summary": {
+    "predeclared_scenario_count": 6,
+    "pass_count": 1,
+    "fail_count": 5,
+    "qualification_pass": false,
+    "smallest_strong_terminal_power": 0.086,
+    "largest_strong_terminal_power": 0.84,
+    "all_strong_powers_at_least_moderate": true
+  },
+  "qualification_boundary": {
+    "v1_power_gate_failed": true,
+    "v1_primary_promotion_allowed": false,
+    "null_qualification_remains_valid": true,
+    "power_threshold_or_effect_sizes_may_be_changed_post_hoc_to_rescue_v1": false,
+    "successor_method_may_be_developed_as_new_version": true,
+    "successor_method_requires_new_predeclared_null_and_power_qualification": true,
+    "untouched_external_endpoint_qualified": false
+  }
+}

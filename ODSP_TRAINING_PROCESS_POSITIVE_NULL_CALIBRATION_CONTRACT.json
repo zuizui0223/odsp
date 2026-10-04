@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-positive-null-calibration-v1",
+  "frozen_date": "2026-10-04",
+  "purpose": "prospectively qualify the separate two-contrast training-process directional route under crossed upstream-training and validation uncertainty before any confirmatory promotion",
+  "route_under_test": {
+    "alternative": "greater",
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "contrast_count": 2,
+    "upstream_refits": "predeclared_training_process",
+    "external_validation": "none"
+  },
+  "generator": {
+    "generator_version": "crossed_training_refit_validation_known_null_c2_v1",
+    "true_process_mean_gain": 0.0,
+    "group_count": 6,
+    "contrast_count": 2,
+    "training_cross_cell_correlation": 0.35,
+    "contrast_correlation": 0.5,
+    "training_draw_shared_across_all_groups_and_contrasts": true,
+    "validation_blocks_independent_between_groups": true,
+    "refit_by_validation_interaction_included": true
+  },
+  "scenarios": [
+    {
+      "scenario_id": "balanced-normal-r8-b8",
+      "distribution": "normal",
+      "refit_count": 8,
+      "blocks_per_group": 8,
+      "training_sd": 0.5,
+      "validation_sd": 0.5,
+      "interaction_sd": 0.5
+    },
+    {
+      "scenario_id": "training-dominant-normal-r8-b20",
+      "distribution": "normal",
+      "refit_count": 8,
+      "blocks_per_group": 20,
+      "training_sd": 0.8,
+      "validation_sd": 0.2,
+      "interaction_sd": 0.5
+    },
+    {
+      "scenario_id": "validation-dominant-normal-r20-b8",
+      "distribution": "normal",
+      "refit_count": 20,
+      "blocks_per_group": 8,
+      "training_sd": 0.2,
+      "validation_sd": 0.8,
+      "interaction_sd": 0.5
+    },
+    {
+      "scenario_id": "interaction-dominant-normal-r8-b8",
+      "distribution": "normal",
+      "refit_count": 8,
+      "blocks_per_group": 8,
+      "training_sd": 0.1,
+      "validation_sd": 0.1,
+      "interaction_sd": 1.0
+    },
+    {
+      "scenario_id": "balanced-t3-r8-b20",
+      "distribution": "student_t3",
+      "refit_count": 8,
+      "blocks_per_group": 20,
+      "training_sd": 0.5,
+      "validation_sd": 0.5,
+      "interaction_sd": 0.5
+    },
+    {
+      "scenario_id": "balanced-normal-r20-b20",
+      "distribution": "normal",
+      "refit_count": 20,
+      "blocks_per_group": 20,
+      "training_sd": 0.5,
+      "validation_sd": 0.5,
+      "interaction_sd": 0.5
+    }
+  ],
+  "qualification_run": {
+    "seed": 20261005,
+    "simulations_per_scenario": 1000,
+    "bootstrap_draws_per_interval": 500,
+    "familywise_lower_confidence_level": 0.95,
+    "gain_tolerance": 0.0,
+    "minimum_refits": 8,
+    "minimum_blocks_per_group": 8
+  },
+  "acceptance_rule": {
+    "error_event": "at least one group x contrast lower bound is strictly above zero under the global process-mean null",
+    "nominal_alpha": 0.05,
+    "maximum_accepted_rate_formula": "alpha + 2*sqrt(alpha*(1-alpha)/simulations_per_scenario)",
+    "maximum_accepted_rate_at_1000_simulations": 0.06378404875209022,
+    "every_scenario_must_pass": true,
+    "terminal_false_generalizing_rate_is_gate": false,
+    "infinite_critical_value_rate_is_gate": false
+  },
+  "prequalification_history": {
+    "small_exploratory_diagnostic_simulations_occurred_before_this_freeze": true,
+    "exploratory_results_are_qualification_evidence": false,
+    "acceptance_threshold_was_tuned_to_exploratory_results": false,
+    "acceptance_rule_inherited_from_existing_odsp_one_sided_null_calibration": true,
+    "first_1000_simulation_qualification_run_must_occur_after_this_contract": true
+  },
+  "scope_boundary": {
+    "contrast_count_4_qualified": false,
+    "paired_shared_blocks_qualified": false,
+    "complete_lattice_qualified": false,
+    "untouched_external_qualified": false,
+    "fixed_set_refit_results_reclassified": false,
+    "historical_empirical_results_reclassified": false
+  },
+  "promotion_rule": {
+    "route_can_become_primary_confirmatory_if_null_panel_passes": false,
+    "null_panel_is_necessary_but_not_sufficient": true,
+    "additional_required_evidence": [
+      "pre-outcome training-process manifest and generation provenance",
+      "implementation identity lock including the new statistical core",
+      "runtime environment lock including the new statistical core",
+      "qualification evidence content lock",
+      "routing registry update on a later commit"
+    ]
+  }
+}

@@ -26,7 +26,7 @@ _ROLES = {
 _ALTERNATIVES = {"greater", "two_sided"}
 _VALIDATION_DESIGNS = {"independent_groups", "paired_shared_blocks"}
 _INFORMATION_STRUCTURES = {"filtration", "complete_lattice"}
-_REFIT_MODES = {"none", "fixed_set", "stochastic_population"}
+_REFIT_MODES = {"none", "fixed_set", "stochastic_population", "predeclared_training_process"}
 _EXTERNAL_MODES = {"none", "untouched_frozen", "untouched_unfrozen"}
 
 
@@ -284,6 +284,12 @@ def route_confirmatory_method(
                     "primary_confirmatory",
                     "Each supplied refit is certified separately and the same step must pass in every refit; the refit axis is a fixed-set intersection, not a population confidence distribution.",
                     canonical_surface="odsp.refit_positive_robustness.certify_all_refit_positive_information_transfer_v2",
+                )
+            if upstream_refits == "predeclared_training_process":
+                return routed(
+                    "unqualified",
+                    "The predeclared training-process route has a separate crossed training-refit x validation-block statistical core, but its own prospective operating-characteristic and process-provenance qualification evidence is not yet frozen. It must not borrow fixed-set refit qualification evidence.",
+                    requires_preoutcome_freeze=external_validation != "none",
                 )
             if upstream_refits == "fixed_set" and external_validation == "untouched_frozen":
                 return routed(

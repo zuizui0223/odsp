@@ -1,0 +1,87 @@
+name: training-process-positive-null-calibration
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/training_process_positive_transfer.py'
+      - 'odsp/training_process_positive_calibration.py'
+      - 'odsp/training_process_freeze_manifest.py'
+      - 'tests/test_training_process_positive_transfer.py'
+      - 'tests/test_training_process_positive_calibration.py'
+      - 'tests/test_training_process_freeze_manifest.py'
+      - 'tests/test_training_process_positive_null_receipt.py'
+      - 'ODSP_TRAINING_PROCESS_POSITIVE_TRANSFER_CONTRACT.json'
+      - 'ODSP_TRAINING_PROCESS_POSITIVE_NULL_CALIBRATION_CONTRACT.json'
+      - 'TRAINING_PROCESS_POSITIVE_NULL_CALIBRATION_RECEIPT.json'
+      - 'scripts/run_training_process_positive_null_calibration.py'
+      - '.github/workflows/training-process-positive-null-calibration.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qualify-null:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install core package
+        run: python -m pip install -e '.[dev]'
+      - name: Run focused process-route tests
+        run: >-
+          python -m pytest -q
+          tests/test_training_process_positive_transfer.py
+          tests/test_training_process_positive_calibration.py
+          tests/test_training_process_freeze_manifest.py
+          tests/test_training_process_positive_null_receipt.py
+      - name: Re-run frozen null qualification and match receipt
+        run: |
+          python scripts/run_training_process_positive_null_calibration.py \
+            --output /tmp/training-process-null.json \
+            --seed 20261005 \
+            --simulations 1000 \
+            --bootstrap-draws 500
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          observed = json.loads(Path('/tmp/training-process-null.json').read_text())
+          receipt = json.loads(
+              Path('TRAINING_PROCESS_POSITIVE_NULL_CALIBRATION_RECEIPT.json').read_text()
+          )
+          run = receipt['first_1000_simulation_run']
+
+          assert observed['qualification_pass'] is True
+          assert observed['generator_version'] == run['generator_version']
+          assert observed['seed'] == run['seed']
+          assert observed['simulations_per_scenario'] == run['simulations_per_scenario']
+          assert observed['bootstrap_draws_per_interval'] == run['bootstrap_draws_per_interval']
+          assert observed['group_count'] == run['group_count']
+          assert observed['contrast_count'] == run['contrast_count']
+          assert observed['training_cross_cell_correlation'] == run['training_cross_cell_correlation']
+          assert observed['contrast_correlation'] == run['contrast_correlation']
+          assert observed['familywise_lower_confidence_level'] == run['familywise_lower_confidence_level']
+
+          frozen = {row['scenario_id']: row for row in receipt['scenarios']}
+          actual = {row['scenario_id']: row for row in observed['scenarios']}
+          assert set(actual) == set(frozen)
+          fields = (
+              'one_sided_familywise_false_positive_rate',
+              'terminal_false_generalizing_rate',
+              'infinite_critical_value_rate',
+              'monte_carlo_standard_error',
+              'maximum_accepted_rate',
+          )
+          for scenario_id in sorted(frozen):
+              assert actual[scenario_id]['acceptance_pass'] is True
+              for field in fields:
+                  assert abs(
+                      float(actual[scenario_id][field]) - float(frozen[scenario_id][field])
+                  ) <= 1e-15, (scenario_id, field)
+
+          print('TRAINING_PROCESS_NULL_CALIBRATION_MATCHES_FROZEN_RECEIPT=true')
+          PY
