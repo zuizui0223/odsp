@@ -16,6 +16,8 @@ def test_contract_freezes_distinct_process_mean_estimand():
     target = payload["inferential_target"]
     assert payload["contract_id"] == "odsp-training-process-positive-transfer-v1"
     assert target["process_mean_target"] is True
+    assert target["conditional_on_frozen_training_source"] is True
+    assert target["original_training_dataset_sampling_uncertainty_included"] is False
     assert target["fixed_supplied_refit_set_is_estimand"] is False
     assert target["all_possible_refits_must_pass"] is False
     assert target["individual_future_refit_success_probability_is_estimand"] is False
@@ -31,11 +33,18 @@ def test_contract_freezes_crossed_not_validation_multiplied_resampling():
     assert crossed["validation_sample_size_multiplied_by_refit_count"] is False
 
 
-def test_contract_keeps_v1_unqualified_until_own_calibration():
+def test_contract_records_null_qualification_without_premature_primary_promotion():
     payload = _payload()
     state = payload["qualification_state"]
-    assert state["status"] == "experimental_pending_prospective_calibration"
+    assert state["status"] == "null_qualified_pending_power_and_provenance"
     assert state["primary_confirmatory"] is False
+    assert state["completed_qualification_evidence"] == [
+        "TRAINING_PROCESS_POSITIVE_NULL_CALIBRATION_RECEIPT.json"
+    ]
+    assert (
+        "prospective power operating-characteristic panel for crossed bootstrap-t"
+        in state["required_before_primary_routing"]
+    )
     assert payload["scope_v1"]["untouched_external_endpoint_qualified"] is False
     assert payload["studentization_v1"][
         "prospective_operating_characteristic_qualification_required_before_confirmatory_use"
