@@ -81,13 +81,20 @@
     "distribution_shift_robustness_claimed": false
   },
   "qualification_state": {
-    "status": "null_qualified_pending_power_and_provenance",
+    "status": "v1_power_gate_failed_closed",
     "primary_confirmatory": false,
     "completed_qualification_evidence": [
-      "TRAINING_PROCESS_POSITIVE_NULL_CALIBRATION_RECEIPT.json"
+      "TRAINING_PROCESS_POSITIVE_NULL_CALIBRATION_RECEIPT.json",
+      "TRAINING_PROCESS_POSITIVE_POWER_CALIBRATION_RECEIPT.json"
     ],
-    "required_before_primary_routing": [
-      "prospective power operating-characteristic panel for crossed bootstrap-t",
+    "v1_null_qualification_passed": true,
+    "v1_power_qualification_passed": false,
+    "v1_may_be_rescued_by_posthoc_threshold_change": false,
+    "successor_method_requires_new_version_and_new_prospective_qualification": true,
+    "remaining_governance_components_reusable_for_successor": true,
+    "required_before_any_successor_primary_routing": [
+      "new-version prospective null operating-characteristic panel",
+      "new-version prospective power operating-characteristic panel",
       "content-locked training-process manifest and generated-model provenance receipt",
       "training-validation provenance verification",
       "confirmatory implementation identity lock",
@@ -95,7 +102,7 @@
       "qualification evidence content lock"
     ],
     "required_before_untouched_external_routing": [
-      "all primary-routing qualifications",
+      "all successor primary-routing qualifications",
       "separate pre-outcome untouched-external freeze endpoint for the training-process route"
     ]
   }
