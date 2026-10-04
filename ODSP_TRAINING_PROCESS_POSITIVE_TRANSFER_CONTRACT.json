@@ -31,12 +31,14 @@
     "validation_sample_size_multiplied_by_refit_count": false
   },
   "studentization_v1": {
-    "training_process_component": "standard deviation of refit-specific held-out group gains divided by sqrt(R)",
-    "validation_component": "cluster-ratio standard error of refit-averaged block numerators",
-    "combined_standard_error": "sqrt(training_process_component^2 + validation_component^2)",
+    "training_process_component": "one-way refit-cluster sandwich variance from ratio influence residuals",
+    "validation_component": "one-way validation-block cluster sandwich variance from ratio influence residuals",
+    "intersection_component": "refit-by-validation-block cell-cluster sandwich variance",
+    "raw_two_way_variance": "training_process_variance + validation_block_variance - intersection_cell_variance",
+    "finite_sample_safeguard": "max(raw_two_way_variance, training_process_variance, validation_block_variance, 0)",
     "replicate_studentization_recomputed": true,
     "crossed_interaction_retained_in_bootstrap_distribution": true,
-    "crossed_interaction_separately_identified_in_studentizer": false,
+    "crossed_interaction_separately_identified_in_studentizer": true,
     "prospective_operating_characteristic_qualification_required_before_confirmatory_use": true
   },
   "familywise_directional_rule": {
