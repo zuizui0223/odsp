@@ -84,7 +84,7 @@ def test_identical_refits_reduce_to_validation_only_one_sided_route():
 def test_process_mean_and_fixed_set_answer_different_questions():
     groups, blocks = _rows()
     n = len(groups)
-    effects = np.array([0.50] * 7 + [-0.10])
+    effects = np.array([0.42, 0.46, 0.50, 0.54, 0.58, 0.62, 0.66, -0.02])
     gain = np.repeat(effects[:, None], n, axis=1)
 
     process = _core(gain)
