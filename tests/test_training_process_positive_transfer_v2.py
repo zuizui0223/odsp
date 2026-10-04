@@ -49,12 +49,12 @@ def test_single_cell_iut_reduces_to_v1_max_t():
     v1=certify_training_process_positive_transfer_v1(
         gain,groups,blocks=blocks,refit_ids=ids,
         training_process_id="p",training_process_manifest_sha256=PROCESS_SHA,
-        bootstrap_draws=500,minimum_refits=8,minimum_blocks_per_group=8,
+        bootstrap_draws=500,minimum_refits=8,minimum_blocks_per_group=8,seed=777,
     )
     v2=certify_training_process_positive_transfer_v2(
         gain,groups,blocks=blocks,refit_ids=ids,
         training_process_id="p",training_process_manifest_sha256=PROCESS_SHA,
-        bootstrap_draws=500,minimum_refits=8,minimum_blocks_per_group=8,
+        bootstrap_draws=500,minimum_refits=8,minimum_blocks_per_group=8,seed=777,
     )
     c1=v1.contrasts[0].groups[0]
     c2=v2.contrasts[0].groups[0]
