@@ -77,6 +77,12 @@ The current numeric core accepts a process ID and manifest SHA256 so that this
 future provenance layer has a hard attachment point. It does not manufacture
 that provenance itself.
 
+The first prospective qualification is intentionally narrower than the numeric
+API: independent validation groups, an ordered filtration with exactly two
+adjacent contrasts, and no external endpoint. Four-contrast filtrations, paired
+groups and complete lattices remain unqualified even if the generic core can
+compute them.
+
 ## Relationship to existing ODSP routes
 
 Nothing here reclassifies existing evidence.
