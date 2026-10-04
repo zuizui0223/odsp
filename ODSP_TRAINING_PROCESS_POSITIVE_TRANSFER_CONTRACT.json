@@ -52,7 +52,11 @@
     "information_structure": "filtration",
     "complete_lattice_qualified": false,
     "paired_shared_block_qualified": false,
-    "untouched_external_endpoint_qualified": false
+    "untouched_external_endpoint_qualified": false,
+    "future_confirmatory_filtration_contrast_counts": [
+      2
+    ],
+    "contrast_count_4_qualified": false
   },
   "reduction_checks": {
     "identical_refits_reduce_to_validation_only_one_sided_route": true,
