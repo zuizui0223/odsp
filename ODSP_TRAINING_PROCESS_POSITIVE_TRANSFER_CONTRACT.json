@@ -6,6 +6,8 @@
   "inferential_target": {
     "estimand": "mean held-out directional gain for a refit drawn from the frozen training-resampling process, averaged over the validation population",
     "alternative": "process_mean_gain > declared_nonnegative_tolerance",
+    "conditional_on_frozen_training_source": true,
+    "original_training_dataset_sampling_uncertainty_included": false,
     "fixed_supplied_refit_set_is_estimand": false,
     "all_possible_refits_must_pass": false,
     "individual_future_refit_success_probability_is_estimand": false,
@@ -15,10 +17,13 @@
     "process_must_be_predeclared": true,
     "process_identity_must_be_content_locked": true,
     "observed_refits_must_be_exchangeable_draws_from_declared_process": true,
+    "v1_process_family": "independent stratified bootstrap draws with replacement from the frozen training roster plus frozen fit-seed policy",
     "arbitrary_supplied_refit_collection_is_admissible": false,
+    "dependent_kfold_or_jackknife_collection_is_admissible": false,
     "refit_count_fixed_before_validation_outcome_access": true,
     "refit_ids_required": true,
-    "numeric_score_tensor_can_prove_process_provenance": false
+    "numeric_score_tensor_can_prove_process_provenance": false,
+    "process_manifest_alone_proves_generated_model_bytes_followed_plan": false
   },
   "crossed_resampling": {
     "training_refit_draws_per_bootstrap_replicate": "R_with_replacement",
@@ -36,6 +41,7 @@
     "intersection_component": "refit-by-validation-block cell-cluster sandwich variance",
     "raw_two_way_variance": "training_process_variance + validation_block_variance - intersection_cell_variance",
     "finite_sample_safeguard": "max(raw_two_way_variance, training_process_variance, validation_block_variance, 0)",
+    "finite_sample_safeguard_role": "explicit conservative ODSP rule rather than a standalone theorem",
     "replicate_studentization_recomputed": true,
     "crossed_interaction_retained_in_bootstrap_distribution": true,
     "crossed_interaction_separately_identified_in_studentizer": true,
@@ -71,14 +77,18 @@
     "correct_training_process_inferred_from_outputs": false,
     "probability_an_individual_future_refit_passes_claimed": false,
     "all_future_refits_positive_claimed": false,
+    "original_training_source_population_generalization_claimed": false,
     "distribution_shift_robustness_claimed": false
   },
   "qualification_state": {
-    "status": "experimental_pending_prospective_calibration",
+    "status": "null_qualified_pending_power_and_provenance",
     "primary_confirmatory": false,
+    "completed_qualification_evidence": [
+      "TRAINING_PROCESS_POSITIVE_NULL_CALIBRATION_RECEIPT.json"
+    ],
     "required_before_primary_routing": [
-      "prospective null and power operating-characteristic panel for crossed bootstrap-t",
-      "content-locked training-process manifest and generation receipt",
+      "prospective power operating-characteristic panel for crossed bootstrap-t",
+      "content-locked training-process manifest and generated-model provenance receipt",
       "training-validation provenance verification",
       "confirmatory implementation identity lock",
       "runtime environment lock",
