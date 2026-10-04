@@ -8,8 +8,10 @@ on:
       - 'odsp/training_process_positive_power_calibration.py'
       - 'tests/test_training_process_positive_transfer.py'
       - 'tests/test_training_process_positive_power_calibration.py'
+      - 'tests/test_training_process_positive_power_receipt.py'
       - 'ODSP_TRAINING_PROCESS_POSITIVE_TRANSFER_CONTRACT.json'
       - 'ODSP_TRAINING_PROCESS_POSITIVE_POWER_CALIBRATION_CONTRACT.json'
+      - 'TRAINING_PROCESS_POSITIVE_POWER_CALIBRATION_RECEIPT.json'
       - 'scripts/run_training_process_positive_power_calibration.py'
       - '.github/workflows/training-process-positive-power-calibration.yml'
   workflow_dispatch:
@@ -18,7 +20,7 @@ permissions:
   contents: read
 
 jobs:
-  qualify-power:
+  replay-v1-power-gate:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     steps:
@@ -28,12 +30,13 @@ jobs:
           python-version: '3.12'
       - name: Install core package
         run: python -m pip install -e '.[dev]'
-      - name: Run focused power calibration tests
+      - name: Run focused power calibration and receipt tests
         run: >-
           python -m pytest -q
           tests/test_training_process_positive_transfer.py
           tests/test_training_process_positive_power_calibration.py
-      - name: Run frozen first-1000 power qualification
+          tests/test_training_process_positive_power_receipt.py
+      - name: Replay frozen first-1000 v1 power gate
         run: |
           python scripts/run_training_process_positive_power_calibration.py \
             --output /tmp/training-process-power.json \
@@ -43,3 +46,36 @@ jobs:
           echo 'TRAINING_PROCESS_POWER_CALIBRATION_BEGIN'
           cat /tmp/training-process-power.json
           echo 'TRAINING_PROCESS_POWER_CALIBRATION_END'
+      - name: Match frozen failed v1 power receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          observed = json.loads(
+              Path('/tmp/training-process-power.json').read_text(encoding='utf-8')
+          )
+          frozen = json.loads(
+              Path('TRAINING_PROCESS_POSITIVE_POWER_CALIBRATION_RECEIPT.json').read_text(
+                  encoding='utf-8'
+              )
+          )
+          assert observed['qualification_pass'] is False
+          assert frozen['summary']['qualification_pass'] is False
+          actual = {row['scenario_id']: row for row in observed['scenarios']}
+          expected = {row['scenario_id']: row for row in frozen['scenarios']}
+          assert set(actual) == set(expected)
+          for scenario_id in sorted(expected):
+              for field in (
+                  'moderate_terminal_power',
+                  'strong_terminal_power',
+                  'acceptance_pass',
+              ):
+                  assert actual[scenario_id][field] == expected[scenario_id][field], (
+                      scenario_id,
+                      field,
+                      actual[scenario_id][field],
+                      expected[scenario_id][field],
+                  )
+          print('TRAINING_PROCESS_V1_POWER_FAILURE_MATCHES_FROZEN_RECEIPT=true')
+          PY
