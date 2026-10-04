@@ -33,22 +33,20 @@ def test_contract_freezes_crossed_not_validation_multiplied_resampling():
     assert crossed["validation_sample_size_multiplied_by_refit_count"] is False
 
 
-def test_contract_records_null_qualification_without_premature_primary_promotion():
+def test_contract_closes_v1_after_failed_predeclared_power_gate():
     payload = _payload()
     state = payload["qualification_state"]
-    assert state["status"] == "null_qualified_pending_power_and_provenance"
+    assert state["status"] == "v1_power_gate_failed_closed"
     assert state["primary_confirmatory"] is False
+    assert state["v1_null_qualification_passed"] is True
+    assert state["v1_power_qualification_passed"] is False
+    assert state["v1_may_be_rescued_by_posthoc_threshold_change"] is False
+    assert state["successor_method_requires_new_version_and_new_prospective_qualification"] is True
     assert state["completed_qualification_evidence"] == [
-        "TRAINING_PROCESS_POSITIVE_NULL_CALIBRATION_RECEIPT.json"
+        "TRAINING_PROCESS_POSITIVE_NULL_CALIBRATION_RECEIPT.json",
+        "TRAINING_PROCESS_POSITIVE_POWER_CALIBRATION_RECEIPT.json",
     ]
-    assert (
-        "prospective power operating-characteristic panel for crossed bootstrap-t"
-        in state["required_before_primary_routing"]
-    )
     assert payload["scope_v1"]["untouched_external_endpoint_qualified"] is False
-    assert payload["studentization_v1"][
-        "prospective_operating_characteristic_qualification_required_before_confirmatory_use"
-    ] is True
 
 
 def test_contract_forbids_reclassification_of_existing_refit_results():
