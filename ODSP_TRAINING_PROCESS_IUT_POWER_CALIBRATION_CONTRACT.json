@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-iut-power-calibration-v2",
+  "frozen_date": "2026-10-04",
+  "purpose": "prospectively verify that the IUT successor retains useful terminal power while preserving the failed v1 5-SE alternative as a descriptive carryover benchmark",
+  "route_under_test": {
+    "alternative": "greater",
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "contrast_count": 2,
+    "upstream_refits": "predeclared_training_process",
+    "external_validation": "none",
+    "composition": "intersection_union_all_group_by_contrast_components"
+  },
+  "standardized_alternatives": {
+    "oracle_cell_standard_error_formula_normal": "sqrt(training_sd^2/R + validation_sd^2/B + interaction_sd^2/(R*B))",
+    "student_t3_variance_multiplier": 3,
+    "carryover_shift_standard_errors": 5,
+    "carryover_role": "descriptive continuity with the frozen v1 failed strong-power panel",
+    "strong_shift_standard_errors": 6,
+    "strong_role": "v2 qualification gate"
+  },
+  "qualification_run": {
+    "seed": 20261014,
+    "simulations_per_scenario": 1000,
+    "bootstrap_draws_per_interval": 500
+  },
+  "acceptance_rule": {
+    "metric": "terminal power that every required component is robust_positive",
+    "minimum_strong_terminal_power": 0.8,
+    "strong_power_must_be_at_least_carryover_power": true,
+    "every_scenario_must_pass": true
+  },
+  "prequalification_history": {
+    "v1_5se_power_results_known": true,
+    "v1_power_gate_failure_known": true,
+    "small_iut_exploratory_power_simulations_occurred_before_this_freeze": true,
+    "exploratory_iut_results_are_qualification_evidence": false,
+    "choice_of_6se_strong_gate_informed_by_post_failure_method_development": true,
+    "threshold_tuned_after_formal_v2_results": false,
+    "formal_v2_seed_unused_before_this_freeze": true
+  },
+  "scope_boundary": {
+    "contrast_count_4_qualified": false,
+    "paired_shared_blocks_qualified": false,
+    "complete_lattice_qualified": false,
+    "untouched_external_qualified": false,
+    "fixed_set_results_reclassified": false,
+    "v1_failure_reclassified": false
+  }
+}
