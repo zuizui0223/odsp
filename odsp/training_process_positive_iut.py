@@ -450,7 +450,16 @@ def certify_training_process_positive_iut_v2(
             point_mean,
             confidence_level=component_lower_confidence_level,
         )
-        lower = point_mean - critical * point_se
+        lower = np.empty_like(point_mean)
+        finite_critical = np.isfinite(critical)
+        lower[finite_critical] = (
+            point_mean[finite_critical]
+            - critical[finite_critical] * point_se[finite_critical]
+        )
+        infinite_critical = ~finite_critical
+        lower[infinite_critical] = -np.inf
+        stable_infinite = infinite_critical & (point_se <= _EPS)
+        lower[stable_infinite] = point_mean[stable_infinite]
         for column, (contrast_index, record_index) in enumerate(eligible):
             lo = float(lower[column])
             records[contrast_index][record_index]["component_critical_value"] = float(
