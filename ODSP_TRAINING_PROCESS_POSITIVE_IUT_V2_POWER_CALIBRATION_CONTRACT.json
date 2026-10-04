@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-positive-iut-v2-power-calibration",
+  "frozen_date": "2026-10-04",
+  "generator_version": "crossed_training_process_iut_standardized_power_c2_v2",
+  "seed": 20261008,
+  "simulations_per_scenario": 1000,
+  "bootstrap_draws_per_interval": 500,
+  "group_count": 6,
+  "contrast_count": 2,
+  "component_lower_confidence_level": 0.95,
+  "scenario_family": "same six crossed scenarios and same oracle-SE scaling as frozen v1 power contract",
+  "standardized_alternatives": {
+    "moderate_shift_standard_errors": 3.0,
+    "moderate_role": "descriptive_only",
+    "strong_shift_standard_errors": 5.0,
+    "strong_role": "qualification_gate"
+  },
+  "acceptance_rule": {
+    "terminal_claim": "every group x both ordered contrasts passes its component test",
+    "minimum_strong_terminal_power": 0.8,
+    "strong_power_must_be_at_least_moderate_power": true,
+    "every_scenario_must_pass": true
+  },
+  "prequalification_history": {
+    "v1_power_failure_known": true,
+    "v2_power_results_observed_before_this_freeze": false,
+    "v1_power_threshold_retained_without_relaxation": true,
+    "threshold_tuned_to_v2_results": false
+  }
+}
