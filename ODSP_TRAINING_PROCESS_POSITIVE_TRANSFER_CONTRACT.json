@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-positive-transfer-v1",
+  "frozen_date": "2026-10-04",
+  "purpose": "define a separate prospective inferential route for directional held-out transfer averaged over a predeclared training-resampling process and the validation population, without reclassifying fixed-set refit robustness or historical empirical endpoints",
+  "inferential_target": {
+    "estimand": "mean held-out directional gain for a refit drawn from the frozen training-resampling process, averaged over the validation population",
+    "alternative": "process_mean_gain > declared_nonnegative_tolerance",
+    "fixed_supplied_refit_set_is_estimand": false,
+    "all_possible_refits_must_pass": false,
+    "individual_future_refit_success_probability_is_estimand": false,
+    "process_mean_target": true
+  },
+  "training_process_requirement": {
+    "process_must_be_predeclared": true,
+    "process_identity_must_be_content_locked": true,
+    "observed_refits_must_be_exchangeable_draws_from_declared_process": true,
+    "arbitrary_supplied_refit_collection_is_admissible": false,
+    "refit_count_fixed_before_validation_outcome_access": true,
+    "refit_ids_required": true,
+    "numeric_score_tensor_can_prove_process_provenance": false
+  },
+  "crossed_resampling": {
+    "training_refit_draws_per_bootstrap_replicate": "R_with_replacement",
+    "same_refit_resample_shared_across_all_group_contrast_cells": true,
+    "validation_blocks_resampled_once_per_group_per_replicate": true,
+    "same_validation_block_resample_shared_across_contrasts_within_group": true,
+    "same_validation_block_resample_shared_across_refits": true,
+    "validation_blocks_redrawn_separately_per_refit": false,
+    "training_and_validation_axes_resampled_independently": true,
+    "validation_sample_size_multiplied_by_refit_count": false
+  },
+  "studentization_v1": {
+    "training_process_component": "standard deviation of refit-specific held-out group gains divided by sqrt(R)",
+    "validation_component": "cluster-ratio standard error of refit-averaged block numerators",
+    "combined_standard_error": "sqrt(training_process_component^2 + validation_component^2)",
+    "replicate_studentization_recomputed": true,
+    "crossed_interaction_retained_in_bootstrap_distribution": true,
+    "crossed_interaction_separately_identified_in_studentizer": false,
+    "prospective_operating_characteristic_qualification_required_before_confirmatory_use": true
+  },
+  "familywise_directional_rule": {
+    "method": "one-sided crossed training-refit x validation-block replicate-studentized max-t",
+    "same_family_definition_as_validation_only_route": "group x predeclared information contrast cells",
+    "non_skippable_information_ceiling": true,
+    "richer_step_cannot_rescue_failed_earlier_step": true
+  },
+  "scope_v1": {
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "complete_lattice_qualified": false,
+    "paired_shared_block_qualified": false,
+    "untouched_external_endpoint_qualified": false
+  },
+  "reduction_checks": {
+    "identical_refits_reduce_to_validation_only_one_sided_route": true,
+    "zero_validation_variability_leaves_training_process_uncertainty": true,
+    "one_negative_refit_may_coexist_with_positive_process_mean": true
+  },
+  "claim_boundary": {
+    "fixed_set_intersection_used": false,
+    "fixed_set_result_can_be_rescued_or_reclassified": false,
+    "historical_empirical_endpoint_reclassified": false,
+    "old_refit_mixture_sensitivity_promoted": false,
+    "correct_training_process_inferred_from_outputs": false,
+    "probability_an_individual_future_refit_passes_claimed": false,
+    "all_future_refits_positive_claimed": false,
+    "distribution_shift_robustness_claimed": false
+  },
+  "qualification_state": {
+    "status": "experimental_pending_prospective_calibration",
+    "primary_confirmatory": false,
+    "required_before_primary_routing": [
+      "prospective null and power operating-characteristic panel for crossed bootstrap-t",
+      "content-locked training-process manifest and generation receipt",
+      "training-validation provenance verification",
+      "confirmatory implementation identity lock",
+      "runtime environment lock",
+      "qualification evidence content lock"
+    ],
+    "required_before_untouched_external_routing": [
+      "all primary-routing qualifications",
+      "separate pre-outcome untouched-external freeze endpoint for the training-process route"
+    ]
+  }
+}
