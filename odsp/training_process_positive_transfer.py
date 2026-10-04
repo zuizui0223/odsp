@@ -58,7 +58,9 @@ class TrainingProcessPositiveTransferCell:
     process_mean_gain: float | None
     training_process_standard_error: float | None
     validation_block_standard_error: float | None
+    intersection_cell_standard_error: float | None
     crossed_studentizing_standard_error: float | None
+    studentizer_variance_source: str | None
     lower_bound: float | None
     status: str
     estimable: bool
@@ -118,6 +120,8 @@ class TrainingProcessPositiveTransferAudit:
     all_possible_refits_positive_claimed: bool
     crossed_interaction_retained_in_bootstrap_distribution: bool
     crossed_interaction_separately_identified_in_studentizer: bool
+    multiway_inclusion_exclusion_studentizer: bool
+    max_one_way_variance_safeguard: bool
     cell_count: int
     estimable_cell_count: int
     all_cells_estimable: bool
@@ -203,26 +207,98 @@ def _directional_category(statuses: Sequence[str]) -> str:
     return "not_robust_generalizing"
 
 
-def _point_components(
+def _crossed_components(
     block_numerator: np.ndarray,
     block_weight: np.ndarray,
-) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    refit_count = block_numerator.shape[0]
-    denominator = float(np.sum(block_weight))
-    refit_means = np.sum(block_numerator, axis=1) / denominator
-    process_mean = np.mean(refit_means, axis=0)
-    training_se = np.std(refit_means, axis=0, ddof=1) / math.sqrt(refit_count)
+) -> tuple[
+    np.ndarray,
+    np.ndarray,
+    np.ndarray,
+    np.ndarray,
+    np.ndarray,
+    tuple[str, ...],
+]:
+    """Return the process mean and two-way cluster-robust components.
 
-    validation_numerator = np.mean(block_numerator, axis=0)
-    validation_mean, validation_se = ratio_mean_and_cluster_se(
-        validation_numerator,
-        block_weight,
+    The ratio influence residual for refit r and validation block b is
+    N_rb - mean * W_b. The variance uses the two-way inclusion-exclusion
+    construction: refit clustering plus validation-block clustering minus the
+    refit-by-block intersection term.
+
+    In finite samples the raw inclusion-exclusion variance can fall below a
+    one-way component. The final scalar variance is therefore the maximum of
+    the raw two-way variance and the two one-way variances. This fail-closed
+    safeguard prevents a second uncertainty axis from making the reported
+    standard error smaller.
+    """
+
+    numerator = np.asarray(block_numerator, dtype=float)
+    weight = np.asarray(block_weight, dtype=float)
+    if numerator.ndim != 3:
+        raise ValueError("block_numerator must be refit x block x contrast")
+    refit_count, block_count, contrast_count = numerator.shape
+    if refit_count < 2 or block_count < 2 or contrast_count < 1:
+        raise ValueError(
+            "crossed studentization requires at least two refits and two blocks"
+        )
+    if weight.shape != (block_count,):
+        raise ValueError("block_weight must contain one value per block")
+    if not np.isfinite(numerator).all():
+        raise ValueError("block_numerator must be finite")
+    if not np.isfinite(weight).all() or np.any(weight <= 0):
+        raise ValueError("block_weight must be finite and strictly positive")
+
+    block_mass = float(np.sum(weight))
+    denominator = float(refit_count) * block_mass
+    mean = np.sum(numerator, axis=(0, 1)) / denominator
+    residual = numerator - weight[None, :, None] * mean[None, None, :]
+
+    refit_cluster = np.sum(residual, axis=1)
+    refit_variance = (
+        float(refit_count) / float(refit_count - 1)
+    ) * np.sum(refit_cluster * refit_cluster, axis=0) / (denominator ** 2)
+
+    block_cluster = np.sum(residual, axis=0)
+    block_variance = (
+        float(block_count) / float(block_count - 1)
+    ) * np.sum(block_cluster * block_cluster, axis=0) / (denominator ** 2)
+
+    cell_count = refit_count * block_count
+    cell_variance = (
+        float(cell_count) / float(cell_count - 1)
+    ) * np.sum(residual * residual, axis=(0, 1)) / (denominator ** 2)
+
+    raw_two_way = refit_variance + block_variance - cell_variance
+    safe_variance = np.maximum.reduce(
+        [
+            raw_two_way,
+            refit_variance,
+            block_variance,
+            np.zeros(contrast_count, dtype=float),
+        ]
     )
-    if not np.allclose(validation_mean, process_mean, rtol=0.0, atol=1e-12):
-        raise AssertionError("crossed process mean disagrees across axes")
 
-    crossed_se = np.sqrt(training_se ** 2 + validation_se ** 2)
-    return process_mean, training_se, validation_se, crossed_se
+    sources: list[str] = []
+    for index in range(contrast_count):
+        if (
+            raw_two_way[index] >= refit_variance[index]
+            and raw_two_way[index] >= block_variance[index]
+            and raw_two_way[index] >= 0.0
+        ):
+            sources.append("two_way_inclusion_exclusion")
+        elif refit_variance[index] >= block_variance[index]:
+            sources.append("training_one_way_safeguard")
+        else:
+            sources.append("validation_one_way_safeguard")
+
+    return (
+        mean.astype(float),
+        np.sqrt(np.maximum(refit_variance, 0.0)),
+        np.sqrt(np.maximum(block_variance, 0.0)),
+        np.sqrt(np.maximum(cell_variance, 0.0)),
+        np.sqrt(np.maximum(safe_variance, 0.0)),
+        tuple(sources),
+    )
 
 
 def _bootstrap_components(
@@ -231,7 +307,9 @@ def _bootstrap_components(
     refit_draws: np.ndarray,
     block_draws: np.ndarray,
 ) -> tuple[np.ndarray, np.ndarray]:
-    draws, resampled_refit_count = refit_draws.shape
+    """Cross-resample process refits and validation blocks with shared axes."""
+
+    draws, _ = refit_draws.shape
     contrast_count = block_numerator.shape[2]
     means = np.empty((draws, contrast_count), dtype=float)
     ses = np.empty((draws, contrast_count), dtype=float)
@@ -241,25 +319,12 @@ def _bootstrap_components(
         block_index = block_draws[draw_index]
         local_weight = block_weight[block_index]
         local_numerator = block_numerator[refit_index][:, block_index, :]
-        denominator = float(np.sum(local_weight))
-
-        refit_means = np.sum(local_numerator, axis=1) / denominator
-        process_mean = np.mean(refit_means, axis=0)
-        training_se = (
-            np.std(refit_means, axis=0, ddof=1)
-            / math.sqrt(resampled_refit_count)
-        )
-
-        validation_numerator = np.mean(local_numerator, axis=0)
-        validation_mean, validation_se = ratio_mean_and_cluster_se(
-            validation_numerator,
+        mean, _, _, _, se, _ = _crossed_components(
+            local_numerator,
             local_weight,
         )
-        if not np.allclose(validation_mean, process_mean, rtol=0.0, atol=1e-12):
-            raise AssertionError("bootstrap crossed process mean disagrees across axes")
-
-        means[draw_index] = process_mean
-        ses[draw_index] = np.sqrt(training_se ** 2 + validation_se ** 2)
+        means[draw_index] = mean
+        ses[draw_index] = se
 
     return means, ses
 
@@ -410,20 +475,36 @@ def certify_training_process_positive_transfer_v1(
         local_point = np.full(contrast_count, np.nan, dtype=float)
         local_training_se = np.full(contrast_count, np.nan, dtype=float)
         local_validation_se = np.full(contrast_count, np.nan, dtype=float)
+        local_intersection_se = np.full(contrast_count, np.nan, dtype=float)
         local_crossed_se = np.full(contrast_count, np.nan, dtype=float)
+        local_variance_source: list[str | None] = [None] * contrast_count
         finite_positions = np.flatnonzero(finite)
         sampled_means = None
         sampled_ses = None
 
         if finite_positions.size:
-            point, train_se, valid_se, crossed_se = _point_components(
+            (
+                point,
+                train_se,
+                valid_se,
+                intersection_se,
+                crossed_se,
+                variance_sources,
+            ) = _crossed_components(
                 block_numerator[:, :, finite],
                 block_weight,
             )
             local_point[finite] = point
             local_training_se[finite] = train_se
             local_validation_se[finite] = valid_se
+            local_intersection_se[finite] = intersection_se
             local_crossed_se[finite] = crossed_se
+            for local_index, contrast_index in enumerate(
+                finite_positions.tolist()
+            ):
+                local_variance_source[int(contrast_index)] = (
+                    variance_sources[local_index]
+                )
 
             if enough_refits and block_count >= minimum_blocks_per_group:
                 rng = np.random.default_rng(
@@ -476,8 +557,18 @@ def certify_training_process_positive_transfer_v1(
                     if is_finite
                     else None
                 ),
+                "intersection_cell_standard_error": (
+                    float(local_intersection_se[contrast_index])
+                    if is_finite
+                    else None
+                ),
                 "crossed_studentizing_standard_error": (
                     float(local_crossed_se[contrast_index])
+                    if is_finite
+                    else None
+                ),
+                "studentizer_variance_source": (
+                    local_variance_source[contrast_index]
                     if is_finite
                     else None
                 ),
@@ -592,7 +683,9 @@ def certify_training_process_positive_transfer_v1(
         individual_future_refit_success_probability_claimed=False,
         all_possible_refits_positive_claimed=False,
         crossed_interaction_retained_in_bootstrap_distribution=True,
-        crossed_interaction_separately_identified_in_studentizer=False,
+        crossed_interaction_separately_identified_in_studentizer=True,
+        multiway_inclusion_exclusion_studentizer=True,
+        max_one_way_variance_safeguard=True,
         cell_count=cell_count,
         estimable_cell_count=len(eligible),
         all_cells_estimable=bool(len(eligible) == cell_count),
