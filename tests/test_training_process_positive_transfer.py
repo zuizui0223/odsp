@@ -205,7 +205,14 @@ def test_crossed_axis_semantics_are_explicit_and_serializable():
     assert result.validation_blocks_redrawn_per_refit is False
     assert result.training_and_validation_axes_resampled_independently is True
     assert result.crossed_interaction_retained_in_bootstrap_distribution is True
-    assert result.crossed_interaction_separately_identified_in_studentizer is False
+    assert result.crossed_interaction_separately_identified_in_studentizer is True
+    assert result.multiway_inclusion_exclusion_studentizer is True
+    assert result.max_one_way_variance_safeguard is True
+    assert all(
+        cell.intersection_cell_standard_error is not None
+        for contrast in result.contrasts
+        for cell in contrast.groups
+    )
     json.dumps(result.as_dict(), allow_nan=False)
 
 
