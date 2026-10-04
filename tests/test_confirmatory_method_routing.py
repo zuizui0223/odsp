@@ -174,6 +174,54 @@ def test_stochastic_refit_population_claim_is_unqualified():
     assert "refit population" in route.reason
 
 
+def test_predeclared_training_process_is_a_separate_pending_route():
+    route = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="predeclared_training_process",
+        external_validation="none",
+        contrast_count=2,
+    )
+    assert route.role == "unqualified"
+    assert route.primary_for_claim is False
+    assert route.canonical_surface is None
+    assert route.refit_population_generalization_claimed is False
+    assert "separate crossed" in route.reason
+    assert "must not borrow fixed-set" in route.reason
+
+
+def test_predeclared_training_process_external_requires_its_own_freeze_route():
+    route = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="predeclared_training_process",
+        external_validation="untouched_frozen",
+        contrast_count=2,
+    )
+    assert route.role == "unqualified"
+    assert route.primary_for_claim is False
+    assert route.requires_preoutcome_freeze is True
+    assert route.canonical_surface is None
+
+
+def test_fixed_set_route_is_unchanged_by_training_process_mode():
+    route = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="fixed_set",
+        external_validation="none",
+        contrast_count=2,
+    )
+    assert route.role == "primary_confirmatory"
+    assert route.canonical_surface == (
+        "odsp.refit_positive_robustness."
+        "certify_all_refit_positive_information_transfer_v2"
+    )
+
+
 def test_two_sided_v2_is_retained_for_bidirectional_not_primary_positive_claims():
     route = route_confirmatory_method(
         alternative="two_sided",
