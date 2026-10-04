@@ -306,24 +306,81 @@ def _bootstrap_components(
     refit_draws: np.ndarray,
     block_draws: np.ndarray,
 ) -> tuple[np.ndarray, np.ndarray]:
-    """Cross-resample process refits and validation blocks with shared axes."""
+    """Cross-resample process refits and validation blocks with shared axes.
 
-    draws, _ = refit_draws.shape
+    Replicates are evaluated in memory-bounded vectorized chunks. This is
+    numerically equivalent to recomputing the two-way studentizer one replicate
+    at a time, but makes prospective operating-characteristic panels practical.
+    """
+
+    draws, refit_count = refit_draws.shape
+    block_count = block_draws.shape[1]
     contrast_count = block_numerator.shape[2]
     means = np.empty((draws, contrast_count), dtype=float)
     ses = np.empty((draws, contrast_count), dtype=float)
 
-    for draw_index in range(draws):
-        refit_index = refit_draws[draw_index]
-        block_index = block_draws[draw_index]
-        local_weight = block_weight[block_index]
-        local_numerator = block_numerator[refit_index][:, block_index, :]
-        mean, _, _, _, se, _ = _crossed_components(
-            local_numerator,
-            local_weight,
+    # Keep the temporary draws x refits x blocks x contrasts tensor around
+    # 2 million doubles (roughly 16 MB) when possible.
+    cells_per_draw = max(refit_count * block_count * contrast_count, 1)
+    chunk_size = max(1, min(draws, 2_000_000 // cells_per_draw))
+
+    for chunk_start in range(0, draws, chunk_size):
+        chunk_end = min(chunk_start + chunk_size, draws)
+        local_refit = refit_draws[chunk_start:chunk_end]
+        local_block = block_draws[chunk_start:chunk_end]
+        numerator = block_numerator[
+            local_refit[:, :, None],
+            local_block[:, None, :],
+            :,
+        ]
+        weight = block_weight[local_block]
+        chunk_draws = numerator.shape[0]
+
+        block_mass = np.sum(weight, axis=1)
+        denominator = float(refit_count) * block_mass
+        mean = np.sum(numerator, axis=(1, 2)) / denominator[:, None]
+        residual = (
+            numerator
+            - weight[:, None, :, None] * mean[:, None, None, :]
         )
-        means[draw_index] = mean
-        ses[draw_index] = se
+
+        refit_cluster = np.sum(residual, axis=2)
+        refit_variance = (
+            float(refit_count) / float(refit_count - 1)
+        ) * np.sum(
+            refit_cluster * refit_cluster,
+            axis=1,
+        ) / (denominator[:, None] ** 2)
+
+        block_cluster = np.sum(residual, axis=1)
+        block_variance = (
+            float(block_count) / float(block_count - 1)
+        ) * np.sum(
+            block_cluster * block_cluster,
+            axis=1,
+        ) / (denominator[:, None] ** 2)
+
+        cell_count = refit_count * block_count
+        cell_variance = (
+            float(cell_count) / float(cell_count - 1)
+        ) * np.sum(
+            residual * residual,
+            axis=(1, 2),
+        ) / (denominator[:, None] ** 2)
+
+        raw_two_way = refit_variance + block_variance - cell_variance
+        safe_variance = np.maximum.reduce(
+            [
+                raw_two_way,
+                refit_variance,
+                block_variance,
+                np.zeros((chunk_draws, contrast_count), dtype=float),
+            ]
+        )
+        means[chunk_start:chunk_end] = mean
+        ses[chunk_start:chunk_end] = np.sqrt(
+            np.maximum(safe_variance, 0.0)
+        )
 
     return means, ses
 
