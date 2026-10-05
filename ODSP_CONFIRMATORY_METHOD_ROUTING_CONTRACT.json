@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "contract_id": "odsp-confirmatory-method-routing-v1",
-  "date": "2026-09-16",
+  "date": "2026-10-05",
   "purpose": "provide one fail-closed prospective governance surface that separates directional primary confirmatory inference, bidirectional v2 inference, sensitivity-only methods, and unqualified combinations",
   "routing_is_statistical_inference": false,
   "roles": {
@@ -74,7 +74,11 @@
     "independent_fixed_set_untouched_external_lattice_edge_counts": [
       4,
       12
-    ]
+    ],
+    "predeclared_training_process_filtration_contrast_counts": [
+      2
+    ],
+    "predeclared_training_process_internal_primary": true
   },
   "external_validation": {
     "unfrozen_untouched_external_primary": false,
@@ -82,14 +86,19 @@
     "canonical_external_primary_routes_require_fixed_supplied_refit_set": true,
     "independent_complete_lattice_fixed_set_primary": true,
     "independent_complete_lattice_external_contract": "ODSP_UNTOUCHED_EXTERNAL_INDEPENDENT_ALL_REFIT_LATTICE_V5_CONTRACT.json",
-    "independent_complete_lattice_public_cli_variant_added": false
+    "independent_complete_lattice_public_cli_variant_added": false,
+    "predeclared_training_process_untouched_external_primary": false
   },
   "refit_boundary": {
     "fixed_supplied_refit_set_may_form_intersection_robustness_claim": true,
     "refit_population_sampling_distribution_assumed": false,
     "refit_population_generalization_claimed": false,
     "stochastic_refit_population_claim_qualified": false,
-    "reference_or_average_refit_can_rescue_failure": false
+    "reference_or_average_refit_can_rescue_failure": false,
+    "predeclared_training_process_mean_claim_qualified": true,
+    "predeclared_training_process_mean_is_conditional_on_frozen_training_source": true,
+    "individual_future_refit_success_probability_claimed": false,
+    "original_training_source_population_generalization_claimed": false
   },
   "surface_roles": {
     "odsp.information_transfer_positive_v2.certify_positive_information_transfer_v2": "primary_confirmatory",
@@ -115,7 +124,8 @@
     "odsp.block_definition_sensitivity.audit_block_definition_sensitivity": "sensitivity_only",
     "odsp.information_lattice_positive_v2.certify_positive_information_lattice_v2": "primary_confirmatory",
     "odsp.refit_positive_independent_lattice_robustness.certify_all_refit_independent_positive_information_lattice_v2": "primary_confirmatory",
-    "odsp.untouched_external_refit_independent_positive_lattice_contract_v5.run_untouched_external_independent_all_refit_lattice_contract_v5": "primary_confirmatory"
+    "odsp.untouched_external_refit_independent_positive_lattice_contract_v5.run_untouched_external_independent_all_refit_lattice_contract_v5": "primary_confirmatory",
+    "odsp.training_process_confirmatory_v5.certify_predeclared_training_process_positive_information_v5": "primary_confirmatory"
   },
   "historical_governance": {
     "reclassify_frozen_empirical_endpoints": false,
@@ -141,7 +151,7 @@
     "untouched_external_route_qualified": false
   },
   "qualification_evidence": {
-    "registry": "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V3.json",
+    "registry": "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V4.json",
     "keyed_by_full_route_context": true,
     "surface_name_alone_is_sufficient": false,
     "same_surface_may_have_distinct_family_evidence": true,
@@ -150,7 +160,8 @@
     "calibration_evidence_is_biological_evidence": false,
     "artifact_sha256_frozen": true,
     "same_filename_changed_content_detected": true,
-    "content_lock_contract": "ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V1.json"
+    "content_lock_contract": "ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V2.json",
+    "registry_v3_retained_for_historical_provenance": true
   },
   "implementation_identity": {
     "contract": "ODSP_CONFIRMATORY_IMPLEMENTATION_LOCK_V1.json",
