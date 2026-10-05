@@ -29,6 +29,7 @@ from .training_process_external_freeze_v1 import (
     _canonical_sha256,
     _external_design_rows,
     _model_artifact_snapshot,
+    _normalize_score,
     build_internal_v5_route_snapshot,
 )
 from .training_process_freeze_manifest import _file_sha256
@@ -202,6 +203,7 @@ def run_untouched_external_training_process_v5(
     blocks: Sequence[object],
     validation_row_ids: Sequence[object],
     sample_weight: Sequence[float],
+    score_contract: Mapping[str, object],
     refit_ids: Sequence[object],
     training_process_manifest_path: str | Path,
     managed_generation_receipt_path: str | Path,
@@ -320,6 +322,9 @@ def run_untouched_external_training_process_v5(
     score = manifest["score"]
     if not isinstance(score, Mapping):
         raise ValueError("frozen score must be an object")
+    runtime_score = _normalize_score(score_contract)
+    if runtime_score != score:
+        raise ValueError("runtime score semantics do not match external freeze")
     certification = manifest["certification"]
     if not isinstance(certification, Mapping):
         raise ValueError("frozen certification must be an object")
