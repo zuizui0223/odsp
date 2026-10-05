@@ -1,12 +1,11 @@
 from __future__ import annotations
 
+import csv
 import json
 from pathlib import Path
 
-import numpy as np
 import pytest
 
-from odsp.refit_information_transfer import RefitInformationLevelScores
 from odsp.training_process_external_freeze_v1 import (
     MANIFEST_TYPE,
     create_training_process_v5_external_freeze,
@@ -14,6 +13,10 @@ from odsp.training_process_external_freeze_v1 import (
 from odsp.training_process_freeze_manifest import (
     PROCESS_KIND,
     create_training_process_freeze_manifest,
+)
+from odsp.training_process_managed_external_scoring import (
+    MANAGED_SCORING_RECEIPT_TYPE,
+    run_managed_external_scoring_v1,
 )
 from odsp.training_process_managed_generation import (
     run_managed_training_process_generation,
@@ -52,6 +55,36 @@ def _process(tmp_path: Path):
         "'n':sum(int(r['count']) for r in rows)}\n"
         "Path(a.output_dir,'model.json').write_text("
         "json.dumps(payload,sort_keys=True)+'\\n')\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "score.py").write_text(
+        "import argparse, csv, json\n"
+        "from pathlib import Path\n"
+        "p=argparse.ArgumentParser()\n"
+        "p.add_argument('--refit-id', required=True)\n"
+        "p.add_argument('--model-manifest', required=True)\n"
+        "p.add_argument('--validation-data', required=True)\n"
+        "p.add_argument('--scoring-spec', required=True)\n"
+        "p.add_argument('--output', required=True)\n"
+        "a=p.parse_args()\n"
+        "mm=json.loads(Path(a.model_manifest).read_text())\n"
+        "assert mm['refit_id']==a.refit_id\n"
+        "model_path=Path(mm['artifacts'][0]['path'])\n"
+        "model=json.loads(model_path.read_text())\n"
+        "spec=json.loads(Path(a.scoring_spec).read_text())\n"
+        "with Path(a.validation_data).open(newline='',encoding='utf-8') as h:\n"
+        "    data=list(csv.DictReader(h))\n"
+        "data_ids={r['row_id'] for r in data}\n"
+        "spec_ids={r['row_id'] for r in spec['rows']}\n"
+        "assert data_ids==spec_ids\n"
+        "offset=(int(model['seed']) % 17)*0.0001\n"
+        "rows=[]\n"
+        "for row in reversed(spec['rows']):\n"
+        "    rid=row['row_id']\n"
+        "    rows.append({'row_id':rid,'scores':{"
+        "'pooled':offset,'coarse':offset+0.55,'fine':offset+1.0}})\n"
+        "Path(a.output).write_text(json.dumps({"
+        "'refit_id':a.refit_id,'rows':rows},sort_keys=True)+'\\n')\n",
         encoding="utf-8",
     )
     ids = [f"r{i:02d}" for i in range(8)]
@@ -114,14 +147,16 @@ def _process(tmp_path: Path):
     mp = tmp_path / "managed-plan.json"
     mp.write_text(json.dumps(managed), encoding="utf-8")
     managed_receipt = tmp_path / "managed-receipt.json"
+    generated_root = tmp_path / "generated-models"
     run_managed_training_process_generation(
-        mp, tmp_path / "generated-models", managed_receipt
+        mp, generated_root, managed_receipt
     )
     return {
         "manifest": manifest,
         "managed_receipt": managed_receipt,
         "training_roster": tmp_path / "train-roster.csv",
         "refit_ids": tuple(ids),
+        "generated_root": generated_root,
     }
 
 
@@ -168,23 +203,35 @@ def _external_plan(tmp_path: Path, process, roster: Path) -> Path:
             "minimum_blocks_per_group": 8,
             "gain_tolerance": 0.0,
         },
+        "scoring": {
+            "working_directory": ".",
+            "command": [
+                "{python_executable}",
+                "score.py",
+                "--refit-id",
+                "{refit_id}",
+                "--model-manifest",
+                "{model_manifest_path}",
+                "--validation-data",
+                "{validation_data_path}",
+                "--scoring-spec",
+                "{scoring_spec_path}",
+                "--output",
+                "{output_path}",
+            ],
+            "command_artifacts": ["score.py"],
+            "timeout_seconds": 30,
+            "environment_allowlist": [],
+            "validation_data_format": "csv",
+            "validation_row_id_column": "row_id",
+        },
     }
     path = tmp_path / "external-freeze-plan.json"
     path.write_text(json.dumps(plan), encoding="utf-8")
     return path
 
 
-def _score_contract():
-    return {
-        "kind": "proper_score",
-        "name": "log",
-        "orientation": "higher_is_better",
-        "common_scoring_rule": True,
-        "common_reference_measure": True,
-    }
-
-
-def _runtime_scores():
+def _runtime_design():
     row_ids, groups, blocks, weights = [], [], [], []
     for g in range(2):
         for b in range(8):
@@ -192,24 +239,19 @@ def _runtime_scores():
             groups.append(f"g{g}")
             blocks.append(f"g{g}-b{b}")
             weights.append(1.0)
-    n = len(row_ids)
-    pooled = np.zeros((8, n))
-    coarse = pooled + 0.55
-    fine = coarse + 0.45
-    levels = (
-        RefitInformationLevelScores("pooled", (), pooled),
-        RefitInformationLevelScores("coarse", ("species",), coarse),
-        RefitInformationLevelScores(
-            "fine", ("species", "context"), fine
-        ),
-    )
-    return (
-        levels,
-        tuple(groups),
-        tuple(blocks),
-        tuple(row_ids),
-        tuple(weights),
-    )
+    return tuple(groups), tuple(blocks), tuple(row_ids), tuple(weights)
+
+
+def _validation_data(tmp_path: Path, *, drop_last: bool = False) -> Path:
+    _, _, row_ids, _ = _runtime_design()
+    ids = list(row_ids[:-1] if drop_last else row_ids)
+    path = tmp_path / ("validation-bad.csv" if drop_last else "validation.csv")
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["row_id", "outcome"])
+        writer.writeheader()
+        for index, row_id in enumerate(ids):
+            writer.writerow({"row_id": row_id, "outcome": index % 2})
+    return path
 
 
 def _frozen(tmp_path: Path):
@@ -221,23 +263,44 @@ def _frozen(tmp_path: Path):
     frozen = create_training_process_v5_external_freeze(
         plan, manifest, receipt
     )
-    return process, manifest, receipt, frozen
+    return process, roster, manifest, receipt, frozen
 
 
-def test_external_freeze_is_outcome_free_and_binds_full_design(tmp_path):
-    process, manifest_path, receipt_path, frozen = _frozen(tmp_path)
+def _managed_scores(tmp_path: Path, process, roster, manifest, receipt):
+    validation = _validation_data(tmp_path)
+    scoring = run_managed_external_scoring_v1(
+        manifest,
+        receipt,
+        roster,
+        external_roster_format="csv",
+        managed_generation_receipt_path=process["managed_receipt"],
+        generated_model_root=process["generated_root"],
+        validation_data_path=validation,
+        output_root=tmp_path / "managed-scores",
+        score_bundle_out=tmp_path / "score-bundle.json",
+        scoring_receipt_out=tmp_path / "scoring-receipt.json",
+    )
+    return validation, Path(scoring["score_bundle_path"]), Path(scoring["receipt_path"])
+
+
+def test_external_freeze_is_outcome_free_and_binds_scoring_identity(tmp_path):
+    process, roster, manifest_path, receipt_path, frozen = _frozen(tmp_path)
     manifest = frozen["manifest"]
     assert manifest["manifest_type"] == MANIFEST_TYPE
     assert manifest["external_row_count"] == 16
     assert manifest["positive_block_count_by_group"] == {"g0": 8, "g1": 8}
     assert manifest["training_source_frame_validation_disjoint"] is True
     assert manifest["boundaries"]["external_outcomes_read_by_freeze_generator"] is False
+    assert manifest["boundaries"]["validation_outcome_bytes_read_by_freeze_generator"] is False
+    assert manifest["managed_scoring_plan"]["command_artifact_snapshot"][0]["path"] == "score.py"
+    assert manifest["managed_scoring_plan"]["validation_row_id_column"] == "row_id"
     assert manifest["internal_qualified_route"]["role"] == "primary_confirmatory"
     assert manifest["external_endpoint"]["canonical_surface"].endswith(
         "run_untouched_external_training_process_v5"
     )
     assert receipt_path.is_file()
     assert process["manifest"].is_file()
+    assert roster.is_file()
 
 
 def test_external_freeze_rejects_source_frame_overlap(tmp_path):
@@ -252,18 +315,76 @@ def test_external_freeze_rejects_source_frame_overlap(tmp_path):
         )
 
 
-def test_untouched_external_endpoint_runs_only_after_exact_semantic_match(tmp_path):
-    process, manifest, receipt, _ = _frozen(tmp_path)
-    levels, groups, blocks, row_ids, weights = _runtime_scores()
+def test_managed_scoring_binds_models_validation_and_score_tensor(tmp_path):
+    process, roster, manifest, receipt, _ = _frozen(tmp_path)
+    validation, bundle, scoring_receipt = _managed_scores(
+        tmp_path, process, roster, manifest, receipt
+    )
+    payload = json.loads(scoring_receipt.read_text(encoding="utf-8"))
+    assert payload["receipt_type"] == MANAGED_SCORING_RECEIPT_TYPE
+    assert payload["boundaries"]["score_tensor_derived_by_managed_scoring"] is True
+    assert payload["boundaries"]["generated_model_artifacts_reverified_before_scoring"] is True
+    assert payload["refit_count"] == 8
+    assert payload["row_count"] == 16
+    assert len(payload["canonical_score_tensor_sha256"]) == 64
+    assert bundle.is_file()
+    assert validation.is_file()
+
+
+def test_managed_scoring_rejects_validation_roster_mismatch(tmp_path):
+    process, roster, manifest, receipt, _ = _frozen(tmp_path)
+    bad_validation = _validation_data(tmp_path, drop_last=True)
+    with pytest.raises(ValueError, match="row IDs"):
+        run_managed_external_scoring_v1(
+            manifest,
+            receipt,
+            roster,
+            external_roster_format="csv",
+            managed_generation_receipt_path=process["managed_receipt"],
+            generated_model_root=process["generated_root"],
+            validation_data_path=bad_validation,
+            output_root=tmp_path / "bad-score-output",
+            score_bundle_out=tmp_path / "bad-bundle.json",
+            scoring_receipt_out=tmp_path / "bad-scoring-receipt.json",
+        )
+
+
+def test_managed_scoring_rejects_generated_model_byte_change(tmp_path):
+    process, roster, manifest, receipt, _ = _frozen(tmp_path)
+    model = process["generated_root"] / "r00" / "model.json"
+    model.write_text('{"tampered":true}\n', encoding="utf-8")
+    validation = _validation_data(tmp_path)
+    with pytest.raises(ValueError, match="artifact bytes changed"):
+        run_managed_external_scoring_v1(
+            manifest,
+            receipt,
+            roster,
+            external_roster_format="csv",
+            managed_generation_receipt_path=process["managed_receipt"],
+            generated_model_root=process["generated_root"],
+            validation_data_path=validation,
+            output_root=tmp_path / "tampered-score-output",
+            score_bundle_out=tmp_path / "tampered-bundle.json",
+            scoring_receipt_out=tmp_path / "tampered-scoring-receipt.json",
+        )
+
+
+def test_untouched_external_endpoint_uses_only_managed_score_bundle(tmp_path):
+    process, roster, manifest, receipt, _ = _frozen(tmp_path)
+    validation, bundle, scoring_receipt = _managed_scores(
+        tmp_path, process, roster, manifest, receipt
+    )
+    groups, blocks, row_ids, weights = _runtime_design()
     result = run_untouched_external_training_process_v5(
         manifest,
         receipt,
-        levels,
+        scoring_receipt,
+        bundle,
+        validation,
         groups,
         blocks=blocks,
         validation_row_ids=row_ids,
         sample_weight=weights,
-        score_contract=_score_contract(),
         refit_ids=process["refit_ids"],
         training_process_manifest_path=process["manifest"],
         managed_generation_receipt_path=process["managed_receipt"],
@@ -273,48 +394,38 @@ def test_untouched_external_endpoint_runs_only_after_exact_semantic_match(tmp_pa
     assert result.freeze_manifest_semantics_verified is True
     assert result.external_design_exact_match_verified is True
     assert result.process_identity_exact_match_verified is True
+    assert result.score_tensor_derived_by_managed_scoring is True
     assert result.qualification_evidence_snapshot_verified is True
     assert result.implementation_source_snapshot_verified is True
     assert result.runtime_environment_snapshot_verified is True
     assert result.training_source_frame_validation_disjoint is True
-    assert result.certification.certification.process_mean_certified_transfer_ceiling == "fine"
+    assert (
+        result.certification.certification.process_mean_certified_transfer_ceiling
+        == "fine"
+    )
     assert result.fixed_set_results_reclassified is False
     json.dumps(result.as_dict(), allow_nan=False)
 
 
 def test_runtime_weight_or_block_change_is_rejected_before_inference(tmp_path):
-    process, manifest, receipt, _ = _frozen(tmp_path)
-    levels, groups, blocks, row_ids, weights = _runtime_scores()
+    process, roster, manifest, receipt, _ = _frozen(tmp_path)
+    validation, bundle, scoring_receipt = _managed_scores(
+        tmp_path, process, roster, manifest, receipt
+    )
+    groups, blocks, row_ids, weights = _runtime_design()
     changed_weights = list(weights)
     changed_weights[0] = 2.0
     with pytest.raises(ValueError, match="design"):
         run_untouched_external_training_process_v5(
             manifest,
             receipt,
-            levels,
+            scoring_receipt,
+            bundle,
+            validation,
             groups,
             blocks=blocks,
             validation_row_ids=row_ids,
             sample_weight=changed_weights,
-            score_contract=_score_contract(),
-            refit_ids=process["refit_ids"],
-            training_process_manifest_path=process["manifest"],
-            managed_generation_receipt_path=process["managed_receipt"],
-            training_roster_path=process["training_roster"],
-        )
-
-    changed_blocks = list(blocks)
-    changed_blocks[0] = "g0-posthoc"
-    with pytest.raises(ValueError, match="design"):
-        run_untouched_external_training_process_v5(
-            manifest,
-            receipt,
-            levels,
-            groups,
-            blocks=changed_blocks,
-            validation_row_ids=row_ids,
-            sample_weight=weights,
-            score_contract=_score_contract(),
             refit_ids=process["refit_ids"],
             training_process_manifest_path=process["manifest"],
             managed_generation_receipt_path=process["managed_receipt"],
@@ -323,7 +434,10 @@ def test_runtime_weight_or_block_change_is_rejected_before_inference(tmp_path):
 
 
 def test_manifest_and_receipt_coedit_cannot_change_qualification_route(tmp_path):
-    process, manifest_path, receipt_path, _ = _frozen(tmp_path)
+    process, roster, manifest_path, receipt_path, _ = _frozen(tmp_path)
+    validation, bundle, scoring_receipt = _managed_scores(
+        tmp_path, process, roster, manifest_path, receipt_path
+    )
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest["internal_qualified_route"]["qualification_registry_id"] = "posthoc-registry"
     manifest_path.write_text(
@@ -340,17 +454,18 @@ def test_manifest_and_receipt_coedit_cannot_change_qualification_route(tmp_path)
         encoding="utf-8",
     )
 
-    levels, groups, blocks, row_ids, weights = _runtime_scores()
+    groups, blocks, row_ids, weights = _runtime_design()
     with pytest.raises(ValueError, match="qualification route"):
         run_untouched_external_training_process_v5(
             manifest_path,
             receipt_path,
-            levels,
+            scoring_receipt,
+            bundle,
+            validation,
             groups,
             blocks=blocks,
             validation_row_ids=row_ids,
             sample_weight=weights,
-            score_contract=_score_contract(),
             refit_ids=process["refit_ids"],
             training_process_manifest_path=process["manifest"],
             managed_generation_receipt_path=process["managed_receipt"],
