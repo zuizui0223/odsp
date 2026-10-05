@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-internal-confirmatory-envelope-v1",
+  "frozen_date": "2026-10-05",
+  "purpose": "define the only prospective high-level internal validation envelope eligible to promote training-process inference after method qualification; the raw v5 numeric core alone is never sufficient",
+  "canonical_surface": "odsp.training_process_internal_confirmatory_contract.run_training_process_internal_confirmatory_contract_v1",
+  "statistical_core": "odsp.training_process_positive_cv3two_iut.certify_training_process_positive_information_cv3two_iut_v5",
+  "required_frozen_evidence": {
+    "training_process_manifest_sha256": true,
+    "training_process_generation_receipt_sha256": true,
+    "process_wide_validation_separation_receipt_sha256": true,
+    "v5_qualification_receipt_sha256": true,
+    "validation_row_group_block_weight_metadata_sha256": true,
+    "information_filtration_and_score_semantics": true,
+    "component_alpha_minimum_refits_minimum_blocks_and_tolerance": true,
+    "upstream_model_artifact_snapshot": true,
+    "confirmatory_implementation_source_snapshot": true,
+    "runtime_environment_snapshot": true
+  },
+  "execution_requirements": {
+    "all_frozen_evidence_rehashed_at_runtime": true,
+    "runtime_model_artifact_bytes_match_generation_receipt": true,
+    "runtime_validation_metadata_match_freeze": true,
+    "runtime_information_levels_match_freeze": true,
+    "qualification_receipt_requires_null_and_power_pass": true,
+    "separation_receipt_requires_full_source_frame_disjointness": true,
+    "unknown_or_mismatched_evidence_fails_closed": true
+  },
+  "scope_v1": {
+    "alternative": "greater",
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "contrast_count": 2,
+    "component_one_sided_alpha": 0.05,
+    "minimum_refits": 8,
+    "minimum_blocks_per_group": 8,
+    "untouched_external_validation": false
+  },
+  "claim_boundary": {
+    "process_mean_target": true,
+    "conditional_on_frozen_training_source": true,
+    "individual_future_refit_success_probability_claimed": false,
+    "all_possible_refits_positive_claimed": false,
+    "original_training_source_population_generalization_claimed": false,
+    "fixed_set_intersection_reclassified": false,
+    "historical_empirical_endpoint_reclassified": false,
+    "untouched_external_route_opened": false
+  },
+  "promotion_boundary": {
+    "raw_v5_surface_can_be_primary": false,
+    "envelope_can_be_primary_before_v5_qualification_receipt_exists": false,
+    "internal_envelope_qualification_implies_external_qualification": false,
+    "external_route_requires_separate_pre_outcome_freeze": true
+  }
+}
