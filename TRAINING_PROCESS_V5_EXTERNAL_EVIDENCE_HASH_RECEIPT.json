@@ -31,11 +31,14 @@
     }
   ],
   "verification_boundary": {
-    "repository_bytes_independently_hashed_before_registration": true,
-    "ci_replay_required": true,
+    "exact_hash_values_embedded_in_registration_branch_before_merge": true,
+    "official_ci_replay_required_by_frozen_promotion_order": true,
+    "official_ci_replay_completed_before_registry_v5_merge": false,
+    "official_ci_replay_passed": true,
+    "official_ci_replay_exactly_matched_pre_registration_hash_values": true,
+    "route_evidence_artifacts_changed_to_make_replay_pass": false,
     "statistical_results_recomputed": false,
-    "route_registered_before_hash_snapshot": false,
-    "official_ci_replay_passed": true
+    "registry_v6_required_to_satisfy_strict_replay_before_registration_order": true
   },
   "official_ci_replay": {
     "github_actions_run_id": 37306487541,
