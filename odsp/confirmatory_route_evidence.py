@@ -110,7 +110,7 @@ _TRAINING_PROCESS_V5_EXTERNAL_IDENTITY_CONTRACT_V2 = "ODSP_TRAINING_PROCESS_V5_E
 _TRAINING_PROCESS_V5_EXTERNAL_FOCUSED_V2 = "TRAINING_PROCESS_V5_EXTERNAL_FOCUSED_ENDPOINT_RECEIPT_V2.json"
 _TRAINING_PROCESS_V5_EXTERNAL_IDENTITY_V2 = "TRAINING_PROCESS_V5_EXTERNAL_ENDPOINT_IDENTITY_RECEIPT_V2.json"
 
-QUALIFICATION_EVIDENCE_REGISTRY_ID = "odsp-confirmatory-route-evidence-v5"
+QUALIFICATION_EVIDENCE_REGISTRY_ID = "odsp-confirmatory-route-evidence-v6"
 
 # Exact UTF-8 file-content digests for every artifact admitted to a confirmatory
 # qualification chain. Source CI verifies these constants against repository bytes.
