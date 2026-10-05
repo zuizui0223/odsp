@@ -267,7 +267,7 @@ def test_routing_contract_freezes_route_context_evidence_governance():
         Path("ODSP_CONFIRMATORY_METHOD_ROUTING_CONTRACT.json").read_text(encoding="utf-8")
     )
     evidence = payload["qualification_evidence"]
-    assert evidence["registry"] == "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V5.json"
+    assert evidence["registry"] == "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V6.json"
     assert evidence["artifact_sha256_frozen"] is True
     assert evidence["keyed_by_full_route_context"] is True
     assert evidence["surface_name_alone_is_sufficient"] is False
@@ -311,7 +311,7 @@ def test_training_process_external_v5_chain_extends_internal_chain_without_repla
     assert len(external.qualification_evidence) == 20
 
 
-def test_active_v5_registry_matches_process_external_route_and_content_hashes():
+def test_historical_v5_registry_matches_process_external_route_and_content_hashes():
     payload = json.loads(
         Path("ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V5.json").read_text(
             encoding="utf-8"
@@ -351,3 +351,36 @@ def test_v4_registry_is_retained_as_subset_of_active_v5_registry():
         assert new["evidence_by_route_key"][key] == chain
     for artifact, digest in old["artifact_sha256"].items():
         assert new["artifact_sha256"][artifact] == digest
+
+
+def test_active_v6_registry_reactivates_same_external_chain_after_official_hash_replay():
+    old = json.loads(
+        Path("ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V5.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    new = json.loads(
+        Path("ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V6.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    external = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="predeclared_training_process",
+        external_validation="untouched_frozen",
+        contrast_count=2,
+    )
+    assert new["schema_version"] == 6
+    assert new["registry_id"] == "odsp-confirmatory-route-evidence-v6"
+    assert new["evidence_by_route_key"][external.qualification_key] == list(
+        external.qualification_evidence
+    )
+    assert new["evidence_by_route_key"] == old["evidence_by_route_key"]
+    assert new["artifact_sha256"] == old["artifact_sha256"]
+    governance = new["governance"]
+    assert governance["registry_v5_retained_for_historical_provenance"] is True
+    assert governance["registry_v5_external_registration_met_strict_hash_replay_order"] is False
+    assert governance["registry_v6_created_after_official_external_hash_replay"] is True
+    assert governance["external_hash_replay_run_id"] == 37306487541
