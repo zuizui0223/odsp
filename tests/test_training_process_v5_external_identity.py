@@ -42,5 +42,5 @@ def test_external_identity_snapshot_contains_frozen_internal_route_and_contract_
     assert snapshot["internal_v5_route_snapshot"]["qualification_registry_id"] == (
         "odsp-confirmatory-route-evidence-v4"
     )
-    assert len(snapshot["external_contract_sha256"]) == 6
+    assert len(snapshot["external_contract_sha256"]) == 8
     assert all(len(value)==64 for value in snapshot["external_contract_sha256"].values())
