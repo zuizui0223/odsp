@@ -78,6 +78,7 @@ def _route(
     qualification_key: str | None = None,
     qualification_evidence: Sequence[str] = (),
     edge_count: int | None = None,
+    refit_population_generalization_claimed: bool = False,
 ) -> MethodRoute:
     return MethodRoute(
         role=role,
@@ -87,7 +88,7 @@ def _route(
         reason=reason,
         requires_preoutcome_freeze=requires_preoutcome_freeze,
         requires_exact_shared_block_support=requires_exact_shared_block_support,
-        refit_population_generalization_claimed=False,
+        refit_population_generalization_claimed=refit_population_generalization_claimed,
         historical_endpoint_reclassification_allowed=False,
         qualification_key=qualification_key,
         qualification_evidence=tuple(qualification_evidence),
@@ -141,6 +142,7 @@ def route_confirmatory_method(
         requires_preoutcome_freeze: bool = False,
         requires_exact_shared_block_support: bool = False,
         edge_count: int | None = None,
+        refit_population_generalization_claimed: bool = False,
     ) -> MethodRoute:
         if role in {"primary_confirmatory", "bidirectional_confirmatory"}:
             key = route_evidence_key(
@@ -161,6 +163,7 @@ def route_confirmatory_method(
                     requires_preoutcome_freeze=requires_preoutcome_freeze,
                     requires_exact_shared_block_support=requires_exact_shared_block_support,
                     edge_count=edge_count,
+                    refit_population_generalization_claimed=refit_population_generalization_claimed,
                 )
             return _route(
                 role,
@@ -172,6 +175,7 @@ def route_confirmatory_method(
                 qualification_key=key,
                 qualification_evidence=evidence,
                 edge_count=edge_count,
+                refit_population_generalization_claimed=refit_population_generalization_claimed,
             )
         return _route(
             role,
@@ -181,6 +185,7 @@ def route_confirmatory_method(
             requires_preoutcome_freeze=requires_preoutcome_freeze,
             requires_exact_shared_block_support=requires_exact_shared_block_support,
             edge_count=edge_count,
+            refit_population_generalization_claimed=refit_population_generalization_claimed,
         )
 
     if upstream_refits == "stochastic_population":
@@ -286,10 +291,29 @@ def route_confirmatory_method(
                     canonical_surface="odsp.refit_positive_robustness.certify_all_refit_positive_information_transfer_v2",
                 )
             if upstream_refits == "predeclared_training_process":
+                if external_validation != "none":
+                    return routed(
+                        "unqualified",
+                        "The internal predeclared training-process route is qualified, but untouched external validation still requires its own process-specific pre-outcome endpoint and may not borrow the fixed-set external contract.",
+                        requires_preoutcome_freeze=True,
+                        refit_population_generalization_claimed=True,
+                    )
+                if contrasts != 2:
+                    return routed(
+                        "unqualified",
+                        "The qualified predeclared training-process v5 route is prospectively calibrated only for an ordered two-contrast independent filtration.",
+                        requires_preoutcome_freeze=True,
+                        refit_population_generalization_claimed=True,
+                    )
                 return routed(
-                    "unqualified",
-                    "The predeclared training-process route has a separate crossed training-refit x validation-block statistical core, but its own prospective operating-characteristic and process-provenance qualification evidence is not yet frozen. It must not borrow fixed-set refit qualification evidence.",
-                    requires_preoutcome_freeze=external_validation != "none",
+                    "primary_confirmatory",
+                    "The qualified v5 CV3(2) intersection-union route targets the mean held-out gain over a predeclared training-resampling process conditional on the frozen training source. Its canonical wrapper verifies the frozen process manifest, managed generation receipt, exact refit schedule and full training-source-frame separation from validation rows before inference.",
+                    canonical_surface=(
+                        "odsp.training_process_confirmatory_v5."
+                        "certify_predeclared_training_process_positive_information_v5"
+                    ),
+                    requires_preoutcome_freeze=True,
+                    refit_population_generalization_claimed=True,
                 )
             if upstream_refits == "fixed_set" and external_validation == "untouched_frozen":
                 return routed(
@@ -467,6 +491,7 @@ def route_confirmatory_method(
 
 
 _PRIMARY_SURFACES = {
+    "odsp.training_process_confirmatory_v5.certify_predeclared_training_process_positive_information_v5",
     "odsp.information_transfer_positive_v2.certify_positive_information_transfer_v2",
     "odsp.shared_block_positive_information.certify_shared_block_positive_information_transfer_v2",
     "odsp.information_lattice_positive_v2.certify_positive_information_lattice_v2",
