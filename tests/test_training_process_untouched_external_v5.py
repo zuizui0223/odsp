@@ -433,6 +433,12 @@ def test_untouched_external_endpoint_uses_only_managed_score_bundle(tmp_path):
         tmp_path, process, roster, manifest, receipt
     )
     groups, blocks, row_ids, weights = _runtime_design()
+    # Runtime row order is deliberately reversed. The frozen design hash is
+    # order-insensitive, while score matrices must be realigned by row ID.
+    groups = tuple(reversed(groups))
+    blocks = tuple(reversed(blocks))
+    row_ids = tuple(reversed(row_ids))
+    weights = tuple(reversed(weights))
     result = run_untouched_external_training_process_v5(
         manifest,
         receipt,
