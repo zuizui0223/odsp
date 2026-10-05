@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-v5-untouched-external-v1",
+  "frozen_date": "2026-10-05",
+  "purpose": "extend the qualified internal predeclared-training-process v5 route to a separate untouched-external endpoint without changing the process-mean estimand or borrowing fixed-set external semantics",
+  "canonical_surfaces": {
+    "freeze_generator": "odsp.training_process_external_freeze_v1.create_training_process_external_freeze_manifest_v1",
+    "runtime_endpoint": "odsp.untouched_external_training_process_v1.run_untouched_external_training_process_v1"
+  },
+  "pre_outcome_freeze": {
+    "manifest_type": "odsp_training_process_external_freeze_v1",
+    "external_roster_columns_exactly": [
+      "row_id",
+      "group_id",
+      "block_id",
+      "sample_weight"
+    ],
+    "external_outcome_or_score_columns_allowed": false,
+    "external_row_ids_unique": true,
+    "sample_weights_finite_nonnegative": true,
+    "every_group_has_positive_total_weight": true,
+    "every_positive_support_block_has_positive_total_weight": true,
+    "canonical_external_design_hash": "SHA256 of canonical JSON rows sorted by row_id with row_id, group_id, block_id and sample_weight",
+    "training_process_manifest_sha256_frozen": true,
+    "managed_generation_receipt_sha256_frozen": true,
+    "training_source_frame_validation_disjointness_verified_before_outcome_access": true,
+    "refit_ids_frozen": true,
+    "score_semantics_frozen": true,
+    "information_levels_and_score_columns_frozen": true,
+    "component_one_sided_alpha_frozen": true,
+    "minimum_refits_frozen": true,
+    "minimum_blocks_per_group_frozen": true,
+    "gain_tolerance_frozen": true,
+    "qualification_evidence_snapshot_frozen": true,
+    "external_endpoint_implementation_snapshot_frozen": true,
+    "runtime_environment_snapshot_frozen": true
+  },
+  "outcome_table_runtime": {
+    "required_columns": "row_id, refit_id, and exactly one predeclared score column per information level",
+    "group_block_weight_columns_read_from_outcome_table": false,
+    "exact_external_row_roster_required": true,
+    "exact_frozen_refit_set_required": true,
+    "exact_row_x_refit_cartesian_product_required": true,
+    "duplicates_allowed": false,
+    "missing_cells_allowed": false,
+    "extra_rows_or_refits_allowed": false
+  },
+  "inference": {
+    "canonical_internal_wrapper": "odsp.training_process_confirmatory_v5.certify_predeclared_training_process_positive_information_v5",
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "contrast_count": 2,
+    "alternative": "greater",
+    "process_mean_conditional_on_frozen_training_source": true
+  },
+  "claim_boundary": {
+    "fixed_set_intersection_reclassified": false,
+    "historical_empirical_endpoints_reclassified": false,
+    "individual_future_refit_success_probability_claimed": false,
+    "all_future_refits_positive_claimed": false,
+    "original_training_source_population_generalization_claimed": false,
+    "external_distribution_shift_robustness_claimed": false,
+    "score_table_derivation_from_generated_models_independently_proven": false,
+    "historical_no_prior_external_outcome_access_machine_proven": false
+  },
+  "promotion_rule": {
+    "internal_v5_route_must_remain_qualified": true,
+    "external_route_has_distinct_route_key": true,
+    "external_route_requires_this_contract_in_addition_to_internal_v5_evidence": true,
+    "route_registry_update_occurs_only_after endpoint implementation and semantic-lock tests": true
+  }
+}
