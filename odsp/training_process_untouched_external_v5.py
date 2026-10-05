@@ -4,6 +4,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 import json
 from pathlib import Path
+import numpy as np
 from typing import Mapping, Sequence
 
 from .confirmatory_environment_lock import (
@@ -15,6 +16,10 @@ from .confirmatory_implementation_lock import (
     implementation_source_snapshot_for_surface,
 )
 from .refit_information_transfer import RefitInformationLevelScores
+from .training_process_managed_external_scoring import (
+    MANAGED_SCORING_RECEIPT_TYPE,
+    load_managed_external_score_bundle,
+)
 from .training_process_confirmatory_v5 import (
     TrainingProcessConfirmatoryV5Certification,
     _load_json,
@@ -29,7 +34,6 @@ from .training_process_external_freeze_v1 import (
     _canonical_sha256,
     _external_design_rows,
     _model_artifact_snapshot,
-    _normalize_score,
     build_internal_v5_route_snapshot,
 )
 from .training_process_freeze_manifest import _file_sha256
@@ -50,11 +54,15 @@ class UntouchedExternalTrainingProcessV5Certification:
     training_process_id: str
     training_process_manifest_sha256: str
     managed_generation_receipt_sha256: str
+    managed_scoring_receipt_sha256: str
+    score_bundle_sha256: str
+    canonical_score_tensor_sha256: str
     freeze_manifest_semantics_verified: bool
     external_design_exact_match_verified: bool
     process_identity_exact_match_verified: bool
     generated_model_artifact_snapshot_verified: bool
     fit_environment_snapshot_verified: bool
+    score_tensor_derived_by_managed_scoring: bool
     qualification_evidence_snapshot_verified: bool
     implementation_source_snapshot_verified: bool
     runtime_environment_snapshot_verified: bool
@@ -94,6 +102,7 @@ def _manifest_fields(manifest: Mapping[str, object]) -> None:
         "refit_ids",
         "generated_model_artifact_snapshot",
         "fit_environment_snapshot",
+        "managed_scoring_plan",
         "training_source_frame_validation_disjoint",
         "training_source_frame_audit",
         "internal_qualified_route",
@@ -197,13 +206,14 @@ def _level_metadata(
 def run_untouched_external_training_process_v5(
     external_freeze_manifest_path: str | Path,
     external_freeze_receipt_path: str | Path,
-    levels: Sequence[RefitInformationLevelScores],
+    managed_scoring_receipt_path: str | Path,
+    score_bundle_path: str | Path,
+    validation_data_path: str | Path,
     groups: Sequence[object],
     *,
     blocks: Sequence[object],
     validation_row_ids: Sequence[object],
     sample_weight: Sequence[float],
-    score_contract: Mapping[str, object],
     refit_ids: Sequence[object],
     training_process_manifest_path: str | Path,
     managed_generation_receipt_path: str | Path,
@@ -215,12 +225,18 @@ def run_untouched_external_training_process_v5(
     freeze_receipt_path = Path(external_freeze_receipt_path)
     process_manifest_path = Path(training_process_manifest_path)
     managed_receipt_path = Path(managed_generation_receipt_path)
+    scoring_receipt_path = Path(managed_scoring_receipt_path)
+    bundle_path = Path(score_bundle_path)
+    validation_path = Path(validation_data_path)
     roster_path = Path(training_roster_path)
     for path in (
         freeze_manifest_path,
         freeze_receipt_path,
         process_manifest_path,
         managed_receipt_path,
+        scoring_receipt_path,
+        bundle_path,
+        validation_path,
         roster_path,
     ):
         if not path.is_file():
@@ -317,14 +333,85 @@ def run_untouched_external_training_process_v5(
     if endpoint.get("runtime_environment_snapshot") != current_env:
         raise ValueError("external endpoint runtime environment mismatch")
 
+    scoring_receipt = _load_json(
+        scoring_receipt_path, name="managed scoring receipt"
+    )
+    if scoring_receipt.get("receipt_type") != MANAGED_SCORING_RECEIPT_TYPE:
+        raise ValueError("managed scoring receipt_type is not recognized")
+    freeze_manifest_sha = _file_sha256(freeze_manifest_path)
+    freeze_receipt_sha = _file_sha256(freeze_receipt_path)
+    validation_sha = _file_sha256(validation_path)
+    bundle_sha = _file_sha256(bundle_path)
+    scoring_checks = {
+        "external_freeze_manifest_sha256": freeze_manifest_sha,
+        "external_freeze_receipt_sha256": freeze_receipt_sha,
+        "managed_generation_receipt_sha256": managed_receipt_sha,
+        "validation_data_sha256": validation_sha,
+        "score_bundle_sha256": bundle_sha,
+    }
+    for field, expected in scoring_checks.items():
+        if scoring_receipt.get(field) != expected:
+            raise ValueError(f"managed scoring receipt {field} mismatch")
+    scoring_plan = manifest.get("managed_scoring_plan")
+    if not isinstance(scoring_plan, Mapping):
+        raise ValueError("frozen managed_scoring_plan is invalid")
+    if scoring_receipt.get("scoring_command_artifact_snapshot") != scoring_plan.get(
+        "command_artifact_snapshot"
+    ):
+        raise ValueError("managed scoring command artifact snapshot mismatch")
+    if scoring_receipt.get(
+        "scoring_runtime_environment_snapshot"
+    ) != scoring_plan.get("runtime_environment_snapshot"):
+        raise ValueError("managed scoring runtime environment snapshot mismatch")
+    if scoring_receipt.get(
+        "generated_model_artifact_snapshot"
+    ) != manifest.get("generated_model_artifact_snapshot"):
+        raise ValueError("managed scoring model artifact snapshot mismatch")
+    boundaries = scoring_receipt.get("boundaries")
+    if not isinstance(boundaries, Mapping):
+        raise ValueError("managed scoring receipt boundaries are invalid")
+    if boundaries.get("score_tensor_derived_by_managed_scoring") is not True:
+        raise ValueError("managed scoring receipt does not prove managed score derivation")
+    if boundaries.get(
+        "generated_model_artifacts_reverified_before_scoring"
+    ) is not True:
+        raise ValueError("managed scoring receipt did not reverify model artifacts")
+    if boundaries.get("shell_used") is not False:
+        raise ValueError("managed scoring receipt must report shell_used=false")
+
+    levels, bundle_row_ids, bundle_refit_ids, tensor_sha = (
+        load_managed_external_score_bundle(
+            bundle_path,
+            expected_bundle_sha256=bundle_sha,
+            expected_external_freeze_manifest_sha256=freeze_manifest_sha,
+            expected_managed_generation_receipt_sha256=managed_receipt_sha,
+            expected_validation_data_sha256=validation_sha,
+        )
+    )
+    if tensor_sha != scoring_receipt.get("canonical_score_tensor_sha256"):
+        raise ValueError("managed scoring tensor digest mismatch")
     if _level_metadata(levels) != manifest["levels"]:
-        raise ValueError("runtime information levels do not match external freeze")
-    score = manifest["score"]
-    if not isinstance(score, Mapping):
-        raise ValueError("frozen score must be an object")
-    runtime_score = _normalize_score(score_contract)
-    if runtime_score != score:
-        raise ValueError("runtime score semantics do not match external freeze")
+        raise ValueError("managed score levels do not match external freeze")
+    if tuple(bundle_refit_ids) != supplied_refits:
+        raise ValueError("managed score refit IDs do not match frozen process")
+    runtime_row_ids = tuple(
+        _text(value, name="validation_row_id") for value in validation_row_ids
+    )
+    if len(runtime_row_ids) != len(set(runtime_row_ids)):
+        raise ValueError("runtime validation row IDs must be unique")
+    if set(bundle_row_ids) != set(runtime_row_ids):
+        raise ValueError("managed score row IDs do not match runtime external rows")
+    bundle_index = {row_id: index for index, row_id in enumerate(bundle_row_ids)}
+    reorder = [bundle_index[row_id] for row_id in runtime_row_ids]
+    aligned_levels = tuple(
+        RefitInformationLevelScores(
+            level.name,
+            level.information,
+            np.asarray(level.score, dtype=float)[:, reorder],
+        )
+        for level in levels
+    )
+
     certification = manifest["certification"]
     if not isinstance(certification, Mapping):
         raise ValueError("frozen certification must be an object")
@@ -333,7 +420,7 @@ def run_untouched_external_training_process_v5(
         raise ValueError("training_roster_spec must be an object")
 
     result = certify_predeclared_training_process_positive_information_v5(
-        levels,
+        aligned_levels,
         groups,
         blocks=blocks,
         validation_row_ids=validation_row_ids,
@@ -372,11 +459,15 @@ def run_untouched_external_training_process_v5(
         training_process_id=process_id,
         training_process_manifest_sha256=process_manifest_sha,
         managed_generation_receipt_sha256=managed_receipt_sha,
+        managed_scoring_receipt_sha256=_file_sha256(scoring_receipt_path),
+        score_bundle_sha256=bundle_sha,
+        canonical_score_tensor_sha256=tensor_sha,
         freeze_manifest_semantics_verified=True,
         external_design_exact_match_verified=True,
         process_identity_exact_match_verified=True,
         generated_model_artifact_snapshot_verified=True,
         fit_environment_snapshot_verified=True,
+        score_tensor_derived_by_managed_scoring=True,
         qualification_evidence_snapshot_verified=True,
         implementation_source_snapshot_verified=True,
         runtime_environment_snapshot_verified=True,
