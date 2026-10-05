@@ -1,0 +1,74 @@
+{
+  "schema_version": 2,
+  "contract_id": "odsp-training-process-v5-untouched-external-v2",
+  "frozen_date": "2026-10-05",
+  "predecessor": {
+    "contract": "ODSP_TRAINING_PROCESS_V5_UNTOUCHED_EXTERNAL_CONTRACT.json",
+    "retained_unchanged": true,
+    "v1_official_endpoint_test_result_observed_before_v2_freeze": false,
+    "reason_for_v2": "close the explicit v1 boundary that score-table derivation from frozen model artifacts was not independently proven"
+  },
+  "canonical_surfaces": {
+    "freeze_generator": "odsp.training_process_external_freeze_v2.create_training_process_external_freeze_manifest_v2",
+    "managed_scorer": "odsp.training_process_external_scoring_v2.run_managed_external_scoring_v2",
+    "runtime_endpoint": "odsp.untouched_external_training_process_v2.run_untouched_external_training_process_v2"
+  },
+  "pre_outcome_freeze": {
+    "all_v1_external_design_and_process_identity_fields_retained": true,
+    "managed_scoring_plan_frozen": true,
+    "scoring_command_argv_template_frozen": true,
+    "scoring_command_artifact_sha256_frozen": true,
+    "scoring_working_directory_declared": true,
+    "scoring_timeout_declared": true,
+    "scoring_environment_allowlist_declared": true,
+    "expected_score_columns_frozen": true,
+    "managed_generation_receipt_sha256_frozen": true,
+    "generated_model_artifact_snapshot_frozen": true,
+    "external_outcome_values_read_by_freeze_generator": false
+  },
+  "runtime_managed_scoring": {
+    "external_outcome_bearing_data_row_roster_must_match_frozen_external_rows": true,
+    "runtime_generated_model_artifacts_must_match_managed_generation_receipt": true,
+    "one_scoring_process_per_refit": true,
+    "shell_used": false,
+    "required_command_placeholders": [
+      "{refit_id}",
+      "{refit_model_dir}",
+      "{external_data_path}",
+      "{output_path}"
+    ],
+    "per_refit_output_must_contain_exact_frozen_rows": true,
+    "per_refit_output_columns_exactly": "row_id plus frozen information-level score columns",
+    "managed_score_table_content_sha256_recorded": true,
+    "stdout_sha256_recorded": true,
+    "stderr_sha256_recorded": true,
+    "all_return_codes_must_be_zero": true
+  },
+  "external_endpoint": {
+    "caller_supplied_unbound_score_table_allowed": false,
+    "managed_scoring_receipt_sha256_required": true,
+    "managed_score_table_sha256_must_match_receipt": true,
+    "exact_frozen_row_x_refit_cartesian_product_required": true,
+    "group_block_weight_metadata_from_pre_outcome_freeze_only": true,
+    "qualified_internal_v5_wrapper_called_only_after_scoring_provenance_verification": true
+  },
+  "provenance_claim": {
+    "frozen_model_artifact_bytes_operationally_presented_to_scoring_command": true,
+    "frozen_scoring_command_invoked_on_external_data": true,
+    "resulting_score_artifact_bytes_bound_to_receipt": true,
+    "arbitrary_scoring_code_semantically_used_model_predictions_cryptographically_proven": false,
+    "remaining_semantic_boundary_is_auditable_frozen_code_behavior": true
+  },
+  "claim_boundary": {
+    "historical_no_prior_external_outcome_access_machine_proven": false,
+    "fixed_set_results_reclassified": false,
+    "individual_future_refit_success_probability_claimed": false,
+    "original_training_source_population_generalization_claimed": false,
+    "external_distribution_shift_robustness_claimed": false
+  },
+  "promotion_rule": {
+    "v2_endpoint_tests_must_pass_before_external_route_registration": true,
+    "v2_managed_scoring_provenance_required_for_external_primary_route": true,
+    "v1_external_endpoint_may_not_be_registered_as_primary": true
+  }
+}
