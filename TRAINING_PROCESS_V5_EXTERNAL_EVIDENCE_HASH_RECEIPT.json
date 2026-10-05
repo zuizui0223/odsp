@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "receipt_type": "odsp_training_process_v5_external_evidence_hash_v1",
+  "date": "2026-10-05",
+  "plan": "ODSP_TRAINING_PROCESS_V5_EXTERNAL_EVIDENCE_HASH_PLAN.json",
+  "route_key": "alternative=greater|validation_design=independent_groups|information_structure=filtration|upstream_refits=predeclared_training_process|external_validation=untouched_frozen|contrast_count=2",
+  "artifacts": [
+    {
+      "artifact": "ODSP_TRAINING_PROCESS_V5_UNTOUCHED_EXTERNAL_FREEZE_CONTRACT_V3.json",
+      "sha256": "7e82730f7258901ffc10be22d267ae1b9270a19ed5593d44f78b25646e8b715b"
+    },
+    {
+      "artifact": "ODSP_TRAINING_PROCESS_V5_MANAGED_EXTERNAL_SCORING_CONTRACT.json",
+      "sha256": "1a50629b5b48ac3eb01403319ce7ec43e941052cda209812c82df5184adb839e"
+    },
+    {
+      "artifact": "ODSP_TRAINING_PROCESS_V5_EXTERNAL_PROMOTION_GATE_V3.json",
+      "sha256": "2e953a99fe8bd39fffcf277bdce8273c2e67914ffe4d43237f2d40b011fbefa8"
+    },
+    {
+      "artifact": "ODSP_TRAINING_PROCESS_V5_EXTERNAL_ENDPOINT_IDENTITY_CONTRACT_V2.json",
+      "sha256": "379464ec4c50db02a3a2fc63b0db6e772222836036d2f13c1f15cde3be46b4e2"
+    },
+    {
+      "artifact": "TRAINING_PROCESS_V5_EXTERNAL_FOCUSED_ENDPOINT_RECEIPT_V2.json",
+      "sha256": "e6e436a33dcb8549b9068938e41e0c6a1e68d0ae36e20614fd782cac88e9778d"
+    },
+    {
+      "artifact": "TRAINING_PROCESS_V5_EXTERNAL_ENDPOINT_IDENTITY_RECEIPT_V2.json",
+      "sha256": "e19fe9ae630bf5430f9fda997a37f0933e51e010b73653d32cf15ee971ba7ed3"
+    }
+  ],
+  "verification_boundary": {
+    "repository_bytes_independently_hashed_before_registration": true,
+    "ci_replay_required": true,
+    "statistical_results_recomputed": false,
+    "route_registered_before_hash_snapshot": false
+  }
+}
