@@ -1,0 +1,57 @@
+{
+  "schema_version": 2,
+  "contract_id": "odsp-training-process-v5-untouched-external-freeze-v2",
+  "frozen_date": "2026-10-05",
+  "predecessor": {
+    "artifact": "ODSP_TRAINING_PROCESS_V5_UNTOUCHED_EXTERNAL_FREEZE_CONTRACT.json",
+    "retained": true,
+    "extension": "require managed external scoring so the external score tensor is operationally derived from the frozen generated model artifacts rather than supplied by the caller"
+  },
+  "canonical_external_surface": "odsp.training_process_untouched_external_v5.run_untouched_external_training_process_v5",
+  "required_layers": [
+    "qualified internal training-process v5 route",
+    "full training-source-frame versus external-row separation",
+    "managed model generation receipt",
+    "outcome-free external row/group/block/weight freeze",
+    "frozen external endpoint implementation and runtime identity",
+    "frozen scoring argv, scoring-code bytes and scoring runtime",
+    "managed external scoring receipt and content-hashed score bundle"
+  ],
+  "managed_scoring": {
+    "contract": "ODSP_TRAINING_PROCESS_V5_MANAGED_EXTERNAL_SCORING_CONTRACT.json",
+    "caller_supplied_score_matrix_allowed_for_primary_external_route": false,
+    "validation_data_row_roster_verified_against_frozen_external_roster": true,
+    "generated_model_artifact_bytes_reverified_before_scoring": true,
+    "scoring_code_artifact_bytes_reverified_before_scoring": true,
+    "scoring_runtime_environment_exact_match_required": true,
+    "score_output_schema_exact_match_required": true,
+    "score_output_row_coverage_exact_match_required": true,
+    "canonical_score_tensor_sha256_required": true
+  },
+  "runtime_order": [
+    "verify external freeze manifest and receipt",
+    "verify exact external row/group/block/weight design",
+    "verify training-process and managed-generation identity",
+    "verify frozen internal qualification evidence chain",
+    "verify external endpoint implementation/runtime identity",
+    "verify managed-scoring receipt and bundle identity",
+    "reconstruct score matrices from managed bundle",
+    "reorder scores only by frozen row IDs",
+    "invoke provenance-verifying internal v5 wrapper"
+  ],
+  "claim_boundary": {
+    "process_mean_conditional_on_frozen_training_source": true,
+    "individual_future_refit_success_probability_claimed": false,
+    "original_training_source_population_generalization_claimed": false,
+    "fixed_set_intersection_reclassified": false,
+    "external_distribution_shift_robustness_claimed": false,
+    "historical_no_prior_external_outcome_access_machine_proven": false,
+    "operational_model_to_score_derivation_verified": true,
+    "semantic_correctness_of_arbitrary_frozen_fit_or_scoring_code_cryptographically_proven": false
+  },
+  "route_state": {
+    "internal_process_route_primary": true,
+    "external_process_route_primary_now": false,
+    "endpoint_tests_and_identity_freeze_required_before_registration": true
+  }
+}
