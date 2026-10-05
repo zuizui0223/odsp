@@ -28,6 +28,10 @@ from .training_process_confirmatory_v5 import (
     _verify_managed_receipt,
 )
 from .training_process_freeze_manifest import _file_sha256
+from .training_process_managed_generation import (
+    _relative_safe_path,
+    _runtime_snapshot,
+)
 from .training_process_validation_provenance import (
     audit_training_process_validation_frame_separation,
 )
@@ -54,6 +58,7 @@ _PLAN_FIELDS = {
     "score",
     "levels",
     "certification",
+    "scoring",
 }
 _ROSTER_FIELDS = {"path", "format"}
 _TRAINING_ROSTER_FIELDS = {"path", "format", "unit_id_column", "stratum_column"}
@@ -63,6 +68,13 @@ _SCORE_FIELDS = {
     "orientation",
     "common_scoring_rule",
     "common_reference_measure",
+}
+_SCORING_FIELDS = {
+    "working_directory",
+    "command",
+    "command_artifacts",
+    "timeout_seconds",
+    "environment_allowlist",
 }
 _CERT_FIELDS = {
     "component_one_sided_alpha",
@@ -178,6 +190,64 @@ def _normalize_certification(raw: object) -> dict[str, object]:
     }
 
 
+def _normalize_scoring(raw: object) -> dict[str, object]:
+    if not isinstance(raw, Mapping) or set(raw) != _SCORING_FIELDS:
+        raise ValueError("scoring fields are invalid")
+    working_directory = _text(
+        raw["working_directory"], name="scoring.working_directory"
+    )
+    command_raw = raw["command"]
+    if (
+        not isinstance(command_raw, list)
+        or not command_raw
+        or any(not isinstance(x, str) or not x.strip() for x in command_raw)
+    ):
+        raise ValueError("scoring.command must be a non-empty JSON string array")
+    command = [str(x) for x in command_raw]
+    joined = "\n".join(command)
+    for placeholder in (
+        "{refit_id}",
+        "{model_manifest_path}",
+        "{validation_data_path}",
+        "{scoring_spec_path}",
+        "{output_path}",
+    ):
+        if placeholder not in joined:
+            raise ValueError(
+                f"scoring.command must contain required placeholder {placeholder}"
+            )
+    artifacts_raw = raw["command_artifacts"]
+    if not isinstance(artifacts_raw, list) or not artifacts_raw:
+        raise ValueError("scoring.command_artifacts must be non-empty")
+    artifacts = [
+        _relative_safe_path(
+            value, name=f"scoring.command_artifacts[{index}]"
+        )
+        for index, value in enumerate(artifacts_raw)
+    ]
+    if len(artifacts) != len(set(artifacts)):
+        raise ValueError("scoring.command_artifacts must be unique")
+    timeout = raw["timeout_seconds"]
+    if isinstance(timeout, bool) or not isinstance(timeout, int) or not 1 <= timeout <= 86400:
+        raise ValueError("scoring.timeout_seconds must be an integer in [1, 86400]")
+    allowlist_raw = raw["environment_allowlist"]
+    if not isinstance(allowlist_raw, list):
+        raise ValueError("scoring.environment_allowlist must be a JSON array")
+    allowlist = [
+        _text(value, name=f"scoring.environment_allowlist[{index}]")
+        for index, value in enumerate(allowlist_raw)
+    ]
+    if len(allowlist) != len(set(allowlist)):
+        raise ValueError("scoring.environment_allowlist must be unique")
+    return {
+        "working_directory": working_directory,
+        "command": command,
+        "command_artifacts": artifacts,
+        "timeout_seconds": int(timeout),
+        "environment_allowlist": allowlist,
+    }
+
+
 def _normalize_plan(raw: Mapping[str, object]) -> dict[str, object]:
     if set(raw) != _PLAN_FIELDS:
         raise ValueError(
@@ -235,6 +305,7 @@ def _normalize_plan(raw: Mapping[str, object]) -> dict[str, object]:
         "score": _normalize_score(raw["score"]),
         "levels": _normalize_levels(raw["levels"]),
         "certification": _normalize_certification(raw["certification"]),
+        "scoring": _normalize_scoring(raw["scoring"]),
     }
 
 
@@ -409,6 +480,27 @@ def create_training_process_v5_external_freeze(
     if not frame_audit.training_source_frame_validation_disjoint:
         raise ValueError("training source frame overlaps frozen external roster")
 
+    scoring = plan["scoring"]
+    scoring_working_dir = Path(str(scoring["working_directory"]))
+    if not scoring_working_dir.is_absolute():
+        scoring_working_dir = base / scoring_working_dir
+    if not scoring_working_dir.is_dir():
+        raise FileNotFoundError(scoring_working_dir)
+    scoring_command_artifacts: list[dict[str, str]] = []
+    for declared_path in scoring["command_artifacts"]:
+        artifact_path = scoring_working_dir / str(declared_path)
+        if artifact_path.is_symlink() or not artifact_path.is_file():
+            raise ValueError(
+                f"scoring command artifact must be a regular non-symlink file: {artifact_path}"
+            )
+        scoring_command_artifacts.append(
+            {
+                "path": str(declared_path),
+                "sha256": _file_sha256(artifact_path),
+            }
+        )
+    scoring_runtime = _runtime_snapshot(scoring["environment_allowlist"])
+
     internal_route = build_internal_v5_route_snapshot()
     external_impl = implementation_source_snapshot_for_surface(EXTERNAL_SURFACE)
     external_env = runtime_environment_snapshot_for_surface(EXTERNAL_SURFACE)
@@ -454,12 +546,23 @@ def create_training_process_v5_external_freeze(
             "environment_lock_id": ENVIRONMENT_LOCK_ID,
             "runtime_environment_snapshot": external_env,
         },
+        "managed_scoring_plan": {
+            "working_directory": plan["scoring"]["working_directory"],
+            "command": list(plan["scoring"]["command"]),
+            "command_artifact_snapshot": scoring_command_artifacts,
+            "timeout_seconds": int(plan["scoring"]["timeout_seconds"]),
+            "environment_allowlist": list(plan["scoring"]["environment_allowlist"]),
+            "runtime_environment_snapshot": scoring_runtime,
+        },
         "score": plan["score"],
         "levels": plan["levels"],
         "certification": plan["certification"],
         "boundaries": {
             "external_outcomes_read_by_freeze_generator": False,
             "external_predictions_read_by_freeze_generator": False,
+            "validation_outcome_bytes_read_by_freeze_generator": False,
+            "scoring_command_artifact_bytes_frozen": True,
+            "scoring_runtime_environment_frozen": True,
             "caller_supplied_freeze_timestamp_allowed": False,
             "manifest_overwrite_allowed": False,
             "historical_no_prior_outcome_access_machine_proven": False,
