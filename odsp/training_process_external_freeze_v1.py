@@ -21,7 +21,7 @@ from .confirmatory_route_evidence import (
     QUALIFICATION_EVIDENCE_REGISTRY_ID,
     qualification_evidence_artifacts_for_route_key,
 )
-from .information_transfer_contract import _read_rows
+from .information_transfer_contract import _read_rows, _validate_score_contract
 from .training_process_confirmatory_v5 import (
     _load_json,
     _manifest_schedule,
@@ -125,25 +125,7 @@ def _canonical_sha256(value: object) -> str:
 
 
 def _normalize_score(raw: object) -> dict[str, object]:
-    if not isinstance(raw, Mapping) or set(raw) != _SCORE_FIELDS:
-        raise ValueError("score fields are invalid")
-    common_rule = raw["common_scoring_rule"]
-    common_reference = raw["common_reference_measure"]
-    if not isinstance(common_rule, bool) or not isinstance(common_reference, bool):
-        raise ValueError(
-            "score common_scoring_rule/common_reference_measure must be booleans"
-        )
-    if not common_rule or not common_reference:
-        raise ValueError(
-            "external confirmatory score requires common scoring rule and reference measure"
-        )
-    return {
-        "kind": _text(raw["kind"], name="score.kind"),
-        "name": _text(raw["name"], name="score.name"),
-        "orientation": _text(raw["orientation"], name="score.orientation"),
-        "common_scoring_rule": True,
-        "common_reference_measure": True,
-    }
+    return _validate_score_contract(raw)
 
 
 def _normalize_levels(raw: object) -> list[dict[str, object]]:
