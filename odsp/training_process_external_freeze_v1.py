@@ -431,6 +431,11 @@ def create_training_process_v5_external_freeze(
         "positive_block_count_by_group": block_counts,
         "training_process_id": process_id,
         "training_process_manifest_sha256": process_manifest_sha,
+        "training_roster_spec": {
+            "format": plan["training_roster"]["format"],
+            "unit_id_column": plan["training_roster"]["unit_id_column"],
+            "stratum_column": plan["training_roster"]["stratum_column"],
+        },
         "managed_generation_receipt_sha256": managed_receipt_sha,
         "refit_ids": list(frozen_refits),
         "generated_model_artifact_snapshot": _model_artifact_snapshot(
