@@ -1,0 +1,75 @@
+{
+  "schema_version": 4,
+  "contract_id": "odsp-training-process-positive-cv3max-iut-v4",
+  "frozen_date": "2026-10-05",
+  "predecessors": {
+    "v1": "null-qualified but failed prospective terminal-power gate",
+    "v2": "IUT restored power but failed prospective component-size null gate; heavy-tail power also missed by 0.002",
+    "v3": "centered pigeonhole IUT passed power in all scenarios but failed prospective component-size null gate",
+    "predecessor_results_reclassified": false
+  },
+  "inferential_target": {
+    "estimand": "mean held-out directional gain over the frozen training-resampling process conditional on the frozen training source and over the declared validation population",
+    "compound_alternative": "every required group x ordered information-step process mean exceeds the declared nonnegative tolerance",
+    "fixed_supplied_refit_set_is_estimand": false,
+    "individual_future_refit_success_probability_is_estimand": false
+  },
+  "variance_v4": {
+    "method": "two-way cluster jackknife CV3max adapted to the scalar crossed weighted-ratio process-mean estimator",
+    "training_delete_one_variance": "(R-1)/R * sum_r (theta_minus_r - theta_hat)^2",
+    "validation_delete_one_variance": "(B-1)/B * sum_b (theta_minus_b - theta_hat)^2",
+    "intersection_delete_one_variance": "(I-1)/I * sum_i (theta_minus_i - theta_hat)^2",
+    "intersection_count": "I = R*B because every frozen refit is evaluated on every positive-mass validation block",
+    "three_term_variance": "V_R_JK + V_B_JK - V_I_JK",
+    "cv3max_variance": "max(three_term_variance, V_R_JK, V_B_JK)",
+    "standard_error": "sqrt(cv3max_variance)",
+    "delete_one_center": "full-sample theta_hat, matching CV3 rather than the delete-one mean-centered CV3J variant"
+  },
+  "critical_value": {
+    "distribution": "Student_t",
+    "one_sided_probability": 0.95,
+    "degrees_of_freedom": "min(R,B)-1",
+    "component_lower_bound": "theta_hat - t_0.95,min(R,B)-1 * CV3max_SE"
+  },
+  "composition": {
+    "method": "intersection_union_test",
+    "all_required_components_must_reject": true,
+    "additional_multiplicity_correction_across_components": false,
+    "component_test_independence_assumed": false,
+    "component_lower_bounds_are_simultaneous": false,
+    "arbitrary_any_cell_familywise_claim_allowed": false
+  },
+  "literature_boundary": {
+    "two_way_cluster_jackknife_and_cv3max_structure_follow_mackinnon_nielsen_webb": true,
+    "student_t_min_cluster_degrees_of_freedom_follows_authors_recommendation": true,
+    "their_linear_regression_results_are_not_treated_as_qualification_of_odsp_weighted_ratio_endpoint": true,
+    "odsp_prospective_operating_characteristic_qualification_required": true
+  },
+  "scope_candidate": {
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "contrast_count": 2,
+    "minimum_refits": 8,
+    "minimum_validation_blocks_per_group": 8,
+    "paired_shared_blocks": false,
+    "complete_lattice": false,
+    "untouched_external": false
+  },
+  "qualification_plan": {
+    "null_gate": "every component false-positive rate <= 0.05 + 2*sqrt(0.05*0.95/1000) in every predeclared scenario",
+    "power_gate": "terminal all-required-components power at 5 oracle cell SE >= 0.80 in every predeclared scenario",
+    "moderate_3se_power_is_descriptive": true,
+    "same_six_crossed_scenarios_as_v1_v2_v3": true,
+    "results_observed_before_contract_freeze": false,
+    "null_alpha_changed_after_predecessor_failures": false,
+    "power_threshold_changed_after_predecessor_failures": false
+  },
+  "governance": {
+    "v4_primary_confirmatory": false,
+    "v4_requires_both_null_and_power_pass": true,
+    "v4_failure_may_not_be_rescued_post_hoc": true,
+    "fixed_set_route_changed": false,
+    "historical_endpoint_reclassified": false,
+    "untouched_external_route_opened": false
+  }
+}

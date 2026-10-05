@@ -1,0 +1,49 @@
+name: training-process-positive-cv3two-iut-v5-null
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/training_process_positive_cv3two_iut.py'
+      - 'odsp/training_process_positive_cv3two_iut_calibration.py'
+      - 'tests/test_training_process_positive_cv3two_iut_v5.py'
+      - 'tests/test_training_process_positive_cv3two_iut_calibration.py'
+      - 'tests/test_training_process_positive_cv3two_iut_v5_receipt.py'
+      - 'ODSP_TRAINING_PROCESS_POSITIVE_CV3TWO_IUT_V5_CONTRACT.json'
+      - 'TRAINING_PROCESS_POSITIVE_CV3TWO_IUT_V5_QUALIFICATION_RECEIPT.json'
+      - 'scripts/run_training_process_positive_cv3two_iut_v5_null_calibration.py'
+      - '.github/workflows/training-process-positive-cv3two-iut-v5-null.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qualify-null:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Test v5 and frozen receipt
+        run: >-
+          python -m pytest -q
+          tests/test_training_process_positive_cv3two_iut_v5.py
+          tests/test_training_process_positive_cv3two_iut_calibration.py
+          tests/test_training_process_positive_cv3two_iut_v5_receipt.py
+      - name: Replay frozen v5 null qualification
+        run: |
+          python scripts/run_training_process_positive_cv3two_iut_v5_null_calibration.py             --output /tmp/v5-null.json --seed 20261013 --simulations 1000
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          observed=json.loads(Path('/tmp/v5-null.json').read_text())
+          frozen=json.loads(Path('TRAINING_PROCESS_POSITIVE_CV3TWO_IUT_V5_QUALIFICATION_RECEIPT.json').read_text())
+          expected=frozen['null_run']['maximum_component_false_positive_rate_by_scenario']
+          actual={row['scenario_id']: row['maximum_component_false_positive_rate'] for row in observed['scenarios']}
+          assert observed['qualification_pass'] is True
+          assert actual == expected, (actual, expected)
+          assert max(actual.values()) == frozen['null_run']['largest_component_false_positive_rate']
+          print('V5_NULL_MATCHES_FROZEN_RECEIPT=true')
+          PY

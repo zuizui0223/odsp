@@ -1,0 +1,31 @@
+{
+  "schema_version": 3,
+  "contract_id": "odsp-training-process-v5-external-promotion-gate-v3",
+  "frozen_date": "2026-10-05",
+  "predecessor": {
+    "artifact": "ODSP_TRAINING_PROCESS_V5_EXTERNAL_PROMOTION_GATE_V2.json",
+    "retained": true
+  },
+  "canonical_surface": "odsp.training_process_untouched_external_v5.run_untouched_external_training_process_v5",
+  "final_additional_requirement": {
+    "external_outcomes_first_accessed_at_utc_required": true,
+    "freeze_strictly_precedes_declared_first_access": true,
+    "focused_test_must_reject_equal_or_earlier_first_access_timestamp": true
+  },
+  "registration_rule": {
+    "final_post_chronology_focused_receipt_required": true,
+    "final_post_chronology_identity_receipt_required": true,
+    "route_registry_update_occurs_only_after_both_receipts": true
+  },
+  "scope": {
+    "external_c2_independent_filtration_only": true,
+    "external_c4_process_route_promoted": false,
+    "external_paired_process_route_promoted": false,
+    "external_lattice_process_route_promoted": false
+  },
+  "claim_boundary": {
+    "historical_truth_of_access_declaration_machine_proven": false,
+    "external_distribution_shift_robustness_claimed": false,
+    "fixed_set_results_reclassified": false
+  }
+}

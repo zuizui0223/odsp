@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "receipt_type": "odsp_training_process_positive_pigeonhole_iut_v3_qualification_v1",
+  "date": "2026-10-05",
+  "method_version": "training_process_positive_pigeonhole_iut_v3",
+  "frozen_head_sha": "501a3d9ebdf5fc4b523ba06b0e4a2f17167293c5",
+  "predeclared_contracts": [
+    "ODSP_TRAINING_PROCESS_POSITIVE_PIGEONHOLE_IUT_V3_CONTRACT.json",
+    "ODSP_TRAINING_PROCESS_POSITIVE_PIGEONHOLE_IUT_V3_NULL_CALIBRATION_CONTRACT.json",
+    "ODSP_TRAINING_PROCESS_POSITIVE_PIGEONHOLE_IUT_V3_POWER_CALIBRATION_CONTRACT.json"
+  ],
+  "null_run": {
+    "github_actions_run_id": 37250712435,
+    "github_actions_job_id": 111577564914,
+    "seed": 20261009,
+    "simulations_per_scenario": 1000,
+    "bootstrap_draws": 500,
+    "maximum_accepted_component_rate": 0.06378404875209022,
+    "qualification_pass": false,
+    "maximum_component_false_positive_rate_by_scenario": {
+      "balanced-normal-r8-b8": 0.071,
+      "training-dominant-normal-r8-b20": 0.088,
+      "validation-dominant-normal-r20-b8": 0.087,
+      "interaction-dominant-normal-r8-b8": 0.013,
+      "balanced-t3-r8-b20": 0.065,
+      "balanced-normal-r20-b20": 0.068
+    }
+  },
+  "power_run": {
+    "github_actions_run_id": 37250712198,
+    "github_actions_job_id": 111577564005,
+    "seed": 20261010,
+    "simulations_per_scenario": 1000,
+    "bootstrap_draws": 500,
+    "minimum_strong_terminal_power": 0.8,
+    "qualification_pass": true,
+    "moderate_terminal_power_by_scenario": {
+      "balanced-normal-r8-b8": 0.441,
+      "training-dominant-normal-r8-b20": 0.473,
+      "validation-dominant-normal-r20-b8": 0.411,
+      "interaction-dominant-normal-r8-b8": 0.035,
+      "balanced-t3-r8-b20": 0.602,
+      "balanced-normal-r20-b20": 0.455
+    },
+    "strong_terminal_power_by_scenario": {
+      "balanced-normal-r8-b8": 0.994,
+      "training-dominant-normal-r8-b20": 0.989,
+      "validation-dominant-normal-r20-b8": 0.992,
+      "interaction-dominant-normal-r8-b8": 0.896,
+      "balanced-t3-r8-b20": 0.938,
+      "balanced-normal-r20-b20": 0.991
+    }
+  },
+  "summary": {
+    "qualification_pass": false,
+    "null_gate_pass": false,
+    "power_gate_pass": true,
+    "studentization_removed_power_bottleneck": true,
+    "unstudentized_component_size_remained_liberal": true,
+    "method_closed_without_primary_promotion": true
+  },
+  "boundary": {
+    "v3_results_used_to_relax_alpha": false,
+    "v3_results_used_to_change_power_gate": false,
+    "v3_may_be_reclassified_as_qualified": false,
+    "fixed_set_route_changed": false,
+    "historical_empirical_endpoint_reclassified": false
+  }
+}

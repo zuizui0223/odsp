@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "receipt_type": "odsp_training_process_positive_cv3max_iut_v4_qualification_v1",
+  "date": "2026-10-05",
+  "method_version": "training_process_positive_cv3max_iut_v4",
+  "null_run": {
+    "github_actions_run_id": 37251934916,
+    "github_actions_job_id": 111581187520,
+    "seed": 20261011,
+    "simulations_per_scenario": 1000,
+    "maximum_accepted_component_rate": 0.06378404875209022,
+    "qualification_pass": false,
+    "maximum_component_false_positive_rate_by_scenario": {
+      "balanced-normal-r8-b8": 0.065,
+      "training-dominant-normal-r8-b20": 0.065,
+      "validation-dominant-normal-r20-b8": 0.059,
+      "interaction-dominant-normal-r8-b8": 0.046,
+      "balanced-t3-r8-b20": 0.053,
+      "balanced-normal-r20-b20": 0.065
+    }
+  },
+  "power_run": {
+    "github_actions_run_id": 37251934832,
+    "github_actions_job_id": 111581187093,
+    "seed": 20261012,
+    "simulations_per_scenario": 1000,
+    "minimum_strong_terminal_power": 0.8,
+    "qualification_pass": true,
+    "moderate_terminal_power_by_scenario": {
+      "balanced-normal-r8-b8": 0.332,
+      "training-dominant-normal-r8-b20": 0.34,
+      "validation-dominant-normal-r20-b8": 0.192,
+      "interaction-dominant-normal-r8-b8": 0.114,
+      "balanced-t3-r8-b20": 0.499,
+      "balanced-normal-r20-b20": 0.444
+    },
+    "strong_terminal_power_by_scenario": {
+      "balanced-normal-r8-b8": 0.991,
+      "training-dominant-normal-r8-b20": 0.973,
+      "validation-dominant-normal-r20-b8": 0.966,
+      "interaction-dominant-normal-r8-b8": 0.967,
+      "balanced-t3-r8-b20": 0.914,
+      "balanced-normal-r20-b20": 0.992
+    }
+  },
+  "summary": {
+    "qualification_pass": false,
+    "null_gate_pass": false,
+    "power_gate_pass": true,
+    "null_failure_is_marginal": true,
+    "largest_component_rate": 0.065,
+    "threshold": 0.06378404875209022,
+    "method_closed_without_primary_promotion": true
+  },
+  "boundary": {
+    "v4_results_used_to_relax_thresholds": false,
+    "v4_may_be_reclassified_as_qualified": false,
+    "fixed_set_route_changed": false,
+    "historical_empirical_endpoint_reclassified": false
+  }
+}

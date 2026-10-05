@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "receipt_type": "odsp_training_process_positive_cv3two_iut_v5_qualification_v1",
+  "date": "2026-10-05",
+  "method_version": "training_process_positive_cv3two_iut_v5",
+  "frozen_method_head_sha": "64749b7cc9cff178cc6518cbe0ab0d5ae15fe526",
+  "predeclared_contract": "ODSP_TRAINING_PROCESS_POSITIVE_CV3TWO_IUT_V5_CONTRACT.json",
+  "null_run": {
+    "github_actions_run_id": 37253208181,
+    "github_actions_job_id": 111584905264,
+    "head_sha": "64749b7cc9cff178cc6518cbe0ab0d5ae15fe526",
+    "seed": 20261013,
+    "simulations_per_scenario": 1000,
+    "component_one_sided_alpha": 0.05,
+    "maximum_accepted_component_rate": 0.06378404875209022,
+    "qualification_pass": true,
+    "maximum_component_false_positive_rate_by_scenario": {
+      "balanced-normal-r8-b8": 0.043,
+      "training-dominant-normal-r8-b20": 0.055,
+      "validation-dominant-normal-r20-b8": 0.056,
+      "interaction-dominant-normal-r8-b8": 0.019,
+      "balanced-t3-r8-b20": 0.042,
+      "balanced-normal-r20-b20": 0.05
+    },
+    "largest_component_false_positive_rate": 0.056
+  },
+  "power_run": {
+    "github_actions_run_id": 37253208133,
+    "github_actions_job_id": 111584905161,
+    "head_sha": "64749b7cc9cff178cc6518cbe0ab0d5ae15fe526",
+    "seed": 20261014,
+    "simulations_per_scenario": 1000,
+    "moderate_shift_standard_errors": 3.0,
+    "strong_shift_standard_errors": 5.0,
+    "minimum_accepted_strong_terminal_power": 0.8,
+    "qualification_pass": true,
+    "moderate_terminal_power_by_scenario": {
+      "balanced-normal-r8-b8": 0.234,
+      "training-dominant-normal-r8-b20": 0.314,
+      "validation-dominant-normal-r20-b8": 0.181,
+      "interaction-dominant-normal-r8-b8": 0.02,
+      "balanced-t3-r8-b20": 0.434,
+      "balanced-normal-r20-b20": 0.394
+    },
+    "strong_terminal_power_by_scenario": {
+      "balanced-normal-r8-b8": 0.973,
+      "training-dominant-normal-r8-b20": 0.972,
+      "validation-dominant-normal-r20-b8": 0.972,
+      "interaction-dominant-normal-r8-b8": 0.859,
+      "balanced-t3-r8-b20": 0.902,
+      "balanced-normal-r20-b20": 0.99
+    },
+    "smallest_strong_terminal_power": 0.859
+  },
+  "summary": {
+    "base_null_gate_pass": true,
+    "base_power_gate_pass": true,
+    "base_qualification_pass": true,
+    "predeclared_scenario_count": 6,
+    "largest_component_false_positive_rate": 0.056,
+    "smallest_strong_terminal_power": 0.859
+  },
+  "chronology": {
+    "v5_contract_commit": "d075b43a",
+    "v5_contract_commit_time_utc": "2026-10-05T01:39:20Z",
+    "v4_official_null_completed_utc": "2026-10-05T01:42:26Z",
+    "v4_official_power_completed_utc": "2026-10-05T01:42:47Z",
+    "v5_frozen_before_v4_official_results_completed": true
+  },
+  "claim_boundary": {
+    "simulation_result_not_biological_evidence": true,
+    "process_mean_conditional_on_frozen_training_source": true,
+    "individual_future_refit_success_probability_claimed": false,
+    "all_future_refits_positive_claimed": false,
+    "fixed_set_results_reclassified": false,
+    "historical_empirical_endpoints_reclassified": false,
+    "untouched_external_endpoint_qualified_by_this_receipt": false
+  }
+}

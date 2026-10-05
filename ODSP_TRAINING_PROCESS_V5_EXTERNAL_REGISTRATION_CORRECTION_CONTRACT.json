@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-v5-external-registration-correction-v1",
+  "frozen_date": "2026-10-05",
+  "purpose": "record and correct the chronology error in registry v5, which registered the process-v5 untouched-external route before the official external-evidence hash CI had completed",
+  "chronology": {
+    "external_route_registry_v5_merge_commit": "94a89f0bd9330f928724173c5de83d90a2892fa8",
+    "external_route_registry_v5_merged_at_utc": "2026-10-05T12:01:15Z",
+    "external_evidence_hash_ci_run_id": 37306487541,
+    "external_evidence_hash_ci_job_id": 111751304414,
+    "external_evidence_hash_ci_head_sha": "6bca0c543e746fcd07a152ea7792d4dc17ddb496",
+    "external_evidence_hash_ci_completed_at_utc": "2026-10-05T12:02:58Z",
+    "registration_preceded_official_hash_ci_completion_seconds": 103,
+    "v5_registration_satisfied_frozen_ordering_rule": false
+  },
+  "disposition": {
+    "registry_v5_retained_for_historical_provenance": true,
+    "registry_v5_rewritten": false,
+    "registry_v5_is_not_active_after_v6_promotion": true,
+    "v6_may_register_external_route_only_after_official_hash_receipt_is_frozen": true,
+    "statistical_qualification_results_changed": false,
+    "external_endpoint_implementation_changed": false
+  },
+  "prospective_boundary": {
+    "correction_occurs_before_any_empirical_external_endpoint_is_declared_as_confirmatory_under_v6": true,
+    "historical_truth_of_prior_external_outcome_nonaccess_machine_proven": false,
+    "no_retroactive_claim_that_registry_v5_met_its_ordering_gate": true
+  }
+}

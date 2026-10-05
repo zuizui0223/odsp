@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-cv3two-v5-support-envelope-v1",
+  "frozen_date": "2026-10-05",
+  "purpose": "adversarial prospective size support for the v5 two-term CV3 process-IUT candidate beyond the six base qualification worlds",
+  "method_under_test": "training_process_positive_cv3two_iut_v5",
+  "base_qualification_boundary": {
+    "base_v5_github_actions_results_observed_before_this_freeze": false,
+    "independent_local_base_preflight_results_observed_before_this_freeze": true,
+    "local_preflight_is_qualification_evidence": false,
+    "support_scenario_outcomes_observed_before_this_freeze": false,
+    "support_threshold_tuned_to_support_results": false
+  },
+  "support_scenarios": [
+    {
+      "scenario_id": "skewed-lognormal-r8-b8",
+      "refit_count": 8,
+      "blocks_per_group": 8,
+      "effect_distribution": "standardized centered lognormal sigma=1 independently applied to shared/cell random-effect primitives",
+      "training_sd": 0.5,
+      "validation_sd": 0.5,
+      "interaction_sd": 0.5,
+      "sample_weight_pattern": "equal"
+    },
+    {
+      "scenario_id": "contaminated-normal-r8-b20",
+      "refit_count": 8,
+      "blocks_per_group": 20,
+      "effect_distribution": "standard normal multiplied by 6 with probability 0.05 then variance-standardized",
+      "training_sd": 0.5,
+      "validation_sd": 0.5,
+      "interaction_sd": 0.5,
+      "sample_weight_pattern": "equal"
+    },
+    {
+      "scenario_id": "rademacher-r8-b8",
+      "refit_count": 8,
+      "blocks_per_group": 8,
+      "effect_distribution": "symmetric Rademacher primitives",
+      "training_sd": 0.5,
+      "validation_sd": 0.5,
+      "interaction_sd": 0.5,
+      "sample_weight_pattern": "equal"
+    },
+    {
+      "scenario_id": "unequal-block-weight-normal-r8-b8",
+      "refit_count": 8,
+      "blocks_per_group": 8,
+      "effect_distribution": "normal",
+      "training_sd": 0.5,
+      "validation_sd": 0.5,
+      "interaction_sd": 0.5,
+      "sample_weight_pattern": [0.5, 0.5, 1.0, 1.0, 2.0, 2.0, 4.0, 8.0]
+    },
+    {
+      "scenario_id": "heteroskedastic-interaction-r8-b8",
+      "refit_count": 8,
+      "blocks_per_group": 8,
+      "effect_distribution": "normal training and validation; interaction multiplied by independent lognormal refit and block scales normalized to unit second moment",
+      "training_sd": 0.2,
+      "validation_sd": 0.2,
+      "interaction_sd": 0.9,
+      "sample_weight_pattern": "equal"
+    }
+  ],
+  "common_generator": {
+    "group_count": 6,
+    "contrast_count": 2,
+    "training_cross_cell_correlation": 0.35,
+    "contrast_correlation": 0.5,
+    "true_process_mean_gain": 0.0
+  },
+  "qualification_run": {
+    "seed": 20261015,
+    "simulations_per_scenario": 1000,
+    "component_one_sided_alpha": 0.05
+  },
+  "acceptance_rule": {
+    "maximum_accepted_component_rate_formula": "alpha + 2*sqrt(alpha*(1-alpha)/1000)",
+    "maximum_accepted_component_rate": 0.06378404875209022,
+    "every_component_in_every_support_scenario_must_pass": true,
+    "any_cell_false_positive_rate_is_diagnostic_only": true,
+    "terminal_all_null_false_generalizing_rate_is_diagnostic_only": true
+  },
+  "promotion_boundary": {
+    "support_envelope_alone_promotes_primary_route": false,
+    "base_v5_null_and_power_qualification_still_required": true,
+    "support_failure_may_not_be_rescued_by_dropping_scenarios": true
+  }
+}

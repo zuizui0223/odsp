@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "contract_id": "odsp-training-process-positive-iut-v2",
+  "frozen_date": "2026-10-04",
+  "predecessor": {
+    "method": "training_process_positive_transfer_v1",
+    "power_gate_failed": true,
+    "predecessor_reclassified": false
+  },
+  "inferential_target": {
+    "estimand": "same frozen-training-source process-mean held-out directional gain as v1",
+    "compound_alternative": "every required group x ordered information-step process mean gain exceeds the declared nonnegative tolerance",
+    "non_skippable_ceiling": true
+  },
+  "composition": {
+    "method": "intersection_union_test",
+    "component_test": "cellwise one-sided crossed training-refit x validation-block replicate-studentized bootstrap-t",
+    "component_level_alpha": 0.05,
+    "global_null": "union of component nulls",
+    "global_alternative": "intersection of component positive alternatives",
+    "all_required_components_must_reject": true,
+    "additional_multiplicity_correction_across_components": false,
+    "component_test_independence_assumed": false,
+    "component_bounds_are_simultaneous": false,
+    "arbitrary_any_cell_familywise_claim_allowed": false,
+    "reason_no_additional_multiplicity": "under the compound null at least one component null is true; false compound rejection requires rejection of a true level-alpha component null"
+  },
+  "crossed_uncertainty": {
+    "training_process_resampling": "R refit identities with replacement per bootstrap replicate",
+    "same_refit_resample_shared_across_all_cells": true,
+    "validation_blocks_resampled_once_per_group_per_replicate": true,
+    "same_validation_block_resample_shared_across_refits_and_contrasts": true,
+    "two_way_studentizer_same_as_v1": true,
+    "v1_finite_sample_max_one_way_variance_safeguard_retained": true
+  },
+  "scope_v2_candidate": {
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "contrast_count": 2,
+    "paired_shared_blocks": false,
+    "complete_lattice": false,
+    "untouched_external": false
+  },
+  "qualification_plan": {
+    "null_gate": "every component one-sided false-positive rate must be <= alpha + 2 Monte Carlo null SE under each predeclared crossed scenario",
+    "any_cell_false_positive_rate_is_gate": false,
+    "global_all_null_terminal_false_rate_is_gate": false,
+    "power_gate": "terminal all-required-components power at 5 oracle cell SE must be >= 0.80 in every predeclared scenario",
+    "moderate_3se_power_is_descriptive": true,
+    "same_six_crossed_scenario_families_as_v1": true,
+    "thresholds_changed_after_v2_results": false
+  },
+  "governance": {
+    "v2_primary_confirmatory": false,
+    "v2_results_observed_before_contract_freeze": false,
+    "v2_requires_both_null_and_power_pass": true,
+    "fixed_set_route_changed": false,
+    "historical_endpoint_reclassified": false,
+    "v1_failure_erased_or_rescued": false,
+    "external_route_opened": false
+  }
+}

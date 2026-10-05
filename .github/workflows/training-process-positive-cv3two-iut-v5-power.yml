@@ -1,0 +1,50 @@
+name: training-process-positive-cv3two-iut-v5-power
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/training_process_positive_cv3two_iut.py'
+      - 'odsp/training_process_positive_cv3two_iut_calibration.py'
+      - 'tests/test_training_process_positive_cv3two_iut_v5.py'
+      - 'tests/test_training_process_positive_cv3two_iut_calibration.py'
+      - 'tests/test_training_process_positive_cv3two_iut_v5_receipt.py'
+      - 'ODSP_TRAINING_PROCESS_POSITIVE_CV3TWO_IUT_V5_CONTRACT.json'
+      - 'TRAINING_PROCESS_POSITIVE_CV3TWO_IUT_V5_QUALIFICATION_RECEIPT.json'
+      - 'scripts/run_training_process_positive_cv3two_iut_v5_power_calibration.py'
+      - '.github/workflows/training-process-positive-cv3two-iut-v5-power.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qualify-power:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Test v5 and frozen receipt
+        run: >-
+          python -m pytest -q
+          tests/test_training_process_positive_cv3two_iut_v5.py
+          tests/test_training_process_positive_cv3two_iut_calibration.py
+          tests/test_training_process_positive_cv3two_iut_v5_receipt.py
+      - name: Replay frozen v5 power qualification
+        run: |
+          python scripts/run_training_process_positive_cv3two_iut_v5_power_calibration.py             --output /tmp/v5-power.json --seed 20261014 --simulations 1000
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          observed=json.loads(Path('/tmp/v5-power.json').read_text())
+          frozen=json.loads(Path('TRAINING_PROCESS_POSITIVE_CV3TWO_IUT_V5_QUALIFICATION_RECEIPT.json').read_text())
+          actual_m={row['scenario_id']: row['moderate_terminal_power'] for row in observed['scenarios']}
+          actual_s={row['scenario_id']: row['strong_terminal_power'] for row in observed['scenarios']}
+          assert observed['qualification_pass'] is True
+          assert actual_m == frozen['power_run']['moderate_terminal_power_by_scenario'], actual_m
+          assert actual_s == frozen['power_run']['strong_terminal_power_by_scenario'], actual_s
+          assert min(actual_s.values()) == frozen['power_run']['smallest_strong_terminal_power']
+          print('V5_POWER_MATCHES_FROZEN_RECEIPT=true')
+          PY

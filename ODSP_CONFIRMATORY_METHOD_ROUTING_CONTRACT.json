@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "contract_id": "odsp-confirmatory-method-routing-v1",
-  "date": "2026-09-16",
+  "date": "2026-10-05",
   "purpose": "provide one fail-closed prospective governance surface that separates directional primary confirmatory inference, bidirectional v2 inference, sensitivity-only methods, and unqualified combinations",
   "routing_is_statistical_inference": false,
   "roles": {
@@ -74,22 +74,41 @@
     "independent_fixed_set_untouched_external_lattice_edge_counts": [
       4,
       12
+    ],
+    "predeclared_training_process_filtration_contrast_counts": [
+      2
+    ],
+    "predeclared_training_process_internal_primary": true,
+    "predeclared_training_process_untouched_external_filtration_contrast_counts": [
+      2
     ]
   },
   "external_validation": {
     "unfrozen_untouched_external_primary": false,
     "pre_outcome_semantic_freeze_required": true,
-    "canonical_external_primary_routes_require_fixed_supplied_refit_set": true,
+    "canonical_external_primary_routes_require_fixed_supplied_refit_set": false,
     "independent_complete_lattice_fixed_set_primary": true,
     "independent_complete_lattice_external_contract": "ODSP_UNTOUCHED_EXTERNAL_INDEPENDENT_ALL_REFIT_LATTICE_V5_CONTRACT.json",
-    "independent_complete_lattice_public_cli_variant_added": false
+    "independent_complete_lattice_public_cli_variant_added": false,
+    "predeclared_training_process_untouched_external_primary": true,
+    "predeclared_training_process_untouched_external_contrast_counts": [
+      2
+    ],
+    "predeclared_training_process_external_contract": "ODSP_TRAINING_PROCESS_V5_UNTOUCHED_EXTERNAL_FREEZE_CONTRACT_V3.json",
+    "predeclared_training_process_managed_scoring_contract": "ODSP_TRAINING_PROCESS_V5_MANAGED_EXTERNAL_SCORING_CONTRACT.json",
+    "predeclared_training_process_declared_first_access_chronology_required": true,
+    "predeclared_training_process_historical_nonaccess_machine_proven": false
   },
   "refit_boundary": {
     "fixed_supplied_refit_set_may_form_intersection_robustness_claim": true,
     "refit_population_sampling_distribution_assumed": false,
     "refit_population_generalization_claimed": false,
     "stochastic_refit_population_claim_qualified": false,
-    "reference_or_average_refit_can_rescue_failure": false
+    "reference_or_average_refit_can_rescue_failure": false,
+    "predeclared_training_process_mean_claim_qualified": true,
+    "predeclared_training_process_mean_is_conditional_on_frozen_training_source": true,
+    "individual_future_refit_success_probability_claimed": false,
+    "original_training_source_population_generalization_claimed": false
   },
   "surface_roles": {
     "odsp.information_transfer_positive_v2.certify_positive_information_transfer_v2": "primary_confirmatory",
@@ -115,12 +134,16 @@
     "odsp.block_definition_sensitivity.audit_block_definition_sensitivity": "sensitivity_only",
     "odsp.information_lattice_positive_v2.certify_positive_information_lattice_v2": "primary_confirmatory",
     "odsp.refit_positive_independent_lattice_robustness.certify_all_refit_independent_positive_information_lattice_v2": "primary_confirmatory",
-    "odsp.untouched_external_refit_independent_positive_lattice_contract_v5.run_untouched_external_independent_all_refit_lattice_contract_v5": "primary_confirmatory"
+    "odsp.untouched_external_refit_independent_positive_lattice_contract_v5.run_untouched_external_independent_all_refit_lattice_contract_v5": "primary_confirmatory",
+    "odsp.training_process_confirmatory_v5.certify_predeclared_training_process_positive_information_v5": "primary_confirmatory",
+    "odsp.training_process_untouched_external_v5.run_untouched_external_training_process_v5": "primary_confirmatory"
   },
   "historical_governance": {
     "reclassify_frozen_empirical_endpoints": false,
     "rerun_frozen_empirical_endpoints": false,
-    "historical_v1_receipts_deleted_or_rewritten": false
+    "historical_v1_receipts_deleted_or_rewritten": false,
+    "fixed_set_results_reclassified_by_process_external_route": false,
+    "old_training_process_candidate_failures_reclassified": false
   },
   "unknown_surface_policy": "unqualified",
   "unknown_combination_policy": "fail_closed",
@@ -141,7 +164,7 @@
     "untouched_external_route_qualified": false
   },
   "qualification_evidence": {
-    "registry": "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V3.json",
+    "registry": "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V6.json",
     "keyed_by_full_route_context": true,
     "surface_name_alone_is_sufficient": false,
     "same_surface_may_have_distinct_family_evidence": true,
@@ -150,7 +173,14 @@
     "calibration_evidence_is_biological_evidence": false,
     "artifact_sha256_frozen": true,
     "same_filename_changed_content_detected": true,
-    "content_lock_contract": "ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V1.json"
+    "content_lock_contract": "ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V4.json",
+    "registry_v3_retained_for_historical_provenance": true,
+    "registry_v4_retained_for_historical_provenance": true,
+    "registry_v5_retained_for_historical_provenance": true,
+    "external_v5_initial_registration_met_strict_hash_replay_order": false,
+    "external_v6_registration_after_official_hash_replay": true,
+    "external_registration_correction_contract": "ODSP_TRAINING_PROCESS_V5_EXTERNAL_REGISTRATION_CORRECTION_CONTRACT.json",
+    "external_evidence_hash_receipt": "TRAINING_PROCESS_V5_EXTERNAL_EVIDENCE_HASH_RECEIPT.json"
   },
   "implementation_identity": {
     "contract": "ODSP_CONFIRMATORY_IMPLEMENTATION_LOCK_V1.json",

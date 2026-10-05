@@ -1,0 +1,65 @@
+name: training-process-v5-qualification-identity
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/training_process_confirmatory_v5.py'
+      - 'odsp/training_process_positive_cv3two_iut.py'
+      - 'odsp/training_process_managed_generation.py'
+      - 'odsp/training_process_validation_provenance.py'
+      - 'odsp/confirmatory_implementation_lock.py'
+      - 'odsp/confirmatory_environment_lock.py'
+      - 'tests/test_training_process_confirmatory_v5.py'
+      - 'tests/test_training_process_v5_qualification_identity_receipt.py'
+      - 'ODSP_TRAINING_PROCESS_V5_QUALIFICATION_IDENTITY_CONTRACT.json'
+      - 'TRAINING_PROCESS_V5_QUALIFICATION_IDENTITY_RECEIPT.json'
+      - 'ODSP_TRAINING_PROCESS_POSITIVE_CV3TWO_IUT_V5_CONTRACT.json'
+      - 'TRAINING_PROCESS_POSITIVE_CV3TWO_IUT_V5_QUALIFICATION_RECEIPT.json'
+      - 'TRAINING_PROCESS_CV3TWO_V5_SUPPORT_ENVELOPE_RECEIPT.json'
+      - 'ODSP_TRAINING_PROCESS_MANAGED_GENERATION_CONTRACT.json'
+      - 'ODSP_TRAINING_PROCESS_VALIDATION_FRAME_PROVENANCE_CONTRACT.json'
+      - 'ODSP_TRAINING_PROCESS_V5_PRIMARY_PROMOTION_GATE.json'
+      - 'scripts/run_training_process_v5_qualification_identity.py'
+      - 'scripts/run_training_process_v5_evidence_hashes.py'
+      - '.github/workflows/training-process-v5-qualification-identity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Verify provenance wrapper and frozen receipt
+        run: >-
+          python -m pytest -q
+          tests/test_training_process_confirmatory_v5.py
+          tests/test_training_process_v5_qualification_identity_receipt.py
+      - name: Replay qualified v5 identity
+        run: |
+          python scripts/run_training_process_v5_qualification_identity.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          observed=json.loads(Path('/tmp/training-process-v5-identity.json').read_text())
+          frozen=json.loads(Path('TRAINING_PROCESS_V5_QUALIFICATION_IDENTITY_RECEIPT.json').read_text())
+          fields=(
+              'canonical_surface',
+              'implementation_lock_id',
+              'implementation_source_snapshot',
+              'runtime_environment_lock_id',
+              'runtime_environment_snapshot',
+          )
+          for field in fields:
+              assert observed[field] == frozen[field], field
+          print('TRAINING_PROCESS_V5_IDENTITY_MATCHES_FROZEN_RECEIPT=true')
+          PY
+      - name: Snapshot frozen v5 evidence artifact hashes
+        run: python scripts/run_training_process_v5_evidence_hashes.py

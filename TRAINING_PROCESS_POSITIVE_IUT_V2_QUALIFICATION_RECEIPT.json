@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "receipt_type": "odsp_training_process_positive_iut_v2_qualification_v1",
+  "date": "2026-10-05",
+  "method_version": "training_process_positive_iut_v2",
+  "predeclared_contracts": [
+    "ODSP_TRAINING_PROCESS_POSITIVE_IUT_V2_CONTRACT.json",
+    "ODSP_TRAINING_PROCESS_POSITIVE_IUT_V2_NULL_CALIBRATION_CONTRACT.json",
+    "ODSP_TRAINING_PROCESS_POSITIVE_IUT_V2_POWER_CALIBRATION_CONTRACT.json"
+  ],
+  "null_run": {
+    "github_actions_run_id": 37211501199,
+    "github_actions_job_id": 111463451893,
+    "head_sha": "7405a47f72d4e3f4551f0c4e951ea6af0c1fac5e",
+    "seed": 20261007,
+    "simulations_per_scenario": 1000,
+    "bootstrap_draws": 500,
+    "maximum_accepted_component_rate": 0.06378404875209022,
+    "qualification_pass": false,
+    "maximum_component_false_positive_rate_by_scenario": {
+      "balanced-normal-r8-b8": 0.058,
+      "training-dominant-normal-r8-b20": 0.068,
+      "validation-dominant-normal-r20-b8": 0.059,
+      "interaction-dominant-normal-r8-b8": 0.053,
+      "balanced-t3-r8-b20": 0.078,
+      "balanced-normal-r20-b20": 0.064
+    }
+  },
+  "power_run": {
+    "github_actions_run_id": 37211501055,
+    "github_actions_job_id": 111463451510,
+    "head_sha": "7405a47f72d4e3f4551f0c4e951ea6af0c1fac5e",
+    "seed": 20261008,
+    "simulations_per_scenario": 1000,
+    "bootstrap_draws": 500,
+    "minimum_strong_terminal_power": 0.8,
+    "qualification_pass": false,
+    "moderate_terminal_power_by_scenario": {
+      "balanced-normal-r8-b8": 0.279,
+      "training-dominant-normal-r8-b20": 0.212,
+      "validation-dominant-normal-r20-b8": 0.113,
+      "interaction-dominant-normal-r8-b8": 0.139,
+      "balanced-t3-r8-b20": 0.414,
+      "balanced-normal-r20-b20": 0.395
+    },
+    "strong_terminal_power_by_scenario": {
+      "balanced-normal-r8-b8": 0.979,
+      "training-dominant-normal-r8-b20": 0.845,
+      "validation-dominant-normal-r20-b8": 0.827,
+      "interaction-dominant-normal-r8-b8": 0.941,
+      "balanced-t3-r8-b20": 0.798,
+      "balanced-normal-r20-b20": 0.995
+    }
+  },
+  "summary": {
+    "qualification_pass": false,
+    "null_gate_pass": false,
+    "power_gate_pass": false,
+    "power_failure_is_single_near_boundary_heavy_tail_scenario": true,
+    "method_closed_without_primary_promotion": true
+  },
+  "boundary": {
+    "v2_results_used_to_relax_thresholds": false,
+    "v2_may_be_reclassified_as_qualified": false,
+    "fixed_set_route_changed": false,
+    "historical_empirical_endpoint_reclassified": false
+  }
+}

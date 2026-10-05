@@ -174,6 +174,111 @@ def test_stochastic_refit_population_claim_is_unqualified():
     assert "refit population" in route.reason
 
 
+def test_predeclared_training_process_c2_routes_to_qualified_v5_wrapper():
+    route = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="predeclared_training_process",
+        external_validation="none",
+        contrast_count=2,
+    )
+    assert route.role == "primary_confirmatory"
+    assert route.primary_for_claim is True
+    assert route.canonical_surface == (
+        "odsp.training_process_confirmatory_v5."
+        "certify_predeclared_training_process_positive_information_v5"
+    )
+    assert route.refit_population_generalization_claimed is True
+    assert route.requires_preoutcome_freeze is True
+    assert route.qualification_key is not None
+    assert "TRAINING_PROCESS_POSITIVE_CV3TWO_IUT_V5_QUALIFICATION_RECEIPT.json" in route.qualification_evidence
+
+
+def test_predeclared_training_process_c4_remains_unqualified():
+    route = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="predeclared_training_process",
+        external_validation="none",
+        contrast_count=4,
+    )
+    assert route.role == "unqualified"
+    assert route.primary_for_claim is False
+    assert route.canonical_surface is None
+    assert route.refit_population_generalization_claimed is True
+    assert "two-contrast" in route.reason
+
+
+def test_predeclared_training_process_external_c2_routes_to_qualified_v5_endpoint():
+    route = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="predeclared_training_process",
+        external_validation="untouched_frozen",
+        contrast_count=2,
+    )
+    assert route.role == "primary_confirmatory"
+    assert route.primary_for_claim is True
+    assert route.requires_preoutcome_freeze is True
+    assert route.refit_population_generalization_claimed is True
+    assert route.canonical_surface == (
+        "odsp.training_process_untouched_external_v5."
+        "run_untouched_external_training_process_v5"
+    )
+    assert route.qualification_key is not None
+    assert route.qualification_evidence[-5:] == (
+        "TRAINING_PROCESS_V5_EXTERNAL_FOCUSED_ENDPOINT_RECEIPT_V2.json",
+        "TRAINING_PROCESS_V5_EXTERNAL_ENDPOINT_IDENTITY_RECEIPT_V2.json",
+        "ODSP_TRAINING_PROCESS_V5_EXTERNAL_ROUTE_PROMOTION_CONTRACT.json",
+        "TRAINING_PROCESS_V5_EXTERNAL_EVIDENCE_HASH_RECEIPT.json",
+        "ODSP_TRAINING_PROCESS_V5_EXTERNAL_REGISTRATION_CORRECTION_CONTRACT.json",
+    )
+
+
+def test_predeclared_training_process_external_c4_remains_unqualified():
+    route = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="predeclared_training_process",
+        external_validation="untouched_frozen",
+        contrast_count=4,
+    )
+    assert route.role == "unqualified"
+    assert route.primary_for_claim is False
+    assert route.requires_preoutcome_freeze is True
+    assert route.canonical_surface is None
+    assert "two-contrast" in route.reason
+
+
+def test_process_external_surface_name_alone_does_not_establish_claim_eligibility():
+    classification = classify_existing_surface(
+        "odsp.training_process_untouched_external_v5."
+        "run_untouched_external_training_process_v5"
+    )
+    assert classification.role == "primary_confirmatory"
+    assert classification.primary_for_claim is False
+
+
+def test_fixed_set_route_is_unchanged_by_training_process_mode():
+    route = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="fixed_set",
+        external_validation="none",
+        contrast_count=2,
+    )
+    assert route.role == "primary_confirmatory"
+    assert route.canonical_surface == (
+        "odsp.refit_positive_robustness."
+        "certify_all_refit_positive_information_transfer_v2"
+    )
+
+
 def test_two_sided_v2_is_retained_for_bidirectional_not_primary_positive_claims():
     route = route_confirmatory_method(
         alternative="two_sided",

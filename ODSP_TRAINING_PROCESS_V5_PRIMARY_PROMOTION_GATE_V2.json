@@ -1,0 +1,49 @@
+{
+  "schema_version": 2,
+  "contract_id": "odsp-training-process-v5-primary-promotion-gate-v2",
+  "frozen_date": "2026-10-05",
+  "predecessor": {
+    "artifact": "ODSP_TRAINING_PROCESS_V5_PRIMARY_PROMOTION_GATE.json",
+    "retained_unchanged": true,
+    "clarification": "v1 named the numerical v5 candidate while simultaneously forbidding raw numerical use as primary; v2 resolves the final canonical primary surface after provenance-wrapper implementation"
+  },
+  "canonical_primary_surface": "odsp.training_process_confirmatory_v5.certify_predeclared_training_process_positive_information_v5",
+  "raw_numeric_surface": "odsp.training_process_positive_cv3two_iut.certify_training_process_positive_information_cv3two_iut_v5",
+  "prospective_route": {
+    "alternative": "greater",
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "contrast_count": 2,
+    "upstream_refits": "predeclared_training_process",
+    "external_validation": "none"
+  },
+  "canonical_wrapper_requirements": {
+    "training_process_manifest_verified": true,
+    "managed_generation_receipt_sha256_verified": true,
+    "exact_refit_schedule_verified": true,
+    "entire_training_source_frame_validation_disjointness_verified": true,
+    "row_identity_namespace_explicit": true,
+    "raw_numeric_surface_called_only_after_provenance_checks": true
+  },
+  "statistical_evidence_required": [
+    "TRAINING_PROCESS_POSITIVE_CV3TWO_IUT_V5_QUALIFICATION_RECEIPT.json",
+    "TRAINING_PROCESS_CV3TWO_V5_SUPPORT_ENVELOPE_RECEIPT.json"
+  ],
+  "identity_evidence_required": [
+    "TRAINING_PROCESS_V5_QUALIFICATION_IDENTITY_RECEIPT.json"
+  ],
+  "claim_boundary": {
+    "process_mean_conditional_on_frozen_training_source": true,
+    "fixed_set_intersection_reclassified": false,
+    "individual_future_refit_success_probability_claimed": false,
+    "all_future_refits_positive_claimed": false,
+    "original_training_source_population_generalization_claimed": false,
+    "score_table_derivation_from_generated_models_independently_proven": false
+  },
+  "promotion_rule": {
+    "canonical_wrapper_is_primary_candidate": true,
+    "raw_numeric_surface_is_primary": false,
+    "full_route_context_and_registered_evidence_required": true,
+    "untouched_external_route_opened": false
+  }
+}

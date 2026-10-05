@@ -1,0 +1,32 @@
+{
+  "schema_version": 3,
+  "contract_id": "odsp-training-process-v5-untouched-external-freeze-v3",
+  "frozen_date": "2026-10-05",
+  "predecessor": {
+    "artifact": "ODSP_TRAINING_PROCESS_V5_UNTOUCHED_EXTERNAL_FREEZE_CONTRACT_V2.json",
+    "retained": true,
+    "extension": "require an explicit UTC first-external-outcome-access declaration at runtime and machine-check that the pre-outcome freeze timestamp strictly precedes it"
+  },
+  "chronology": {
+    "freeze_timestamp_generated_by_odsp_runtime": true,
+    "caller_supplied_freeze_timestamp_allowed": false,
+    "external_outcomes_first_accessed_at_utc_required": true,
+    "timestamp_must_include_explicit_utc_offset": true,
+    "required_relation": "frozen_at_utc < external_outcomes_first_accessed_at_utc",
+    "relation_machine_verified": true,
+    "historical_truth_of_first_access_declaration_machine_proven": false,
+    "trusted_timestamp_authority_used": false
+  },
+  "external_scoring": {
+    "managed_scoring_occurs_after_declared_first_outcome_access": true,
+    "validation_data_sha256_recorded_after_outcome_access": true,
+    "pre_outcome_freeze_does_not_read_validation_outcome_bytes": true
+  },
+  "claim_boundary": {
+    "untouched_external_means_predeclared_freeze_precedes_declared_first_outcome_access": true,
+    "historical_no_prior_external_outcome_access_machine_proven": false,
+    "external_distribution_shift_robustness_claimed": false,
+    "fixed_set_results_reclassified": false,
+    "process_mean_conditional_on_frozen_training_source": true
+  }
+}

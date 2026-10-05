@@ -1,0 +1,50 @@
+name: training-process-positive-iut-v2-power
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/training_process_positive_iut.py'
+      - 'odsp/training_process_positive_iut_power_calibration.py'
+      - 'tests/test_training_process_positive_iut_v2.py'
+      - 'ODSP_TRAINING_PROCESS_POSITIVE_IUT_V2_CONTRACT.json'
+      - 'ODSP_TRAINING_PROCESS_POSITIVE_IUT_V2_POWER_CALIBRATION_CONTRACT.json'
+      - 'scripts/run_training_process_positive_iut_power_calibration.py'
+      - 'TRAINING_PROCESS_POSITIVE_IUT_V2_QUALIFICATION_RECEIPT.json'
+      - '.github/workflows/training-process-positive-iut-v2-power.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qualify-power:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e '.[dev]'
+      - run: python -m pytest -q tests/test_training_process_positive_iut_v2.py
+      - name: Run first frozen v2 power panel
+        run: |
+          python scripts/run_training_process_positive_iut_power_calibration.py \
+            --output /tmp/iut-v2-power.json --seed 20261008 --simulations 1000 --bootstrap-draws 500
+          echo IUT_V2_POWER_BEGIN
+          cat /tmp/iut-v2-power.json
+          echo IUT_V2_POWER_END
+      - name: Match frozen failed qualification receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          observed=json.loads(Path('/tmp/iut-v2-power.json').read_text())
+          frozen=json.loads(Path('TRAINING_PROCESS_POSITIVE_IUT_V2_QUALIFICATION_RECEIPT.json').read_text())
+          m={row['scenario_id']:row['moderate_terminal_power'] for row in observed['scenarios']}
+          s={row['scenario_id']:row['strong_terminal_power'] for row in observed['scenarios']}
+          assert observed['qualification_pass'] is False
+          assert m == frozen['power_run']['moderate_terminal_power_by_scenario'], m
+          assert s == frozen['power_run']['strong_terminal_power_by_scenario'], s
+          print('IUT_V2_POWER_FAILURE_MATCHES_FROZEN_RECEIPT=true')
+          PY
