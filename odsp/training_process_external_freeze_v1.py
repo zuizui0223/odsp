@@ -16,10 +16,9 @@ from .confirmatory_implementation_lock import (
     IMPLEMENTATION_LOCK_ID,
     implementation_source_snapshot_for_surface,
 )
-from .confirmatory_method_routing import route_confirmatory_method
-from .confirmatory_route_evidence import (
-    QUALIFICATION_EVIDENCE_REGISTRY_ID,
-    qualification_evidence_artifacts_for_route_key,
+from .training_process_internal_qualification_v5 import (
+    INTERNAL_V5_CANONICAL_SURFACE,
+    build_internal_v5_qualification_snapshot,
 )
 from .information_transfer_contract import _read_rows, _validate_score_contract
 from .training_process_confirmatory_v5 import (
@@ -39,10 +38,7 @@ from .training_process_validation_provenance import (
 
 MANIFEST_TYPE = "odsp_training_process_v5_pre_external_outcome_freeze_v1"
 FREEZE_RECEIPT_TYPE = "odsp_training_process_v5_external_freeze_receipt_v1"
-INTERNAL_SURFACE = (
-    "odsp.training_process_confirmatory_v5."
-    "certify_predeclared_training_process_positive_information_v5"
-)
+INTERNAL_SURFACE = INTERNAL_V5_CANONICAL_SURFACE
 EXTERNAL_SURFACE = (
     "odsp.training_process_untouched_external_v5."
     "run_untouched_external_training_process_v5"
@@ -379,31 +375,9 @@ def _model_artifact_snapshot(receipt: Mapping[str, object]) -> list[dict[str, st
 
 
 def build_internal_v5_route_snapshot() -> dict[str, object]:
-    decision = route_confirmatory_method(
-        alternative="greater",
-        validation_design="independent_groups",
-        information_structure="filtration",
-        upstream_refits="predeclared_training_process",
-        external_validation="none",
-        contrast_count=2,
-    )
-    if decision.role != "primary_confirmatory" or decision.canonical_surface != INTERNAL_SURFACE:
-        raise ValueError("internal training-process v5 route is not qualified")
-    if not decision.qualification_key:
-        raise ValueError("internal v5 route has no qualification key")
-    artifacts = qualification_evidence_artifacts_for_route_key(
-        decision.qualification_key
-    )
-    if not artifacts:
-        raise ValueError("internal v5 route has no frozen evidence artifact snapshot")
-    return {
-        "role": decision.role,
-        "canonical_surface": decision.canonical_surface,
-        "qualification_key": decision.qualification_key,
-        "qualification_registry_id": QUALIFICATION_EVIDENCE_REGISTRY_ID,
-        "qualification_evidence": list(decision.qualification_evidence),
-        "qualification_evidence_artifacts": [dict(row) for row in artifacts],
-    }
+    """Return the immutable, content-verified internal-v5 evidence snapshot."""
+
+    return build_internal_v5_qualification_snapshot()
 
 
 def create_training_process_v5_external_freeze(
