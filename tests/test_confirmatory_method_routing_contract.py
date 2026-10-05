@@ -96,10 +96,10 @@ def test_machine_contract_qualifies_process_mean_and_narrow_external_route():
     assert external["predeclared_training_process_declared_first_access_chronology_required"] is True
     assert external["predeclared_training_process_historical_nonaccess_machine_proven"] is False
     assert payload["qualification_evidence"]["registry"] == (
-        "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V5.json"
+        "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V6.json"
     )
     assert payload["qualification_evidence"]["content_lock_contract"] == (
-        "ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V3.json"
+        "ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V4.json"
     )
 
 
