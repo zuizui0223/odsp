@@ -10,7 +10,9 @@ on:
       - 'odsp/confirmatory_implementation_lock.py'
       - 'odsp/confirmatory_environment_lock.py'
       - 'tests/test_training_process_confirmatory_v5.py'
+      - 'tests/test_training_process_v5_qualification_identity_receipt.py'
       - 'ODSP_TRAINING_PROCESS_V5_QUALIFICATION_IDENTITY_CONTRACT.json'
+      - 'TRAINING_PROCESS_V5_QUALIFICATION_IDENTITY_RECEIPT.json'
       - 'scripts/run_training_process_v5_qualification_identity.py'
       - '.github/workflows/training-process-v5-qualification-identity.yml'
   workflow_dispatch:
@@ -28,11 +30,27 @@ jobs:
           python-version: '3.12'
       - name: Install
         run: python -m pip install -e '.[dev]'
-      - name: Verify provenance wrapper
-        run: python -m pytest -q tests/test_training_process_confirmatory_v5.py
-      - name: Snapshot qualified v5 identity
+      - name: Verify provenance wrapper and frozen receipt
+        run: >-
+          python -m pytest -q
+          tests/test_training_process_confirmatory_v5.py
+          tests/test_training_process_v5_qualification_identity_receipt.py
+      - name: Replay qualified v5 identity
         run: |
           python scripts/run_training_process_v5_qualification_identity.py
-          echo TRAINING_PROCESS_V5_IDENTITY_BEGIN
-          cat /tmp/training-process-v5-identity.json
-          echo TRAINING_PROCESS_V5_IDENTITY_END
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          observed=json.loads(Path('/tmp/training-process-v5-identity.json').read_text())
+          frozen=json.loads(Path('TRAINING_PROCESS_V5_QUALIFICATION_IDENTITY_RECEIPT.json').read_text())
+          fields=(
+              'canonical_surface',
+              'implementation_lock_id',
+              'implementation_source_snapshot',
+              'runtime_environment_lock_id',
+              'runtime_environment_snapshot',
+          )
+          for field in fields:
+              assert observed[field] == frozen[field], field
+          print('TRAINING_PROCESS_V5_IDENTITY_MATCHES_FROZEN_RECEIPT=true')
+          PY
