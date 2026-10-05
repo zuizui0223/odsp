@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-v5-untouched-external-freeze-v1",
+  "frozen_date": "2026-10-05",
+  "purpose": "define a process-specific pre-outcome external freeze that carries validation uncertainty, upstream training-process uncertainty, and untouched external validation without borrowing fixed-set semantics",
+  "prerequisites": {
+    "internal_v5_primary_qualification_required": true,
+    "official_v5_base_null_and_power_receipt_required": true,
+    "official_v5_adversarial_support_receipt_required": true,
+    "training_process_freeze_manifest_required": true,
+    "managed_generation_receipt_required": true,
+    "entire_training_source_frame_validation_disjointness_required": true,
+    "qualified_v5_implementation_identity_receipt_required": true
+  },
+  "pre_outcome_external_design": {
+    "roster_columns_exactly": ["row_id", "group_id", "block_id", "sample_weight"],
+    "outcome_column_allowed": false,
+    "prediction_column_allowed": false,
+    "row_ids_unique": true,
+    "sample_weights_finite_nonnegative": true,
+    "every_positive_support_block_has_positive_total_weight": true,
+    "group_block_weight_metadata_frozen_before_outcome_access": true,
+    "canonical_design_hash": "SHA256 of canonical sorted row_id, group_id, block_id, sample_weight records"
+  },
+  "training_process_identity": {
+    "training_process_id_frozen": true,
+    "training_process_manifest_sha256_frozen": true,
+    "managed_generation_receipt_sha256_frozen": true,
+    "refit_ids_frozen": true,
+    "generated_model_artifact_bytes_frozen": true,
+    "fit_environment_snapshot_frozen": true
+  },
+  "method_identity": {
+    "canonical_surface": "odsp.training_process_confirmatory_v5.certify_predeclared_training_process_positive_information_v5",
+    "implementation_source_snapshot_frozen": true,
+    "runtime_environment_snapshot_frozen": true,
+    "qualification_evidence_artifact_sha256_snapshot_frozen": true,
+    "qualification_registry": "odsp-confirmatory-route-evidence-v4"
+  },
+  "analysis_semantics": {
+    "alternative": "greater",
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "contrast_count": 2,
+    "component_one_sided_alpha_frozen": true,
+    "minimum_refits_frozen": true,
+    "minimum_blocks_per_group_frozen": true,
+    "gain_tolerance_frozen": true,
+    "score_semantics_frozen": true,
+    "information_levels_frozen": true
+  },
+  "runtime_exact_match": {
+    "external_row_group_block_weight_design": true,
+    "training_process_identity": true,
+    "managed_generation_receipt": true,
+    "generated_model_bytes": true,
+    "refit_ids": true,
+    "score_semantics": true,
+    "information_levels": true,
+    "inferential_settings": true,
+    "canonical_surface": true,
+    "implementation_snapshot": true,
+    "runtime_environment_snapshot": true,
+    "qualification_evidence_snapshot": true
+  },
+  "claim_boundary": {
+    "historical_no_prior_external_outcome_access_machine_proven": false,
+    "runtime_semantic_consistency_machine_verified": true,
+    "external_outcomes_pre_outcome_hashed": false,
+    "fixed_set_refit_results_reclassified": false,
+    "process_mean_estimand_changed": false,
+    "process_mean_conditional_on_frozen_training_source": true,
+    "individual_future_refit_success_probability_claimed": false,
+    "external_distribution_shift_robustness_claimed": false
+  },
+  "route_state": {
+    "internal_process_route_primary": true,
+    "external_process_route_primary_now": false,
+    "separate_endpoint_implementation_and_tests_required": true,
+    "may_not_be_registered_until_endpoint_and_freeze_semantics_pass": true
+  }
+}
