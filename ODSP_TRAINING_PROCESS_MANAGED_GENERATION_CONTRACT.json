@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-managed-generation-v1",
+  "frozen_date": "2026-10-05",
+  "purpose": "operationally bind frozen training-process draws to actual model-generation executions rather than relying only on caller declarations",
+  "inputs": {
+    "training_process_freeze_manifest_required": true,
+    "frozen_training_roster_required": true,
+    "managed_generation_plan_required": true,
+    "validation_outcomes_allowed": false
+  },
+  "membership_materialization": {
+    "reconstruct_exact_bootstrap_membership_from_frozen_resample_seed": true,
+    "canonical_membership_rows": "sorted stratum, unit_id, count rows including zero-count units",
+    "canonical_membership_digest_must_match_frozen_manifest": true,
+    "membership_files_non_overwriting": true
+  },
+  "execution": {
+    "shell_used": false,
+    "one_process_per_refit": true,
+    "argv_array_required": true,
+    "required_placeholders": [
+      "{refit_id}",
+      "{membership_path}",
+      "{fit_seed}",
+      "{output_dir}"
+    ],
+    "working_directory_predeclared": true,
+    "timeout_predeclared": true,
+    "fit_command_content_locked_before_execution": true,
+    "fit_environment_snapshot_taken_before_first_refit": true
+  },
+  "fit_environment_snapshot": {
+    "python_implementation_and_version": true,
+    "installed_distribution_versions": true,
+    "selected_environment_variables": "only explicitly allowlisted variables are recorded and passed in addition to a minimal execution environment",
+    "environment_snapshot_is_part_of_generation_receipt": true
+  },
+  "output_binding": {
+    "expected_artifact_ids_and_relative_paths_predeclared": true,
+    "every_refit_must_emit_every_expected_artifact": true,
+    "artifact_sha256_recorded": true,
+    "stdout_sha256_recorded": true,
+    "stderr_sha256_recorded": true,
+    "return_code_must_be_zero": true
+  },
+  "receipt_boundary": {
+    "proves_exact_membership_materialized": true,
+    "proves_exact_command_invoked": true,
+    "proves_execution_environment_snapshot_recorded": true,
+    "proves_output_artifact_identity": true,
+    "mathematically_proves_fit_code_semantically_used_membership": false,
+    "reason": "semantic correctness of arbitrary frozen fitting code remains auditable code behavior rather than a cryptographic property"
+  },
+  "promotion_boundary": {
+    "caller_declared_generation_receipt_alone_sufficient_for_primary_process_route": false,
+    "managed_generation_receipt_preferred_for_primary_process_route": true,
+    "fixed_set_results_reclassified": false,
+    "historical_empirical_endpoints_reclassified": false
+  }
+}
