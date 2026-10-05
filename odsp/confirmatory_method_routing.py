@@ -291,17 +291,28 @@ def route_confirmatory_method(
                     canonical_surface="odsp.refit_positive_robustness.certify_all_refit_positive_information_transfer_v2",
                 )
             if upstream_refits == "predeclared_training_process":
-                if external_validation != "none":
-                    return routed(
-                        "unqualified",
-                        "The internal predeclared training-process route is qualified, but untouched external validation still requires its own process-specific pre-outcome endpoint and may not borrow the fixed-set external contract.",
-                        requires_preoutcome_freeze=True,
-                        refit_population_generalization_claimed=True,
-                    )
                 if contrasts != 2:
                     return routed(
                         "unqualified",
                         "The qualified predeclared training-process v5 route is prospectively calibrated only for an ordered two-contrast independent filtration.",
+                        requires_preoutcome_freeze=True,
+                        refit_population_generalization_claimed=True,
+                    )
+                if external_validation == "untouched_frozen":
+                    return routed(
+                        "primary_confirmatory",
+                        "Untouched external validation for the qualified training-process v5 route uses the process-specific pre-outcome freeze, managed model-to-score provenance, declared first-access chronology, immutable internal-v5 evidence snapshot and the unchanged CV3(2) intersection-union process-mean inference.",
+                        canonical_surface=(
+                            "odsp.training_process_untouched_external_v5."
+                            "run_untouched_external_training_process_v5"
+                        ),
+                        requires_preoutcome_freeze=True,
+                        refit_population_generalization_claimed=True,
+                    )
+                if external_validation != "none":
+                    return routed(
+                        "unqualified",
+                        "No other external validation mode is qualified for the predeclared training-process route.",
                         requires_preoutcome_freeze=True,
                         refit_population_generalization_claimed=True,
                     )
@@ -492,6 +503,7 @@ def route_confirmatory_method(
 
 _PRIMARY_SURFACES = {
     "odsp.training_process_confirmatory_v5.certify_predeclared_training_process_positive_information_v5",
+    "odsp.training_process_untouched_external_v5.run_untouched_external_training_process_v5",
     "odsp.information_transfer_positive_v2.certify_positive_information_transfer_v2",
     "odsp.shared_block_positive_information.certify_shared_block_positive_information_transfer_v2",
     "odsp.information_lattice_positive_v2.certify_positive_information_lattice_v2",
