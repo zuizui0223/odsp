@@ -13,7 +13,12 @@
     "qualified_v5_implementation_identity_receipt_required": true
   },
   "pre_outcome_external_design": {
-    "roster_columns_exactly": ["row_id", "group_id", "block_id", "sample_weight"],
+    "roster_columns_exactly": [
+      "row_id",
+      "group_id",
+      "block_id",
+      "sample_weight"
+    ],
     "outcome_column_allowed": false,
     "prediction_column_allowed": false,
     "row_ids_unique": true,
@@ -31,11 +36,14 @@
     "fit_environment_snapshot_frozen": true
   },
   "method_identity": {
-    "canonical_surface": "odsp.training_process_confirmatory_v5.certify_predeclared_training_process_positive_information_v5",
     "implementation_source_snapshot_frozen": true,
     "runtime_environment_snapshot_frozen": true,
     "qualification_evidence_artifact_sha256_snapshot_frozen": true,
-    "qualification_registry": "odsp-confirmatory-route-evidence-v4"
+    "qualification_registry": "odsp-confirmatory-route-evidence-v4",
+    "internal_qualified_surface": "odsp.training_process_confirmatory_v5.certify_predeclared_training_process_positive_information_v5",
+    "external_endpoint_surface": "odsp.training_process_untouched_external_v5.run_untouched_external_training_process_v5",
+    "external_endpoint_implementation_source_snapshot_frozen": true,
+    "external_endpoint_runtime_environment_snapshot_frozen": true
   },
   "analysis_semantics": {
     "alternative": "greater",
