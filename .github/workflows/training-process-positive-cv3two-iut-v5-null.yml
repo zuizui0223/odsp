@@ -1,0 +1,37 @@
+name: training-process-positive-cv3two-iut-v5-null
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/training_process_positive_cv3two_iut.py'
+      - 'odsp/training_process_positive_cv3two_iut_calibration.py'
+      - 'tests/test_training_process_positive_cv3two_iut_v5.py'
+      - 'tests/test_training_process_positive_cv3two_iut_calibration.py'
+      - 'ODSP_TRAINING_PROCESS_POSITIVE_CV3TWO_IUT_V5_CONTRACT.json'
+      - 'scripts/run_training_process_positive_cv3two_iut_v5_null_calibration.py'
+      - '.github/workflows/training-process-positive-cv3two-iut-v5-null.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qualify-null:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Test v5
+        run: >-
+          python -m pytest -q
+          tests/test_training_process_positive_cv3two_iut_v5.py
+          tests/test_training_process_positive_cv3two_iut_calibration.py
+      - name: Run frozen v5 null qualification
+        run: |
+          python scripts/run_training_process_positive_cv3two_iut_v5_null_calibration.py             --output /tmp/v5-null.json --seed 20261013 --simulations 1000
+          echo V5_NULL_BEGIN
+          cat /tmp/v5-null.json
+          echo V5_NULL_END
