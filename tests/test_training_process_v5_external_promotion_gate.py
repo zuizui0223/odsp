@@ -4,6 +4,7 @@ from pathlib import Path
 
 CONTRACT=Path("ODSP_TRAINING_PROCESS_V5_EXTERNAL_PROMOTION_GATE.json")
 CONTRACT_V2=Path("ODSP_TRAINING_PROCESS_V5_EXTERNAL_PROMOTION_GATE_V2.json")
+CONTRACT_V3=Path("ODSP_TRAINING_PROCESS_V5_EXTERNAL_PROMOTION_GATE_V3.json")
 
 
 def test_external_promotion_gate_is_narrow_and_post_evidence():
@@ -40,3 +41,21 @@ def test_v2_promotion_gate_requires_self_reference_free_final_identity():
     ] is True
     assert p["scope"]["external_c2_independent_filtration_promoted_if_all_evidence_passes"] is True
     assert p["scope"]["external_c4_process_route_promoted"] is False
+
+
+def test_v3_promotion_gate_requires_final_chronology_receipts_before_registration():
+    p=json.loads(CONTRACT_V3.read_text(encoding="utf-8"))
+    assert p["final_additional_requirement"][
+        "external_outcomes_first_accessed_at_utc_required"
+    ] is True
+    assert p["final_additional_requirement"][
+        "freeze_strictly_precedes_declared_first_access"
+    ] is True
+    assert p["registration_rule"]["final_post_chronology_focused_receipt_required"] is True
+    assert p["registration_rule"]["final_post_chronology_identity_receipt_required"] is True
+    assert p["registration_rule"][
+        "route_registry_update_occurs_only_after_both_receipts"
+    ] is True
+    assert p["scope"]["external_c2_independent_filtration_only"] is True
+    assert p["scope"]["external_c4_process_route_promoted"] is False
+    assert p["claim_boundary"]["historical_truth_of_access_declaration_machine_proven"] is False
