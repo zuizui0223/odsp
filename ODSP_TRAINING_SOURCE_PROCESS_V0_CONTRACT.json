@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-source-process-v0",
+  "frozen_date": "2026-10-06",
+  "status": "experimental_prequalification",
+  "purpose": "define a separate candidate route for uncertainty over a predeclared outer training-source resampling process, with inner training refits nested inside each source draw and validation blocks crossed with the source axis",
+  "relationship_to_v5": {
+    "current_v5_estimand": "E_r_given_S E_v D conditional on one frozen empirical training source S",
+    "candidate_v0_estimand": "E_s E_r_given_s E_v D over one predeclared outer source-resampling process, its nested inner training-resampling process, and the declared validation population",
+    "v5_results_reclassified": false,
+    "fixed_set_results_reclassified": false,
+    "v0_can_rescue_v5_failure": false
+  },
+  "scientific_boundary": {
+    "outer_source_process_is_process_defined": true,
+    "original_ecological_source_superpopulation_generalization_claimed": false,
+    "individual_future_source_sample_success_probability_claimed": false,
+    "all_future_source_samples_positive_claimed": false,
+    "outer_source_process_must_be_predeclared": true
+  },
+  "dependence_structure": {
+    "outer_source_draws": "exchangeable draws from one frozen source-resampling process",
+    "inner_refits": "nested within outer source draw",
+    "validation_blocks": "crossed with outer source draws and shared across all inner refits",
+    "inner_refits_pooled_as_independent_outer_draws": false,
+    "validation_sample_size_multiplied_by_inner_refit_count": false
+  },
+  "candidate_reduction": {
+    "cell_definition": "for each outer source draw s, validation block b, group g and contrast c, average the weighted gain over the fixed number of inner refits nested within s",
+    "outer_source_draw_weighting": "equal weight per outer source draw regardless of inner refit count",
+    "validation_block_weighting": "declared validation sample weights retained inside block ratio",
+    "effective_training_side_cluster_count": "number of outer source draws S, not S times R",
+    "candidate_variance": "two-term CV3(2) delete-one jackknife over outer source draw and validation block after inner-refit aggregation",
+    "candidate_variance_formula": "V_source_JK + V_validation_JK",
+    "candidate_df": "min(source_draw_count, validation_block_count)-1",
+    "candidate_compound_test": "intersection-union test over every required group x ordered information contrast"
+  },
+  "v0_scope": {
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "contrast_count": 2,
+    "outer_source_draw_count_minimum": 8,
+    "inner_refit_count_per_source_draw_minimum": 8,
+    "inner_refit_count_balanced_across_source_draws": true,
+    "validation_blocks_per_group_minimum": 8,
+    "unbalanced_inner_refit_counts_qualified": false,
+    "paired_shared_blocks_qualified": false,
+    "complete_lattice_qualified": false,
+    "untouched_external_qualified": false
+  },
+  "required_invariances": {
+    "source_draw_order": true,
+    "inner_refit_order_within_source": true,
+    "validation_row_order_after_explicit_id_alignment": true,
+    "duplicating_identical_inner_refits_does_not_increase_outer_source_cluster_count": true,
+    "one_source_draw_with_many_inner_refits_cannot_outweigh_other_source_draws": true
+  },
+  "qualification_plan": {
+    "must_be_prospective": true,
+    "base_null_component_alpha": 0.05,
+    "simulations_per_scenario": 1000,
+    "maximum_accepted_component_rate_formula": "alpha + 2*sqrt(alpha*(1-alpha)/1000)",
+    "maximum_accepted_component_rate": 0.06378404875209022,
+    "strong_power_shift_oracle_standard_errors": 5.0,
+    "minimum_strong_terminal_power": 0.8,
+    "base_scenarios_must_include": [
+      "balanced source-inner-validation",
+      "source-dominant",
+      "inner-refit-dominant",
+      "validation-dominant",
+      "source-by-validation-interaction-dominant",
+      "heavy-tail"
+    ],
+    "failure_may_not_be_rescued_by_posthoc_threshold_change": true
+  },
+  "provenance_requirements_before_any_primary_promotion": {
+    "outer_source_process_freeze_manifest": true,
+    "outer_source_draw_generation_receipt": true,
+    "nested_inner_refit_managed_generation_receipts": true,
+    "whole_original_training_source_frame_validation_disjointness": true,
+    "implementation_identity_lock": true,
+    "runtime_environment_lock": true,
+    "qualification_evidence_content_lock": true
+  },
+  "routing": {
+    "new_route_required": true,
+    "reuse_predeclared_training_process_route_key": false,
+    "register_before_qualification": false,
+    "primary_confirmatory_now": false
+  }
+}
