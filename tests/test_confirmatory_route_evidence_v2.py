@@ -211,6 +211,52 @@ def test_registry_family_scope_matches_frozen_receipts():
     assert paired_lattice["scientific_boundary"]["qualified_edge_family_sizes"] == [4, 12]
 
 
+def test_training_process_v5_route_has_distinct_frozen_evidence_chain():
+    route = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="predeclared_training_process",
+        external_validation="none",
+        contrast_count=2,
+    )
+    assert route.role == "primary_confirmatory"
+    assert route.qualification_evidence == (
+        "ODSP_TRAINING_PROCESS_POSITIVE_CV3TWO_IUT_V5_CONTRACT.json",
+        "TRAINING_PROCESS_POSITIVE_CV3TWO_IUT_V5_QUALIFICATION_RECEIPT.json",
+        "ODSP_TRAINING_PROCESS_CV3TWO_V5_SUPPORT_ENVELOPE_CONTRACT.json",
+        "TRAINING_PROCESS_CV3TWO_V5_SUPPORT_ENVELOPE_RECEIPT.json",
+        "ODSP_TRAINING_PROCESS_V5_PRIMARY_PROMOTION_GATE.json",
+        "ODSP_TRAINING_PROCESS_MANAGED_GENERATION_CONTRACT.json",
+        "ODSP_TRAINING_PROCESS_VALIDATION_FRAME_PROVENANCE_CONTRACT.json",
+        "ODSP_TRAINING_PROCESS_V5_QUALIFICATION_IDENTITY_CONTRACT.json",
+        "TRAINING_PROCESS_V5_QUALIFICATION_IDENTITY_RECEIPT.json",
+    )
+
+
+def test_active_v4_registry_matches_training_process_route_and_hashes():
+    payload = json.loads(
+        Path("ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V4.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    route = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="predeclared_training_process",
+        external_validation="none",
+        contrast_count=2,
+    )
+    assert payload["registry_id"] == "odsp-confirmatory-route-evidence-v4"
+    assert payload["evidence_by_route_key"][route.qualification_key] == list(
+        route.qualification_evidence
+    )
+    for artifact in route.qualification_evidence:
+        assert payload["artifact_sha256"][artifact]
+        assert len(payload["artifact_sha256"][artifact]) == 64
+
+
 def test_unknown_route_key_has_no_evidence():
     assert qualification_evidence_for_route_key("future|unknown") == ()
 
@@ -220,7 +266,7 @@ def test_routing_contract_freezes_route_context_evidence_governance():
         Path("ODSP_CONFIRMATORY_METHOD_ROUTING_CONTRACT.json").read_text(encoding="utf-8")
     )
     evidence = payload["qualification_evidence"]
-    assert evidence["registry"] == "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V3.json"
+    assert evidence["registry"] == "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V4.json"
     assert evidence["artifact_sha256_frozen"] is True
     assert evidence["keyed_by_full_route_context"] is True
     assert evidence["surface_name_alone_is_sufficient"] is False
