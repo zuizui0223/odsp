@@ -24,20 +24,34 @@ def test_final_focused_receipt_records_post_refactor_success():
     assert p["boundary"]["historical_truth_of_first_access_declaration_machine_proven"] is False
 
 
-def test_final_identity_receipt_exactly_matches_current_frozen_snapshot():
+def test_final_identity_receipt_matches_current_nonruntime_identity():
     p = json.loads(IDENTITY.read_text(encoding="utf-8"))
     current = build_snapshot()
+    # Runtime identity is intentionally checked only in the dedicated
+    # Python-3.12 identity workflow. The repository-wide test matrix runs
+    # under multiple Python/NumPy versions and must not reinterpret those
+    # lanes as the qualified runtime.
     for field in (
         "schema_version",
         "canonical_surface",
         "implementation_lock_id",
         "implementation_source_snapshot",
         "runtime_environment_lock_id",
-        "runtime_environment_snapshot",
         "internal_v5_route_snapshot",
         "external_contract_sha256",
     ):
         assert p[field] == current[field], field
+
+    assert p["runtime_environment_snapshot"] == {
+        "python": {
+            "implementation": "cpython",
+            "major": 3,
+            "minor": 12,
+            "micro": 14,
+        },
+        "external_modules": ["numpy"],
+        "distributions": [{"name": "numpy", "version": "2.5.3"}],
+    }
 
     paths = [row["path"] for row in p["implementation_source_snapshot"]]
     assert "odsp/training_process_internal_qualification_v5.py" in paths
