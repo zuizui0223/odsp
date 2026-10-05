@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-validation-separation-receipt-v1",
+  "frozen_date": "2026-10-05",
+  "purpose": "content-lock the canonical full-training-frame validation-separation audit using a metadata-only validation roster before validation-outcome access",
+  "canonical_audit": "odsp.training_process_validation_provenance.audit_training_process_validation_frame_separation",
+  "requirements": {
+    "explicit_shared_row_identity_namespace": true,
+    "frozen_training_roster_identity_verified_by_canonical_audit": true,
+    "validation_roster_contains_exactly_one_row_id_column": true,
+    "validation_row_ids_unique": true,
+    "training_source_frame_validation_disjoint": true,
+    "validation_roster_file_sha256_recorded": true,
+    "validation_row_id_semantic_sha256_recorded": true,
+    "process_manifest_sha256_recorded": true,
+    "receipt_overwrite_allowed": false
+  },
+  "privacy_and_access_boundary": {
+    "validation_outcome_columns_allowed": false,
+    "validation_outcomes_read": false,
+    "training_or_validation_row_ids_emitted": false,
+    "overlapping_row_ids_emitted": false
+  },
+  "claim_boundary": {
+    "proves_process_source_frame_validation_row_separation_in_declared_identity_namespace": true,
+    "proves_identity_namespace_is_scientifically_correct": false,
+    "proves_generated_model_artifacts_followed_process": false,
+    "proves_validation_block_exchangeability": false,
+    "fixed_set_results_reclassified": false,
+    "historical_empirical_endpoints_reclassified": false
+  }
+}
