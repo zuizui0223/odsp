@@ -217,6 +217,57 @@ print(observation_time.temporal_precision)  # second
 print(profile.effective_vertical_states)   # 4.0
 ```
 
+
+## Training-process uncertainty and untouched external validation
+
+ODSP now has a separate qualified route for uncertainty induced by a
+**prospectively frozen training-resampling process**. It is deliberately distinct
+from the fixed-set all-refit intersection.
+
+For independent validation groups with an ordered two-contrast filtration, the
+confirmatory target is the mean held-out gain over the frozen resampling-and-fit
+process, conditional on the frozen empirical training source, and over the
+declared validation population. The qualified component test is the two-term
+cluster-jackknife CV3(2) variance,
+
+`V = V_training^JK + V_validation^JK`,
+
+with a one-sided Student-t critical value using
+`df = min(number_of_refits, number_of_validation_blocks) - 1`, composed as an
+intersection-union test.
+
+The primary internal surface is
+`odsp.training_process_confirmatory_v5.certify_predeclared_training_process_positive_information_v5`.
+It verifies the frozen process manifest, ODSP-managed refit generation,
+full training-source-frame separation from validation rows, and the qualified
+implementation/runtime identity before invoking the v5 numerical core.
+
+The process-specific untouched-external surface is
+`odsp.training_process_untouched_external_v5.run_untouched_external_training_process_v5`.
+Its pre-outcome freeze locks row/group/block/weight design, generated model
+bytes, scoring implementation/runtime, score semantics and analysis identity;
+after outcome access, ODSP-managed scoring constructs the refit × row × level
+score tensor rather than accepting an arbitrary caller-supplied tensor.
+
+Prospective qualification passed with a maximum component false-positive rate of
+**0.056** in the six base null worlds and minimum five-oracle-SE terminal power
+of **0.859**. A separately frozen five-scenario adversarial support panel also
+passed, with maximum component false-positive rate **0.058**.
+
+The active qualification registry is
+`ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V6.json`, with content lock
+`ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V4.json`. Registry v5 is retained as
+historical provenance because its external registration preceded completion of
+the independently replayed evidence-hash gate; v6 corrects that ordering without
+changing the statistical result.
+
+This route does **not** claim that every future refit is positive, estimate the
+probability an individual future refit passes, generalize over a newly sampled
+ecological training dataset, qualify paired/lattice or four-contrast
+training-process designs, or establish distribution-shift robustness. The
+current machine lock also does not pre-outcome content-lock arbitrary raw
+non-outcome covariate bytes embedded in the later validation-data file.
+
 ## Scientific boundary
 
 ODSP does **not** modify SDMR Product A. It is not a new environmental-variable selector, AUC replacement, or SDM tuning endpoint.
