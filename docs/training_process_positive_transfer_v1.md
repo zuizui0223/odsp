@@ -1,5 +1,10 @@
 # Training-process directional transfer inference v1
 
+> **Historical predecessor.** V1 passed its prospective null calibration but
+> failed its frozen terminal-power gate and is not a primary route. The qualified
+> successor is the two-term CV3(2) IUT v5 route. This file is retained to preserve
+> the original v1 estimand, design rationale and failure history.
+
 ## Why this is a separate route
 
 The existing all-refit route asks a literal fixed-set question:
@@ -116,12 +121,12 @@ Nothing here reclassifies existing evidence.
   supplied refit passes.
 - The historical nested refit-mixture machinery remains sensitivity-only.
 - Existing frozen empirical results remain frozen under their original route.
-- The new process route remains experimental until its own prospective
-  operating-characteristic and governance evidence is frozen.
-- Untouched external validation needs a separate process-specific freeze
-  endpoint after the internal route has been qualified.
+- V1 remains a frozen failed candidate and is not promoted by later results.
+- The qualified successor is v5 for independent two-contrast filtration.
+- A separate process-specific untouched-external v5 endpoint is now qualified
+  under the corrected registry-v6 evidence chain.
 
-The intended eventual chain is therefore:
+The chain that was originally intended here is now implemented by v5:
 
 validation-sample uncertainty -> upstream training-process uncertainty ->
 untouched external validation,
