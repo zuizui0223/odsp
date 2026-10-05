@@ -378,6 +378,30 @@ def run_untouched_external_training_process_v5(
         raise ValueError("managed scoring receipt did not reverify model artifacts")
     if boundaries.get("shell_used") is not False:
         raise ValueError("managed scoring receipt must report shell_used=false")
+    if scoring_receipt.get("refit_count") != len(supplied_refits):
+        raise ValueError("managed scoring receipt refit_count mismatch")
+    if scoring_receipt.get("row_count") != len(design_rows):
+        raise ValueError("managed scoring receipt row_count mismatch")
+    frozen_level_names = [str(row["name"]) for row in manifest["levels"]]
+    if scoring_receipt.get("level_names") != frozen_level_names:
+        raise ValueError("managed scoring receipt level names mismatch")
+    executions = scoring_receipt.get("executions")
+    if not isinstance(executions, list) or len(executions) != len(supplied_refits):
+        raise ValueError("managed scoring execution coverage mismatch")
+    execution_ids: list[str] = []
+    for execution in executions:
+        if not isinstance(execution, Mapping):
+            raise ValueError("managed scoring execution must be an object")
+        execution_ids.append(
+            _text(execution.get("refit_id"), name="managed scoring execution refit_id")
+        )
+        if execution.get("return_code") != 0:
+            raise ValueError("managed scoring execution has nonzero return code")
+        digest = execution.get("score_output_sha256")
+        if not isinstance(digest, str) or len(digest) != 64:
+            raise ValueError("managed scoring output SHA256 is invalid")
+    if tuple(execution_ids) != supplied_refits:
+        raise ValueError("managed scoring execution refit order mismatch")
 
     levels, bundle_row_ids, bundle_refit_ids, tensor_sha = (
         load_managed_external_score_bundle(
