@@ -1,0 +1,75 @@
+{
+  "schema_version": 5,
+  "contract_id": "odsp-training-process-positive-cv3two-iut-v5",
+  "frozen_date": "2026-10-05",
+  "method_family": "literature-defined two-term two-way cluster-jackknife variance plus intersection-union composition",
+  "predecessor_boundary": {
+    "v1_v2_v3_are_closed_on_their_original_prospective_gates": true,
+    "v4_official_actions_qualification_pending_at_time_of_v5_freeze": true,
+    "no_predecessor_result_reclassified": true
+  },
+  "inferential_target": {
+    "estimand": "mean held-out directional gain over the frozen training-resampling process conditional on the frozen training source and over the declared validation population",
+    "compound_alternative": "every required group x ordered information-step process mean exceeds the declared nonnegative tolerance",
+    "fixed_set_intersection_is_estimand": false,
+    "individual_future_refit_success_probability_is_estimand": false
+  },
+  "variance_v5": {
+    "method": "two-term two-way cluster-jackknife CV3(2)",
+    "training_delete_one_variance": "(R-1)/R * sum_r (theta_minus_r - theta_hat)^2",
+    "validation_delete_one_variance": "(B-1)/B * sum_b (theta_minus_b - theta_hat)^2",
+    "two_term_variance": "V_R_JK + V_B_JK",
+    "intersection_delete_one_variance_used": false,
+    "standard_error": "sqrt(V_R_JK + V_B_JK)",
+    "delete_one_center": "full-sample theta_hat"
+  },
+  "critical_value": {
+    "distribution": "Student_t",
+    "one_sided_probability": 0.95,
+    "degrees_of_freedom": "min(R,B)-1"
+  },
+  "composition": {
+    "method": "intersection_union_test",
+    "all_required_components_must_reject": true,
+    "additional_multiplicity_correction_across_components": false,
+    "component_lower_bounds_are_simultaneous": false,
+    "arbitrary_any_cell_familywise_claim_allowed": false
+  },
+  "literature_boundary": {
+    "two_term_cv3_is_preexisting_not_invented_from_v4_results": true,
+    "literature_reports_possible_under_rejection_for_cv3_two_term": true,
+    "under_rejection_is_not_accepted_without_power_qualification": true,
+    "odsp_prospective_null_and_power_qualification_required": true
+  },
+  "scope_candidate": {
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "contrast_count": 2,
+    "minimum_refits": 8,
+    "minimum_validation_blocks_per_group": 8,
+    "paired_shared_blocks": false,
+    "complete_lattice": false,
+    "untouched_external": false
+  },
+  "qualification_plan": {
+    "null_seed": 20261013,
+    "power_seed": 20261014,
+    "simulations_per_scenario": 1000,
+    "same_six_crossed_scenarios_as_v1_v4": true,
+    "maximum_accepted_component_rate": 0.06378404875209022,
+    "strong_shift_standard_errors": 5.0,
+    "minimum_strong_terminal_power": 0.8,
+    "moderate_shift_standard_errors": 3.0,
+    "moderate_power_is_descriptive": true,
+    "thresholds_relaxed_from_predecessors": false,
+    "v5_results_observed_before_this_freeze": false
+  },
+  "governance": {
+    "v5_primary_confirmatory": false,
+    "both_null_and_power_must_pass_before_promotion": true,
+    "failure_may_not_be_rescued_post_hoc": true,
+    "fixed_set_route_changed": false,
+    "historical_endpoint_reclassified": false,
+    "untouched_external_route_opened": false
+  }
+}
