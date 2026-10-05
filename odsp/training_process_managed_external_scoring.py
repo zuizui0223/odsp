@@ -121,6 +121,8 @@ def _scoring_plan(manifest: Mapping[str, object]) -> dict[str, object]:
         "command_artifact_snapshot",
         "timeout_seconds",
         "environment_allowlist",
+        "validation_data_format",
+        "validation_row_id_column",
         "runtime_environment_snapshot",
     }
     if set(raw) != required:
@@ -372,6 +374,35 @@ def run_managed_external_scoring_v1(
     )
     row_ids = [str(row["row_id"]) for row in design]
 
+    scoring_plan = _scoring_plan(manifest)
+    validation_format = _text(
+        scoring_plan["validation_data_format"],
+        name="managed_scoring_plan.validation_data_format",
+    ).lower()
+    validation_row_id_column = _text(
+        scoring_plan["validation_row_id_column"],
+        name="managed_scoring_plan.validation_row_id_column",
+    )
+    validation_rows = _read_rows(validation_path, validation_format)
+    validation_ids: list[str] = []
+    for index, row in enumerate(validation_rows):
+        if validation_row_id_column not in row:
+            raise ValueError(
+                f"validation data row {index} is missing frozen row-ID column"
+            )
+        validation_ids.append(
+            _text(
+                row[validation_row_id_column],
+                name=f"validation data row {index} row ID",
+            )
+        )
+    if len(validation_ids) != len(set(validation_ids)):
+        raise ValueError("validation data row IDs must be unique")
+    if set(validation_ids) != set(row_ids):
+        raise ValueError(
+            "validation data row IDs do not exactly match frozen external roster"
+        )
+
     levels = manifest.get("levels")
     if not isinstance(levels, list) or len(levels) != 3:
         raise ValueError("external freeze levels are invalid")
@@ -396,7 +427,7 @@ def run_managed_external_scoring_v1(
         frozen_snapshot=manifest.get("generated_model_artifact_snapshot"),
     )
 
-    plan = _scoring_plan(manifest)
+    plan = scoring_plan
     working, runtime = _verify_scoring_identity(
         plan, freeze_base=freeze_manifest_path.parent
     )
