@@ -1,0 +1,58 @@
+{
+  "schema_version": 3,
+  "contract_id": "odsp-training-process-positive-pigeonhole-iut-v3",
+  "frozen_date": "2026-10-05",
+  "predecessors": {
+    "v1": "null passed; prospective power gate failed",
+    "v2": "IUT restored useful power but prospective component-size null gate failed",
+    "predecessor_results_reclassified": false
+  },
+  "inferential_target": {
+    "estimand": "mean held-out directional gain over the frozen training-resampling process conditional on the frozen training source and over the declared validation population",
+    "compound_alternative": "every required group x ordered information-step process mean exceeds the declared nonnegative tolerance",
+    "individual_future_refit_success_probability_is_estimand": false,
+    "fixed_set_intersection_is_estimand": false
+  },
+  "bootstrap_v3": {
+    "resampling": "pigeonhole bootstrap: resample R training-process draws with replacement and independently resample validation blocks with replacement",
+    "same_refit_resample_shared_across_all_cells": true,
+    "validation_block_draw_shared_across_refits_and_contrasts_within_group": true,
+    "studentization_used": false,
+    "component_pivot": "centered bootstrap displacement theta_star - theta_hat",
+    "component_one_sided_lower_bound": "theta_hat - empirical_q_0.95(theta_star - theta_hat)",
+    "quantile_method": "higher",
+    "composition": "intersection_union_test",
+    "additional_multiplicity_correction_across_components": false,
+    "component_lower_bounds_are_simultaneous": false,
+    "arbitrary_any_cell_familywise_claim_allowed": false
+  },
+  "literature_boundary": {
+    "pigeonhole_bootstrap_theory_motivates_resampling_structure": true,
+    "literature_alone_qualifies_odsp_endpoint": false,
+    "odsp_prospective_operating_characteristic_calibration_required": true
+  },
+  "scope_candidate": {
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "contrast_count": 2,
+    "paired_shared_blocks": false,
+    "complete_lattice": false,
+    "untouched_external": false
+  },
+  "qualification_plan": {
+    "null_gate": "every component false-positive rate <= 0.05 + 2*sqrt(0.05*0.95/1000) in every predeclared scenario",
+    "power_gate": "terminal all-required-components power at 5 oracle cell SE >= 0.80 in every predeclared scenario",
+    "moderate_3se_power_is_descriptive": true,
+    "same_six_crossed_scenarios_as_v1_v2": true,
+    "results_observed_before_contract_freeze": false,
+    "thresholds_changed_after_v2_failure": false
+  },
+  "governance": {
+    "v3_primary_confirmatory": false,
+    "v3_requires_both_null_and_power_pass": true,
+    "v3_failure_may_not_be_rescued_post_hoc": true,
+    "fixed_set_route_changed": false,
+    "historical_endpoint_reclassified": false,
+    "untouched_external_route_opened": false
+  }
+}
