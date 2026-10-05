@@ -211,7 +211,7 @@ def test_predeclared_training_process_c4_remains_unqualified():
     assert "two-contrast" in route.reason
 
 
-def test_predeclared_training_process_external_requires_its_own_freeze_route():
+def test_predeclared_training_process_external_c2_routes_to_qualified_v5_endpoint():
     route = route_confirmatory_method(
         alternative="greater",
         validation_design="independent_groups",
@@ -220,10 +220,44 @@ def test_predeclared_training_process_external_requires_its_own_freeze_route():
         external_validation="untouched_frozen",
         contrast_count=2,
     )
+    assert route.role == "primary_confirmatory"
+    assert route.primary_for_claim is True
+    assert route.requires_preoutcome_freeze is True
+    assert route.refit_population_generalization_claimed is True
+    assert route.canonical_surface == (
+        "odsp.training_process_untouched_external_v5."
+        "run_untouched_external_training_process_v5"
+    )
+    assert route.qualification_key is not None
+    assert route.qualification_evidence[-2:] == (
+        "TRAINING_PROCESS_V5_EXTERNAL_FOCUSED_ENDPOINT_RECEIPT_V2.json",
+        "TRAINING_PROCESS_V5_EXTERNAL_ENDPOINT_IDENTITY_RECEIPT_V2.json",
+    )
+
+
+def test_predeclared_training_process_external_c4_remains_unqualified():
+    route = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="predeclared_training_process",
+        external_validation="untouched_frozen",
+        contrast_count=4,
+    )
     assert route.role == "unqualified"
     assert route.primary_for_claim is False
     assert route.requires_preoutcome_freeze is True
     assert route.canonical_surface is None
+    assert "two-contrast" in route.reason
+
+
+def test_process_external_surface_name_alone_does_not_establish_claim_eligibility():
+    classification = classify_existing_surface(
+        "odsp.training_process_untouched_external_v5."
+        "run_untouched_external_training_process_v5"
+    )
+    assert classification.role == "primary_confirmatory"
+    assert classification.primary_for_claim is False
 
 
 def test_fixed_set_route_is_unchanged_by_training_process_mode():

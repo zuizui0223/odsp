@@ -78,16 +78,26 @@
     "predeclared_training_process_filtration_contrast_counts": [
       2
     ],
-    "predeclared_training_process_internal_primary": true
+    "predeclared_training_process_internal_primary": true,
+    "predeclared_training_process_untouched_external_filtration_contrast_counts": [
+      2
+    ]
   },
   "external_validation": {
     "unfrozen_untouched_external_primary": false,
     "pre_outcome_semantic_freeze_required": true,
-    "canonical_external_primary_routes_require_fixed_supplied_refit_set": true,
+    "canonical_external_primary_routes_require_fixed_supplied_refit_set": false,
     "independent_complete_lattice_fixed_set_primary": true,
     "independent_complete_lattice_external_contract": "ODSP_UNTOUCHED_EXTERNAL_INDEPENDENT_ALL_REFIT_LATTICE_V5_CONTRACT.json",
     "independent_complete_lattice_public_cli_variant_added": false,
-    "predeclared_training_process_untouched_external_primary": false
+    "predeclared_training_process_untouched_external_primary": true,
+    "predeclared_training_process_untouched_external_contrast_counts": [
+      2
+    ],
+    "predeclared_training_process_external_contract": "ODSP_TRAINING_PROCESS_V5_UNTOUCHED_EXTERNAL_FREEZE_CONTRACT_V3.json",
+    "predeclared_training_process_managed_scoring_contract": "ODSP_TRAINING_PROCESS_V5_MANAGED_EXTERNAL_SCORING_CONTRACT.json",
+    "predeclared_training_process_declared_first_access_chronology_required": true,
+    "predeclared_training_process_historical_nonaccess_machine_proven": false
   },
   "refit_boundary": {
     "fixed_supplied_refit_set_may_form_intersection_robustness_claim": true,
@@ -125,12 +135,15 @@
     "odsp.information_lattice_positive_v2.certify_positive_information_lattice_v2": "primary_confirmatory",
     "odsp.refit_positive_independent_lattice_robustness.certify_all_refit_independent_positive_information_lattice_v2": "primary_confirmatory",
     "odsp.untouched_external_refit_independent_positive_lattice_contract_v5.run_untouched_external_independent_all_refit_lattice_contract_v5": "primary_confirmatory",
-    "odsp.training_process_confirmatory_v5.certify_predeclared_training_process_positive_information_v5": "primary_confirmatory"
+    "odsp.training_process_confirmatory_v5.certify_predeclared_training_process_positive_information_v5": "primary_confirmatory",
+    "odsp.training_process_untouched_external_v5.run_untouched_external_training_process_v5": "primary_confirmatory"
   },
   "historical_governance": {
     "reclassify_frozen_empirical_endpoints": false,
     "rerun_frozen_empirical_endpoints": false,
-    "historical_v1_receipts_deleted_or_rewritten": false
+    "historical_v1_receipts_deleted_or_rewritten": false,
+    "fixed_set_results_reclassified_by_process_external_route": false,
+    "old_training_process_candidate_failures_reclassified": false
   },
   "unknown_surface_policy": "unqualified",
   "unknown_combination_policy": "fail_closed",
@@ -151,7 +164,7 @@
     "untouched_external_route_qualified": false
   },
   "qualification_evidence": {
-    "registry": "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V4.json",
+    "registry": "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V5.json",
     "keyed_by_full_route_context": true,
     "surface_name_alone_is_sufficient": false,
     "same_surface_may_have_distinct_family_evidence": true,
@@ -160,8 +173,9 @@
     "calibration_evidence_is_biological_evidence": false,
     "artifact_sha256_frozen": true,
     "same_filename_changed_content_detected": true,
-    "content_lock_contract": "ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V2.json",
-    "registry_v3_retained_for_historical_provenance": true
+    "content_lock_contract": "ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V3.json",
+    "registry_v3_retained_for_historical_provenance": true,
+    "registry_v4_retained_for_historical_provenance": true
   },
   "implementation_identity": {
     "contract": "ODSP_CONFIRMATORY_IMPLEMENTATION_LOCK_V1.json",

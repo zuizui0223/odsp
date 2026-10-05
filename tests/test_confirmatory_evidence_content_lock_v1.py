@@ -20,8 +20,10 @@ from odsp.frozen_confirmatory_route import (
 
 REGISTRY_V3 = Path("ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V3.json")
 REGISTRY_V4 = Path("ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V4.json")
+REGISTRY_V5 = Path("ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V5.json")
 CONTENT_LOCK_V1 = Path("ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V1.json")
 CONTENT_LOCK_V2 = Path("ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V2.json")
+CONTENT_LOCK_V3 = Path("ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V3.json")
 ROUTING_CONTRACT = Path("ODSP_CONFIRMATORY_METHOD_ROUTING_CONTRACT.json")
 
 
@@ -121,10 +123,10 @@ def test_snapshot_builder_fails_closed_when_route_evidence_digest_is_missing(mon
         qualification_evidence_artifacts_for_route_key(key)
 
 
-def test_v4_registry_matches_active_code_registry_and_content_digests():
-    payload = json.loads(REGISTRY_V4.read_text(encoding="utf-8"))
-    assert payload["schema_version"] == 4
-    assert payload["registry_id"] == "odsp-confirmatory-route-evidence-v4"
+def test_v5_registry_matches_active_code_registry_and_content_digests():
+    payload = json.loads(REGISTRY_V5.read_text(encoding="utf-8"))
+    assert payload["schema_version"] == 5
+    assert payload["registry_id"] == "odsp-confirmatory-route-evidence-v5"
     assert payload["evidence_by_route_key"] == {
         key: list(value)
         for key, value in sorted(CONFIRMATORY_EVIDENCE_BY_ROUTE_KEY.items())
@@ -134,7 +136,18 @@ def test_v4_registry_matches_active_code_registry_and_content_digests():
     )
     assert payload["governance"]["artifact_content_identity_frozen"] is True
     assert payload["governance"]["same_filename_changed_content_detected"] is True
-    assert payload["governance"]["registry_v3_retained_for_historical_provenance"] is True
+    assert payload["governance"]["registry_v4_retained_for_historical_provenance"] is True
+
+
+def test_v4_registry_is_retained_for_historical_provenance():
+    old = json.loads(REGISTRY_V4.read_text(encoding="utf-8"))
+    new = json.loads(REGISTRY_V5.read_text(encoding="utf-8"))
+    assert old["schema_version"] == 4
+    assert old["registry_id"] == "odsp-confirmatory-route-evidence-v4"
+    for key, chain in old["evidence_by_route_key"].items():
+        assert new["evidence_by_route_key"][key] == chain
+    for artifact, digest in old["artifact_sha256"].items():
+        assert new["artifact_sha256"][artifact] == digest
 
 
 def test_v3_registry_is_retained_as_historical_artifact():
@@ -147,24 +160,28 @@ def test_v3_registry_is_retained_as_historical_artifact():
     )
 
 
-def test_content_lock_v2_freezes_active_internal_and_external_evidence():
-    payload = json.loads(CONTENT_LOCK_V2.read_text(encoding="utf-8"))
-    assert payload["schema_version"] == 2
-    assert payload["contract_id"] == "odsp-confirmatory-evidence-content-lock-v2"
+def test_content_lock_v3_freezes_active_internal_and_external_evidence():
+    payload = json.loads(CONTENT_LOCK_V3.read_text(encoding="utf-8"))
+    assert payload["schema_version"] == 3
+    assert payload["contract_id"] == "odsp-confirmatory-evidence-content-lock-v3"
     assert payload["composes_with"]["evidence_registry"] == (
-        "odsp-confirmatory-route-evidence-v4"
+        "odsp-confirmatory-route-evidence-v5"
     )
     assert payload["freeze"]["artifact_name_frozen"] is True
     assert payload["freeze"]["artifact_sha256_frozen"] is True
     assert payload["freeze"]["evidence_order_is_semantic"] is True
     assert payload["runtime"]["exact_snapshot_match_required"] is True
     assert payload["runtime"]["same_filename_changed_content_allowed"] is False
-    assert payload["scope"][
-        "applies_to_active_internal_and_untouched_external_confirmatory_routes"
-    ] is True
+    assert payload["scope"]["training_process_external_c2_route_included"] is True
     assert payload["historical_governance"][
-        "evidence_content_lock_v1_deleted_or_rewritten"
+        "evidence_content_lock_v2_deleted_or_rewritten"
     ] is False
+
+
+def test_content_lock_v2_is_retained_for_historical_provenance():
+    payload = json.loads(CONTENT_LOCK_V2.read_text(encoding="utf-8"))
+    assert payload["schema_version"] == 2
+    assert payload["contract_id"] == "odsp-confirmatory-evidence-content-lock-v2"
 
 
 def test_v1_content_lock_is_retained_for_historical_provenance():
@@ -182,16 +199,16 @@ def test_dedicated_active_content_lock_workflow_watches_every_registered_artifac
             "active content-lock workflow does not watch registered evidence artifact "
             f"{artifact}"
         )
-    assert "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V4.json" in workflow
-    assert "ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V2.json" in workflow
+    assert "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V5.json" in workflow
+    assert "ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V3.json" in workflow
 
 
-def test_routing_contract_points_to_content_locked_v4_registry():
+def test_routing_contract_points_to_content_locked_v5_registry():
     payload = json.loads(ROUTING_CONTRACT.read_text(encoding="utf-8"))
     assert payload["qualification_evidence"]["registry"] == (
-        "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V4.json"
+        "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V5.json"
     )
     assert payload["qualification_evidence"]["content_lock_contract"] == (
-        "ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V2.json"
+        "ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V3.json"
     )
     assert payload["qualification_evidence"]["artifact_sha256_frozen"] is True

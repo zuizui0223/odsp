@@ -12,7 +12,13 @@ on:
       - 'ODSP_CONFIRMATORY_METHOD_ROUTING_CONTRACT.json'
       - 'ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V2.json'
       - 'ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V3.json'
+      - 'ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V4.json'
+      - 'ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V5.json'
       - 'ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V1.json'
+      - 'ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V2.json'
+      - 'ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V3.json'
+      - 'TRAINING_PROCESS_V5_EXTERNAL_FOCUSED_ENDPOINT_RECEIPT_V2.json'
+      - 'TRAINING_PROCESS_V5_EXTERNAL_ENDPOINT_IDENTITY_RECEIPT_V2.json'
       - 'tests/test_confirmatory_method_routing.py'
       - 'tests/test_confirmatory_method_routing_contract.py'
       - 'tests/test_confirmatory_route_evidence_v2.py'
@@ -38,3 +44,5 @@ jobs:
           tests/test_confirmatory_method_routing.py
           tests/test_confirmatory_method_routing_contract.py
           tests/test_confirmatory_route_evidence_v2.py
+          tests/test_confirmatory_evidence_content_lock_v1.py
+          tests/test_training_process_v5_external_final_receipts.py

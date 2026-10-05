@@ -33,6 +33,9 @@ def test_machine_contract_freezes_calibrated_directional_family_sizes():
     assert scope["independent_fixed_set_untouched_external_lattice_edge_counts"] == [4, 12]
     assert scope["predeclared_training_process_filtration_contrast_counts"] == [2]
     assert scope["predeclared_training_process_internal_primary"] is True
+    assert scope[
+        "predeclared_training_process_untouched_external_filtration_contrast_counts"
+    ] == [2]
 
 
 def test_machine_contract_freezes_calibrated_bidirectional_family_sizes():
@@ -67,6 +70,9 @@ def test_machine_contract_marks_legacy_and_refit_mixture_as_sensitivity_only():
     assert surfaces[
         "odsp.training_process_confirmatory_v5.certify_predeclared_training_process_positive_information_v5"
     ] == "primary_confirmatory"
+    assert surfaces[
+        "odsp.training_process_untouched_external_v5.run_untouched_external_training_process_v5"
+    ] == "primary_confirmatory"
 
 
 def test_machine_contract_requires_full_routing_context_for_primary_claim():
@@ -77,19 +83,23 @@ def test_machine_contract_requires_full_routing_context_for_primary_claim():
 
 
 
-def test_machine_contract_qualifies_process_mean_but_not_process_external_route():
+def test_machine_contract_qualifies_process_mean_and_narrow_external_route():
     payload = json.loads(CONTRACT.read_text(encoding="utf-8"))
     boundary = payload["refit_boundary"]
     assert boundary["predeclared_training_process_mean_claim_qualified"] is True
     assert boundary["predeclared_training_process_mean_is_conditional_on_frozen_training_source"] is True
     assert boundary["individual_future_refit_success_probability_claimed"] is False
     assert boundary["original_training_source_population_generalization_claimed"] is False
-    assert payload["external_validation"]["predeclared_training_process_untouched_external_primary"] is False
+    external = payload["external_validation"]
+    assert external["predeclared_training_process_untouched_external_primary"] is True
+    assert external["predeclared_training_process_untouched_external_contrast_counts"] == [2]
+    assert external["predeclared_training_process_declared_first_access_chronology_required"] is True
+    assert external["predeclared_training_process_historical_nonaccess_machine_proven"] is False
     assert payload["qualification_evidence"]["registry"] == (
-        "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V4.json"
+        "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V5.json"
     )
     assert payload["qualification_evidence"]["content_lock_contract"] == (
-        "ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V2.json"
+        "ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V3.json"
     )
 
 

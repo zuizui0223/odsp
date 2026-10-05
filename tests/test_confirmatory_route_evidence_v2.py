@@ -267,9 +267,87 @@ def test_routing_contract_freezes_route_context_evidence_governance():
         Path("ODSP_CONFIRMATORY_METHOD_ROUTING_CONTRACT.json").read_text(encoding="utf-8")
     )
     evidence = payload["qualification_evidence"]
-    assert evidence["registry"] == "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V4.json"
+    assert evidence["registry"] == "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V5.json"
     assert evidence["artifact_sha256_frozen"] is True
     assert evidence["keyed_by_full_route_context"] is True
     assert evidence["surface_name_alone_is_sufficient"] is False
     assert evidence["missing_evidence_policy"] == "unqualified"
     assert evidence["runtime_recomputes_calibration"] is False
+
+
+def test_training_process_external_v5_chain_extends_internal_chain_without_replacement():
+    internal = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="predeclared_training_process",
+        external_validation="none",
+        contrast_count=2,
+    )
+    external = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="predeclared_training_process",
+        external_validation="untouched_frozen",
+        contrast_count=2,
+    )
+    assert external.role == "primary_confirmatory"
+    assert external.qualification_evidence[: len(internal.qualification_evidence)] == (
+        internal.qualification_evidence
+    )
+    assert external.qualification_evidence[len(internal.qualification_evidence):] == (
+        "ODSP_TRAINING_PROCESS_V5_UNTOUCHED_EXTERNAL_FREEZE_CONTRACT.json",
+        "ODSP_TRAINING_PROCESS_V5_UNTOUCHED_EXTERNAL_FREEZE_CONTRACT_V2.json",
+        "ODSP_TRAINING_PROCESS_V5_UNTOUCHED_EXTERNAL_FREEZE_CONTRACT_V3.json",
+        "ODSP_TRAINING_PROCESS_V5_MANAGED_EXTERNAL_SCORING_CONTRACT.json",
+        "ODSP_TRAINING_PROCESS_V5_EXTERNAL_PROMOTION_GATE.json",
+        "ODSP_TRAINING_PROCESS_V5_EXTERNAL_PROMOTION_GATE_V2.json",
+        "ODSP_TRAINING_PROCESS_V5_EXTERNAL_PROMOTION_GATE_V3.json",
+        "ODSP_TRAINING_PROCESS_V5_EXTERNAL_ENDPOINT_IDENTITY_CONTRACT_V2.json",
+        "TRAINING_PROCESS_V5_EXTERNAL_FOCUSED_ENDPOINT_RECEIPT_V2.json",
+        "TRAINING_PROCESS_V5_EXTERNAL_ENDPOINT_IDENTITY_RECEIPT_V2.json",
+    )
+    assert len(external.qualification_evidence) == 20
+
+
+def test_active_v5_registry_matches_process_external_route_and_content_hashes():
+    payload = json.loads(
+        Path("ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V5.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    external = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="predeclared_training_process",
+        external_validation="untouched_frozen",
+        contrast_count=2,
+    )
+    assert payload["schema_version"] == 5
+    assert payload["registry_id"] == "odsp-confirmatory-route-evidence-v5"
+    assert payload["evidence_by_route_key"][external.qualification_key] == list(
+        external.qualification_evidence
+    )
+    for artifact in external.qualification_evidence:
+        digest = payload["artifact_sha256"][artifact]
+        assert len(digest) == 64
+        int(digest, 16)
+
+
+def test_v4_registry_is_retained_as_subset_of_active_v5_registry():
+    old = json.loads(
+        Path("ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V4.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    new = json.loads(
+        Path("ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V5.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    for key, chain in old["evidence_by_route_key"].items():
+        assert new["evidence_by_route_key"][key] == chain
+    for artifact, digest in old["artifact_sha256"].items():
+        assert new["artifact_sha256"][artifact] == digest
