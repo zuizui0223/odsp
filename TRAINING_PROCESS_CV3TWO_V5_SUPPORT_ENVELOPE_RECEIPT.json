@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "receipt_type": "odsp_training_process_cv3two_v5_adversarial_support_v1",
+  "date": "2026-10-05",
+  "method_version": "training_process_positive_cv3two_iut_v5",
+  "contract": "ODSP_TRAINING_PROCESS_CV3TWO_V5_SUPPORT_ENVELOPE_CONTRACT.json",
+  "official_run": {
+    "github_actions_run_id": 37253654051,
+    "github_actions_job_id": 111586174219,
+    "head_sha": "889acc6c2448af821fbd144c759d891a0ceb4ba8",
+    "seed": 20261015,
+    "simulations_per_scenario": 1000,
+    "qualification_pass": true
+  },
+  "scenarios": {
+    "skewed-lognormal-r8-b8": 0.015,
+    "contaminated-normal-r8-b20": 0.053,
+    "rademacher-r8-b8": 0.053,
+    "unequal-block-weight-normal-r8-b8": 0.058,
+    "heteroskedastic-interaction-r8-b8": 0.021
+  },
+  "acceptance": {
+    "maximum_accepted_component_rate": 0.06378404875209022,
+    "largest_observed_component_rate": 0.058,
+    "all_five_support_scenarios_pass": true
+  },
+  "boundary": {
+    "supplementary_support_not_substitute_for_base_qualification": true,
+    "support_scenarios_dropped_after_results": false,
+    "fixed_set_results_reclassified": false,
+    "historical_empirical_endpoints_reclassified": false
+  }
+}
