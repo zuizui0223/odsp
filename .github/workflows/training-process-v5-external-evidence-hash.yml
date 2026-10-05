@@ -1,0 +1,29 @@
+name: training-process-v5-external-evidence-hash
+
+on:
+  pull_request:
+    paths:
+      - 'ODSP_TRAINING_PROCESS_V5_EXTERNAL_EVIDENCE_HASH_PLAN.json'
+      - 'ODSP_TRAINING_PROCESS_V5_UNTOUCHED_EXTERNAL_FREEZE_CONTRACT_V3.json'
+      - 'ODSP_TRAINING_PROCESS_V5_MANAGED_EXTERNAL_SCORING_CONTRACT.json'
+      - 'ODSP_TRAINING_PROCESS_V5_EXTERNAL_PROMOTION_GATE_V3.json'
+      - 'ODSP_TRAINING_PROCESS_V5_EXTERNAL_ENDPOINT_IDENTITY_CONTRACT_V2.json'
+      - 'TRAINING_PROCESS_V5_EXTERNAL_FOCUSED_ENDPOINT_RECEIPT_V2.json'
+      - 'TRAINING_PROCESS_V5_EXTERNAL_ENDPOINT_IDENTITY_RECEIPT_V2.json'
+      - 'scripts/run_training_process_v5_external_evidence_hash.py'
+      - '.github/workflows/training-process-v5-external-evidence-hash.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Snapshot final external evidence
+        run: python scripts/run_training_process_v5_external_evidence_hash.py
