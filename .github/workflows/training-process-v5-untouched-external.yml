@@ -1,0 +1,34 @@
+name: training-process-v5-untouched-external
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/training_process_external_freeze_v1.py'
+      - 'odsp/training_process_managed_external_scoring.py'
+      - 'odsp/training_process_untouched_external_v5.py'
+      - 'tests/test_training_process_v5_untouched_external_freeze_contract.py'
+      - 'tests/test_training_process_untouched_external_v5.py'
+      - 'ODSP_TRAINING_PROCESS_V5_UNTOUCHED_EXTERNAL_FREEZE_CONTRACT.json'
+      - 'ODSP_TRAINING_PROCESS_V5_MANAGED_EXTERNAL_SCORING_CONTRACT.json'
+      - '.github/workflows/training-process-v5-untouched-external.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Validate process-v5 untouched external endpoint
+        run: >-
+          python -m pytest -q
+          tests/test_training_process_v5_untouched_external_freeze_contract.py
+          tests/test_training_process_untouched_external_v5.py
