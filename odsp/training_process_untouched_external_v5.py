@@ -436,6 +436,9 @@ def run_untouched_external_training_process_v5(
         for level in levels
     )
 
+    score = manifest["score"]
+    if not isinstance(score, Mapping):
+        raise ValueError("frozen score must be an object")
     certification = manifest["certification"]
     if not isinstance(certification, Mapping):
         raise ValueError("frozen certification must be an object")
