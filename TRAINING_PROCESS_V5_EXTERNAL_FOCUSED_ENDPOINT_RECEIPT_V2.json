@@ -1,0 +1,51 @@
+{
+  "schema_version": 2,
+  "receipt_type": "odsp_training_process_v5_external_focused_endpoint_tests_v2",
+  "date": "2026-10-05",
+  "canonical_surface": "odsp.training_process_untouched_external_v5.run_untouched_external_training_process_v5",
+  "official_run": {
+    "github_actions_run_id": 37304922796,
+    "github_actions_job_id": 111746184229,
+    "head_sha": "54f6c50213c540246d5ccef9a0a2af077b2c0b9a",
+    "workflow": "training-process-v5-untouched-external",
+    "focused_test_step_conclusion": "success",
+    "identity_snapshot_step_conclusion": "success"
+  },
+  "final_refactors": {
+    "live_routing_self_reference_removed": true,
+    "immutable_internal_v5_evidence_snapshot_used": true,
+    "declared_first_external_outcome_access_required": true,
+    "freeze_strictly_precedes_declared_first_access": true,
+    "equal_or_earlier_declared_first_access_rejected": true
+  },
+  "focused_tests": [
+    "tests/test_training_process_v5_untouched_external_freeze_contract.py",
+    "tests/test_training_process_v5_untouched_external_freeze_contract_v2.py",
+    "tests/test_training_process_v5_untouched_external_freeze_contract_v3.py",
+    "tests/test_training_process_untouched_external_v5.py",
+    "tests/test_training_process_v5_external_promotion_gate.py",
+    "tests/test_training_process_v5_external_identity.py"
+  ],
+  "required_failure_modes": {
+    "happy_path_uses_managed_score_bundle": true,
+    "caller_supplied_score_matrices_not_primary_input": true,
+    "training_source_frame_overlap_rejected": true,
+    "row_group_block_weight_mismatch_rejected": true,
+    "validation_row_roster_mismatch_rejected": true,
+    "generated_model_byte_tampering_rejected": true,
+    "scoring_code_byte_tampering_rejected": true,
+    "malformed_score_output_schema_rejected": true,
+    "qualification_snapshot_tampering_rejected": true,
+    "frozen_row_id_realignment_verified": true,
+    "proper_score_orientation_semantics_enforced": true,
+    "nonprospective_declared_first_access_rejected": true,
+    "freeze_artifacts_non_overwriting": true
+  },
+  "boundary": {
+    "focused_tests_are_statistical_recalibration": false,
+    "internal_v5_operating_characteristics_reused_unchanged": true,
+    "historical_truth_of_first_access_declaration_machine_proven": false,
+    "external_distribution_shift_robustness_claimed": false,
+    "fixed_set_results_reclassified": false
+  }
+}

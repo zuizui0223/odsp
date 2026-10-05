@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-v5-managed-external-scoring-v1",
+  "frozen_date": "2026-10-05",
+  "purpose": "operationally bind untouched-external score tensors to the exact managed-generated model artifacts and a pre-outcome frozen scoring implementation",
+  "pre_outcome_freeze": {
+    "scoring_argv_array_frozen": true,
+    "shell_allowed": false,
+    "required_placeholders": [
+      "{refit_id}",
+      "{model_manifest_path}",
+      "{validation_data_path}",
+      "{scoring_spec_path}",
+      "{output_path}"
+    ],
+    "scoring_command_artifact_bytes_frozen": true,
+    "scoring_runtime_environment_frozen": true,
+    "score_semantics_and_level_metadata_frozen": true,
+    "external_row_ids_frozen": true,
+    "validation_outcome_bytes_read_before_freeze": false
+  },
+  "runtime_execution": {
+    "one_scoring_process_per_refit": true,
+    "generated_model_artifact_hashes_reverified_before_scoring": true,
+    "model_manifest_materialized_by_odsp": true,
+    "scoring_spec_materialized_by_odsp": true,
+    "validation_data_sha256_recorded_after_outcome_access": true,
+    "stdout_sha256_recorded": true,
+    "stderr_sha256_recorded": true,
+    "output_score_file_sha256_recorded": true,
+    "return_code_must_be_zero": true
+  },
+  "score_output_schema": {
+    "format": "json",
+    "top_level_fields_exactly": ["refit_id", "rows"],
+    "row_fields_exactly": ["row_id", "scores"],
+    "scores_keys_exactly_equal_frozen_level_names": true,
+    "row_ids_exactly_equal_frozen_external_roster": true,
+    "one_row_per_external_row_per_refit": true,
+    "score_values": "finite real or -inf; NaN and +inf forbidden"
+  },
+  "receipt": {
+    "binds_external_freeze_manifest_sha256": true,
+    "binds_managed_generation_receipt_sha256": true,
+    "binds_validation_data_sha256": true,
+    "binds_generated_model_artifact_snapshot": true,
+    "binds_scoring_command_artifact_snapshot": true,
+    "binds_scoring_runtime_environment_snapshot": true,
+    "binds_score_output_bytes": true,
+    "binds_canonical_refit_row_level_score_tensor_sha256": true
+  },
+  "boundary": {
+    "operational_score_derivation_from_frozen_models_proven": true,
+    "semantic_correctness_of_arbitrary_scoring_code_cryptographically_proven": false,
+    "historical_no_prior_external_outcome_access_machine_proven": false,
+    "distribution_shift_robustness_claimed": false,
+    "fixed_set_results_reclassified": false
+  }
+}
