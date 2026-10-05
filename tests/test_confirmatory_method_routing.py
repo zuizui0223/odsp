@@ -174,7 +174,7 @@ def test_stochastic_refit_population_claim_is_unqualified():
     assert "refit population" in route.reason
 
 
-def test_predeclared_training_process_is_a_separate_pending_route():
+def test_predeclared_training_process_c2_routes_to_qualified_v5_wrapper():
     route = route_confirmatory_method(
         alternative="greater",
         validation_design="independent_groups",
@@ -183,12 +183,32 @@ def test_predeclared_training_process_is_a_separate_pending_route():
         external_validation="none",
         contrast_count=2,
     )
+    assert route.role == "primary_confirmatory"
+    assert route.primary_for_claim is True
+    assert route.canonical_surface == (
+        "odsp.training_process_confirmatory_v5."
+        "certify_predeclared_training_process_positive_information_v5"
+    )
+    assert route.refit_population_generalization_claimed is True
+    assert route.requires_preoutcome_freeze is True
+    assert route.qualification_key is not None
+    assert "TRAINING_PROCESS_POSITIVE_CV3TWO_IUT_V5_QUALIFICATION_RECEIPT.json" in route.qualification_evidence
+
+
+def test_predeclared_training_process_c4_remains_unqualified():
+    route = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="predeclared_training_process",
+        external_validation="none",
+        contrast_count=4,
+    )
     assert route.role == "unqualified"
     assert route.primary_for_claim is False
     assert route.canonical_surface is None
-    assert route.refit_population_generalization_claimed is False
-    assert "separate crossed" in route.reason
-    assert "must not borrow fixed-set" in route.reason
+    assert route.refit_population_generalization_claimed is True
+    assert "two-contrast" in route.reason
 
 
 def test_predeclared_training_process_external_requires_its_own_freeze_route():
