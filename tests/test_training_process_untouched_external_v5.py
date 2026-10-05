@@ -369,6 +369,64 @@ def test_managed_scoring_rejects_generated_model_byte_change(tmp_path):
         )
 
 
+def test_managed_scoring_rejects_scoring_code_byte_change(tmp_path):
+    process, roster, manifest, receipt, _ = _frozen(tmp_path)
+    (tmp_path / "score.py").write_text("raise SystemExit(0)\n", encoding="utf-8")
+    validation = _validation_data(tmp_path)
+    with pytest.raises(ValueError, match="command artifact bytes"):
+        run_managed_external_scoring_v1(
+            manifest,
+            receipt,
+            roster,
+            external_roster_format="csv",
+            managed_generation_receipt_path=process["managed_receipt"],
+            generated_model_root=process["generated_root"],
+            validation_data_path=validation,
+            output_root=tmp_path / "changed-code-output",
+            score_bundle_out=tmp_path / "changed-code-bundle.json",
+            scoring_receipt_out=tmp_path / "changed-code-receipt.json",
+        )
+
+
+def test_managed_scoring_rejects_invalid_score_output_schema(tmp_path):
+    process = _process(tmp_path)
+    roster = _external_rows(tmp_path)
+    # Freeze a deliberately malformed but predeclared scorer. The managed
+    # scoring layer must reject its output schema rather than trusting it.
+    (tmp_path / "score.py").write_text(
+        "import argparse, json\n"
+        "from pathlib import Path\n"
+        "p=argparse.ArgumentParser()\n"
+        "p.add_argument('--refit-id', required=True)\n"
+        "p.add_argument('--model-manifest', required=True)\n"
+        "p.add_argument('--validation-data', required=True)\n"
+        "p.add_argument('--scoring-spec', required=True)\n"
+        "p.add_argument('--output', required=True)\n"
+        "a=p.parse_args()\n"
+        "Path(a.output).write_text(json.dumps({"
+        "'refit_id':a.refit_id,'rows':[]})+'\\n')\n",
+        encoding="utf-8",
+    )
+    plan = _external_plan(tmp_path, process, roster)
+    manifest = tmp_path / "bad-schema-freeze.json"
+    receipt = tmp_path / "bad-schema-freeze-receipt.json"
+    create_training_process_v5_external_freeze(plan, manifest, receipt)
+    validation = _validation_data(tmp_path)
+    with pytest.raises(ValueError, match="row coverage"):
+        run_managed_external_scoring_v1(
+            manifest,
+            receipt,
+            roster,
+            external_roster_format="csv",
+            managed_generation_receipt_path=process["managed_receipt"],
+            generated_model_root=process["generated_root"],
+            validation_data_path=validation,
+            output_root=tmp_path / "bad-schema-output",
+            score_bundle_out=tmp_path / "bad-schema-bundle.json",
+            scoring_receipt_out=tmp_path / "bad-schema-receipt.json",
+        )
+
+
 def test_untouched_external_endpoint_uses_only_managed_score_bundle(tmp_path):
     process, roster, manifest, receipt, _ = _frozen(tmp_path)
     validation, bundle, scoring_receipt = _managed_scores(
