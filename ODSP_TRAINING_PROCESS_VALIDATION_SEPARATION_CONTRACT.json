@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-validation-separation-v1",
+  "frozen_date": "2026-10-05",
+  "purpose": "prove before validation-outcome access that the complete frozen training-unit support of a predeclared training-resampling process is disjoint from the declared validation-row support",
+  "stronger_than_realized_refit_overlap_check": true,
+  "definition": {
+    "training_support": "the complete unit roster from which every admissible v1 process refit resamples",
+    "validation_support": "a metadata-only roster containing exactly one declared validation row ID column",
+    "required_result": "set(training_unit_ids) intersect set(validation_row_ids) is empty",
+    "process_wide_consequence": "because every process refit samples only from the frozen training roster, zero support overlap implies zero training-validation row overlap for every possible refit draw from that frozen process",
+    "realized_refit_enumeration_required": false
+  },
+  "content_binding": {
+    "process_manifest_sha256_recorded": true,
+    "training_roster_file_sha256_must_match_manifest": true,
+    "training_roster_semantic_sha256_must_match_manifest": true,
+    "training_roster_row_and_stratum_counts_must_match_manifest": true,
+    "validation_roster_file_sha256_recorded": true,
+    "validation_row_id_semantic_sha256_recorded": true
+  },
+  "privacy_and_access_boundary": {
+    "validation_outcome_columns_allowed": false,
+    "validation_outcomes_read": false,
+    "overlapping_row_ids_emitted": false,
+    "training_unit_ids_emitted": false,
+    "validation_row_ids_emitted": false
+  },
+  "claim_boundary": {
+    "proves_training_and_validation_support_separation": true,
+    "proves_model_artifacts_followed_training_process": false,
+    "proves_validation_blocks_are_scientifically_exchangeable": false,
+    "proves_external_distribution_shift_robustness": false,
+    "reclassifies_fixed_set_results": false
+  }
+}
