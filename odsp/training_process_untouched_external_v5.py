@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+from datetime import datetime, timedelta
 import json
 from pathlib import Path
 import numpy as np
@@ -51,6 +52,8 @@ class UntouchedExternalTrainingProcessV5Certification:
     external_freeze_receipt_sha256: str
     external_design_sha256: str
     external_row_count: int
+    external_outcomes_first_accessed_at_utc: str
+    freeze_precedes_declared_first_outcome_access: bool
     training_process_id: str
     training_process_manifest_sha256: str
     managed_generation_receipt_sha256: str
@@ -82,6 +85,18 @@ def _text(value: object, *, name: str) -> str:
     if not isinstance(value, str) or not value.strip():
         raise ValueError(f"{name} must be non-empty text")
     return value.strip()
+
+
+def _utc_timestamp(value: object, *, name: str) -> tuple[str, datetime]:
+    text = _text(value, name=name)
+    parse_text = text[:-1] + "+00:00" if text.endswith("Z") else text
+    try:
+        stamp = datetime.fromisoformat(parse_text)
+    except ValueError as exc:
+        raise ValueError(f"{name} must be an ISO-8601 UTC timestamp") from exc
+    if stamp.tzinfo is None or stamp.utcoffset() != timedelta(0):
+        raise ValueError(f"{name} must include an explicit UTC offset")
+    return stamp.isoformat().replace("+00:00", "Z"), stamp
 
 
 def _manifest_fields(manifest: Mapping[str, object]) -> None:
@@ -218,6 +233,7 @@ def run_untouched_external_training_process_v5(
     training_process_manifest_path: str | Path,
     managed_generation_receipt_path: str | Path,
     training_roster_path: str | Path,
+    external_outcomes_first_accessed_at_utc: object,
 ) -> UntouchedExternalTrainingProcessV5Certification:
     """Run untouched external v5 only after exact pre-outcome semantic verification."""
 
@@ -255,6 +271,18 @@ def run_untouched_external_training_process_v5(
         manifest_path=freeze_manifest_path,
         manifest=manifest,
     )
+    frozen_text, frozen_at = _utc_timestamp(
+        manifest.get("frozen_at_utc"),
+        name="external freeze manifest.frozen_at_utc",
+    )
+    access_text, first_access = _utc_timestamp(
+        external_outcomes_first_accessed_at_utc,
+        name="external_outcomes_first_accessed_at_utc",
+    )
+    if not frozen_at < first_access:
+        raise ValueError(
+            "external freeze must strictly predate declared first external-outcome access"
+        )
 
     design_rows, block_counts = _runtime_design(
         validation_row_ids,
@@ -483,6 +511,8 @@ def run_untouched_external_training_process_v5(
         external_freeze_receipt_sha256=_file_sha256(freeze_receipt_path),
         external_design_sha256=design_sha,
         external_row_count=len(design_rows),
+        external_outcomes_first_accessed_at_utc=access_text,
+        freeze_precedes_declared_first_outcome_access=True,
         training_process_id=process_id,
         training_process_manifest_sha256=process_manifest_sha,
         managed_generation_receipt_sha256=managed_receipt_sha,
