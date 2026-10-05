@@ -75,6 +75,8 @@ _SCORING_FIELDS = {
     "command_artifacts",
     "timeout_seconds",
     "environment_allowlist",
+    "validation_data_format",
+    "validation_row_id_column",
 }
 _CERT_FIELDS = {
     "component_one_sided_alpha",
@@ -230,6 +232,15 @@ def _normalize_scoring(raw: object) -> dict[str, object]:
     timeout = raw["timeout_seconds"]
     if isinstance(timeout, bool) or not isinstance(timeout, int) or not 1 <= timeout <= 86400:
         raise ValueError("scoring.timeout_seconds must be an integer in [1, 86400]")
+    validation_data_format = _text(
+        raw["validation_data_format"], name="scoring.validation_data_format"
+    ).lower()
+    if validation_data_format not in {"csv", "json"}:
+        raise ValueError("scoring.validation_data_format must be csv or json")
+    validation_row_id_column = _text(
+        raw["validation_row_id_column"],
+        name="scoring.validation_row_id_column",
+    )
     allowlist_raw = raw["environment_allowlist"]
     if not isinstance(allowlist_raw, list):
         raise ValueError("scoring.environment_allowlist must be a JSON array")
@@ -245,6 +256,8 @@ def _normalize_scoring(raw: object) -> dict[str, object]:
         "command_artifacts": artifacts,
         "timeout_seconds": int(timeout),
         "environment_allowlist": allowlist,
+        "validation_data_format": validation_data_format,
+        "validation_row_id_column": validation_row_id_column,
     }
 
 
@@ -552,6 +565,8 @@ def create_training_process_v5_external_freeze(
             "command_artifact_snapshot": scoring_command_artifacts,
             "timeout_seconds": int(plan["scoring"]["timeout_seconds"]),
             "environment_allowlist": list(plan["scoring"]["environment_allowlist"]),
+            "validation_data_format": plan["scoring"]["validation_data_format"],
+            "validation_row_id_column": plan["scoring"]["validation_row_id_column"],
             "runtime_environment_snapshot": scoring_runtime,
         },
         "score": plan["score"],
