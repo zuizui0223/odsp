@@ -90,6 +90,33 @@ held-out transferability  = E_heldout[log P_model(A|B) - log P_model(A)]
 
 The transferability core deliberately performs no hidden smoothing. Any smoothing or pseudocount rule must be declared upstream before held-out outcomes are opened. Known-truth tests include thick but unorganized support, stable organization with positive held-out gain, and shifted organization with negative held-out gain.
 
+## Training-process uncertainty versus fixed-set robustness
+
+ODSP now keeps two upstream-refit questions explicitly separate.
+
+A **fixed supplied refit set** supports an intersection claim: every supplied
+refit must pass. A **prospectively frozen training-resampling process** supports
+a different estimand: the mean held-out directional gain over that stochastic
+refitting process, conditional on the frozen empirical training source.
+
+The qualified training-process route is deliberately narrow: one-sided
+independent-group inference for an ordered two-contrast filtration. Its canonical
+internal surface verifies the frozen process manifest, ODSP-managed model
+generation and whole-source-frame training/validation separation before invoking
+the qualified two-term CV3(2) intersection-union test. A separate qualified
+untouched-external endpoint freezes row/group/block/weight metadata before
+outcome access, derives scores through managed model-to-score execution, and
+then calls the unchanged internal provenance-verifying wrapper.
+
+The route does **not** claim that all possible refits are positive, estimate the
+success probability of an individual future refit, or generalize over repeated
+draws of the original ecological training dataset. Existing fixed-set and
+historical empirical results are unchanged.
+
+See
+[`docs/training_process_v5_confirmatory_chain.md`](docs/training_process_v5_confirmatory_chain.md)
+for the complete internal-to-external chain and its qualification boundaries.
+
 ## Temporal thickness versus temporal partitioning
 
 Time is not treated as a special side analysis. It is an added niche axis with a separate identity-partition question.
