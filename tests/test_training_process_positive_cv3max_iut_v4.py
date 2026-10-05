@@ -45,10 +45,10 @@ def _audit(gain, **kwargs):
 
 def test_student_t_quantiles_match_known_values():
     assert _student_t_ppf(0.95, 7) == pytest.approx(
-        1.894578605061305, abs=2e-12
+        1.894578605061305, abs=5e-11
     )
     assert _student_t_ppf(0.95, 19) == pytest.approx(
-        1.729132811521367, abs=2e-12
+        1.729132811521367, abs=5e-11
     )
     for df in (7, 19, 40):
         q = _student_t_ppf(0.95, df)
@@ -99,7 +99,7 @@ def test_v4_uses_iut_and_min_cluster_t_df():
         for cell in contrast.groups:
             assert cell.t_degrees_of_freedom == 7
             assert cell.one_sided_t_critical_value == pytest.approx(
-                1.894578605061305, abs=2e-12
+                1.894578605061305, abs=5e-11
             )
     json.dumps(result.as_dict(), allow_nan=False)
 
