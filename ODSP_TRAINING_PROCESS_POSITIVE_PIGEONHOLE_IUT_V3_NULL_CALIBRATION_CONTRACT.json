@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-positive-pigeonhole-iut-v3-null-calibration",
+  "frozen_date": "2026-10-05",
+  "generator_version": "crossed_training_process_pigeonhole_iut_component_null_c2_v3",
+  "seed": 20261009,
+  "simulations_per_scenario": 1000,
+  "bootstrap_draws_per_interval": 500,
+  "group_count": 6,
+  "contrast_count": 2,
+  "component_lower_confidence_level": 0.95,
+  "training_cross_cell_correlation": 0.35,
+  "contrast_correlation": 0.5,
+  "scenario_family": "same six crossed scenarios frozen for v1 and v2",
+  "acceptance_rule": {
+    "component_nominal_alpha": 0.05,
+    "maximum_accepted_component_rate_formula": "alpha + 2*sqrt(alpha*(1-alpha)/1000)",
+    "maximum_accepted_component_rate": 0.06378404875209022,
+    "every_component_in_every_scenario_must_pass": true,
+    "any_cell_false_positive_rate_is_diagnostic_only": true,
+    "terminal_all_null_false_generalizing_rate_is_diagnostic_only": true
+  },
+  "prequalification_history": {
+    "v1_and_v2_results_known": true,
+    "v3_results_observed_before_this_freeze": false,
+    "acceptance_threshold_tuned_to_v3_results": false
+  }
+}
