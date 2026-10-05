@@ -229,9 +229,12 @@ def test_predeclared_training_process_external_c2_routes_to_qualified_v5_endpoin
         "run_untouched_external_training_process_v5"
     )
     assert route.qualification_key is not None
-    assert route.qualification_evidence[-2:] == (
+    assert route.qualification_evidence[-5:] == (
         "TRAINING_PROCESS_V5_EXTERNAL_FOCUSED_ENDPOINT_RECEIPT_V2.json",
         "TRAINING_PROCESS_V5_EXTERNAL_ENDPOINT_IDENTITY_RECEIPT_V2.json",
+        "ODSP_TRAINING_PROCESS_V5_EXTERNAL_ROUTE_PROMOTION_CONTRACT.json",
+        "TRAINING_PROCESS_V5_EXTERNAL_EVIDENCE_HASH_RECEIPT.json",
+        "ODSP_TRAINING_PROCESS_V5_EXTERNAL_REGISTRATION_CORRECTION_CONTRACT.json",
     )
 
 
