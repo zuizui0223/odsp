@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-validation-frame-provenance-v1",
+  "frozen_date": "2026-10-05",
+  "purpose": "require the entire frozen training-resampling source frame, not merely the realized refit memberships, to be disjoint from the validation target before training-process inference",
+  "identity_requirement": {
+    "shared_row_identity_namespace_required": true,
+    "training_and_validation_ids_must_be_comparable_in_same_namespace": true,
+    "automatic_crosswalk_inference": false
+  },
+  "training_frame_requirement": {
+    "frozen_training_roster_file_hash_verified": true,
+    "frozen_training_roster_semantic_hash_verified": true,
+    "entire_source_frame_checked": true,
+    "only_realized_bootstrap_memberships_checked": false,
+    "reason": "an unsampled source-frame unit can appear in a future draw from the declared training process"
+  },
+  "validation_requirement": {
+    "validation_row_ids_unique": true,
+    "validation_outcomes_required": false,
+    "validation_outcomes_emitted": false,
+    "overlapping_row_ids_emitted": false
+  },
+  "decision": {
+    "zero_overlap": "training_source_frame_validation_disjoint",
+    "positive_overlap": "training_source_frame_validation_leakage",
+    "confirmatory_process_route_requires_zero_overlap": true
+  },
+  "claim_boundary": {
+    "disjoint_ids_prove_all_forms_of_data_independence": false,
+    "identity_namespace_correctness_inferred": false,
+    "training_process_quality_inferred": false,
+    "fixed_set_results_reclassified": false,
+    "historical_empirical_endpoints_reclassified": false
+  }
+}
