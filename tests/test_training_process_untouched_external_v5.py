@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+from datetime import datetime, timedelta
 import json
 from pathlib import Path
 
@@ -242,6 +243,19 @@ def _runtime_design():
     return tuple(groups), tuple(blocks), tuple(row_ids), tuple(weights)
 
 
+def _first_access_after_freeze(manifest_path: Path) -> str:
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    value = str(manifest["frozen_at_utc"])
+    parsed = datetime.fromisoformat(
+        value[:-1] + "+00:00" if value.endswith("Z") else value
+    )
+    return (
+        (parsed + timedelta(seconds=1))
+        .isoformat()
+        .replace("+00:00", "Z")
+    )
+
+
 def _validation_data(tmp_path: Path, *, drop_last: bool = False) -> Path:
     _, _, row_ids, _ = _runtime_design()
     ids = list(row_ids[:-1] if drop_last else row_ids)
@@ -468,6 +482,7 @@ def test_untouched_external_endpoint_uses_only_managed_score_bundle(tmp_path):
         training_process_manifest_path=process["manifest"],
         managed_generation_receipt_path=process["managed_receipt"],
         training_roster_path=process["training_roster"],
+        external_outcomes_first_accessed_at_utc=_first_access_after_freeze(manifest),
     )
     assert result.receipt_type == EXTERNAL_RECEIPT_TYPE
     assert result.freeze_manifest_semantics_verified is True
@@ -478,6 +493,8 @@ def test_untouched_external_endpoint_uses_only_managed_score_bundle(tmp_path):
     assert result.implementation_source_snapshot_verified is True
     assert result.runtime_environment_snapshot_verified is True
     assert result.training_source_frame_validation_disjoint is True
+    assert result.freeze_precedes_declared_first_outcome_access is True
+    assert result.external_outcomes_first_accessed_at_utc == _first_access_after_freeze(manifest)
     assert (
         result.certification.certification.process_mean_certified_transfer_ceiling
         == "fine"
@@ -509,6 +526,7 @@ def test_runtime_weight_or_block_change_is_rejected_before_inference(tmp_path):
             training_process_manifest_path=process["manifest"],
             managed_generation_receipt_path=process["managed_receipt"],
             training_roster_path=process["training_roster"],
+            external_outcomes_first_accessed_at_utc=_first_access_after_freeze(manifest),
         )
 
 
@@ -549,6 +567,7 @@ def test_manifest_and_receipt_coedit_cannot_change_qualification_route(tmp_path)
             training_process_manifest_path=process["manifest"],
             managed_generation_receipt_path=process["managed_receipt"],
             training_roster_path=process["training_roster"],
+            external_outcomes_first_accessed_at_utc=_first_access_after_freeze(manifest_path),
         )
 
 
@@ -562,4 +581,30 @@ def test_freeze_manifest_and_receipt_are_non_overwriting(tmp_path):
     with pytest.raises(FileExistsError):
         create_training_process_v5_external_freeze(
             plan, manifest, tmp_path / "other-receipt.json"
+        )
+
+
+def test_external_endpoint_rejects_nonprospective_declared_first_access(tmp_path):
+    process, roster, manifest, receipt, _ = _frozen(tmp_path)
+    validation, bundle, scoring_receipt = _managed_scores(
+        tmp_path, process, roster, manifest, receipt
+    )
+    groups, blocks, row_ids, weights = _runtime_design()
+    frozen = json.loads(manifest.read_text(encoding="utf-8"))["frozen_at_utc"]
+    with pytest.raises(ValueError, match="strictly predate"):
+        run_untouched_external_training_process_v5(
+            manifest,
+            receipt,
+            scoring_receipt,
+            bundle,
+            validation,
+            groups,
+            blocks=blocks,
+            validation_row_ids=row_ids,
+            sample_weight=weights,
+            refit_ids=process["refit_ids"],
+            training_process_manifest_path=process["manifest"],
+            managed_generation_receipt_path=process["managed_receipt"],
+            training_roster_path=process["training_roster"],
+            external_outcomes_first_accessed_at_utc=frozen,
         )
