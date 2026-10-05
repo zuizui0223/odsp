@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "receipt_type": "odsp_training_process_v5_qualification_identity_v1",
+  "date": "2026-10-05",
+  "first_snapshot_run": {
+    "github_actions_run_id": 37263306780,
+    "github_actions_job_id": 111614823535,
+    "head_sha": "ce1e21064fc95d1c14c11c8bbf7495895796229c",
+    "runner": "ubuntu-24.04",
+    "python_setup": "3.12"
+  },
+  "canonical_surface": "odsp.training_process_confirmatory_v5.certify_predeclared_training_process_positive_information_v5",
+  "implementation_lock_id": "odsp-confirmatory-implementation-lock-v1",
+  "implementation_source_snapshot": [
+    {"path":"odsp/bootstrap_t.py","sha256":"76923c6d7917df18ec9d9e0cf2cd294705490ce0c3ccc19fcb8b01bf6a4a700e"},
+    {"path":"odsp/information_transfer.py","sha256":"475ccf1cc3dc9ceaab398f6df82527855f3154e90513110ff75e24a369517ee4"},
+    {"path":"odsp/information_transfer_contract.py","sha256":"bf953031a3637a60ec6e3997158b0e0df95112bb082b8475cf0583c6077a7f30"},
+    {"path":"odsp/multicontrast_bootstrap_t.py","sha256":"021f6d62bd710617fd2655c855beb1859843a3462babc013e9bfe631fbd0736a"},
+    {"path":"odsp/population_transfer.py","sha256":"3fca9827991212aababb70a9ef1ae856be0648ff76fc2b43bca428bcd9182efd"},
+    {"path":"odsp/positive_transfer_bootstrap_t.py","sha256":"40a14f1ab96ec88f5681626f42fcc537e62804452edc7b79f43a73f2e78cbefb"},
+    {"path":"odsp/predictive_resolution.py","sha256":"65d0f520dfbfd5abf4eacc05e97ffb8aa4aaa137b3dc35f3583a45343e8b021e"},
+    {"path":"odsp/predictive_resolution_certification.py","sha256":"40187651ebe91e882eaba99a40e7d5e8ea964b81bf4437fc70944fbd9dddfe3b"},
+    {"path":"odsp/refit_information_transfer.py","sha256":"e21bffebb946c9905334ad506104dd57981bdd08377457c5ed65182ee7b413e8"},
+    {"path":"odsp/training_process_confirmatory_v5.py","sha256":"6e0d59726c57ec66d0fbe7c71fe04ffb03922531a80dd6341038389f308443a1"},
+    {"path":"odsp/training_process_freeze_manifest.py","sha256":"00a1d9af21402b87b2dceeb8a93c8a42039b9c75313cbb852d951f3f42fbd23e"},
+    {"path":"odsp/training_process_managed_generation.py","sha256":"4166265d17d0b706442f39c9c07d57327a311b65d0888b57f18db6bd84aa36a6"},
+    {"path":"odsp/training_process_positive_cv3max_iut.py","sha256":"d3d6d4e16534b915ee928ce8c59e36d6d6681960730ccaebd46d0948e389e617"},
+    {"path":"odsp/training_process_positive_cv3two_iut.py","sha256":"a729b6e40c083dad040b5632775470248d23eac572544a700a61d073455f609d"},
+    {"path":"odsp/training_process_positive_transfer.py","sha256":"9e96b9cd0fbf96b59e62a47a1a00dfe1165bd2cdd24de79062fe3eec178bf0fb"},
+    {"path":"odsp/training_process_validation_provenance.py","sha256":"0abcff4aae0bfc79f9b82ea817f1855251c90b8a22f784a1a0154ef69738b51e"},
+    {"path":"odsp/transferability.py","sha256":"a9763903d7fd97bb772d4c4a853c4f41070fe12e034cc432b56e5c2c16c29e64"}
+  ],
+  "runtime_environment_lock_id": "odsp-confirmatory-runtime-environment-lock-v1",
+  "runtime_environment_snapshot": {
+    "python": {"implementation":"cpython","major":3,"minor":12,"micro":14},
+    "external_modules": ["numpy"],
+    "distributions": [{"name":"numpy","version":"2.5.3"}]
+  },
+  "summary": {
+    "implementation_snapshot_frozen": true,
+    "runtime_environment_snapshot_frozen": true,
+    "canonical_surface_identity_frozen": true
+  },
+  "boundary": {
+    "external_library_source_code_frozen": false,
+    "operating_system_package_versions_frozen": false,
+    "blas_identity_frozen": false,
+    "bitwise_reproducibility_claimed": false
+  }
+}
