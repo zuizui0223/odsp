@@ -13,7 +13,14 @@ on:
       - 'tests/test_training_process_v5_qualification_identity_receipt.py'
       - 'ODSP_TRAINING_PROCESS_V5_QUALIFICATION_IDENTITY_CONTRACT.json'
       - 'TRAINING_PROCESS_V5_QUALIFICATION_IDENTITY_RECEIPT.json'
+      - 'ODSP_TRAINING_PROCESS_POSITIVE_CV3TWO_IUT_V5_CONTRACT.json'
+      - 'TRAINING_PROCESS_POSITIVE_CV3TWO_IUT_V5_QUALIFICATION_RECEIPT.json'
+      - 'TRAINING_PROCESS_CV3TWO_V5_SUPPORT_ENVELOPE_RECEIPT.json'
+      - 'ODSP_TRAINING_PROCESS_MANAGED_GENERATION_CONTRACT.json'
+      - 'ODSP_TRAINING_PROCESS_VALIDATION_FRAME_PROVENANCE_CONTRACT.json'
+      - 'ODSP_TRAINING_PROCESS_V5_PRIMARY_PROMOTION_GATE.json'
       - 'scripts/run_training_process_v5_qualification_identity.py'
+      - 'scripts/run_training_process_v5_evidence_hashes.py'
       - '.github/workflows/training-process-v5-qualification-identity.yml'
   workflow_dispatch:
 
@@ -54,3 +61,5 @@ jobs:
               assert observed[field] == frozen[field], field
           print('TRAINING_PROCESS_V5_IDENTITY_MATCHES_FROZEN_RECEIPT=true')
           PY
+      - name: Snapshot frozen v5 evidence artifact hashes
+        run: python scripts/run_training_process_v5_evidence_hashes.py
