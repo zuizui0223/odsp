@@ -174,6 +174,16 @@ def _external_plan(tmp_path: Path, process, roster: Path) -> Path:
     return path
 
 
+def _score_contract():
+    return {
+        "kind": "proper_score",
+        "name": "log",
+        "orientation": "higher_is_better",
+        "common_scoring_rule": True,
+        "common_reference_measure": True,
+    }
+
+
 def _runtime_scores():
     row_ids, groups, blocks, weights = [], [], [], []
     for g in range(2):
@@ -253,6 +263,7 @@ def test_untouched_external_endpoint_runs_only_after_exact_semantic_match(tmp_pa
         blocks=blocks,
         validation_row_ids=row_ids,
         sample_weight=weights,
+        score_contract=_score_contract(),
         refit_ids=process["refit_ids"],
         training_process_manifest_path=process["manifest"],
         managed_generation_receipt_path=process["managed_receipt"],
@@ -285,6 +296,7 @@ def test_runtime_weight_or_block_change_is_rejected_before_inference(tmp_path):
             blocks=blocks,
             validation_row_ids=row_ids,
             sample_weight=changed_weights,
+            score_contract=_score_contract(),
             refit_ids=process["refit_ids"],
             training_process_manifest_path=process["manifest"],
             managed_generation_receipt_path=process["managed_receipt"],
@@ -302,6 +314,7 @@ def test_runtime_weight_or_block_change_is_rejected_before_inference(tmp_path):
             blocks=changed_blocks,
             validation_row_ids=row_ids,
             sample_weight=weights,
+            score_contract=_score_contract(),
             refit_ids=process["refit_ids"],
             training_process_manifest_path=process["manifest"],
             managed_generation_receipt_path=process["managed_receipt"],
@@ -337,6 +350,7 @@ def test_manifest_and_receipt_coedit_cannot_change_qualification_route(tmp_path)
             blocks=blocks,
             validation_row_ids=row_ids,
             sample_weight=weights,
+            score_contract=_score_contract(),
             refit_ids=process["refit_ids"],
             training_process_manifest_path=process["manifest"],
             managed_generation_receipt_path=process["managed_receipt"],
