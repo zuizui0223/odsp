@@ -44,7 +44,7 @@ def main() -> None:
             sort_keys=True,
         )
     )
-    if a.require_pass and not result.qualification_pass: raise SystemExit(1)
+    if args.require_pass and not result.qualification_pass: raise SystemExit(1)
 
 
 if __name__ == "__main__":
