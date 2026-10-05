@@ -5,7 +5,9 @@ on:
     paths:
       - 'odsp/training_process_cv3two_v5_support.py'
       - 'tests/test_training_process_cv3two_v5_support.py'
+      - 'tests/test_training_process_cv3two_v5_support_receipt.py'
       - 'ODSP_TRAINING_PROCESS_CV3TWO_V5_SUPPORT_ENVELOPE_CONTRACT.json'
+      - 'TRAINING_PROCESS_CV3TWO_V5_SUPPORT_ENVELOPE_RECEIPT.json'
       - 'scripts/run_training_process_cv3two_v5_support.py'
       - '.github/workflows/training-process-cv3two-v5-support-envelope.yml'
   workflow_dispatch:
@@ -22,11 +24,23 @@ jobs:
           python-version: '3.12'
       - name: Install
         run: python -m pip install -e '.[dev]'
-      - name: Test support generator
-        run: python -m pytest -q tests/test_training_process_cv3two_v5_support.py
-      - name: Run frozen support envelope
+      - name: Test support generator and receipt
+        run: >-
+          python -m pytest -q
+          tests/test_training_process_cv3two_v5_support.py
+          tests/test_training_process_cv3two_v5_support_receipt.py
+          tests/test_training_process_v5_primary_promotion_gate.py
+      - name: Replay frozen support envelope
         run: |
           python scripts/run_training_process_cv3two_v5_support.py             --output /tmp/v5-support.json --seed 20261015 --simulations 1000
-          echo V5_SUPPORT_BEGIN
-          cat /tmp/v5-support.json
-          echo V5_SUPPORT_END
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          observed=json.loads(Path('/tmp/v5-support.json').read_text())
+          frozen=json.loads(Path('TRAINING_PROCESS_CV3TWO_V5_SUPPORT_ENVELOPE_RECEIPT.json').read_text())
+          actual={row['scenario_id']: row['maximum_component_false_positive_rate'] for row in observed['scenarios']}
+          assert observed['qualification_pass'] is True
+          assert actual == frozen['scenarios'], (actual, frozen['scenarios'])
+          assert max(actual.values()) == frozen['acceptance']['largest_observed_component_rate']
+          print('V5_SUPPORT_MATCHES_FROZEN_RECEIPT=true')
+          PY
