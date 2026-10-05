@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "receipt_type": "odsp_training_process_v5_external_evidence_chronology_clarification_v1",
+  "date": "2026-10-05",
+  "purpose": "disambiguate pre-registration hash embedding from post-merge independent hash replay for the process-v5 untouched-external route",
+  "chronology": [
+    {
+      "time_utc": "2026-10-05T11:53:48Z",
+      "commit": "5827ec08",
+      "event": "exact SHA256 values for all ten external route evidence artifacts embedded in confirmatory_route_evidence.py on the registration branch"
+    },
+    {
+      "time_utc": "2026-10-05T11:54:12Z",
+      "commit": "2fa66d1a",
+      "event": "route evidence registry v5 frozen on the registration branch"
+    },
+    {
+      "time_utc": "2026-10-05T11:54:59Z",
+      "commit": "18646acf",
+      "event": "process-v5 untouched-external c2 routing changed to primary on the registration branch"
+    },
+    {
+      "time_utc": "2026-10-05T11:59:18Z",
+      "commit": "051c80eb",
+      "event": "separate six-artifact final evidence hash replay plan frozen on the base branch before registration PR merge"
+    },
+    {
+      "time_utc": "2026-10-05T12:01:15Z",
+      "commit": "94a89f0b",
+      "event": "registration PR 203 merged into method/training-process-positive-v1"
+    },
+    {
+      "time_utc": "2026-10-05T12:02:42Z",
+      "commit": "b44ef08c",
+      "event": "standalone final external evidence hash receipt frozen after independent replay confirmed the same final artifact hashes"
+    }
+  ],
+  "interpretation": {
+    "exact_route_evidence_hashes_existed_before_route_promotion_commit": true,
+    "exact_route_evidence_hashes_existed_before_registration_merge": true,
+    "standalone_independent_hash_replay_completed_before_registration_merge": false,
+    "standalone_independent_hash_replay_completed_after_registration_merge": true,
+    "post_merge_replay_matched_pre_registration_registry_hashes": true,
+    "route_evidence_artifacts_changed_to_make_replay_pass": false
+  },
+  "boundary": {
+    "this_receipt_changes_route_evidence_chain": false,
+    "this_receipt_changes_statistical_qualification": false,
+    "this_receipt_reclassifies_historical_results": false,
+    "purpose_is_chronology_clarity_only": true
+  }
+}
