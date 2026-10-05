@@ -10,6 +10,7 @@ on:
       - 'ODSP_TRAINING_PROCESS_POSITIVE_PIGEONHOLE_IUT_V3_CONTRACT.json'
       - 'ODSP_TRAINING_PROCESS_POSITIVE_PIGEONHOLE_IUT_V3_NULL_CALIBRATION_CONTRACT.json'
       - 'scripts/run_training_process_positive_pigeonhole_iut_v3_null_calibration.py'
+      - 'TRAINING_PROCESS_POSITIVE_PIGEONHOLE_IUT_V3_QUALIFICATION_RECEIPT.json'
       - '.github/workflows/training-process-positive-pigeonhole-iut-v3-null.yml'
   workflow_dispatch:
 
@@ -38,3 +39,15 @@ jobs:
           echo V3_NULL_BEGIN
           cat /tmp/v3-null.json
           echo V3_NULL_END
+      - name: Match frozen failed qualification receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          observed=json.loads(Path('/tmp/v3-null.json').read_text())
+          frozen=json.loads(Path('TRAINING_PROCESS_POSITIVE_PIGEONHOLE_IUT_V3_QUALIFICATION_RECEIPT.json').read_text())
+          actual={row['scenario_id']:row['maximum_component_false_positive_rate'] for row in observed['scenarios']}
+          assert observed['qualification_pass'] is False
+          assert actual == frozen['null_run']['maximum_component_false_positive_rate_by_scenario'], (actual, frozen['null_run'])
+          print('V3_NULL_FAILURE_MATCHES_FROZEN_RECEIPT=true')
+          PY
