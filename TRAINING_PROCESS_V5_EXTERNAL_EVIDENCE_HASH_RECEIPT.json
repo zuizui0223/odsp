@@ -34,6 +34,15 @@
     "repository_bytes_independently_hashed_before_registration": true,
     "ci_replay_required": true,
     "statistical_results_recomputed": false,
-    "route_registered_before_hash_snapshot": false
+    "route_registered_before_hash_snapshot": false,
+    "official_ci_replay_passed": true
+  },
+  "official_ci_replay": {
+    "github_actions_run_id": 37306487541,
+    "github_actions_job_id": 111751304414,
+    "head_sha": "6bca0c543e746fcd07a152ea7792d4dc17ddb496",
+    "completed_at_utc": "2026-10-05T12:02:58Z",
+    "conclusion": "success",
+    "exact_hash_match": true
   }
 }
