@@ -24,12 +24,14 @@ CONTRACTS = (
     "ODSP_TRAINING_PROCESS_V5_UNTOUCHED_EXTERNAL_FREEZE_CONTRACT_V2.json",
     "ODSP_TRAINING_PROCESS_V5_MANAGED_EXTERNAL_SCORING_CONTRACT.json",
     "ODSP_TRAINING_PROCESS_V5_EXTERNAL_PROMOTION_GATE.json",
+    "ODSP_TRAINING_PROCESS_V5_EXTERNAL_PROMOTION_GATE_V2.json",
+    "ODSP_TRAINING_PROCESS_V5_EXTERNAL_ENDPOINT_IDENTITY_CONTRACT_V2.json",
 )
 
 
 def build_snapshot() -> dict[str, object]:
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "canonical_surface": EXTERNAL_SURFACE,
         "implementation_lock_id": IMPLEMENTATION_LOCK_ID,
         "implementation_source_snapshot": [
