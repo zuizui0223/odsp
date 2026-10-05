@@ -14,9 +14,13 @@ def test_process_external_freeze_locks_full_validation_design():
 
 def test_external_freeze_targets_provenance_verifying_v5_wrapper():
     p=json.loads(CONTRACT.read_text(encoding="utf-8"))
-    assert p["method_identity"]["canonical_surface"] == (
+    assert p["method_identity"]["internal_qualified_surface"] == (
         "odsp.training_process_confirmatory_v5."
         "certify_predeclared_training_process_positive_information_v5"
+    )
+    assert p["method_identity"]["external_endpoint_surface"] == (
+        "odsp.training_process_untouched_external_v5."
+        "run_untouched_external_training_process_v5"
     )
     assert p["method_identity"]["qualification_registry"] == (
         "odsp-confirmatory-route-evidence-v4"
