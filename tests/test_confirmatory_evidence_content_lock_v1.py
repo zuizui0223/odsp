@@ -123,20 +123,17 @@ def test_snapshot_builder_fails_closed_when_route_evidence_digest_is_missing(mon
         qualification_evidence_artifacts_for_route_key(key)
 
 
-def test_historical_v5_registry_matches_current_evidence_content():
-    payload = json.loads(REGISTRY_V5.read_text(encoding="utf-8"))
-    assert payload["schema_version"] == 5
-    assert payload["registry_id"] == "odsp-confirmatory-route-evidence-v5"
-    assert payload["evidence_by_route_key"] == {
-        key: list(value)
-        for key, value in sorted(CONFIRMATORY_EVIDENCE_BY_ROUTE_KEY.items())
-    }
-    assert payload["artifact_sha256"] == dict(
-        sorted(QUALIFICATION_EVIDENCE_SHA256_BY_ARTIFACT.items())
-    )
-    assert payload["governance"]["artifact_content_identity_frozen"] is True
-    assert payload["governance"]["same_filename_changed_content_detected"] is True
-    assert payload["governance"]["registry_v4_retained_for_historical_provenance"] is True
+def test_historical_v5_registry_is_retained_without_rewrite():
+    old = json.loads(REGISTRY_V5.read_text(encoding="utf-8"))
+    new = json.loads(REGISTRY_V6.read_text(encoding="utf-8"))
+    assert old["schema_version"] == 5
+    assert old["registry_id"] == "odsp-confirmatory-route-evidence-v5"
+    assert old["governance"]["artifact_content_identity_frozen"] is True
+    assert old["governance"]["same_filename_changed_content_detected"] is True
+    for key, chain in old["evidence_by_route_key"].items():
+        assert new["evidence_by_route_key"][key][: len(chain)] == chain
+    for artifact, digest in old["artifact_sha256"].items():
+        assert new["artifact_sha256"][artifact] == digest
 
 
 def test_v4_registry_is_retained_for_historical_provenance():
