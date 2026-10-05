@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-v5-primary-promotion-gate-v1",
+  "frozen_date": "2026-10-05",
+  "candidate_surface": "odsp.training_process_positive_cv3two_iut.certify_training_process_positive_information_cv3two_iut_v5",
+  "prospective_route": {
+    "alternative": "greater",
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "contrast_count": 2,
+    "upstream_refits": "predeclared_training_process",
+    "external_validation": "none"
+  },
+  "statistical_evidence_required": [
+    "official frozen v5 base null qualification pass",
+    "official frozen v5 base power qualification pass",
+    "official frozen v5 adversarial support-envelope pass"
+  ],
+  "process_provenance_required": [
+    "non-overwriting content-locked training-process freeze manifest",
+    "exact generated-refit schedule and model-byte generation receipt",
+    "entire frozen training source frame disjoint from validation rows in one declared identity namespace"
+  ],
+  "implementation_and_environment_required": [
+    "recursive ODSP implementation source-content snapshot for the v5 canonical surface",
+    "Python and referenced third-party distribution version snapshot",
+    "exact qualification-evidence artifact SHA256 registry"
+  ],
+  "claim_boundary": {
+    "estimand": "process mean conditional on frozen training source",
+    "fixed_set_intersection_reclassified": false,
+    "historical_empirical_endpoint_reclassified": false,
+    "probability_individual_future_refit_passes_claimed": false,
+    "all_future_refits_positive_claimed": false,
+    "original_training_source_population_generalization_claimed": false
+  },
+  "promotion_rule": {
+    "all_required_evidence_must_exist_and_pass": true,
+    "route_registry_update_must_occur_after_evidence_freeze": true,
+    "surface_name_alone_establishes_primary_status": false,
+    "raw_numeric_v5_api_without_process_provenance_is_primary": false,
+    "untouched_external_validation_opened_by_internal_promotion": false
+  },
+  "external_boundary": {
+    "separate_process_specific_pre_outcome_external_freeze_required": true,
+    "external_row_group_block_weight_metadata_must_be_frozen_before_outcomes": true,
+    "external_outcome_access_before_freeze_allowed": false
+  }
+}
