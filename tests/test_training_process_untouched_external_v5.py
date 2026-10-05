@@ -186,7 +186,7 @@ def _external_plan(tmp_path: Path, process, roster: Path) -> Path:
             "stratum_column": "stratum",
         },
         "score": {
-            "kind": "proper_score",
+            "kind": "log",
             "name": "log",
             "orientation": "higher_is_better",
             "common_scoring_rule": True,
@@ -301,6 +301,21 @@ def test_external_freeze_is_outcome_free_and_binds_scoring_identity(tmp_path):
     assert receipt_path.is_file()
     assert process["manifest"].is_file()
     assert roster.is_file()
+
+
+def test_external_freeze_rejects_lower_is_better_score_semantics(tmp_path):
+    process = _process(tmp_path)
+    roster = _external_rows(tmp_path)
+    plan_path = _external_plan(tmp_path, process, roster)
+    plan = json.loads(plan_path.read_text(encoding="utf-8"))
+    plan["score"]["orientation"] = "lower_is_better"
+    plan_path.write_text(json.dumps(plan), encoding="utf-8")
+    with pytest.raises(ValueError, match="higher_is_better"):
+        create_training_process_v5_external_freeze(
+            plan_path,
+            tmp_path / "wrong-score-manifest.json",
+            tmp_path / "wrong-score-receipt.json",
+        )
 
 
 def test_external_freeze_rejects_source_frame_overlap(tmp_path):
