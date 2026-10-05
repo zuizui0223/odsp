@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-source-process-v0-base-calibration",
+  "frozen_date": "2026-10-06",
+  "method_version": "training_source_process_positive_iut_v0",
+  "generator_version": "nested_source_refit_x_validation_c2_v0",
+  "common": {
+    "group_count": 6,
+    "contrast_count": 2,
+    "component_one_sided_alpha": 0.05,
+    "source_cross_cell_correlation": 0.35,
+    "inner_refit_cross_cell_correlation": 0.35,
+    "contrast_correlation": 0.5,
+    "true_null_process_mean_gain": 0.0
+  },
+  "scenarios": [
+    {
+      "scenario_id": "balanced-normal-s8-r8-b8",
+      "distribution": "normal",
+      "source_draw_count": 8,
+      "inner_refit_count": 8,
+      "blocks_per_group": 8,
+      "source_sd": 0.5,
+      "inner_refit_sd": 0.5,
+      "validation_sd": 0.5,
+      "source_validation_interaction_sd": 0.5,
+      "inner_validation_interaction_sd": 0.5
+    },
+    {
+      "scenario_id": "source-dominant-normal-s8-r20-b20",
+      "distribution": "normal",
+      "source_draw_count": 8,
+      "inner_refit_count": 20,
+      "blocks_per_group": 20,
+      "source_sd": 0.8,
+      "inner_refit_sd": 0.2,
+      "validation_sd": 0.2,
+      "source_validation_interaction_sd": 0.3,
+      "inner_validation_interaction_sd": 0.2
+    },
+    {
+      "scenario_id": "inner-dominant-normal-s20-r8-b20",
+      "distribution": "normal",
+      "source_draw_count": 20,
+      "inner_refit_count": 8,
+      "blocks_per_group": 20,
+      "source_sd": 0.2,
+      "inner_refit_sd": 0.8,
+      "validation_sd": 0.2,
+      "source_validation_interaction_sd": 0.2,
+      "inner_validation_interaction_sd": 0.5
+    },
+    {
+      "scenario_id": "validation-dominant-normal-s20-r20-b8",
+      "distribution": "normal",
+      "source_draw_count": 20,
+      "inner_refit_count": 20,
+      "blocks_per_group": 8,
+      "source_sd": 0.2,
+      "inner_refit_sd": 0.2,
+      "validation_sd": 0.8,
+      "source_validation_interaction_sd": 0.3,
+      "inner_validation_interaction_sd": 0.2
+    },
+    {
+      "scenario_id": "interaction-dominant-normal-s8-r8-b8",
+      "distribution": "normal",
+      "source_draw_count": 8,
+      "inner_refit_count": 8,
+      "blocks_per_group": 8,
+      "source_sd": 0.1,
+      "inner_refit_sd": 0.1,
+      "validation_sd": 0.1,
+      "source_validation_interaction_sd": 0.9,
+      "inner_validation_interaction_sd": 0.7
+    },
+    {
+      "scenario_id": "balanced-t3-s8-r8-b20",
+      "distribution": "student_t3",
+      "source_draw_count": 8,
+      "inner_refit_count": 8,
+      "blocks_per_group": 20,
+      "source_sd": 0.5,
+      "inner_refit_sd": 0.5,
+      "validation_sd": 0.5,
+      "source_validation_interaction_sd": 0.5,
+      "inner_validation_interaction_sd": 0.5
+    }
+  ],
+  "null_run": {
+    "seed": 20261016,
+    "simulations_per_scenario": 1000,
+    "maximum_accepted_component_rate_formula": "alpha + 2*sqrt(alpha*(1-alpha)/1000)",
+    "maximum_accepted_component_rate": 0.06378404875209022,
+    "every_component_in_every_scenario_must_pass": true
+  },
+  "power_run": {
+    "seed": 20261017,
+    "simulations_per_scenario": 1000,
+    "moderate_shift_oracle_standard_errors": 3.0,
+    "moderate_role": "descriptive_only",
+    "strong_shift_oracle_standard_errors": 5.0,
+    "minimum_accepted_strong_terminal_power": 0.8,
+    "every_scenario_must_pass": true
+  },
+  "oracle_cell_variance": "source_sd^2/S + inner_refit_sd^2/(S*R) + validation_sd^2/B + source_validation_interaction_sd^2/(S*B) + inner_validation_interaction_sd^2/(S*R*B)",
+  "governance": {
+    "results_observed_before_freeze": false,
+    "thresholds_may_change_after_result_to_rescue_v0": false,
+    "scenario_may_be_dropped_after_result_to_rescue_v0": false,
+    "qualification_pass_alone_promotes_primary_route": false,
+    "provenance_layer_still_required": true
+  }
+}
