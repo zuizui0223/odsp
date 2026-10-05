@@ -10,6 +10,7 @@ on:
       - 'ODSP_TRAINING_PROCESS_POSITIVE_CV3MAX_IUT_V4_CONTRACT.json'
       - 'ODSP_TRAINING_PROCESS_POSITIVE_CV3MAX_IUT_V4_NULL_CALIBRATION_CONTRACT.json'
       - 'scripts/run_training_process_positive_cv3max_iut_v4_null_calibration.py'
+      - 'TRAINING_PROCESS_POSITIVE_CV3MAX_IUT_V4_QUALIFICATION_RECEIPT.json'
       - '.github/workflows/training-process-positive-cv3max-iut-v4-null.yml'
   workflow_dispatch:
 permissions:
@@ -36,3 +37,15 @@ jobs:
           echo V4_NULL_BEGIN
           cat /tmp/v4-null.json
           echo V4_NULL_END
+      - name: Match frozen failed qualification receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          observed=json.loads(Path('/tmp/v4-null.json').read_text())
+          frozen=json.loads(Path('TRAINING_PROCESS_POSITIVE_CV3MAX_IUT_V4_QUALIFICATION_RECEIPT.json').read_text())
+          actual={row['scenario_id']:row['maximum_component_false_positive_rate'] for row in observed['scenarios']}
+          assert observed['qualification_pass'] is False
+          assert actual == frozen['null_run']['maximum_component_false_positive_rate_by_scenario'], (actual, frozen['null_run'])
+          print('V4_NULL_FAILURE_MATCHES_FROZEN_RECEIPT=true')
+          PY
