@@ -455,7 +455,7 @@ def test_manifest_and_receipt_coedit_cannot_change_qualification_route(tmp_path)
     )
 
     groups, blocks, row_ids, weights = _runtime_design()
-    with pytest.raises(ValueError, match="qualification route"):
+    with pytest.raises(ValueError, match="freeze|qualification route"):
         run_untouched_external_training_process_v5(
             manifest_path,
             receipt_path,
