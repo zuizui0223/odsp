@@ -1,0 +1,37 @@
+{
+  "schema_version": 2,
+  "contract_id": "odsp-training-process-v5-external-endpoint-identity-v2",
+  "frozen_date": "2026-10-05",
+  "predecessor": {
+    "artifact": "ODSP_TRAINING_PROCESS_V5_EXTERNAL_ENDPOINT_IDENTITY_CONTRACT.json",
+    "retained": true,
+    "reason_for_successor": "remove live confirmatory routing and evidence-registry modules from the external endpoint implementation closure before route registration"
+  },
+  "canonical_surface": "odsp.training_process_untouched_external_v5.run_untouched_external_training_process_v5",
+  "internal_v5_evidence_binding": {
+    "mechanism": "dedicated immutable internal-v5 qualification snapshot module",
+    "live_route_lookup_used_by_external_endpoint": false,
+    "live_route_registry_imported_by_external_endpoint": false,
+    "live_method_routing_imported_by_external_endpoint": false,
+    "frozen_internal_registry_id": "odsp-confirmatory-route-evidence-v4",
+    "frozen_internal_route_key": "alternative=greater|validation_design=independent_groups|information_structure=filtration|upstream_refits=predeclared_training_process|external_validation=none|contrast_count=2",
+    "artifact_bytes_reverified_at_runtime": true
+  },
+  "snapshot_requirements": {
+    "recursive_odsp_source_content": true,
+    "runtime_python_and_external_distributions": true,
+    "frozen_internal_v5_evidence_snapshot": true,
+    "external_contract_sha256_snapshot": true,
+    "confirmatory_routing_modules_absent_from_source_closure": true
+  },
+  "focused_test_requirement": {
+    "workflow": "training-process-v5-untouched-external",
+    "must_pass_after_self_reference_removal": true
+  },
+  "boundary": {
+    "statistical_v5_operating_characteristics_recomputed_here": false,
+    "internal_v5_evidence_chain_reused_exactly": true,
+    "old_identity_receipt_reclassified_as_final": false,
+    "external_route_registered_by_identity_snapshot_alone": false
+  }
+}
