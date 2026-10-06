@@ -1,0 +1,45 @@
+name: training-process-v5-operational-cli
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/cli.py'
+      - 'odsp/training_process_external_contract.py'
+      - 'tests/test_training_process_v5_cli.py'
+      - 'tests/test_training_process_external_contract.py'
+      - 'tests/test_training_process_v5_operational_cli_contract.py'
+      - 'ODSP_TRAINING_PROCESS_V5_OPERATIONAL_CLI_CONTRACT.json'
+      - 'docs/training_process_v5_operational_cli.md'
+      - 'docs/training_process_v5_confirmatory_chain.md'
+      - '.github/workflows/training-process-v5-operational-cli.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'odsp/cli.py'
+      - 'odsp/training_process_external_contract.py'
+      - 'tests/test_training_process_v5_cli.py'
+      - 'tests/test_training_process_external_contract.py'
+      - 'tests/test_training_process_v5_operational_cli_contract.py'
+      - 'ODSP_TRAINING_PROCESS_V5_OPERATIONAL_CLI_CONTRACT.json'
+
+permissions:
+  contents: read
+
+jobs:
+  focused:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Verify operational process-v5 CLI
+        run: >-
+          python -m pytest -q
+          tests/test_cli_surface_freeze.py
+          tests/test_training_process_v5_cli.py
+          tests/test_training_process_external_contract.py
+          tests/test_training_process_v5_operational_cli_contract.py
