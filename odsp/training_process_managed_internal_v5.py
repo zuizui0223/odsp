@@ -28,11 +28,13 @@ from .training_process_confirmatory_v5 import (
     _verify_managed_receipt,
     certify_predeclared_training_process_positive_information_v5,
 )
-from .training_process_external_freeze_v1 import (
+from .training_process_internal_qualification_v5 import (
+    build_internal_v5_qualification_snapshot,
+)
+from .training_process_validation_helpers import (
     _canonical_sha256,
-    _external_design_rows,
     _model_artifact_snapshot,
-    build_internal_v5_route_snapshot,
+    _validation_design_rows,
 )
 from .training_process_freeze_manifest import _file_sha256
 from .training_process_internal_freeze_v1 import (
@@ -146,7 +148,7 @@ def _runtime_design(
         raise ValueError(
             "validation_row_ids, groups, blocks and sample_weight must have equal length"
         )
-    return _external_design_rows(
+    return _validation_design_rows(
         [
             {
                 "row_id": validation_row_ids[i],
@@ -306,7 +308,7 @@ def run_managed_internal_training_process_v5(
     ):
         raise ValueError("fit environment snapshot does not match internal freeze")
 
-    if manifest.get("internal_qualified_route") != build_internal_v5_route_snapshot():
+    if manifest.get("internal_qualified_route") != build_internal_v5_qualification_snapshot():
         raise ValueError("frozen internal v5 qualification route no longer matches")
 
     endpoint = manifest.get("managed_internal_endpoint")
