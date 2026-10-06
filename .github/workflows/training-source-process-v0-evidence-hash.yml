@@ -1,0 +1,42 @@
+name: training-source-process-v0-evidence-hash
+
+on:
+  pull_request:
+    paths:
+      - 'ODSP_TRAINING_SOURCE_PROCESS_V0_EVIDENCE_PLAN_V3.json'
+      - 'ODSP_TRAINING_SOURCE_PROCESS_V0_CONTRACT.json'
+      - 'ODSP_TRAINING_SOURCE_PROCESS_V0_CALIBRATION_CONTRACT.json'
+      - 'TRAINING_SOURCE_PROCESS_V0_BASE_QUALIFICATION_RECEIPT.json'
+      - 'ODSP_TRAINING_SOURCE_PROCESS_V0_SUPPORT_CONTRACT.json'
+      - 'TRAINING_SOURCE_PROCESS_V0_SUPPORT_ENVELOPE_RECEIPT.json'
+      - 'ODSP_TRAINING_SOURCE_PROCESS_V0_STATUS_SEMANTICS_CONTRACT.json'
+      - 'ODSP_TRAINING_SOURCE_PROCESS_V0_FREEZE_MANIFEST_CONTRACT.json'
+      - 'ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_GENERATION_CONTRACT.json'
+      - 'ODSP_TRAINING_SOURCE_PROCESS_V0_VALIDATION_FRAME_PROVENANCE_CONTRACT.json'
+      - 'ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_INTERNAL_VALIDATION_CONTRACT_V4.json'
+      - 'ODSP_TRAINING_SOURCE_PROCESS_V0_PRIMARY_PROMOTION_GATE_V5.json'
+      - 'ODSP_TRAINING_SOURCE_PROCESS_V0_QUALIFICATION_IDENTITY_CONTRACT_V2.json'
+      - 'ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_FOCUSED_RECEIPT_CONTRACT.json'
+      - 'TRAINING_SOURCE_PROCESS_V0_MANAGED_FOCUSED_RECEIPT.json'
+      - 'TRAINING_SOURCE_PROCESS_V0_QUALIFICATION_IDENTITY_RECEIPT.json'
+      - 'scripts/run_training_source_process_v0_evidence_hash.py'
+      - '.github/workflows/training-source-process-v0-evidence-hash.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Snapshot frozen source-v0 evidence plan
+        run: |
+          python scripts/run_training_source_process_v0_evidence_hash.py
+          echo TRAINING_SOURCE_PROCESS_V0_EVIDENCE_HASH_BEGIN
+          cat /tmp/training-source-process-v0-evidence-hashes.json
+          echo TRAINING_SOURCE_PROCESS_V0_EVIDENCE_HASH_END
