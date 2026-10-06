@@ -377,3 +377,16 @@ def test_scoring_receipt_is_managed_source_v0_type(tmp_path):
     assert receipt["receipt_type"] == SCORING_RECEIPT_TYPE
     assert receipt["execution_count"] == 64
     assert receipt["boundaries"]["shell_used"] is False
+
+
+def test_source_v0_validation_freeze_rejects_scoring_artifact_escape(tmp_path):
+    process=_source_process(tmp_path)
+    roster=_validation_roster(tmp_path)
+    plan=_validation_plan(tmp_path,process,roster)
+    payload=json.loads(plan.read_text(encoding="utf-8"))
+    payload["scoring"]["command_artifacts"]=["../score.py"]
+    plan.write_text(json.dumps(payload),encoding="utf-8")
+    with pytest.raises(ValueError,match="safe relative path"):
+        create_training_source_process_v0_internal_validation_freeze(
+            plan,tmp_path/"freeze.json",tmp_path/"receipt.json"
+        )
