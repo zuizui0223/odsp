@@ -400,7 +400,7 @@ def evaluate_training_source_process_positive_iut_v0(
     return TrainingSourceProcessV0Audit(
         schema_version=1,
         method_version="training_source_process_positive_iut_v0",
-        qualification_status="experimental_prequalification",
+        qualification_status="statistically_qualified",
         primary_confirmatory=False,
         source_process_id=process_id,
         source_process_manifest_sha256=process_sha,
@@ -526,7 +526,7 @@ def evaluate_training_source_process_positive_information_v0(
     return TrainingSourceProcessV0InformationEvaluation(
         schema_version=1,
         method_version="training_source_process_positive_iut_v0",
-        qualification_status="experimental_prequalification",
+        qualification_status="statistically_qualified",
         score_name=score_label,
         levels=tuple(row.name for row in template_rows),
         steps=steps,
