@@ -217,6 +217,23 @@ def route_confirmatory_method(
                 refit_population_generalization_claimed=True,
                 training_source_process_generalization_claimed=True,
             )
+        if validation_design != "independent_groups":
+            return routed(
+                "unqualified",
+                "The predeclared outer training-source-process route is qualified only for independent validation groups.",
+                requires_preoutcome_freeze=True,
+                requires_exact_shared_block_support=validation_design == "paired_shared_blocks",
+                refit_population_generalization_claimed=True,
+                training_source_process_generalization_claimed=True,
+            )
+        if information_structure != "filtration":
+            return routed(
+                "unqualified",
+                "No complete-lattice endpoint is qualified for the predeclared outer training-source-process route.",
+                requires_preoutcome_freeze=True,
+                refit_population_generalization_claimed=True,
+                training_source_process_generalization_claimed=True,
+            )
     if external_validation == "untouched_unfrozen":
         return routed(
             "unqualified",
@@ -297,11 +314,6 @@ def route_confirmatory_method(
     # Predeclared directional positive-transfer route.
     if information_structure == "filtration":
         if validation_design == "independent_groups":
-            if contrasts not in {2, 4}:
-                return routed(
-                    "unqualified",
-                    "The prospectively qualified independent one-sided null panel covers 2 or 4 simultaneous contrasts; other family sizes are not promoted to primary confirmatory status.",
-                )
             if upstream_refits == "predeclared_training_source_process":
                 if contrasts != 2:
                     return routed(
@@ -321,6 +333,11 @@ def route_confirmatory_method(
                     requires_preoutcome_freeze=True,
                     refit_population_generalization_claimed=True,
                     training_source_process_generalization_claimed=True,
+                )
+            if contrasts not in {2, 4}:
+                return routed(
+                    "unqualified",
+                    "The prospectively qualified independent one-sided null panel covers 2 or 4 simultaneous contrasts; other family sizes are not promoted to primary confirmatory status.",
                 )
             if upstream_refits == "none" and external_validation == "none":
                 return routed(
