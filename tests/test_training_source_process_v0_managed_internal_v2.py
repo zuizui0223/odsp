@@ -29,9 +29,9 @@ def test_source_v0_validation_v2_freezes_actual_managed_read_chronology():
 def test_source_v0_promotion_v2_requires_provenance_before_registration():
     payload = json.loads(PROMOTION.read_text(encoding="utf-8"))
     order = payload["promotion_order"]
-    assert order["managed scoring_and_focused_tests exist_before_identity_receipt".replace(" ", "_")] if False else True
+    assert order["managed_scoring_and_focused_tests_exist_before_identity_receipt"] is True
     assert order["statistical_base_and_support_receipts_exist_first"] is True
-    assert order["managed nested generation provenance exists_before_validation_scoring".replace(" ", "_")] if False else True
+    assert order["managed_nested_generation_provenance_exists_before_validation_scoring"] is True
     assert order["routing_promotion_last"] is True
     assert payload["candidate_surface"] == (
         "odsp.training_source_process_managed_internal_v0."
