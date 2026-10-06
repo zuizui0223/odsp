@@ -7,8 +7,11 @@ from pathlib import Path
 VALIDATION = Path(
     "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_INTERNAL_VALIDATION_CONTRACT_V2.json"
 )
-PROMOTION = Path(
+PROMOTION_V2 = Path(
     "ODSP_TRAINING_SOURCE_PROCESS_V0_PRIMARY_PROMOTION_GATE_V2.json"
+)
+PROMOTION_V3 = Path(
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_PRIMARY_PROMOTION_GATE_V3.json"
 )
 
 
@@ -26,16 +29,31 @@ def test_source_v0_validation_v2_freezes_actual_managed_read_chronology():
     assert scoring["source_inner_nesting_preserved"] is True
 
 
-def test_source_v0_promotion_v2_requires_provenance_before_registration():
-    payload = json.loads(PROMOTION.read_text(encoding="utf-8"))
-    order = payload["promotion_order"]
+def test_source_v0_promotion_v2_is_retained_and_v3_normalizes_order_keys():
+    historical = json.loads(PROMOTION_V2.read_text(encoding="utf-8"))
+    old_order = historical["promotion_order"]
+    # v2 is immutable historical provenance and used human-readable keys with
+    # spaces. Do not rewrite it after the fact.
+    assert old_order[
+        "managed scoring_and_focused_tests_exist_before_identity_receipt"
+    ] is True
+    assert old_order["statistical_base_and_support_receipts_exist_first"] is True
+    assert old_order[
+        "managed nested generation provenance exists_before_validation_scoring"
+    ] is True
+    assert old_order["routing_promotion_last"] is True
+
+    corrected = json.loads(PROMOTION_V3.read_text(encoding="utf-8"))
+    order = corrected["promotion_order"]
     assert order["managed_scoring_and_focused_tests_exist_before_identity_receipt"] is True
     assert order["statistical_base_and_support_receipts_exist_first"] is True
-    assert order["managed_nested_generation_provenance_exists_before_validation_scoring"] is True
-    assert order["routing_promotion_last"] is True
-    assert payload["candidate_surface"] == (
+    assert order[
+        "managed_nested_generation_provenance_exists_before_validation_scoring"
+    ] is True
+    assert order["routing_promotion_occurs_last"] is True
+    assert corrected["candidate_surface"] == (
         "odsp.training_source_process_managed_internal_v0."
         "run_managed_internal_training_source_process_v0"
     )
-    assert payload["scope"]["contrast_count"] == 2
-    assert payload["scope"]["untouched_external"] is False
+    assert corrected["scope"]["contrast_count"] == 2
+    assert corrected["scope"]["untouched_external"] is False
