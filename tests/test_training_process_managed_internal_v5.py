@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import json
 from pathlib import Path
 
@@ -242,11 +242,10 @@ def _setup(tmp_path: Path) -> dict[str, object]:
     frozen_time = datetime.fromisoformat(
         frozen_at[:-1] + "+00:00" if frozen_at.endswith("Z") else frozen_at
     )
-    first_access = (
-        (frozen_time + timedelta(seconds=1))
-        .isoformat()
-        .replace("+00:00", "Z")
-    )
+    declared_access = datetime.now(timezone.utc)
+    if declared_access <= frozen_time:
+        declared_access = frozen_time + timedelta(microseconds=1)
+    first_access = declared_access.isoformat().replace("+00:00", "Z")
     validation_data.write_text(
         "\n".join(data_lines) + "\n", encoding="utf-8"
     )
@@ -319,6 +318,8 @@ def test_managed_internal_chain_closes_model_to_score_provenance(tmp_path):
     assert result.implementation_source_snapshot_verified is True
     assert result.runtime_environment_snapshot_verified is True
     assert result.training_source_frame_validation_disjoint is True
+    assert result.managed_validation_read_after_freeze is True
+    assert result.declared_first_access_not_after_managed_validation_read is True
     assert (
         result.certification.certification.process_mean_certified_transfer_ceiling
         == "fine"
@@ -390,6 +391,27 @@ def test_managed_internal_endpoint_rejects_nonprospective_declared_access(tmp_pa
             managed_generation_receipt_path=fixture["generation_receipt"],
             training_roster_path=fixture["training_roster"],
             validation_outcomes_first_accessed_at_utc=manifest["frozen_at_utc"],
+        )
+
+
+def test_managed_internal_endpoint_rejects_declared_access_after_managed_read(tmp_path):
+    fixture = _setup(tmp_path)
+    with pytest.raises(ValueError, match="must not occur after"):
+        run_managed_internal_training_process_v5(
+            fixture["internal_manifest"],
+            fixture["internal_receipt"],
+            fixture["scoring_receipt"],
+            fixture["score_bundle"],
+            fixture["validation_data"],
+            fixture["groups"],
+            blocks=fixture["blocks"],
+            validation_row_ids=fixture["row_ids"],
+            sample_weight=fixture["weights"],
+            refit_ids=fixture["refit_ids"],
+            training_process_manifest_path=fixture["process_manifest"],
+            managed_generation_receipt_path=fixture["generation_receipt"],
+            training_roster_path=fixture["training_roster"],
+            validation_outcomes_first_accessed_at_utc="2099-01-01T00:00:00Z",
         )
 
 
