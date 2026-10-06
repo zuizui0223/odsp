@@ -25,10 +25,9 @@ from .training_source_process_internal_freeze_v0 import (
     MANIFEST_TYPE,
     _load_json,
 )
-from .training_source_process_managed_scoring import (
-    SCORE_BUNDLE_TYPE,
-    SCORING_RECEIPT_TYPE,
-    load_managed_training_source_score_bundle,
+from .training_source_process_managed_internal_scoring import (
+    MANAGED_SCORING_RECEIPT_TYPE,
+    load_managed_training_source_process_score_bundle_v0,
 )
 from .training_source_process_validation_helpers import (
     _canonical_sha256,
@@ -62,6 +61,9 @@ class ManagedInternalTrainingSourceProcessV0Certification:
     validation_row_count: int
     validation_outcomes_first_accessed_at_utc: str
     freeze_precedes_declared_first_validation_outcome_access: bool
+    managed_validation_data_first_read_by_odsp_at_utc: str
+    managed_validation_read_after_freeze: bool
+    declared_first_access_not_after_managed_validation_read: bool
     source_process_id: str
     source_process_manifest_sha256: str
     managed_nested_generation_receipt_sha256: str
@@ -72,6 +74,7 @@ class ManagedInternalTrainingSourceProcessV0Certification:
     nested_model_artifact_snapshot_verified: bool
     fit_environment_snapshot_verified: bool
     score_tensor_derived_by_managed_scoring: bool
+    semantic_use_of_model_and_validation_inputs_cryptographically_proven: bool
     implementation_source_snapshot_verified: bool
     runtime_environment_snapshot_verified: bool
     historical_no_prior_validation_outcome_access_machine_proven: bool
@@ -345,13 +348,30 @@ def run_managed_internal_training_source_process_v0(
     scoring_receipt = _load_json(
         scoring_receipt_path, name="source-v0 managed scoring receipt"
     )
-    if scoring_receipt.get("receipt_type") != SCORING_RECEIPT_TYPE:
+    if scoring_receipt.get("receipt_type") != MANAGED_SCORING_RECEIPT_TYPE:
         raise ValueError("source-v0 managed scoring receipt_type is not recognized")
+    managed_read_text, managed_read_time = _utc_timestamp(
+        scoring_receipt.get("validation_data_first_read_by_odsp_at_utc"),
+        name=(
+            "source-v0 managed scoring receipt."
+            "validation_data_first_read_by_odsp_at_utc"
+        ),
+    )
+    if not freeze_time < managed_read_time:
+        raise ValueError(
+            "ODSP-managed validation-data read must occur after source-v0 validation freeze"
+        )
+    if access_time > managed_read_time:
+        raise ValueError(
+            "declared first validation-outcome access must not occur after "
+            "ODSP-managed validation-data read"
+        )
+
     validation_sha = _file_sha256(validation_path)
     bundle_sha = _file_sha256(bundle_path)
     checks = {
-        "validation_freeze_manifest_sha256": _file_sha256(manifest_path),
-        "validation_freeze_receipt_sha256": _file_sha256(freeze_receipt_path),
+        "internal_validation_freeze_manifest_sha256": _file_sha256(manifest_path),
+        "internal_validation_freeze_receipt_sha256": _file_sha256(freeze_receipt_path),
         "managed_nested_generation_receipt_sha256": managed_receipt_sha,
         "validation_data_sha256": validation_sha,
         "score_bundle_sha256": bundle_sha,
@@ -371,7 +391,7 @@ def run_managed_internal_training_source_process_v0(
     ) != scoring_plan.get("runtime_environment_snapshot"):
         raise ValueError("source-v0 scoring runtime snapshot mismatch")
     if scoring_receipt.get(
-        "nested_model_artifact_snapshot"
+        "nested_generated_model_artifact_snapshot"
     ) != manifest["nested_model_artifact_snapshot"]:
         raise ValueError("source-v0 scoring model snapshot mismatch")
     boundaries = scoring_receipt.get("boundaries")
@@ -380,61 +400,121 @@ def run_managed_internal_training_source_process_v0(
     if boundaries.get("score_tensor_derived_by_managed_scoring") is not True:
         raise ValueError("source-v0 score tensor was not managed-derived")
     if boundaries.get(
-        "nested_model_artifacts_reverified_before_scoring"
+        "nested_generated_model_artifacts_reverified_before_scoring"
     ) is not True:
         raise ValueError("source-v0 scoring did not reverify nested model artifacts")
+    if boundaries.get("source_inner_nesting_preserved") is not True:
+        raise ValueError("source-v0 scoring did not preserve source-inner nesting")
     if boundaries.get("shell_used") is not False:
         raise ValueError("source-v0 managed scoring must report shell_used=false")
     expected_execution_count = len(source_ids) * len(inner_ids)
-    if scoring_receipt.get("execution_count") != expected_execution_count:
+    if scoring_receipt.get("fit_score_execution_count") != expected_execution_count:
         raise ValueError("source-v0 managed scoring execution count mismatch")
+    if scoring_receipt.get("source_draw_count") != len(source_ids):
+        raise ValueError("source-v0 managed scoring source count mismatch")
+    if scoring_receipt.get("inner_refit_count_per_source") != len(inner_ids):
+        raise ValueError("source-v0 managed scoring inner-refit count mismatch")
+    if scoring_receipt.get("row_count") != len(design_rows):
+        raise ValueError("source-v0 managed scoring row count mismatch")
 
-    bundle, tensor = load_managed_training_source_score_bundle(
+    frozen_level_names = [
+        str(row["name"])
+        for row in manifest.get("levels", ())
+        if isinstance(row, Mapping)
+    ]
+    if scoring_receipt.get("level_names") != frozen_level_names:
+        raise ValueError("source-v0 managed scoring level names mismatch")
+
+    executions = scoring_receipt.get("executions")
+    if not isinstance(executions, list) or len(executions) != expected_execution_count:
+        raise ValueError("source-v0 managed scoring execution coverage mismatch")
+    expected_pairs = [
+        (source_id, refit_id)
+        for source_id in source_ids
+        for refit_id in inner_ids
+    ]
+    observed_pairs: list[tuple[str, str]] = []
+    for execution in executions:
+        if not isinstance(execution, Mapping):
+            raise ValueError("source-v0 managed scoring execution must be an object")
+        observed_pairs.append(
+            (
+                _text(execution.get("source_draw_id"), name="scoring source_draw_id"),
+                _text(execution.get("inner_refit_id"), name="scoring inner_refit_id"),
+            )
+        )
+        if execution.get("return_code") != 0:
+            raise ValueError("source-v0 managed scoring execution has nonzero return code")
+        digest = execution.get("score_output_sha256")
+        if not isinstance(digest, str) or len(digest) != 64:
+            raise ValueError("source-v0 managed scoring output SHA256 is invalid")
+    if observed_pairs != expected_pairs:
+        raise ValueError("source-v0 managed scoring source-inner coverage mismatch")
+
+    (
+        nested_levels_raw,
+        bundle_row_ids,
+        bundle_source_ids,
+        bundle_inner_ids,
+        tensor_sha,
+    ) = load_managed_training_source_process_score_bundle_v0(
         bundle_path,
         expected_bundle_sha256=bundle_sha,
-        expected_validation_freeze_manifest_sha256=_file_sha256(manifest_path),
+        expected_internal_validation_freeze_manifest_sha256=_file_sha256(
+            manifest_path
+        ),
         expected_managed_nested_generation_receipt_sha256=managed_receipt_sha,
         expected_validation_data_sha256=validation_sha,
     )
-    if bundle.get("bundle_type") != SCORE_BUNDLE_TYPE:
-        raise ValueError("source-v0 score bundle_type mismatch")
-    if tuple(str(x) for x in bundle["source_draw_ids"]) != source_ids:
+    if bundle_source_ids != source_ids:
         raise ValueError("source-v0 bundle source IDs mismatch")
-    if tuple(str(x) for x in bundle["inner_refit_ids"]) != inner_ids:
+    if bundle_inner_ids != inner_ids:
         raise ValueError("source-v0 bundle inner refit IDs mismatch")
-    if bundle.get("levels") != manifest["levels"]:
-        raise ValueError("source-v0 bundle level metadata mismatch")
-    tensor_sha = str(bundle["canonical_score_tensor_sha256"])
-    if tensor_sha != scoring_receipt.get("canonical_score_tensor_sha256"):
+    if tensor_sha != scoring_receipt.get(
+        "canonical_source_inner_row_level_tensor_sha256"
+    ):
         raise ValueError("source-v0 managed score tensor digest mismatch")
+
+    expected_level_meta = tuple(
+        (
+            str(meta["name"]),
+            tuple(str(x) for x in meta["information"]),
+        )
+        for meta in manifest["levels"]
+        if isinstance(meta, Mapping)
+    )
+    if len(expected_level_meta) != len(manifest["levels"]):
+        raise ValueError("source-v0 frozen level metadata is invalid")
+    for source_levels in nested_levels_raw:
+        observed_meta = tuple(
+            (level.name, tuple(level.information))
+            for level in source_levels
+        )
+        if observed_meta != expected_level_meta:
+            raise ValueError("source-v0 bundle level metadata mismatch")
 
     runtime_row_ids = tuple(
         _text(x, name="validation_row_id") for x in validation_row_ids
     )
     if len(runtime_row_ids) != len(set(runtime_row_ids)):
         raise ValueError("runtime validation row IDs must be unique")
-    bundle_row_ids = tuple(str(x) for x in bundle["row_ids"])
     if set(bundle_row_ids) != set(runtime_row_ids):
         raise ValueError("source-v0 managed score rows do not match validation rows")
     row_index = {row_id: i for i, row_id in enumerate(bundle_row_ids)}
     reorder = [row_index[row_id] for row_id in runtime_row_ids]
-    aligned = tensor[:, :, reorder, :]
 
-    level_meta = manifest["levels"]
     nested_levels: list[tuple[RefitInformationLevelScores, ...]] = []
-    for source_index in range(len(source_ids)):
-        source_levels: list[RefitInformationLevelScores] = []
-        for level_index, meta in enumerate(level_meta):
-            if not isinstance(meta, Mapping):
-                raise ValueError("source-v0 frozen level metadata is invalid")
-            source_levels.append(
+    for source_levels in nested_levels_raw:
+        nested_levels.append(
+            tuple(
                 RefitInformationLevelScores(
-                    str(meta["name"]),
-                    tuple(str(x) for x in meta["information"]),
-                    np.asarray(aligned[source_index, :, :, level_index], dtype=float),
+                    level.name,
+                    level.information,
+                    np.asarray(level.score, dtype=float)[:, reorder],
                 )
+                for level in source_levels
             )
-        nested_levels.append(tuple(source_levels))
+        )
 
     certification = manifest.get("certification")
     score = manifest.get("score")
@@ -475,6 +555,9 @@ def run_managed_internal_training_source_process_v0(
         validation_row_count=len(design_rows),
         validation_outcomes_first_accessed_at_utc=access_text,
         freeze_precedes_declared_first_validation_outcome_access=True,
+        managed_validation_data_first_read_by_odsp_at_utc=managed_read_text,
+        managed_validation_read_after_freeze=True,
+        declared_first_access_not_after_managed_validation_read=True,
         source_process_id=source_process_id,
         source_process_manifest_sha256=source_manifest_sha,
         managed_nested_generation_receipt_sha256=managed_receipt_sha,
@@ -485,6 +568,7 @@ def run_managed_internal_training_source_process_v0(
         nested_model_artifact_snapshot_verified=True,
         fit_environment_snapshot_verified=True,
         score_tensor_derived_by_managed_scoring=True,
+        semantic_use_of_model_and_validation_inputs_cryptographically_proven=False,
         implementation_source_snapshot_verified=True,
         runtime_environment_snapshot_verified=True,
         historical_no_prior_validation_outcome_access_machine_proven=False,
