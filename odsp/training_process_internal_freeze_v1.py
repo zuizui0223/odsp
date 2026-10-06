@@ -287,7 +287,7 @@ def create_training_process_v5_internal_validation_freeze(
             "runtime_environment_snapshot": candidate_env,
         },
         "managed_scoring_plan": {
-            "working_directory": scoring["working_directory"],
+            "working_directory": str(scoring_working_dir.resolve()),
             "command": list(scoring["command"]),
             "command_artifact_snapshot": command_snapshot,
             "timeout_seconds": scoring["timeout_seconds"],
