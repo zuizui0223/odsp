@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-source-process-v0-freeze-manifest",
+  "frozen_date": "2026-10-06",
+  "purpose": "freeze the outer source-bootstrap process and the balanced nested inner-refit schedule for experimental training-source process v0",
+  "source_population_boundary": {
+    "frozen_empirical_source_roster_is_sampling_frame": true,
+    "outer_source_draw_is_bootstrap_draw_from_frozen_roster": true,
+    "outer_source_draw_is_new_independent_ecological_sample": false,
+    "unknown_ecological_superpopulation_inference_claimed": false
+  },
+  "outer_resampling": {
+    "kind": "independent_stratified_unit_bootstrap_with_replacement",
+    "within_stratum_draw_size": "original_stratum_size",
+    "source_draws_independent_given_master_seed_policy": true,
+    "canonical_membership": "sorted stratum, unit_id, count over the original frozen roster including zero-count units"
+  },
+  "nested_inner_resampling": {
+    "kind": "independent_bootstrap_with_replacement_from_each_outer_source_empirical_distribution",
+    "draw_size": "outer_source_draw_size",
+    "implemented_equivalently_by_resampling deterministic expanded source-draw slots",
+    "inner_refit_count_balanced_across_sources": true,
+    "canonical_membership": "sorted stratum, unit_id, count over the original frozen roster including zero-count units",
+    "inner_membership_digest_must_be_reconstructible_from_outer_membership_and_inner_seed": true
+  },
+  "schedule": {
+    "outer_source_draw_count_predeclared": true,
+    "inner_refit_count_per_source_predeclared": true,
+    "source_draw_ids_unique": true,
+    "inner_refit_ids_unique_within_source": true,
+    "outer_resample_seed_per_source_frozen": true,
+    "inner_resample_seed_per_source_refit_frozen": true,
+    "fit_seed_per_source_refit_frozen": true,
+    "outer_membership_sha256_per_source_frozen": true,
+    "inner_membership_sha256_per_source_refit_frozen": true
+  },
+  "implementation_identity": {
+    "source_roster_file_sha256_frozen": true,
+    "source_roster_semantic_sha256_frozen": true,
+    "source_generation_code_artifacts_frozen": true,
+    "fit_implementation_artifacts_frozen": true,
+    "fit_entrypoint_frozen": true,
+    "fit_parameters_frozen": true
+  },
+  "validation_separation": {
+    "entire_original_frozen_source_roster_must_be_disjoint_from_validation_rows": true,
+    "checking_only_realized_outer_draws_is_sufficient": false,
+    "checking_only_realized_inner_refits_is_sufficient": false
+  },
+  "receipt_boundary": {
+    "manifest_proves_plan_not_execution": true,
+    "managed_nested_generation_receipt_required_before_any_primary_use": true,
+    "validation_outcomes_read_during_freeze": false
+  },
+  "routing": {
+    "primary_confirmatory_now": false,
+    "route_registered": false
+  }
+}
