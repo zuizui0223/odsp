@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import datetime, timedelta
 import json
 from pathlib import Path
 
@@ -55,7 +56,7 @@ def _setup(tmp_path: Path) -> dict[str, object]:
     )
     score = tmp_path / "score.py"
     score.write_text(
-        "import argparse, json\n"
+        "import argparse, csv, json\n"
         "from pathlib import Path\n"
         "p=argparse.ArgumentParser()\n"
         "p.add_argument('--refit-id',required=True)\n"
@@ -66,10 +67,19 @@ def _setup(tmp_path: Path) -> dict[str, object]:
         "a=p.parse_args()\n"
         "models=json.loads(Path(a.models).read_text())\n"
         "assert models['refit_id']==a.refit_id\n"
+        "model=json.loads(Path(models['artifacts'][0]['path']).read_text())\n"
         "spec=json.loads(Path(a.scoring_spec).read_text())\n"
+        "with Path(a.validation_data).open(newline='',encoding='utf-8') as h:\n"
+        "    validation={r['row_id']:float(r['outcome']) for r in csv.DictReader(h)}\n"
+        "assert set(validation)=={r['row_id'] for r in spec['rows']}\n"
+        "offset=(int(model['seed']) % 17)*0.0001\n"
         "rows=[]\n"
         "for row in spec['rows']:\n"
-        "    rows.append({'row_id':row['row_id'],'scores':{'pooled':0.0,'coarse':0.5,'fine':0.9}})\n"
+        "    y=validation[row['row_id']]\n"
+        "    pooled=-1.0+0.01*y+offset\n"
+        "    coarse=pooled+0.5\n"
+        "    fine=coarse+0.4\n"
+        "    rows.append({'row_id':row['row_id'],'scores':{'pooled':pooled,'coarse':coarse,'fine':fine}})\n"
         "Path(a.output).write_text(json.dumps({'refit_id':a.refit_id,'rows':rows},sort_keys=True)+'\\n')\n",
         encoding="utf-8",
     )
@@ -163,7 +173,7 @@ def _setup(tmp_path: Path) -> dict[str, object]:
             blocks.append(block)
             weights.append(1.0)
     validation_roster.write_text("\n".join(roster_lines) + "\n", encoding="utf-8")
-    validation_data.write_text("\n".join(data_lines) + "\n", encoding="utf-8")
+    assert not validation_data.exists()
 
     internal_plan = {
         "schema_version": 1,
@@ -226,6 +236,20 @@ def _setup(tmp_path: Path) -> dict[str, object]:
     create_training_process_v5_internal_validation_freeze(
         internal_plan_path, internal_manifest, internal_receipt
     )
+    assert not validation_data.exists()
+    frozen = json.loads(internal_manifest.read_text(encoding="utf-8"))
+    frozen_at = str(frozen["frozen_at_utc"])
+    frozen_time = datetime.fromisoformat(
+        frozen_at[:-1] + "+00:00" if frozen_at.endswith("Z") else frozen_at
+    )
+    first_access = (
+        (frozen_time + timedelta(seconds=1))
+        .isoformat()
+        .replace("+00:00", "Z")
+    )
+    validation_data.write_text(
+        "\n".join(data_lines) + "\n", encoding="utf-8"
+    )
 
     score_root = tmp_path / "internal-score-runs"
     score_bundle = tmp_path / "internal-score-bundle.json"
@@ -259,6 +283,7 @@ def _setup(tmp_path: Path) -> dict[str, object]:
         "blocks": tuple(blocks),
         "row_ids": tuple(row_ids),
         "weights": tuple(weights),
+        "first_access": first_access,
     }
 
 
@@ -277,7 +302,7 @@ def _run(fixture: dict[str, object]):
         training_process_manifest_path=fixture["process_manifest"],
         managed_generation_receipt_path=fixture["generation_receipt"],
         training_roster_path=fixture["training_roster"],
-        validation_outcomes_first_accessed_at_utc="2099-01-01T00:00:00Z",
+        validation_outcomes_first_accessed_at_utc=fixture["first_access"],
     )
 
 
@@ -287,8 +312,8 @@ def test_managed_internal_chain_closes_model_to_score_provenance(tmp_path):
     assert result.receipt_type == MANAGED_INTERNAL_RECEIPT_TYPE
     assert result.score_tensor_derived_by_managed_scoring is True
     assert (
-        result.score_table_derivation_from_generated_models_independently_proven
-        is True
+        result.semantic_use_of_model_and_validation_inputs_cryptographically_proven
+        is False
     )
     assert result.generated_model_artifact_snapshot_verified is True
     assert result.implementation_source_snapshot_verified is True
@@ -302,8 +327,9 @@ def test_managed_internal_chain_closes_model_to_score_provenance(tmp_path):
         result.certification.score_table_derivation_from_generated_models_independently_proven
         is False
     )
-    # The historical wrapper retains its own boundary; the new outer endpoint
-    # supplies the independent operational proof.
+    # The historical wrapper retains its own boundary; the outer endpoint
+    # adds managed execution provenance without claiming semantic proof of
+    # arbitrary scoring code behavior.
     json.dumps(result.as_dict(), allow_nan=False)
 
 
