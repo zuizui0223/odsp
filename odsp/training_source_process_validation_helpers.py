@@ -9,6 +9,7 @@ from typing import Mapping, Sequence
 
 from .information_transfer_contract import _validate_score_contract
 from .training_process_freeze_manifest import _file_sha256
+from .training_process_managed_generation import _relative_safe_path
 from .training_process_managed_generation import _runtime_snapshot
 from .training_source_process_managed_generation import RECEIPT_TYPE
 
@@ -159,7 +160,9 @@ def _normalize_scoring(raw: object) -> dict[str, object]:
     artifacts = raw["command_artifacts"]
     if not isinstance(artifacts, list) or not artifacts:
         raise ValueError("scoring.command_artifacts must be non-empty")
-    artifact_names = [_text(x, name="scoring.command_artifact") for x in artifacts]
+    artifact_names = [
+        _relative_safe_path(x, name="scoring.command_artifact") for x in artifacts
+    ]
     if len(artifact_names) != len(set(artifact_names)):
         raise ValueError("scoring.command_artifacts must be unique")
     timeout = _integer(raw["timeout_seconds"], name="timeout_seconds", minimum=1)
