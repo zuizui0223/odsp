@@ -32,6 +32,7 @@ from .training_process_external_freeze_v1 import (
     _canonical_sha256,
     _external_design_rows,
     _model_artifact_snapshot,
+    build_internal_v5_route_snapshot,
 )
 from .training_process_freeze_manifest import _file_sha256
 from .training_process_internal_freeze_v1 import (
@@ -271,6 +272,8 @@ def run_managed_internal_training_process_v5(
         process_manifest_path, name="training process manifest"
     )
     process_id, frozen_refits, schedule = _manifest_schedule(process_manifest)
+    if process_id != manifest.get("training_process_id"):
+        raise ValueError("training process ID does not match internal freeze")
     supplied_refits = tuple(
         sorted(_text(x, name="refit_id") for x in refit_ids)
     )
@@ -302,6 +305,9 @@ def run_managed_internal_training_process_v5(
         "fit_environment_snapshot"
     ):
         raise ValueError("fit environment snapshot does not match internal freeze")
+
+    if manifest.get("internal_qualified_route") != build_internal_v5_route_snapshot():
+        raise ValueError("frozen internal v5 qualification route no longer matches")
 
     endpoint = manifest.get("managed_internal_endpoint")
     if not isinstance(endpoint, Mapping):
@@ -374,6 +380,33 @@ def run_managed_internal_training_process_v5(
         raise ValueError("internal scoring did not reverify generated models")
     if boundaries.get("shell_used") is not False:
         raise ValueError("managed internal scoring must report shell_used=false")
+    if scoring_receipt.get("refit_count") != len(supplied_refits):
+        raise ValueError("managed internal scoring refit_count mismatch")
+    if scoring_receipt.get("row_count") != len(design_rows):
+        raise ValueError("managed internal scoring row_count mismatch")
+    frozen_level_names = [
+        str(row["name"]) for row in manifest.get("levels", ())
+        if isinstance(row, Mapping)
+    ]
+    if scoring_receipt.get("level_names") != frozen_level_names:
+        raise ValueError("managed internal scoring level names mismatch")
+    executions = scoring_receipt.get("executions")
+    if not isinstance(executions, list) or len(executions) != len(supplied_refits):
+        raise ValueError("managed internal scoring execution coverage mismatch")
+    execution_ids: list[str] = []
+    for execution in executions:
+        if not isinstance(execution, Mapping):
+            raise ValueError("managed internal scoring execution must be an object")
+        execution_ids.append(
+            _text(execution.get("refit_id"), name="managed scoring execution refit_id")
+        )
+        if execution.get("return_code") != 0:
+            raise ValueError("managed internal scoring execution has nonzero return code")
+        digest = execution.get("score_output_sha256")
+        if not isinstance(digest, str) or len(digest) != 64:
+            raise ValueError("managed internal scoring output SHA256 is invalid")
+    if tuple(execution_ids) != supplied_refits:
+        raise ValueError("managed internal scoring execution refit order mismatch")
 
     levels, bundle_row_ids, bundle_refit_ids, tensor_sha = (
         load_managed_internal_score_bundle(
