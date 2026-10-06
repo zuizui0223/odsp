@@ -94,7 +94,7 @@ def test_source_process_manifest_freezes_nested_balanced_schedule(tmp_path):
     assert len(fit_seeds) == 64
 
 
-def test_source_process_nested_schedule_is_deterministic_given_plan(tmp_path):
+def test_source_process_nested_schedule_is_deterministic_given_setup(tmp_path):
     plan = _setup(tmp_path)
     create_training_source_process_freeze_manifest(
         plan, tmp_path / "m1.json"
@@ -143,7 +143,7 @@ def test_source_process_plan_rejects_too_few_outer_or_inner_draws(tmp_path):
 
 
 def test_source_process_ids_must_be_safe_path_components(tmp_path):
-    plan_path = _plan(tmp_path)
+    plan_path = _setup(tmp_path)
     payload = json.loads(plan_path.read_text(encoding="utf-8"))
     payload["source_draw_ids"][0] = "../escape"
     plan_path.write_text(json.dumps(payload), encoding="utf-8")
@@ -152,7 +152,7 @@ def test_source_process_ids_must_be_safe_path_components(tmp_path):
             plan_path, tmp_path / "manifest.json"
         )
 
-    plan_path = _plan(tmp_path)
+    plan_path = _setup(tmp_path)
     payload = json.loads(plan_path.read_text(encoding="utf-8"))
     payload["inner_refit_ids"][0] = "bad\\name"
     plan_path.write_text(json.dumps(payload), encoding="utf-8")
