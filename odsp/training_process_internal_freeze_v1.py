@@ -25,15 +25,17 @@ from .training_process_confirmatory_v5 import (
     _manifest_schedule,
     _verify_managed_receipt,
 )
-from .training_process_external_freeze_v1 import (
+from .training_process_internal_qualification_v5 import (
+    build_internal_v5_qualification_snapshot,
+)
+from .training_process_validation_helpers import (
     _canonical_sha256,
-    _external_design_rows,
     _model_artifact_snapshot,
     _normalize_certification,
     _normalize_levels,
     _normalize_score,
     _normalize_scoring,
-    build_internal_v5_route_snapshot,
+    _validation_design_rows,
 )
 from .training_process_freeze_manifest import _file_sha256
 from .training_process_managed_generation import _runtime_snapshot
@@ -171,7 +173,7 @@ def create_training_process_v5_internal_validation_freeze(
         if not path.is_file():
             raise FileNotFoundError(path)
 
-    design_rows, block_counts = _external_design_rows(
+    design_rows, block_counts = _validation_design_rows(
         _read_rows(roster_path, plan["roster"]["format"])
     )
     minimum_blocks = int(plan["certification"]["minimum_blocks_per_group"])
@@ -276,7 +278,7 @@ def create_training_process_v5_internal_validation_freeze(
         ),
         "training_source_frame_validation_disjoint": True,
         "training_source_frame_audit": frame_audit.as_dict(),
-        "internal_qualified_route": build_internal_v5_route_snapshot(),
+        "internal_qualified_route": build_internal_v5_qualification_snapshot(),
         "managed_internal_endpoint": {
             "canonical_surface": MANAGED_INTERNAL_SURFACE,
             "implementation_lock_id": IMPLEMENTATION_LOCK_ID,
