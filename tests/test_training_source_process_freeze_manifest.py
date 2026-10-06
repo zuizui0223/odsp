@@ -140,3 +140,23 @@ def test_source_process_plan_rejects_too_few_outer_or_inner_draws(tmp_path):
         create_training_source_process_freeze_manifest(
             bad, tmp_path / "bad-manifest.json"
         )
+
+
+def test_source_process_ids_must_be_safe_path_components(tmp_path):
+    plan_path = _plan(tmp_path)
+    payload = json.loads(plan_path.read_text(encoding="utf-8"))
+    payload["source_draw_ids"][0] = "../escape"
+    plan_path.write_text(json.dumps(payload), encoding="utf-8")
+    with pytest.raises(ValueError, match="safe single path component"):
+        create_training_source_process_freeze_manifest(
+            plan_path, tmp_path / "manifest.json"
+        )
+
+    plan_path = _plan(tmp_path)
+    payload = json.loads(plan_path.read_text(encoding="utf-8"))
+    payload["inner_refit_ids"][0] = "bad\\name"
+    plan_path.write_text(json.dumps(payload), encoding="utf-8")
+    with pytest.raises(ValueError, match="safe single path component"):
+        create_training_source_process_freeze_manifest(
+            plan_path, tmp_path / "manifest-2.json"
+        )
