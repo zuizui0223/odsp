@@ -6,28 +6,33 @@
   "base_result_known_before_support_freeze": true,
   "base_result": {
     "largest_component_false_positive_rate": 0.058,
-    "smallest_strong_terminal_power": 0.850
+    "smallest_strong_terminal_power": 0.85
   },
   "support_scenarios": [
     {
       "scenario_id": "skewed-lognormal-s8-r8-b8",
-      "stress": "centered variance-standardized lognormal primitives for source, inner, validation and interaction effects"
+      "stress": "centered variance-standardized lognormal primitives for source, inner, validation and interaction effects",
+      "blocks_per_group": 8
     },
     {
       "scenario_id": "contaminated-inner-s8-r8-b20",
-      "stress": "normal world with inner-refit and inner-by-validation primitives multiplied by 6 with probability 0.05 then variance-standardized"
+      "stress": "normal world with inner-refit and inner-by-validation primitives multiplied by 6 with probability 0.05 then variance-standardized",
+      "blocks_per_group": 20
     },
     {
       "scenario_id": "rademacher-s8-r8-b8",
-      "stress": "symmetric discrete Rademacher primitives at every stochastic level"
+      "stress": "symmetric discrete Rademacher primitives at every stochastic level",
+      "blocks_per_group": 8
     },
     {
       "scenario_id": "unequal-validation-weight-s8-r8-b8",
-      "stress": "normal world with validation block weights [0.5,0.5,1,1,2,2,4,8]"
+      "stress": "normal world with validation block weights [0.5,0.5,1,1,2,2,4,8]",
+      "blocks_per_group": 8
     },
     {
       "scenario_id": "heteroskedastic-inner-by-source-s8-r8-b8",
-      "stress": "normal world where inner and inner-by-validation effects are multiplied by an independent source-specific lognormal scale with unit second moment"
+      "stress": "normal world where inner and inner-by-validation effects are multiplied by an independent source-specific lognormal scale with unit second moment",
+      "blocks_per_group": 8
     }
   ],
   "common": {
@@ -35,7 +40,14 @@
     "contrast_count": 2,
     "source_draw_count": 8,
     "inner_refit_count": 8,
-    "true_process_mean_gain": 0.0
+    "true_process_mean_gain": 0,
+    "base_standard_deviations": {
+      "source_sd": 0.5,
+      "inner_refit_sd": 0.5,
+      "validation_sd": 0.5,
+      "source_validation_interaction_sd": 0.5,
+      "inner_validation_interaction_sd": 0.5
+    }
   },
   "run": {
     "seed": 20261018,
