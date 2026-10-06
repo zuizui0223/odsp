@@ -16,6 +16,21 @@ from .external_paired_lattice_freeze_manifest import (
 )
 from .information_transfer_contract import run_information_transfer_contract
 from .refit_information_transfer_contract import run_refit_information_transfer_contract
+from .training_process_external_contract import (
+    run_training_process_v5_external_contract,
+)
+from .training_process_external_freeze_v1 import (
+    create_training_process_v5_external_freeze,
+)
+from .training_process_freeze_manifest import (
+    create_training_process_freeze_manifest,
+)
+from .training_process_managed_external_scoring import (
+    run_managed_external_scoring_v1,
+)
+from .training_process_managed_generation import (
+    run_managed_training_process_generation,
+)
 from .untouched_external_refit_positive_contract_v2 import (
     run_untouched_external_refit_positive_contract_v2,
 )
@@ -232,7 +247,7 @@ def build_parser() -> argparse.ArgumentParser:
     experimental_subparsers = experimental.add_subparsers(
         dest="experimental_command",
         required=True,
-        metavar="{method-route,freeze}",
+        metavar="{method-route,freeze,training-process}",
     )
     experimental_method_route = experimental_subparsers.add_parser(
         "method-route",
@@ -250,6 +265,114 @@ def build_parser() -> argparse.ArgumentParser:
         help="freeze-manifest family",
     )
     _add_freeze_arguments(experimental_freeze)
+
+    training_process = experimental_subparsers.add_parser(
+        "training-process",
+        help=(
+            "operate the qualified v5 training-process chain without changing "
+            "its statistical method"
+        ),
+    )
+    training_process_subparsers = training_process.add_subparsers(
+        dest="training_process_command",
+        required=True,
+        metavar="{freeze,generate,external-freeze,external-score,external-run}",
+    )
+
+    training_process_freeze = training_process_subparsers.add_parser(
+        "freeze",
+        help="freeze one prospective training-resampling process",
+    )
+    _add_freeze_arguments(training_process_freeze)
+
+    training_process_generate = training_process_subparsers.add_parser(
+        "generate",
+        help="run ODSP-managed model generation for every frozen refit",
+    )
+    training_process_generate.add_argument(
+        "--plan", required=True, help="managed-generation plan JSON"
+    )
+    training_process_generate.add_argument(
+        "--output-root", required=True, help="new directory for generated refits"
+    )
+    training_process_generate.add_argument(
+        "--receipt-out",
+        required=True,
+        help="non-overwriting managed-generation receipt path",
+    )
+    training_process_generate.add_argument(
+        "--out", help="command receipt path; omit or use '-' for stdout"
+    )
+    _add_debug_argument(training_process_generate)
+
+    training_process_external_freeze = training_process_subparsers.add_parser(
+        "external-freeze",
+        help="freeze untouched-external design and scoring semantics before outcomes",
+    )
+    training_process_external_freeze.add_argument(
+        "--plan", required=True, help="process-v5 external freeze-plan JSON"
+    )
+    training_process_external_freeze.add_argument(
+        "--manifest-out",
+        required=True,
+        help="new external freeze-manifest path",
+    )
+    training_process_external_freeze.add_argument(
+        "--receipt-out",
+        required=True,
+        help="new external freeze receipt path",
+    )
+    training_process_external_freeze.add_argument(
+        "--out", help="command receipt path; omit or use '-' for stdout"
+    )
+    _add_debug_argument(training_process_external_freeze)
+
+    training_process_external_score = training_process_subparsers.add_parser(
+        "external-score",
+        help="derive external score tensors through frozen managed scoring",
+    )
+    training_process_external_score.add_argument(
+        "--freeze-manifest", required=True
+    )
+    training_process_external_score.add_argument(
+        "--freeze-receipt", required=True
+    )
+    training_process_external_score.add_argument(
+        "--external-roster", required=True
+    )
+    training_process_external_score.add_argument(
+        "--external-roster-format",
+        choices=("csv", "json"),
+        required=True,
+    )
+    training_process_external_score.add_argument(
+        "--managed-generation-receipt", required=True
+    )
+    training_process_external_score.add_argument(
+        "--generated-model-root", required=True
+    )
+    training_process_external_score.add_argument(
+        "--validation-data", required=True
+    )
+    training_process_external_score.add_argument(
+        "--output-root", required=True
+    )
+    training_process_external_score.add_argument(
+        "--score-bundle-out", required=True
+    )
+    training_process_external_score.add_argument(
+        "--scoring-receipt-out", required=True
+    )
+    training_process_external_score.add_argument(
+        "--out", help="command receipt path; omit or use '-' for stdout"
+    )
+    _add_debug_argument(training_process_external_score)
+
+    training_process_external_run = training_process_subparsers.add_parser(
+        "external-run",
+        help="run the qualified untouched-external v5 endpoint from one contract",
+    )
+    _add_common_contract_arguments(training_process_external_run)
 
     # Legacy command spellings remain executable for scripts and frozen receipts,
     # but are intentionally hidden from the public help surface.
@@ -296,6 +419,46 @@ def main(argv: Sequence[str] | None = None) -> int:
                     args.plan,
                     args.manifest_out,
                 )
+            elif args.experimental_command == "training-process":
+                if args.training_process_command == "freeze":
+                    receipt = create_training_process_freeze_manifest(
+                        args.plan,
+                        args.manifest_out,
+                    )
+                elif args.training_process_command == "generate":
+                    receipt = run_managed_training_process_generation(
+                        args.plan,
+                        args.output_root,
+                        args.receipt_out,
+                    )
+                elif args.training_process_command == "external-freeze":
+                    receipt = create_training_process_v5_external_freeze(
+                        args.plan,
+                        args.manifest_out,
+                        args.receipt_out,
+                    )
+                elif args.training_process_command == "external-score":
+                    receipt = run_managed_external_scoring_v1(
+                        args.freeze_manifest,
+                        args.freeze_receipt,
+                        args.external_roster,
+                        external_roster_format=args.external_roster_format,
+                        managed_generation_receipt_path=args.managed_generation_receipt,
+                        generated_model_root=args.generated_model_root,
+                        validation_data_path=args.validation_data,
+                        output_root=args.output_root,
+                        score_bundle_out=args.score_bundle_out,
+                        scoring_receipt_out=args.scoring_receipt_out,
+                    )
+                elif args.training_process_command == "external-run":
+                    receipt = run_training_process_v5_external_contract(
+                        args.contract
+                    )
+                else:  # pragma: no cover - argparse constrains the command.
+                    raise AssertionError(
+                        "unhandled training-process command: "
+                        f"{args.training_process_command}"
+                    )
             else:  # pragma: no cover - argparse constrains the command.
                 raise AssertionError(
                     f"unhandled experimental command: {args.experimental_command}"
