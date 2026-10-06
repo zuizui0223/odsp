@@ -47,7 +47,10 @@
       "validation_sd": 0.5,
       "source_validation_interaction_sd": 0.5,
       "inner_validation_interaction_sd": 0.5
-    }
+    },
+    "source_cross_cell_correlation": 0.35,
+    "inner_refit_cross_cell_correlation": 0.35,
+    "contrast_correlation": 0.5
   },
   "run": {
     "seed": 20261018,
