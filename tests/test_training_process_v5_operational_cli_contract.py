@@ -35,3 +35,15 @@ def test_external_run_cli_cannot_bypass_managed_score_derivation():
         "odsp.training_process_untouched_external_v5."
         "run_untouched_external_training_process_v5"
     )
+
+
+def test_operational_cli_is_outside_frozen_external_endpoint_identity():
+    identity = json.loads(
+        Path("TRAINING_PROCESS_V5_EXTERNAL_ENDPOINT_IDENTITY_RECEIPT_V2.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    paths = {row["path"] for row in identity["implementation_source_snapshot"]}
+    assert "odsp/cli.py" not in paths
+    assert "odsp/training_process_external_contract.py" not in paths
+    assert "odsp/training_process_untouched_external_v5.py" in paths
