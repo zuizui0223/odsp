@@ -8,6 +8,8 @@ on:
       - 'tests/test_training_process_v5_cli.py'
       - 'tests/test_training_process_external_contract.py'
       - 'tests/test_training_process_v5_operational_cli_contract.py'
+      - 'tests/test_training_process_v5_cli_templates.py'
+      - 'examples/training_process_v5/**'
       - 'ODSP_TRAINING_PROCESS_V5_OPERATIONAL_CLI_CONTRACT.json'
       - 'docs/training_process_v5_operational_cli.md'
       - 'docs/training_process_v5_confirmatory_chain.md'
@@ -43,3 +45,4 @@ jobs:
           tests/test_training_process_v5_cli.py
           tests/test_training_process_external_contract.py
           tests/test_training_process_v5_operational_cli_contract.py
+          tests/test_training_process_v5_cli_templates.py
