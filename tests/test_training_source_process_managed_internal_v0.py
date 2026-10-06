@@ -422,3 +422,148 @@ def test_source_v0_validation_freeze_rejects_scoring_artifact_escape(tmp_path):
         create_training_source_process_v0_internal_validation_freeze(
             plan,tmp_path/"freeze.json",tmp_path/"receipt.json"
         )
+
+
+def test_source_v0_scoring_rejects_scoring_code_byte_tampering(tmp_path):
+    process=_source_process(tmp_path)
+    roster=_validation_roster(tmp_path)
+    plan=_validation_plan(tmp_path,process,roster)
+    freeze_manifest=tmp_path/"validation-freeze.json"
+    freeze_receipt=tmp_path/"validation-freeze-receipt.json"
+    create_training_source_process_v0_internal_validation_freeze(
+        plan,freeze_manifest,freeze_receipt
+    )
+    with (tmp_path/"score.py").open("a",encoding="utf-8") as h:
+        h.write("\n# tampered after freeze\n")
+    row_ids,_,_,_=_design(roster)
+    validation=tmp_path/"validation-data.csv"
+    validation.write_text(
+        "row_id,y\n"+"\n".join(f"{rid},1" for rid in row_ids)+"\n",
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError,match="code bytes do not match freeze"):
+        run_managed_training_source_process_scoring_v0(
+            freeze_manifest,freeze_receipt,roster,
+            validation_roster_format="csv",
+            managed_nested_generation_receipt_path=process["managed_receipt"],
+            generated_model_root=process["model_root"],
+            validation_data_path=validation,
+            output_root=tmp_path/"score-outputs",
+            score_bundle_out=tmp_path/"bundle.json",
+            scoring_receipt_out=tmp_path/"score-receipt.json",
+        )
+
+
+def test_source_v0_endpoint_rejects_runtime_design_tampering(tmp_path):
+    state=_freeze_and_score(tmp_path)
+    row_ids,groups,blocks,weights=_design(state["roster"])
+    weights[0]=2.0
+    with pytest.raises(ValueError,match="runtime validation design"):
+        run_managed_internal_training_source_process_v0(
+            state["freeze_manifest"],
+            state["freeze_receipt"],
+            state["scoring_receipt"],
+            state["score_bundle"],
+            state["validation"],
+            groups,
+            blocks=blocks,
+            validation_row_ids=row_ids,
+            sample_weight=weights,
+            source_process_manifest_path=state["manifest"],
+            managed_nested_generation_receipt_path=state["managed_receipt"],
+            source_roster_path=state["source_roster"],
+            validation_outcomes_first_accessed_at_utc=state["managed_read_at"].isoformat(),
+        )
+
+
+def test_source_v0_endpoint_rejects_score_bundle_byte_tampering(tmp_path):
+    state=_freeze_and_score(tmp_path)
+    payload=json.loads(state["score_bundle"].read_text(encoding="utf-8"))
+    payload["scores"][0][0][0][0]=123.0
+    state["score_bundle"].write_text(json.dumps(payload),encoding="utf-8")
+    row_ids,groups,blocks,weights=_design(state["roster"])
+    with pytest.raises(ValueError,match="score_bundle_sha256 mismatch"):
+        run_managed_internal_training_source_process_v0(
+            state["freeze_manifest"],
+            state["freeze_receipt"],
+            state["scoring_receipt"],
+            state["score_bundle"],
+            state["validation"],
+            groups,
+            blocks=blocks,
+            validation_row_ids=row_ids,
+            sample_weight=weights,
+            source_process_manifest_path=state["manifest"],
+            managed_nested_generation_receipt_path=state["managed_receipt"],
+            source_roster_path=state["source_roster"],
+            validation_outcomes_first_accessed_at_utc=state["managed_read_at"].isoformat(),
+        )
+
+
+def test_source_v0_endpoint_rejects_missing_source_inner_execution(tmp_path):
+    state=_freeze_and_score(tmp_path)
+    receipt=json.loads(state["scoring_receipt"].read_text(encoding="utf-8"))
+    receipt["executions"].pop()
+    state["scoring_receipt"].write_text(json.dumps(receipt),encoding="utf-8")
+    row_ids,groups,blocks,weights=_design(state["roster"])
+    with pytest.raises(ValueError,match="execution coverage"):
+        run_managed_internal_training_source_process_v0(
+            state["freeze_manifest"],
+            state["freeze_receipt"],
+            state["scoring_receipt"],
+            state["score_bundle"],
+            state["validation"],
+            groups,
+            blocks=blocks,
+            validation_row_ids=row_ids,
+            sample_weight=weights,
+            source_process_manifest_path=state["manifest"],
+            managed_nested_generation_receipt_path=state["managed_receipt"],
+            source_roster_path=state["source_roster"],
+            validation_outcomes_first_accessed_at_utc=state["managed_read_at"].isoformat(),
+        )
+
+
+def test_source_v0_scoring_rejects_malformed_nested_score_schema(tmp_path):
+    process=_source_process(tmp_path)
+    (tmp_path/"score.py").write_text(
+        "import argparse, json\n"
+        "from pathlib import Path\n"
+        "p=argparse.ArgumentParser()\n"
+        "p.add_argument('--source-draw-id', required=True)\n"
+        "p.add_argument('--inner-refit-id', required=True)\n"
+        "p.add_argument('--model-manifest', required=True)\n"
+        "p.add_argument('--validation-data', required=True)\n"
+        "p.add_argument('--scoring-spec', required=True)\n"
+        "p.add_argument('--output', required=True)\n"
+        "a=p.parse_args()\n"
+        "Path(a.output).write_text(json.dumps({"
+        "'source_draw_id':a.source_draw_id,"
+        "'inner_refit_id':a.inner_refit_id,"
+        "'unexpected':[]})+'\\n')\n",
+        encoding="utf-8",
+    )
+    roster=_validation_roster(tmp_path)
+    plan=_validation_plan(tmp_path,process,roster)
+    freeze_manifest=tmp_path/"validation-freeze.json"
+    freeze_receipt=tmp_path/"validation-freeze-receipt.json"
+    create_training_source_process_v0_internal_validation_freeze(
+        plan,freeze_manifest,freeze_receipt
+    )
+    row_ids,_,_,_=_design(roster)
+    validation=tmp_path/"validation-data.csv"
+    validation.write_text(
+        "row_id,y\n"+"\n".join(f"{rid},1" for rid in row_ids)+"\n",
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError,match="top-level fields"):
+        run_managed_training_source_process_scoring_v0(
+            freeze_manifest,freeze_receipt,roster,
+            validation_roster_format="csv",
+            managed_nested_generation_receipt_path=process["managed_receipt"],
+            generated_model_root=process["model_root"],
+            validation_data_path=validation,
+            output_root=tmp_path/"score-outputs",
+            score_bundle_out=tmp_path/"bundle.json",
+            scoring_receipt_out=tmp_path/"score-receipt.json",
+        )
