@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-source-process-v0-focused-test-correction-v1",
+  "frozen_date": "2026-10-07",
+  "purpose": "record test-only corrections after the first official focused provenance run failed, without changing the source-v0 estimator, provenance implementation, required test-family membership, or qualification thresholds",
+  "first_failed_focused_run": {
+    "github_actions_run_id": 37484996657,
+    "github_actions_job_id": 112342637729,
+    "head_sha": "183fb3f266b109f45bc60e029ae42200890727b1",
+    "failed_test_count": 5
+  },
+  "corrections": [
+    {
+      "test": "tests/test_training_source_process_freeze_manifest.py::test_source_process_ids_must_be_safe_path_components",
+      "cause": "test helper typo referenced nonexistent _plan instead of existing _setup",
+      "method_code_changed": false
+    },
+    {
+      "test": "tests/test_training_source_process_managed_internal_v0.py::test_source_v0_scoring_rejects_scoring_code_byte_tampering",
+      "cause": "expected regex used superseded generic wording; implementation already emitted the more specific scoring-command-artifact mismatch",
+      "method_code_changed": false
+    },
+    {
+      "test": "tests/test_training_source_process_managed_internal_v0.py::test_source_v0_endpoint_rejects_score_bundle_byte_tampering",
+      "cause": "test mutated obsolete bundle key scores instead of final scores_by_level schema",
+      "method_code_changed": false
+    },
+    {
+      "test": "tests/test_training_source_process_managed_internal_v0.py::test_source_v0_scoring_rejects_malformed_nested_score_schema",
+      "cause": "expected regex used superseded wording; implementation already rejected the malformed top-level schema",
+      "method_code_changed": false
+    },
+    {
+      "test": "tests/test_training_source_process_v0_managed_internal_v2.py::test_source_v0_promotion_v2_requires_provenance_before_registration",
+      "cause": "historical v2 contract intentionally retained human-readable space-containing keys; test incorrectly expected later v3 normalized keys",
+      "method_code_changed": false
+    }
+  ],
+  "invariants": {
+    "required_test_files_removed": false,
+    "required_failure_modes_removed": false,
+    "numeric_estimator_changed": false,
+    "variance_estimator_changed": false,
+    "critical_value_changed": false,
+    "null_or_power_threshold_changed": false,
+    "managed_generation_implementation_changed": false,
+    "managed_scoring_implementation_changed": false,
+    "managed_inference_implementation_changed": false,
+    "evidence_plan_v3_membership_changed": false
+  },
+  "qualification_boundary": {
+    "this_contract_is_new_qualification_evidence": false,
+    "focused_receipt_contract_remains_authoritative": true,
+    "all_predeclared_required_test_files_still_must_pass_together": true,
+    "failed_test_may_not_be_dropped_post_hoc": true
+  }
+}
