@@ -342,3 +342,16 @@ def test_managed_internal_endpoint_rejects_nonprospective_declared_access(tmp_pa
             training_roster_path=fixture["training_roster"],
             validation_outcomes_first_accessed_at_utc=manifest["frozen_at_utc"],
         )
+
+
+def test_managed_internal_endpoint_rejects_tampered_scoring_execution_receipt(tmp_path):
+    fixture = _setup(tmp_path)
+    receipt_path = Path(fixture["scoring_receipt"])
+    payload = json.loads(receipt_path.read_text(encoding="utf-8"))
+    payload["executions"][0]["return_code"] = 1
+    receipt_path.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError, match="nonzero return code"):
+        _run(fixture)
