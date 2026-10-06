@@ -6,8 +6,8 @@ from pathlib import Path
 import pytest
 
 from odsp.training_source_process_freeze_manifest import (
-    OUTER_KIND,
-    INNER_KIND,
+    OUTER_PROCESS_KIND,
+    INNER_PROCESS_KIND,
     create_training_source_process_freeze_manifest,
 )
 from odsp.training_source_process_validation_provenance import (
@@ -44,12 +44,12 @@ def _freeze(tmp_path: Path):
         "inner_refit_ids": [f"r{i:02d}" for i in range(8)],
         "master_seed": 22,
         "outer_resampling": {
-            "kind": OUTER_KIND,
+            "kind": OUTER_PROCESS_KIND,
             "replacement": True,
             "within_stratum_draw_size": "original_stratum_size",
         },
         "inner_resampling": {
-            "kind": INNER_KIND,
+            "kind": INNER_PROCESS_KIND,
             "replacement": True,
             "draw_size": "outer_source_draw_size",
         },
