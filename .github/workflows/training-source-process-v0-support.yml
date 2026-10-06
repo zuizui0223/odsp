@@ -1,0 +1,45 @@
+name: training-source-process-v0-support
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/training_source_process_v0.py'
+      - 'odsp/training_source_process_v0_support.py'
+      - 'tests/test_training_source_process_v0.py'
+      - 'tests/test_training_source_process_v0_support.py'
+      - 'tests/test_training_source_process_v0_support_contract.py'
+      - 'ODSP_TRAINING_SOURCE_PROCESS_V0_CONTRACT.json'
+      - 'ODSP_TRAINING_SOURCE_PROCESS_V0_SUPPORT_CONTRACT.json'
+      - 'scripts/run_training_source_process_v0_support.py'
+      - '.github/workflows/training-source-process-v0-support.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  support:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Test frozen support generator
+        run: >-
+          python -m pytest -q
+          tests/test_training_source_process_v0_contract.py
+          tests/test_training_source_process_v0.py
+          tests/test_training_source_process_v0_support_contract.py
+          tests/test_training_source_process_v0_support.py
+      - name: Run first frozen v0 support envelope
+        run: |
+          python scripts/run_training_source_process_v0_support.py \
+            --output /tmp/training-source-v0-support.json \
+            --seed 20261018 --simulations 1000
+          echo TRAINING_SOURCE_V0_SUPPORT_BEGIN
+          cat /tmp/training-source-v0-support.json
+          echo TRAINING_SOURCE_V0_SUPPORT_END
