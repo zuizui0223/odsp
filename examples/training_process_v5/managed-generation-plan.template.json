@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "training_process_id": "my-training-process-v1",
+  "manifest_path": "training-process-freeze.json",
+  "training_roster": {
+    "path": "training-roster.csv",
+    "format": "csv",
+    "unit_id_column": "unit_id",
+    "stratum_column": "stratum"
+  },
+  "working_directory": ".",
+  "command": [
+    "{python_executable}",
+    "fit_model.py",
+    "--refit-id",
+    "{refit_id}",
+    "--membership",
+    "{membership_path}",
+    "--fit-seed",
+    "{fit_seed}",
+    "--output-dir",
+    "{output_dir}"
+  ],
+  "command_artifacts": [
+    "fit_model.py"
+  ],
+  "timeout_seconds": 3600,
+  "environment_allowlist": [],
+  "output_artifacts": [
+    {
+      "artifact_id": "primary_model",
+      "relative_path": "model.bin"
+    }
+  ]
+}
