@@ -25,9 +25,9 @@ from .training_source_process_internal_freeze_v0 import (
     MANIFEST_TYPE,
     _load_json,
 )
-from .training_source_process_managed_scoring import (
-    SCORING_RECEIPT_TYPE as MANAGED_SCORING_RECEIPT_TYPE,
-    load_managed_training_source_score_bundle,
+from .training_source_process_managed_internal_scoring import (
+    MANAGED_SCORING_RECEIPT_TYPE,
+    load_managed_training_source_process_score_bundle_v0,
 )
 from .training_source_process_validation_helpers import (
     _canonical_sha256,
@@ -370,8 +370,8 @@ def run_managed_internal_training_source_process_v0(
     validation_sha = _file_sha256(validation_path)
     bundle_sha = _file_sha256(bundle_path)
     checks = {
-        "validation_freeze_manifest_sha256": _file_sha256(manifest_path),
-        "validation_freeze_receipt_sha256": _file_sha256(freeze_receipt_path),
+        "internal_validation_freeze_manifest_sha256": _file_sha256(manifest_path),
+        "internal_validation_freeze_receipt_sha256": _file_sha256(freeze_receipt_path),
         "managed_nested_generation_receipt_sha256": managed_receipt_sha,
         "validation_data_sha256": validation_sha,
         "score_bundle_sha256": bundle_sha,
@@ -391,7 +391,7 @@ def run_managed_internal_training_source_process_v0(
     ) != scoring_plan.get("runtime_environment_snapshot"):
         raise ValueError("source-v0 scoring runtime snapshot mismatch")
     if scoring_receipt.get(
-        "nested_model_artifact_snapshot"
+        "nested_generated_model_artifact_snapshot"
     ) != manifest["nested_model_artifact_snapshot"]:
         raise ValueError("source-v0 scoring model snapshot mismatch")
     boundaries = scoring_receipt.get("boundaries")
@@ -400,13 +400,15 @@ def run_managed_internal_training_source_process_v0(
     if boundaries.get("score_tensor_derived_by_managed_scoring") is not True:
         raise ValueError("source-v0 score tensor was not managed-derived")
     if boundaries.get(
-        "nested_model_artifacts_reverified_before_scoring"
+        "nested_generated_model_artifacts_reverified_before_scoring"
     ) is not True:
         raise ValueError("source-v0 scoring did not reverify nested model artifacts")
+    if boundaries.get("source_inner_nesting_preserved") is not True:
+        raise ValueError("source-v0 scoring did not preserve source-inner nesting")
     if boundaries.get("shell_used") is not False:
         raise ValueError("source-v0 managed scoring must report shell_used=false")
     expected_execution_count = len(source_ids) * len(inner_ids)
-    if scoring_receipt.get("execution_count") != expected_execution_count:
+    if scoring_receipt.get("fit_score_execution_count") != expected_execution_count:
         raise ValueError("source-v0 managed scoring execution count mismatch")
     if scoring_receipt.get("source_draw_count") != len(source_ids):
         raise ValueError("source-v0 managed scoring source count mismatch")
@@ -449,25 +451,47 @@ def run_managed_internal_training_source_process_v0(
     if observed_pairs != expected_pairs:
         raise ValueError("source-v0 managed scoring source-inner coverage mismatch")
 
-    bundle, tensor = load_managed_training_source_score_bundle(
+    (
+        nested_levels_raw,
+        bundle_row_ids,
+        bundle_source_ids,
+        bundle_inner_ids,
+        tensor_sha,
+    ) = load_managed_training_source_process_score_bundle_v0(
         bundle_path,
         expected_bundle_sha256=bundle_sha,
-        expected_validation_freeze_manifest_sha256=_file_sha256(manifest_path),
+        expected_internal_validation_freeze_manifest_sha256=_file_sha256(
+            manifest_path
+        ),
         expected_managed_nested_generation_receipt_sha256=managed_receipt_sha,
         expected_validation_data_sha256=validation_sha,
     )
-    bundle_source_ids = tuple(str(x) for x in bundle["source_draw_ids"])
-    bundle_inner_ids = tuple(str(x) for x in bundle["inner_refit_ids"])
-    bundle_row_ids = tuple(str(x) for x in bundle["row_ids"])
     if bundle_source_ids != source_ids:
         raise ValueError("source-v0 bundle source IDs mismatch")
     if bundle_inner_ids != inner_ids:
         raise ValueError("source-v0 bundle inner refit IDs mismatch")
-    tensor_sha = str(bundle["canonical_score_tensor_sha256"])
-    if tensor_sha != scoring_receipt.get("canonical_score_tensor_sha256"):
+    if tensor_sha != scoring_receipt.get(
+        "canonical_source_inner_row_level_tensor_sha256"
+    ):
         raise ValueError("source-v0 managed score tensor digest mismatch")
-    if bundle.get("levels") != manifest["levels"]:
-        raise ValueError("source-v0 bundle level metadata mismatch")
+
+    expected_level_meta = tuple(
+        (
+            str(meta["name"]),
+            tuple(str(x) for x in meta["information"]),
+        )
+        for meta in manifest["levels"]
+        if isinstance(meta, Mapping)
+    )
+    if len(expected_level_meta) != len(manifest["levels"]):
+        raise ValueError("source-v0 frozen level metadata is invalid")
+    for source_levels in nested_levels_raw:
+        observed_meta = tuple(
+            (level.name, tuple(level.information))
+            for level in source_levels
+        )
+        if observed_meta != expected_level_meta:
+            raise ValueError("source-v0 bundle level metadata mismatch")
 
     runtime_row_ids = tuple(
         _text(x, name="validation_row_id") for x in validation_row_ids
@@ -478,22 +502,19 @@ def run_managed_internal_training_source_process_v0(
         raise ValueError("source-v0 managed score rows do not match validation rows")
     row_index = {row_id: i for i, row_id in enumerate(bundle_row_ids)}
     reorder = [row_index[row_id] for row_id in runtime_row_ids]
-    aligned = np.asarray(tensor, dtype=float)[:, :, reorder, :]
 
     nested_levels: list[tuple[RefitInformationLevelScores, ...]] = []
-    for source_index in range(len(source_ids)):
-        source_levels: list[RefitInformationLevelScores] = []
-        for level_index, meta in enumerate(manifest["levels"]):
-            if not isinstance(meta, Mapping):
-                raise ValueError("source-v0 frozen level metadata is invalid")
-            source_levels.append(
+    for source_levels in nested_levels_raw:
+        nested_levels.append(
+            tuple(
                 RefitInformationLevelScores(
-                    str(meta["name"]),
-                    tuple(str(x) for x in meta["information"]),
-                    aligned[source_index, :, :, level_index],
+                    level.name,
+                    level.information,
+                    np.asarray(level.score, dtype=float)[:, reorder],
                 )
+                for level in source_levels
             )
-        nested_levels.append(tuple(source_levels))
+        )
 
     certification = manifest.get("certification")
     score = manifest.get("score")
