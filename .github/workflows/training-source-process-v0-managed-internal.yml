@@ -39,6 +39,7 @@ jobs:
           tests/test_training_source_process_v0_primary_promotion_v3.py
           tests/test_training_source_process_v0_primary_promotion_v4.py
           tests/test_training_source_process_v0_primary_promotion_v5.py
+          tests/test_training_source_process_v0_evidence_plan.py
           tests/test_training_source_process_v0_receipt.py
           tests/test_training_source_process_v0_support_receipt.py
       - name: Snapshot source-v0 managed identity after focused tests
