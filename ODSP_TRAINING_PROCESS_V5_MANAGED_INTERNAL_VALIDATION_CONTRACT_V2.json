@@ -1,0 +1,37 @@
+{
+  "schema_version": 2,
+  "contract_id": "odsp-training-process-v5-managed-internal-validation-v2",
+  "frozen_date": "2026-10-06",
+  "predecessor": {
+    "artifact": "ODSP_TRAINING_PROCESS_V5_MANAGED_INTERNAL_VALIDATION_CONTRACT.json",
+    "retained": true
+  },
+  "purpose": "strengthen the managed-internal validation provenance chain with machine-checkable consistency between the pre-outcome freeze, the declared first validation-outcome access, and ODSP's own first validation-data read",
+  "chronology_v2": {
+    "freeze_must_strictly_precede_declared_first_validation_outcome_access": true,
+    "managed_scoring_receipt_records_validation_data_first_read_by_odsp_at_utc": true,
+    "freeze_must_strictly_precede_odsp_managed_validation_data_read": true,
+    "declared_first_validation_outcome_access_must_not_be_after_odsp_managed_validation_data_read": true,
+    "required_order": "freeze < declared_first_access <= odsp_managed_validation_read",
+    "future_dated_first_access_after_scoring_rejected": true,
+    "historical_truth_of_declared_first_access_machine_proven": false
+  },
+  "claim_boundary_v2": {
+    "score_tensor_derived_by_managed_scoring": true,
+    "generated_model_artifacts_reverified_before_scoring": true,
+    "scoring_code_bytes_reverified_before_execution": true,
+    "semantic_use_of_model_and_validation_inputs_cryptographically_proven": false,
+    "semantic_correctness_of_arbitrary_scoring_code_cryptographically_proven": false,
+    "statistical_method_changed": false,
+    "process_mean_estimand_changed": false,
+    "fixed_set_results_reclassified": false
+  },
+  "scope": {
+    "independent_groups": true,
+    "ordered_filtration": true,
+    "contrast_count": 2,
+    "contrast_count_4": false,
+    "paired": false,
+    "complete_lattice": false
+  }
+}
