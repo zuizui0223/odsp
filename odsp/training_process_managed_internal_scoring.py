@@ -155,6 +155,9 @@ def run_managed_internal_scoring_v1(
         scoring_plan["validation_row_id_column"],
         name="managed_scoring_plan.validation_row_id_column",
     )
+    validation_data_first_read_by_odsp_at_utc = (
+        datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    )
     validation_rows = _read_rows(validation_path, validation_format)
     validation_ids: list[str] = []
     for index, row in enumerate(validation_rows):
@@ -346,6 +349,7 @@ def run_managed_internal_scoring_v1(
         ),
         "managed_generation_receipt_sha256": managed_receipt_sha,
         "validation_data_sha256": validation_sha,
+        "validation_data_first_read_by_odsp_at_utc": validation_data_first_read_by_odsp_at_utc,
         "refit_ids": refit_ids,
         "row_ids": row_ids,
         "levels": levels,
