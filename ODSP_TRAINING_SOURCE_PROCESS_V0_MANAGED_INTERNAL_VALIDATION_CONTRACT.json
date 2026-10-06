@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-source-process-v0-managed-internal-validation",
+  "frozen_date": "2026-10-06",
+  "purpose": "freeze held-out validation design and model-to-score derivation for the statistically qualified training-source process v0 candidate before validation outcomes are accessed",
+  "pre_outcome_freeze": {
+    "validation_roster_columns_exactly": ["row_id","group_id","block_id","sample_weight"],
+    "outcome_column_allowed": false,
+    "prediction_or_score_column_allowed": false,
+    "validation_row_ids_unique": true,
+    "minimum_positive_mass_blocks_per_group": 8,
+    "entire_original_source_frame_disjointness_verified": true,
+    "source_process_manifest_bound": true,
+    "managed_nested_generation_receipt_bound": true,
+    "nested_generated_model_artifact_snapshot_bound": true,
+    "fit_environment_snapshot_bound": true,
+    "score_semantics_bound": true,
+    "ordered_three_level_filtration_bound": true,
+    "source_v0_certification_settings_bound": true,
+    "scoring_argv_bound": true,
+    "scoring_code_bytes_bound": true,
+    "scoring_runtime_environment_bound": true
+  },
+  "managed_scoring": {
+    "one_scoring_process_per_source_draw_x_inner_refit": true,
+    "shell_allowed": false,
+    "generated_nested_model_artifacts_reverified_before_scoring": true,
+    "strict_row_and_level_coverage_required": true,
+    "canonical_source_inner_row_level_tensor_sha256_recorded": true
+  },
+  "chronology": {
+    "validation_freeze_must_strictly_precede_declared_first_validation_outcome_access": true,
+    "historical_truth_of_first_access_declaration_machine_proven": false
+  },
+  "statistical_boundary": {
+    "numeric_core_changed": false,
+    "base_calibration_recomputed": false,
+    "support_calibration_recomputed": false,
+    "raw_caller_supplied_score_tensor_primary": false
+  },
+  "claim_boundary": {
+    "unknown_ecological_source_superpopulation_generalization_claimed": false,
+    "individual_future_source_sample_success_probability_claimed": false,
+    "all_future_source_samples_positive_claimed": false,
+    "qualified_training_process_v5_reclassified": false
+  }
+}
