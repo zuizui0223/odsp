@@ -9,6 +9,7 @@ from typing import Mapping, Sequence
 
 from .information_transfer_contract import _validate_score_contract
 from .training_process_freeze_manifest import _file_sha256
+from .training_process_managed_generation import _runtime_snapshot
 from .training_source_process_managed_generation import RECEIPT_TYPE
 
 
@@ -363,3 +364,238 @@ def _nested_model_artifact_snapshot(
 
 def _file_digest(path: str | Path) -> str:
     return _file_sha256(Path(path))
+
+
+def _load_json(path: Path, *, name: str) -> dict[str, object]:
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"{name} is not valid JSON: {path}") from exc
+    if not isinstance(raw, Mapping):
+        raise ValueError(f"{name} must contain a JSON object")
+    return dict(raw)
+
+
+def _safe_score(value: object, *, name: str) -> float:
+    if isinstance(value, str):
+        if value == "-inf":
+            return -math.inf
+        raise ValueError(f"{name} string score must be '-inf'")
+    if isinstance(value, bool):
+        raise ValueError(f"{name} must be numeric or '-inf'")
+    try:
+        score = float(value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"{name} must be numeric or '-inf'") from exc
+    if math.isnan(score) or score == math.inf:
+        raise ValueError(f"{name} must be finite or -inf")
+    return score
+
+
+def _json_score(value: float) -> float | str:
+    return "-inf" if value == -math.inf else float(value)
+
+
+def _scoring_plan(manifest: Mapping[str, object]) -> dict[str, object]:
+    raw = manifest.get("managed_scoring_plan")
+    required = {
+        "working_directory",
+        "command",
+        "command_artifact_snapshot",
+        "timeout_seconds",
+        "environment_allowlist",
+        "validation_data_format",
+        "validation_row_id_column",
+        "runtime_environment_snapshot",
+    }
+    if not isinstance(raw, Mapping) or set(raw) != required:
+        raise ValueError("managed_scoring_plan fields mismatch")
+    if not isinstance(raw["command"], list) or not raw["command"]:
+        raise ValueError("managed scoring command must be non-empty")
+    if (
+        not isinstance(raw["command_artifact_snapshot"], list)
+        or not raw["command_artifact_snapshot"]
+    ):
+        raise ValueError("managed scoring command artifact snapshot must be non-empty")
+    if not isinstance(raw["environment_allowlist"], list):
+        raise ValueError("managed scoring environment_allowlist must be a list")
+    timeout = raw["timeout_seconds"]
+    if isinstance(timeout, bool) or not isinstance(timeout, int) or timeout < 1:
+        raise ValueError("managed scoring timeout_seconds is invalid")
+    return dict(raw)
+
+
+def _verify_scoring_identity(
+    plan: Mapping[str, object],
+    *,
+    freeze_base: Path,
+) -> tuple[Path, dict[str, object]]:
+    working = Path(str(plan["working_directory"]))
+    if not working.is_absolute():
+        working = freeze_base / working
+    if not working.is_dir():
+        raise FileNotFoundError(working)
+
+    current: list[dict[str, str]] = []
+    for index, item in enumerate(plan["command_artifact_snapshot"]):
+        if not isinstance(item, Mapping) or set(item) != {"path", "sha256"}:
+            raise ValueError(
+                f"managed scoring command_artifact_snapshot[{index}] is invalid"
+            )
+        relative = _text(item["path"], name="scoring artifact path")
+        path = working / relative
+        if path.is_symlink() or not path.is_file():
+            raise ValueError(
+                f"scoring artifact must be a regular non-symlink file: {path}"
+            )
+        current.append({"path": relative, "sha256": _file_sha256(path)})
+    if current != plan["command_artifact_snapshot"]:
+        raise ValueError("scoring command artifact bytes do not match freeze")
+
+    runtime = _runtime_snapshot(plan["environment_allowlist"])
+    if runtime != plan["runtime_environment_snapshot"]:
+        raise ValueError("scoring runtime environment does not match freeze")
+    return working, runtime
+
+
+def _verify_nested_generated_models(
+    managed_receipt: Mapping[str, object],
+    *,
+    generated_model_root: Path,
+    frozen_snapshot: object,
+) -> dict[tuple[str, str], list[dict[str, str]]]:
+    if not isinstance(frozen_snapshot, list) or not frozen_snapshot:
+        raise ValueError("frozen nested model artifact snapshot is invalid")
+
+    expected: dict[tuple[str, str], list[dict[str, str]]] = {}
+    for item in frozen_snapshot:
+        if not isinstance(item, Mapping):
+            raise ValueError("frozen nested artifact must be an object")
+        source_id = _text(item.get("source_draw_id"), name="frozen source_draw_id")
+        refit_id = _text(item.get("inner_refit_id"), name="frozen inner_refit_id")
+        artifact_id = _text(item.get("artifact_id"), name="frozen artifact_id")
+        digest = _sha256_text(item.get("sha256"), name="frozen artifact sha256")
+        expected.setdefault((source_id, refit_id), []).append(
+            {"artifact_id": artifact_id, "sha256": digest}
+        )
+
+    sources = managed_receipt.get("sources")
+    if not isinstance(sources, list) or not sources:
+        raise ValueError("managed nested generation sources are invalid")
+    current: dict[tuple[str, str], list[dict[str, str]]] = {}
+    for source in sources:
+        if not isinstance(source, Mapping):
+            raise ValueError("managed nested source must be an object")
+        source_id = _text(source.get("source_draw_id"), name="source_draw_id")
+        executions = source.get("inner_executions")
+        if not isinstance(executions, list) or not executions:
+            raise ValueError("managed nested inner executions are invalid")
+        for execution in executions:
+            if not isinstance(execution, Mapping):
+                raise ValueError("managed nested execution must be an object")
+            refit_id = _text(
+                execution.get("inner_refit_id"), name="inner_refit_id"
+            )
+            key = (source_id, refit_id)
+            if key in current:
+                raise ValueError("duplicate source/refit model coverage")
+            artifacts = execution.get("artifacts")
+            if not isinstance(artifacts, list) or not artifacts:
+                raise ValueError("managed nested model artifacts are missing")
+            rows: list[dict[str, str]] = []
+            for artifact in artifacts:
+                if not isinstance(artifact, Mapping):
+                    raise ValueError("managed nested artifact must be an object")
+                artifact_id = _text(
+                    artifact.get("artifact_id"), name="artifact_id"
+                )
+                relative = _text(
+                    artifact.get("relative_path"), name="artifact relative_path"
+                )
+                frozen_sha = _sha256_text(
+                    artifact.get("sha256"), name="artifact sha256"
+                )
+                path = generated_model_root / source_id / refit_id / relative
+                if path.is_symlink() or not path.is_file():
+                    raise FileNotFoundError(path)
+                current_sha = _file_sha256(path)
+                if current_sha != frozen_sha:
+                    raise ValueError(
+                        "generated nested model artifact bytes changed for "
+                        f"{source_id}/{refit_id}/{artifact_id}"
+                    )
+                rows.append(
+                    {
+                        "artifact_id": artifact_id,
+                        "relative_path": relative,
+                        "path": str(path.resolve()),
+                        "sha256": current_sha,
+                    }
+                )
+            rows.sort(key=lambda row: row["artifact_id"])
+            current[key] = rows
+
+    if set(current) != set(expected):
+        raise ValueError("nested generated-model source/refit coverage mismatch")
+    for key in sorted(expected):
+        frozen = sorted(expected[key], key=lambda row: row["artifact_id"])
+        observed = [
+            {"artifact_id": row["artifact_id"], "sha256": row["sha256"]}
+            for row in current[key]
+        ]
+        if observed != frozen:
+            raise ValueError(
+                "nested generated-model artifact identity mismatch for "
+                f"{key[0]}/{key[1]}"
+            )
+    return current
+
+
+def _validate_nested_scoring_output(
+    path: Path,
+    *,
+    expected_source_draw_id: str,
+    expected_inner_refit_id: str,
+    expected_row_ids: Sequence[str],
+    level_names: Sequence[str],
+) -> dict[str, dict[str, float]]:
+    raw = _load_json(path, name="managed source-v0 scoring output")
+    if set(raw) != {"source_draw_id", "inner_refit_id", "rows"}:
+        raise ValueError("managed source-v0 scoring output fields are invalid")
+    if _text(raw["source_draw_id"], name="source_draw_id") != expected_source_draw_id:
+        raise ValueError("managed scoring source_draw_id mismatch")
+    if _text(raw["inner_refit_id"], name="inner_refit_id") != expected_inner_refit_id:
+        raise ValueError("managed scoring inner_refit_id mismatch")
+    rows = raw["rows"]
+    if not isinstance(rows, list) or len(rows) != len(expected_row_ids):
+        raise ValueError("managed scoring output row coverage is incomplete")
+    expected = set(expected_row_ids)
+    seen: set[str] = set()
+    scores: dict[str, dict[str, float]] = {}
+    for index, item in enumerate(rows):
+        if not isinstance(item, Mapping) or set(item) != {"row_id", "scores"}:
+            raise ValueError(f"managed scoring rows[{index}] is invalid")
+        row_id = _text(item["row_id"], name=f"scoring row {index} row_id")
+        if row_id in seen:
+            raise ValueError("managed scoring row IDs must be unique")
+        seen.add(row_id)
+        if row_id not in expected:
+            raise ValueError("managed scoring contains unknown validation row")
+        raw_scores = item["scores"]
+        if not isinstance(raw_scores, Mapping):
+            raise ValueError("managed scoring row scores must be an object")
+        if set(raw_scores) != set(level_names):
+            raise ValueError("managed scoring level keys do not match freeze")
+        scores[row_id] = {
+            level: _safe_score(
+                raw_scores[level],
+                name=(
+                    f"score[{expected_source_draw_id},"
+                    f"{expected_inner_refit_id},{row_id},{level}]"
+                ),
+            )
+            for level in level_names
+        }
+    if seen != expected:
+        raise ValueError("managed scoring output does not exactly cover frozen rows")
+    return scores
