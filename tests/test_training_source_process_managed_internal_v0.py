@@ -441,7 +441,7 @@ def test_source_v0_scoring_rejects_scoring_code_byte_tampering(tmp_path):
         "row_id,y\n"+"\n".join(f"{rid},1" for rid in row_ids)+"\n",
         encoding="utf-8",
     )
-    with pytest.raises(ValueError,match="code bytes do not match freeze"):
+    with pytest.raises(ValueError,match="scoring command artifact bytes do not match freeze"):
         run_managed_training_source_process_scoring_v0(
             freeze_manifest,freeze_receipt,roster,
             validation_roster_format="csv",
@@ -479,7 +479,7 @@ def test_source_v0_endpoint_rejects_runtime_design_tampering(tmp_path):
 def test_source_v0_endpoint_rejects_score_bundle_byte_tampering(tmp_path):
     state=_freeze_and_score(tmp_path)
     payload=json.loads(state["score_bundle"].read_text(encoding="utf-8"))
-    payload["scores"][0][0][0][0]=123.0
+    payload["scores_by_level"]["pooled"][0][0][0]=123.0
     state["score_bundle"].write_text(json.dumps(payload),encoding="utf-8")
     row_ids,groups,blocks,weights=_design(state["roster"])
     with pytest.raises(ValueError,match="score_bundle_sha256 mismatch"):
@@ -556,7 +556,7 @@ def test_source_v0_scoring_rejects_malformed_nested_score_schema(tmp_path):
         "row_id,y\n"+"\n".join(f"{rid},1" for rid in row_ids)+"\n",
         encoding="utf-8",
     )
-    with pytest.raises(ValueError,match="top-level fields"):
+    with pytest.raises(ValueError,match="scoring output fields are invalid"):
         run_managed_training_source_process_scoring_v0(
             freeze_manifest,freeze_receipt,roster,
             validation_roster_format="csv",
