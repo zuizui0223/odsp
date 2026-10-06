@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "receipt_type": "odsp_training_source_process_v0_support_envelope_v1",
+  "date": "2026-10-06",
+  "method_version": "training_source_process_positive_iut_v0",
+  "generator_version": "nested_source_refit_support_v0",
+  "support_head_sha": "827f84f5205f87a73697b7352d012f78e61b3ee8",
+  "predeclared_contract": "ODSP_TRAINING_SOURCE_PROCESS_V0_SUPPORT_CONTRACT.json",
+  "official_run": {
+    "github_actions_run_id": 37392498151,
+    "github_actions_job_id": 112040620824,
+    "seed": 20261018,
+    "simulations_per_scenario": 1000,
+    "qualification_pass": true
+  },
+  "scenarios": {
+    "skewed-lognormal-s8-r8-b8": 0.013,
+    "contaminated-inner-s8-r8-b20": 0.038,
+    "rademacher-s8-r8-b8": 0.051,
+    "unequal-validation-weight-s8-r8-b8": 0.045,
+    "heteroskedastic-inner-by-source-s8-r8-b8": 0.038
+  },
+  "acceptance": {
+    "maximum_accepted_component_rate": 0.06378404875209022,
+    "largest_observed_component_rate": 0.051,
+    "all_five_support_scenarios_pass": true
+  },
+  "qualification_boundary": {
+    "base_statistical_panel_passed": true,
+    "adversarial_support_passed": true,
+    "statistical_qualification_sufficient_for_primary_promotion": false,
+    "outer_source_process_provenance_still_required": true,
+    "managed_nested_generation_still_required": true,
+    "implementation_runtime_identity_still_required": true,
+    "route_registered": false
+  },
+  "scientific_boundary": {
+    "target_is_declared_outer_source_resampling_process": true,
+    "unknown_ecological_source_superpopulation_generalization_claimed": false,
+    "individual_future_source_sample_success_probability_claimed": false,
+    "all_future_source_samples_positive_claimed": false,
+    "qualified_v5_results_reclassified": false
+  }
+}
