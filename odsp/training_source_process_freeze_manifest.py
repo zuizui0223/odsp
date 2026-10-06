@@ -43,6 +43,15 @@ OUTER_PROCESS_KIND = "stratified_unit_bootstrap_with_replacement"
 INNER_PROCESS_KIND = "bootstrap_from_outer_source_empirical_distribution"
 RNG_ALGORITHM = "numpy.default_rng.PCG64"
 
+
+def _safe_path_component_id(value: str, *, name: str) -> str:
+    text = str(value).strip()
+    if not text:
+        raise ValueError(f"{name} must be non-empty")
+    if text in {".", ".."} or "/" in text or "\\\\" in text or "\x00" in text:
+        raise ValueError(f"{name} must be a safe single path component")
+    return text
+
 _PLAN_FIELDS = {
     "schema_version",
     "source_process_id",
@@ -211,11 +220,13 @@ def validate_training_source_process_freeze_plan(
     if stratum_column == unit_column:
         raise ValueError("source roster unit and stratum columns must differ")
 
-    source_draw_ids = _string_array(
-        plan.get("source_draw_ids"), name="source_draw_ids"
+    source_draw_ids = tuple(
+        _safe_path_component_id(x, name="source_draw_ids")
+        for x in _string_array(plan.get("source_draw_ids"), name="source_draw_ids")
     )
-    inner_refit_ids = _string_array(
-        plan.get("inner_refit_ids"), name="inner_refit_ids"
+    inner_refit_ids = tuple(
+        _safe_path_component_id(x, name="inner_refit_ids")
+        for x in _string_array(plan.get("inner_refit_ids"), name="inner_refit_ids")
     )
     if len(source_draw_ids) < 8:
         raise ValueError("source-process v0 requires at least 8 outer source draws")
