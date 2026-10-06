@@ -267,7 +267,7 @@ def test_routing_contract_freezes_route_context_evidence_governance():
         Path("ODSP_CONFIRMATORY_METHOD_ROUTING_CONTRACT.json").read_text(encoding="utf-8")
     )
     evidence = payload["qualification_evidence"]
-    assert evidence["registry"] == "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V6.json"
+    assert evidence["registry"] == "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V7.json"
     assert evidence["artifact_sha256_frozen"] is True
     assert evidence["keyed_by_full_route_context"] is True
     assert evidence["surface_name_alone_is_sufficient"] is False
@@ -402,3 +402,64 @@ def test_active_v6_registry_reactivates_external_chain_after_official_hash_repla
     assert governance["registry_v6_created_after_official_external_hash_replay"] is True
     assert governance["external_hash_replay_run_id"] == 37306487541
     assert governance["external_activation_meta_evidence_content_locked"] is True
+
+
+def test_training_source_process_v0_has_distinct_15_artifact_chain():
+    route = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="predeclared_training_source_process",
+        external_validation="none",
+        contrast_count=2,
+    )
+    assert route.role == "primary_confirmatory"
+    assert route.qualification_evidence == (
+        "ODSP_TRAINING_SOURCE_PROCESS_V0_CONTRACT.json",
+        "ODSP_TRAINING_SOURCE_PROCESS_V0_CALIBRATION_CONTRACT.json",
+        "TRAINING_SOURCE_PROCESS_V0_BASE_QUALIFICATION_RECEIPT.json",
+        "ODSP_TRAINING_SOURCE_PROCESS_V0_SUPPORT_CONTRACT.json",
+        "TRAINING_SOURCE_PROCESS_V0_SUPPORT_ENVELOPE_RECEIPT.json",
+        "ODSP_TRAINING_SOURCE_PROCESS_V0_STATUS_SEMANTICS_CONTRACT.json",
+        "ODSP_TRAINING_SOURCE_PROCESS_V0_FREEZE_MANIFEST_CONTRACT.json",
+        "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_GENERATION_CONTRACT.json",
+        "ODSP_TRAINING_SOURCE_PROCESS_V0_VALIDATION_FRAME_PROVENANCE_CONTRACT.json",
+        "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_INTERNAL_VALIDATION_CONTRACT_V4.json",
+        "ODSP_TRAINING_SOURCE_PROCESS_V0_PRIMARY_PROMOTION_GATE_V5.json",
+        "ODSP_TRAINING_SOURCE_PROCESS_V0_QUALIFICATION_IDENTITY_CONTRACT_V2.json",
+        "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_FOCUSED_RECEIPT_CONTRACT.json",
+        "TRAINING_SOURCE_PROCESS_V0_MANAGED_FOCUSED_RECEIPT.json",
+        "TRAINING_SOURCE_PROCESS_V0_QUALIFICATION_IDENTITY_RECEIPT.json",
+    )
+
+
+def test_registry_v7_extends_v6_only_with_source_v0_route_and_hashes():
+    old = json.loads(
+        Path("ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V6.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    new = json.loads(
+        Path("ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V7.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    route = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="predeclared_training_source_process",
+        external_validation="none",
+        contrast_count=2,
+    )
+    assert new["schema_version"] == 7
+    assert new["registry_id"] == "odsp-confirmatory-route-evidence-v7"
+    for key, chain in old["evidence_by_route_key"].items():
+        assert new["evidence_by_route_key"][key] == chain
+    for artifact, digest in old["artifact_sha256"].items():
+        assert new["artifact_sha256"][artifact] == digest
+    assert new["evidence_by_route_key"][route.qualification_key] == list(
+        route.qualification_evidence
+    )
+    assert new["governance"]["registry_v6_retained_for_historical_provenance"] is True
+    assert new["governance"]["training_source_process_v0_hash_replay_run_id"] == 37545859351
