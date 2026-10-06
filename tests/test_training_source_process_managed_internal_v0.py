@@ -21,8 +21,8 @@ from odsp.training_source_process_managed_internal_v0 import (
     MANAGED_INTERNAL_RECEIPT_TYPE,
     run_managed_internal_training_source_process_v0,
 )
-from odsp.training_source_process_managed_scoring import (
-    SCORING_RECEIPT_TYPE,
+from odsp.training_source_process_managed_internal_scoring import (
+    MANAGED_SCORING_RECEIPT_TYPE,
     run_managed_training_source_process_scoring_v0,
 )
 
@@ -279,13 +279,18 @@ def _freeze_and_score(tmp_path: Path):
         "score_bundle":score_bundle,
         "scoring_receipt":scoring_receipt,
         "frozen_at":frozen_at,
+        "managed_read_at": datetime.fromisoformat(
+            json.loads(scoring_receipt.read_text(encoding="utf-8"))[
+                "validation_data_first_read_by_odsp_at_utc"
+            ].replace("Z", "+00:00")
+        ),
     }
 
 
 def test_managed_source_v0_chain_reaches_fine_ceiling(tmp_path):
     state=_freeze_and_score(tmp_path)
     row_ids,groups,blocks,weights=_design(state["roster"])
-    access=(state["frozen_at"]+timedelta(seconds=1)).isoformat()
+    access=state["managed_read_at"].isoformat()
     result=run_managed_internal_training_source_process_v0(
         state["freeze_manifest"],
         state["freeze_receipt"],
@@ -303,6 +308,9 @@ def test_managed_source_v0_chain_reaches_fine_ceiling(tmp_path):
     )
     assert result.receipt_type == MANAGED_INTERNAL_RECEIPT_TYPE
     assert result.freeze_precedes_declared_first_validation_outcome_access is True
+    assert result.managed_validation_read_after_freeze is True
+    assert result.declared_first_access_not_after_managed_validation_read is True
+    assert result.semantic_use_of_model_and_validation_inputs_cryptographically_proven is False
     assert result.source_frame_validation_disjoint is True
     assert result.score_tensor_derived_by_managed_scoring is True
     assert result.evaluation.source_process_mean_transfer_ceiling == "fine"
@@ -374,9 +382,33 @@ def test_source_v0_endpoint_rejects_nonprospective_access_timestamp(tmp_path):
 def test_scoring_receipt_is_managed_source_v0_type(tmp_path):
     state=_freeze_and_score(tmp_path)
     receipt=json.loads(state["scoring_receipt"].read_text())
-    assert receipt["receipt_type"] == SCORING_RECEIPT_TYPE
-    assert receipt["execution_count"] == 64
+    assert receipt["receipt_type"] == MANAGED_SCORING_RECEIPT_TYPE
+    assert receipt["fit_score_execution_count"] == 64
+    assert receipt["validation_data_first_read_by_odsp_at_utc"]
     assert receipt["boundaries"]["shell_used"] is False
+    assert receipt["boundaries"]["source_inner_nesting_preserved"] is True
+
+
+def test_source_v0_endpoint_rejects_declared_access_after_managed_read(tmp_path):
+    state=_freeze_and_score(tmp_path)
+    row_ids,groups,blocks,weights=_design(state["roster"])
+    future=(state["managed_read_at"]+timedelta(seconds=1)).isoformat()
+    with pytest.raises(ValueError,match="must not occur after"):
+        run_managed_internal_training_source_process_v0(
+            state["freeze_manifest"],
+            state["freeze_receipt"],
+            state["scoring_receipt"],
+            state["score_bundle"],
+            state["validation"],
+            groups,
+            blocks=blocks,
+            validation_row_ids=row_ids,
+            sample_weight=weights,
+            source_process_manifest_path=state["manifest"],
+            managed_nested_generation_receipt_path=state["managed_receipt"],
+            source_roster_path=state["source_roster"],
+            validation_outcomes_first_accessed_at_utc=future,
+        )
 
 
 def test_source_v0_validation_freeze_rejects_scoring_artifact_escape(tmp_path):
