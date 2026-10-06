@@ -48,7 +48,7 @@ def _safe_path_component_id(value: str, *, name: str) -> str:
     text = str(value).strip()
     if not text:
         raise ValueError(f"{name} must be non-empty")
-    if text in {".", ".."} or "/" in text or "\\\\" in text or "\x00" in text:
+    if text in {".", ".."} or "/" in text or "\\" in text or "\x00" in text:
         raise ValueError(f"{name} must be a safe single path component")
     return text
 
