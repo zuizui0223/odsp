@@ -11,6 +11,7 @@ on:
       - 'tests/test_training_process_v5_cli_templates.py'
       - 'examples/training_process_v5/**'
       - 'ODSP_TRAINING_PROCESS_V5_OPERATIONAL_CLI_CONTRACT.json'
+      - 'TRAINING_PROCESS_V5_EXTERNAL_ENDPOINT_IDENTITY_RECEIPT_V2.json'
       - 'docs/training_process_v5_operational_cli.md'
       - 'docs/training_process_v5_confirmatory_chain.md'
       - '.github/workflows/training-process-v5-operational-cli.yml'
