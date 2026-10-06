@@ -349,7 +349,6 @@ def run_managed_internal_scoring_v1(
         ),
         "managed_generation_receipt_sha256": managed_receipt_sha,
         "validation_data_sha256": validation_sha,
-        "validation_data_first_read_by_odsp_at_utc": validation_data_first_read_by_odsp_at_utc,
         "refit_ids": refit_ids,
         "row_ids": row_ids,
         "levels": levels,
@@ -379,6 +378,7 @@ def run_managed_internal_scoring_v1(
         ),
         "managed_generation_receipt_sha256": managed_receipt_sha,
         "validation_data_sha256": validation_sha,
+        "validation_data_first_read_by_odsp_at_utc": validation_data_first_read_by_odsp_at_utc,
         "validation_roster_file_sha256": _file_sha256(roster_path),
         "scoring_spec_sha256": scoring_spec_sha,
         "scoring_command_artifact_snapshot": scoring_plan[
