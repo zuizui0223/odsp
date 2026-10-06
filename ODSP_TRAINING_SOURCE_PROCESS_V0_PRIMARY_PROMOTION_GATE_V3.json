@@ -1,0 +1,79 @@
+{
+  "schema_version": 3,
+  "contract_id": "odsp-training-source-process-v0-primary-promotion-gate-v3",
+  "frozen_date": "2026-10-06",
+  "predecessors": [
+    {
+      "artifact": "ODSP_TRAINING_SOURCE_PROCESS_V0_PRIMARY_PROMOTION_GATE.json",
+      "retained": true
+    },
+    {
+      "artifact": "ODSP_TRAINING_SOURCE_PROCESS_V0_PRIMARY_PROMOTION_GATE_V2.json",
+      "retained": true,
+      "note": "v2 is retained as historical provenance; v3 normalizes its promotion-order field names without changing requirements"
+    }
+  ],
+  "candidate_surface": "odsp.training_source_process_managed_internal_v0.run_managed_internal_training_source_process_v0",
+  "underlying_numeric_surface": "odsp.training_source_process_v0.evaluate_training_source_process_positive_information_v0",
+  "required_statistical_evidence": [
+    "TRAINING_SOURCE_PROCESS_V0_BASE_QUALIFICATION_RECEIPT.json",
+    "TRAINING_SOURCE_PROCESS_V0_SUPPORT_ENVELOPE_RECEIPT.json"
+  ],
+  "required_process_provenance": [
+    "content-locked outer-source process freeze manifest",
+    "ODSP-managed nested source-to-inner-refit generation receipt",
+    "entire original frozen source frame disjoint from validation rows"
+  ],
+  "required_validation_provenance": [
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_INTERNAL_VALIDATION_CONTRACT_V2.json",
+    "pre-outcome row/group/block/weight freeze",
+    "nested generated model artifacts reverified before scoring",
+    "frozen scoring argv and scoring-code bytes",
+    "frozen scoring runtime environment",
+    "managed source x inner-refit x row x level score tensor",
+    "content-hashed score bundle and managed-scoring receipt",
+    "freeze strictly precedes declared first validation-outcome access",
+    "declared first access is not later than ODSP managed validation-data read"
+  ],
+  "required_identity_and_evidence": [
+    "focused managed source-v0 end-to-end receipt",
+    "recursive ODSP implementation source snapshot for canonical managed source-v0 surface",
+    "runtime dependency snapshot",
+    "qualification evidence artifact SHA256 snapshot"
+  ],
+  "promotion_order": {
+    "statistical_base_and_support_receipts_exist_first": true,
+    "managed_nested_generation_provenance_exists_before_validation_scoring": true,
+    "validation_freeze_exists_before_outcome_access": true,
+    "managed_scoring_and_focused_tests_exist_before_identity_receipt": true,
+    "identity_and_evidence_receipts_exist_before_route_registration": true,
+    "routing_promotion_occurs_last": true
+  },
+  "scope": {
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "contrast_count": 2,
+    "minimum_outer_source_draws": 8,
+    "minimum_inner_refits_per_source": 8,
+    "balanced_inner_refit_counts_required": true,
+    "minimum_validation_blocks_per_group": 8,
+    "paired": false,
+    "complete_lattice": false,
+    "untouched_external": false
+  },
+  "claim_boundary": {
+    "target": "mean held-out gain over the declared outer source-resampling process, nested inner-refit process and validation population",
+    "outer_source_process_is_conditional_on_frozen_original_source_roster": true,
+    "unknown_ecological_source_superpopulation_generalization_claimed": false,
+    "individual_future_source_sample_success_probability_claimed": false,
+    "all_future_source_samples_positive_claimed": false,
+    "qualified_training_process_v5_reclassified": false,
+    "fixed_set_results_reclassified": false,
+    "historical_empirical_endpoints_reclassified": false
+  },
+  "registration": {
+    "reuse_predeclared_training_process_route_key": false,
+    "requires_distinct_upstream_mode": "predeclared_training_source_process",
+    "primary_confirmatory_now": false
+  }
+}
