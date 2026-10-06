@@ -18,7 +18,7 @@
   "nested_inner_resampling": {
     "kind": "independent_bootstrap_with_replacement_from_each_outer_source_empirical_distribution",
     "draw_size": "outer_source_draw_size",
-    "implemented_equivalently_by_resampling deterministic expanded source-draw slots",
+    "implemented_equivalently_by_resampling_deterministic_expanded_source_draw_slots": true,
     "inner_refit_count_balanced_across_sources": true,
     "canonical_membership": "sorted stratum, unit_id, count over the original frozen roster including zero-count units",
     "inner_membership_digest_must_be_reconstructible_from_outer_membership_and_inner_seed": true
