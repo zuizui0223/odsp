@@ -17,22 +17,20 @@ from typing import Mapping, Sequence
 from .information_transfer_contract import _read_rows
 from .refit_information_transfer import RefitInformationLevelScores
 from .training_process_confirmatory_v5 import _load_json
-from .training_process_external_freeze_v1 import (
-    _canonical_sha256,
-    _external_design_rows,
-)
 from .training_process_freeze_manifest import _file_sha256
 from .training_process_internal_freeze_v1 import (
     FREEZE_RECEIPT_TYPE,
     MANIFEST_TYPE,
 )
-from .training_process_managed_external_scoring import (
+from .training_process_validation_helpers import (
+    _canonical_sha256,
     _json_score,
     _safe_score,
     _scoring_plan,
     _sha256_text,
     _text,
     _validate_scoring_output,
+    _validation_design_rows,
     _verify_generated_models,
     _verify_scoring_identity,
 )
@@ -83,7 +81,7 @@ def _validation_design(
     manifest: Mapping[str, object],
 ) -> list[dict[str, object]]:
     rows = _read_rows(roster_path, format_name)
-    canonical, block_counts = _external_design_rows(rows)
+    canonical, block_counts = _validation_design_rows(rows)
     if _canonical_sha256(canonical) != manifest.get("validation_design_sha256"):
         raise ValueError("validation roster design does not match freeze")
     if len(canonical) != manifest.get("validation_row_count"):
