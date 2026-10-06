@@ -286,6 +286,10 @@ def test_managed_internal_chain_closes_model_to_score_provenance(tmp_path):
     result = _run(fixture)
     assert result.receipt_type == MANAGED_INTERNAL_RECEIPT_TYPE
     assert result.score_tensor_derived_by_managed_scoring is True
+    assert (
+        result.score_table_derivation_from_generated_models_independently_proven
+        is True
+    )
     assert result.generated_model_artifact_snapshot_verified is True
     assert result.implementation_source_snapshot_verified is True
     assert result.runtime_environment_snapshot_verified is True
