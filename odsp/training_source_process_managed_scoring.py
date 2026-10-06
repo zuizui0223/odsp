@@ -327,6 +327,9 @@ def run_managed_training_source_process_scoring_v0(
     validation_row_id_column = _text(
         scoring_plan["validation_row_id_column"], name="validation_row_id_column"
     )
+    validation_data_first_read_by_odsp_at_utc = (
+        datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    )
     validation_rows = _read_rows(validation_path, validation_format)
     validation_ids: list[str] = []
     for index, row in enumerate(validation_rows):
@@ -546,6 +549,7 @@ def run_managed_training_source_process_scoring_v0(
         "validation_freeze_receipt_sha256": _file_sha256(freeze_receipt_path),
         "managed_nested_generation_receipt_sha256": managed_receipt_sha,
         "validation_data_sha256": _file_sha256(validation_path),
+        "validation_data_first_read_by_odsp_at_utc": validation_data_first_read_by_odsp_at_utc,
         "score_bundle_sha256": _file_sha256(bundle_path),
         "canonical_score_tensor_sha256": tensor_sha,
         "scoring_command_artifact_snapshot": scoring_plan["command_artifact_snapshot"],
