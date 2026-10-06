@@ -42,6 +42,8 @@ jobs:
           tests/test_training_source_process_v0_evidence_plan.py
           tests/test_training_source_process_v0_status_semantics.py
           tests/test_training_source_process_v0_evidence_plan_v2.py
+          tests/test_training_source_process_v0_managed_focused_receipt_contract.py
+          tests/test_training_source_process_v0_evidence_plan_v3.py
           tests/test_training_source_process_v0_receipt.py
           tests/test_training_source_process_v0_support_receipt.py
       - name: Snapshot source-v0 managed identity after focused tests
