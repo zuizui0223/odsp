@@ -64,6 +64,9 @@ class ManagedInternalTrainingProcessV5Certification:
     validation_row_count: int
     validation_outcomes_first_accessed_at_utc: str
     freeze_precedes_declared_first_validation_outcome_access: bool
+    managed_validation_data_first_read_by_odsp_at_utc: str
+    managed_validation_read_after_freeze: bool
+    declared_first_access_not_after_managed_validation_read: bool
     training_process_id: str
     training_process_manifest_sha256: str
     managed_generation_receipt_sha256: str
@@ -342,6 +345,19 @@ def run_managed_internal_training_process_v5(
         "receipt_type"
     ) != MANAGED_INTERNAL_SCORING_RECEIPT_TYPE:
         raise ValueError("managed internal scoring receipt_type is not recognized")
+    managed_read_text, managed_read_time = _utc_timestamp(
+        scoring_receipt.get("validation_data_first_read_by_odsp_at_utc"),
+        name="managed internal scoring receipt.validation_data_first_read_by_odsp_at_utc",
+    )
+    if not freeze_time < managed_read_time:
+        raise ValueError(
+            "ODSP-managed validation-data read must occur after internal validation freeze"
+        )
+    if first_access > managed_read_time:
+        raise ValueError(
+            "declared first validation-outcome access must not occur after "
+            "ODSP-managed validation-data read"
+        )
     freeze_manifest_sha = _file_sha256(freeze_manifest_path)
     validation_sha = _file_sha256(validation_path)
     bundle_sha = _file_sha256(bundle_path)
@@ -495,6 +511,9 @@ def run_managed_internal_training_process_v5(
         validation_row_count=len(design_rows),
         validation_outcomes_first_accessed_at_utc=access_text,
         freeze_precedes_declared_first_validation_outcome_access=True,
+        managed_validation_data_first_read_by_odsp_at_utc=managed_read_text,
+        managed_validation_read_after_freeze=True,
+        declared_first_access_not_after_managed_validation_read=True,
         training_process_id=process_id,
         training_process_manifest_sha256=process_manifest_sha,
         managed_generation_receipt_sha256=managed_receipt_sha,
