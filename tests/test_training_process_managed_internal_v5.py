@@ -352,6 +352,25 @@ def test_managed_internal_scoring_rejects_generated_model_byte_tampering(tmp_pat
         )
 
 
+def test_managed_internal_scoring_rejects_scoring_code_byte_tampering(tmp_path):
+    fixture = _setup(tmp_path)
+    score = tmp_path / "score.py"
+    score.write_text("raise SystemExit(0)\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="command artifact bytes"):
+        run_managed_internal_scoring_v1(
+            fixture["internal_manifest"],
+            fixture["internal_receipt"],
+            fixture["validation_roster"],
+            validation_roster_format="csv",
+            managed_generation_receipt_path=fixture["generation_receipt"],
+            generated_model_root=fixture["generated_root"],
+            validation_data_path=fixture["validation_data"],
+            output_root=tmp_path / "changed-code-scores",
+            score_bundle_out=tmp_path / "changed-code-bundle.json",
+            scoring_receipt_out=tmp_path / "changed-code-receipt.json",
+        )
+
+
 def test_managed_internal_endpoint_rejects_nonprospective_declared_access(tmp_path):
     fixture = _setup(tmp_path)
     manifest = json.loads(Path(fixture["internal_manifest"]).read_text())
