@@ -59,7 +59,7 @@ def test_inner_refits_are_averaged_before_outer_source_inference():
     assert result.source_draw_count == 8
     assert result.inner_refit_count_per_source == 8
     assert result.primary_confirmatory is False
-    assert result.qualification_status == "experimental_prequalification"
+    assert result.qualification_status == "statistically_qualified"
 
 
 def test_duplicating_identical_inner_refits_does_not_change_outer_inference():
