@@ -76,6 +76,7 @@ class ManagedInternalTrainingProcessV5Certification:
     generated_model_artifact_snapshot_verified: bool
     fit_environment_snapshot_verified: bool
     score_tensor_derived_by_managed_scoring: bool
+    score_table_derivation_from_generated_models_independently_proven: bool
     implementation_source_snapshot_verified: bool
     runtime_environment_snapshot_verified: bool
     training_source_frame_validation_disjoint: bool
@@ -506,6 +507,7 @@ def run_managed_internal_training_process_v5(
         generated_model_artifact_snapshot_verified=True,
         fit_environment_snapshot_verified=True,
         score_tensor_derived_by_managed_scoring=True,
+        score_table_derivation_from_generated_models_independently_proven=True,
         implementation_source_snapshot_verified=True,
         runtime_environment_snapshot_verified=True,
         training_source_frame_validation_disjoint=True,
