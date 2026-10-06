@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "training_process_id": "my-training-process-v1",
+  "training_roster": {
+    "path": "training-roster.csv",
+    "format": "csv",
+    "unit_id_column": "unit_id",
+    "stratum_column": "stratum"
+  },
+  "training_data_artifacts": [
+    {
+      "role": "training_table",
+      "path": "training-data.csv"
+    }
+  ],
+  "implementation_artifacts": [
+    {
+      "role": "fit_code",
+      "path": "fit_model.py"
+    }
+  ],
+  "fit_entrypoint": "fit_model.py:main",
+  "fit_parameters": {
+    "example_hyperparameter": 1.0
+  },
+  "refit_ids": [
+    "refit-000",
+    "refit-001",
+    "refit-002",
+    "refit-003",
+    "refit-004",
+    "refit-005",
+    "refit-006",
+    "refit-007"
+  ],
+  "master_seed": 20261006,
+  "resampling": {
+    "kind": "stratified_unit_bootstrap_with_replacement",
+    "replacement": true,
+    "within_stratum_draw_size": "original_stratum_size"
+  }
+}

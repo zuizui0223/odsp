@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "external_dataset_id": "my-untouched-external-v1",
+  "row_identity_namespace": "global-observation-id-v1",
+  "roster": {
+    "path": "external-roster.csv",
+    "format": "csv"
+  },
+  "training_process_manifest_path": "training-process-freeze.json",
+  "managed_generation_receipt_path": "managed-generation-receipt.json",
+  "training_roster": {
+    "path": "training-roster.csv",
+    "format": "csv",
+    "unit_id_column": "unit_id",
+    "stratum_column": "stratum"
+  },
+  "score": {
+    "kind": "log",
+    "name": "log_predictive_probability",
+    "orientation": "higher_is_better",
+    "common_scoring_rule": true,
+    "common_reference_measure": true
+  },
+  "levels": [
+    {
+      "name": "pooled",
+      "information": []
+    },
+    {
+      "name": "coarse",
+      "information": [
+        "identity"
+      ]
+    },
+    {
+      "name": "fine",
+      "information": [
+        "identity",
+        "context"
+      ]
+    }
+  ],
+  "certification": {
+    "component_one_sided_alpha": 0.05,
+    "minimum_refits": 8,
+    "minimum_blocks_per_group": 8,
+    "gain_tolerance": 0.0
+  },
+  "scoring": {
+    "working_directory": ".",
+    "command": [
+      "{python_executable}",
+      "score_external.py",
+      "--refit-id",
+      "{refit_id}",
+      "--models",
+      "{model_manifest_path}",
+      "--validation-data",
+      "{validation_data_path}",
+      "--scoring-spec",
+      "{scoring_spec_path}",
+      "--output",
+      "{output_path}"
+    ],
+    "command_artifacts": [
+      "score_external.py"
+    ],
+    "timeout_seconds": 3600,
+    "environment_allowlist": [],
+    "validation_data_format": "csv",
+    "validation_row_id_column": "row_id"
+  }
+}

@@ -142,3 +142,22 @@ Still unqualified for the training-process route:
 - robustness to external distribution shift.
 
 The fixed-set route remains unchanged and answers a different question.
+
+
+## Operational CLI
+
+The qualified chain can be executed without adding a new top-level ODSP command
+through:
+
+```text
+odsp experimental training-process freeze
+odsp experimental training-process generate
+odsp experimental training-process external-freeze
+odsp experimental training-process external-score
+odsp experimental training-process external-run
+```
+
+These commands are operational wrappers only; they do not define a new
+statistical method, primary surface or evidence registry. See
+[`training_process_v5_operational_cli.md`](training_process_v5_operational_cli.md)
+for the exact file contracts and chronology.

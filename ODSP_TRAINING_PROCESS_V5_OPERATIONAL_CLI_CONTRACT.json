@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-v5-operational-cli-v1",
+  "date": "2026-10-06",
+  "purpose": "provide one operational CLI path through the already-qualified training-process v5 provenance chain without defining a new inferential surface",
+  "public_surface": {
+    "new_top_level_command_added": false,
+    "namespace": "odsp experimental training-process",
+    "operations": [
+      "freeze",
+      "generate",
+      "external-freeze",
+      "external-score",
+      "external-run"
+    ]
+  },
+  "operation_bindings": {
+    "freeze": "odsp.training_process_freeze_manifest.create_training_process_freeze_manifest",
+    "generate": "odsp.training_process_managed_generation.run_managed_training_process_generation",
+    "external-freeze": "odsp.training_process_external_freeze_v1.create_training_process_v5_external_freeze",
+    "external-score": "odsp.training_process_managed_external_scoring.run_managed_external_scoring_v1",
+    "external-run": "odsp.training_process_external_contract.run_training_process_v5_external_contract"
+  },
+  "external_run_contract": {
+    "reconstructs_row_group_block_weight_from_frozen_external_roster": true,
+    "reconstructs_refit_ids_from_external_freeze_manifest": true,
+    "caller_supplied_score_tensor_field_allowed": false,
+    "calls_canonical_external_endpoint": "odsp.training_process_untouched_external_v5.run_untouched_external_training_process_v5"
+  },
+  "governance": {
+    "changes_statistical_method": false,
+    "changes_v5_operating_characteristics": false,
+    "changes_route_evidence_registry": false,
+    "changes_canonical_primary_surface": false,
+    "reclassifies_fixed_set_results": false,
+    "reruns_historical_empirical_endpoints": false,
+    "non_overwriting_artifact_rules_remain_owned_by_underlying_functions": true
+  },
+  "scope": {
+    "qualified_process_route": "independent_groups + ordered filtration + contrast_count=2 + alternative=greater",
+    "adds_process_c4_support": false,
+    "adds_paired_support": false,
+    "adds_lattice_support": false
+  }
+}
