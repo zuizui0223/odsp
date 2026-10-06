@@ -21,8 +21,8 @@ from odsp.training_source_process_managed_internal_v0 import (
     MANAGED_INTERNAL_RECEIPT_TYPE,
     run_managed_internal_training_source_process_v0,
 )
-from odsp.training_source_process_managed_internal_scoring import (
-    MANAGED_SCORING_RECEIPT_TYPE,
+from odsp.training_source_process_managed_scoring import (
+    SCORING_RECEIPT_TYPE,
     run_managed_training_source_process_scoring_v0,
 )
 
@@ -382,7 +382,7 @@ def test_source_v0_endpoint_rejects_nonprospective_access_timestamp(tmp_path):
 def test_scoring_receipt_is_managed_source_v0_type(tmp_path):
     state=_freeze_and_score(tmp_path)
     receipt=json.loads(state["scoring_receipt"].read_text())
-    assert receipt["receipt_type"] == MANAGED_SCORING_RECEIPT_TYPE
+    assert receipt["receipt_type"] == SCORING_RECEIPT_TYPE
     assert receipt["fit_score_execution_count"] == 64
     assert receipt["validation_data_first_read_by_odsp_at_utc"]
     assert receipt["boundaries"]["shell_used"] is False
