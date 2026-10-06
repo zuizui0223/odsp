@@ -117,7 +117,30 @@ def test_source_order_and_inner_order_are_invariant():
         source_process_manifest_sha256=PROCESS_SHA,
         contrast_names=("a", "b"),
     )
-    assert first.as_dict() == second.as_dict()
+    assert first.source_draw_ids == second.source_draw_ids
+    assert first.effective_training_cluster_count == second.effective_training_cluster_count
+    assert first.group_count == second.group_count
+    assert first.contrast_count == second.contrast_count
+    for left_contrast, right_contrast in zip(first.contrasts, second.contrasts):
+        assert left_contrast.contrast == right_contrast.contrast
+        assert left_contrast.category == right_contrast.category
+        for left, right in zip(left_contrast.groups, right_contrast.groups):
+            assert left.group == right.group
+            assert left.status == right.status
+            assert left.estimable == right.estimable
+            assert left.t_degrees_of_freedom == right.t_degrees_of_freedom
+            for field in (
+                "source_process_mean_gain",
+                "source_jackknife_variance",
+                "validation_jackknife_variance",
+                "cv3two_variance",
+                "cv3two_standard_error",
+                "one_sided_t_critical_value",
+                "lower_bound",
+            ):
+                assert getattr(right, field) == pytest.approx(
+                    getattr(left, field), abs=1e-12
+                )
 
 
 def test_too_few_source_draws_fail_closed_even_with_many_inner_refits():
