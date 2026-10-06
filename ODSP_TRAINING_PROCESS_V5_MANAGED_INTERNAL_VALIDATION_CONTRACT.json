@@ -75,7 +75,7 @@
     "existing_internal_primary_route_reclassified": false,
     "new_surface_primary_now": false,
     "raw_caller_supplied_score_tensor_remains_allowed_by_historical_internal_wrapper": true,
-    "managed_internal_surface_may_become_preferred_primary_only_after focused tests and identity receipt": true,
+    "managed_internal_surface_may_become_preferred_primary_only_after_focused_tests_and_identity_receipt": true,
     "untouched_external_route_changed": false
   },
   "claim_boundary": {
