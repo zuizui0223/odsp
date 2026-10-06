@@ -4,8 +4,10 @@ on:
   pull_request:
     paths:
       - 'ODSP_TRAINING_PROCESS_V5_MANAGED_INTERNAL_VALIDATION_CONTRACT.json'
+      - 'ODSP_TRAINING_PROCESS_V5_MANAGED_INTERNAL_VALIDATION_CONTRACT_V2.json'
       - 'ODSP_TRAINING_PROCESS_V5_MANAGED_INTERNAL_PROMOTION_GATE.json'
       - 'ODSP_TRAINING_PROCESS_V5_MANAGED_INTERNAL_PROMOTION_GATE_V2.json'
+      - 'ODSP_TRAINING_PROCESS_V5_MANAGED_INTERNAL_PROMOTION_GATE_V3.json'
       - 'ODSP_TRAINING_PROCESS_V5_MANAGED_INTERNAL_IDENTITY_CONTRACT.json'
       - 'odsp/training_process_internal_freeze_v1.py'
       - 'odsp/training_process_managed_internal_scoring.py'
@@ -14,6 +16,7 @@ on:
       - 'tests/test_training_process_managed_internal_v5.py'
       - 'tests/test_training_process_v5_managed_internal_contract.py'
       - 'tests/test_training_process_v5_managed_internal_promotion_v2.py'
+      - 'tests/test_training_process_v5_managed_internal_v2.py'
       - 'docs/training_process_v5_managed_internal_validation.md'
       - 'scripts/run_training_process_v5_managed_internal_identity.py'
       - '.github/workflows/training-process-v5-managed-internal.yml'
@@ -39,6 +42,7 @@ jobs:
           tests/test_training_process_managed_internal_v5.py
           tests/test_training_process_v5_managed_internal_contract.py
           tests/test_training_process_v5_managed_internal_promotion_v2.py
+          tests/test_training_process_v5_managed_internal_v2.py
       - name: Snapshot managed internal identity
         run: |
           python scripts/run_training_process_v5_managed_internal_identity.py
