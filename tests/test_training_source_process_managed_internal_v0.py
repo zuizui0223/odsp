@@ -21,8 +21,8 @@ from odsp.training_source_process_managed_internal_v0 import (
     MANAGED_INTERNAL_RECEIPT_TYPE,
     run_managed_internal_training_source_process_v0,
 )
-from odsp.training_source_process_managed_scoring import (
-    SCORING_RECEIPT_TYPE,
+from odsp.training_source_process_managed_internal_scoring import (
+    MANAGED_SCORING_RECEIPT_TYPE as SCORING_RECEIPT_TYPE,
     run_managed_training_source_process_scoring_v0,
 )
 
