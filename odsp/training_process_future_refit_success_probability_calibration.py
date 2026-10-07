@@ -145,7 +145,7 @@ def _known_probability_world(
     training_cross_refit_validation_noise_correlation: float,
     contrast_correlation: float,
     distribution: str,
-) -> tuple[np.ndarray, np.ndarray]:
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Generate a crossed validation world with known future-refit success p."""
 
     if not 0.0 <= p_success <= 1.0:
@@ -188,7 +188,7 @@ def _known_probability_world(
         + math.sqrt(1.0 - rho) * refit_interaction
     )
     world = mean[:, :, None, :] + noise
-    return world.astype(float), success.astype(bool)
+    return world.astype(float), success.astype(bool), mean.astype(float)
 
 
 def _flatten_world(
@@ -329,7 +329,7 @@ def run_future_refit_success_probability_v1_calibration(
         lower_bounds: list[float] = []
 
         for simulation_index in range(simulations_per_scenario):
-            world, true_success = _known_probability_world(
+            world, true_success, _ = _known_probability_world(
                 rng,
                 refit_count=refit_count,
                 blocks_per_group=blocks_per_group,
@@ -414,7 +414,7 @@ def run_future_refit_success_probability_v1_calibration(
         maximum_bound: float | None = None
 
         for simulation_index in range(simulations_per_scenario):
-            world, true_success = _known_probability_world(
+            world, true_success, _ = _known_probability_world(
                 rng,
                 refit_count=refit_count,
                 blocks_per_group=blocks_per_group,
