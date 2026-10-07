@@ -67,7 +67,7 @@ def test_frozen_calibration_contract_matches_generator_before_results():
 
 def test_known_probability_world_has_exact_boundary_failure_definition():
     rng = np.random.default_rng(991)
-    world, success = _known_probability_world(
+    world, success, true_mean = _known_probability_world(
         rng,
         refit_count=20,
         blocks_per_group=8,
@@ -83,10 +83,13 @@ def test_known_probability_world_has_exact_boundary_failure_definition():
     assert success.shape == (20,)
     assert not np.any(success)
     assert np.isfinite(world).all()
+    assert true_mean.shape == (20, 6, 2)
+    assert np.all(np.sum(true_mean == 0.0, axis=(1, 2)) == 1)
+    assert np.all(np.sum(true_mean > 0.0, axis=(1, 2)) == 11)
 
 
 def test_known_probability_world_p_one_has_all_true_success_indicators():
-    world, success = _known_probability_world(
+    world, success, true_mean = _known_probability_world(
         np.random.default_rng(17),
         refit_count=8,
         blocks_per_group=20,
@@ -101,6 +104,7 @@ def test_known_probability_world_p_one_has_all_true_success_indicators():
     assert world.shape == (8, 6, 20, 2)
     assert np.all(success)
     assert np.isfinite(world).all()
+    assert np.all(true_mean > 0.0)
 
 
 def test_generator_is_reproducible_for_same_rng_seed():
@@ -115,14 +119,15 @@ def test_generator_is_reproducible_for_same_rng_seed():
         contrast_correlation=0.5,
         distribution="normal",
     )
-    first_world, first_success = _known_probability_world(
+    first_world, first_success, first_mean = _known_probability_world(
         np.random.default_rng(44), **kwargs
     )
-    second_world, second_success = _known_probability_world(
+    second_world, second_success, second_mean = _known_probability_world(
         np.random.default_rng(44), **kwargs
     )
     assert np.array_equal(first_world, second_world)
     assert np.array_equal(first_success, second_success)
+    assert np.array_equal(first_mean, second_mean)
 
 
 def test_calibration_runner_rejects_postfreeze_scope_changes():
