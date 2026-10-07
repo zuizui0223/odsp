@@ -87,7 +87,7 @@ def _write_fixture(root: Path) -> None:
                 "refit_ids": refit_ids,
                 "master_seed": 20261006,
                 "resampling": {
-                    "kind": "independent_stratified_unit_bootstrap_with_replacement_v1",
+                    "kind": "stratified_unit_bootstrap_with_replacement",
                     "replacement": True,
                     "within_stratum_draw_size": "original_stratum_size",
                 },
