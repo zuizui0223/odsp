@@ -6,6 +6,7 @@ on:
       - 'odsp/cli.py'
       - 'odsp/training_process_external_contract.py'
       - 'tests/test_training_process_v5_cli.py'
+      - 'tests/test_training_process_v5_cli_e2e.py'
       - 'tests/test_training_process_external_contract.py'
       - 'tests/test_training_process_v5_operational_cli_contract.py'
       - 'tests/test_training_process_v5_cli_templates.py'
@@ -22,6 +23,7 @@ on:
       - 'odsp/cli.py'
       - 'odsp/training_process_external_contract.py'
       - 'tests/test_training_process_v5_cli.py'
+      - 'tests/test_training_process_v5_cli_e2e.py'
       - 'tests/test_training_process_external_contract.py'
       - 'tests/test_training_process_v5_operational_cli_contract.py'
       - 'ODSP_TRAINING_PROCESS_V5_OPERATIONAL_CLI_CONTRACT.json'
@@ -44,6 +46,7 @@ jobs:
           python -m pytest -q
           tests/test_cli_surface_freeze.py
           tests/test_training_process_v5_cli.py
+          tests/test_training_process_v5_cli_e2e.py
           tests/test_training_process_external_contract.py
           tests/test_training_process_v5_operational_cli_contract.py
           tests/test_training_process_v5_cli_templates.py
