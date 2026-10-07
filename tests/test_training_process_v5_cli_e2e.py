@@ -374,4 +374,4 @@ def test_qualified_training_process_v5_cli_runs_full_external_chain(
     assert result["implementation_source_snapshot_verified"] is True
     assert result["runtime_environment_snapshot_verified"] is True
     assert result["fixed_set_results_reclassified"] is False
-    assert result["certification"]["process_mean_certified_transfer_ceiling"] == "fine"
+    assert result["certification"]["certification"]["process_mean_certified_transfer_ceiling"] == "fine"
