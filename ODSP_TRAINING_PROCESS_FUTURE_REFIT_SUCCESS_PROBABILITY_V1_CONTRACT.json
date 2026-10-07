@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-future-refit-success-probability-v1",
+  "frozen_date": "2026-10-08",
+  "purpose": "estimate a lower confidence bound for the probability that one future refit drawn from a prospectively frozen training-resampling process satisfies every required positive-transfer cell",
+  "relationship_to_existing_routes": {
+    "v5_process_mean_route_unchanged": true,
+    "fixed_set_all_refit_route_unchanged": true,
+    "historical_endpoints_reclassified": false,
+    "new_estimand": true
+  },
+  "estimand": {
+    "symbol": "p_success",
+    "definition": "P_R(all required validation-population directional gains for a future refit exceed gain_tolerance)",
+    "training_process_scope": "conditional on the frozen empirical training source and the frozen independent resampling-and-fitting process",
+    "individual_future_refit_probability_claimed": true,
+    "all_future_refits_positive_claimed": false,
+    "original_training_source_population_generalization_claimed": false,
+    "process_mean_is_estimand": false
+  },
+  "qualified_candidate_scope": {
+    "alternative": "greater",
+    "validation_design": "independent_groups",
+    "information_structure": "ordered_filtration",
+    "contrast_count": 2,
+    "paired_shared_blocks": false,
+    "complete_lattice": false,
+    "untouched_external": false,
+    "minimum_refits": 8,
+    "minimum_blocks_per_group": 8
+  },
+  "confidence_budget": {
+    "overall_one_sided_alpha": 0.05,
+    "validation_simultaneous_alpha": 0.025,
+    "process_binomial_alpha": 0.025,
+    "composition_rule": "Bonferroni union bound: alpha_validation + alpha_process",
+    "posthoc_alpha_reallocation_allowed": false
+  },
+  "validation_stage": {
+    "target": "simultaneous lower bounds for every observed refit x validation group x ordered contrast cell",
+    "bootstrap_axis": "validation blocks only; observed refits are not resampled in this stage",
+    "same_validation_block_draw_shared_across_all_refits_and_contrasts_within_group": true,
+    "validation_groups_resampled_independently": true,
+    "method": "one-sided replicate-studentized cluster-ratio max-t",
+    "familywise_lower_confidence_level": 0.975,
+    "certified_refit_success": "every required cell lower bound exceeds gain_tolerance",
+    "uncertified_or_unavailable_refit_counts_as_certified_success": false
+  },
+  "process_stage": {
+    "observed_refits_assumed_iid_from_frozen_training_process": true,
+    "certified_success_count_symbol": "K",
+    "observed_refit_count_symbol": "R",
+    "bound": "one-sided exact Clopper-Pearson lower confidence bound using K successes out of R at alpha=0.025",
+    "monotonicity_argument": "on simultaneous validation coverage, K_certified <= K_true; the exact binomial lower bound is monotone in K",
+    "overall_error_control_argument": "P(L(K_certified)>p_success) <= alpha_validation + alpha_process"
+  },
+  "interpretation_boundary": {
+    "lower_bound_is_on_future_refit_success_probability": true,
+    "lower_bound_is_not_fraction_of_supplied_refits": true,
+    "lower_bound_is_not_process_mean_gain": true,
+    "lower_bound_is_not_probability_external_dataset_generalizes": true,
+    "small_R_can_make_bound_weak_even_when_all_observed_refits_are_certified": true,
+    "maximum_possible_bound_at_K_equals_R_is_reported": true
+  },
+  "governance": {
+    "candidate_primary_now": false,
+    "prospective_operating_characteristic_qualification_required": true,
+    "process_manifest_and_managed_generation_provenance_required": true,
+    "full_training_source_frame_validation_separation_required": true,
+    "raw_numeric_function_alone_can_be_primary": false
+  }
+}
