@@ -39,7 +39,7 @@
     "metric": "P(certified-success count K exceeds the true-success count among the observed refits)",
     "nominal_alpha": 0.025,
     "maximum_accepted_rate_formula": "0.025 + 2*sqrt(0.025*0.975/1000)",
-    "maximum_accepted_rate": 0.03487400787401181,
+    "maximum_accepted_rate": 0.03487420882906575,
     "every_scenario_must_pass": true
   },
   "strong_signal_power_scenarios": [
