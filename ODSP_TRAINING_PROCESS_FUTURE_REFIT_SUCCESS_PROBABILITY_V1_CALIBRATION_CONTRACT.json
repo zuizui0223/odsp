@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-future-refit-success-probability-v1-calibration",
+  "frozen_date": "2026-10-08",
+  "generator_version": "future_refit_success_probability_known_p_boundary_failure_v1",
+  "seed": 20261016,
+  "simulations_per_scenario": 1000,
+  "bootstrap_draws_per_interval": 500,
+  "group_count": 6,
+  "contrast_count": 2,
+  "confidence_budget": {
+    "overall_alpha": 0.05,
+    "validation_alpha": 0.025,
+    "process_alpha": 0.025
+  },
+  "common_generator": {
+    "training_cross_refit_validation_noise_correlation": 0.35,
+    "contrast_correlation": 0.5,
+    "failure_refit_configuration": "exactly one uniformly selected required cell has true gain 0; every other required cell has the strong positive shift",
+    "success_refit_configuration": "every required cell has the strong positive shift",
+    "strong_positive_shift": "6 oracle validation-cell standard errors for coverage scenarios",
+    "true_success_indicators": "iid Bernoulli(p_success)"
+  },
+  "coverage_scenarios": [
+    {"scenario_id":"p50-normal-r8-b8","distribution":"normal","refit_count":8,"blocks_per_group":8,"p_success":0.50},
+    {"scenario_id":"p80-normal-r8-b20","distribution":"normal","refit_count":8,"blocks_per_group":20,"p_success":0.80},
+    {"scenario_id":"p80-normal-r20-b8","distribution":"normal","refit_count":20,"blocks_per_group":8,"p_success":0.80},
+    {"scenario_id":"p95-normal-r20-b20","distribution":"normal","refit_count":20,"blocks_per_group":20,"p_success":0.95},
+    {"scenario_id":"p80-t3-r8-b20","distribution":"student_t3","refit_count":8,"blocks_per_group":20,"p_success":0.80},
+    {"scenario_id":"p50-t3-r20-b20","distribution":"student_t3","refit_count":20,"blocks_per_group":20,"p_success":0.50}
+  ],
+  "coverage_acceptance": {
+    "metric": "P(reported lower success-probability bound > true p_success)",
+    "maximum_accepted_rate_formula": "0.05 + 2*sqrt(0.05*0.95/1000)",
+    "maximum_accepted_rate": 0.06378404875209022,
+    "every_scenario_must_pass": true
+  },
+  "validation_stage_acceptance": {
+    "metric": "P(certified-success count K exceeds the true-success count among the observed refits)",
+    "nominal_alpha": 0.025,
+    "maximum_accepted_rate_formula": "0.025 + 2*sqrt(0.025*0.975/1000)",
+    "maximum_accepted_rate": 0.03487400787401181,
+    "every_scenario_must_pass": true
+  },
+  "strong_signal_power_scenarios": [
+    {"scenario_id":"all-success-r8-b8","distribution":"normal","refit_count":8,"blocks_per_group":8,"p_success":1.0,"positive_shift_oracle_se":8.0},
+    {"scenario_id":"all-success-r20-b8","distribution":"normal","refit_count":20,"blocks_per_group":8,"p_success":1.0,"positive_shift_oracle_se":8.0}
+  ],
+  "power_acceptance": {
+    "metric": "P(all observed refits are certified successful, K=R)",
+    "minimum_accepted_rate": 0.80,
+    "every_scenario_must_pass": true
+  },
+  "prequalification_history": {
+    "results_observed_before_this_freeze": false,
+    "thresholds_tuned_to_results": false,
+    "scenarios_may_be_dropped_after_failure": false,
+    "failed_v1_may_not_be_rescued_posthoc": true
+  }
+}
