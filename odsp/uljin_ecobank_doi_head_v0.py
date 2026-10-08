@@ -26,7 +26,8 @@ def validate_plan(plan:Mapping[str,object])->None:
         or plan.get("probe_id")!=PROBE_ID
         or plan.get("status")!="POST_ASTRONOMY_DESIGN_PRE_SOURCE_CONTENT_ACCESS"
         or plan.get("only_requested_uri")!=DOI
-        or plan.get("allowed_redirect_hosts")!=sorted(ALLOW)
+        or set(plan.get("allowed_redirect_hosts",[]))!=ALLOW
+        or len(plan.get("allowed_redirect_hosts",[]))!=3
         or plan.get("allowed_methods")!=["HEAD"]
         or plan.get("http_body_bytes_read")!=0
         or plan.get("allow_GET") is not False
