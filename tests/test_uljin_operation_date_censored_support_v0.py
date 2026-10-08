@@ -113,3 +113,11 @@ def test_forbidden_original_data_mode_and_calendar_reoptimization_fail():
         classify_date_censored_mirror_support(
             CAL,changed,[deploy("UJ1_EXAMPLE_1")],[],
             synthetic_complete_downtime_roster=True)
+    changed_semantics=json.loads(json.dumps(PLAN))
+    changed_semantics["conservative_interval_bounds"]["guaranteed_active"]=(
+        "union(possible deployment) minus union(possible downtime)"
+    )
+    with pytest.raises(ValueError,match="contract"):
+        classify_date_censored_mirror_support(
+            CAL,changed_semantics,[deploy("UJ1_EXAMPLE_1")],[],
+            synthetic_complete_downtime_roster=True)
