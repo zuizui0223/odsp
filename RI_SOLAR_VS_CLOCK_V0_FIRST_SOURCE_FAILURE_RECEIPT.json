@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "study_id": "odsp-ri-solar-vs-clock-site-year-transfer-v0",
+  "record_type": "FIRST_OFFICIAL_SOURCE_RUN_TECHNICAL_UNAVAILABLE_RECEIPT",
+  "first_run_id": 37743723775,
+  "first_job_id": 113200180619,
+  "first_artifact_id": 11534379452,
+  "first_artifact_zip_sha256": "5d4ede1b3e3ceffa9e8e8d33bd22e4af0fa61e1488edc53c5f25a70aaa6e63c6",
+  "first_run_head_sha": "7cd260797ebc3a433f66a0126413472e51e4a149",
+  "first_contract_sha256": "31284b54963a1fe64eb9bb8b0dacea862dec80d175783040321e53c9bd21fdd8",
+  "failure": "ValueError: unexpected ZIP member count or size",
+  "failure_stage": "_member_zip_csv ZipInfo member count/uncompressed-size structural check, before any ZIP member is read",
+  "source_archive_downloaded_and_md5_verified": true,
+  "zip_member_content_read_before_failure": false,
+  "detection_response_label_rows_accessed": false,
+  "heldout_scores_generated": false,
+  "ecological_signal_estimated": false,
+  "first_run_scientific_status": "EXPLORATORY_SOURCE_OR_ANALYSIS_UNAVAILABLE",
+  "post_failure_remedial_scope": "Inspect central-directory ZipInfo names/count/compressed/uncompressed bytes ONLY, under a separately frozen technical recovery contract. Do not read any CSV row or change original ecological estimand, species admission, scoring, site split, thresholds or source version.",
+  "historical_results_reclassified": false,
+  "origin_url": "https://github.com/zuizui0223/odsp/actions/runs/37743723775",
+  "is_post_failure_document": true
+}

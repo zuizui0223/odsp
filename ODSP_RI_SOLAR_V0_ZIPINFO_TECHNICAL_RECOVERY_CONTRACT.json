@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-ri-solar-clock-v0-zipinfo-only-recovery-v1",
+  "status": "FROZEN_AFTER_FIRST_STRUCTURAL_FAILURE_BEFORE_ANY_SOURCE_ROW_ACCESS",
+  "frozen_date_utc": "2026-10-08",
+  "first_source_failure_receipt": "RI_SOLAR_VS_CLOCK_V0_FIRST_SOURCE_FAILURE_RECEIPT.json",
+  "reference_first_run_id": 37743723775,
+  "reference_first_source_head_sha": "7cd260797ebc3a433f66a0126413472e51e4a149",
+  "first_failure_stage": "ZipInfo count/size gate before reading any ZIP member",
+  "reason": "Original guard 20 members / 150 MB max uncompressed member may be too conservative for pinned 12.1 MB image-level archive; this is a technical ZIP metadata cap, not an ecological analysis choice.",
+  "source": {
+    "url": "https://zenodo.org/records/14508932/files/DataS1.zip?download=1",
+    "expected_archive_md5": "c66943e6c2a9aab0abce2a1eba8ce02e",
+    "expected_csv_basenames": [
+      "RI_CameraSurvey_Deployments.csv",
+      "RI_CameraSurvey_Detections.csv"
+    ],
+    "version": "Zenodo record 14508932, v3"
+  },
+  "allowable_zip_structure": {
+    "max_compressed_archive_bytes": 75000000,
+    "max_zip_entry_count": 80,
+    "max_total_uncompressed_bytes": 600000000,
+    "max_single_uncompressed_member_bytes": 500000000,
+    "max_aggregate_expansion_ratio": 60,
+    "allow_directory_entries": true,
+    "allow_ancillary_non_csv_entries": true,
+    "reject_all_extra_csv_members": true,
+    "reject_absolute_or_parent_relative_paths": true,
+    "reject_encrypted_zip_members": true,
+    "reject_duplicate_expected_basename": true,
+    "reject_duplicate_any_member_path": true,
+    "exactly_two_expected_csv_basename_members_required": true,
+    "zip_member_content_read_before_guard": false
+  },
+  "technical_recovery_executive_rule": {
+    "if_source_zipinfo_fails": "STOP and preserve a STRUCTURAL_RECOVERY_NOT_AUTHORIZED receipt; no data content read or model run",
+    "if_source_zipinfo_passes": "Only then process the two original expected CSV members with exactly the frozen scientific pipeline and metadata-alignment gates; no schema/source/score/admission adjustment",
+    "run_once_on_frozen_head": true,
+    "preserve_original_scientific_estimand": true,
+    "prior_first_unavailable_receipt_not_reclassified": true,
+    "status_possible": [
+      "TECHNICAL_ZIP_RECOVERY_ELIGIBLE",
+      "TECHNICAL_ZIP_RECOVERY_INELIGIBLE",
+      "SOURCE_ZIP_UNAVAILABLE"
+    ]
+  },
+  "frozen_scientific_invariants": {
+    "train_years": [
+      2018,
+      2019,
+      2020,
+      2021
+    ],
+    "heldout_years": [
+      2022,
+      2023
+    ],
+    "entire_site_fold_heldout": 0,
+    "site_fold_count": 5,
+    "two_season_groups": [
+      "winter",
+      "summer"
+    ],
+    "six_clock_bins": true,
+    "jeffreys_pseudocount": 0.5,
+    "duplicate_detections_minutes": 30,
+    "paired_physical_site_bootstrap_draws": 2000,
+    "paired_physical_site_bootstrap_seed": 2026100803,
+    "known_truth_test_first": true,
+    "no_adaptive_species_admission_or_time_bins": true
+  },
+  "outcome_access_and_claims": {
+    "zip_filename_and_size_metadata_are_not_species_or_timestamp_outcomes": true,
+    "no_arbitrary_download_url_substitution": true,
+    "ecological_results_still_exploratory": true,
+    "camera_timezone_or_iid_sampling_external_attestation": false,
+    "does_not_create_qualified_process_probability_route": true,
+    "old_empirical_endpoints_changed": false
+  }
+}

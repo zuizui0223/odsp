@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "study_id": "odsp-ri-solar-vs-clock-site-year-transfer-v0",
+  "status": "PRE_DETECTION_OUTCOME_ACCESS_DESIGN_FREEZE",
+  "design_date": "2026-10-08",
+  "scientific_question": "Do mammal species' detected diel-time distributions transport to new sites and later years better when their temporal coordinate is aligned to sunrise/sunset than when learned in clock hours; is residual species-season structure still needed after the solar transform?",
+  "source": {
+    "archive": "Mayer et al. Rhode Island wildlife camera trap survey 2018 to 2023, Zenodo version 3",
+    "zenodo_record_id": 14508932,
+    "download_url": "https://zenodo.org/records/14508932/files/DataS1.zip?download=1",
+    "archive_file": "DataS1.zip",
+    "archive_md5": "c66943e6c2a9aab0abce2a1eba8ce02e",
+    "expected_deployment_member": "RI_CameraSurvey_Deployments.csv",
+    "expected_detection_member": "RI_CameraSurvey_Detections.csv",
+    "paper_doi": "10.1002/ecy.70094",
+    "already_public_and_published": true,
+    "all_prior_historical_row_outcome_nonaccess_proved": false,
+    "source_label_has_changed": "Version 3 contains image-level detections, NOT necessarily independent events"
+  },
+  "source_schema_predeclared_aliases": {
+    "site": [
+      "Site",
+      "SiteID",
+      "Site_ID",
+      "SiteNumber",
+      "SiteName"
+    ],
+    "camera": [
+      "Camera",
+      "CameraID",
+      "Camera_ID",
+      "CameraNumber"
+    ],
+    "species": [
+      "Species",
+      "SpeciesName",
+      "ScientificName",
+      "Species_Name"
+    ],
+    "detection_datetime": [
+      "DateTime",
+      "Timestamp",
+      "DetectionDateTime",
+      "Date_Time"
+    ],
+    "detection_date": [
+      "Date",
+      "DetectionDate",
+      "PhotoDate"
+    ],
+    "detection_time": [
+      "Time",
+      "DetectionTime",
+      "PhotoTime"
+    ],
+    "yearseason": [
+      "YearSeason",
+      "Year_Season"
+    ],
+    "latitude": [
+      "Latitude",
+      "Lat",
+      "Camera_Latitude"
+    ],
+    "longitude": [
+      "Longitude",
+      "Lon",
+      "Long",
+      "Camera_Longitude"
+    ]
+  },
+  "source_timezone": {
+    "assumed_local_timezone": "America/New_York",
+    "verified_from_original_camera_clock_and_dst_metadata": false,
+    "if_timestamp_timezone_unverified": "REPORT_EXPLORATORY_SENSITIVITY_ONLY",
+    "dst_ambiguous_times": "reject",
+    "solar_reference": "NOAA approximate sunrise/sunset at 90.833-degree apparent zenith"
+  },
+  "design": {
+    "first_training_season_year": 2018,
+    "last_training_season_year": 2021,
+    "heldout_season_years": [
+      2022,
+      2023
+    ],
+    "site_folds": 5,
+    "heldout_fold": 0,
+    "site_hash_seed": "odsp-ri-solar-v0",
+    "whole_physical_site_disjoint": true,
+    "winter_and_summer_only": true,
+    "spring_excluded_before_outcomes": true,
+    "duplicate_photo_suppression_minutes": 30,
+    "duplicate_key": "site + camera + normalized species + declared season",
+    "independence_unit": "physical site (NOT camera images, photo sequences or site-years)",
+    "animal_detection_target": "six four-hour local civil-clock bins among retained species detections, NOT activity independent of detection bias",
+    "frozen_solar_target": "equinoctial double-anchored 24-hour phase with sunrise at 06 and sunset at 18",
+    "identical_score_target": "six local-clock bins for ALL four models; solar phase histograms pushed forward exactly into clock-hour bin probabilities",
+    "training_weight": "equal within species x physical site x season-year, each retained event weight reciprocal count within that stratum",
+    "score_name": "heldout log probability, with clipped numeric probabilities only after Jeffreys smoothing; no posthoc model selection",
+    "jeffreys_pseudocount": 0.5,
+    "minimum_training_independent_events_per_species": 120,
+    "minimum_training_sites_per_species": 8,
+    "minimum_training_events_per_season": 25,
+    "minimum_training_sites_per_season": 3,
+    "minimum_heldout_physical_sites_per_season": 8,
+    "minimum_heldout_events_per_season": 100,
+    "heldout_season_folds": [
+      "winter",
+      "summer"
+    ],
+    "no_outcome_driven_species_group_reselection": true
+  },
+  "models": {
+    "clock": "species clock-hour six-bin distribution",
+    "solar": "species sunrise/sunset-anchored six-bin phase distribution mapped to clock-hour six-bin target each event date and site",
+    "clock_season": "species x season clock-hour six-bin distribution",
+    "solar_season": "species x season solar phase six-bin distribution mapped to the same clock-hour target",
+    "capacity_note": "clock and solar share six-bin histogram capacity and identical Jeffreys smoothing; season-conditioned controls are more flexible"
+  },
+  "registered_hypotheses": {
+    "primary": "solar vs clock held-out log-score difference positive in both season groups at physically heldout sites in future years",
+    "solar_specificity_negative_control": "using solar curves at date shifted by 183 calendar days must NOT deliver equal or better site-level gain than correct date on both season groups",
+    "secondary_residual_season": "solar x season improves over solar x species-only if seasonal plasticity persists beyond solar phase",
+    "other_model_sensitivity": "clock x season vs clock only",
+    "interpretation_if_primary_positive": "supports solar-phase predictive transport on camera detections, not proof of photoperiod causality",
+    "interpretation_if_primary_negative": "fixed clock outpredicts this particular phase-alignment model in the studied site/year support, not absence of seasonal response"
+  },
+  "validation": {
+    "primary_unit_weight": "equal mean per physical heldout site and season, collapsing repeated years before aggregate",
+    "uncertainty": "resample physical site IDs with 2000 predeclared bootstrap draws, seed 2026100803; report same-draw joint two-season distribution",
+    "threshold": 0,
+    "gate": "both winter and summer primary mean gains >0 with 95% one-sided site-bootstrap lower bounds >0; negative control degrades across both seasons; otherwise MIXED/NOT_SUPPORTED/UNAVAILABLE",
+    "null_baseline": "clock and solar trained only from earlier years and disjoint physical sites",
+    "unseen_species": "training-only species admission; unseen later-year species are out-of-support, report count but no retraining",
+    "suppression_count_and_species_admission_reported": true,
+    "bootstrap_draws": 2000,
+    "bootstrap_seed": 2026100803
+  },
+  "claims_not_allowed": [
+    "day/night ecological activity rate without timestamp-specific camera effort",
+    "causal predator-prey temporal displacement",
+    "universal intrinsic species clock",
+    "true solar clock if original camera timestamp zone or DST is unverified",
+    "reclassification of closed Snapshot Serengeti, bat, BOP or tawaki terminals",
+    "qualified v5 or future-refit p_success based on this new empirical analysis"
+  ],
+  "hard_stops": [
+    "First inspect source archive bytes and exact member schemas; if alias/schema ambiguity or missing metadata prevent coherent site/date pairing, stop without result",
+    "Do not tune folds, training/heldout year boundaries, pseudocounts, time bins or admission thresholds after the first detection-row outcomes",
+    "Never treat multiple cameras/photo rows/season-years of same site as independent sites",
+    "If photo time zone cannot be verified, report as exploratory rather than mechanistic primary",
+    "Current code and source selection are a separate study; none of old prospectively closed endpoints may be re-opened"
+  ],
+  "preoutcome_amendment_v0_1": {
+    "reason": "Make already-described bootstrap draws/seed machine-readable for fail-closed runner identity validation.",
+    "before_archive_detection_row_access": true,
+    "changes_outcome_or_threshold_rules": false,
+    "amends_original_contract_after_commit": "bf8a6d15ae96e64b45ace2da50bb448a2faadc73"
+  }
+}
