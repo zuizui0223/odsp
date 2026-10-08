@@ -153,3 +153,26 @@ Related statistical background: exact binomial confidence intervals
 (Clopper & Pearson, 1934), intersection-union testing, and partial
 identification from an imperfect binary indicator (e.g. Obradović, 2024,
 *Journal of Econometrics* 244:105842).
+
+
+## Why a shared validation sample is a real counterexample, not a technicality
+
+Consider R=20 independent refits with true p=0.8. Truly successful refits
+are always certified. An unobserved *single shared* validation-data shock
+occurs with probability a=0.05 and falsely certifies **all** unsuccessful
+refits; without that shock, unsuccessful refits are never certified.
+Every unsuccessful refit individually still has false-certification
+probability 0.05, apparently satisfying the component-level size bound.
+
+But certificates are now dependent. The proposed iid-binomial bound
+exceeds the true p=0.8 if all 20 certify. This event has probability
+
+\[
+0.05 + 0.95(0.8)^{20}\approx 0.06095>0.05.
+\]
+
+Thus even perfectly valid *marginal* size control does not justify v3 when
+one validation shock can affect many refits. A dedicated regression test
+keeps this invalid-design counterexample visible. The correct remedy is
+independence/provenance or a separately qualified dependent-data method,
+**not** relabeling reused validation blocks.
