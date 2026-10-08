@@ -176,3 +176,39 @@ one validation shock can affect many refits. A dedicated regression test
 keeps this invalid-design counterexample visible. The correct remedy is
 independence/provenance or a separately qualified dependent-data method,
 **not** relabeling reused validation blocks.
+
+
+## Exact sample-size feasibility frontier (design calculation only)
+
+The function \`iid_certificate_design_frontier\` inverts the same exact
+binomial tail to find the required *per-pair certificate probability*
+\(\theta\) for an 80% chance of reporting \(L_p>0.8\). This is not a
+validation-test power result: actual \(\theta\) depends on signal, noise,
+blocks, null configurations and classifier behavior.
+
+Defaults: a=0.05, process alpha=0.05, two groups, minimum B=8 blocks per
+group per refit. The table is a *mathematical resource screen* before any
+prospective Monte Carlo qualification.
+
+| R refits | Minimum K certified | Required iid certificate probability for 80% decision power | Minimum independent validation blocks |
+|---:|---:|---:|---:|
+| 15 | 15 | 0.9852 | 240 |
+| 20 | 20 | 0.9889 | 320 |
+| 30 | 29 | 0.9724 | 480 |
+| 36 | 34 | 0.9571 | 576 |
+| 50 | 46 | 0.9376 | 800 |
+| 72 | 65 | 0.9218 | 1152 |
+| 100 | 88 | 0.8998 | 1600 |
+
+For R=20, even p=1 in the true training process is insufficient for high
+decision power unless the per-refit validation classifier certifies nearly
+**98.9%** of those truly successful refits. An investigator with only 320
+*nominal* blocks and a weak validation classifier should not proceed as
+though the 320-block design has solved the problem.
+
+This quantifies a second bottleneck beyond the failed v2 Bonferroni
+critical-value problem: to claim high future-refit reliability at finite R,
+the certification procedure itself must be extraordinarily reliable, or many
+more independent validation units must be made available. A larger R
+reduces the required per-pair certificate probability, but consumes a
+larger independent validation sample.
