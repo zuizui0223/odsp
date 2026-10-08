@@ -81,8 +81,8 @@ def test_small_signal_limit_and_dependence_negative_control_are_not_hidden():
         x["id"]: x
         for x in json.loads(RECEIPT.read_text())["results"]
     }
-    assert rows["p1_small_gain_B12"]["probability_lower_bound_above_0p8"] == 0.0
-    assert rows["p1_small_gain_B12"]["all_certified_rate"] == 0.0
-    assert rows["p1_small_gain_B200"]["probability_lower_bound_above_0p8"] == 1.0
+    assert rows["p1_small_B12"]["probability_lower_bound_above_0p8"] == 0.0
+    assert rows["p1_small_B12"]["all_certified_rate"] == 0.0
+    assert rows["p1_small_largeB"]["probability_lower_bound_above_0p8"] == 1.0
     assert rows["non_iid_blocks_shared_shock"]["overclaim_rate"] == 0.498
     assert rows["p0"]["any_false_certificate_panel_rate"] == 0.001
