@@ -1,0 +1,50 @@
+{
+  "schema_version": 0,
+  "record_type": "public_ecological_source_discovery_not_validation_freeze",
+  "screened_on": "2026-10-08",
+  "dataset": "Snapshot Safari 2024 Expansion",
+  "public_source_url": "https://lila.science/datasets/snapshot-safari-2024-expansion/",
+  "cct_format_doc": "https://lila.science/coco-camera-traps",
+  "provider_stated": {
+    "camera_project_count": 15,
+    "image_count": 4029374,
+    "location_id_count": 1824,
+    "annotation_format": "COCO Camera Traps"
+  },
+  "source_overlap": {
+    "has_SER_Snapshot_Serengeti_component": true,
+    "require_exclude_all_SER_locations_if_training_source_contains_prior_Serengeti": true,
+    "all_other_training_source_locations_disjointness_verified": false
+  },
+  "potential_ecological_target": "camera-detected clock-time state, six predeclared bins, not true activity without detection modeling",
+  "outcome_knowledge_before_specific_freeze": {
+    "provider_page_aggregate_label_counts_visible": true,
+    "individual_image_labels_opened_by_this_screen": false,
+    "individual_image_timestamps_opened_by_this_screen": false,
+    "all_historical_nonaccess_proved": false
+  },
+  "remaining_source_eligibility_unknown": {
+    "actual_location_ids_after_training_overlap_exclusion": null,
+    "valid_per_sequence_or_per_image_datetime_coverage": null,
+    "timezone_and_daylight_saving_per_project": null,
+    "true_independent_sampling_sites_per_declared_validation_group": null,
+    "camera_site_iid_sampling_law_proven": false,
+    "site_spatial_autocorrelation_audited": false,
+    "species_time_detection_effort_denominator_available": false,
+    "same_species_event_burst_deduplication_frozen": false,
+    "three_nested_model_predictions_available": false,
+    "external_model_process_frozen": false,
+    "source_integrity_hashes_frozen": false,
+    "outcomes_untouched_frozen": false
+  },
+  "allowed_next_step": "Prospectively freeze candidate structural requirements, sampling site frame, excluded SER sites, group/context covariates and metadata extraction implementation BEFORE opening time labels or species-response records. Only then assess field completeness, observational selection and iid sampling.",
+  "status": "DISCOVERY_ONLY_NOT_ADMITTED",
+  "primary_confirmatory": false,
+  "post_outcome_primary_claim": false,
+  "route_registry_updated": false,
+  "references": [
+    "https://lila.science/datasets/snapshot-safari-2024-expansion/",
+    "https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.14359",
+    "https://onlinelibrary.wiley.com/doi/10.1111/jbi.70333"
+  ]
+}
