@@ -19,6 +19,10 @@ class EcologicalValidationRosterPreflight:
     schema_version: int
     structural_status: str
     identity_namespace: str
+    physical_unit_kind: str
+    training_validation_physical_unit_overlap_checked: bool
+    within_group_physical_unit_fragmentation_checked: bool
+    physical_unit_sampling_independence_verified: bool
     refit_count: int
     group_count: int
     contrast_count: int
@@ -67,6 +71,9 @@ def preflight_shared_validation_ecological_roster(
     *,
     refit_ids: Sequence[object],
     identity_namespace: str,
+    training_source_unit_ids: Sequence[object],
+    validation_unit_ids: Sequence[object],
+    physical_unit_kind: str,
     sample_weight: Sequence[float] | None = None,
     minimum_refits: int = 8,
     minimum_blocks_per_group: int = 8,
@@ -74,13 +81,16 @@ def preflight_shared_validation_ecological_roster(
 ) -> EcologicalValidationRosterPreflight:
     """Fail closed on structural overlap; leave all substantive proof flags false.
 
-    The entire original source frame is compared, not a subset in one bootstrap
-    refit. Rows repeated within different validation blocks are forbidden.
+    The entire original source frame AND its physical sampling units are
+    compared, not a subset in one bootstrap refit. A physical unit repeated
+    across multiple validation blocks within a group is forbidden.
     Shared block names across validation GROUPS are allowed (IUT can be
     dependent across groups); only within-group distinct block counts matter.
     """
     if not isinstance(identity_namespace, str) or not identity_namespace.strip():
         raise ValueError("identity_namespace must be nonempty")
+    if not isinstance(physical_unit_kind, str) or not physical_unit_kind.strip():
+        raise ValueError("physical_unit_kind must be nonempty")
     if type(minimum_refits) is not int or minimum_refits < 8:
         raise ValueError("minimum_refits must be integer >=8")
     if type(minimum_blocks_per_group) is not int or minimum_blocks_per_group < 8:
@@ -93,6 +103,18 @@ def preflight_shared_validation_ecological_roster(
     val = _unique(validation_row_ids, "validation_row_ids")
     if set(src) & set(val):
         raise ValueError("entire frozen training source frame overlaps validation rows")
+    # Distinct event/row IDs do not prove separation of sampling units.
+    # Physical unit IDs must be supplied for BOTH entire source and V.
+    if len(training_source_unit_ids) != len(src) or len(validation_unit_ids) != len(val):
+        raise ValueError("physical unit metadata must align with entire source and validation row frames")
+    if any(v is None for v in training_source_unit_ids) or any(v is None for v in validation_unit_ids):
+        raise ValueError("physical unit IDs must not be missing")
+    src_units = tuple(str(v).strip() for v in training_source_unit_ids)
+    val_units = tuple(str(v).strip() for v in validation_unit_ids)
+    if not all(src_units) or not all(val_units):
+        raise ValueError("physical unit IDs must be nonempty")
+    if set(src_units) & set(val_units):
+        raise ValueError("training and validation share a physical sampling unit despite distinct row IDs")
 
     n = len(val)
     if len(validation_groups) != n or len(validation_blocks) != n:
@@ -114,6 +136,16 @@ def preflight_shared_validation_ecological_roster(
         raise ValueError("at least two validation groups required")
     block_counts = []
     for g in groups:
+        # A site, tagged individual, or other declared physical unit must
+        # NOT be split into pseudo-independent validation blocks within g.
+        unit_to_block: dict[str, str] = {}
+        for i in range(n):
+            if gs[i] == g and weights[i] > 0:
+                previous = unit_to_block.setdefault(val_units[i], bs[i])
+                if previous != bs[i]:
+                    raise ValueError(
+                        "one physical unit was split across distinct validation blocks"
+                    )
         blocks = {
             bs[i]
             for i in range(n)
@@ -126,6 +158,10 @@ def preflight_shared_validation_ecological_roster(
         schema_version=0,
         structural_status="STRUCTURALLY_ADMISSIBLE_UNVERIFIED_SAMPLING",
         identity_namespace=identity_namespace.strip(),
+        physical_unit_kind=physical_unit_kind.strip(),
+        training_validation_physical_unit_overlap_checked=True,
+        within_group_physical_unit_fragmentation_checked=True,
+        physical_unit_sampling_independence_verified=False,
         refit_count=len(refits),
         group_count=len(groups),
         contrast_count=2,
