@@ -243,3 +243,59 @@ is therefore not a practical success claim. One can certify a small
 positive expected gain much more readily than high process reliability
 of positive gains in ALL components. This route must meet a realistic
 effect-size and block-budget gate before being considered for use.
+
+
+## First prospectively frozen known-p statistical panel: completed 2026-10-08
+
+The plan was committed as
+ODSP_FUTURE_REFIT_SHARED_EVALUE_V0_SIMULATION_PLAN.json
+at commit 0060a038, BEFORE the first output was generated. The
+implementation and workflow were then frozen at 2c8700df. The first
+official GitHub Actions run was 37715294839 (job 113110265206);
+the immutable artifact is 11523267832. Its after-outcome copy is
+FUTURE_REFIT_SHARED_EVALUE_V0_FIRST_STATISTICAL_PANEL_RECEIPT.json.
+The receipt records the original plan hash, original code SHA, artifact
+ZIP SHA256 and the fact that it is POST-OUTCOME.
+
+All 11 predeclared synthetic scenarios passed their FROZEN gates.
+Each scenario used 1,000 worlds and did not change the core method
+or gate after exposure.
+
+| Known true process p | Validation design | Reported overstatement frequency |
+|---:|---|---:|
+| 0.00 | symmetric, 12 blocks/group | 0.001 |
+| 0.50 | symmetric, 12 blocks/group | 0.004 |
+| 0.80 | symmetric, 12 blocks/group | 0.009 |
+| 0.80 | rare-negative, 12 blocks/group | 0.007 |
+| 0.95 | rare-negative, 12 blocks/group | 0.000 |
+| 0.80 | small gain, 12 blocks/group | 0.000 |
+| 0.80 | small gain, 200 blocks/group | 0.008 |
+
+The preregistered coverage threshold was <=0.063784 and the
+any-false-refit-certificate panel threshold was <=0.009.
+All seven coverage scenarios met both.
+
+Decision power to certify p>0.8 in the two required p=1 worlds:
+strong normalized gain +0.9 at 12 blocks/group, 1.000;
+small gain +0.05 at 200 blocks/group, 1.000.
+But the separately frozen small-gain/12-block diagnostic was 0.000.
+These strong and small-gain simulations are SIMPLE synthetic bounded
+score generators; they are not representative evidence of performance
+on real ecological validation samples.
+
+The invalid-design sentinel, which intentionally made all validation
+blocks perfectly correlated while keeping block IDs distinct, returned
+overstatement frequency 0.498. This is a FAILED validity setting as
+expected, NOT evidence that the method works without iid blocks. It
+makes the physical independent-block assumption indispensable.
+
+This panel establishes *calibration in the frozen known-truth worlds*,
+not universal finite-sample empirical validity. The theoretical proof
+is conditional on its explicit bounded iid-block and process assumptions.
+No claim of real-data untouched external success probability is allowed.
+The numerical evaluator stays experimental_unqualified; the active
+route registry and all previously failed and qualified endpoints remain
+unchanged.
+
+First-run evidence:
+https://github.com/zuizui0223/odsp/actions/runs/37715294839
