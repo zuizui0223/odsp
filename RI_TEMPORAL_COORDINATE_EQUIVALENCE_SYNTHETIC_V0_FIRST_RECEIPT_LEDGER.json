@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "record_type": "POST_OUTCOME_FIRST_FROZEN_SYNTHETIC_COORDINATE_INVARIANCE_PANEL",
+  "frozen_synthetic_contract_file": "RI_TEMPORAL_COORDINATE_EQUIVALENCE_SYNTHETIC_V0_CONTRACT.json",
+  "pre_first_panel_contract_commit": "d1fb105811e5f473171849fdaf30b6421417b4cb",
+  "first_method_tests_workflow_run": 37770477353,
+  "first_method_tests_workflow_url": "https://github.com/zuizui0223/odsp/actions/runs/37770477353",
+  "first_test_head_sha": "25ca45520ec6b1e030632f00a54417c3d39dcb99",
+  "first_test_suite": "6/6 synthetic geometry/known-truth/effort-aliasing tests passed",
+  "first_workflow_conclusion": "success",
+  "first_artifact_id": 11548260205,
+  "first_artifact_zip_digest": "sha256:db38cbe844af4cc7b8d7cdb5205bfa907dae8eb465aac823c4c6fd3bcc9a297c",
+  "conditions": {
+    "latitude": 41.5,
+    "longitude": -71.5,
+    "winter": "2022-12-21",
+    "summer": "2022-06-21",
+    "von_mises_kappa": 2.2,
+    "peak_hour": 7.5,
+    "midpoint_grid": 24000,
+    "equal_context_weights": [
+      0.5,
+      0.5
+    ]
+  },
+  "outcomes": {
+    "solar_invariant_truth_optimal_solar_vs_optimal_pooled_clock_mean_expected_nats": 0.03866713447073375,
+    "clock_invariant_truth_optimal_clock_vs_optimal_pooled_solar_mean_expected_nats": 0.04689740023716118,
+    "both_opposed_known_truth_worlds_passed": true,
+    "continuous_correct_jacobian_mass_preservation_passed": true,
+    "unrestricted_context_specific_coordinate_equivalence_passed": true,
+    "camera_detection_effort_aliasing_counterexample_passed": true
+  },
+  "inference_limits": {
+    "original_RI_empirical_animal_records_opened": false,
+    "changes_original_RI_v2_exploratory_scientific_status": false,
+    "original_RI_status": "EXPLORATORY_NOT_SUPPORTED_OR_UNAVAILABLE",
+    "real_animals_internal_clock_identified": false,
+    "actual_solar_vs_civil_advantage_newly_measured": false,
+    "discovered_causal_mechanism": false,
+    "new_preexisting_scientific_theorem_claimed": false,
+    "all_existing_ODSP_qualified_routes_modified": false,
+    "publication_level_impact_established": false
+  },
+  "result_kind": "synthetic_theoretical_integrity_check_not_an_ecological_finding"
+}
