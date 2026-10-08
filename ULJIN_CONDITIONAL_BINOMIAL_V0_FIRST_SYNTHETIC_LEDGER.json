@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_SOURCE_FREE_ULJIN_CONDITIONAL_BINOMIAL_KNOWN_TRUTH_PANEL",
+  "source_free_plan_file": "ULJIN_CONDITIONAL_BINOMIAL_ZERO_PRESERVING_V0_CONTRACT.json",
+  "method_freeze_commit": "ed81dd663e2fd9784ca674f029d80e59266603f7",
+  "first_method_workflow_run": 37780226012,
+  "first_method_url": "https://github.com/zuizui0223/odsp/actions/runs/37780226012",
+  "first_workflow_head": "22ffa5603e3c02c7cb81a1987d9d3cec5f6d0bf1",
+  "first_artifact_id": 11552370236,
+  "first_artifact_zip_digest": "sha256:78ed4fc9373c6cf79632168c77b5ec8e9f934933a80307160ad7048b6856cd07",
+  "first_result_status": "FIRST_TWO_SYNTHETIC_WORLDS_PASS",
+  "known_truth_scored_station_comparisons": {
+    "no_branch_time_shape": true,
+    "no_shape_test_site_equal_mean_log_gain": 1.9902402404644208e-7,
+    "branch_time_shape_alt": true,
+    "time_shape_test_site_equal_mean_log_gain": 9.004119823402432
+  },
+  "first_method_ci_test_status": "pass",
+  "methods_claim_boundaries": {
+    "artificial_counts_large_per_bin": true,
+    "training_and_heldout_sites_synthetic": true,
+    "original_ungulate_rows_opened": false,
+    "original_camera_operation_rows_opened": false,
+    "real_camera_uptime_independent_verified": false,
+    "real_hourly_exposure_support_estimated": false,
+    "same_photoperiod_date_solar_clock_offset_adjusted_by_this_binomial_module": false,
+    "ecological_hysteresis_identified": false,
+    "original_qualified_inference_or_empirical_result_reclassified": false
+  }
+}
