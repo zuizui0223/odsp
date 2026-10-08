@@ -1,0 +1,77 @@
+{
+  "schema_version": 2,
+  "contract_id": "odsp-training-process-future-refit-probability-refit-iut-v2",
+  "frozen_date": "2026-10-08",
+  "predecessor": {
+    "version": "v1",
+    "outcome": "coverage passed but frozen power gate failed 0/2",
+    "failed_receipt": "TRAINING_PROCESS_FUTURE_REFIT_SUCCESS_PROBABILITY_V1_FAILED_RECEIPT.json",
+    "result_reclassified": false
+  },
+  "estimand": {
+    "formula": "p_success=P_{R~frozen_process}(min_{g,c} E_V gain(R,V;g,c)>gain_tolerance)",
+    "frozen_empirical_training_source_conditional": true,
+    "frozen_training_resampling_process": true,
+    "original_ecological_training_superpopulation_generalization": false,
+    "process_mean_route_reused": false,
+    "fixed_supplied_refit_set_intersection_reused": false
+  },
+  "error_budget": {
+    "overall_alpha": 0.05,
+    "validation_false_refit_certification_alpha": 0.025,
+    "process_binomial_alpha": 0.025,
+    "per_refit_validation_alpha": "0.025/R",
+    "within_refit_cellwise_alpha": "0.025/R (no correction for AND/IUT across cells)",
+    "validation_and_process_error_combination": "union bound",
+    "post_result_reallocation_allowed": false
+  },
+  "validation_stage": {
+    "target": "control false certification of ANY unsuccessful observed refit",
+    "per_component_method": "one-sided cluster-jackknife ratio-mean t-test with df=B_g-1",
+    "per_refit_iut": "all group x ordered contrast lower limits exceed gain_tolerance",
+    "calibration_requirement": "component nominal size under declared block sampling; normal/t3 scenarios plus prospective stress qualification",
+    "validates_each_observed_refit_separately": true,
+    "shares_validation_blocks_across_refits": true,
+    "correction_axis": "R observed refits only; not R times groups times contrasts",
+    "blocks_resampled": false,
+    "familywise_max_t_used": false,
+    "argument": "For any truly unsuccessful refit, at least one component null holds, so the IUT false certification probability is <=alpha_validation/R; union across R refits yields <=alpha_validation."
+  },
+  "process_stage": {
+    "iid_refits_from_frozen_process_required": true,
+    "success_count": "K = number of refits certified by all component IUT tests",
+    "confidence_bound": "exact one-sided Clopper-Pearson lower bound on p_success using K of R, alpha=0.025",
+    "argument": "On no-false-certification event K<=S_true; CP bound monotone in success count and S_true follows Binomial(R,p_success)."
+  },
+  "v2_scope": {
+    "independent_validation_groups_only": true,
+    "exactly_two_ordered_information_contrasts": true,
+    "minimum_refits": 8,
+    "minimum_positive_mass_blocks_per_group": 8,
+    "external_outcome_access": false,
+    "paired_groups": false,
+    "complete_lattice": false
+  },
+  "prospective_qualification": {
+    "generator_version": "future_refit_success_probability_refit_iut_known_p_v2",
+    "seed": 20261019,
+    "simulations_per_scenario": 1000,
+    "coverage_scenarios": "reuse six named p=0.50/0.80/0.95 normal/t3 v1 scenarios exactly",
+    "power_scenarios": "reuse p=1 R8/B8 and R20/B8 worlds with 8-oracle-SE shift exactly",
+    "coverage_overclaim_max": 0.06378404875209022,
+    "validation_overcertification_max": 0.03487420882906575,
+    "power_all_refits_certified_minimum": 0.8,
+    "all_named_scenarios_must_pass": true,
+    "results_observed_before_this_freeze": false,
+    "scenario_or_gate_changes_allowed_after_result": false
+  },
+  "governance": {
+    "experimental_candidate": true,
+    "primary_confirmatory_now": false,
+    "qualified_v5_process_mean_unchanged": true,
+    "source_process_v0_unchanged": true,
+    "historical_fixed_set_routes_unchanged": true,
+    "v1_power_failure_unmodified": true,
+    "future_primary_requires_separate_provenance_and_identity": true
+  }
+}
