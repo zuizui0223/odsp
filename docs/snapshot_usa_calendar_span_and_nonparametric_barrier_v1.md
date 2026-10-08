@@ -1,3 +1,34 @@
+# TERMINAL HOLD — Camera dates are retrospectively image-corrected
+
+**This correction supersedes any claim below that published Start_Date and
+End_Date provide detection-outcome-independent physical installation dates.**
+Rooney et al. (2026), PDF p. 8/28, Section 2.4, explicitly report that
+the authors modified the deployment start/end dates in R to match the first
+and last photographs in the sequence file. The Dryad variable dictionary
+describes their nominal field meanings but does not undo that cleaning step.
+
+Therefore the separately frozen calendar-v1 screen is **NOT a valid
+pre-response site-selection design**. It is terminally classified
+`TERMINAL_HOLD_SOURCE_DATE_COLUMNS_ARE_IMAGE_DERIVED` in
+`ODSP_SNAPSHOT_USA_2024_CALENDAR_V1_SOURCE_SEMANTICS_STOP.json`.
+The current branch workflow has been rewritten to produce a metadata-free
+STOP receipt rather than make any NEW deployment download request. Older
+already-queued workflow executions may have a frozen prior commit and
+cannot be retrospectively canceled with the available connector; if they
+run, the numbers are purely retrospective source structure and **cannot
+rescue v1**. This is a publication-methods finding made after the v1 design
+freeze, not a v1 empirical qualification outcome.
+
+The independent testing-theory result in the second half of this document
+does not depend on the published date-field semantics and remains valid
+as a conditional mathematical argument. But no real Snapshot USA
+prediction power or future-refit ecological probability has been measured.
+
+Authoritative public method source:
+https://doi.org/10.1111/geb.70229 (PDF page 8 of 28, data cleaning).
+
+---
+
 # Snapshot USA 2024: calendar-placement screen v1 and a general statistical no-go bound
 
 **Status: separate outcome-free structural DESIGN, not ecological results or a
