@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_threeway_margin_identifiability_v0",
+  "stage": "FROZEN_SOURCE_FREE_BEFORE_FIRST_CONSTRUCTIVE_RESULT",
+  "parent_pr": 238,
+  "scope": "Two distinct positive integer count tables over physical site type × photoperiod branch × six fixed solar-phase bins with identical every one-way and two-way margin but different within-site branch×phase interaction",
+  "index_axes": [
+    "site_type:early,late",
+    "branch:rising,falling",
+    "phase_bin:0..5"
+  ],
+  "world_A_counts": {
+    "early": {
+      "rising": [
+        48,
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "falling": [
+        144,
+        18,
+        18,
+        18,
+        18,
+        18
+      ]
+    },
+    "late": {
+      "rising": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        48
+      ],
+      "falling": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        16
+      ]
+    }
+  },
+  "world_B_symmetric_perturbation": {
+    "e_rise": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      -3
+    ],
+    "l_rise": [
+      -3,
+      0,
+      0,
+      0,
+      0,
+      3
+    ],
+    "e_fall": [
+      -3,
+      0,
+      0,
+      0,
+      0,
+      3
+    ],
+    "l_fall": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      -3
+    ]
+  },
+  "frozen_checks": [
+    "Both 2x2x6 integer arrays strictly positive and different",
+    "World A has strictly constant falling/rising ratio within each site across all six bins: early 3, late 1/3",
+    "World B has nonconstant falling/rising rate ratios within both sites",
+    "Every two-way count margin (site × branch, site × phase, branch × phase) exactly identical",
+    "Every one-way count margin and grand total exactly identical",
+    "With independent Poisson cells, aggregated branch × phase count array has the exact same full probability law in both worlds",
+    "Independent Poisson cell full-resolution Kullback-Leibler D(A||B) strictly positive",
+    "Linear two-way marginalization operator on 2×2×6 has rank 19 and nullity 5 = (2−1)(2−1)(6−1)",
+    "Explicit perturbation vector belongs to the nullspace with no floating tolerance",
+    "Different underlying three-way interaction need not be identifiable from published 2D count-margin summaries",
+    "Do not claim joint statistical probability law of ALL three overlapping two-way margins is identical under independent Poisson sampling"
+  ],
+  "interpretation_boundaries": {
+    "single_original_synthetic_counterexample": true,
+    "new_general_theorem": false,
+    "novelty_claim_only_application_to_eco_behavior_estimand": false,
+    "actual_EcoBank_or_station_records_read": false,
+    "real_device_uptime_verified": false,
+    "biological_behavior_identified": false,
+    "point_process_sampling_assumption_conditional": true,
+    "do_not_reclassify_existing_ODSP_routes": true
+  },
+  "required_observed_grain": "physical station × exact date pair × rising/falling season × solar-phase bin, including zero-detection cells from independently logged camera uptime",
+  "reporting": "No Monte Carlo, no fitted p-values; exact arrays, all margins, rank/nullity, analytic Poisson aggregated equivalence, resolved-cell KL, conceptual release requirement"
+}
