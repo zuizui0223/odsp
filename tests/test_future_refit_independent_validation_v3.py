@@ -11,6 +11,7 @@ from odsp.future_refit_independent_validation_v3 import (
     corrected_future_refit_lower_bound,
     evaluate_independent_validation_future_refit_v3,
     exact_iid_certificate_lower_bound,
+    iid_certificate_design_frontier,
 )
 
 
@@ -170,3 +171,22 @@ def test_shared_validation_shock_can_break_the_binomial_coverage_bound():
     assert independent_truth_false_claim == pytest.approx(p**n)
     assert shared_shock_false_claim > 0.05
     # Shows why distinct block ID checks alone must never imply iid provenance.
+
+
+
+def test_exact_design_frontier_exposes_strict_power_and_validation_cost():
+    f20 = iid_certificate_design_frontier(20)
+    assert f20["minimum_certificates"] == 20
+    assert f20["minimum_iid_certificate_probability_for_target_power"] == pytest.approx(
+        0.8 ** (1.0/20.0), abs=1e-12
+    )
+    assert f20["minimum_independent_validation_blocks"] == 320
+    assert f20["prospective_qualification_passed"] is False
+    f50 = iid_certificate_design_frontier(50)
+    assert f50["minimum_certificates"] == 46
+    assert f50["minimum_iid_certificate_probability_for_target_power"] == pytest.approx(
+        0.93762257618, abs=1e-7
+    )
+    assert f50["minimum_independent_validation_blocks"] == 800
+    assert iid_certificate_design_frontier(14)["feasible_even_if_all_certify"] is False
+    assert iid_certificate_design_frontier(15)["minimum_certificates"] == 15
