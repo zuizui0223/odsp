@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_PRE_FROZEN_STRATUM_COMPOSITION_SIMPSON_V0_TERMINAL_RESULT",
+  "prior_source_free_contract_commit": "684b3e19b0c21342b1ece7cb3615165377004603",
+  "first_scored_head": "bea070145ec65c6b70392ffbf67efe75348bd853",
+  "first_scored_workflow_run": 37791020905,
+  "first_scored_workflow_url": "https://github.com/zuizui0223/odsp/actions/runs/37791020905",
+  "first_artifact_id": 11555753719,
+  "first_artifact_sha256": "sha256:6154575d8f4d3bd32aa683d8c23349a79bd8e40e9a4c0fb369ed024664567b7a",
+  "all_six_frozen_scenarios": [
+    {
+      "exact_reject": 0.06,
+      "id": "homogeneous_null",
+      "informative": 22.38,
+      "partial_strong_range": 0.9126789920608391,
+      "partial_weak_range": 0.9520531088260633,
+      "pooled_mean_gain": -0.00011449901699850417,
+      "pooled_positive": 0.31,
+      "scale": 0.1
+    },
+    {
+      "exact_reject": 0.09,
+      "id": "homogeneous_null",
+      "informative": 42,
+      "partial_strong_range": 0.42336347277411895,
+      "partial_weak_range": 0.4535330021576521,
+      "pooled_mean_gain": -0.00019638464844391927,
+      "pooled_positive": 0.21,
+      "scale": 1.2
+    },
+    {
+      "exact_reject": 0.03,
+      "id": "composition_confound_null",
+      "informative": 20.09,
+      "partial_strong_range": 1.3313500351923806,
+      "partial_weak_range": 1.0017233085839565,
+      "pooled_mean_gain": 0.0003972582890513211,
+      "pooled_positive": 0.92,
+      "scale": 0.1
+    },
+    {
+      "exact_reject": 0.05,
+      "id": "composition_confound_null",
+      "informative": 41.9,
+      "partial_strong_range": 1.0141644451664114,
+      "partial_weak_range": 0.4237450078441193,
+      "pooled_mean_gain": 0.005751936982953558,
+      "pooled_positive": 1,
+      "scale": 1.2
+    },
+    {
+      "exact_reject": 0.27,
+      "id": "true_within_stratum_shape",
+      "informative": 22.85,
+      "partial_strong_range": 1.3124555104713407,
+      "partial_weak_range": 1.2751274808399806,
+      "pooled_mean_gain": 0.00032811112370925564,
+      "pooled_positive": 0.88,
+      "scale": 0.1
+    },
+    {
+      "exact_reject": 1,
+      "id": "true_within_stratum_shape",
+      "informative": 42,
+      "partial_strong_range": 1.3734780220910634,
+      "partial_weak_range": 1.398899948172594,
+      "pooled_mean_gain": 0.005181649007783385,
+      "pooled_positive": 1,
+      "scale": 1.2
+    }
+  ],
+  "population_oracle": {
+    "early_site_true_branch_rate_ratio": 3,
+    "late_site_true_branch_rate_ratio": 0.3333333333333333,
+    "pooled_first_bin_ratio": 2.7037037037037037,
+    "pooled_last_bin_ratio": 0.6296296296296295,
+    "pooled_log_rate_ratio_first_minus_last": 1.4572460970921752,
+    "true_branch_by_bin_interaction_within_each_type": false
+  },
+  "focused_tests": "passed",
+  "full_panel": "passed",
+  "caveats": {
+    "pooled_gain_positive_is_not_nominal_alpha_test": true,
+    "partial_pooling_beta_range_not_calibrated": true,
+    "exact_null_empirical_rejection_rates_have_100_world_monte_carlo_uncertainty": true,
+    "heterogeneous_null_conditional_test_rejection_at_high_support": 0.05,
+    "homogeneous_high_support_condition_rejection_rate": 0.09,
+    "original_full_operational_data_not_accessed": true,
+    "real_species_behavior_not_inferred": true,
+    "original_qualified_ODSP_inference_routes_untouched": true,
+    "no_after_outcome_scenario_or_threshold_changes": true
+  },
+  "status": "SYNTHETIC_METHOD_COUNTEREXAMPLE_TERMINAL_NOT_EMPIRICAL"
+}
