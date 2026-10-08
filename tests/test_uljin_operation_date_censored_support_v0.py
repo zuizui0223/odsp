@@ -53,9 +53,11 @@ def test_unknown_within_day_outage_makes_one_pair_ambiguous():
 def test_certain_full_day_outage_fails_one_pair_even_under_upper_bound():
     r=run([deploy("UJ1_EXAMPLE_1")],
           [outage("UJ1_EXAMPLE_1","2022-04-30","2022-05-02")])
-    assert numbers(r)["guaranteed_eligible_pairs"]==40
+    # May 1 is an interior fully stopped day. May 2 is the unknown
+    # downtime end-date and is itself another frozen ascending mirror day.
+    assert numbers(r)["guaranteed_eligible_pairs"]==39
     assert numbers(r)["definitely_ineligible_pairs"]==1
-    assert numbers(r)["ambiguous_pairs"]==0
+    assert numbers(r)["ambiguous_pairs"]==1
 
 
 def test_single_calendar_day_deployment_cannot_supply_both_mirror_dates():
