@@ -41,13 +41,16 @@ def _events(site_list, years, mechanism, *, per_unit=24):
                 day=date(yr,month,daynum)
                 sr,ss=sunrise_sunset_local(day,lat,lon)
                 for j in range(per_unit):
+                    phase_fraction=(j//2+0.5)/(per_unit//2)
                     if mechanism=="sun":
-                        # Peaks retain same SOLAR phase in every season.
-                        phase=6.10 if j%2==0 else 18.10
+                        # Uniform SOLAR phase within two dawn/dusk bins.
+                        # This known-truth distribution matches the histogram
+                        # density family, not sharp within-bin point masses.
+                        phase=(4. if j%2==0 else 16.)+4.*phase_fraction
                         clock=_phase_to_unwrapped_civil(phase,sr,ss)%24
                     elif mechanism=="civil":
-                        # Peaks retain human-clock hour, not solar phase.
-                        clock=5.10 if j%2==0 else 19.10
+                        # Uniform HUMAN CLOCK times within two fixed bins.
+                        clock=(4. if j%2==0 else 16.)+4.*phase_fraction
                     else:
                         raise AssertionError("unknown simulation mechanism")
                     events.append(DielEvent(
