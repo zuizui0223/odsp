@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "analysis_id": "ri-v2-solar-clock-matched-site-taxon-pair-v0",
+  "status": "POST_EXPOSURE_EXPLORATORY_MATCHED_SUPPORT_ONLY",
+  "scientific_question": "Among SAME heldout physical site x taxon pairs detected in both winter and summer, does the solar-over-civil-clock heldout predictive gain change direction? Is a pooled winter-positive result explainable solely by taxa/site composition?",
+  "evidence_chronology": {
+    "source_v2_first_result_run_id": 37747931559,
+    "first_result_artifact_id": 11535843980,
+    "first_result_json_sha256": "5d4bca0efc079ec3ae58d1062d4c1fb4c0b6476b64d56eead6d79e39ae83edab",
+    "first_source_v2_contract": "RI_SOLAR_CLOCK_YEARSEASON_V2_EXPLORATORY_CONTRACT.json",
+    "original_v2_method_scientific_result": "EXPLORATORY_NOT_SUPPORTED_OR_UNAVAILABLE",
+    "winter_first_site_weighted_solar_over_clock_nats": 0.02745845931504319,
+    "summer_first_site_weighted_solar_over_clock_nats": -0.0325742873706785,
+    "first_scored_events": 19916,
+    "first_heldout_physical_sites": 43,
+    "all_source_rows_previously_opened_in_v0_v1_v2": true,
+    "no_new_confirmatory_claim": true
+  },
+  "source": {
+    "url": "https://zenodo.org/records/14508932/files/DataS1.zip?download=1",
+    "archive_md5": "c66943e6c2a9aab0abce2a1eba8ce02e",
+    "zip_source_version": 3,
+    "same_frozen_v2_parser": true,
+    "never_substitute_archive_or_rename_source_fields": true
+  },
+  "exact_scoring": {
+    "use_unchanged_v2_events_from_two_tables": true,
+    "same_site_hash": "odsp-ri-solar-v0",
+    "train_years": [
+      2018,
+      2019,
+      2020,
+      2021
+    ],
+    "test_years": [
+      2022,
+      2023
+    ],
+    "refit_training_model": false,
+    "model_implementation": "odsp.ri_solar_clock_transfer_v0.fit_species_profiles",
+    "scoring_implementation": "odsp.ri_solar_clock_transfer_v0.score_new_site_future_year",
+    "score_name": "solar_over_clock",
+    "same_clock_six_bins_and_equinox_solar_mapping": true,
+    "same_30min_image_dedup_and_species_admission": true,
+    "same_source_species_column": "Genus.and.Species",
+    "original_aggregate_reproduced_before_secondary_result": true,
+    "max_abs_tolerance_for_reproduced_first_winter_summer_mean": 1e-10
+  },
+  "matched_cell_rule": {
+    "identity": "(Primary.Site.ID, Genus.and.Species)",
+    "both_seasons_must_have_heldout_scored_events": true,
+    "min_dedup_scored_events_in_each_season": 5,
+    "min_total_paired_site_taxon_cells_to_report": 8,
+    "min_pairs_to_report_individual_taxon": 3,
+    "collapse_order": [
+      "average per-event log-score gain within site x taxon x season x year",
+      "average across represented heldout years within same site x taxon x season (equal year weighting)",
+      "retain only site x taxon cells with >=5 total scored detections in EACH season",
+      "compute each matched site x taxon winter-minus-summer difference",
+      "compute equal-pair mean, equal-physical-site mean of within-site pair means, and equal-taxon mean of taxon-wise pair means"
+    ],
+    "pair_weighting": "equal site×taxon cell, then report site-balanced and taxon-balanced companion estimands",
+    "new_p_values_or_bootstrap_ci": false,
+    "taxon_taxonomic_name_exclusion_for_secondary": [
+      "aves sp.",
+      "rodentia sp.",
+      "meleagris gallopavo",
+      "canis familiaris"
+    ],
+    "taxon_primary": "ALL training-admitted species and coarse IDs on common site×taxon support, with no taxonomic cherry-picking",
+    "taxon_secondary": "named wild mammal-like taxa only; no confirmatory inference and no rescue of original v2",
+    "per_taxon_detection_year_count_reported": true,
+    "exact_site_ids_or_site_event_times_emitted": false
+  },
+  "nonclaims": [
+    "Even same taxon at same camera site across seasons does not control changes in detectability or animal behaviour",
+    "Pairing does not establish effect of photoperiod, predator interactions or true activity rates",
+    "The postoutcome alternative is descriptive and cannot validate the original all-seasons-positive primary",
+    "Matched support may differ from and be nonrepresentative of original heldout detection population",
+    "Taxonomic labels may be coarse and camera monitoring effort uncalibrated",
+    "No original v0, v1, v2 or qualified ODSP statistical route is reclassified"
+  ],
+  "stop_conditions": [
+    "Source MD5, source v2 parser, original training/test fitted counts, original heldout overall winter/summer gains or scored n differ from pinned original",
+    "Fewer than 8 matched site×taxon pairs with >=5 scored events per season",
+    "Unknown species column or unverified changes to source grading",
+    "Any post-result change of cell inclusion threshold, site roster or season grouping"
+  ],
+  "expected_result_state": "POST_OUTCOME_MATCHED_CELL_DESCRIPTION_ONLY_OR_UNAVAILABLE"
+}
