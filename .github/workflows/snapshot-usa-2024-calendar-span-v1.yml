@@ -9,6 +9,8 @@ on:
       - 'odsp/snapshot_usa_2024_calendar_span_v1.py'
       - 'scripts/screen_snapshot_usa_2024_calendar_span_v1.py'
       - 'tests/test_snapshot_usa_2024_calendar_span_v1.py'
+      - 'odsp/weak_gain_nonparametric_barrier_v1.py'
+      - 'tests/test_weak_gain_nonparametric_barrier_v1.py'
       - '.github/workflows/snapshot-usa-2024-calendar-span-v1.yml'
   workflow_dispatch:
 
@@ -24,7 +26,10 @@ jobs:
       - name: Install dependencies
         run: python -m pip install -e '.[dev]'
       - name: Pre-result unit tests on synthetic physical site rosters
-        run: python -m pytest -q tests/test_snapshot_usa_2024_calendar_span_v1.py
+        run: |
+          python -m pytest -q \
+            tests/test_snapshot_usa_2024_calendar_span_v1.py \
+            tests/test_weak_gain_nonparametric_barrier_v1.py
       - name: Frozen original Dryad deployment URL only
         run: |
           python scripts/screen_snapshot_usa_2024_calendar_span_v1.py \
