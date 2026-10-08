@@ -1,0 +1,36 @@
+name: uljin-all-41-smooth-solar-alias-v0
+
+on:
+  push:
+    branches:
+      - method/uljin-41pair-smooth-solar-alias-v0
+    paths:
+      - 'ULJIN_ALL_41_SMOOTH_SOLAR_ALIAS_V0_CONTRACT.json'
+      - 'odsp/uljin_all_41_smooth_solar_alias_v0.py'
+      - 'tests/test_uljin_all_41_smooth_solar_alias_v0.py'
+      - 'scripts/run_uljin_all_41_smooth_solar_alias_v0.py'
+      - '.github/workflows/uljin-all-41-smooth-solar-alias-v0.yml'
+  workflow_dispatch:
+
+jobs:
+  source-free-all-original-pairs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Test original 41-pair phase-stationarity and mass conservation
+        run: python -m pytest -q tests/test_uljin_all_41_smooth_solar_alias_v0.py
+      - name: Score first frozen smooth all-41 oracle screen, no wildlife data
+        run: python scripts/run_uljin_all_41_smooth_solar_alias_v0.py
+      - name: Archive first source-free result for review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: uljin-all-41-smooth-solar-alias-first-v0
+          path: ULJIN_ALL_41_SMOOTH_SOLAR_ALIAS_V0_FIRST_RECEIPT.json
+          if-no-files-found: warn
