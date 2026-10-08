@@ -45,6 +45,8 @@ def main()->int:
         or results["boundary_start_date"]["ambiguous_pairs"]!=1
         or results["one_date_unknown_hour_outage"]["ambiguous_pairs"]!=1
         or results["guaranteed_full_date_outage"]["definitely_ineligible_pairs"]!=1
+        or results["guaranteed_full_date_outage"]["ambiguous_pairs"]!=1
+        or results["guaranteed_full_date_outage"]["guaranteed_eligible_pairs"]!=39
         or results["single_date_only_deployment"]["guaranteed_eligible_pairs"]!=0):
         raise ValueError("frozen synthetic dated-censored truth world failed")
     output={
