@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "lineage_method": "validation_roster_field_lineage_v0",
+  "plan_id": "hypothetical-new-camera-survey-predeclared-field-roster",
+  "fields": [
+    {
+      "field": "survey_site_random_allocation",
+      "origin": "design_recorded",
+      "parents": [],
+      "corrected_using_outcomes": false,
+      "documentation": "Prospective primary sampling-unit plan, externally confirm from original dated design document"
+    },
+    {
+      "field": "planned_habitat_group",
+      "origin": "design_recorded",
+      "parents": [],
+      "corrected_using_outcomes": false,
+      "documentation": "Prospectively defined habitat stratum in site allocation log"
+    },
+    {
+      "field": "physical_camera_cluster",
+      "origin": "design_recorded",
+      "parents": [],
+      "corrected_using_outcomes": false,
+      "documentation": "Site cluster recorded before any camera trap observations"
+    },
+    {
+      "field": "sampling_inclusion_probability",
+      "origin": "design_recorded",
+      "parents": [],
+      "corrected_using_outcomes": false,
+      "documentation": "Preallocated sampling selection probability"
+    },
+    {
+      "field": "fixed_design_weight",
+      "origin": "derived",
+      "parents": [
+        "sampling_inclusion_probability"
+      ],
+      "corrected_using_outcomes": false,
+      "documentation": "Fixed inverse-probability weight by prespecified formula"
+    },
+    {
+      "field": "animal_species_detection",
+      "origin": "observation_derived",
+      "parents": [],
+      "corrected_using_outcomes": false,
+      "documentation": "Outcome only; NOT used for site selection or weights"
+    }
+  ],
+  "used_by_roles": {
+    "roster_membership": "survey_site_random_allocation",
+    "validation_group": "planned_habitat_group",
+    "validation_block": "physical_camera_cluster",
+    "sample_weight": "fixed_design_weight",
+    "physical_unit_id": "physical_camera_cluster"
+  }
+}

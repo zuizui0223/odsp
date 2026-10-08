@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-validation-roster-field-lineage-v0",
+  "status": "EXPERIMENTAL_PRECHECK_NOT_ACTIVE_PRIMARY_ROUTE",
+  "frozen_scope": {
+    "required_roles": [
+      "roster_membership",
+      "validation_group",
+      "validation_block",
+      "sample_weight"
+    ],
+    "optional_roles": [
+      "eligibility_filter",
+      "physical_unit_id",
+      "fold_assignment"
+    ],
+    "node_schema_exactly": [
+      "field",
+      "origin",
+      "parents",
+      "corrected_using_outcomes",
+      "documentation"
+    ],
+    "permitted_origins": [
+      "design_recorded",
+      "derived",
+      "observation_derived",
+      "unknown"
+    ],
+    "unknown_blocks_confirmatory_use": true,
+    "any_obs_derived_ancestor_blocks": true,
+    "any_outcome_based_manual_correction_blocks": true,
+    "missing_upstream_nodes_and_cycles_rejected": true,
+    "unrelated_unused_observation_fields_do_not_automatically_taint_other_fields": true
+  },
+  "interpretation": {
+    "byte_hash_and_freeze_time_do_not_prove_origin_independence": true,
+    "declared_design_recorded_is_not_externally_attested": true,
+    "passing_status": "DECLARED_INDEPENDENT_LINEAGE_ONLY_NOT_ATTESTED",
+    "outcome_dependent_status": "HOLD_OUTCOME_DERIVED_SOURCE_METADATA",
+    "undocumented_status": "HOLD_UNDOCUMENTED_SOURCE_METADATA_LINEAGE",
+    "passing_primary_qualified": false,
+    "source_lineage_truth_cryptographically_proved": false
+  },
+  "source_example": {
+    "dataset": "SNAPSHOT USA 2024",
+    "public_method_paper_doi": "10.1111/geb.70229",
+    "publication_fact": "First/last image timestamps used to correct curated deployment Start_Date/End_Date",
+    "model": "photo_timestamp -> curated_date -> reported_span -> eligibility -> frozen_roster",
+    "no_real_sequence_rows_read": true
+  },
+  "historical_boundary": {
+    "qualification_v5_internal_external_changed": false,
+    "training_source_process_v0_changed": false,
+    "fixed_set_route_changed": false,
+    "old_ecological_terminal_results_reclassified": false
+  }
+}
