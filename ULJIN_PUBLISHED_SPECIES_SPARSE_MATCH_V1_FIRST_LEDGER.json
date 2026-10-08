@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_PUBLISHED_FOUR_TAXON_SOURCE_AGGREGATE_ONLY_POISSON_SCENARIO_V1",
+  "first_run_id": 37778073763,
+  "url": "https://github.com/zuizui0223/odsp/actions/runs/37778073763",
+  "first_method_commit": "7b9e8cbdcd993a08fca4c9aeb365f0561e6fd442",
+  "first_artifact_id": 11550453526,
+  "first_artifact_zip_sha256": "aef8c54fc29d79400e353c6967a23a8598d69768a831f9464c037531bb9b41a4",
+  "source_doi": "10.3897/BDJ.14.e191556",
+  "published_events": {
+    "goral": 2317,
+    "water_deer": 814,
+    "roe_deer": 808,
+    "wild_boar": 684
+  },
+  "published_functional_camera_nights": 29850,
+  "original_frozen_pairs": 41,
+  "station_count_in_original_paper": 82,
+  "homogeneous_independent_poisson_conditional_expected_both_day_event_pairs": {
+    "goral": 18.75290643214304,
+    "water_deer": 2.4329976449379718,
+    "roe_deer": 2.3977422746822024,
+    "wild_boar": 1.7253951470205504,
+    "total": 25.309041498783763
+  },
+  "source_animal_event_rows_read": false,
+  "source_camera_operational_records_read": false,
+  "real_doubly_positive_station_taxon_date_pairs_measured": false,
+  "real_available_station_hour_bins_measured": false,
+  "spatial_poisson_homogeneity_validated": false,
+  "preexisting_equal_taxon_hypothetical_v0_changed": false,
+  "original_frozen_astronomical_41_pairs_changed": false,
+  "response_based_station_selection_prohibited": true,
+  "zero_detections_with_positive_hourly_exposure_included_by_new_design": true,
+  "scientific_hysteresis_conclusion_made": false,
+  "existing_qualified_ODSP_routes_unchanged": true,
+  "substantive_data_blocker_issue": "https://github.com/zuizui0223/odsp/issues/231"
+}
