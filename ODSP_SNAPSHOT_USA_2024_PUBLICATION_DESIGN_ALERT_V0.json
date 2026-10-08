@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "record_type": "POST_FREEZE_PUBLICATION_METHODS_DISCOVERY_NOT_EMPIRICAL_RESULT",
+  "source_doi": "10.1111/geb.70229",
+  "source_pdf": "https://drewrdavis.com/wp-content/uploads/2026/04/rooney.etal_.2026_geb_snapshotusa_2024.pdf",
+  "source_page_one_indexed": 11,
+  "source_publication_array_count": 184,
+  "reported_forest_array_fraction": 0.77,
+  "forest_fraction_reported_as_rounded_percent": true,
+  "conservative_nonforest_array_upper_bound_if_nearest_one_percent": 43,
+  "grassland_arrays_cannot_exceed_nonforest_arrays": true,
+  "site_locations_reported": 2715,
+  "source_note": "camera trap-nights computed from first and last image timestamps within each deployment",
+  "implications": {
+    "survey_nights_is_a_recorded_image_time_derived_effort_summary": true,
+    "no_individual_sequence_or_species_labels_read_here": true,
+    "v0_deployment_content_screen_has_unchanged_frozen_rules": true,
+    "v0_is_NOT_proof_of_outcome_independent_sampling": true,
+    "group_minimum_array_counts_not_iid_proof": true,
+    "zero_ecological_primary_routes_promoted": true,
+    "no_post_outcome_threshold_tuning": true,
+    "new_outcome_independent_effort_plan_requires_separate_version": true
+  },
+  "mathematical_assumptions": {
+    "each_frozen_training_process_refit_has_at_least_one_required_validation_cell_with_population_block_mean_gain_at_most": 0.05,
+    "site_array_as_iid_validation_block_externally_justified": false,
+    "fixed_betting_fractions": [
+      0.25,
+      0.5,
+      0.75,
+      1
+    ],
+    "original_component_test_alpha": 0.002,
+    "original_markov_validation_delta": 0.025,
+    "original_process_alpha": 0.025,
+    "required_K_for_R20_q08": 20,
+    "maximum_nonforest_B_if_nearest_percent_rounding": 43,
+    "single_refit_certification_upper_bound": 0.008808381,
+    "shared_validation_q_decision_power_upper_bound": 0.008808381,
+    "result_is_conditional_theoretical_power_ceiling_not_observed_ecological_power": true
+  },
+  "source_bytes_downloaded_in_this_record": false,
+  "historical_bop_serengeti_tadarida_tawaki_terminal_categories_changed": false,
+  "status": "CAUTION_SOURCE_EFFORT_DERIVED_FROM_IMAGE_TIMES_AND_HABITAT_IMBALANCE"
+}
