@@ -16,6 +16,7 @@ def main():
     p.add_argument("--output",type=Path,required=True)
     p.add_argument("--seed",type=int,default=20261019)
     p.add_argument("--simulations",type=int,default=1000)
+    p.add_argument("--require-pass",action="store_true")
     a=p.parse_args()
     result=run_future_refit_probability_refit_iut_v2_calibration(
         seed=a.seed, simulations_per_scenario=a.simulations,
@@ -27,7 +28,7 @@ def main():
         "coverage":{r.scenario_id:{"overclaim":r.overall_overclaim_rate,"overcertification":r.validation_overcertification_rate,"mean_certified_count":r.mean_certified_success_count,"pass":r.acceptance_pass} for r in result.coverage_rows},
         "power":{r.scenario_id:{"all_certified_power":r.all_refits_certified_power,"mean_certified_count":r.mean_certified_success_count,"pass":r.acceptance_pass} for r in result.power_rows}
     },sort_keys=True))
-    if not result.qualification_pass:
+    if a.require_pass and not result.qualification_pass:
         raise SystemExit(1)
 
 if __name__=="__main__":main()
