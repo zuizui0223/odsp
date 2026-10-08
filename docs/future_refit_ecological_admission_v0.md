@@ -135,3 +135,56 @@ Therefore NONE of the four closed ODSP empirical endpoints can be promoted
 retrospectively to the new stochastic future-refit reliability claim.
 The next credible ecological test needs a prospective new independent
 validation sample and bounded three-level probability scores. 
+
+
+## Public alternative identified, but NOT admitted
+
+A publicly documented source with sufficient *potential* site scale is
+Snapshot Safari 2024 Expansion from LILA BC:
+
+https://lila.science/datasets/snapshot-safari-2024-expansion/
+
+The provider reports 15 camera-trap projects, 4,029,374 images and 1,824
+unique camera-location IDs, with annotations in COCO Camera Traps format.
+This is a source-discovery lead, not an evaluated ecological endpoint.
+
+CRITICAL: the expansion explicitly includes the already-used Snapshot
+Serengeti project (SER), so all training-source-overlapping SER cameras
+must be excluded at the physical unit level. Public camera IDs across
+projects cannot be presumed sample-exchangeable, mutually independent or
+geographically representative. Images/camera counts are not iid block
+counts. The number of eligible sites per *predeclared validation group*
+after exclusions has not been checked.
+
+The COCO Camera Traps format documents an OPTIONAL per-image datetime
+field. The fact that metadata are offered does not prove timestamps,
+local-time semantics, effort denominators or species annotations are
+complete in this release. Since clock time and species are the actual
+ODSP response variables, inspecting per-image timestamp values and
+category annotations prior to the response freeze WOULD be outcome
+access. We have examined only the public provider's summary counts;
+that includes aggregate category frequencies, so complete prior
+ignorance of public labels must not be claimed.
+
+Relevant method-design research:
+
+- Goldstein et al. (2024), Methods in Ecology and Evolution,
+  doi:10.1111/2041-210X.14359, on temporal autocorrelation in camera
+  detection studies.
+- Combining Disparate Camera-Trap Surveys (2026), Journal of Biogeography,
+  doi:10.1111/jbi.70333, on geographic sampling bias and variation in
+  camera-trap survey designs.
+
+The screened source is explicitly locked as
+DISCOVERY_ONLY_NOT_ADMITTED in
+ODSP_FUTURE_REFIT_SNAPSHOT_SAFARI_SOURCE_SCREEN_V0.json.
+No raw per-event labels, timestamps or site-level scores were opened
+during this source-screen. No iid validation sampling or outcome-free
+provenance is established.
+
+Possible next structural stage: freeze a new site's project/ID exclusion
+rules, physical site and sampling design, timezone semantics and
+exact metadata/score extraction implementation BEFORE inspecting
+response-bearing annotation or timestamp values. If that is not possible,
+the candidate is a descriptive public-data study, not a qualified
+untouched-external future-refit reliability endpoint.
