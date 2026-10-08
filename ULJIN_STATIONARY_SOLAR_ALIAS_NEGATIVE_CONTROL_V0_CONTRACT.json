@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_stationary_solar_alias_counterexample_v0",
+  "stage": "FROZEN_SOURCE_FREE_BEFORE_FIRST_NEGATIVE_CONTROL_RESULT",
+  "parent_method_contract": "ULJIN_SOLAR_PHASE_DEVICE_EXPOSURE_V0_CONTRACT.json",
+  "original_mirror_pair": [
+    "2022-05-01",
+    "2022-08-13"
+  ],
+  "solar_context": {
+    "latitude": 36.85,
+    "longitude": 129.2,
+    "timezone": "Asia/Seoul",
+    "station_coordinates_known": false
+  },
+  "truth_world": {
+    "solar_phase_intensity_identical_between_branches": true,
+    "continuous_full_day_device_uptime": true,
+    "baseline_per_phase_hour": 1,
+    "additional_hotspot_rate_per_phase_hour": 1000,
+    "rising_clock_hotspot_center": 7.94,
+    "hotspot_halfwidth_phase_hour": 0.01
+  },
+  "comparison": {
+    "same_expected_counts_conditional_on_pair_totals": true,
+    "null_common_branch_rate_can_vary": true,
+    "alternative_independent_six_branch_log_ratios": true,
+    "oracle_expected_conditional_logscore_civil_gain": "strictly positive",
+    "oracle_expected_conditional_logscore_solar_gain": "zero",
+    "rate_change_not_assumed": true,
+    "rate_per_phase_hour_uses_exposure_jacobian": true
+  },
+  "source_event_access_permitted": false,
+  "actual_station_operation_log_access_permitted": false,
+  "empirical_false_positive_rate_estimated": false,
+  "qualifies_existing_ODSP_primary_routes": false,
+  "previous_ODSP_results_reclassified": false,
+  "interpretation": "Constructive nonidentifiability: positive branch-by-civil-time-shape conditional gain can occur without any seasonal change in solar-phase behavior. Astronomical correction removes this particular alias under exact device exposure and the chosen invariant-phase truth world, not all seasonal observation biases."
+}\n
