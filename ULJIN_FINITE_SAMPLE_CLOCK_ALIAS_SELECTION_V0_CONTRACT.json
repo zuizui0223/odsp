@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_finite_sample_clock_vs_phase_same_events_v0",
+  "stage": "FROZEN_METHOD_AND_SCENARIOS_BEFORE_FIRST_SIMULATION_OUTCOME",
+  "parent_preoutcome_41_smooth_pr": 234,
+  "analysis_scope": "SOURCE_FREE_SYNTHETIC_FINITE_SAMPLE_DESCRIPTIVE_MODEL_SELECTION",
+  "original_pair_contract": "ULJIN_PHOTOPERIOD_MIRROR_2022_V0_DESIGN_CONTRACT.json",
+  "original_pair_count": 41,
+  "solar_geometry": {
+    "lat": 36.85,
+    "lon": 129.2,
+    "year": 2022,
+    "timezone": "Asia/Seoul",
+    "exact_station_coordinates_used": false
+  },
+  "station_design": {
+    "total_stations": 82,
+    "regions": [
+      "UJ1",
+      "UJ2"
+    ],
+    "stations_per_region": 41,
+    "training_station_indices": "0-19 and 41-60",
+    "test_station_indices": "20-40 and 61-81",
+    "sites_fixed_outcome_independent": true,
+    "pairs_per_station": 41,
+    "independence_claim": "Only simulated physical stations; not 82 independent natural regions"
+  },
+  "model": {
+    "common_branch_null": true,
+    "six_bin_shape_alternative": true,
+    "penalty_lambda": 2,
+    "intercept_ridge": 0.000001,
+    "fit_procedure": "exact pre-existing fit_conditional_branch_model on six collapsed sufficient statistics (full-day equal offset)",
+    "test_score": "pre-existing per-station average of six-bin conditional logscore differences, divided by fixed 41*6 original cells",
+    "selection_rule": "choose shape only if test-site-equal mean heldout gain >0",
+    "selection_rule_is_formal_alpha_test": false
+  },
+  "two_projections": "Sample each world ONCE in solar phase; convert exactly same timestamped events to six 4-hour civil clock bins and six solar-phase bins. Do not resample independent observations for different projections.",
+  "solar_phase_density": "1 + amplitude*exp(kappa*(cos(2*pi*(phase-peak)/24)-1)); same phase density for both branches",
+  "profiles": [
+    {
+      "name": "uniform_phase",
+      "amplitude": 0,
+      "kappa": 0,
+      "peak": 0
+    },
+    {
+      "name": "smooth_morning",
+      "amplitude": 1,
+      "kappa": 2,
+      "peak": 8
+    },
+    {
+      "name": "smooth_evening",
+      "amplitude": 1,
+      "kappa": 2,
+      "peak": 19
+    }
+  ],
+  "provenance_of_profiles": "Predeclared subset of five profiles already publicly examined in PR234. Choosing smooth_evening after its larger oracle gain is disclosed; this is a post-PR234 prospective synthetic stress test, not independent blind discovery.",
+  "full_exposure": {
+    "all_camera_days_full_24h": true,
+    "clock_bin_hours": 4,
+    "solar_bin_hours": 4,
+    "subdaily_uptime_inferred_from_real_nights": false
+  },
+  "event_sampling": {
+    "algorithm": "Poisson(total_mean), iid station(82), pair(41), photoperiod_branch(2), phase from pretabulated smooth inverse-CDF; same event used for both time projections",
+    "inverse_cdf_grid_intervals": 16384,
+    "seed": 2026100822,
+    "worlds_per_scenario": 200,
+    "case_level_rng": "SeedSequence([seed, profile_index, event_scale_index, world_index])",
+    "synthetic_mean_total_events": [
+      462,
+      4623,
+      46230
+    ],
+    "total_events_exposure_units": "Expected summed across all 82 synthetic stations, 41 matched pairs and both paired dates combined"
+  },
+  "metrics": {
+    "primary": "P(clock score >0 AND solar score <=0), Monte Carlo across independent worlds",
+    "comparators": [
+      "P(clock score>0)",
+      "P(solar score>0)",
+      "mean clock gain nats/original cell",
+      "mean solar gain nats/original cell",
+      "median paired(clock gain-solar gain)",
+      "paired site score divergence"
+    ],
+    "strict_positive_threshold": 0,
+    "report_all_worlds": false,
+    "per_scenario_summary_only": true,
+    "report_monte_carlo_uncertainty": true,
+    "monte_carlo_uncertainty": "sqrt[p_hat*(1-p_hat)/200] not wildlife inference",
+    "selection_frequency_not_type_i_error_test": true
+  },
+  "calibration_tests": [
+    "phase to civil mapping eventwise invertible",
+    "same event counts used in both projections",
+    "total counts exactly conserved within every simulated station×pair×branch",
+    "collapsed six-bin sufficient statistics produce same fit and heldout scores as original raw-cell implementation",
+    "no analytic expected-score oracle substituted for fitted prediction",
+    "test-site scores exclude training stations",
+    "all 41 original pair dates used even for stations with no detections",
+    "run exactly predeclared 3*3*200 worlds without post-outcome tuning"
+  ],
+  "qualification": {
+    "draft_only": true,
+    "no_empirical_ungulate_inference": true,
+    "no_old_pr_or_frozen_contract_modified": true,
+    "no_source_record_access": true,
+    "no_qualified_ODSP_route_changed": true
+  }
+}
