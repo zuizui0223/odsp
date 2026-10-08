@@ -1,0 +1,38 @@
+name: ri-camera-v3-header-only-recovery-v0
+
+on:
+  push:
+    branches:
+      - research/ri-camera-v3-header-recovery-v0
+    paths:
+      - 'RI_CAMERA_V3_HEADER_ONLY_PROBE_CONTRACT.json'
+      - 'odsp/ri_camera_v3_header_probe.py'
+      - 'scripts/probe_ri_camera_v3_headers.py'
+      - 'tests/test_ri_camera_v3_header_probe.py'
+      - '.github/workflows/ri-camera-v3-header-only-recovery-v0.yml'
+  workflow_dispatch:
+
+jobs:
+  source-header-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: python -m pip install -e '.[dev]'
+      - name: Verify schema probe does not access source data rows
+        run: |
+          python -m pytest -q \
+            tests/test_ri_camera_v3_header_probe.py
+      - name: Pinned archive header lines only
+        run: python scripts/probe_ri_camera_v3_headers.py
+      - name: Preserve first header audit (or unavailable)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ri-camera-v3-first-header-only-receipt
+          path: RI_CAMERA_V3_HEADER_ONLY_FIRST_RECEIPT.json
+          if-no-files-found: warn
