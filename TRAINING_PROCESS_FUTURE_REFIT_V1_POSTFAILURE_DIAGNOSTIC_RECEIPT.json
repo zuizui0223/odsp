@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "receipt_type": "odsp_postfailure_future_refit_probability_v1_max_t_diagnostic",
+  "date": "2026-10-08",
+  "classification": "exploratory_after_failed_prospective_qualification",
+  "method_version": "training_process_future_refit_success_probability_v1",
+  "run": {
+    "github_actions_run_id": 37705839107,
+    "github_actions_job_id": 113079866049,
+    "repetitions_per_scenario": 20,
+    "seed": 20261016,
+    "bootstrap_draws": 500
+  },
+  "scenarios": [
+    {
+      "refit_count": 8,
+      "blocks_per_group": 8,
+      "strong_positive_shift_oracle_se": 8,
+      "infinite_critical_fraction": 0,
+      "median_finite_critical_value": 12.733283722548153,
+      "mean_certified_success_count": 0,
+      "mean_robust_positive_cell_count": 12.7,
+      "all_refits_certified_fraction": 0
+    },
+    {
+      "refit_count": 20,
+      "blocks_per_group": 8,
+      "strong_positive_shift_oracle_se": 8,
+      "infinite_critical_fraction": 0,
+      "median_finite_critical_value": 19.905650328020165,
+      "mean_certified_success_count": 0,
+      "mean_robust_positive_cell_count": 3.6,
+      "all_refits_certified_fraction": 0
+    }
+  ],
+  "interpretation": {
+    "infinite_critical_not_primary_explanation_in_diagnostic": true,
+    "global_max_t_family_inflation_is_consistent_with_low_power": true,
+    "diagnosis_does_not_prove_any_successor_valid": true,
+    "prospective_v1_failure_still_qualified": false
+  },
+  "governance": {
+    "diagnostic_after_v1_outcome_exposure": true,
+    "cannot_reclassify_v1": true,
+    "is_not_primary_evidence": true,
+    "fixed_set_and_v5_unchanged": true
+  }
+}
