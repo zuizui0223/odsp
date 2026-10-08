@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "contract_id": "odsp-training-process-v5-managed-internal-promotion-v2",
+  "frozen_date": "2026-10-06",
+  "predecessor": {
+    "artifact": "ODSP_TRAINING_PROCESS_V5_MANAGED_INTERNAL_PROMOTION_GATE.json",
+    "retained": true
+  },
+  "candidate_surface": "odsp.training_process_managed_internal_v5.run_managed_internal_training_process_v5",
+  "underlying_qualified_statistical_surface": "odsp.training_process_confirmatory_v5.certify_predeclared_training_process_positive_information_v5",
+  "route_key": "alternative=greater|validation_design=independent_groups|information_structure=filtration|upstream_refits=predeclared_training_process|external_validation=none|contrast_count=2",
+  "required_order": [
+    "managed-internal contract and promotion gates frozen",
+    "focused managed-internal tests pass after prospective-chronology and claim-boundary corrections",
+    "official focused-test receipt frozen",
+    "exact managed-internal implementation/runtime identity receipt frozen",
+    "route evidence registry updated only after both receipts exist",
+    "confirmatory method routing switched only after updated evidence chain is content-locked"
+  ],
+  "focused_failure_modes_required": {
+    "happy_path_freezes_validation_design_before_outcome_file_creation": true,
+    "managed_scorer_reads_frozen_model_artifact_and validation_outcome_in_fixture": true,
+    "generated_model_byte_tampering_rejected": true,
+    "scoring_code_byte_tampering_rejected": true,
+    "managed_scoring_receipt_tampering_rejected": true,
+    "equal_or_earlier_declared_first_validation_access_rejected": true
+  },
+  "promotion_semantics": {
+    "preferred_internal_primary_surface_changes": true,
+    "statistical_method_changes": false,
+    "statistical_recalibration_required": false,
+    "process_mean_estimand_changes": false,
+    "historical_internal_wrapper_deleted": false,
+    "historical_internal_wrapper_remains_underlying_qualified_statistical_surface": true,
+    "caller_supplied_score_tensor_is_not_primary_input_after_promotion": true,
+    "managed_model_to_score_execution_required": true,
+    "semantic_use_of_model_and_validation_inputs_cryptographically_proven": false
+  },
+  "external_route_boundary": {
+    "untouched_external_primary_surface_changed": false,
+    "external_route_evidence_chain_rewritten": false,
+    "immutable_external_internal_v5_snapshot_changed": false,
+    "reason": "external v5 already has its own separately frozen managed scoring provenance and retains the immutable internal statistical qualification snapshot"
+  },
+  "scope": {
+    "independent_groups": true,
+    "ordered_filtration": true,
+    "contrast_count": 2,
+    "contrast_count_4": false,
+    "paired": false,
+    "complete_lattice": false
+  },
+  "claim_boundary": {
+    "historical_truth_of_validation_nonaccess_machine_proven": false,
+    "semantic_correctness_of_arbitrary_scoring_code_cryptographically_proven": false,
+    "individual_future_refit_success_probability_claimed": false,
+    "all_future_refits_positive_claimed": false,
+    "original_training_source_population_generalization_claimed": false,
+    "fixed_set_results_reclassified": false,
+    "historical_empirical_endpoints_reclassified": false
+  }
+}

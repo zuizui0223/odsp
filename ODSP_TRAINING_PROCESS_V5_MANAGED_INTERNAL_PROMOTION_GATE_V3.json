@@ -1,0 +1,44 @@
+{
+  "schema_version": 3,
+  "contract_id": "odsp-training-process-v5-managed-internal-promotion-v3",
+  "frozen_date": "2026-10-06",
+  "predecessors": [
+    "ODSP_TRAINING_PROCESS_V5_MANAGED_INTERNAL_PROMOTION_GATE.json",
+    "ODSP_TRAINING_PROCESS_V5_MANAGED_INTERNAL_PROMOTION_GATE_V2.json"
+  ],
+  "candidate_surface": "odsp.training_process_managed_internal_v5.run_managed_internal_training_process_v5",
+  "validation_contract": "ODSP_TRAINING_PROCESS_V5_MANAGED_INTERNAL_VALIDATION_CONTRACT_V2.json",
+  "route_key": "alternative=greater|validation_design=independent_groups|information_structure=filtration|upstream_refits=predeclared_training_process|external_validation=none|contrast_count=2",
+  "promotion_requirements": [
+    "v2 validation chronology contract frozen before corrected focused run",
+    "corrected focused run passes prospective happy path and all declared tamper/chronology failures",
+    "focused-test receipt frozen after corrected run",
+    "identity snapshot rerun after focused receipt is content-bound",
+    "identity receipt frozen before route registry update",
+    "route evidence registry updated only after focused and identity receipts exist",
+    "routing promotion occurs only after updated evidence content is locked"
+  ],
+  "focused_requirements": {
+    "outcome_bearing_validation_file_absent_at_freeze": true,
+    "fixture_scorer_reads_model_artifact_content": true,
+    "fixture_scorer_reads_validation_outcome_content": true,
+    "generated_model_byte_tampering_rejected": true,
+    "scoring_code_byte_tampering_rejected": true,
+    "managed_scoring_receipt_tampering_rejected": true,
+    "declared_first_access_equal_to_freeze_rejected": true,
+    "declared_first_access_after_managed_validation_read_rejected": true
+  },
+  "promotion_semantics": {
+    "preferred_internal_primary_surface_changes": true,
+    "underlying_v5_statistical_method_changes": false,
+    "statistical_recalibration_required": false,
+    "historical_internal_wrapper_deleted": false,
+    "caller_supplied_score_tensor_is_not_primary_input_after_promotion": true,
+    "semantic_use_of_model_and_validation_inputs_cryptographically_proven": false
+  },
+  "external_route_boundary": {
+    "untouched_external_primary_surface_changed": false,
+    "external_route_evidence_chain_rewritten": false,
+    "immutable_external_internal_v5_snapshot_changed": false
+  }
+}

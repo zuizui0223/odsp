@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-v5-managed-internal-identity-v1",
+  "frozen_date": "2026-10-06",
+  "canonical_surface": "odsp.training_process_managed_internal_v5.run_managed_internal_training_process_v5",
+  "purpose": "freeze the exact managed-internal provenance wrapper source closure and runtime dependencies after focused tests pass and before route promotion",
+  "snapshot_requirements": {
+    "recursive_odsp_source_closure": true,
+    "ordered_source_path_sha256_pairs": true,
+    "dynamic_odsp_imports_allowed": false,
+    "python_implementation_and_patch_version_recorded": true,
+    "referenced_external_modules_recorded": true,
+    "installed_distribution_versions_recorded": true
+  },
+  "focused_evidence_required": {
+    "official_github_actions_run_required": true,
+    "focused_test_receipt_required": true,
+    "managed_internal_contract_sha256_required": true
+  },
+  "boundary": {
+    "operating_system_package_versions_frozen": false,
+    "blas_identity_frozen": false,
+    "external_library_source_code_frozen": false,
+    "bitwise_reproducibility_claimed": false,
+    "statistical_operating_characteristics_recomputed": false
+  }
+}

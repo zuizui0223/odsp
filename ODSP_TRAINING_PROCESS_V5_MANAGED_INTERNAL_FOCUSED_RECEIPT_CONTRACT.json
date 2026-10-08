@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-v5-managed-internal-focused-receipt-v1",
+  "frozen_date": "2026-10-06",
+  "purpose": "define the immutable receipt schema for the corrected managed-internal focused qualification run before its result is opened",
+  "receipt_identity": {
+    "receipt_type": "odsp_training_process_v5_managed_internal_focused_tests_v1",
+    "official_github_actions_run_id_required": true,
+    "official_github_actions_job_id_required": true,
+    "head_sha_required": true,
+    "workflow_name_required": true
+  },
+  "required_test_outcomes": {
+    "focused_test_step_conclusion": "success",
+    "prospective_happy_path_pass": true,
+    "generated_model_byte_tampering_rejected": true,
+    "scoring_code_byte_tampering_rejected": true,
+    "managed_scoring_receipt_tampering_rejected": true,
+    "freeze_equal_declared_first_access_rejected": true,
+    "declared_first_access_after_managed_validation_read_rejected": true
+  },
+  "required_boundaries": {
+    "outcome_bearing_validation_file_absent_at_freeze_in_fixture": true,
+    "fixture_scorer_reads_model_artifact_content": true,
+    "fixture_scorer_reads_validation_outcome_content": true,
+    "score_tensor_derived_by_managed_scoring": true,
+    "semantic_use_of_model_and_validation_inputs_cryptographically_proven": false,
+    "historical_truth_of_declared_first_access_machine_proven": false,
+    "statistical_method_changed": false,
+    "statistical_recalibration_performed": false
+  },
+  "promotion_boundary": {
+    "receipt_alone_changes_primary_route": false,
+    "identity_receipt_still_required": true,
+    "registry_update_forbidden_before_identity_receipt": true
+  }
+}

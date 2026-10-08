@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-process-v5-managed-internal-validation-v1",
+  "frozen_date": "2026-10-06",
+  "purpose": "close the remaining internal training-process provenance gap by deriving held-out validation scores through ODSP-managed execution from the exact frozen generated model artifacts before invoking the already-qualified v5 statistical wrapper",
+  "statistical_boundary": {
+    "statistical_method_changed": false,
+    "v5_operating_characteristics_recomputed": false,
+    "numeric_core": "odsp.training_process_positive_cv3two_iut.certify_training_process_positive_information_cv3two_iut_v5",
+    "existing_internal_wrapper_reused": "odsp.training_process_confirmatory_v5.certify_predeclared_training_process_positive_information_v5",
+    "process_mean_estimand_changed": false
+  },
+  "pre_outcome_internal_validation_freeze": {
+    "validation_roster_columns_exactly": [
+      "row_id",
+      "group_id",
+      "block_id",
+      "sample_weight"
+    ],
+    "outcome_column_allowed": false,
+    "prediction_or_score_column_allowed": false,
+    "row_ids_unique": true,
+    "sample_weights_finite_nonnegative": true,
+    "minimum_positive_mass_blocks_per_group": 8,
+    "training_source_frame_disjointness_verified": true,
+    "training_process_manifest_bound": true,
+    "managed_generation_receipt_bound": true,
+    "generated_model_artifact_snapshot_bound": true,
+    "fit_environment_snapshot_bound": true,
+    "score_semantics_bound": true,
+    "ordered_three_level_filtration_bound": true,
+    "certification_settings_bound": true,
+    "scoring_argv_bound": true,
+    "scoring_command_artifact_bytes_bound": true,
+    "scoring_runtime_environment_bound": true
+  },
+  "managed_scoring": {
+    "one_scoring_process_per_refit": true,
+    "shell_allowed": false,
+    "required_placeholders": [
+      "{refit_id}",
+      "{model_manifest_path}",
+      "{validation_data_path}",
+      "{scoring_spec_path}",
+      "{output_path}"
+    ],
+    "generated_model_artifacts_reverified_before_scoring": true,
+    "validation_data_sha256_recorded_after_outcome_access": true,
+    "stdout_sha256_recorded": true,
+    "stderr_sha256_recorded": true,
+    "score_output_sha256_recorded": true,
+    "strict_row_and_level_coverage_required": true,
+    "canonical_refit_row_level_tensor_sha256_recorded": true
+  },
+  "score_output_schema": {
+    "format": "json",
+    "top_level_fields_exactly": [
+      "refit_id",
+      "rows"
+    ],
+    "row_fields_exactly": [
+      "row_id",
+      "scores"
+    ],
+    "scores_keys_exactly_equal_frozen_level_names": true,
+    "score_values": "finite real or -inf; NaN and +inf forbidden"
+  },
+  "chronology": {
+    "validation_freeze_must_strictly_precede_declared_first_validation_outcome_access": true,
+    "declared_first_access_timestamp_required_at_certification": true,
+    "historical_truth_of_first_access_declaration_machine_proven": false
+  },
+  "canonical_candidate_surface": "odsp.training_process_managed_internal_v5.run_managed_internal_training_process_v5",
+  "promotion_boundary": {
+    "existing_internal_primary_route_reclassified": false,
+    "new_surface_primary_now": false,
+    "raw_caller_supplied_score_tensor_remains_allowed_by_historical_internal_wrapper": true,
+    "managed_internal_surface_may_become_preferred_primary_only_after_focused_tests_and_identity_receipt": true,
+    "untouched_external_route_changed": false
+  },
+  "claim_boundary": {
+    "score_table_derivation_from_generated_models_operationally_proven": true,
+    "semantic_correctness_of_arbitrary_scoring_code_cryptographically_proven": false,
+    "individual_future_refit_success_probability_claimed": false,
+    "all_future_refits_positive_claimed": false,
+    "original_training_source_population_generalization_claimed": false,
+    "fixed_set_results_reclassified": false,
+    "historical_empirical_endpoints_reclassified": false
+  }
+}
