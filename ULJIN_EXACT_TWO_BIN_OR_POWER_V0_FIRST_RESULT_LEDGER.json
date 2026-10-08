@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_EXACT_TWO_BIN_FISHER_POWER_V0_TERMINAL_RESULT",
+  "pr_number": 242,
+  "pre_result_frozen_contract_commit": "cee3339c9ab8fff3bc97d267597b60920af7fea4",
+  "first_method_ci_head": "843eb6567f200476027876f9f0b3e4f74c483f12",
+  "first_ci_run": 37795129585,
+  "first_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/37795129585",
+  "first_artifact_id": 11557394293,
+  "first_artifact_sha256": "sha256:f86842150cdd6196bca1b44b8ec32c4256802cd5bcf9f6492a97f89c73033500",
+  "focused_tests": "success",
+  "exact_full_n5_to_640_scan": "success",
+  "alpha_one_sided": 0.05,
+  "target_conditional_power": 0.8,
+  "maximum_exact_null_rejection_size_over_all_n": 0.04998361333769244,
+  "first_n_per_branch_reaching_80pct_conditional_power": {
+    "1.5": 312,
+    "2.0": 105,
+    "3.0": 45
+  },
+  "minimum_n_per_branch_sustained_80pct_through_640": {
+    "1.5": 335,
+    "2.0": 118,
+    "3.0": 52
+  },
+  "reference_exposure_assumptions": {
+    "two_preselected_bins": true,
+    "one_single_site_one_pair": true,
+    "branch_event_counts_equal_n": true,
+    "two_bin_combined_total_event_count_is_2n": true,
+    "equal_known_effort_and_detection_odds_crossproduct_one": true,
+    "real_original_EcoBank_uptime_and_events_accessed": false
+  },
+  "caveats": {
+    "n_is_not_number_of_site_date_pairs": true,
+    "published_4623_yearwide_events_not_reusable_as_paired_two_bin_support": true,
+    "sampling_power_conditions_on_fixed_hypothetical_row_and_column_margins": true,
+    "no_multi_bin_taxon_multiplicity_adjustment": true,
+    "odds_ratio_is_detection_weighted_not_latent_animal_activity": true,
+    "no_new_general_method_theorem": true,
+    "prior_qualified_ODSP_routes_untouched": true
+  },
+  "status": "TERMINAL_SOURCE_FREE_SAMPLE_SIZE_DESIGN_NOT_EMPIRICAL"
+}

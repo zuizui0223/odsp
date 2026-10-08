@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_balanced_exact_two_bin_or_power_v0",
+  "stage": "FROZEN_SOURCE_FREE_BEFORE_FIRST_EXACT_POWER_CALCULATION",
+  "parent_pr": 241,
+  "scope": "Conditional exact one-sided Fisher 2x2 odds-ratio power for one physical site/date-pair with known equal exposure in four season×two-solar-phase cells, synthetic observations only",
+  "table_definition": "Rows rising/falling each have n events; columns early/late each have n events; X=falling-early and other counts are rising-early=n-X, falling-late=n-X, rising-late=X.",
+  "scientific_estimand": "Detector-weighted occurrence rate odds ratio (falling/rising rate in early bin)/(falling/rising rate in late bin); not automatically latent animal activity",
+  "sampling_law": "Conditional on these exact row/column totals, X follows Fisher's noncentral hypergeometric P_theta(X=x) proportional to choose(n,x)^2 * theta^x for 0<=x<=n.",
+  "null_odds_ratio": 1,
+  "test": {
+    "alternative": "greater",
+    "alpha": 0.05,
+    "pvalue_definition": "Central hypergeometric exact upper tail P_theta=1(X>=observed)",
+    "critical_value_rule": "smallest integer c with P_theta=1(X>=c)<=alpha; none means cannot reject",
+    "calibration": "exact conditional size <=0.05, discreteness means not equal to 0.05"
+  },
+  "true_odds_ratio_scenarios": [
+    1,
+    1.5,
+    2,
+    3
+  ],
+  "n_per_season_grid": [
+    10,
+    20,
+    40,
+    80,
+    160,
+    320,
+    640
+  ],
+  "scan_n_per_season": {
+    "min": 5,
+    "max": 640,
+    "integer_step": 1,
+    "target_power": 0.8,
+    "report_first_crossing_and_sustained_from_n_through_max": true
+  },
+  "computation": {
+    "independent_log_binomial_coefficients": "lgamma(n+1)-lgamma(x+1)-lgamma(n-x+1)",
+    "logsumexp_normalized_probability": true,
+    "finite_values_only": true
+  },
+  "admission_gates": [
+    "exact conditional size under null <=0.05 for every n from 5 to 640",
+    "theta=1 power equals exact conditional type I error for every n",
+    "true positive OR 1.5,2,3 has nondecreasing power in effect size for fixed n",
+    "predeclared exact n grid and first/sustained 80-percent thresholds without effect-size tuning",
+    "no scientific inference from published whole-year 4623 ungulate detections to same-site paired-day two-bin n",
+    "never interpret a 2-bin exact contrast as detection of six-bin profile change without separate multiplicity control",
+    "no original animal events, camera device uptime or precise station coordinates accessed"
+  ],
+  "scope_restrictions": {
+    "hypothetical_balanced_fixed_margins_not_observed": true,
+    "camera_operation_hours_known_equal_in_four_cells": true,
+    "detection_probability_odds_crossproduct_assumed_one": true,
+    "true_animal_behavior_not_separately_identified": true,
+    "one_site_and_one_pair_no_clustering": true,
+    "not_from_previous_ODSP_primary_routes": true,
+    "no_retuning_after_first_result": true
+  }
+}
