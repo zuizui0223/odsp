@@ -360,3 +360,66 @@ def shared_validation_design_frontier(
         "unconditional_binomial_power_inferred": False,
         "prospective_qualification_passed": False,
     }
+
+
+
+def constant_block_gain_example(
+    gain: float,
+    *,
+    gain_lower_bound: float = -1.0,
+    gain_upper_bound: float = 1.0,
+    gain_tolerance: float = 0.0,
+    component_test_alpha: float = COMPONENT_TEST_ALPHA,
+    group_count: int = 2,
+    maximum_blocks_per_group: int = 20000,
+) -> dict[str, object]:
+    """Smallest B certifying an unrealistically constant same-block gain.
+
+    This is an exact algebraic illustration of the fixed betting mixture,
+    not a sample-size promise, necessary power condition, or simulation.
+    Real ecology has variable scores and shared validation shocks.
+    """
+    g = _number(gain, "gain")
+    low = _number(gain_lower_bound, "gain_lower_bound")
+    high = _number(gain_upper_bound, "gain_upper_bound")
+    tau = _number(gain_tolerance, "gain_tolerance")
+    a = _prob(component_test_alpha, "component_test_alpha")
+    groups = _integer(group_count, "group_count", 1)
+    cap = _integer(maximum_blocks_per_group, "maximum_blocks_per_group", 1)
+    if not low < tau < high or not low <= g <= high:
+        raise ValueError("constant gain must satisfy frozen score bounds")
+    if g <= tau:
+        return {
+            "gain": g, "certifiable": False, "blocks_per_group": None,
+            "distinct_validation_blocks": None,
+            "illustrative_only": True, "prospective_power_qualified": False,
+        }
+    def score(B: int) -> float:
+        values = np.repeat(g, B)
+        return _log_mixture_betting_e_value(values, lower=low, threshold=tau)
+    threshold = math.log(1/a)
+    lo, hi = 0, 1
+    while hi <= cap and score(hi) <= threshold:
+        lo, hi = hi, hi * 2
+    if hi > cap:
+        hi = cap
+        if score(hi) <= threshold:
+            return {
+                "gain": g, "certifiable": False, "blocks_per_group": None,
+                "distinct_validation_blocks": None,
+                "illustrative_only": True, "prospective_power_qualified": False,
+            }
+    while lo + 1 < hi:
+        mid = (lo + hi)//2
+        if score(mid) > threshold:
+            hi = mid
+        else:
+            lo = mid
+    return {
+        "gain": g,
+        "certifiable": True,
+        "blocks_per_group": hi,
+        "distinct_validation_blocks": groups * hi,
+        "illustrative_only": True,
+        "prospective_power_qualified": False,
+    }
