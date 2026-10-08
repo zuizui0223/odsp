@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "lineage_method": "validation_roster_field_lineage_v0",
+  "plan_id": "snapshot-usa-2024-curated-date-roster-publication-semantic-counterexample",
+  "fields": [
+    {
+      "field": "site_id",
+      "origin": "design_recorded",
+      "parents": [],
+      "corrected_using_outcomes": false,
+      "documentation": "Composite project-array-site identifier from frozen metadata"
+    },
+    {
+      "field": "habitat",
+      "origin": "design_recorded",
+      "parents": [],
+      "corrected_using_outcomes": false,
+      "documentation": "Habitat label declared by contributing PI; historical truth not cryptographically verified"
+    },
+    {
+      "field": "array_id",
+      "origin": "design_recorded",
+      "parents": [],
+      "corrected_using_outcomes": false,
+      "documentation": "Array identifier from predeclared study metadata"
+    },
+    {
+      "field": "uniform_site_weight",
+      "origin": "design_recorded",
+      "parents": [],
+      "corrected_using_outcomes": false,
+      "documentation": "Unit weight from fixed block-uniform target"
+    },
+    {
+      "field": "first_photo_date",
+      "origin": "observation_derived",
+      "parents": [],
+      "corrected_using_outcomes": false,
+      "documentation": "First image in deployment sequence; paper explicitly documents dependency"
+    },
+    {
+      "field": "last_photo_date",
+      "origin": "observation_derived",
+      "parents": [],
+      "corrected_using_outcomes": false,
+      "documentation": "Last image in deployment sequence; paper explicitly documents dependency"
+    },
+    {
+      "field": "curated_start_date",
+      "origin": "derived",
+      "parents": [
+        "first_photo_date"
+      ],
+      "corrected_using_outcomes": true,
+      "documentation": "Published cleaning adjusts start date to first photo"
+    },
+    {
+      "field": "curated_end_date",
+      "origin": "derived",
+      "parents": [
+        "last_photo_date"
+      ],
+      "corrected_using_outcomes": true,
+      "documentation": "Published cleaning adjusts end date to last photo"
+    },
+    {
+      "field": "date_span",
+      "origin": "derived",
+      "parents": [
+        "curated_start_date",
+        "curated_end_date"
+      ],
+      "corrected_using_outcomes": false,
+      "documentation": "Calendar difference of observation-corrected dates"
+    },
+    {
+      "field": "selected_site",
+      "origin": "derived",
+      "parents": [
+        "site_id",
+        "date_span"
+      ],
+      "corrected_using_outcomes": false,
+      "documentation": "Membership depends on whether computed days exceed threshold"
+    }
+  ],
+  "used_by_roles": {
+    "roster_membership": "selected_site",
+    "validation_group": "habitat",
+    "validation_block": "array_id",
+    "sample_weight": "uniform_site_weight"
+  }
+}
