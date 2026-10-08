@@ -276,8 +276,10 @@ def run_exploratory_ri_solar_clock_v1(
         groups[event.species].append((event,sc))
     species_summaries={}
     minimum_species_sites=plan["secondary_exploratory_outputs"]["species_site_minimum"]
+    minimum_species_years=plan["secondary_exploratory_outputs"]["species_year_minimum"]
     for species,records in sorted(groups.items()):
-        if len({e.site_id for e,_ in records})<minimum_species_sites:
+        if (len({e.site_id for e,_ in records})<minimum_species_sites
+            or len({e.season_year for e,_ in records})<minimum_species_years):
             continue
         summary=summarize_site_level_transfer(records)
         species_summaries[species]={
