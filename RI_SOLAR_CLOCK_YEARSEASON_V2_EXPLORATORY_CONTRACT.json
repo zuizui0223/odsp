@@ -1,0 +1,176 @@
+{
+  "schema_version": 2,
+  "study_id": "odsp-ri-solar-vs-clock-yearseason-v2-exploratory",
+  "analysis_status": "FROZEN_POSTEXPOSURE_CODED_YEARSEASON_SOURCE_AMENDMENT_V2",
+  "source_v0": {
+    "previous_v0_scientific_status": "UNAVAILABLE_SOURCE_SCHEMA",
+    "previous_v1_scientific_status": "EXPLORATORY_V1_UNAVAILABLE_ZERO_RETAINED_EVENTS",
+    "previous_v0_scored_outcomes_computed": false,
+    "previous_v1_scored_outcomes_computed": false,
+    "separate_attrition_quality_run": 37747269596,
+    "public_raw_detection_rows_loaded_by_previous_runs": true,
+    "yearseason_label_counts_already_seen": true,
+    "ever_untouched_or_confirmatory_claim": false
+  },
+  "data": {
+    "source_url": "https://zenodo.org/records/14508932/files/DataS1.zip?download=1",
+    "original_md5": "c66943e6c2a9aab0abce2a1eba8ce02e",
+    "exact_deployment_header": [
+      "YearSeason",
+      "Primary.Site.ID",
+      "Trap.Station.Name",
+      "Camera.Name",
+      "Setup.Date",
+      "Retrieval.Date",
+      "Latitude",
+      "Longitude"
+    ],
+    "exact_detection_header": [
+      "YearSeason",
+      "Primary.Site.ID",
+      "Trap.Station.Name",
+      "Camera.Name",
+      "Date.Time",
+      "Date",
+      "Time",
+      "Common.Name",
+      "Class",
+      "Order",
+      "Family",
+      "Genus",
+      "Species",
+      "Genus.and.Species",
+      "Sighting.Quantity"
+    ],
+    "source_archive_uses_original_predeclared_zipinfo_guard": true
+  },
+  "key_map": {
+    "physical_site": "Primary.Site.ID",
+    "physical_station": "Trap.Station.Name",
+    "camera_device": "Camera.Name",
+    "season_year": "YearSeason",
+    "deployment_match_composite": [
+      "YearSeason",
+      "Primary.Site.ID",
+      "Trap.Station.Name",
+      "Camera.Name"
+    ],
+    "species": "Genus.and.Species",
+    "detection_datetime": "Date.Time",
+    "fallback_if_datetime_blank_only": [
+      "Date",
+      "Time"
+    ],
+    "latitude": "Latitude",
+    "longitude": "Longitude"
+  },
+  "parser_policy": {
+    "year_season_patterns": [
+      "WinterYYYY",
+      "SummerYYYY",
+      "YYYYWinter",
+      "YYYYSummer",
+      "Winter_YYYY",
+      "Summer_YYYY",
+      "YYYY_Winter",
+      "YYYY_Summer",
+      "Winter YYYY",
+      "Summer YYYY"
+    ],
+    "source_clock_zone_assumed": "America/New_York",
+    "camera_clock_zone_verified": false,
+    "datetime_formats": [
+      "%Y-%m-%d %H:%M:%S",
+      "%Y-%m-%d %H:%M",
+      "%m/%d/%Y %H:%M:%S",
+      "%m/%d/%Y %H:%M",
+      "%m/%d/%Y %I:%M:%S %p",
+      "%m/%d/%Y %I:%M %p",
+      "%Y-%m-%dT%H:%M:%S",
+      "%Y-%m-%dT%H:%M",
+      "%Y-%m-%d %I:%M:%S %p",
+      "%Y-%m-%d %I:%M %p"
+    ],
+    "fallback_only_when_original_Date_Time_blank": true,
+    "unknown_or_blank_genus_and_species_excluded": true,
+    "dedup_within": [
+      "Primary.Site.ID",
+      "Trap.Station.Name",
+      "Camera.Name",
+      "Genus.and.Species",
+      "YearSeason"
+    ],
+    "dedup_minutes": 30,
+    "unmatched_detection_join_fraction_hard_stop": 0.02,
+    "reject_multiple_coordinate_values_same_composite": true,
+    "require_source_header_exact_match": true,
+    "no_source_file_or_taxon_column_substitution_after_outcomes": true,
+    "yearseason_code_mapping": {
+      "pattern": "^(w|s)(18|19|20|21|22|23)$",
+      "winter_prefix": "w",
+      "summer_prefix": "s",
+      "year_expansion": "2000 plus numeric suffix",
+      "excluded_spring_codes": [
+        "sp22"
+      ],
+      "reject_unrecognized_codes": true,
+      "mapping_frozen_after_inspecting_aggregate_YearSeason_source_quality": false
+    }
+  },
+  "unchanged_scientific_invariants": {
+    "solar_phase_method": "same original equinoctial sunrise06 sunset18 piecewise-linear transform",
+    "comparison": "clock vs solar predict identical six civil-clock bins",
+    "scientific_train_years": [
+      2018,
+      2019,
+      2020,
+      2021
+    ],
+    "scientific_test_years": [
+      2022,
+      2023
+    ],
+    "frozen_physical_site_hash_salt": "odsp-ri-solar-v0",
+    "heldout_site_fold": 0,
+    "site_folds": 5,
+    "season_groups": [
+      "winter",
+      "summer"
+    ],
+    "min_training_events_per_species": 120,
+    "min_training_sites_per_species": 8,
+    "min_training_events_per_season": 25,
+    "min_training_sites_per_season": 3,
+    "min_test_sites_per_season": 8,
+    "min_test_events_per_season": 100,
+    "jeffreys_pseudocount": 0.5,
+    "site_weighting": "same original site/year then season aggregation",
+    "bootstrap_draws": 2000,
+    "bootstrap_seed": 2026100803,
+    "wrong_sun_date_shift_days": 183
+  },
+  "secondary_exploratory_outputs": {
+    "by_species_diel_gain_summary": true,
+    "species_site_minimum": 5,
+    "species_year_minimum": 2,
+    "separate_species_signs_no_confirmatory_significance_claim": true,
+    "publication_limit": "Even a successful aggregate cannot prove photoperiod causality or intrinsic activity from photo detections."
+  },
+  "hard_stops": [
+    "v2 is unambiguously post-exposure exploratory; v0/v1 remain unavailable",
+    "Only wNN and sNN codes with NN from 18 to 23 are permitted; sp22 excluded as spring",
+    "All other model, sampling, transformation, bootstrap and source constraints are those of v1",
+    "If source-year other codes encountered, exclude; never choose favorable season groups",
+    "Actual positive/negative ecological results do not modify this v2 contract",
+    "Timezone provenance/detection bias remain unverified and no causal or general-population claim is allowed"
+  ],
+  "evidence_boundary": {
+    "status": "EXPLORATORY_ONLY_POSTEXPOSURE_SOURCE_FORMAT_CORRECTION",
+    "source_codes_chosen_after_YearSeason_frequency_audit": true,
+    "no_model_log_scores_or_effect_directions_seen_before_this_v2_contract": true,
+    "modifies_only_season_label_grammar_relative_to_v1": true,
+    "original_v1_source_identifiers_and_original_scientific_models_retained": true,
+    "no_historical_result_promotion": true,
+    "any_success_is_exploratory_not_a_new_preregistered_primary_result": true
+  }
+}
