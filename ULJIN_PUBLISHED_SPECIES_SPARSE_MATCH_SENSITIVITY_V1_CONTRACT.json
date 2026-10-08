@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-uljin-post-v0-published-taxon-rate-feasibility-v1",
+  "status": "PUBLICATION_AGGREGATE_ONLY_POST_INITIAL_EQUAL_TAXON_SCENARIO",
+  "original_sparsity_contract": "ULJIN_PAIRED_DAY_ZERO_PRESERVING_FEASIBILITY_V0_CONTRACT.json",
+  "original_equal_taxon_rate_assumption_unchanged": true,
+  "source_doi": "10.3897/BDJ.14.e191556",
+  "published_functional_camera_nights": 29850,
+  "published_stations": 82,
+  "original_frozen_astronomical_date_pairs": 41,
+  "predeclared_four_species_total_counts": {
+    "Naemorhedus caudatus": 2317,
+    "Hydropotes inermis": 814,
+    "Capreolus pygargus": 808,
+    "Sus scrofa": 684
+  },
+  "all_species_event_total_expected": 4623,
+  "rate_scenario": "Independent homogeneous Poisson detections with taxon-specific source-wide observed events divided by all functional camera nights; each camera active for both dates of all original pairs",
+  "matched_positive_pair_probability": "[1-exp(-lambda_taxon)]^2",
+  "expected_matched_station_taxon_pairs": "82*41*[1-exp(-lambda_taxon)]^2",
+  "expected_sites_per_taxon_with_any_of_original_41_matched_days": "82*(1-(1-p_pair)^41)",
+  "actual_source_station_species_event_distribution_unobserved": true,
+  "all_four_taxa_retained_even_if_sparse": true,
+  "real_day_pairs_or_location_metadata_accessed": false,
+  "does_not_change_original_frozen_solar_clock_model_or_mirror_days": true,
+  "do_not_treat_as_estimate_or_power_bound": true,
+  "recommended_primary_sampling_unit": "physical camera station, with region clusters and true clock-time uptime",
+  "strict_source_eligibility_still_on_hold": true,
+  "no_original_ecology_or_qualified_ODSP_route_promoted": true
+}
