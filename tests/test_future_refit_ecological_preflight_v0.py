@@ -184,3 +184,24 @@ def test_auditor_rejects_frozen_source_contract_semantic_drift(tmp_path: Path):
     filename.write_text(json.dumps(obj))
     with pytest.raises(ValueError,match="Serengeti frozen"):
         audit_closed_ecological_lanes(tmp_path)
+
+
+
+def test_snapshot_safari_public_source_screen_cannot_claim_admission():
+    # Public site-count discovery is not evidence of iid site selection,
+    # outcome-free individual timestamp coverage or per-group power.
+    path=ROOT/"ODSP_FUTURE_REFIT_SNAPSHOT_SAFARI_SOURCE_SCREEN_V0.json"
+    s=json.loads(path.read_text(encoding="utf-8"))
+    assert s["record_type"]=="public_ecological_source_discovery_not_validation_freeze"
+    assert s["status"]=="DISCOVERY_ONLY_NOT_ADMITTED"
+    assert s["provider_stated"]["location_id_count"]==1824
+    assert s["source_overlap"]["has_SER_Snapshot_Serengeti_component"]
+    assert s["source_overlap"]["require_exclude_all_SER_locations_if_training_source_contains_prior_Serengeti"]
+    assert s["outcome_knowledge_before_specific_freeze"]["provider_page_aggregate_label_counts_visible"]
+    assert s["outcome_knowledge_before_specific_freeze"]["individual_image_timestamps_opened_by_this_screen"] is False
+    assert s["outcome_knowledge_before_specific_freeze"]["all_historical_nonaccess_proved"] is False
+    assert s["remaining_source_eligibility_unknown"]["camera_site_iid_sampling_law_proven"] is False
+    assert s["remaining_source_eligibility_unknown"]["valid_per_sequence_or_per_image_datetime_coverage"] is None
+    assert s["remaining_source_eligibility_unknown"]["outcomes_untouched_frozen"] is False
+    assert s["primary_confirmatory"] is False
+    assert s["route_registry_updated"] is False
