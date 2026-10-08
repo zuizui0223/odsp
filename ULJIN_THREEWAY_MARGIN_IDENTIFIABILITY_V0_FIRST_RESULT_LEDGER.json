@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_SOURCE_FREE_THREEWAY_MARGIN_IDENTIFIABILITY_V0_TERMINAL_RESULT",
+  "pre_result_contract_commit": "ee18acaeb35ab4351ac7db4d70391e3e85cf4256",
+  "first_method_ci_head": "5ddc820443369e8aa6eb8e9b051f8a29789e8bb7",
+  "first_ci_run": 37792259770,
+  "first_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/37792259770",
+  "first_artifact_id": 11556319924,
+  "first_artifact_digest": "sha256:697b9a78fc90e5dfa5a6fd32285427903331e155967ef288878ab08b96905c5b",
+  "first_focused_tests": "success",
+  "first_constructive_receipt": "success",
+  "all_three_two_way_margins_exactly_equal": true,
+  "true_within_site_branch_phase_interaction_worldA": false,
+  "true_within_site_branch_phase_interaction_worldB": true,
+  "twoway_operator": {
+    "rows": 28,
+    "columns": 24,
+    "rank": 19,
+    "nullity": 5
+  },
+  "coarse_independent_poisson_branch_phase_KL": 0,
+  "full_site_resolved_independent_poisson_KL_A_vs_B": 4.244429532642382,
+  "all_three_overlapping_two_way_margin_joint_sampling_laws_equal": false,
+  "witness_covariance_A": 48,
+  "witness_covariance_B": 51,
+  "outcomes_from_public_wildlife_source": false,
+  "new_general_theorem_claimed": false,
+  "original_ODSP_qualified_routes_changed": false,
+  "status": "TERMINAL_SOURCE_FREE_CONSTRUCTIVE_WITNESS_NOT_ECOLOGICAL_INFERENCE"
+}
