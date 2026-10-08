@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "record_type": "POST_OUTCOME_FIRST_ORIGINAL_RECEIPT_FOUR_MODEL_PARITY_LEDGER",
+  "first_method_design_contract_commit": "5df0a95ab874268e28aaee0c5083c171fb8f1788",
+  "first_successful_workflow_run_id": 37767346878,
+  "first_successful_workflow_url": "https://github.com/zuizui0223/odsp/actions/runs/37767346878",
+  "first_successful_method_head_sha": "b8b6d3021c644a4d161a827420d24087ff952510",
+  "first_result_artifact_id": 11546910582,
+  "first_result_artifact_zip_digest": "sha256:dae5546eed263f16baa7259d0160d58429cc8090a1a3470c8c4cbb5509102dec",
+  "source_first_original_scientific_run_id": 37747931559,
+  "source_first_original_json_sha256": "5d4bca0efc079ec3ae58d1062d4c1fb4c0b6476b64d56eead6d79e39ae83edab",
+  "source_original_scientific_status": "EXPLORATORY_NOT_SUPPORTED_OR_UNAVAILABLE",
+  "original_scored_events": 19916,
+  "original_heldout_sites": 43,
+  "scores_nats": {
+    "winter": {
+      "pooled_solar_minus_clock": 0.02745845931504319,
+      "solar_season_increment": -0.007018735146054966,
+      "clock_season_increment": 0.05909664872739589,
+      "season_conditioned_solar_minus_clock": -0.03865692455840766
+    },
+    "summer": {
+      "pooled_solar_minus_clock": -0.0325742873706785,
+      "solar_season_increment": 0.033572910321444036,
+      "clock_season_increment": 0.03918205629522679,
+      "season_conditioned_solar_minus_clock": -0.038183433344461254
+    }
+  },
+  "original_both_seasons_positive_status_unmodified": true,
+  "postoutcome_season_conditional_difference_interval_available_in_first_receipt": false,
+  "resampling_covariance_reported_in_first_receipt": false,
+  "first_analysis_reopened_source_detection_rows": false,
+  "new_ecological_significance_claim_made": false,
+  "solar_phase_six_bin_projection_has_equal_nominal_parameter_count_but_unequal_clock_space_expressivity": true,
+  "additional_mathematical_geometry_diagnostic_post_first_algebra_output": true,
+  "clocks_behaviour_causality_identified": false,
+  "qualified_odsp_routes_modified": false
+}
