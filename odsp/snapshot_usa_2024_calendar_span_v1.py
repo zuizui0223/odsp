@@ -210,16 +210,8 @@ def audit_calendar_metadata(
             )
         entry["flagged_feature"] |= any(t in feature for t in FEATURE_TOKENS)
 
-    conflict_site_keys: set[tuple[str, str, str]] = set()
-    for dep in conflicting_deployments:
-        for key, site in deployment_to_site.items():
-            if key == dep:
-                conflict_site_keys.add(site)
-        # The reused deployment ID could also appear in a second site.
-        # Rather than trusting the first match, we retain an explicit
-        # set of encountered sites below, recorded on a second pass.
-    # A single scan must preserve ALL sites with conflicting deployment
-    # IDs, including later appearances (handled in the table below).
+    # Every site remembers its deployment IDs, so an ID reused at two
+    # sites invalidates BOTH sites without exposing either site identity.
 
     groups = {
         group: {"all_matching_sites": 0, "eligible_sites": 0,
