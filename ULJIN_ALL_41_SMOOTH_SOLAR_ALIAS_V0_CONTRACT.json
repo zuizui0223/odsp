@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_all_41_smooth_solar_phase_aliasing_v0",
+  "stage": "PRE_RESULT_FROZEN_SOURCE_FREE_ORACLE_SCREEN",
+  "parent_pr": 233,
+  "original_calendar_contract": "ULJIN_PHOTOPERIOD_MIRROR_2022_V0_DESIGN_CONTRACT.json",
+  "original_pairs": "All unchanged 41 original greedily matched 2022 rising/falling mirror date pairs",
+  "representative_solar_context": {
+    "lat": 36.85,
+    "lon": 129.2,
+    "timezone": "Asia/Seoul",
+    "station_coords": false
+  },
+  "rate_per_solar_phase_hour": "1+amplitude*exp(kappa*(cos(2*pi*(phase-peak)/24)-1)); identical on both dates",
+  "profiles": [
+    {
+      "name": "uniform_phase",
+      "amplitude": 0,
+      "kappa": 0,
+      "peak": 0
+    },
+    {
+      "name": "broad_morning",
+      "amplitude": 0.5,
+      "kappa": 1,
+      "peak": 8
+    },
+    {
+      "name": "smooth_morning",
+      "amplitude": 1,
+      "kappa": 2,
+      "peak": 8
+    },
+    {
+      "name": "smooth_midday",
+      "amplitude": 1,
+      "kappa": 2,
+      "peak": 12
+    },
+    {
+      "name": "smooth_evening",
+      "amplitude": 1,
+      "kappa": 2,
+      "peak": 19
+    }
+  ],
+  "fixed_bins_hours": [
+    [
+      0,
+      4
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      8,
+      12
+    ],
+    [
+      12,
+      16
+    ],
+    [
+      16,
+      20
+    ],
+    [
+      20,
+      24
+    ]
+  ],
+  "integration": {
+    "method": "Gauss-Legendre",
+    "nodes_per_smooth_piece": 96,
+    "civil_splits": [
+      "sunrise",
+      "sunset"
+    ],
+    "phase_splits": [
+      6,
+      18
+    ],
+    "relative_mass_tolerance": 2e-10,
+    "solar_gain_tolerance": 1e-10
+  },
+  "rate_measure": "Integrate phase-invariant intensity times exact solar-phase/civil-hour Jacobian over full-day civil 4h bins, or directly in six 4h phase bins",
+  "oracle_gain": "Sum across bins of mu_fall*log(p_bin/p_common)+mu_rise*log((1-p_bin)/(1-p_common)), with p_bin=mu_fall/(mu_rise+mu_fall); no fitted model",
+  "gates": [
+    "original 41 pairs unchanged",
+    "full 24-hour uptime on both dates",
+    "expected total each branch equal for every pair and profile",
+    "solar-bin branch gain zero in every pair",
+    "civil-bin gain nonnegative in every pair",
+    "at least one smooth nonuniform profile positive on some pair",
+    "report all 41 pairs, including zero and small values"
+  ],
+  "reporting": [
+    "per-pair oracle gain nats",
+    "per-expected-event normalized gain nats/event",
+    "per-profile min median mean max over 41 fixed pairs",
+    "all pair details machine-readable",
+    "no significance or predictive-validation claims"
+  ],
+  "source_access": {
+    "animal_events": false,
+    "real_device_operation_log": false,
+    "actual_physical_station_coordinates": false
+  },
+  "qualification": {
+    "synthetic_oracle_only": true,
+    "previous_odsp_routes_unchanged": true,
+    "nonconfirmatory_draft": true
+  }
+}
