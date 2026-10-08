@@ -1,0 +1,44 @@
+name: training-source-process-v0-power
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/training_source_process_v0.py'
+      - 'odsp/training_source_process_v0_calibration.py'
+      - 'tests/test_training_source_process_v0.py'
+      - 'tests/test_training_source_process_v0_contract.py'
+      - 'tests/test_training_source_process_v0_calibration.py'
+      - 'tests/test_training_source_process_v0_calibration_contract.py'
+      - 'ODSP_TRAINING_SOURCE_PROCESS_V0_CONTRACT.json'
+      - 'ODSP_TRAINING_SOURCE_PROCESS_V0_CALIBRATION_CONTRACT.json'
+      - 'scripts/run_training_source_process_v0_power_calibration.py'
+      - '.github/workflows/training-source-process-v0-power.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qualify-power:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Test frozen v0 core and generator
+        run: >-
+          python -m pytest -q
+          tests/test_training_source_process_v0_contract.py
+          tests/test_training_source_process_v0.py
+          tests/test_training_source_process_v0_calibration_contract.py
+          tests/test_training_source_process_v0_calibration.py
+      - name: Run first frozen v0 power panel
+        run: |
+          python scripts/run_training_source_process_v0_power_calibration.py             --output /tmp/training-source-v0-power.json             --seed 20261017 --simulations 1000
+          echo TRAINING_SOURCE_V0_POWER_BEGIN
+          cat /tmp/training-source-v0-power.json
+          echo TRAINING_SOURCE_V0_POWER_END

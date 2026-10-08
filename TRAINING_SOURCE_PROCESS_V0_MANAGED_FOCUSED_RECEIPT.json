@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "receipt_type": "odsp_training_source_process_v0_managed_focused_v1",
+  "date": "2026-10-07",
+  "canonical_surface": "odsp.training_source_process_managed_internal_v0.run_managed_internal_training_source_process_v0",
+  "contract": "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_FOCUSED_RECEIPT_CONTRACT.json",
+  "official_run": {
+    "github_actions_run_id": 37545025741,
+    "github_actions_job_id": 112546858326,
+    "head_sha": "4c0e4dd00f668812454dc7772ca028dfce5ec4e1",
+    "workflow": "training-source-process-v0-managed-internal",
+    "focused_test_step_conclusion": "success",
+    "identity_snapshot_step_conclusion": "success"
+  },
+  "required_test_files": [
+    "tests/test_training_source_process_freeze_manifest.py",
+    "tests/test_training_source_process_managed_generation.py",
+    "tests/test_training_source_process_validation_provenance.py",
+    "tests/test_training_source_process_managed_internal_v0.py",
+    "tests/test_training_source_process_v0_managed_internal_v2.py",
+    "tests/test_training_source_process_v0_managed_validation_v3.py",
+    "tests/test_training_source_process_v0_managed_validation_v4.py",
+    "tests/test_training_source_process_v0_primary_promotion_gate.py",
+    "tests/test_training_source_process_v0_primary_promotion_v3.py",
+    "tests/test_training_source_process_v0_primary_promotion_v4.py",
+    "tests/test_training_source_process_v0_primary_promotion_v5.py",
+    "tests/test_training_source_process_v0_status_semantics.py",
+    "tests/test_training_source_process_v0_evidence_plan.py",
+    "tests/test_training_source_process_v0_evidence_plan_v2.py",
+    "tests/test_training_source_process_v0_receipt.py",
+    "tests/test_training_source_process_v0_support_receipt.py"
+  ],
+  "required_failure_modes": {
+    "original_source_frame_overlap_rejected": true,
+    "nested_model_byte_tampering_rejected": true,
+    "scoring_code_byte_tampering_rejected": true,
+    "runtime_row_group_block_weight_design_tampering_rejected": true,
+    "score_bundle_byte_tampering_rejected": true,
+    "missing_source_inner_scoring_execution_rejected": true,
+    "malformed_nested_score_schema_rejected": true,
+    "nonprospective_declared_first_access_rejected": true,
+    "declared_first_access_after_managed_read_rejected": true,
+    "unsafe_source_or_refit_path_ids_rejected": true,
+    "scoring_artifact_path_escape_rejected": true
+  },
+  "summary": {
+    "focused_provenance_gate_pass": true,
+    "all_predeclared_required_test_files_passed_together": true,
+    "identity_snapshot_ran_only_after_focused_tests_passed": true
+  },
+  "history": {
+    "first_failed_run": 37484996657,
+    "first_failed_run_test_count": 5,
+    "test_only_corrections_documented_separately": true,
+    "required_test_file_removed_after_failure": false,
+    "required_failure_mode_removed_after_failure": false,
+    "statistical_method_changed_after_failure": false
+  },
+  "boundary": {
+    "focused_tests_are_statistical_recalibration": false,
+    "base_and_support_operating_characteristics_reused_unchanged": true,
+    "route_registered_by_this_receipt": false,
+    "raw_numeric_surface_promoted_by_this_receipt": false,
+    "unknown_ecological_source_superpopulation_generalization_claimed": false
+  }
+}

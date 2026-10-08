@@ -1,0 +1,42 @@
+{
+  "schema_version": 4,
+  "contract_id": "odsp-training-source-process-v0-managed-internal-validation-v4",
+  "frozen_date": "2026-10-06",
+  "predecessors": [
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_INTERNAL_VALIDATION_CONTRACT.json",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_INTERNAL_VALIDATION_CONTRACT_V2.json",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_INTERNAL_VALIDATION_CONTRACT_V3.json"
+  ],
+  "correction": {
+    "parallel_cleanup_restore_race_recorded": true,
+    "v3_assumption_that_managed_internal_scoring_remained_deleted_was_false": true,
+    "v3_rewritten": false,
+    "final_canonical_scoring_surface": "odsp.training_source_process_managed_internal_scoring.run_managed_training_source_process_scoring_v0",
+    "final_canonical_bundle_loader": "odsp.training_source_process_managed_internal_scoring.load_managed_training_source_process_score_bundle_v0",
+    "duplicate_training_source_process_managed_scoring_removed": true,
+    "canonical_inference_surface": "odsp.training_source_process_managed_internal_v0.run_managed_internal_training_source_process_v0"
+  },
+  "why_this_surface": {
+    "records_validation_data_first_read_by_odsp_at_utc": true,
+    "preserves_explicit_source_inner_nesting": true,
+    "requires_exact_source_x_inner_cartesian_execution_coverage": true,
+    "reverifies_nested_model_artifact_bytes": true,
+    "binds_scoring_code_and_runtime_to_preoutcome_freeze": true,
+    "uses_shell_false": true
+  },
+  "chronology": {
+    "required_order": "freeze < declared_first_access <= odsp_managed_validation_read",
+    "historical_truth_of_declared_first_access_machine_proven": false
+  },
+  "statistical_boundary": {
+    "numeric_source_v0_method_changed": false,
+    "base_calibration_recomputed": false,
+    "support_calibration_recomputed": false,
+    "qualification_thresholds_changed": false
+  },
+  "claim_boundary": {
+    "unknown_ecological_source_superpopulation_generalization_claimed": false,
+    "qualified_training_process_v5_reclassified": false,
+    "fixed_set_results_reclassified": false
+  }
+}

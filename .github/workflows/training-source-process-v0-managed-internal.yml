@@ -1,0 +1,54 @@
+name: training-source-process-v0-managed-internal
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/training_source_process_*.py'
+      - 'tests/test_training_source_process_*.py'
+      - 'ODSP_TRAINING_SOURCE_PROCESS_V0_*.json'
+      - 'TRAINING_SOURCE_PROCESS_V0_*.json'
+      - 'scripts/run_training_source_process_v0_identity.py'
+      - '.github/workflows/training-source-process-v0-managed-internal.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  focused-provenance-and-identity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Run focused source-v0 provenance tests
+        run: >-
+          python -m pytest -q
+          tests/test_training_source_process_freeze_manifest.py
+          tests/test_training_source_process_managed_generation.py
+          tests/test_training_source_process_validation_provenance.py
+          tests/test_training_source_process_managed_internal_v0.py
+          tests/test_training_source_process_v0_managed_internal_v2.py
+          tests/test_training_source_process_v0_managed_validation_v3.py
+          tests/test_training_source_process_v0_managed_validation_v4.py
+          tests/test_training_source_process_v0_primary_promotion_gate.py
+          tests/test_training_source_process_v0_primary_promotion_v3.py
+          tests/test_training_source_process_v0_primary_promotion_v4.py
+          tests/test_training_source_process_v0_primary_promotion_v5.py
+          tests/test_training_source_process_v0_evidence_plan.py
+          tests/test_training_source_process_v0_status_semantics.py
+          tests/test_training_source_process_v0_evidence_plan_v2.py
+          tests/test_training_source_process_v0_managed_focused_receipt_contract.py
+          tests/test_training_source_process_v0_evidence_plan_v3.py
+          tests/test_training_source_process_v0_receipt.py
+          tests/test_training_source_process_v0_support_receipt.py
+      - name: Snapshot source-v0 managed identity after focused tests
+        run: |
+          python scripts/run_training_source_process_v0_identity.py
+          echo TRAINING_SOURCE_PROCESS_V0_IDENTITY_BEGIN
+          cat /tmp/training-source-process-v0-identity.json
+          echo TRAINING_SOURCE_PROCESS_V0_IDENTITY_END

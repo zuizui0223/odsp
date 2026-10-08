@@ -1,0 +1,46 @@
+{
+  "schema_version": 3,
+  "contract_id": "odsp-training-source-process-v0-managed-internal-validation-v3",
+  "frozen_date": "2026-10-06",
+  "predecessors": [
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_INTERNAL_VALIDATION_CONTRACT.json",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_INTERNAL_VALIDATION_CONTRACT_V2.json"
+  ],
+  "correction": {
+    "v2_named_deleted_duplicate_scoring_module": true,
+    "v2_rewritten": false,
+    "deleted_duplicate_module": "odsp.training_source_process_managed_internal_scoring",
+    "canonical_scoring_surface": "odsp.training_source_process_managed_scoring.run_managed_training_source_process_scoring_v0",
+    "canonical_bundle_loader": "odsp.training_source_process_managed_scoring.load_managed_training_source_score_bundle",
+    "canonical_inference_surface": "odsp.training_source_process_managed_internal_v0.run_managed_internal_training_source_process_v0"
+  },
+  "chronology": {
+    "required_order": "freeze < declared_first_access <= odsp_managed_validation_read",
+    "managed_scoring_receipt_records_validation_data_first_read_by_odsp_at_utc": true,
+    "declared_first_access_after_managed_read_rejected": true,
+    "declared_first_access_at_or_before_freeze_rejected": true,
+    "historical_truth_of_declared_first_access_machine_proven": false
+  },
+  "managed_scoring_schema": {
+    "validation_freeze_manifest_sha256": true,
+    "validation_freeze_receipt_sha256": true,
+    "managed_nested_generation_receipt_sha256": true,
+    "validation_data_sha256": true,
+    "score_bundle_sha256": true,
+    "canonical_score_tensor_sha256": true,
+    "nested_model_artifact_snapshot": true,
+    "execution_count_equals_source_draw_count_times_inner_refit_count": true,
+    "source_inner_nesting_preserved_by_explicit_axes": true
+  },
+  "statistical_boundary": {
+    "numeric_source_v0_method_changed": false,
+    "base_calibration_recomputed": false,
+    "support_calibration_recomputed": false,
+    "qualification_thresholds_changed": false
+  },
+  "claim_boundary": {
+    "unknown_ecological_source_superpopulation_generalization_claimed": false,
+    "qualified_training_process_v5_reclassified": false,
+    "fixed_set_results_reclassified": false
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "schema_version": 5,
+  "contract_id": "odsp-training-source-process-v0-primary-promotion-gate-v5",
+  "frozen_date": "2026-10-06",
+  "predecessors": [
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_PRIMARY_PROMOTION_GATE.json",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_PRIMARY_PROMOTION_GATE_V2.json",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_PRIMARY_PROMOTION_GATE_V3.json",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_PRIMARY_PROMOTION_GATE_V4.json"
+  ],
+  "correction": {
+    "v4_required_superseded_validation_v3_and_old_scoring_surface": true,
+    "v4_rewritten": false,
+    "final_validation_contract": "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_INTERNAL_VALIDATION_CONTRACT_V4.json",
+    "final_canonical_scoring_surface": "odsp.training_source_process_managed_internal_scoring.run_managed_training_source_process_scoring_v0",
+    "final_canonical_inference_surface": "odsp.training_source_process_managed_internal_v0.run_managed_internal_training_source_process_v0"
+  },
+  "required_statistical_evidence": [
+    "TRAINING_SOURCE_PROCESS_V0_BASE_QUALIFICATION_RECEIPT.json",
+    "TRAINING_SOURCE_PROCESS_V0_SUPPORT_ENVELOPE_RECEIPT.json"
+  ],
+  "required_process_provenance": [
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_FREEZE_MANIFEST_CONTRACT.json",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_GENERATION_CONTRACT.json",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_VALIDATION_FRAME_PROVENANCE_CONTRACT.json"
+  ],
+  "required_validation_provenance": [
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_INTERNAL_VALIDATION_CONTRACT_V4.json",
+    "pre-outcome row/group/block/weight freeze",
+    "nested generated model artifacts reverified before scoring",
+    "source-inner nesting preserved by explicit score-tensor axes",
+    "exact source x inner scoring Cartesian coverage",
+    "frozen scoring argv and scoring-code bytes",
+    "frozen scoring runtime environment",
+    "managed source x inner-refit x row x level score tensor",
+    "content-hashed score bundle and managed-scoring receipt",
+    "freeze strictly precedes declared first validation-outcome access",
+    "declared first access is not later than ODSP managed validation-data read"
+  ],
+  "required_identity_and_evidence": [
+    "focused managed source-v0 end-to-end receipt created after final validation v4 contract",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_QUALIFICATION_IDENTITY_CONTRACT_V2.json",
+    "recursive ODSP implementation source snapshot for final canonical managed source-v0 surface",
+    "runtime dependency snapshot",
+    "qualification evidence artifact SHA256 snapshot"
+  ],
+  "promotion_order": {
+    "statistical_base_and_support_receipts_exist_first": true,
+    "process_and_managed_generation_provenance_exist_before_validation_scoring": true,
+    "final_validation_v4_contract_exists_before_focused_tests": true,
+    "focused_tests_pass_before_identity_receipt": true,
+    "identity_and_evidence_receipts_exist_before_route_registration": true,
+    "routing_promotion_occurs_last": true
+  },
+  "scope": {
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "contrast_count": 2,
+    "minimum_outer_source_draws": 8,
+    "minimum_inner_refits_per_source": 8,
+    "balanced_inner_refit_counts_required": true,
+    "minimum_validation_blocks_per_group": 8,
+    "paired": false,
+    "complete_lattice": false,
+    "untouched_external": false
+  },
+  "registration": {
+    "reuse_predeclared_training_process_route_key": false,
+    "requires_distinct_upstream_mode": "predeclared_training_source_process",
+    "raw_numeric_surface_primary": false,
+    "managed_wrapper_primary_now": false
+  },
+  "claim_boundary": {
+    "target": "mean held-out gain over the declared outer source-resampling process, nested inner-refit process and validation population",
+    "outer_source_process_is_conditional_on_frozen_original_source_roster": true,
+    "unknown_ecological_source_superpopulation_generalization_claimed": false,
+    "individual_future_source_sample_success_probability_claimed": false,
+    "all_future_source_samples_positive_claimed": false,
+    "qualified_training_process_v5_reclassified": false,
+    "fixed_set_results_reclassified": false,
+    "historical_empirical_endpoints_reclassified": false
+  }
+}

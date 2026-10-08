@@ -1,0 +1,49 @@
+{
+  "schema_version": 2,
+  "contract_id": "odsp-training-source-process-v0-qualification-identity-v2",
+  "frozen_date": "2026-10-06",
+  "predecessor": {
+    "artifact": "ODSP_TRAINING_SOURCE_PROCESS_V0_QUALIFICATION_IDENTITY_CONTRACT.json",
+    "retained": true
+  },
+  "canonical_surface": "odsp.training_source_process_managed_internal_v0.run_managed_internal_training_source_process_v0",
+  "canonical_scoring_surface": "odsp.training_source_process_managed_internal_scoring.run_managed_training_source_process_scoring_v0",
+  "final_validation_contract": "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_INTERNAL_VALIDATION_CONTRACT_V4.json",
+  "final_promotion_gate": "ODSP_TRAINING_SOURCE_PROCESS_V0_PRIMARY_PROMOTION_GATE_V5.json",
+  "workflow_order": {
+    "final_validation_and_promotion_contracts_exist_before_focused_tests": true,
+    "focused_provenance_tests_before_identity_snapshot": true,
+    "identity_snapshot_before_evidence_content_lock": true,
+    "evidence_content_lock_before_route_registration": true
+  },
+  "focused_test_scope": [
+    "source and inner membership reconstruction",
+    "managed nested model generation",
+    "whole original source-frame validation separation",
+    "managed source-inner scoring with model-byte reverification",
+    "strict score schema and row/level coverage",
+    "validation chronology freeze < declared access <= ODSP managed read",
+    "source-inner Cartesian execution coverage",
+    "row-ID realignment invariance",
+    "base and support qualification receipt integrity"
+  ],
+  "implementation_snapshot": {
+    "mechanism": "odsp-confirmatory-implementation-lock-v1",
+    "recursive_odsp_import_closure": true,
+    "ordered_source_path_sha256_pairs": true,
+    "dynamic_odsp_imports_allowed": false
+  },
+  "runtime_snapshot": {
+    "mechanism": "odsp-confirmatory-runtime-environment-lock-v1",
+    "python_implementation_and_patch_version_recorded": true,
+    "referenced_external_import_modules_recorded": true,
+    "installed_distribution_versions_recorded": true
+  },
+  "boundary": {
+    "statistical_calibration_recomputed_by_identity_snapshot": false,
+    "route_registered_by_identity_snapshot": false,
+    "external_library_source_code_frozen": false,
+    "blas_identity_frozen": false,
+    "bitwise_reproducibility_claimed": false
+  }
+}

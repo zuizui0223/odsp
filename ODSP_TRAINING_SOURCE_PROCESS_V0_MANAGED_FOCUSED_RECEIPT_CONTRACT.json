@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-source-process-v0-managed-focused-receipt-v1",
+  "frozen_date": "2026-10-06",
+  "canonical_surface": "odsp.training_source_process_managed_internal_v0.run_managed_internal_training_source_process_v0",
+  "workflow": "training-source-process-v0-managed-internal",
+  "acceptance_rule": {
+    "all_listed_focused_tests_must_pass_in_one_official_github_actions_run": true,
+    "identity_snapshot_step_must_run_only_after_focused_tests_pass": true,
+    "partial_test_subset_may_not_qualify": true,
+    "failed_test_may_not_be_dropped_post_hoc": true
+  },
+  "required_test_files": [
+    "tests/test_training_source_process_freeze_manifest.py",
+    "tests/test_training_source_process_managed_generation.py",
+    "tests/test_training_source_process_validation_provenance.py",
+    "tests/test_training_source_process_managed_internal_v0.py",
+    "tests/test_training_source_process_v0_managed_internal_v2.py",
+    "tests/test_training_source_process_v0_managed_validation_v3.py",
+    "tests/test_training_source_process_v0_managed_validation_v4.py",
+    "tests/test_training_source_process_v0_primary_promotion_gate.py",
+    "tests/test_training_source_process_v0_primary_promotion_v3.py",
+    "tests/test_training_source_process_v0_primary_promotion_v4.py",
+    "tests/test_training_source_process_v0_primary_promotion_v5.py",
+    "tests/test_training_source_process_v0_status_semantics.py",
+    "tests/test_training_source_process_v0_evidence_plan.py",
+    "tests/test_training_source_process_v0_evidence_plan_v2.py",
+    "tests/test_training_source_process_v0_receipt.py",
+    "tests/test_training_source_process_v0_support_receipt.py"
+  ],
+  "required_failure_modes": {
+    "original_source_frame_overlap_rejected": true,
+    "nested_model_byte_tampering_rejected": true,
+    "scoring_code_byte_tampering_rejected": true,
+    "runtime_row_group_block_weight_design_tampering_rejected": true,
+    "score_bundle_byte_tampering_rejected": true,
+    "missing_source_inner_scoring_execution_rejected": true,
+    "malformed_nested_score_schema_rejected": true,
+    "nonprospective_declared_first_access_rejected": true,
+    "declared_first_access_after_managed_read_rejected": true,
+    "unsafe_source_or_refit_path_ids_rejected": true,
+    "scoring_artifact_path_escape_rejected": true
+  },
+  "boundary": {
+    "focused_tests_are_statistical_recalibration": false,
+    "base_and_support_operating_characteristics_reused_unchanged": true,
+    "raw_numeric_surface_promoted_by_focused_tests": false,
+    "route_registered_by_focused_tests": false
+  }
+}

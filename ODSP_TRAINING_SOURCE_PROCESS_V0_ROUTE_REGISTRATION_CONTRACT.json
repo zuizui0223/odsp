@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-source-process-v0-route-registration-v1",
+  "frozen_date": "2026-10-07",
+  "route_key": "alternative=greater|validation_design=independent_groups|information_structure=filtration|upstream_refits=predeclared_training_source_process|external_validation=none|contrast_count=2",
+  "canonical_surface": "odsp.training_source_process_managed_internal_v0.run_managed_internal_training_source_process_v0",
+  "prerequisites": {
+    "base_statistical_qualification_pass": true,
+    "support_envelope_pass": true,
+    "focused_managed_provenance_gate_pass": true,
+    "qualification_identity_snapshot_pass": true,
+    "final_pre_result_evidence_plan_v3_frozen": true,
+    "official_15_artifact_hash_snapshot_pass": true,
+    "hash_snapshot_completed_before_registration": true
+  },
+  "evidence": {
+    "route_chain_membership_source": "ODSP_TRAINING_SOURCE_PROCESS_V0_EVIDENCE_PLAN_V3.json",
+    "route_chain_artifact_count": 15,
+    "hash_receipt": "TRAINING_SOURCE_PROCESS_V0_EVIDENCE_HASH_RECEIPT.json",
+    "hash_receipt_is_meta_evidence_not_route_chain_member": true
+  },
+  "routing": {
+    "new_upstream_mode": "predeclared_training_source_process",
+    "reuse_predeclared_training_process_mode": false,
+    "role": "primary_confirmatory",
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "contrast_count": 2,
+    "external_validation": "none",
+    "raw_numeric_surface_primary": false,
+    "managed_provenance_wrapper_primary": true,
+    "route_registration_occurs_after_this_contract": true
+  },
+  "claim_boundary": {
+    "target": "mean held-out gain over the declared outer source-resampling process, nested inner-refit process and validation population",
+    "outer_source_process_conditional_on_frozen_original_source_roster": true,
+    "unknown_ecological_source_superpopulation_generalization_claimed": false,
+    "individual_future_source_sample_success_probability_claimed": false,
+    "all_future_source_samples_positive_claimed": false,
+    "qualified_training_process_v5_reclassified": false,
+    "fixed_set_results_reclassified": false,
+    "historical_empirical_endpoints_reclassified": false
+  },
+  "unqualified_scope": {
+    "external_validation": true,
+    "contrast_count_4": true,
+    "paired_shared_blocks": true,
+    "complete_lattice": true,
+    "unbalanced_inner_refit_counts": true
+  }
+}

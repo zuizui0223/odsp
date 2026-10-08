@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-source-process-v0-primary-promotion-gate",
+  "frozen_date": "2026-10-06",
+  "candidate_surface": "odsp.training_source_process_managed_internal_v0.run_managed_internal_training_source_process_v0",
+  "underlying_numeric_surface": "odsp.training_source_process_v0.evaluate_training_source_process_positive_information_v0",
+  "statistical_evidence_required": [
+    "TRAINING_SOURCE_PROCESS_V0_BASE_QUALIFICATION_RECEIPT.json",
+    "TRAINING_SOURCE_PROCESS_V0_SUPPORT_ENVELOPE_RECEIPT.json"
+  ],
+  "process_provenance_required": [
+    "content-locked outer-source process freeze manifest",
+    "ODSP-managed nested source->inner-refit generation receipt",
+    "entire original frozen source frame disjoint from validation rows"
+  ],
+  "score_provenance_required": [
+    "pre-outcome validation row/group/block/weight freeze",
+    "generated nested model artifacts reverified before scoring",
+    "frozen scoring argv and scoring-code bytes",
+    "frozen scoring runtime environment",
+    "managed source x inner-refit x row x level score tensor",
+    "content-hashed score bundle and managed-scoring receipt",
+    "declared first validation-outcome access strictly after freeze"
+  ],
+  "implementation_identity_required": [
+    "recursive ODSP implementation source snapshot for canonical managed source-v0 surface",
+    "runtime dependency snapshot",
+    "qualification evidence content lock"
+  ],
+  "promotion_semantics": {
+    "new_statistical_method_after_v0_calibration": false,
+    "base_or_support_thresholds_may_change": false,
+    "base_or_support_scenarios_may_be_dropped": false,
+    "raw_caller_supplied_source_refit_score_tensor_primary": false,
+    "managed_model_to_score_derivation_required": true,
+    "route_registry_update_only_after_all_evidence_frozen": true
+  },
+  "scope": {
+    "validation_design": "independent_groups",
+    "information_structure": "filtration",
+    "contrast_count": 2,
+    "minimum_outer_source_draws": 8,
+    "minimum_inner_refits_per_source": 8,
+    "balanced_inner_refit_counts_required": true,
+    "minimum_validation_blocks_per_group": 8,
+    "paired": false,
+    "complete_lattice": false,
+    "untouched_external": false
+  },
+  "claim_boundary": {
+    "target": "mean held-out gain over the declared outer source-resampling process, nested inner-refit process and validation population",
+    "unknown_ecological_source_superpopulation_generalization_claimed": false,
+    "individual_future_source_sample_success_probability_claimed": false,
+    "all_future_source_samples_positive_claimed": false,
+    "qualified_training_process_v5_reclassified": false,
+    "fixed_set_results_reclassified": false,
+    "historical_empirical_endpoints_reclassified": false
+  }
+}

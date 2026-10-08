@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-source-process-v0-qualification-identity-v1",
+  "frozen_date": "2026-10-06",
+  "canonical_surface": "odsp.training_source_process_managed_internal_v0.run_managed_internal_training_source_process_v0",
+  "purpose": "freeze the exact managed source-v0 implementation closure and runtime identity only after focused managed provenance tests pass",
+  "implementation_snapshot": {
+    "mechanism": "odsp-confirmatory-implementation-lock-v1",
+    "recursive_odsp_import_closure": true,
+    "ordered_source_path_sha256_pairs": true,
+    "dynamic_odsp_imports_allowed": false
+  },
+  "runtime_snapshot": {
+    "mechanism": "odsp-confirmatory-runtime-environment-lock-v1",
+    "python_implementation_and_patch_version_recorded": true,
+    "referenced_external_import_modules_recorded": true,
+    "installed_distribution_versions_recorded": true
+  },
+  "workflow_order": {
+    "focused_provenance_tests_before_identity_snapshot": true,
+    "identity_snapshot_before_route_registration": true
+  },
+  "required_focused_tests": [
+    "tests/test_training_source_process_freeze_manifest.py",
+    "tests/test_training_source_process_managed_generation.py",
+    "tests/test_training_source_process_validation_provenance.py",
+    "tests/test_training_source_process_managed_internal_v0.py",
+    "tests/test_training_source_process_v0_managed_internal_v2.py",
+    "tests/test_training_source_process_v0_primary_promotion_gate.py",
+    "tests/test_training_source_process_v0_primary_promotion_v3.py",
+    "tests/test_training_source_process_v0_receipt.py",
+    "tests/test_training_source_process_v0_support_receipt.py"
+  ],
+  "boundary": {
+    "statistical_base_or_support_panel_recomputed_by_identity_snapshot": false,
+    "external_library_source_code_frozen": false,
+    "operating_system_package_versions_frozen": false,
+    "blas_identity_frozen": false,
+    "bitwise_reproducibility_claimed": false,
+    "route_registered_by_identity_snapshot": false
+  }
+}

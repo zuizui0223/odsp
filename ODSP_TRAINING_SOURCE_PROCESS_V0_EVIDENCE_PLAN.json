@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-source-process-v0-evidence-plan-v1",
+  "frozen_date": "2026-10-06",
+  "purpose": "freeze the source-v0 qualification/provenance artifact set before focused and identity outcomes are opened and before any route registration",
+  "planned_route_key": "alternative=greater|validation_design=independent_groups|information_structure=filtration|upstream_refits=predeclared_training_source_process|external_validation=none|contrast_count=2",
+  "planned_canonical_surface": "odsp.training_source_process_managed_internal_v0.run_managed_internal_training_source_process_v0",
+  "ordered_evidence_artifacts": [
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_CONTRACT.json",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_CALIBRATION_CONTRACT.json",
+    "TRAINING_SOURCE_PROCESS_V0_BASE_QUALIFICATION_RECEIPT.json",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_SUPPORT_CONTRACT.json",
+    "TRAINING_SOURCE_PROCESS_V0_SUPPORT_ENVELOPE_RECEIPT.json",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_FREEZE_MANIFEST_CONTRACT.json",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_GENERATION_CONTRACT.json",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_VALIDATION_FRAME_PROVENANCE_CONTRACT.json",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_INTERNAL_VALIDATION_CONTRACT_V4.json",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_PRIMARY_PROMOTION_GATE_V5.json",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_QUALIFICATION_IDENTITY_CONTRACT_V2.json",
+    "TRAINING_SOURCE_PROCESS_V0_MANAGED_FOCUSED_RECEIPT.json",
+    "TRAINING_SOURCE_PROCESS_V0_QUALIFICATION_IDENTITY_RECEIPT.json"
+  ],
+  "future_receipts_not_yet_observed_at_freeze": [
+    "TRAINING_SOURCE_PROCESS_V0_MANAGED_FOCUSED_RECEIPT.json",
+    "TRAINING_SOURCE_PROCESS_V0_QUALIFICATION_IDENTITY_RECEIPT.json"
+  ],
+  "selection_rule": {
+    "failed_or_superseded_contract_versions_remain_repository_history_but_are_not_active_evidence": true,
+    "final_validation_contract_is_v4": true,
+    "final_promotion_gate_is_v5": true,
+    "identity_contract_is_v2": true,
+    "focused_and_identity_receipts_may_not_be_added_or_removed_after_outcomes": true
+  },
+  "registration_boundary": {
+    "route_not_registered_by_this_plan": true,
+    "artifact_sha256_snapshot_required_after_receipts_exist": true,
+    "artifact_sha256_snapshot_required_before_route_registration": true,
+    "distinct_upstream_mode_required": "predeclared_training_source_process",
+    "untouched_external_route_registered": false
+  },
+  "claim_boundary": {
+    "outer_source_process_conditional_on_frozen_original_source_roster": true,
+    "unknown_ecological_source_superpopulation_generalization_claimed": false,
+    "individual_future_source_sample_success_probability_claimed": false,
+    "all_future_source_samples_positive_claimed": false,
+    "existing_training_process_v5_reclassified": false,
+    "fixed_set_results_reclassified": false
+  }
+}

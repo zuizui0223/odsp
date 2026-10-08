@@ -1,0 +1,49 @@
+{
+  "schema_version": 2,
+  "contract_id": "odsp-training-source-process-v0-managed-internal-validation-v2",
+  "frozen_date": "2026-10-06",
+  "predecessor": {
+    "artifact": "ODSP_TRAINING_SOURCE_PROCESS_V0_MANAGED_INTERNAL_VALIDATION_CONTRACT.json",
+    "retained": true
+  },
+  "purpose": "close validation-outcome access chronology and select one canonical managed scoring implementation for training-source process v0",
+  "canonical_scoring_surface": "odsp.training_source_process_managed_internal_scoring.run_managed_training_source_process_scoring_v0",
+  "canonical_inference_surface": "odsp.training_source_process_managed_internal_v0.run_managed_internal_training_source_process_v0",
+  "chronology_v2": {
+    "required_order": "freeze < declared_first_access <= odsp_managed_validation_read",
+    "managed_scoring_receipt_must_record_validation_data_first_read_by_odsp_at_utc": true,
+    "declared_first_access_equal_to_managed_read_allowed": true,
+    "declared_first_access_after_managed_read_rejected": true,
+    "declared_first_access_at_or_before_freeze_rejected": true,
+    "historical_truth_of_declared_first_access_machine_proven": false
+  },
+  "scoring_identity_v2": {
+    "legacy_training_source_process_managed_scoring_is_primary": false,
+    "managed_internal_scoring_is_primary": true,
+    "source_inner_nesting_preserved": true,
+    "one_scoring_execution_per_source_x_inner_pair": true,
+    "source_x_inner_execution_coverage_must_equal_cartesian_product": true,
+    "nested_model_artifacts_reverified_before_scoring": true,
+    "scoring_code_and_runtime_match_preoutcome_freeze": true,
+    "shell_used": false
+  },
+  "score_tensor_v2": {
+    "caller_supplied_tensor_primary": false,
+    "canonical_axes": ["source_draw", "inner_refit", "validation_row", "information_level"],
+    "content_hash_recorded": true,
+    "row_realignment_only_by_frozen_row_id": true
+  },
+  "statistical_boundary": {
+    "numeric_source_v0_method_changed": false,
+    "base_calibration_recomputed": false,
+    "support_calibration_recomputed": false,
+    "qualification_thresholds_changed": false
+  },
+  "claim_boundary": {
+    "unknown_ecological_source_superpopulation_generalization_claimed": false,
+    "individual_future_source_sample_success_probability_claimed": false,
+    "all_future_source_samples_positive_claimed": false,
+    "qualified_training_process_v5_reclassified": false,
+    "fixed_set_results_reclassified": false
+  }
+}

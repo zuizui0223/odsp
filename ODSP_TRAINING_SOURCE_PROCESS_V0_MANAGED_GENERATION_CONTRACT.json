@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-training-source-process-v0-managed-nested-generation",
+  "frozen_date": "2026-10-06",
+  "purpose": "operationally bind each frozen outer source draw and its balanced nested inner refits to actual model-generation executions for training-source process v0",
+  "inputs": {
+    "training_source_process_manifest_required": true,
+    "original_source_roster_required": true,
+    "managed_nested_generation_plan_required": true,
+    "validation_rows_allowed": false,
+    "validation_outcomes_allowed": false
+  },
+  "membership_materialization": {
+    "outer_membership_reconstructed_from_frozen_outer_seed": true,
+    "outer_membership_digest_must_match_manifest": true,
+    "inner_membership_reconstructed_from_outer_membership_and_frozen_inner_seed": true,
+    "inner_membership_digest_must_match_manifest": true,
+    "both_memberships_canonicalized_on_original_source_roster": true,
+    "zero_count_original_units_retained": true
+  },
+  "execution": {
+    "one_fit_process_per_source_refit_pair": true,
+    "shell_used": false,
+    "argv_array_required": true,
+    "required_placeholders": [
+      "{source_draw_id}",
+      "{outer_membership_path}",
+      "{inner_refit_id}",
+      "{inner_membership_path}",
+      "{fit_seed}",
+      "{output_dir}"
+    ],
+    "python_executable_placeholder_allowed": true,
+    "working_directory_predeclared": true,
+    "timeout_predeclared": true,
+    "command_artifact_bytes_frozen": true,
+    "runtime_environment_snapshot_before_first_fit": true
+  },
+  "balanced_design": {
+    "same_inner_refit_ids_under_every_source_draw": true,
+    "same_inner_refit_count_under_every_source_draw": true,
+    "source_draws_equal_outer_weight": true,
+    "number_of_fit_executions": "source_draw_count * inner_refit_count_per_source"
+  },
+  "output_binding": {
+    "expected_artifact_ids_and_relative_paths_predeclared": true,
+    "every_source_refit_pair_must_emit_every_expected_artifact": true,
+    "artifact_sha256_recorded": true,
+    "stdout_sha256_recorded": true,
+    "stderr_sha256_recorded": true,
+    "return_code_must_be_zero": true
+  },
+  "receipt": {
+    "binds_manifest_sha256": true,
+    "binds_plan_sha256": true,
+    "binds_original_source_roster_sha256": true,
+    "binds_command_artifact_snapshot": true,
+    "binds_runtime_environment_snapshot": true,
+    "binds_outer_membership_semantic_sha256_per_source": true,
+    "binds_inner_membership_semantic_sha256_per_source_refit": true,
+    "binds_model_artifact_bytes_per_source_refit": true
+  },
+  "boundary": {
+    "semantic_correctness_of_arbitrary_fit_code_cryptographically_proven": false,
+    "unknown_ecological_superpopulation_inference_claimed": false,
+    "validation_outcomes_read": false,
+    "receipt_is_statistical_qualification": false,
+    "route_registered": false
+  }
+}

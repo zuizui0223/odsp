@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "receipt_type": "odsp_training_source_process_v0_base_qualification_v1",
+  "date": "2026-10-06",
+  "method_version": "training_source_process_positive_iut_v0",
+  "generator_version": "nested_source_refit_x_validation_c2_v0",
+  "qualification_head_sha": "ba03f625c351619bb7f1bdba7c3c27d5f7ec94db",
+  "predeclared_contracts": [
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_CONTRACT.json",
+    "ODSP_TRAINING_SOURCE_PROCESS_V0_CALIBRATION_CONTRACT.json"
+  ],
+  "null_run": {
+    "github_actions_run_id": 37391884203,
+    "github_actions_job_id": 112038378966,
+    "seed": 20261016,
+    "simulations_per_scenario": 1000,
+    "maximum_accepted_component_rate": 0.06378404875209022,
+    "qualification_pass": true,
+    "maximum_component_false_positive_rate_by_scenario": {
+      "balanced-normal-s8-r8-b8": 0.042,
+      "source-dominant-normal-s8-r20-b20": 0.058,
+      "inner-dominant-normal-s20-r8-b20": 0.051,
+      "validation-dominant-normal-s20-r20-b8": 0.057,
+      "interaction-dominant-normal-s8-r8-b8": 0.019,
+      "balanced-t3-s8-r8-b20": 0.045
+    },
+    "terminal_false_generalizing_rate_all_scenarios": 0.0,
+    "largest_component_false_positive_rate": 0.058
+  },
+  "power_run": {
+    "github_actions_run_id": 37391884204,
+    "github_actions_job_id": 112038378311,
+    "seed": 20261017,
+    "simulations_per_scenario": 1000,
+    "moderate_shift_oracle_standard_errors": 3.0,
+    "strong_shift_oracle_standard_errors": 5.0,
+    "minimum_accepted_strong_terminal_power": 0.8,
+    "qualification_pass": true,
+    "moderate_terminal_power_by_scenario": {
+      "balanced-normal-s8-r8-b8": 0.255,
+      "source-dominant-normal-s8-r20-b20": 0.319,
+      "inner-dominant-normal-s20-r8-b20": 0.392,
+      "validation-dominant-normal-s20-r20-b8": 0.195,
+      "interaction-dominant-normal-s8-r8-b8": 0.022,
+      "balanced-t3-s8-r8-b20": 0.346
+    },
+    "strong_terminal_power_by_scenario": {
+      "balanced-normal-s8-r8-b8": 0.983,
+      "source-dominant-normal-s8-r20-b20": 0.973,
+      "inner-dominant-normal-s20-r8-b20": 0.993,
+      "validation-dominant-normal-s20-r20-b8": 0.970,
+      "interaction-dominant-normal-s8-r8-b8": 0.850,
+      "balanced-t3-s8-r8-b20": 0.885
+    },
+    "smallest_strong_terminal_power": 0.850
+  },
+  "summary": {
+    "base_null_gate_pass": true,
+    "base_power_gate_pass": true,
+    "base_qualification_pass": true,
+    "largest_component_false_positive_rate": 0.058,
+    "smallest_strong_terminal_power": 0.850,
+    "inner_dominant_null_rate_max": 0.051,
+    "inner_dominant_strong_terminal_power": 0.993
+  },
+  "qualification_boundary": {
+    "base_statistical_panel_passed": true,
+    "primary_confirmatory_now": false,
+    "route_registered": false,
+    "adversarial_support_still_required": true,
+    "outer_source_process_provenance_still_required": true,
+    "managed_nested_generation_still_required": true,
+    "untouched_external_endpoint_qualified": false
+  },
+  "scientific_boundary": {
+    "target_is_predeclared_outer_source_resampling_process": true,
+    "original_ecological_source_superpopulation_generalization_claimed": false,
+    "individual_future_source_sample_success_probability_claimed": false,
+    "all_future_source_samples_positive_claimed": false,
+    "fixed_set_results_reclassified": false,
+    "qualified_training_process_v5_results_reclassified": false
+  },
+  "chronology": {
+    "first_workflow_attempt_reached_calibration_result": false,
+    "first_workflow_attempt_failed_only_on_roundoff_strict_order_invariance_test": true,
+    "first_opened_null_and_power_results_are_the_runs_recorded_above": true
+  }
+}
