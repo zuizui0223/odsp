@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "record_type": "POST_OUTCOME_IMMUTABLE_FIRST_V2_EXPLORATORY_ECOLOGY_SUMMARY",
+  "first_run_id": 37747931559,
+  "first_run_url": "https://github.com/zuizui0223/odsp/actions/runs/37747931559",
+  "first_head_sha": "987ccac1023835ba9184d0721f03e508e278ecf6",
+  "source_md5": "c66943e6c2a9aab0abce2a1eba8ce02e",
+  "first_contract_sha256": "1fc0adcb4a17816c4772a41e57371edecb8cbd9e06a58b45d52323676d466619",
+  "first_result_artifact_id": 11535843980,
+  "first_result_artifact_zip_sha256": "af6d0feadbe0c36f40bfb17c96bee42f7ac5c7d73050d2ea6b4920490dd0be1a",
+  "primary_scientific_status": "EXPLORATORY_NOT_SUPPORTED_OR_UNAVAILABLE",
+  "predeclared_both_seasons_solar_superiority_supported": false,
+  "training_physical_sites": 211,
+  "future_physical_sites": 43,
+  "training_taxa_models": 21,
+  "heldout_scored_30min_events": 19916,
+  "winter": {
+    "heldout_sites": 43,
+    "scored_events": 12399,
+    "solar_vs_clock_mean_log_gain_nats": 0.02745845931504319,
+    "one_sided_95_site_bootstrap_lower_nats": 0.017686837094790103,
+    "solar_vs_wrong_sun_mean_log_gain_nats": 0.1306145514843494,
+    "season_clock_vs_clock_mean_gain_nats": 0.05909664872739589,
+    "season_solar_vs_solar_mean_gain_nats": -0.007018735146054966
+  },
+  "summer": {
+    "heldout_sites": 43,
+    "scored_events": 7517,
+    "solar_vs_clock_mean_log_gain_nats": -0.0325742873706785,
+    "one_sided_95_site_bootstrap_lower_nats": -0.04153436486877643,
+    "solar_vs_wrong_sun_mean_log_gain_nats": 0.04306169049894341,
+    "season_clock_vs_clock_mean_gain_nats": 0.03918205629522679,
+    "season_solar_vs_solar_mean_gain_nats": 0.033572910321444036
+  },
+  "claim_caveats": [
+    "Source site selection was targeted at carnivore habitats, not a probability sample",
+    "Camera detections may not represent true activity rates or interaction causality",
+    "Camera timestamps and timezone not independently attested",
+    "Exploratory v2 was frozen AFTER prior v0/v1 source-row exposure; not a preregistered confirmatory ecological endpoint",
+    "Scored pool includes aves sp. (unresolved birds), meleagris gallopavo (turkey), rodentia sp. (order-level mammal group), and canis familiaris (domestic dog); it is not a clean set of wild mammal species",
+    "Original all-winter/all-summer superiority claim did not pass; no postresult season or taxon group may rescue it"
+  ],
+  "original_v0_v1_terminal_outcomes_changed": false,
+  "primary_v5_or_future_refit_route_changed": false,
+  "postresult_ledger_materialized": true
+}
