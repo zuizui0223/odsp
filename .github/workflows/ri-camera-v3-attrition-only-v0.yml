@@ -1,0 +1,36 @@
+name: ri-camera-v3-attrition-only-v0
+
+on:
+  push:
+    branches:
+      - research/ri-camera-v3-attrition-v0
+    paths:
+      - 'RI_CAMERA_V3_ATTRITION_ONLY_CONTRACT.json'
+      - 'odsp/ri_camera_v3_attrition_only_v0.py'
+      - 'scripts/audit_ri_camera_v3_attrition_only_v0.py'
+      - 'tests/test_ri_camera_v3_attrition_only_v0.py'
+      - '.github/workflows/ri-camera-v3-attrition-only-v0.yml'
+  workflow_dispatch:
+
+jobs:
+  first-attrition-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Verify no empirical scores or source rows can be disclosed
+        run: python -m pytest -q tests/test_ri_camera_v3_attrition_only_v0.py
+      - name: Profile pinned source stage attrition only
+        run: python scripts/audit_ri_camera_v3_attrition_only_v0.py
+      - name: Preserve first source-quality receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ri-camera-v3-first-attrition-only
+          path: RI_CAMERA_V3_ATTRITION_FIRST_RECEIPT.json
+          if-no-files-found: warn
