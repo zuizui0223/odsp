@@ -323,3 +323,55 @@ def synthetic_population_coordinate_test(
         "previous_v2_ecological_result_reclassified":False,
         "any_ODSP_qualified_inference_modified":False,
     }
+
+
+
+def detected_density_from_activity_and_effort(
+    activity_density:np.ndarray,
+    detection_effort:np.ndarray,
+    dt:float,
+)->np.ndarray:
+    """Observe a(t)*effort(t) normalized, not unobserved animal activity.
+
+    Even if cameras record every detection without classification error,
+    activity intensity and time-varying effort/detection remain confounded.
+    """
+    a=np.asarray(activity_density,dtype=float)
+    e=np.asarray(detection_effort,dtype=float)
+    if (
+        a.ndim!=1 or a.shape!=e.shape or not a.size
+        or not np.isfinite(a).all() or np.any(a<=0)
+        or not np.isfinite(e).all() or np.any(e<0) or np.any(e>1)
+        or not math.isfinite(dt) or dt<=0
+    ):
+        raise ValueError("invalid activity and device/detection effort")
+    exposure=a*e
+    mass=float(dt*np.sum(exposure))
+    if mass<=0 or not math.isfinite(mass):
+        raise ValueError("zero or invalid observation exposure")
+    return exposure/mass
+
+
+def effort_reconstructing_arbitrary_detected_density(
+    observed_density:np.ndarray,
+    alternate_activity_density:np.ndarray,
+)->np.ndarray:
+    """Explicit observational equivalence for *any* positive activities.
+
+    Choose e(t)=c * observed(t)/activity(t), where
+      c = (1/2) / max_t observed(t)/activity(t).
+    Then 0<e<=0.5 and the normalized detected distribution exactly
+    equals the observed distribution, despite different biological
+    activity functions. The factor 1/2 is a harmless arbitrary scale.
+    """
+    d=np.asarray(observed_density,dtype=float)
+    a=np.asarray(alternate_activity_density,dtype=float)
+    if (
+        d.ndim!=1 or d.shape!=a.shape or not d.size
+        or not np.isfinite(d).all() or not np.isfinite(a).all()
+        or np.any(d<=0) or np.any(a<=0)
+    ):
+        raise ValueError("strictly positive aligned activity densities required")
+    ratio=d/a
+    scale=.5/float(np.max(ratio))
+    return scale*ratio
