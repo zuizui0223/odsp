@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_UJLIN_ECOBANK_DATASET_DOI_HEAD_SOURCE_AVAILABILITY_RECEIPT",
+  "method_contract": "ULJIN_ECOBANK_DOI_HEAD_PROBE_V0_CONTRACT.json",
+  "first_source_head_run_id": 37772064205,
+  "workflow_url": "https://github.com/zuizui0223/odsp/actions/runs/37772064205",
+  "workflow_first_head_sha": "6c5dff655ef32146669354c00cbc937606815bef",
+  "first_artifact_id": 11548677494,
+  "first_artifact_zip_digest": "sha256:947115a58b7d8cd2eac3c2721291b9955aacd535556f7f4c1f9f2249ec17c0e8",
+  "tests": "HEAD-only allowlist and no-body synthetic tests succeeded",
+  "source_probe": {
+    "requested_uri": "https://doi.org/10.22756/ETC.20260000001022",
+    "allowed_redirect_to_host": "www.nie-ecobank.kr",
+    "redirect_count": 1,
+    "final_HTTP_HEAD_status": 405,
+    "conclusion": "SOURCE_ACCESS_UNVERIFIED_NO_FALLBACK",
+    "GET_fallback_attempted": false,
+    "HTTP_response_body_read": false,
+    "exact_downloadable_canonical_archive_url_discovered": false
+  },
+  "study_gate": {
+    "original_operation_log_archived_bytes_materialized": false,
+    "active_hours_by_local_clock_bin_estimated": false,
+    "individual_ungulate_detection_records_opened": false,
+    "astronomical_41_candidate_date_pairs_unchanged": true,
+    "source_remains_unqualified": true,
+    "alternative_source_substitution_performed": false,
+    "previous_RI_exploratory_results_changed": false,
+    "ODSP_qualified_routes_changed": false
+  },
+  "data_next_step": "Obtain the exact EcoBank archive URL or file through the official licensed UI/API, then separately verify operation-log source lineage and hourly downtime with the previously frozen header-only protocol before opening event-level observations.",
+  "timing_note": "Recorded after first HEAD response and did not revise the frozen HEAD-only probe constraints."
+}
