@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "route": "shared_validation_evalue_v0",
+  "status": "experimental_preregistered_statistical_simulation",
+  "first_result_exposed": false,
+  "seed": 2026100802,
+  "replicates_per_scenario": 1000,
+  "shared_validation": true,
+  "refits": 20,
+  "validation_groups": 2,
+  "contrasts": 2,
+  "test_alpha": 0.002,
+  "validation_markov_delta": 0.025,
+  "process_alpha": 0.025,
+  "success_threshold": 0.8,
+  "score_range": [
+    -1,
+    1
+  ],
+  "noise_process": "sample iid validation-block Rademacher environments once per world, shared over iid Bernoulli refit draws; a failed refit has one null-mean component; all other components have positive means",
+  "coverage_cases": [
+    [
+      "p0",
+      "symmetric",
+      0,
+      12,
+      0.9,
+      0.05,
+      0.9
+    ],
+    [
+      "p05",
+      "symmetric",
+      0.5,
+      12,
+      0.9,
+      0.05,
+      0.9
+    ],
+    [
+      "p08",
+      "symmetric",
+      0.8,
+      12,
+      0.9,
+      0.05,
+      0.9
+    ],
+    [
+      "p08_rare",
+      "rare_negative",
+      0.8,
+      12,
+      0.9,
+      0.05,
+      0.9
+    ],
+    [
+      "p095_rare",
+      "rare_negative",
+      0.95,
+      12,
+      0.9,
+      0.05,
+      0.9
+    ],
+    [
+      "p08_small",
+      "symmetric",
+      0.8,
+      12,
+      0.05,
+      0.03,
+      0.9
+    ],
+    [
+      "p08_small_bigB",
+      "symmetric",
+      0.8,
+      200,
+      0.05,
+      0.03,
+      0.9
+    ]
+  ],
+  "power_cases": [
+    [
+      "p1_strong",
+      1,
+      12,
+      0.9,
+      0.05
+    ],
+    [
+      "p1_small_largeB",
+      1,
+      200,
+      0.05,
+      0.03
+    ]
+  ],
+  "diagnostic_cases": [
+    [
+      "p1_small_B12",
+      1,
+      12,
+      0.05,
+      0.03
+    ]
+  ],
+  "invalid_design_control": "same Rademacher shock across all validation blocks, p=0, B=12, null-gain amplitude .9, positive gain .9",
+  "gates": {
+    "coverage_overstatement_max": 0.063784,
+    "any_false_certificate_panel_max": 0.009,
+    "each_required_power_min": 0.8,
+    "invalid_design_overstatement_min": 0.3
+  },
+  "do_not_change_after_first_result": true,
+  "qualified_primary": false
+}
