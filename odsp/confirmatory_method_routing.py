@@ -315,6 +315,14 @@ def route_confirmatory_method(
     if information_structure == "filtration":
         if validation_design == "independent_groups":
             if upstream_refits == "predeclared_training_source_process":
+                if external_validation != "none":
+                    return routed(
+                        "unqualified",
+                        "The qualified outer training-source-process v0 route is internal only; an untouched-external source-process endpoint has not been separately qualified.",
+                        requires_preoutcome_freeze=True,
+                        refit_population_generalization_claimed=True,
+                        training_source_process_generalization_claimed=True,
+                    )
                 if contrasts != 2:
                     return routed(
                         "unqualified",
