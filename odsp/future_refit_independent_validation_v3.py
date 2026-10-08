@@ -348,3 +348,66 @@ def evaluate_independent_validation_future_refit_v3(
         v1_v2_results_reclassified=False,
         refits=tuple(rows),
     )
+
+
+
+def iid_certificate_design_frontier(
+    refits: int,
+    *,
+    probability_target: float = 0.8,
+    desired_decision_power: float = 0.8,
+    test_alpha: float = TEST_ALPHA,
+    process_alpha: float = PROCESS_ALPHA,
+    validation_groups: int = 2,
+    independent_blocks_per_group: int = 8,
+) -> dict[str, float | int | bool | None]:
+    """Exact *planning* frontier; not empirical certification or calibration.
+
+    Given q, R, and a target P(L_p > q), find the required number of
+    certificates K and the smallest iid certificate probability theta that
+    would reach the desired decision power. It cannot guarantee that the
+    scientific validation tests achieve theta or are correctly calibrated.
+    """
+    n = _strict_integer(refits, name="refits", minimum=1)
+    g = _strict_integer(validation_groups, name="validation_groups", minimum=2)
+    b = _strict_integer(independent_blocks_per_group, name="independent_blocks_per_group", minimum=2)
+    a = _alpha(test_alpha, "test_alpha")
+    cp_alpha = _alpha(process_alpha, "process_alpha")
+    q = float(probability_target)
+    power = float(desired_decision_power)
+    if not math.isfinite(q) or not 0.0 < q < 1.0:
+        raise ValueError("probability_target must be in (0,1)")
+    if not math.isfinite(power) or not 0.0 < power < 1.0:
+        raise ValueError("desired_decision_power must be in (0,1)")
+    target_k: int | None = None
+    for k in range(1, n + 1):
+        if corrected_future_refit_lower_bound(
+            k, n, test_alpha=a, process_alpha=cp_alpha
+        ) > q:
+            target_k = k
+            break
+    min_theta: float | None = None
+    if target_k is not None:
+        lo, hi = 0.0, 1.0
+        for _ in range(90):
+            mid = (lo + hi) / 2.0
+            if _binomial_tail(target_k, n, mid) < power:
+                lo = mid
+            else:
+                hi = mid
+        min_theta = (lo + hi) / 2.0
+    return {
+        "refit_count": n,
+        "probability_target": q,
+        "desired_decision_power": power,
+        "feasible_even_if_all_certify": target_k is not None,
+        "minimum_certificates": target_k,
+        "minimum_iid_certificate_probability_for_target_power": min_theta,
+        "maximum_corrected_lower_bound": corrected_future_refit_lower_bound(
+            n, n, test_alpha=a, process_alpha=cp_alpha
+        ),
+        "minimum_independent_validation_blocks": n * g * b,
+        "component_test_size_assumption_verified": False,
+        "iid_validation_sampling_verified": False,
+        "prospective_qualification_passed": False,
+    }
