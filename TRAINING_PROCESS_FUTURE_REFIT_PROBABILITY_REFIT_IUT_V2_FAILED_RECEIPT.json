@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "receipt_type": "odsp_future_refit_probability_refit_iut_v2_failed_qualification_v1",
+  "date": "2026-10-08",
+  "contract": "ODSP_TRAINING_PROCESS_FUTURE_REFIT_SUCCESS_PROBABILITY_REFIT_IUT_V2_CONTRACT.json",
+  "method_version": "training_process_future_refit_probability_refit_iut_v2",
+  "official_first_1000": {
+    "github_actions_run_id": 37706446179,
+    "github_actions_job_id": 113081835394,
+    "seed": 20261019,
+    "simulations_per_scenario": 1000,
+    "head_sha": "2c17eb1217e0037e3b671eb608ae505a8f3dd511",
+    "conclusion": "failure"
+  },
+  "coverage": {
+    "alpha_validation": 0.025,
+    "alpha_process": 0.025,
+    "overclaim_rate_all_scenarios": 0,
+    "overcertification_rate_by_scenario": {
+      "p50-normal-r8-b8": 0.003,
+      "p50-t3-r20-b20": 0.002,
+      "p80-normal-r20-b8": 0,
+      "p80-normal-r8-b20": 0.007,
+      "p80-t3-r8-b20": 0.001,
+      "p95-normal-r20-b20": 0
+    },
+    "mean_certified_count_by_scenario": {
+      "p50-normal-r8-b8": 2.068,
+      "p50-t3-r20-b20": 6.844,
+      "p80-normal-r20-b8": 2.427,
+      "p80-normal-r8-b20": 6.077,
+      "p80-t3-r8-b20": 5.148,
+      "p95-normal-r20-b20": 16.319
+    },
+    "acceptance_pass": true
+  },
+  "power": {
+    "all-success-r8-b8": {
+      "all_refits_certified_power": 0.852,
+      "mean_certified_count": 7.827,
+      "acceptance_pass": true
+    },
+    "all-success-r20-b8": {
+      "all_refits_certified_power": 0.096,
+      "mean_certified_count": 17.03,
+      "acceptance_pass": false
+    },
+    "strong_shift_oracle_se": 8,
+    "minimum_accepted_power": 0.8,
+    "acceptance_pass": false
+  },
+  "summary": {
+    "qualification_pass": false,
+    "accepted_coverage_scenarios": 6,
+    "accepted_power_scenarios": 1,
+    "rejected_power_scenarios": 1,
+    "v1_r8_strong_power": 0,
+    "v2_r8_strong_power": 0.852,
+    "v1_r20_strong_power": 0,
+    "v2_r20_strong_power": 0.096,
+    "refit_level_iut_improved_power_but_did_not_qualify": true,
+    "result_cannot_be_rescued_by_posthoc_gate_change": true
+  },
+  "boundary": {
+    "fixed_v1_failure_remains_failure": true,
+    "v2_primary_confirmatory_now": false,
+    "underlying_v5_process_mean_route_unchanged": true,
+    "training_source_process_v0_route_unchanged": true,
+    "fixed_set_intersection_unchanged": true,
+    "future_refit_success_probability_claim_not_qualified": true,
+    "calibration_result_not_ecological_data": true
+  }
+}

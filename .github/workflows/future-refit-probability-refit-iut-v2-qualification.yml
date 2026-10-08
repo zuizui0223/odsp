@@ -1,0 +1,63 @@
+name: future-refit-probability-refit-iut-v2-qualification
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/training_process_future_refit_probability_iut_v2.py'
+      - 'odsp/training_process_future_refit_probability_iut_v2_calibration.py'
+      - 'tests/test_training_process_future_refit_probability_iut_v2.py'
+      - 'tests/test_training_process_future_refit_probability_iut_v2_calibration.py'
+      - 'ODSP_TRAINING_PROCESS_FUTURE_REFIT_SUCCESS_PROBABILITY_REFIT_IUT_V2_CONTRACT.json'
+      - 'scripts/run_future_refit_probability_refit_iut_v2_calibration.py'
+      - 'TRAINING_PROCESS_FUTURE_REFIT_PROBABILITY_REFIT_IUT_V2_FAILED_RECEIPT.json'
+      - 'tests/test_future_refit_probability_iut_v2_failed_receipt.py'
+      - '.github/workflows/future-refit-probability-refit-iut-v2-qualification.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qualify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Focused method and freeze tests
+        run: >-
+          python -m pytest -q
+          tests/test_training_process_future_refit_probability_iut_v2.py
+          tests/test_training_process_future_refit_probability_iut_v2_calibration.py
+          tests/test_future_refit_probability_iut_v2_failed_receipt.py
+      - name: First frozen prospective v2 panel
+        run: |
+          python scripts/run_future_refit_probability_refit_iut_v2_calibration.py             --output /tmp/future-refit-refit-iut-v2.json             --seed 20261019 --simulations 1000
+          echo FUTURE_REFIT_REFIT_IUT_V2_BEGIN
+          cat /tmp/future-refit-refit-iut-v2.json
+          echo FUTURE_REFIT_REFIT_IUT_V2_END
+      - name: Match official frozen failed-v2 result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          observed=json.loads(Path('/tmp/future-refit-refit-iut-v2.json').read_text())
+          frozen=json.loads(Path('TRAINING_PROCESS_FUTURE_REFIT_PROBABILITY_REFIT_IUT_V2_FAILED_RECEIPT.json').read_text())
+          assert observed['qualification_pass'] is False
+          assert len(observed['coverage_rows']) == 6
+          assert len(observed['power_rows']) == 2
+          assert {r['scenario_id']:r['validation_overcertification_rate'] for r in observed['coverage_rows']} == frozen['coverage']['overcertification_rate_by_scenario']
+          assert {r['scenario_id']:r['mean_certified_success_count'] for r in observed['coverage_rows']} == frozen['coverage']['mean_certified_count_by_scenario']
+          assert all(r['overall_overclaim_rate']==0 for r in observed['coverage_rows'])
+          assert all(r['acceptance_pass'] for r in observed['coverage_rows'])
+          for row in observed['power_rows']:
+              expected=frozen['power'][row['scenario_id']]
+              assert row['all_refits_certified_power']==expected['all_refits_certified_power']
+              assert row['mean_certified_success_count']==expected['mean_certified_count']
+              assert row['acceptance_pass']==expected['acceptance_pass']
+          print('FUTURE_REFIT_V2_FAILED_QUALIFICATION_REPLAY_MATCH=true')
+          PY
