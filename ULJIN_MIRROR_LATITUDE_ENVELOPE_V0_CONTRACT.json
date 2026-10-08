@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-uljin-2022-astronomical-pair-latitude-sensitivity-v0",
+  "stage": "POST_FIRST_ASTRONOMY_ONLY_SOURCE_FREE_ROBUSTNESS",
+  "original_frozen_pairs_id": "odsp-uljin-2022-photoperiod-mirror-structural-design-v0",
+  "original_first_workflow_id": 37771342454,
+  "original_first_pair_count": 41,
+  "fixed_public_area_latitudes": [
+    36.6,
+    36.85,
+    37.1
+  ],
+  "sensitivity_same_41_original_pairs_no_rematching": true,
+  "initial_matching_latitude": 36.85,
+  "worst_allowed_mismatch_minutes": 9,
+  "data_from_published_geographic_region_not_exact_station_coordinates": true,
+  "no_camera_station_location_or_event_record_opened": true,
+  "no_original_pairing_rules_modified": true,
+  "result_status": "ASTRONOMICAL_LATITUDE_ENVELOPE_ONLY_NOT_AN_ECOLOGICAL_RESULT"
+}
