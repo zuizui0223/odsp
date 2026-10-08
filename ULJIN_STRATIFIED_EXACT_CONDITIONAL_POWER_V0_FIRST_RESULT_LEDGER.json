@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_SITE_STRATIFIED_EXACT_CONDITIONAL_V0_TERMINAL_PANEL_LEDGER",
+  "pr_number": 243,
+  "pre_outcome_contract_commit": "45b63c3d8270b016a5424c613ba9cb8b0a2234c4",
+  "first_attempt_run": 37796470299,
+  "first_attempt_status": "focused_test_failure_before_panel_output",
+  "first_attempt_specific_cause": "Numerical tail-sum roundoff exceeded 1 by a few ulps; fixed without changing predeclared test, scenarios, null or statistic.",
+  "numerical_roundoff_fix_commit": "71fd705d039b739412d3afbdd2857bfe4ec4d2b7",
+  "first_successful_full_panel_run": 37796638655,
+  "first_successful_run_url": "https://github.com/zuizui0223/odsp/actions/runs/37796638655",
+  "first_successful_run_head": "71fd705d039b739412d3afbdd2857bfe4ec4d2b7",
+  "first_successful_run_artifact_id": 11559300590,
+  "first_successful_run_artifact_sha256": "sha256:7a344da2929572268f124d461cea74687748c482924fe468adc159816142a8bc",
+  "focused_tests": "pass",
+  "complete_matrix": {
+    "predeclared_site_templates": 3,
+    "predeclared_site_counts": 4,
+    "predeclared_true_ORs": 4,
+    "reported_scenarios": 48,
+    "complete_full_output_stored_in_first_artifact": true
+  },
+  "exact_stratified_null_size_never_exceeds_alpha": true,
+  "nominal_alpha": 0.05,
+  "composition_witness": {
+    "physical_site_count": 2,
+    "within_site_observed_season_by_phase_OR": [
+      1,
+      1
+    ],
+    "naive_pooled_detected_event_OR": 5.444444444444445,
+    "naive_pooled_fisher_p": 3.458894666481261e-7,
+    "exact_site_stratified_p": 0.6034432101217917,
+    "original_latent_animal_activity_not_identified": true
+  },
+  "highest_actual_naive_pooled_null_rejection_probability_across_predeclared_composition_designs": 1,
+  "validity": {
+    "conditional_independent_site_distribution": true,
+    "site_specific_row_and_column_margins_fixed": true,
+    "one_sided_two_preselected_bin_OR": true,
+    "not_automatic_latent_activity_inference": true,
+    "not_full_six_bin_global_test": true,
+    "no_real_ecobank_events_or_device_uptime_read": true,
+    "no_original_odsp_qualified_or_empirical_reclassification": true
+  },
+  "status": "SOURCE_FREE_EXACT_CONDITIONAL_CALIBRATION_NOT_EMPIRICAL"
+}

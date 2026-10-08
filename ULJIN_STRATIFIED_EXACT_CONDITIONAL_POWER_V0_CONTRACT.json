@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_stratified_exact_conditional_power_v0",
+  "stage": "FROZEN_SOURCE_FREE_BEFORE_FIRST_STRATIFIED_CONDITIONAL_OUTCOME",
+  "parent_pr": 242,
+  "previous_idealized_fisher_contract": "ULJIN_EXACT_TWO_BIN_OR_POWER_V0_CONTRACT.json",
+  "previous_idealized_fisher_first_result": "ULJIN_EXACT_TWO_BIN_OR_POWER_V0_FIRST_RESULT_LEDGER.json",
+  "scientific_question": "Can site-stratified exact conditional season-by-two-solar-bin testing maintain size under heterogeneous site-specific season rates and phase profiles while a site-pooled Fisher test spuriously rejects?",
+  "conditional_sampling_model": "For each physically distinct site i and original fixed within-site margins N_i total, K_i early-bin count, D_i falling-branch count, X_i falling-early is hypergeometric under within-site branch-bin OR theta_i=1 and noncentral hypergeometric with common theta under alternative. Independent sites conditional on margins.",
+  "stratum_templates": [
+    {
+      "id": "sparse_balanced",
+      "N": 4,
+      "K": 2,
+      "D": 2
+    },
+    {
+      "id": "moderate_balanced",
+      "N": 20,
+      "K": 10,
+      "D": 10
+    },
+    {
+      "id": "composition_confounded_alternating",
+      "sites": [
+        {
+          "site_type": "early_profile_high_falling_rate",
+          "N": 80,
+          "K": 72,
+          "D": 60,
+          "witness_falling_early": 54
+        },
+        {
+          "site_type": "late_profile_low_falling_rate",
+          "N": 80,
+          "K": 8,
+          "D": 20,
+          "witness_falling_early": 2
+        }
+      ]
+    }
+  ],
+  "site_count_grid": [
+    2,
+    4,
+    8,
+    16
+  ],
+  "repetition": "For balanced templates duplicate the same margin per independent physical site. For composition alternately repeat the two fixed types in equal numbers. These are fixed conditional margin thought experiments, not a measured field observation frame.",
+  "true_common_OR": [
+    1,
+    1.5,
+    2,
+    3
+  ],
+  "nominal_alpha": 0.05,
+  "first_frozen_test": "One-sided exact upper tail for T=sum_i X_i; null PMF is convolution of independent within-site CENTRAL hypergeom probabilities. Alternative PMF is exponential tilt of the null by theta^T, equivalent to convolution of site-level Fisher noncentral hypergeom.",
+  "unstratified_comparator": "Naively collapse all site margins to one pooled 2x2 table and apply central hypergeometric Fisher upper tail to T. Report its ACTUAL conditional rejection probability under the site-specific fixed margins and common theta, never call this calibrated nominal-alpha power under heterogeneous composition.",
+  "exact_calculation": "No stochastic simulation. Log binomial coefficients via lgamma; per-site null PMFs normalized; convolution with exact support offsets; exponential tilt for theta; all upper-tail thresholds computed at nominal alpha with no mid-p.",
+  "frozen_adversarial_observed_table": "One early-profile site X=54 and one late-profile site X=2; within each fixed site observed branch-by-bin odds ratio is exactly 1; pool totals and report each p-value, pooled OR and site-conditioned expected T.",
+  "hard_checks": [
+    "All 3 templates × 4 physical-site-counts × 4 truth ORs reported (48 outcomes)",
+    "Exact stratified size never above 0.05 at common OR=1 for every configuration",
+    "Exact conditional null PMF and alternative PMF normalized and nonnegative",
+    "At each conditional margin configuration, exact conditional rejection probability nondecreasing with true common OR",
+    "Fixed world has pooled odds ratio >1 but exact within-site odds ratio exactly 1 for both sites",
+    "At least one composition-confounded scenario has pooled nominal-alpha null rejection probability >0.05",
+    "Explicitly report pooled actual null-rejection probabilities without relabeling as calibrated test size",
+    "Under sparse support, no fabricated nondetection and no independence attributed to within-site events",
+    "Separate physical-site sampling unit from animal-event count and from two geographic regions",
+    "No source animal event, original camera operation log, station GPS or source-response-derived calendar access",
+    "Previously frozen parent inference/empirical route untouched"
+  ],
+  "reporting": {
+    "conditional_site_level_sample_size_not_claimed": true,
+    "exact_two_bin_target_only": true,
+    "site_event_counts_in_templates_not_empirical": true,
+    "source_free": true,
+    "all_scenarios_even_failure": true
+  },
+  "source_provenance": {
+    "original_EcoBank_outcomes_read": false,
+    "original_camera_uptime_read": false,
+    "site_coordinates_read": false
+  },
+  "qualification": "draft_synthetic_exact_math_not_original_ungulate_inference"
+}
