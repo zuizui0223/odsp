@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_PRE_FROZEN_THREEWAY_POSITIVE_INTEGER_FIBER_BOUNDS_V1_TERMINAL_RESULT",
+  "parent_pr": 239,
+  "branch": "method/uljin-threeway-margin-fiber-bounds-v1",
+  "pre_result_frozen_contract_commit": "fbfc260170caddcabdb4a6a478567733650fa736",
+  "first_method_ci_run": 37792974347,
+  "first_method_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/37792974347",
+  "first_scored_head": "4e8676126cf7c6a5fa4dc43545d5606a3cf7963a",
+  "first_artifact_id": 11557885594,
+  "first_artifact_sha256": "sha256:4d9d89e6540a4ee47ae910ac34056760191ca875f169e66b241e5660cc77c310",
+  "focused_tests": "success",
+  "exhaustive_enumeration": "success",
+  "frozen_positive_integer_complete_table_count": 2723,
+  "directional_counts": {
+    "negative": 2506,
+    "zero": 35,
+    "positive": 182
+  },
+  "early_site_first_vs_last_seasonal_odds_ratio_min": 0.1140278917145201,
+  "early_site_first_vs_last_seasonal_odds_ratio_max": 2.6104746317512273,
+  "interval_crosses_one": true,
+  "parent_world_A_and_B_verified_inside_fiber": true,
+  "interpretation": {
+    "identification_region_conditional_on_all_three_fixed_pairwise_count_margins": true,
+    "not_a_confidence_interval": true,
+    "counts_not_probabilities": true,
+    "all_two_way_margin_joint_sampling_law_equality_not_claimed": true,
+    "real_ecological_behavior_inferred": false,
+    "new_general_contingency_theorem_claimed": false,
+    "source_events_or_device_effort_opened": false,
+    "previous_qualified_odsp_routes_changed": false,
+    "posthoc_tuning_of_original_pr239_contract": false
+  },
+  "status": "TERMINAL_SOURCE_FREE_EXHAUSTIVE_COMPLETION_NOT_EMPIRICAL"
+}
