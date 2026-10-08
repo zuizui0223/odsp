@@ -1,0 +1,71 @@
+name: snapshot-usa-2024-calendar-span-v1
+
+on:
+  push:
+    branches:
+      - research/snapshot-usa-calendar-span-v1
+    paths:
+      - 'ODSP_SNAPSHOT_USA_2024_CALENDAR_SPAN_V1_CONTRACT.json'
+      - 'odsp/snapshot_usa_2024_calendar_span_v1.py'
+      - 'scripts/screen_snapshot_usa_2024_calendar_span_v1.py'
+      - 'tests/test_snapshot_usa_2024_calendar_span_v1.py'
+      - 'odsp/weak_gain_nonparametric_barrier_v1.py'
+      - 'tests/test_weak_gain_nonparametric_barrier_v1.py'
+      - 'ODSP_SNAPSHOT_USA_2024_CALENDAR_V1_SOURCE_SEMANTICS_STOP.json'
+      - 'tests/test_snapshot_usa_2024_calendar_v1_stop.py'
+      - '.github/workflows/snapshot-usa-2024-calendar-span-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  structural-calendar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: python -m pip install -e '.[dev]'
+      - name: Pre-result unit tests on synthetic physical site rosters
+        run: |
+          python -m pytest -q \
+            tests/test_snapshot_usa_2024_calendar_span_v1.py \
+            tests/test_weak_gain_nonparametric_barrier_v1.py \
+            tests/test_snapshot_usa_2024_calendar_v1_stop.py
+      - name: Falsified source semantics — fail closed before metadata access
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          stop_path = Path("ODSP_SNAPSHOT_USA_2024_CALENDAR_V1_SOURCE_SEMANTICS_STOP.json")
+          plan_path = Path("ODSP_SNAPSHOT_USA_2024_CALENDAR_SPAN_V1_CONTRACT.json")
+          stop = json.loads(stop_path.read_text())
+          assert stop["v1_status"] == "TERMINAL_HOLD_SOURCE_DATE_COLUMNS_ARE_IMAGE_DERIVED"
+          assert stop["v1_source_selection_outcome_independent"] is False
+          assert stop["v1_new_metadata_downloads_should_be_disabled"] is True
+          receipt = {
+              "status": stop["v1_status"],
+              "contract_sha256": hashlib.sha256(plan_path.read_bytes()).hexdigest(),
+              "stop_record_sha256": hashlib.sha256(stop_path.read_bytes()).hexdigest(),
+              "source_deployment_csv_download_attempted": False,
+              "source_sequence_csv_opened": False,
+              "image_datetime_values_read": False,
+              "sampling_independence_qualified": False,
+              "primary_route_registered": False,
+              "older_queued_workflow_runs_canceled": False,
+              "historical_v0_changed": False
+          }
+          Path("snapshot_usa_2024_calendar_span_v1_first_receipt.json").write_text(
+              json.dumps(receipt, indent=2, sort_keys=True) + "\n"
+          )
+          print("Calendar v1 stopped before reading metadata: image-derived date values")
+          PY
+      - name: Preserve first source-screen outcome even on error
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-usa-2024-calendar-span-v1-first-screen
+          path: snapshot_usa_2024_calendar_span_v1_first_receipt.json
+          if-no-files-found: warn

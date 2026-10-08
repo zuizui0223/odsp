@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "record_id": "snapshot-usa-2024-calendar-v1-source-semantics-stop",
+  "recorded_after_calendar_design_freeze": true,
+  "calendar_design_contract": "ODSP_SNAPSHOT_USA_2024_CALENDAR_SPAN_V1_CONTRACT.json",
+  "pre_metadata_result_identified_as_queued_at_last_check": true,
+  "public_source": "Rooney et al. (2026) SNAPSHOT USA 2024, Global Ecology and Biogeography, DOI 10.1111/geb.70229",
+  "source_location": "public article PDF page 8/28 (zero-based PDF page 7), data cleaning methods",
+  "verified_statement": "authors modified start/end dates in the deployment metadata file in R to match the dates of the first/last images in the sequences file",
+  "dryad_readme_label": "Start_Date/End_Date described as camera placement/retrieval dates, but published cleaning documentation supersedes naive outcome-free interpretation",
+  "v1_source_selection_outcome_independent": false,
+  "v1_calendar_span_structural_counts_can_still_be_retrospective_descriptive": true,
+  "v1_allowed_as_unopened_outcome_external_validation": false,
+  "v1_allowed_for_prospective_pre_outcome_sampling_design": false,
+  "v1_status": "TERMINAL_HOLD_SOURCE_DATE_COLUMNS_ARE_IMAGE_DERIVED",
+  "v1_design_changed_or_posthoc_threshold_reoptimized": false,
+  "v1_code_original_retained_for_audit": true,
+  "v1_new_metadata_downloads_should_be_disabled": true,
+  "previously_queued_workflow_can_be_canceled_with_available_connector": false,
+  "queued_workflow_results_cannot_rescue_v1_eligibility": true,
+  "v0_survey_nights_reclassified_as_unobserved_effort": false,
+  "prior_public_empirical_results_reclassified": false,
+  "active_confirmatory_registry_modified": false,
+  "remedial_requirement": "Obtain authentic original installation and removal logs or a genuinely prospectively designed new validation camera survey whose effort frame and sampling roster exist independently of species detections.",
+  "methodological_consequence": "Date field labels are not reliable evidence that the archived values were unmodified by observation outcomes. Selecting camera sites on these fields is not a clean untouched-external design.",
+  "sources": [
+    "https://drewrdavis.com/wp-content/uploads/2026/04/rooney.etal_.2026_geb_snapshotusa_2024.pdf",
+    "https://datadryad.org/dataset/doi:10.5061/dryad.bnzs7h4qf"
+  ]
+}
