@@ -98,7 +98,7 @@ underlying statistical idea was invented for ODSP**.
 ## What the initial code does
 
 The experimental numerical function
-\`evaluate_independent_validation_future_refit_v3\` accepts per-refit gain,
+`evaluate_independent_validation_future_refit_v3` accepts per-refit gain,
 group and unique block-ID arrays. It computes block-weighted means and
 per-refit IUT certificates, then the exact binomial bound and its
 false-certification correction. It reports:
@@ -108,7 +108,7 @@ false-certification correction. It reports:
 - an **exploratory** comparison with q=0.8, not a confirmatory acceptance;
 - explicit false provenance-verification and primary-qualification flags.
 
-Its \`test_alpha=0.05\` and \`process_alpha=0.05\` are planning defaults.
+Its `test_alpha=0.05` and `process_alpha=0.05` are planning defaults.
 Student-t component-test size is *not distribution free*, especially with
 eight heavy-tailed validation blocks. The code does not transform a Python
 test pass into empirical calibration.
@@ -180,7 +180,7 @@ independence/provenance or a separately qualified dependent-data method,
 
 ## Exact sample-size feasibility frontier (design calculation only)
 
-The function \`iid_certificate_design_frontier\` inverts the same exact
+The function `iid_certificate_design_frontier` inverts the same exact
 binomial tail to find the required *per-pair certificate probability*
 \(\theta\) for an 80% chance of reporting \(L_p>0.8\). This is not a
 validation-test power result: actual \(\theta\) depends on signal, noise,
