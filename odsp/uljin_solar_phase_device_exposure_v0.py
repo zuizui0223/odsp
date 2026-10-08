@@ -24,7 +24,7 @@ from typing import Sequence,Mapping
 
 from .uljin_original_pairs_equation_of_time_v0 import civil_solar_geometry
 
-METHOD="uljin_exact_original_mirror_solar_phase_uptime_v0"
+METHOD="uljin_original_mirror_continuous_solar_phase_exposure_v0"
 
 
 def _sun(day:date,lat:float=36.85,lon:float=129.2)->tuple[float,float]:
