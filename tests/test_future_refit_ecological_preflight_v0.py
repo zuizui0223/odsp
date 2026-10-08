@@ -25,9 +25,20 @@ def _roster(B: int = 8):
 
 
 def _check(rows, groups, blocks, source, ids, **kwargs):
+    source_units = kwargs.pop(
+        "training_source_unit_ids",
+        tuple(f"train-unit-{i:03d}" for i in range(len(source))),
+    )
+    validation_units = kwargs.pop(
+        "validation_unit_ids",
+        tuple(f"validation-unit-{b}" for b in blocks),
+    )
     return preflight_shared_validation_ecological_roster(
         rows,groups,blocks,source,refit_ids=ids,
         identity_namespace="stable_record_namespace",
+        training_source_unit_ids=source_units,
+        validation_unit_ids=validation_units,
+        physical_unit_kind="camera_site",
         **kwargs,
     )
 
@@ -36,6 +47,10 @@ def test_structural_roster_admission_never_proves_ecological_sampling():
     a = _check(*_roster())
     assert a.structural_status == "STRUCTURALLY_ADMISSIBLE_UNVERIFIED_SAMPLING"
     assert a.refit_count == 20
+    assert a.physical_unit_kind == "camera_site"
+    assert a.training_validation_physical_unit_overlap_checked
+    assert a.within_group_physical_unit_fragmentation_checked
+    assert not a.physical_unit_sampling_independence_verified
     assert a.validation_row_count == 16
     assert a.group_count == 2
     assert a.contrast_count == 2
@@ -93,6 +108,36 @@ def test_invalid_ecological_rosters_fail_closed(variant,match):
         kwargs["ordered_level_names"]=("marginal","identity")
     with pytest.raises(ValueError,match=match):
         _check(rows,groups,blocks,source,ids,**kwargs)
+
+
+
+def test_distinct_row_ids_cannot_hide_same_train_and_validation_camera():
+    rows,groups,blocks,source,ids=_roster()
+    source_units=tuple(f"train-unit-{i:03d}" for i in range(len(source)))
+    validation_units=list(f"validation-unit-{b}" for b in blocks)
+    validation_units[0]=source_units[-1]
+    assert not (set(source) & set(rows))
+    with pytest.raises(ValueError,match="share a physical sampling unit"):
+        _check(rows,groups,blocks,source,ids,
+               training_source_unit_ids=source_units,
+               validation_unit_ids=validation_units)
+
+
+def test_same_physical_site_split_across_two_blocks_fails_closed():
+    rows,groups,blocks,source,ids=_roster()
+    validation_units=list(f"validation-unit-{b}" for b in blocks)
+    validation_units[1]=validation_units[0]
+    with pytest.raises(ValueError,match="split across distinct validation blocks"):
+        _check(rows,groups,blocks,source,ids,
+               validation_unit_ids=validation_units)
+
+
+def test_missing_physical_unit_roster_fails_closed():
+    rows,groups,blocks,source,ids=_roster()
+    with pytest.raises(ValueError,match="physical unit metadata"):
+        _check(rows,groups,blocks,source,ids,
+               training_source_unit_ids=("one-site-only",))
+
 
 
 def test_existing_ecological_endpoints_are_not_falsely_registered():
