@@ -1,0 +1,48 @@
+name: ri-solar-v2-original-four-model-season-parity-v0
+
+on:
+  push:
+    branches:
+      - ecology/ri-solar-v2-season-parity-audit-v0
+    paths:
+      - 'RI_SOLAR_V2_FOUR_MODEL_SEASON_PARITY_AUDIT_CONTRACT.json'
+      - 'odsp/ri_solar_v2_four_model_season_parity_v0.py'
+      - 'tests/test_ri_solar_v2_four_model_season_parity_v0.py'
+      - 'odsp/ri_solar_phase_projection_capacity_v0.py'
+      - 'tests/test_ri_solar_phase_projection_capacity_v0.py'
+      - 'scripts/replay_ri_solar_v2_four_model_season_parity_v0.py'
+      - '.github/workflows/ri-solar-v2-four-model-season-parity-v0.yml'
+  workflow_dispatch:
+
+jobs:
+  original-four-model-result-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Test four-model algebra, source identity, original decision lock
+        run: |
+          python -m pytest -q \
+            tests/test_ri_solar_v2_four_model_season_parity_v0.py \
+            tests/test_ri_solar_phase_projection_capacity_v0.py
+      - name: Download FIRST V2 RESULT ONLY (not raw camera observations)
+        uses: actions/download-artifact@v4
+        with:
+          name: ri-solar-clock-coded-yearseason-v2-first
+          run-id: 37747931559
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: .analysis_input
+      - name: Algebraic same-target season-conditioned parity comparison
+        run: python scripts/replay_ri_solar_v2_four_model_season_parity_v0.py
+      - name: Preserve original-receipt-only audit, including after failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ri-solar-v2-first-four-model-parity-v0
+          path: RI_SOLAR_V2_FOUR_MODEL_SEASON_PARITY_FIRST_RECEIPT.json
+          if-no-files-found: warn
