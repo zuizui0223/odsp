@@ -152,3 +152,21 @@ def test_bad_input_rejected():
     gains[0][0,0] = np.nan
     with pytest.raises(ValueError, match="NaN"):
         _audit((gains, groups, blocks, ids))
+
+
+def test_shared_validation_shock_can_break_the_binomial_coverage_bound():
+    # Deliberate *invalid-design* negative control (NOT an accepted v3 case).
+    # True refits are iid successes with p=0.8. A single common held-out-data
+    # shock (probability a) incorrectly certifies all unsuccessful refits.
+    # Each unsuccessful refit has marginal false-certification chance a, but
+    # observed certificates are dependent, so K is NOT binomial.
+    n, p, a = 20, 0.8, 0.05
+    independent_truth_false_claim = sum(
+        math.comb(n, k) * p**k * (1.0-p)**(n-k)
+        for k in range(n+1)
+        if corrected_future_refit_lower_bound(k, n) > p
+    )
+    shared_shock_false_claim = a + (1.0-a) * independent_truth_false_claim
+    assert independent_truth_false_claim == pytest.approx(p**n)
+    assert shared_shock_false_claim > 0.05
+    # Shows why distinct block ID checks alone must never imply iid provenance.
