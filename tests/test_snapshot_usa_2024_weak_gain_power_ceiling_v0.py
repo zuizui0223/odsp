@@ -36,9 +36,22 @@ def test_power_upper_is_alternative_expectation_not_constant_observation_require
     # For iid alternative X in {-1,+1}, mean mu=.05, factor means match.
     # This is independent of the distribution's variance.
     B,mu=8,.05
-    expectation=sum((1+lam*mu)**B for lam in MIX)/len(MIX)
+    p_plus=(1+mu)/2
+    # Enumerate all 2^8 iid samples; every outcome has its genuine
+    # alternative probability. No constant-score assumption is used.
+    direct=0.
+    for draws in itertools.product((-1.,1.),repeat=B):
+        probability=math.prod(
+            p_plus if x>0 else (1-p_plus) for x in draws
+        )
+        mixture=sum(
+            math.prod(1+lam*x for x in draws) for lam in MIX
+        )/len(MIX)
+        direct+=probability*mixture
+    factorized=sum((1+lam*mu)**B for lam in MIX)/len(MIX)
+    assert direct==pytest.approx(factorized,abs=1e-12)
     actual_upper=fixed_betting_component_power_upper(B,mu)
-    assert actual_upper==pytest.approx(TEST_ALPHA*expectation,abs=1e-14)
+    assert actual_upper==pytest.approx(TEST_ALPHA*direct,abs=1e-12)
 
 
 def test_strong_signal_bound_is_not_spuriously_small():
