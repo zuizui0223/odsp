@@ -132,7 +132,9 @@
     "gate": "both winter and summer primary mean gains >0 with 95% one-sided site-bootstrap lower bounds >0; negative control degrades across both seasons; otherwise MIXED/NOT_SUPPORTED/UNAVAILABLE",
     "null_baseline": "clock and solar trained only from earlier years and disjoint physical sites",
     "unseen_species": "training-only species admission; unseen later-year species are out-of-support, report count but no retraining",
-    "suppression_count_and_species_admission_reported": true
+    "suppression_count_and_species_admission_reported": true,
+    "bootstrap_draws": 2000,
+    "bootstrap_seed": 2026100803
   },
   "claims_not_allowed": [
     "day/night ecological activity rate without timestamp-specific camera effort",
@@ -148,5 +150,11 @@
     "Never treat multiple cameras/photo rows/season-years of same site as independent sites",
     "If photo time zone cannot be verified, report as exploratory rather than mechanistic primary",
     "Current code and source selection are a separate study; none of old prospectively closed endpoints may be re-opened"
-  ]
+  ],
+  "preoutcome_amendment_v0_1": {
+    "reason": "Make already-described bootstrap draws/seed machine-readable for fail-closed runner identity validation.",
+    "before_archive_detection_row_access": true,
+    "changes_outcome_or_threshold_rules": false,
+    "amends_original_contract_after_commit": "bf8a6d15ae96e64b45ace2da50bb448a2faadc73"
+  }
 }
