@@ -31,6 +31,12 @@ STATION_RE=re.compile(r"^UJ[12][_-][A-Za-z0-9_-]+$")
 MIN_HOURS=3.
 
 
+# Immutable semantic mirror of pre-result version-0 assumptions.
+# A header or 3-hour cutoff check alone cannot detect a post-result change
+# to the meaning of "guaranteed deployment" or possible downtime.
+_FROZEN_INPUTS=json.loads(r'''{"declared":"EXPLICIT SYNTHETIC normalized source-independent hypothetical deployment and complete downtime interval records only","deployment_record_keys":["Station","DeploymentStartDate","DeploymentEndDate"],"downtime_record_keys":["Station","DowntimeStartDate","DowntimeEndDate"],"date_format":"YYYY-MM-DD calendar day in Asia/Seoul","date_interpretation":"Deployment begins at an unknown instant in its first named day and ends at an unknown instant on its last named day; downtime also begins/ends at unknown times within its named boundary days","unknown_completeness":"If downtime coverage/completeness is unknown, no robust eligibility may be claimed","deployment_and_downtime_intervals_must_be_field_original_independent_of_photos":true}''')
+_FROZEN_BOUNDS=json.loads(r'''{"possible_deployment":"[00:00 of start date, 00:00 day following end date)","guaranteed_deployment":"[00:00 day following start date, 00:00 of end date), if nonempty","possible_downtime":"[00:00 start date, 00:00 day following end date)","guaranteed_downtime":"[00:00 day following start date, 00:00 end date), if nonempty","guaranteed_active":"union(guaranteed deployment) minus union(possible downtime)","possibly_active":"union(possible deployment) minus union(guaranteed downtime)","bins":[[0,4],[4,8],[8,12],[12,16],[16,20],[20,24]],"minimum_guaranteed_or_possible_active_hours_per_bin":3,"eligible_pair":"all six 4h bins on both ORIGINAL matched astronomical days have GUARANTEED operating >=3h","ineligible_pair":"at least one of 12 bins has POSSIBLE operating <3h","otherwise":"AMBIGUOUS_NOT_ELIGIBLE_FOR_CONFIRMATORY_RESEARCH","unbounded_unknown_downtime":"HOLD_DOWNTIME_COMPLETENESS_UNKNOWN"}''')
+
 def _validate_contract(plan:Mapping[str,object])->None:
     if (
         not isinstance(plan,Mapping)
@@ -41,13 +47,8 @@ def _validate_contract(plan:Mapping[str,object])->None:
             "ULJIN_PHOTOPERIOD_MIRROR_2022_V0_DESIGN_CONTRACT.json"
         or plan.get("source_status")!=
             "ECOBANK_V1P1_ARCHIVE_UNAVAILABLE_AND_HOURLY_OPERATION_PROVENANCE_UNVERIFIED"
-        or plan.get("conservative_interval_bounds",{}).get("bins")!=
-            [list(x) for x in BINS]
-        or plan.get("conservative_interval_bounds",{}).get(
-            "minimum_guaranteed_or_possible_active_hours_per_bin")!=MIN_HOURS
-        or plan.get("inputs",{}).get(
-            "declared")!=
-            "EXPLICIT SYNTHETIC normalized source-independent hypothetical deployment and complete downtime interval records only"
+        or plan.get("conservative_interval_bounds")!=_FROZEN_BOUNDS
+        or plan.get("inputs")!=_FROZEN_INPUTS
         or plan.get("hard_gates",[])[-1:]!=[
             "Do not reclassify registered ODSP training-process or untouched-external results"
         ]
