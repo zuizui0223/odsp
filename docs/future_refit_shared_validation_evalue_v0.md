@@ -209,3 +209,37 @@ Before any attempt to register:
 
 This is currently an unqualified raw evaluator plus proofs and unit tests,
 not a reported success-probability claim for an ecological population.
+
+
+## Small-signal feasibility: the important negative result
+
+The strong +0.95 synthetic test is only a numerical positive control.
+It should never be confused with the magnitude of genuine ecological
+predictive gains. The deterministic helper constant_block_gain_example
+asks how many independent blocks per group would make the FROZEN mixture
+e-test reject when every block, implausibly, produces exactly the same
+positive gain. This is an illustrative extreme, not a power forecast.
+
+For a lower score-gain bound L=-1, tau=0, and a=0.002:
+
+| Same positive gain in every block | Blocks per group for e > 1/a | Two-group distinct block count |
+|---:|---:|---:|
+| +0.02 | 376 | 752 |
+| +0.045 | 169 | 338 |
+| +0.05 | 153 | 306 |
+| +0.10 | 78 | 156 |
+| +0.20 | 41 | 82 |
+| +0.50 | 19 | 38 |
+| +0.95 | 11 | 22 |
+
+These gains must be on the SAME bounded score-difference scale; the +0.045
+number is not a conversion from the Serengeti observed LOG-score gain.
+Any such conversion would be invalid without original per-event scores.
+
+**Consequence:** with small, bounded information gains, requiring 300+
+independent validation blocks remains possible even after eliminating
+the refit-by-refit multiplicity penalty. The 24-block illustration above
+is therefore not a practical success claim. One can certify a small
+positive expected gain much more readily than high process reliability
+of positive gains in ALL components. This route must meet a realistic
+effect-size and block-budget gate before being considered for use.
