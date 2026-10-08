@@ -224,3 +224,59 @@ replication. Results would be conditional on the sampled forest
 sites, and species detection and ecological mechanisms remain
 unidentified without environmental variables or independent
 observation controls.
+
+
+## Sparse published detections: avoid selecting on positive observations
+
+The source paper reports counts for four species: Naemorhedus caudatus
+2,317; Hydropotes inermis 814; Capreolus pygargus 808; Sus scrofa 684.
+These 4,623 events span 29,850 functional camera-trap nights. These
+are PUBLIC source-aggregate facts, not inspected event-level records.
+
+Even 41 exactly matched daylength dates do not imply that the same
+camera station and taxon was recorded on both dates. Selecting only
+pairs with positive observed detections would condition on the
+response and may almost exclude rarer taxa.
+
+A NEW frozen hypothetical planning model based on uniform iid
+Poisson detections at every camera/night, with all 4 species assumed
+equally common, yields approximately 19.4 *doubly positive*
+station×taxon×date-pair combinations across 41×82×4 trial units.
+A separate later published-species-rate sensitivity uses original
+paper totals rather than equal rates and yields approximately
+18.8 (goral), 2.4 (water deer), 2.4 (roe deer) and 1.7 (wild boar),
+or about 25.3 doubly-positive units combined. These are NOT
+observed source results, valid ecological rate estimates or
+distribution-free bounds; real camera-site/taxon/date heterogeneity
+could strongly change both quantities.
+
+**Scientific admission decision:** DO NOT select physical stations
+or mirrored days on whether an animal was detected. The source
+operating-time frame, including functioning camera days with ZERO
+events, determines eligibility. At verified POSITIVE camera-hour
+exposure a zero detection is an informative count. A period
+with zero/unknown actual operation cannot be relabelled a
+non-detection. Positive counts at zero exposure MUST be rejected.
+
+The synthetic helper fixed_clock_bin_poisson_log_score verifies
+that every candidate predicts the SAME six civil-clock four-hour
+count categories with their true camera-hour exposure offsets,
+and scores zero counts properly as minus the predicted Poisson
+intensity. The correct solar alternative should integrate its
+continuous solar-phase intensity against actual camera operating
+exposure in the SAME clock bins; comparing log probabilities
+on different temporal event partitions is not a fair score.
+
+The original EcoBank v1.1 ZIP is still not authenticated or
+downloaded. Therefore true original station/date/hour exposure,
+any real matched taxon observations, predictive power, and
+photoperiod hysteresis are NOT established.
+
+The official repository DOI data catalogue is at
+https://www.nie-ecobank.kr/rdm/rsrchdoi/selectRsrchDtaListVw.do
+and the specified source DOI is
+https://doi.org/10.22756/ETC.20260000001022.
+No direct verified download URL has been obtained from this page.
+A later file must first be version/hash authenticated, then pass
+the pre-outcome operation-header source check and documentary
+field-original log lineage check before any animal event analysis.
