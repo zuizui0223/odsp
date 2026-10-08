@@ -141,3 +141,86 @@ matched ungulate detections and any seasonal hysteresis effect
 are NOT YET VERIFIED. Do not classify them as a new positive ODSP
 ecological result, an external confirmation of Rhode Island, or a
 qualified stochastic process probability inference route.
+
+
+## Further methodological guardrails added after initial calendar
+
+### Equal daylength does not mean equal sunrise/sunset *civil time*
+
+The original source-free 41 date pairs match astronomical daylength
+within roughly 0.54 minutes. However, the standard astronomical
+EQUATION OF TIME changes across the same two dates, shifting civil
+clock sunrise, sunset, and solar noon even if daylength is held
+nearly fixed. A deterministic source-free audit now checks the
+original dates and their EoT with the NOAA fractional-year formula:
+
+    solar_noon_civil_minutes
+      = 720 - 4*longitude_degrees - EoT_minutes
+        + 60*UTC_offset_hours.
+
+For the SAME fixed station/longitude, paired noon shift depends
+ONLY on the two dates' equation-of-time difference: the longitude
+and time-zone terms cancel. The fixed source-free original calendar
+has an illustrative 5.0–10.5 minute shift in solar-noon clock
+time across matched rising/falling daylength dates, even though
+their DAYLENGTH discrepancy is below one minute. Therefore a
+raw CIVIL-clock activity-time comparison would have an astronomical
+clock-offset confound even in a hypothetical sun-following species
+with NO seasonal hysteresis.
+
+The source-free EoT audit is implemented in
+odsp/uljin_original_pairs_equation_of_time_v0.py and its
+separately frozen design contract. It retains the exact original
+41 pairs without re-optimizing. No station longitude, operation
+log or animal observation is accessed.
+
+**For any real follow-up, phase-transform both date distributions
+using their actual sunrise and sunset (or public representative
+context with uncertainty) BEFORE testing a rising/falling branch
+difference.** The solar phase is constructed with sunrise at 06:00
+and sunset at 18:00 in both seasons. An equal-daylength match alone
+cannot substitute for that phase correction.
+
+### Operation-hour eligibility must come from non-event source records
+
+A separate frozen input contract and standalone evaluator now support
+the following hypothetical *original-device-log* workflow:
+
+1. Require explicit original station operation start and end timestamps
+   with Asia/Seoul UTC+09:00 offset; reject ambiguous dates/clock
+   fields or source inferred from first/last wildlife photographs.
+2. Union overlapping deployment intervals within physical station
+   to prevent double counting. Union recorded downtime intervals,
+   fail closed if downtime exceeds deployment, then subtract ONCE.
+3. For each of six civil-clock four-hour bins on each of the
+   ORIGINAL 41 rising/falling calendar dates, compute true
+   covered device time. One pair is structurally eligible at a
+   station only when each bin has at least three functional
+   device hours on BOTH dates. Every original source station,
+   including zero-detection stations, remains in the frame.
+4. Aggregate counts by the published UJ1/UJ2 region without
+   exposing individual station IDs, protected-species locations,
+   exact logs, animal detections or scores.
+
+The actual EcoBank ZIP still has NOT been authenticated, downloaded
+or read, and provenance of hardware-original operation records is
+NOT established. Therefore running this evaluator on invented
+operation rows is a unit test, NOT an empirical calculation
+of the study's number of eligible station-day pairs.
+
+This creates an explicit future source/data quality go/no-go:
+if authentic hourly operation records cannot be produced
+independently of wildlife photos, the real paired-season effort
+analysis stays HOLD and the attractive 41 astronomical date
+pairs must never be presented as 41 observed biological replicates.
+
+### Published camera night counts cannot supply spatial independence
+
+The paper reports scheduled/functional camera NIGHTS and only TWO
+study region clusters. Even if individual camera uptime were 100%
+for all mirrored calendar dates, neither 41 paired days nor
+82 cameras is automatically an iid regional population
+replication. Results would be conditional on the sampled forest
+sites, and species detection and ecological mechanisms remain
+unidentified without environmental variables or independent
+observation controls.
