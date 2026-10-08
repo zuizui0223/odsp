@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "audit_id": "odsp-ri-camera-v3-source-attrition-v0",
+  "status": "FROZEN_AFTER_TWO_UNAVAILABLE_SOURCE_RUNS_POSTEXPOSURE_DATA_QUALITY_ONLY",
+  "prior_results": [
+    {
+      "route": "v0",
+      "run_id": 37744643137,
+      "status": "SOURCE_SCHEMA_UNAVAILABLE",
+      "cause": "site and camera frozen aliases missing"
+    },
+    {
+      "route": "v1",
+      "run_id": 37746570977,
+      "status": "EXPLORATORY_V1_UNAVAILABLE",
+      "cause": "no usable 30-minute wildlife events"
+    }
+  ],
+  "source": {
+    "download_url": "https://zenodo.org/records/14508932/files/DataS1.zip?download=1",
+    "md5": "c66943e6c2a9aab0abce2a1eba8ce02e",
+    "source_member_names": [
+      "RI_CameraSurvey_Deployments.csv",
+      "RI_CameraSurvey_Detections.csv"
+    ]
+  },
+  "code": {
+    "method": "Use unchanged v1 literal source fields, source guard, season regex and date parser for a stagewise quality audit",
+    "retain_original_scientific_methods": true,
+    "no_exploratory_endpoint_score_calculated": true
+  },
+  "predeclared_counts": [
+    "Deployment rows and admissible exact four-part joins",
+    "First-rejection stage for each detection row: missing join key, invalid season year, empty/unknown species, unmatched physical deployment key, invalid datetime, DST ambiguous, or candidate usable",
+    "Independent marginal rates for primary site key, season-year coding, species nonmissing, exact join and datetime parsing",
+    "Raw YearSeason category strings and counts ONLY (no camera IDs or species names or detection times)",
+    "DateTime textual FORMAT CLASS counts ONLY (e.g. slash date versus ISO, unclassified)",
+    "Distinct primary sites of structurally usable candidate events, if any"
+  ],
+  "do_not_report": [
+    "real animal taxa, any species label or frequency, any camera/site IDs or exact coordinates",
+    "date or time values, hour/bin/diel outcomes, ecological gain or fitted model coefficients",
+    "any replacement source dataset or posthoc scientific threshold",
+    "retroactive v0/v1 pre-outcome qualification"
+  ],
+  "if_all_event_rows_rejected": "Source v1 remains unavailable. The audit may motivate a separate EXPLORATORY descriptive source harmonization, but no version may retroactively claim confirmatory ecological transfer.",
+  "prior_archive_detection_rows_already_parsed_in_memory": true,
+  "no_fresh_outcome_nonaccess_claim": true,
+  "design_unchanged_historical_routes": true
+}
