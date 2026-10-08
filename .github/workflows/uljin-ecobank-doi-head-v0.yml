@@ -1,0 +1,36 @@
+name: uljin-ecobank-doi-head-only-source-v0
+
+on:
+  push:
+    branches:
+      - ecology/uljin-photoperiod-mirror-design-v0
+    paths:
+      - 'ULJIN_ECOBANK_DOI_HEAD_PROBE_V0_CONTRACT.json'
+      - 'odsp/uljin_ecobank_doi_head_v0.py'
+      - 'scripts/probe_uljin_ecobank_doi_head_v0.py'
+      - 'tests/test_uljin_ecobank_doi_head_v0.py'
+      - '.github/workflows/uljin-ecobank-doi-head-v0.yml'
+  workflow_dispatch:
+
+jobs:
+  doi-head-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Test frozen redirect allowlist and prohibition on body access
+        run: python -m pytest -q tests/test_uljin_ecobank_doi_head_v0.py
+      - name: Check publisher DOI resolution by HTTPS HEAD only
+        run: python scripts/probe_uljin_ecobank_doi_head_v0.py
+      - name: Preserve first source availability receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: uljin-ecobank-doi-head-only-first
+          path: ULJIN_ECOBANK_DOI_HEAD_V0_FIRST_RECEIPT.json
+          if-no-files-found: warn
