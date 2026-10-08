@@ -135,9 +135,20 @@ def event_count_frames(
     clock=phase_to_civil_numpy(phase,sr,ss)
     solar_bin=np.minimum(5,np.floor(phase/4.).astype(int))
     clock_bin=np.minimum(5,np.floor(clock/4.).astype(int))
-    base=(site*2+branch)*6
-    solar=np.bincount(base+solar_bin,minlength=SITES*2*6).reshape(SITES,2,6)
-    civil=np.bincount(base+clock_bin,minlength=SITES*2*6).reshape(SITES,2,6)
+    # Explicitly preserve the ORIGINAL station x date-pair x branch frame.
+    # Conditionally sufficient sums over 41 pairs are taken only AFTER
+    # verifying same-event identity at each independent original pair.
+    base=((site*PAIRS+pair)*2+branch)*6
+    frame_shape=(SITES,PAIRS,2,6)
+    solar_pairs=np.bincount(base+solar_bin,
+                            minlength=SITES*PAIRS*2*6).reshape(frame_shape)
+    civil_pairs=np.bincount(base+clock_bin,
+                            minlength=SITES*PAIRS*2*6).reshape(frame_shape)
+    if not np.array_equal(solar_pairs.sum(axis=3),
+                          civil_pairs.sum(axis=3)):
+        raise ValueError("different events across the time projections")
+    solar=solar_pairs.sum(axis=1)
+    civil=civil_pairs.sum(axis=1)
     if int(solar.sum())!=total or int(civil.sum())!=total:
         raise ValueError("projecting timestamps lost events")
     return civil,solar,total
