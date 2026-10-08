@@ -2,19 +2,20 @@
 from __future__ import annotations
 
 from datetime import datetime
+import json
+from pathlib import Path
 
 import pytest
 
 from odsp import ri_solar_source_v0 as source
 
 
-ALIASES={
-    "site":["Site"],"camera":["Camera"],"species":["Species"],
-    "yearseason":["YearSeason"],"latitude":["Latitude"],
-    "longitude":["Longitude"],
-    "detection_date":["Date"],"detection_time":["Time"],
-    "detection_datetime":["DateTime"],
-}
+# Read the pre-result frozen aliases instead of accidentally testing a
+# narrower, incompatible duplicate alias table (old test omitted SiteID).
+ROOT = Path(__file__).resolve().parents[1]
+ALIASES = json.loads(
+    (ROOT / "ODSP_RI_SOLAR_CLOCK_TRANSFER_V0_CONTRACT.json").read_text()
+)["source_schema_predeclared_aliases"]
 
 
 def test_yearseason_is_explicit_not_inferred_from_photo_calendar_year():
