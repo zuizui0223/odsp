@@ -27,6 +27,7 @@ class EcologicalValidationRosterPreflight:
     validation_block_count_by_group: tuple[tuple[str, int], ...]
     minimum_blocks_per_group: int
     training_source_frame_disjoint_checked: bool
+    identity_namespace_provenance_verified: bool
     row_ids_unique_checked: bool
     group_block_counts_checked: bool
     validation_sampling_iid_verified: bool
@@ -50,6 +51,8 @@ class EcologicalValidationRosterPreflight:
 def _unique(values: Sequence[object], name: str, *, required_count: int = 1) -> tuple[str, ...]:
     if isinstance(values, str):
         raise ValueError(f"{name} must be a sequence, not a string")
+    if any(v is None or isinstance(v, (bool, np.bool_)) for v in values):
+        raise ValueError(f"{name} must contain nonmissing identity values")
     vals = tuple(str(v).strip() for v in values)
     if len(vals) < required_count or any(not v for v in vals) or len(set(vals)) != len(vals):
         raise ValueError(f"{name} must contain unique nonempty IDs")
@@ -82,9 +85,9 @@ def preflight_shared_validation_ecological_roster(
         raise ValueError("minimum_refits must be integer >=8")
     if type(minimum_blocks_per_group) is not int or minimum_blocks_per_group < 8:
         raise ValueError("minimum_blocks_per_group must be integer >=8")
-    names = _unique(ordered_level_names, "ordered_level_names", required_count=3)
-    if len(names) != 3:
+    if len(ordered_level_names) != 3:
         raise ValueError("exactly three ordered prediction levels are required")
+    names = _unique(ordered_level_names, "ordered_level_names", required_count=3)
     refits = _unique(refit_ids, "refit_ids", required_count=minimum_refits)
     src = _unique(training_source_row_ids, "training_source_row_ids")
     val = _unique(validation_row_ids, "validation_row_ids")
@@ -131,6 +134,7 @@ def preflight_shared_validation_ecological_roster(
         validation_block_count_by_group=tuple(block_counts),
         minimum_blocks_per_group=minimum_blocks_per_group,
         training_source_frame_disjoint_checked=True,
+        identity_namespace_provenance_verified=False,
         row_ids_unique_checked=True,
         group_block_counts_checked=True,
         validation_sampling_iid_verified=False,
