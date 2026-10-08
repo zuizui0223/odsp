@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-uljin-operation-only-mirrored-days-hourly-exposure-v0",
+  "state": "PRE_ORIGINAL_OPERATION_RECORD_ACCESS_SOURCE_MISSING",
+  "original_calendar_run": 37771342454,
+  "calendar_contract": "ULJIN_PHOTOPERIOD_MIRROR_2022_V0_DESIGN_CONTRACT.json",
+  "time_zone": "Asia/Seoul",
+  "utc_offset_hours": 9,
+  "source_record_contract": {
+    "expected_version": "EcoBank Version 1.1 only",
+    "source_archive_bytes_available": false,
+    "source_independent_operation_lineage_verified": false,
+    "external_authorised_source_attestation_required": true,
+    "required_fields_after_validated_header": [
+      "Station",
+      "DeploymentStart",
+      "DeploymentEnd",
+      "DowntimeStart",
+      "DowntimeEnd"
+    ],
+    "allowed_region_prefixes": [
+      "UJ1",
+      "UJ2"
+    ],
+    "unknown_station_or_time_columns_fail_closed": true,
+    "timestamp_format": "ISO8601 offset aware +09:00; no inferred time zone or first/last photo fallback",
+    "overlap_union_rule": "union all deployment coverage first; union all downtime before subtraction",
+    "zero_detection_station_retained_in_operation_frame": true
+  },
+  "predeclared_stations_and_pairs": {
+    "original_day_pair_count": 41,
+    "local_clock_bins_hours": [
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        8,
+        12
+      ],
+      [
+        12,
+        16
+      ],
+      [
+        16,
+        20
+      ],
+      [
+        20,
+        24
+      ]
+    ],
+    "minimum_functional_hours_in_EACH_4h_bin": 3,
+    "per_station_day_requires_all_six_bin_minima": true,
+    "matched_pair_requires_both_full_calendar_dates": true,
+    "no_selection_on_species_detection_rows": true,
+    "count_all_original_station_ids_even_if_no_camera_events": true,
+    "minimum_sites_per_region_for_claim": 8,
+    "two_independent_regions_do_not_support_regional_population_inference": true
+  },
+  "output_rules": {
+    "aggregate_only": true,
+    "emit_exact_station_ids": false,
+    "emit_event_or_species_labels": false,
+    "emit_specific_station_coordinates": false,
+    "source_lineage_unverified_status": "HOLD_ORIGINAL_OPERATION_RECORD_LINEAGE_UNVERIFIED",
+    "source_missing_status": "SOURCE_ARCHIVE_NOT_MATERIALIZED",
+    "pair_counts_never_equal_animal_detection_matched_support": true,
+    "no_matched_event_file_access": true,
+    "no_scientific_hysteresis_effect_estimated": true,
+    "do_not_promote_primary_route": true
+  },
+  "hard_stops": [
+    "Missing original source v1.1 archive/operation rows",
+    "Any operation timestamp inferred from animal photographs or nonoriginal source",
+    "Any station ID, time offset or deployment/downtime interval malformed",
+    "Any reused overlapping station timestamp counted twice",
+    "Any evidence that downtime intervals include off-deployment periods requiring posthoc manual repair",
+    "Any attempt to maximize matched support by altering original calendar/date rules or minimum hours",
+    "No original wildlife outcome record may be opened as an input to this evaluator"
+  ]
+}
