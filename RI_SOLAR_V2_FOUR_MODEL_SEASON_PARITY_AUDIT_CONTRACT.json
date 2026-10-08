@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "analysis_id": "ri_solar_v2_frozen_four_model_season_parity_v0",
+  "status": "POST_OUTCOME_ALGEBRAIC_AUDIT_NO_NEW_ECOLOGICAL_DATA",
+  "source": {
+    "first_original_run_id": 37747931559,
+    "first_artifact_id": 11535843980,
+    "artifact_zip_sha256": "af6d0feadbe0c36f40bfb17c96bee42f7ac5c7d73050d2ea6b4920490dd0be1a",
+    "original_json_filename": "RI_SOLAR_CLOCK_YEARSEASON_V2_FIRST_RESULT.json",
+    "original_json_sha256": "5d4bca0efc079ec3ae58d1062d4c1fb4c0b6476b64d56eead6d79e39ae83edab",
+    "original_scientific_status": "EXPLORATORY_NOT_SUPPORTED_OR_UNAVAILABLE",
+    "original_heldout_site_count": 43,
+    "original_scored_events": 19916,
+    "re_download_of_wildlife_source_allowed": false
+  },
+  "question": "Does winter apparent advantage of solar phase over pooled clock prediction survive when both candidates receive the same season label?",
+  "frozen_scoring_contrasts": {
+    "S_vs_C": "mean(log P_solar(Y)-log P_clock(Y))",
+    "SS_vs_S": "mean(log P_solar_season(Y)-log P_solar(Y))",
+    "CS_vs_C": "mean(log P_clock_season(Y)-log P_clock(Y))",
+    "SS_vs_CS": "(S_vs_C)+(SS_vs_S)-(CS_vs_C)"
+  },
+  "required_output": [
+    "winter pooled solar-vs-clock",
+    "summer pooled solar-vs-clock",
+    "winter and summer season-specific solar-vs-season-specific clock",
+    "clock season-conditioning and solar season-conditioning increments",
+    "winter and summer specific season-conditioning advantage attributable to clock over solar",
+    "fixed original negative solar superiority decision",
+    "absence of pairwise adjusted-difference bootstrap interval in original first result",
+    "original site/bootstrap provenance and exploratory data limitations"
+  ],
+  "hard_stops": [
+    "Original JSON SHA mismatch",
+    "Original ecological first-status mismatch",
+    "Original site/event support mismatch",
+    "Missing any of original three component score differences or nonfinite values",
+    "Any attempt to combine confidence interval endpoints from correlated contrasts",
+    "Any empirical p-value or bootstrap recomputation",
+    "Any upgrade of original both-seasons-positive hypothesis to supported",
+    "Any postoutcome selection of taxa, seasons, alternate sun-anchor or score scale"
+  ],
+  "not_claimed": [
+    "An independently preregistered ecological confirmation",
+    "A significant advantage of conditioned clock because original matched covariance for adjusted contrast is unavailable",
+    "Causal daylength, photoperiod or behaviour mechanism",
+    "Equivalence of animal detections to actual animal activity",
+    "Original process-v5 or earlier empirical terminal route reclassification",
+    "A new stochastic refit success-probability endpoint"
+  ]
+}
