@@ -168,6 +168,15 @@ def solar_phase_to_civil_bin_matrix(
     return out
 
 
+@lru_cache(maxsize=50000)
+def cached_solar_transport_matrix(
+    day:date,latitude:float,longitude:float
+)->np.ndarray:
+    return solar_phase_to_civil_bin_matrix(
+        *cached_solar_times(day,latitude,longitude)
+    )
+
+
 @dataclass(frozen=True)
 class DielEvent:
     site_id: str
@@ -306,8 +315,9 @@ def _heldout_clock_probabilities(
     shift_date_days:int=0,
 )->dict[str,np.ndarray]:
     date_to_use=event.day+timedelta(days=shift_date_days)
-    sr,ss=cached_solar_times(date_to_use,round(event.latitude,5),round(event.longitude,5))
-    T=solar_phase_to_civil_bin_matrix(sr,ss)
+    T=cached_solar_transport_matrix(
+        date_to_use,round(event.latitude,5),round(event.longitude,5)
+    )
     return {
         "clock":np.asarray(model.clock,dtype=float),
         "solar":np.asarray(model.solar,dtype=float)@T,
