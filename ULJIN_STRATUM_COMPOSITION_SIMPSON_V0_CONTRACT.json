@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_stratum_specific_season_rate_simpson_v0",
+  "stage": "FROZEN_BEFORE_FIRST_SYNTHETIC_OUTCOME",
+  "parent_pr": 237,
+  "science_question": "Can heterogeneous station×date-pair baseline phase shapes correlated with overall branch-rate change make pooled time-bin model predict a false season-by-time interaction, while exact within-stratum conditioning remains calibrated?",
+  "geometry": "Already solar-phase-normalized, equal full-day observation exposure; this is a different failure mechanism from equation-of-time aliasing",
+  "synthetic_frame": {
+    "physical_sites": 82,
+    "matched_dates_represented": 41,
+    "one_active_matched_pair_per_site": true,
+    "site_to_pair": "floor(site_index/2)",
+    "even_site_type": "early",
+    "odd_site_type": "late",
+    "trained_sites": "0:40",
+    "heldout_sites": "40:82",
+    "strata_independent_in_generator": true,
+    "real_41pair_source_rows_accessed": false
+  },
+  "bin_baselines": {
+    "early": [
+      8,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "late": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      8
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "homogeneous_null",
+      "early_branch_multiplier": 1,
+      "late_branch_multiplier": 1,
+      "shape_log_multipliers": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "composition_confound_null",
+      "early_branch_multiplier": 3,
+      "late_branch_multiplier": 0.3333333333333333,
+      "shape_log_multipliers": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "true_within_stratum_shape",
+      "early_branch_multiplier": 1,
+      "late_branch_multiplier": 1,
+      "shape_log_multipliers": [
+        0.6931471805599453,
+        0.4054651081081644,
+        0,
+        0,
+        -0.40546510810816444,
+        -0.6931471805599453
+      ]
+    }
+  ],
+  "count_scales": [
+    0.1,
+    1.2
+  ],
+  "seed": 2026100823,
+  "worlds_per_case": 100,
+  "estimators": {
+    "pooled": "Existing ODSP six-bin conditional binomial null vs shape (lambda=2) fits training station cells; heldout sites only, 41*6 original cells/site denominator including unobserved other pairs, shape selected when gain>0 (NOT alpha-calibrated)",
+    "partial_pooling": "Penalized logistic beta-binomial cell likelihood with one site-pair intercept per training site and Gaussian log-rate shrinkage; intercept ridge lambda_u=0.2 and lambda_u=10, global six-bin ridge=2. Only descriptive fitted global shape range, not a valid calibrated test nor heldout source-population estimate.",
+    "exact_conditioning": "Heldout site×date-pair bin totals M_ik and branch total D_i conditioned upon; under within-pair phase-invariance yD vector is central multivariate hypergeometric over M. Test statistic sum_k [(sum_i(yDik-Di*Mik/Mi))^2 / (sum_i Var_hypergeo(yDik)+1e-12)] when data has conditional support; Monte Carlo p=(1+#{Tperm>=Tobs})/(1+99) with 99 null draws, alpha=0.05, no split tuning. Conditioning excludes only sites with uninformative zero variance, never redefines site roster."
+  },
+  "controls": [
+    "all pairs retain their 6 bins and any unobserved other 40 pairs remain in denominator",
+    "within each stratum the null scenarios have EXACTLY same phase rate shape on both branches, only branch-wide multiplier allowed",
+    "aggregate early vs late nonuniformity correlated with differing branch multipliers",
+    "actual event counts sampled independently with fixed seed and strict physical site assignment",
+    "stratum-conditional simulated p-values valid under both null worlds",
+    "homogeneous null contrast and true alternative retained, zero and unfavorable outcomes reported",
+    "no post-outcome change to input, conditional statistic, permutation count or threshold"
+  ],
+  "results": [
+    "pooled heldout positive-gain frequency",
+    "mean pooled heldout gain",
+    "partial pooling global bin-beta max-minus-min per penalty",
+    "exact permutation rejection fraction",
+    "median informative heldout site-pairs",
+    "number of theoretically true shape-null strata",
+    "Monte Carlo standard error for frequencies"
+  ],
+  "interpretation": "Mixed estimands: pooled criterion is a heldout predictive choice, partial pooling a non-calibrated descriptive fit, exact conditional permutation a level-0.05 test of within-stratum phase-shape invariance. Do not compare percentages as identical type-I error procedures.",
+  "hard_stops": {
+    "no_real_ungulate_events": true,
+    "no_real_operation_log": true,
+    "not_original_41_calendar_validation": true,
+    "no_primary_route_promotion": true,
+    "retain_failed_results": true
+  }
+}
