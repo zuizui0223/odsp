@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "method_id": "uljin_original_mirror_continuous_solar_phase_exposure_v0",
+  "status": "SOURCE_FREE_ASTRONOMICAL_EXPOSURE_TRANSFORMATION_THEORY_BEFORE_SYNTHETIC_RESULTS",
+  "source_plan": "ULJIN_PHOTOPERIOD_MIRROR_2022_V0_DESIGN_CONTRACT.json",
+  "original_pairs": 41,
+  "original_first_astronomy_run": 37771342454,
+  "privacy_basis": {
+    "latitude": 36.85,
+    "longitude": 129.2,
+    "timezone": "Asia/Seoul",
+    "specific_station_coords_unknown": true
+  },
+  "transformation": {
+    "sunrise_anchor_solar_hour": 6,
+    "sunset_anchor_solar_hour": 18,
+    "solar_phase_bins": [
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        8,
+        12
+      ],
+      [
+        12,
+        16
+      ],
+      [
+        16,
+        20
+      ],
+      [
+        20,
+        24
+      ]
+    ],
+    "jacobian_day": "12/(sunset-sunrise)",
+    "jacobian_night": "12/(24-(sunset-sunrise))",
+    "exposure_definition": "Integrate camera uptime times d(solar phase)/d(civil hour) inside each solar-phase bin",
+    "integral_method": "Exact piecewise affine inverse clips periodic civil segments",
+    "full_day_phase_bin_exposure_hours": 4,
+    "continuous_clock_operating_intervals_required": true,
+    "civil_4hour_uptime_aggregates_sufficient": false,
+    "zero_device_operation_zero_solar_phase_exposure": true,
+    "no_photo_based_inference_of_uptime": true
+  },
+  "theoretical_control": {
+    "frozen_example_pair": [
+      "2022-05-01",
+      "2022-08-13"
+    ],
+    "test_full_operating_day_conservation": true,
+    "test_daylight_only_phase_bins": [
+      0,
+      2,
+      4,
+      4,
+      2,
+      0
+    ],
+    "test_variable_interval_exact_additivity": true,
+    "test_same_phase_time_can_cross_civil_clock_bin_boundary_due_to_equation_of_time": true,
+    "test_no_source_camera_log_or_detection_data_access": true
+  },
+  "next_method_gate": {
+    "solving_clock_bin_confusion_requires_independent_device_start_stop_and_actual_event_time": true,
+    "real_EcoBank_source_still_missing": true,
+    "source_original_model_v0_unqualified": true,
+    "true_camera_hourly_detection_probability_not_proved": true,
+    "no_effect_of_hysteresis_claimed": true,
+    "odsp_original_qualified_routes_untouched": true
+  }
+}
