@@ -1,0 +1,36 @@
+name: uljin-threeway-margin-fiber-bounds-v1
+
+on:
+  push:
+    branches:
+      - method/uljin-threeway-margin-fiber-bounds-v1
+    paths:
+      - 'ULJIN_THREEWAY_MARGIN_FIBER_BOUNDS_V1_CONTRACT.json'
+      - 'odsp/uljin_threeway_margin_fiber_bounds_v1.py'
+      - 'tests/test_uljin_threeway_margin_fiber_bounds_v1.py'
+      - 'scripts/run_uljin_threeway_margin_fiber_bounds_v1.py'
+      - '.github/workflows/uljin-threeway-margin-fiber-bounds-v1.yml'
+  workflow_dispatch:
+
+jobs:
+  first-frozen-exhaustive-integer-fiber:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Validate exact integer completion bounds and both seasonal directions
+        run: python -m pytest -q tests/test_uljin_threeway_margin_fiber_bounds_v1.py
+      - name: First complete frozen enumeration of all positive integer contingency tables
+        run: python scripts/run_uljin_threeway_margin_fiber_bounds_v1.py
+      - name: Archive result without real wildlife data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: uljin-threeway-fiber-bounds-first-v1
+          path: ULJIN_THREEWAY_MARGIN_FIBER_BOUNDS_V1_FIRST_RECEIPT.json
+          if-no-files-found: warn
