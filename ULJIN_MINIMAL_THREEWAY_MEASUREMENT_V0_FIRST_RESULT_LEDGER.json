@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_MINIMAL_THREEWAY_MEASUREMENT_V0_TERMINAL_RESULT",
+  "pr_number": 241,
+  "frozen_contract_commit": "4bb3dd3487858046579a416aad8e7aa9a4d56be3",
+  "first_ci_run": 37794164888,
+  "first_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/37794164888",
+  "first_ci_head": "a9890c7dec3133b14d407da45a95f0624e333206",
+  "first_artifact_id": 11557104054,
+  "first_artifact_sha256": "sha256:9c4210557918ff843c7be8ea78a8311acbba349a619afff0d079d12e089cf83a",
+  "all_64_subsets_evaluated": true,
+  "original_fiber_complete_tables": 2723,
+  "minimum_extra_counts_for_any_possible_observation": {
+    "sign": 2,
+    "exact_odds_ratio": 2,
+    "full_table": 5
+  },
+  "single_last_bin_count": {
+    "all_possible_sign_outcome_classes_identified": false,
+    "remaining_ambiguous_table_completions": 126,
+    "ambiguous_observation_value": [
+      6
+    ],
+    "parent_world_A_first_release": 6,
+    "parent_world_A_sign_unidentified_after_first_release": true,
+    "parent_world_B_first_release": 3,
+    "parent_world_B_sign_resolved_negative_after_first_release": true
+  },
+  "direct_first_last_two_cells_identify_exact_target_or": true,
+  "previous_odsp_inference_routes_unchanged": true,
+  "not_statistical_power_or_sample_size": true,
+  "not_empirical_ecological_detection": true,
+  "completion_frequencies_not_probabilities": true,
+  "status": "EXACT_SOURCE_FREE_TARGET_SPECIFIC_INFORMATION_GRAIN_RESULT"
+}
