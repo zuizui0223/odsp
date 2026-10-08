@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_OUTCOME_FREE_ASTRONOMICAL_DATE_PAIR_RECEIPT",
+  "first_run_id": 37771342454,
+  "first_url": "https://github.com/zuizui0223/odsp/actions/runs/37771342454",
+  "first_method_commit": "306540c2e6f53b089bc4b845c438542a11698920",
+  "first_artifact_id": 11547732148,
+  "first_artifact_zip_digest": "sha256:f82de8e647121285fb9c347167fa5dfbf82878793be888964ca7445b07e53b72",
+  "first_workflow_conclusion": "success",
+  "synthetic_tests_passed": true,
+  "frozen_source_design_commit": "13f989e263287054f0335d04b046071249304b43",
+  "outcome": {
+    "astronomical_pairs": 41,
+    "max_daylength_error_minutes": 0.5443150561737298,
+    "calendar_dates_selected_before_any_animal_detection_access": true,
+    "operation_log_values_read": false,
+    "animal_detection_rows_read": false,
+    "station_day_eligibility_verified": false,
+    "hourly_operational_exposure_verified": false,
+    "operation_log_independent_from_photo_outcomes_attested": false
+  },
+  "source_restriction": {
+    "underlying_82_stations_across_two_clusters": true,
+    "source_download_direct_url_verified": false,
+    "no_empirical_seasonal_hysteresis_claim": true,
+    "original_Rhode_Island_scientific_results_changed": false,
+    "all_ODSP_qualified_routes_unchanged": true
+  }
+}
