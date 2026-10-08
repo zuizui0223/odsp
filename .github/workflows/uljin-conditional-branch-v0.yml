@@ -1,0 +1,36 @@
+name: uljin-zero-preserving-conditional-branch-v0
+
+on:
+  push:
+    branches:
+      - method/uljin-zero-preserving-conditional-rate-v0
+    paths:
+      - 'ULJIN_CONDITIONAL_BINOMIAL_ZERO_PRESERVING_V0_CONTRACT.json'
+      - 'odsp/uljin_conditional_branch_shape_v0.py'
+      - 'tests/test_uljin_conditional_branch_shape_v0.py'
+      - 'scripts/run_uljin_conditional_branch_synthetic_v0.py'
+      - '.github/workflows/uljin-conditional-branch-v0.yml'
+  workflow_dispatch:
+
+jobs:
+  known-truth-branch-models:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install scientific package and tests
+        run: python -m pip install -e '.[dev]'
+      - name: Verify zero-preserving conditional Poisson cancellation and site separation
+        run: python -m pytest -q tests/test_uljin_conditional_branch_shape_v0.py
+      - name: Run FIRST frozen no-shape and shape-change synthetic worlds
+        run: python scripts/run_uljin_conditional_branch_synthetic_v0.py
+      - name: Archive first synthetic result, never wild animal events
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: uljin-zero-preserving-conditional-binomial-first-v0
+          path: ULJIN_CONDITIONAL_BINOMIAL_SYNTHETIC_V0_FIRST_RECEIPT.json
+          if-no-files-found: warn
