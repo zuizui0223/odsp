@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_exact_integer_threeway_fiber_bounds_v1",
+  "stage": "FROZEN_POST_V0_WITNESS_BEFORE_FIRST_ENUMERATION_OUTCOME",
+  "parent_pr": 239,
+  "parent_contract": "ULJIN_THREEWAY_MARGIN_IDENTIFIABILITY_V0_CONTRACT.json",
+  "parent_outcome": "ULJIN_THREEWAY_MARGIN_IDENTIFIABILITY_V0_FIRST_RESULT_LEDGER.json",
+  "prior_witness_seen": "Worlds A and B and first/last phase-bin perturbation were published in PR239; this new contrast is selected post-v0 and is not blind ecological discovery.",
+  "observed_summary": "All three pairwise margins (site×branch, site×phase, branch×phase) from original 2×2×6 world A as one realized exact integer contingency table.",
+  "unobserved_table": "Full 2×2×6 site×branch×phase integer count array.",
+  "fiber_constraints": {
+    "strictly_positive_cell_minimum": 1,
+    "all_3_two_way_margins_fixed_to_world_A": true,
+    "early_rising_first_five_phase_cells_enumerated_in_lexicographic_order": true,
+    "early_rising_last_phase_cell_determined_by_original_early_rising_site_branch_total": true,
+    "remaining_three_site_branch_slices_determined_by_pairwise_margins": true,
+    "no_after_outcome_constraint_relaxation": true
+  },
+  "frozen_target": "Early-site log odds ratio of (falling vs rising rate) at FIRST phase bin relative to LAST bin: log[(F_early,first/R_early,first)/(F_early,last/R_early,last)]; odds ratio exactly 1 indicates no early-vs-late shape shift.",
+  "required_checks": [
+    "all admissible strictly positive integer tables enumerated without sampling",
+    "all reconstructed tables preserve every frozen pairwise margin and total",
+    "both prior World A and World B present in fiber",
+    "min log odds ratio <0, max log odds ratio >0, and at least one exact zero",
+    "report min/max odds ratio and log ratio, maximizing/minimizing full table, counts by shift sign",
+    "do not call the identification interval a statistical confidence interval",
+    "do not infer that the joint distribution of all overlapping pairwise-margin measurements is identical under sampling",
+    "no real biological, camera or device event records accessed"
+  ],
+  "interpretation": {
+    "algorithmic_exact_enumeration_not_p_value": true,
+    "conditional_on_a_single_complete_set_of_pairwise_count_margins": true,
+    "probability_model_for_missing_cell_completion_not_supplied": true,
+    "detection_not_equivalent_to_latent_behavior": true,
+    "new_general_identifiability_theorem": false,
+    "odsp_qualified_routes_unchanged": true
+  }
+}
