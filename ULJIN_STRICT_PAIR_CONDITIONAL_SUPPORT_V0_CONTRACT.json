@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_41pair_strict_conditional_support_feasibility_v0",
+  "stage": "FROZEN_ANALYTIC_SOURCE_FREE_BEFORE_FIRST_SUPPORT_OUTPUT",
+  "parent_design": "ULJIN_PHOTOPERIOD_MIRROR_2022_V0_DESIGN_CONTRACT.json",
+  "parent_statistical_routes": [
+    "method/uljin-finite-sample-clock-alias-selection-v0",
+    "method/uljin-geometry-neutral-paired-placebo-v1"
+  ],
+  "public_benchmark_only": {
+    "published_yearwide_independent_event_counts": {
+      "goral": 2317,
+      "water_deer": 814,
+      "roe_deer": 808,
+      "wild_boar": 684
+    },
+    "published_site_count": 82,
+    "originally_predeclared_pair_count": 41,
+    "released_calendar_span": "2022-05-01 to 2023-05-22",
+    "raw_event_rows_read": false
+  },
+  "estimand": "Under IID independent events uniformly assigned to all 82x41 physical-site/date-pair cells, retained in a synthetic selected-day fraction f and independently balanced between two branches, the EXPECTED NUMBER of site-pairs with >=1 detection on each branch. This is a necessary (not sufficient) support condition for strict per-site-pair conditional exchangeability that fixes both observed branch totals; NOT a power bound for the original pooled conditional-Poisson regression.",
+  "formula": "G*(1-2*(1-f/(2G))^N+(1-f/G)^N), G=82*41, N=full-year taxon count",
+  "selected_day_event_retention_scenarios": [
+    1,
+    0.25,
+    0.1
+  ],
+  "assumptions": [
+    "published full-year events can be hypothetically independently assigned to 41 mirrored 2022 pairs even if actual dates would not match",
+    "station and pair assignment uniformly random and detection events independent",
+    "branch probability exactly 1/2 within each assigned site-pair",
+    "no variation among site-pairs in occurrence, camera functioning, species presence or event deduplication",
+    "fraction f a scenario only, never derived from day fraction or real operating window"
+  ],
+  "ancillary_metrics": [
+    "expected number of site-pairs with >=2 pooled detection events",
+    "theoretical combinatorial maximum number of both-branch site pairs floor(N/2) at f=1; not an estimate",
+    "strict conditional permutable phase labels also require events in more than one phase bin, not tested here"
+  ],
+  "scientific_guardrails": [
+    "a one-sided detection is informative under existing common-beta conditional Poisson regression when both branch exposures are positive, even if pair branch totals are not both positive",
+    "do not treat this expectation as an observed count or a distribution-free upper bound",
+    "does not indicate confidence interval, p-value, test size, future study validity, or causal ecology",
+    "full-year count scenarios are optimistic illustrative supplies, not all on original paired dates",
+    "actual retained source events and independent device activity are unknown",
+    "no source download, real animal detection rows, GPS or archived inference reclassification"
+  ],
+  "reporting": "all four taxa and pooled all-year total, all fractions, plus clear rate/exchangeability warning; freeze before output"
+}
