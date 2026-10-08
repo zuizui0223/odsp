@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "method_id": "uljin_mirror_exposure_offset_conditional_binomial_v0",
+  "status": "FROZEN_SYNTHETIC_METHOD_ONLY_BEFORE_ANY_ECOBANK_EVENT_SOURCE_ACCESS",
+  "relationship": {
+    "original_2022_mirror_dates": "ULJIN_PHOTOPERIOD_MIRROR_2022_V0_DESIGN_CONTRACT.json",
+    "date_pairs_unchanged": true,
+    "actual_source_url_or_operation_log_independence_verified": false,
+    "original_Uljin_41_pairs_qualified": false
+  },
+  "estimand": "Among otherwise eligible same-station same-taxon same-photoperiod paired dates, conditional distribution of detection counts between falling vs rising branches as a function of six civil-clock bins after actual per-bin camera uptime offset, with arbitrary station-pair-species-bin baseline intensity conditioned away.",
+  "conditional_likelihood": {
+    "rising_counts": "Y_A ~ Poisson(E_A * lambda_{station,pair,taxon,bin})",
+    "falling_counts": "Y_D ~ Poisson(E_D * lambda_{station,pair,taxon,bin} * exp(beta_bin))",
+    "given_total": "Y_D | (Y_A+Y_D)=N ~ Binomial(N, sigmoid(log(E_D/E_A)+beta_bin))",
+    "nuisance_rate_cancels": true,
+    "n_total_zero": "retain original station x pair x taxon x clock-bin in source roster, conditional loglik zero and does not provide within-pair branch information",
+    "single_side_detection": "include; never require events in both branches",
+    "single_side_exposure_zero": "zero-count known deterministic and no conditional branch inference; retain and mark uninformative",
+    "positive_count_at_zero_exposure": "FAIL_CLOSED",
+    "time_bin": "6 fixed 4-hour Asia/Seoul civil-clock categories",
+    "not_independent_of_camera_detection_bias": true,
+    "species_level_detection_burst_dedup_required_before_counts": true
+  },
+  "comparators": {
+    "null": "common beta across all six bins: overall branch change in detection RATE can occur; no diel shape change",
+    "alternative": "six beta_bin with penalty toward common mean: branch×time-bin interaction beyond constant overall branch effect",
+    "penalty_lambda": 2,
+    "intercept_ridge": 0.000001,
+    "newton_max_iterations": 120,
+    "newton_gradient_tolerance": 1e-9,
+    "logit_clip": 25,
+    "fixed_non_outcome_algorithm": true,
+    "training_only_fit": true,
+    "heldout_likelihood_diff": "heldout conditional log probability alternative minus null; binomial combinatorial factor cancels",
+    "preferred_result_unit": "entire physical station, not repeated date-pair/bin/event",
+    "mean_gain": "equal physical station average of within-station per original pair×bin logscore delta, including double-zero cells at zero contribution",
+    "secondary_mean": "sum heldout logscore gain per informative total events, descriptive",
+    "region": "Report UJ1 and UJ2 separately with no region-population inference",
+    "all_stations_in_roster_including_zero_detections": true
+  },
+  "synthetic_precommit": {
+    "seed": 2026100804,
+    "known_truth_worlds": [
+      "no_shape_change_overall_branch_rate_change_allowed",
+      "branch_by_time_bin_shape_change"
+    ],
+    "test_null_gain": "True common beta is representable by both; ideal alternative cannot improve population expected log score at given offset and time-bin",
+    "test_alt_gain": "Known beta_bin with heterogeneous signs/scale beats best common beta in expected heldout score",
+    "test_unequal_exposure": "Changing E_A/E_D alters conditional probabilities; raw count ratio without offset is wrong",
+    "test_zero_retention": "all-zero bins preserved; one-sided detection contributes; no-exposure+positive count rejected",
+    "positive_detection_only_selection_forbidden": true,
+    "no_source_archive_download": true
+  },
+  "hard_stops": [
+    "No original EcoBank v1.1 event/downtime rows may be opened by this method test",
+    "Source station/date operational uptime must be independently attested before scientific inference",
+    "Null includes overall branch rate shift so shape cannot be explained solely by more detections in falling branch",
+    "No post-outcome change of penalty, split, heldout unit, score denominator, taxon groups, dates or binning",
+    "No random iid station inference from UJ1/UJ2 pooled clusters",
+    "Does not identify causal photoperiod memory: temperature, camera sensitivity, vegetation and other branch-related factors remain possible",
+    "Neither prior Rhode Island exploratory results nor ODSP qualified inference routes are reclassified"
+  ]
+}
