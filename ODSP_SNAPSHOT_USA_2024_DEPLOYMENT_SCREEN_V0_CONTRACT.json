@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-snapshot-usa-2024-deployment-structural-screen-v0",
+  "status": "PRE_DEPLOYMENT_CSV_CONTENT_ACCESS_DESIGN_FREEZE",
+  "design_freeze_date": "2026-10-08",
+  "target_route": "experimental future-refit shared-validation e-IUT v0; structural screen ONLY",
+  "published_source": {
+    "dataset": "SNAPSHOT USA 2024: Year 6 of the coordinated national camera trap survey",
+    "doi": "10.5061/dryad.bnzs7h4qf",
+    "release_date": "2026-06-01",
+    "provider": "Dryad",
+    "metadata_filename": "ssusa_2024_deployments.csv",
+    "metadata_download_url": "https://datadryad.org/downloads/file_stream/4788613",
+    "documentation_url": "https://datadryad.org/dataset/doi:10.5061/dryad.bnzs7h4qf",
+    "forbidden_sequence_filename": "ssusa_2024_sequences.csv",
+    "metadata_md5_or_sha256_preknown": false
+  },
+  "preexisting_exposure": {
+    "public_webpage_aggregate_counts_and_variable_schema_read": true,
+    "actual_deployment_csv_records_read_before_this_freeze": false,
+    "sequence_detection_rows_read_in_this_project": false,
+    "complete_prior_historical_outcome_nonaccess_attested": false
+  },
+  "allowed_columns_only": [
+    "Project",
+    "State",
+    "Camera_Trap_Array",
+    "Site_Name",
+    "Deployment_ID",
+    "Start_Date",
+    "End_Date",
+    "Survey_Nights",
+    "Latitude",
+    "Longitude",
+    "Habitat",
+    "Development_Level",
+    "Feature_Type"
+  ],
+  "forbidden_information": [
+    "any content of ssusa_2024_sequences.csv",
+    "Sequence_ID",
+    "Start_Time",
+    "End_Time",
+    "Species",
+    "Common_Name",
+    "Class",
+    "Order",
+    "Family",
+    "Genus",
+    "Behavior",
+    "Group_Size",
+    "per-sequence detections, taxonomy, observed activity-time distributions",
+    "any held-out model scores or validation outcomes"
+  ],
+  "fixed_site_key": "(Project, Camera_Trap_Array, Site_Name), preserving all three as plain normalized identifiers",
+  "duplicate_deployment_handling": {
+    "site_habitat_group_conflict": "exclude site from selected-group counts",
+    "site_state_or_array_conflict": "flag and fail conservatively",
+    "survey_effort_rule": "maximum nonmissing Survey_Nights of any single deployment at the site; NEVER sum overlapping deployments",
+    "coordinate_consistency": "record counts of conflicts without publishing site coordinates",
+    "distinct_site_count_not_deployment_count": true
+  },
+  "predeclared_group_definition": {
+    "group_a": "forest",
+    "group_b": "grassland",
+    "normalization": "strip and casefold; select when 'forest' in Habitat or 'grassland' in Habitat; exclude if neither/both",
+    "no_group_switching_after_metadata_results": true,
+    "per_site_minimum_survey_nights": 30,
+    "per_group_minimum_distinct_sites": 8,
+    "per_group_minimum_distinct_arrays": 8,
+    "cannot_call_sites_or_arrays_iid_from_count": true
+  },
+  "secondary_outcome_blind_structural_sensitivity": {
+    "feature_filter": "exclude if any Feature_Type string for a site contains trail, road, water, bait, feeder or salt; do not change after seeing counts",
+    "no_outcome_bearing_data_opened": true,
+    "cannot_replace_predeclared_primary_count": true
+  },
+  "counting_and_reporting": {
+    "report_only_aggregate_counts": true,
+    "do_not_publish_precise_camera_coordinates": true,
+    "distinct_site_key_requires_nonmissing_fields": true,
+    "array_identity": "Project + Camera_Trap_Array",
+    "report": "total deployment records, distinct sites, arrays and states; group-specific site/array/state counts, effort-qualified sites, secondary feature-filtered counts, duplicate/ambiguous IDs, structural ceiling",
+    "id_cross_year_source_frame_overlap_verified": false,
+    "sampling_design_iid_verified": false,
+    "candidate_primary_qualification": false,
+    "post_outcome_endpoint_reclassification": false
+  },
+  "gate": {
+    "metadata_download_and_csv_integrity": "required",
+    "primary_group_structural_minima": "both groups >= 8 independent-looking site IDs and >= 8 arrays after effort floor",
+    "if_passing": "STRUCTURAL_COUNTS_ONLY_UNVERIFIED_INDEPENDENCE",
+    "if_failing": "HOLD_INSUFFICIENT_STRUCTURAL_COUNTS",
+    "automatic_primary_route_promotion": false
+  },
+  "hard_stops": [
+    "No source sequence or response/timestamp file may be opened, downloaded or summarized by this screen.",
+    "Do not infer the true number of statistically independent validation blocks from row, site or array identifiers.",
+    "Do not claim validation population inference, unbiased ecological sampling, iid process refits, external untouched outcome or prospective empirical qualification.",
+    "Do not change group mapping, selection thresholds or sensitivity filters after first metadata outcome.",
+    "If metadata download fails, report SOURCE_METADATA_UNAVAILABLE rather than substituting another file.",
+    "Metadata screen is explicitly post-publication and does not erase previously public aggregate information."
+  ]
+}

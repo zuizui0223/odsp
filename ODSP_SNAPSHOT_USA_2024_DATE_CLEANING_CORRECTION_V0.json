@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "record_type": "POST_FREEZE_PUBLICATION_METHODS_SEMANTICS_CORRECTION",
+  "source": "Rooney et al. 2026, Global Ecology and Biogeography e70229, DOI 10.1111/geb.70229",
+  "source_pdf_page": "8/28 (zero-index PDF page 7)",
+  "verbatim_summary": "The study authors modified the Start_Date and End_Date values in the deployment metadata using the dates of the first and last photographic images from the sequence file; camera trap-nights also use first/last image times.",
+  "source_paper_url": "https://drewrdavis.com/wp-content/uploads/2026/04/rooney.etal_.2026_geb_snapshotusa_2024.pdf",
+  "dataset_readme_url": "https://datadryad.org/dataset/doi:10.5061/dryad.bnzs7h4qf",
+  "prior_assumption_rejected": "Nominal field dictionary labels (camera placed / retrieved) do not imply the distributed curated date values were untouched by image observations.",
+  "original_v0_contract_modified": false,
+  "original_v0_analysis_thresholds_modified": false,
+  "original_v0_downloaded_sequence_rows": false,
+  "original_v0_can_still_report_retrospective_structural_deployment_counts": true,
+  "original_v0_can_certify_pre_outcome_sampling_roster": false,
+  "calendar_v1_can_fix_by_using_published_start_end_dates": false,
+  "active_route_registry_modified": false,
+  "original_ecological_endpoints_reclassified": false,
+  "no_animal_labels_or_individual_photo_times_accessed_for_this_correction": true,
+  "next_steps": "Require separate genuine hardware deployment records or prospectively collected logs, independent of animal detection records; if unavailable stop future-refit probability primary endpoint for this source.",
+  "status": "HARD_STOP_FOR_UNTOUCHED_EXTERNAL_SITE_SELECTION"
+}

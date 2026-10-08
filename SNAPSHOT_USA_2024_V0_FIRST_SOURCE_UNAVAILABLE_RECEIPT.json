@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "status": "SOURCE_METADATA_UNAVAILABLE_OR_INVALID",
+  "source_url": "https://datadryad.org/downloads/file_stream/4788613",
+  "first_workflow_run_id": 37730099337,
+  "first_method_head_sha": "04ce4917985e1783c224c9cc83ec333637b5a23a",
+  "source_contract_sha256": "ec537665a43684608d79043c0549cd3ec405b22ea2c2a58c6dfcd507da0b1882",
+  "failure_class": "HTTPError",
+  "error_message": "HTTP Error 403: Forbidden",
+  "source_bytes_obtained": false,
+  "source_metadata_counts_computed": false,
+  "response_or_sequences_downloaded": false,
+  "frozen_primary_groups_changed": false,
+  "alternative_source_url_substituted": false,
+  "protocol_remains_nonprimary": true,
+  "registered_confirmatory_route_modified": false,
+  "artifact_id": 11531445170,
+  "artifact_zip_sha256": "4d86f9c2e25fe52720b17381b2aeca4d2a2d9ed2583b6e77d2efa1024a5fd435",
+  "artifact_url": "https://github.com/zuizui0223/odsp/actions/runs/37730099337/artifacts/11531445170",
+  "semantics_additional_stop": "Dates and Survey_Nights are photo-corrected in the published release, so no untouched external site-selection claim even if metadata download were later possible.",
+  "chronology": "after frozen v0 first-run transport failure; distinct receipt, not a revised frozen v0 gate"
+}
