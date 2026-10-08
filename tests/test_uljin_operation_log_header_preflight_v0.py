@@ -46,6 +46,7 @@ def _zip(ops=None, *, omit=None, extra=()):
 
 
 def test_first_operation_line_only_reproduces_non_admission_receipt(monkeypatch):
+    data=_zip()
     original_open=zipfile.ZipFile.open
     opened=[]
     def spy(self,name,*args,**kwargs):
@@ -55,7 +56,6 @@ def test_first_operation_line_only_reproduces_non_admission_receipt(monkeypatch)
             raise AssertionError("preflight tried to open a non-operation member")
         return original_open(self,name,*args,**kwargs)
     monkeypatch.setattr(zipfile.ZipFile,"open",spy)
-    data=_zip()
     out=inspect_uljin_operation_header_only(data,PLAN)
     assert opened==[OPERATION]
     assert out["source_archive_sha256"]==hashlib.sha256(data).hexdigest()
