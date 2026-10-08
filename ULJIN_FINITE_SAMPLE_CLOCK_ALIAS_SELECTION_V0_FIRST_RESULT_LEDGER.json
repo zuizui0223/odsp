@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_PRE_FROZEN_NINE_CASE_FINITE_SAMPLE_OUTCOME_LEDGER",
+  "pr": 235,
+  "frozen_contract_commit": "ea9d7daca0e325c599662c6b610073fe41ccdacb",
+  "first_method_successful_ci_run": 37785082115,
+  "first_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/37785082115",
+  "first_ci_head_sha": "397efd713a837a166c344aee004d9a801e5b1303",
+  "first_artifact_id": 11553687440,
+  "first_artifact_digest": "sha256:38fb9ad783fcbf159a218e3e050ca28bd5af35c7ee549ed7b3078e9644e6caed",
+  "focused_tests": "success",
+  "full_panel": "success",
+  "synthetic_worlds_per_case": 200,
+  "cases": [
+    {
+      "profile": "uniform_phase",
+      "expected_total_events": 462,
+      "clock_only_selection_fraction": 0.08,
+      "clock_selection_fraction": 0.205,
+      "phase_selection_fraction": 0.2,
+      "mean_civil_gain": -0.00016528367110652683,
+      "mean_phase_gain": -0.0001770047071249552
+    },
+    {
+      "profile": "uniform_phase",
+      "expected_total_events": 4623,
+      "clock_only_selection_fraction": 0.08,
+      "clock_selection_fraction": 0.165,
+      "phase_selection_fraction": 0.17,
+      "mean_civil_gain": -0.00023018386576594718,
+      "mean_phase_gain": -0.00025161602902609275
+    },
+    {
+      "profile": "uniform_phase",
+      "expected_total_events": 46230,
+      "clock_only_selection_fraction": 0.11,
+      "clock_selection_fraction": 0.155,
+      "phase_selection_fraction": 0.115,
+      "mean_civil_gain": -0.00024371366218131749,
+      "mean_phase_gain": -0.0002796733013328575
+    },
+    {
+      "profile": "smooth_morning",
+      "expected_total_events": 462,
+      "clock_only_selection_fraction": 0.075,
+      "clock_selection_fraction": 0.17,
+      "phase_selection_fraction": 0.165,
+      "mean_civil_gain": -0.00018489507084466387,
+      "mean_phase_gain": -0.00020413107602495944
+    },
+    {
+      "profile": "smooth_morning",
+      "expected_total_events": 4623,
+      "clock_only_selection_fraction": 0.15,
+      "clock_selection_fraction": 0.245,
+      "phase_selection_fraction": 0.16,
+      "mean_civil_gain": -0.0002097419742953967,
+      "mean_phase_gain": -0.00023250467855753874
+    },
+    {
+      "profile": "smooth_morning",
+      "expected_total_events": 46230,
+      "clock_only_selection_fraction": 0.155,
+      "clock_selection_fraction": 0.235,
+      "phase_selection_fraction": 0.175,
+      "mean_civil_gain": -0.00022994958600126313,
+      "mean_phase_gain": -0.0002452226046281248
+    },
+    {
+      "profile": "smooth_evening",
+      "expected_total_events": 462,
+      "clock_only_selection_fraction": 0.125,
+      "clock_selection_fraction": 0.22,
+      "phase_selection_fraction": 0.175,
+      "mean_civil_gain": -0.0001773204514045393,
+      "mean_phase_gain": -0.00020010753373041285
+    },
+    {
+      "profile": "smooth_evening",
+      "expected_total_events": 4623,
+      "clock_only_selection_fraction": 0.13,
+      "clock_selection_fraction": 0.21,
+      "phase_selection_fraction": 0.18,
+      "mean_civil_gain": -0.00021258631404584276,
+      "mean_phase_gain": -0.00022484204827068451
+    },
+    {
+      "profile": "smooth_evening",
+      "expected_total_events": 46230,
+      "clock_only_selection_fraction": 0.255,
+      "clock_selection_fraction": 0.36,
+      "phase_selection_fraction": 0.13,
+      "mean_civil_gain": -0.00014132121637089779,
+      "mean_phase_gain": -0.00024365019862694813
+    }
+  ],
+  "material_boundaries": {
+    "all_mean_civil_gain_negative": true,
+    "rule_is_unadjusted_heldout_gain_gt_zero": true,
+    "not_calibrated_frequentist_type_I_error": true,
+    "no_empirical_ungulate_data_used": true,
+    "geometry_attribution_not_identified_by_clock_only_statistic_alone": true,
+    "next_control_requires_new_frozen_route": true,
+    "existing_qualified_odsp_routes_unchanged": true,
+    "synthetic_first_outcome_retained_without_posthoc_parameter_changes": true
+  }
+}
