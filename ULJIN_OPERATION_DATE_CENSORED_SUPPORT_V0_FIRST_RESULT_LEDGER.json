@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_SOURCE_FREE_ULJIN_DATE_CENSORED_DEVICE_HOURS_RESULT",
+  "pr_number": 244,
+  "pre_result_contract_sha": "4fcb5a150fdd8d19ef617ee85eb7991e83e3620a",
+  "first_method_workflow_run": 37798623181,
+  "first_method_workflow_status": "FAILED_FOCUSED_TEST_ONLY_BEFORE_OUTCOME",
+  "first_method_failure_reason": "Expected 40 unaffected mirrored pairs after Apr30-May02 outage, incorrectly ignored the second frozen ascending day May02 as an ambiguous downtime end-date",
+  "frozen_inference_contract_changed_after_failure": false,
+  "first_test_correction_commit": "60165bbd3da3076e4636102f0570e8deb1e02116",
+  "script_guard_followup_commit": "e39d5f34c874dd0bddc98a19bcb2ffbb5c00b72c",
+  "first_complete_ci_run": 37798789271,
+  "first_complete_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/37798789271",
+  "first_scored_head": "60165bbd3da3076e4636102f0570e8deb1e02116",
+  "first_complete_artifact_id": 11560180610,
+  "first_complete_artifact_digest": "sha256:84f843a4e117d8ba54979f0d1ee50903967f7d2f6c398b0b1e506f694a17130c",
+  "results": {
+    "full_interior_days": {
+      "eligible": 41,
+      "ineligible": 0,
+      "ambiguous": 0
+    },
+    "deployment_boundary_start": {
+      "eligible": 40,
+      "ineligible": 0,
+      "ambiguous": 1
+    },
+    "one_calendar_day_unknown_hour_outage": {
+      "eligible": 40,
+      "ineligible": 0,
+      "ambiguous": 1
+    },
+    "full_interior_outage_with_two_boundary_dates": {
+      "eligible": 39,
+      "ineligible": 1,
+      "ambiguous": 1
+    },
+    "one_calendar_day_deployment": {
+      "eligible": 0,
+      "ineligible": 41,
+      "ambiguous": 0
+    },
+    "unknown_downtime_completeness": "HOLD_DOWNTIME_COMPLETENESS_UNKNOWN"
+  },
+  "interpretation": {
+    "structural_roster_hour_bound_only": true,
+    "exact_likelihood_hour_offsets_identified": false,
+    "real_EcoBank_archive_downloaded": false,
+    "real_hourly_hardware_log_verified": false,
+    "real_animal_detection_events_opened": false,
+    "source_original_independence_attested": false,
+    "real_Uljin_support_inferred": false,
+    "existing_ODSP_routes_untouched": true
+  },
+  "status": "SOURCE_FREE_SYNTHETIC_PARTIAL_IDENTIFICATION_ONLY"
+}

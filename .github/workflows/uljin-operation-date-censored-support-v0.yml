@@ -1,0 +1,36 @@
+name: uljin-operation-date-censored-support-v0
+
+on:
+  push:
+    branches:
+      - method/uljin-operation-day-censored-support-v0
+    paths:
+      - 'ULJIN_OPERATION_DATE_CENSORED_SUPPORT_V0_CONTRACT.json'
+      - 'odsp/uljin_operation_date_censored_support_v0.py'
+      - 'tests/test_uljin_operation_date_censored_support_v0.py'
+      - 'scripts/run_uljin_operation_date_censored_support_v0.py'
+      - '.github/workflows/uljin-operation-date-censored-support-v0.yml'
+  workflow_dispatch:
+
+jobs:
+  first-source-free-interval-censoring:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install package
+        run: python -m pip install -e '.[dev]'
+      - name: Validate 41-pair interval bounds, outage union, ambiguity and source embargo
+        run: python -m pytest -q tests/test_uljin_operation_date_censored_support_v0.py
+      - name: Score first frozen synthetic 3-state camera-hour support worlds
+        run: python scripts/run_uljin_operation_date_censored_support_v0.py
+      - name: Archive source-free first operation support bounds only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: uljin-operation-date-censored-first-v0
+          path: ULJIN_OPERATION_DATE_CENSORED_SUPPORT_V0_FIRST_RECEIPT.json
+          if-no-files-found: warn
