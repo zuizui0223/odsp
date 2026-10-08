@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "record_type": "POST_OUTCOME_FIRST_SITE_PAIRED_FOUR_MODEL_PARITY_BOOTSTRAP_LEDGER",
+  "first_run_id": 37767836871,
+  "first_run_url": "https://github.com/zuizui0223/odsp/actions/runs/37767836871",
+  "first_method_head_sha": "417e306656447a4ed913521bda8037fd1fa0178a",
+  "first_artifact_id": 11546512179,
+  "first_artifact_zip_digest": "sha256:14aed4711e46fac93ffd3a505fb7f479dda970c74d02051c76aae33506a36640",
+  "first_frozen_design_commit": "34424af7b45b601425323590410693807151d99c",
+  "underlying_original_ecological_run_id": 37747931559,
+  "underlying_first_scientific_status": "EXPLORATORY_NOT_SUPPORTED_OR_UNAVAILABLE",
+  "original_exact_replay": {
+    "scored_events": 19916,
+    "heldout_physical_sites": 43,
+    "winter_original_mean": 0.02745845931504319,
+    "summer_original_mean": -0.0325742873706785,
+    "original_site_bootstrap_lower_bounds_exactly_replayed": true
+  },
+  "season_conditioned_solar_minus_clock": {
+    "winter": {
+      "mean_nats": -0.03865692455840766,
+      "postoutcome_site_multiplier_bootstrap_95_lower_nats": -0.04826266106422382,
+      "postoutcome_site_multiplier_bootstrap_95_upper_nats": -0.028673766076227757,
+      "descriptive_interval_excludes_zero": true
+    },
+    "summer": {
+      "mean_nats": -0.03818343334446123,
+      "postoutcome_site_multiplier_bootstrap_95_lower_nats": -0.046560250581605477,
+      "postoutcome_site_multiplier_bootstrap_95_upper_nats": -0.029713407101968826,
+      "descriptive_interval_excludes_zero": true
+    }
+  },
+  "bootstrap": {
+    "draws": 2000,
+    "seed": 2026100803,
+    "unit": "physical Primary.Site.ID",
+    "same_site_weights_across_both_seasons_and_original_score_contrasts": true,
+    "postoutcome_interval_no_confirmatory_coverage": true,
+    "spatial_iid_not_verified": true
+  },
+  "model_capacity_limitation": {
+    "solar_to_clock_mapping_stochastic_and_restrictive": true,
+    "equal_nominal_histogram_parameter_count_not_equal_clock_space_expressivity": true,
+    "clock_better_as_prediction_family_not_proof_of_organisms_selecting_clock_over_sun": true
+  },
+  "camera_hardware_operational_hours_or_detection_propensity_verified": false,
+  "organism_clock_or_solar_causality_identified": false,
+  "original_both_season_solar_superiority_supported": false,
+  "original_v0_v1_v2_or_ODSP_qualified_routes_reclassified": false,
+  "postoutcome_receipt_materialized": true
+}
