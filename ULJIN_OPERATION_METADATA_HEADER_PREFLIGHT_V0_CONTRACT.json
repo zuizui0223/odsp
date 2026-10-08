@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-uljin-operation-metadata-header-preflight-v0",
+  "state": "FROZEN_BEFORE_ANY_RAW_ECOBANK_OPERATION_OR_DETECTION_RECORD_ACCESS",
+  "source": {
+    "doi": "10.22756/ETC.20260000001022",
+    "release": "Version 1.1",
+    "known_archive_download_url": null,
+    "expected_csv_member": "01_core_data/camera_operation_log.csv",
+    "forbidden_csv_member": "01_core_data/cameratrap_event_records.csv",
+    "expected_manifest": "03_documentation/MANIFEST.tsv",
+    "source_integrity_digest_known": false
+  },
+  "preflight": {
+    "permitted_input": "user_provided_canonical_v1p1_EcoBank_ZIP",
+    "read_only": "ZIP central directory metadata and first UTF8 CSV header line of 01_core_data/camera_operation_log.csv",
+    "forbid_opening_any_detection_file": true,
+    "forbid_reading_operation_data_rows": true,
+    "report_only_nonidentifying_file_names_and_headers": true,
+    "max_archive_bytes": 50000000,
+    "max_member_count": 100,
+    "max_one_member_expanded_bytes": 100000000,
+    "max_total_expanded_bytes": 200000000,
+    "max_operation_header_line_bytes": 65536,
+    "reject_extra_or_duplicate_operation_log_csv_members": true,
+    "reject_absolute_parent_relative_or_encrypted_paths": true,
+    "reject_archive_substitution_or_unknown_manifest_version": true,
+    "minimum_schema_admission_conditions": [
+      "Unambiguous Station ID",
+      "start/end deployment times or dates",
+      "documented downtime encoding"
+    ],
+    "downloadless_test_mode_requires_only_synthetic_archives": true
+  },
+  "substantive_admission": {
+    "original_installation_retrieval_source_independence_verified": false,
+    "hourly_start_end_and_downtime_interval_availability_verified": false,
+    "site_station_sampling_iid_verified": false,
+    "full_original_training_source_frame_exclusion_verified": false,
+    "paired_station_day_effort_computed": false,
+    "animal_detection_records_opened": false,
+    "outcome_scoring_qualified": false,
+    "may_not_auto_promote_even_after_header_pass": true
+  },
+  "fail_closed_result": "SOURCE_ARCHIVE_NOT_MATERIALIZED_OR_STRUCTURAL_HEADER_HOLD",
+  "original_calendar_first_result_changed": false,
+  "prior_ODSP_empirical_or_qualified_routes_changed": false
+}
