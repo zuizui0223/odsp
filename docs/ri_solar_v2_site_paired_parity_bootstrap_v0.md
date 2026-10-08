@@ -90,3 +90,53 @@ The current outcome (before first workflow) is **not yet known**.
 
 Frozen design:
 RI_SOLAR_V2_SITE_PAIRED_SEASON_PARITY_BOOTSTRAP_CONTRACT.json.
+
+
+## FIRST OFFICIAL post-outcome covariance recovery: completed
+
+Run: https://github.com/zuizui0223/odsp/actions/runs/37767836871
+
+The original source/model replay passed all hard gates, including the
+19,916 original scored detections, 43 original heldout sites,
+the original winter and summer pooled solar-versus-clock mean
+log gains AND both original one-sided site-bootstrap lower bounds.
+Synthetic site-resampling tests also passed.
+
+The subsequently calculated SAME-site paired percentile bootstrap of
+the season-conditioned four-model identity gave:
+
+| Season | Mean adjusted solar minus clock (nats) | Exploratory 2.5%–97.5% paired-site interval |
+|---|---:|---:|
+| Winter | -0.03865692 | [-0.04826266, -0.02867377] |
+| Summer | -0.03818343 | [-0.04656025, -0.02971341] |
+
+Both interval endpoints are negative. This is meaningful internal
+evidence that the season-conditioned CLOCK histogram predicts heldout
+six-bin camera detection times more effectively under the specified
+original site-weighting convention, not just because of an anomalous
+single site. This interval remains POST-RESULT EXPLORATORY, and
+spatial site-iid assumptions have not been validated. It cannot
+be described as independent confirmatory significance or a
+robustness proof for a new ecological population.
+
+**Major substantive caveat:** The solar-phase six-bin model is
+pushed forward via a 6x6 row-stochastic mixing matrix that can
+restrict its representable civil-clock probabilities to a strict
+convex hull. A direct clock histogram can be more expressive on
+the SAME six-clock-bin target, despite an equal number of
+nominal parameters. The paired interval does not distinguish
+intrinsic ecological civil-clock organization from this
+representation/regularization limitation, let alone seasonal
+variation in photographic detection.
+
+The correct new scientific hypothesis for independent validation is
+not "winter mammals follow sunlight", but whether solar phase
+supplies transportable *additional information* after season and
+model class are controlled, with observability/effort independently
+measured. The original both-season solar advantage remains NOT
+SUPPORTED.
+
+First immutable postoutcome artifact: ID 11546512179;
+ZIP sha256:14aed4711e46fac93ffd3a505fb7f479dda970c74d02051c76aae33506a36640.
+Machine-readable result ledger:
+RI_SOLAR_V2_SITE_PAIRED_PARITY_FIRST_RESULT_LEDGER.json.
