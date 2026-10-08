@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "record_type": "AFTER_OUTCOME_FIRST_OFFICIAL_MATCHED_SITE_TAXON_DESCRIPTIVE_RECEIPT",
+  "analysis_id": "ri-v2-solar-clock-matched-site-taxon-pair-v0",
+  "original_frozen_v2_run": 37747931559,
+  "original_frozen_v2_status": "EXPLORATORY_NOT_SUPPORTED_OR_UNAVAILABLE",
+  "first_matched_workflow_run": 37766308999,
+  "first_matched_workflow_head": "4b7696fb24b8adb7613eab2de10b508abfa32b43",
+  "first_matched_artifact_id": 11544349015,
+  "first_matched_artifact_zip_sha256": "1819b7d5c037204aaa613bf81f3089cda2d7bd0432e3fc04c37c24540c2c7691",
+  "first_matched_receipt_json_sha256": "d661343de1fd17626e29b1f35a675c64bb82397d46f798a8c9e78fb7bccfd59e",
+  "first_frozen_design_commit": "a9df85a29dbcf5bb0cf722c294591e8a09808e19",
+  "first_known_truth_tests_passed": true,
+  "first_empirical_replay_passed": true,
+  "original_reproduced": {
+    "scored_events": 19916,
+    "heldout_physical_site_count": 43,
+    "winter_site_weighted_log_gain": 0.02745845931504319,
+    "summer_site_weighted_log_gain": -0.0325742873706785,
+    "exact_replay_within_1e_10": true
+  },
+  "matched_support": {
+    "physical_site_taxon_pairs": 135,
+    "distinct_physical_sites": 42,
+    "taxa_with_one_or_more_paired_site": 12,
+    "minimum_scored_events_per_season_per_pair": 5,
+    "all_cell_weighted": {
+      "winter": 0.028547403452200693,
+      "summer": -0.03874456845139723,
+      "winter_minus_summer": 0.06729197190359794,
+      "winter_minus_summer_median": 0.07076991737228241,
+      "cells_winter_better": 93,
+      "cells_summer_better": 42,
+      "cells_winter_positive_summer_negative": 67
+    },
+    "site_weighted": {
+      "winter": 0.033718004178846975,
+      "summer": -0.0418603342498923,
+      "winter_minus_summer": 0.07557833842873928
+    },
+    "taxon_weighted": {
+      "winter": 0.028207640180661773,
+      "summer": -0.03718047477283169,
+      "winter_minus_summer": 0.06538811495349346
+    },
+    "identified_wild_mammal_like_pairs": 96,
+    "identified_wild_mammal_like_cell_means": {
+      "winter": 0.023749572001783913,
+      "summer": -0.0655316974058976,
+      "winter_minus_summer": 0.0892812694076815
+    },
+    "within_matched_same_site_same_taxon_seasonal_difference_descriptively_present": true
+  },
+  "interpretation_limits": [
+    "Source already exposed before this post-outcome matched analysis; no independent confirmation",
+    "Matched sites/taxa defined by detection presence (>=5 per season) and are a selected subpopulation",
+    "Models are never per-individual tracking; no same-animal behavioural claim",
+    "Season-specific camera detectability and observation effort remain uncorrected",
+    "Cannot separate effects of sunlight, ambient temperature, predation, human disturbance or camera protocol",
+    "No bootstrap p-values or confirmed coverage for matched new estimands",
+    "Original primary hypothesis both winter and summer solar advantage remains NOT SUPPORTED",
+    "Old ODSP qualified statistical methods and empirical terminal results remain unchanged"
+  ],
+  "new_primary_claim_registered": false,
+  "prior_v0_v1_v2_reclassified": false,
+  "post_outcome_record_materialized": true
+}
