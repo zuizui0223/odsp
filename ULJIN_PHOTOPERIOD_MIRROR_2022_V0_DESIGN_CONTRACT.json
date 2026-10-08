@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-uljin-2022-photoperiod-mirror-structural-design-v0",
+  "frozen_design_date": "2026-10-08",
+  "source": {
+    "published_article_doi": "10.3897/BDJ.14.e191556",
+    "published_dataset_doi": "10.22756/ETC.20260000001022",
+    "archive_release": "NIE EcoBank public dataset version 1.1",
+    "published_event_count": 4623,
+    "published_station_count": 82,
+    "published_species_count": 4,
+    "published_functional_camera_nights": 29850,
+    "published_scheduled_camera_nights": 30410,
+    "published_inactive_camera_nights": 560,
+    "source_member_names": {
+      "operation": "01_core_data/camera_operation_log.csv",
+      "detection": "01_core_data/cameratrap_event_records.csv",
+      "station_covariates": "01_core_data/site_covariates_public.csv",
+      "season_effort": "01_core_data/station_season_effort.csv",
+      "operations_qa": "02_quality_checks/operation_effort_QA_summary.csv"
+    },
+    "raw_data_download_link_verified": false,
+    "exact_source_bytes_or_files_read_before_design": false,
+    "prior_published_aggregate_and_paper_solar_time_sensitivity_seen": true,
+    "original_camera_log_not_modified_using_detection_outcomes_verified": false,
+    "site_level_generalised_coordinates_only": true,
+    "source_locations_are_two_study_regions": [
+      "UJ1",
+      "UJ2"
+    ]
+  },
+  "scientific_question": "At the same physical station and nearly equal astronomical daylength, does the detected diel-time distribution of each of four ungulate taxa differ between the lengthening and shortening parts of the year, after separately confirming camera operating-time exposure?",
+  "null_invariance": "For each species and station, the conditional solar-phase clock-time detection density is invariant between matched-length ascending and descending photoperiod days.",
+  "alternative_hysteresis": "An explicitly observed rising/falling photoperiod-branch effect is needed to predict heldout detections even after astronomical geometry, but is not a causal temperature or photoperiod-memory claim.",
+  "preoutcome_structural_pairing": {
+    "source_year": 2022,
+    "latitude_for_public_solar_geometry": 36.85,
+    "longitude_for_public_context": 129.2,
+    "ascending_window_start": "2022-05-01",
+    "ascending_window_end": "2022-06-10",
+    "descending_window_start": "2022-07-01",
+    "descending_window_end": "2022-08-31",
+    "one_to_one_nonreused_day_pairs": true,
+    "pair_absolute_daylength_difference_max_hours": 0.15,
+    "pair_min_calendar_separation_days": 21,
+    "pair_algorithm": "globally sort all eligible (abs(daylength difference),ascending_date,descending_date) triples and greedily accept pairs without replacement",
+    "sunrise_sunset_definition": "NOAA apparent zenith=90.833°, fractional-year declination approximation at local noon",
+    "only_published_general_site_coordinates_for_solar_geometry": true,
+    "no_detection_rows_needed_to_generate_calendar_pairs": true
+  },
+  "preoutcome_feasibility_gates": {
+    "original_operation_log_exists": true,
+    "operation_dates_and_downtime_intervals_source_independent_provenance_needed": true,
+    "clock_time_zone": "Asia/Seoul (UTC+09:00, no current daylight saving)",
+    "exact_operating_time_by_local_clock_category_required": true,
+    "if_only_daily_functional_nights_available": "HOLD_HOURLY_EXPOSURE_UNKNOWN",
+    "preserve_four_taxa_without_outcome_based_selection": true,
+    "station_identity_not_camera_image_identity": true,
+    "no_station_level_latlon_fabrication": true,
+    "exclusion_of_stations_based_on_no_events_forbidden": true,
+    "minimum_independent_study_regions_for_between_region_population_claim": 3,
+    "observed_published_region_count": 2,
+    "allowable_claim": "descriptive/predictive transport conditional on UJ1 and UJ2; no iid two-region generalization",
+    "event_label_exposure_embargo": true
+  },
+  "predictive_plan_outline": {
+    "same_outcome": "continuous civil local-time density log score per independent ungulate event, with solar-to-clock Jacobian",
+    "candidates": [
+      "shared solar-phase density by species",
+      "solar-phase density conditional on rising vs falling daylength by species"
+    ],
+    "baseline": "both candidates trained only from separate site-fold, with identical kernel/regularization rule fixed using training-only data",
+    "heldout_unit": "entire original camera station, nested within UJ1 or UJ2",
+    "matched_comparison": "one-to-one public-astronomy matched photoperiod dates; compare branch effect at sites with operating exposure, report descriptive site-based scores",
+    "scientific_success_requires": "outcome-blind source provenance, independently defined operational effort and a fresh frozen outcome scoring plan; not established in this structural stage",
+    "exact_causal_thermal_hysteresis_claim_allowed": false
+  },
+  "hard_stops": [
+    "No raw EcoBank detection/event CSV opened by structural date-pair stage",
+    "No synthetic date-pair matching rule tuned to animal event or score values",
+    "No claim all 82 stations are iid across landscapes; only two region clusters",
+    "No inference of hourly effort from functional nights alone",
+    "No selection on animal detection occurrence to form station roster",
+    "No source-independent operation-log claim based only on file name",
+    "If exact EcoBank archive URL/bytes or legal access unavailable, return source-unavailable rather than substitute an article screenshot",
+    "No previous RI result or qualified ODSP route reclassified"
+  ],
+  "status": "SCIENTIFIC_SOURCE_DESIGN_DISCOVERY_ONLY_UNQUALIFIED"
+}

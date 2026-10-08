@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "record_type": "PRE_SOURCE_CONTENT_FIRST_ASTROLOGICAL_MIRROR_DATE_PAIR_DESIGN_RECEIPT",
+  "source": "Jeon & Lim 2026, DOI 10.3897/BDJ.14.e191556",
+  "source_archive_doi": "10.22756/ETC.20260000001022",
+  "frozen_design_file": "ULJIN_PHOTOPERIOD_MIRROR_2022_V0_DESIGN_CONTRACT.json",
+  "original_design_commit": "13f989e263287054f0335d04b046071249304b43",
+  "first_workflow_run": 37771342454,
+  "first_workflow_url": "https://github.com/zuizui0223/odsp/actions/runs/37771342454",
+  "first_workflow_commit": "306540c2e6f53b089bc4b845c438542a11698920",
+  "first_workflow_outcome": "success",
+  "tested_synthetic_calendar_cases": 5,
+  "first_result_artifact_id": 11547732148,
+  "first_result_artifact_zip_digest": "sha256:f82de8e647121285fb9c347167fa5dfbf82878793be888964ca7445b07e53b72",
+  "astronomical_design": {
+    "latitude": 36.85,
+    "longitude_for_context": 129.2,
+    "ascending_window": "2022-05-01 through 2022-06-10",
+    "descending_window": "2022-07-01 through 2022-08-31",
+    "candidate_ascending_dates": 41,
+    "candidate_descending_dates": 62,
+    "selected_nonoverlapping_pairs": 41,
+    "pair_max_difference_minutes_predefined": 9,
+    "observed_worst_matched_daylength_difference_minutes": 0.5443150561737298,
+    "only_daylength_from_NOAA_geometry_used": true
+  },
+  "claim_limits": {
+    "actual_camera_station_coverage_of_each_pair_verified": false,
+    "source_original_device_log_downloaded": false,
+    "individual_animal_event_rows_opened": false,
+    "source_original_operation_log_independence_verified": false,
+    "camera_hourly_uptime_verified": false,
+    "taxon_clock_time_hysteresis_detected": false,
+    "biological_thermal_hysteresis_inferred": false,
+    "two_study_regions_are_independent_randomized_population_replicates_proven": false,
+    "all_previous_RI_ODSP_qualified_results_changed": false
+  },
+  "report_status": "ASTRONOMICAL_PAIR_DESIGN_COMPLETE_SOURCE_DATA_ADMISSION_PENDING"
+}

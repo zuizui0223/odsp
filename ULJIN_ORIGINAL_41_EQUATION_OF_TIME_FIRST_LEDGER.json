@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_OUTCOME_FREE_UJLIN_SAME_DAYLENGTH_EQUATION_OF_TIME_RECEIPT",
+  "original_calendar_first_run": 37771342454,
+  "new_equation_of_time_method_freeze_commit": "3a3f5e6977d0b7f9e8a5ed9ccd9518699cb3ad5a",
+  "first_equation_of_time_workflow_run": 37773393458,
+  "first_run_url": "https://github.com/zuizui0223/odsp/actions/runs/37773393458",
+  "first_method_head_sha": "59e1cc359e860ebd11c8fe25f978fcfc73c16fdb",
+  "first_artifact_id": 11549715215,
+  "first_artifact_zip_digest": "sha256:fd74a31ded2e468a1070b9e716f4926a2e0b0e4e0482c6c891c9211e71231c52",
+  "tests_passed": 4,
+  "original_pairs_unchanged": 41,
+  "first_outcome": {
+    "minimum_absolute_solar_noon_shift_minutes": 5.0477312748798795,
+    "maximum_absolute_solar_noon_shift_minutes": 10.502323028898104,
+    "shift_is_equation_of_time_consequence_not_daylength_mismatch": true,
+    "longitude_cancels_for_same_station_noon_difference": true
+  },
+  "scientific_limit": {
+    "specific_protected_species_station_locations_exposed": false,
+    "real_station_clock_calibration_verified": false,
+    "real_hour_level_operational_exposure_verified": false,
+    "animal_detection_rows_accessed": false,
+    "seasonal_hysteresis_result_identified": false,
+    "independent_field_original_log_source_materialized": false,
+    "earlier_ODSP_ecological_results_reclassified": false
+  }
+}

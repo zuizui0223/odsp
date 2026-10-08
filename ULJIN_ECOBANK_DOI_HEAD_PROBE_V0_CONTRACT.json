@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "probe_id": "uljin-ecobank-doi-http-head-only-v0",
+  "status": "POST_ASTRONOMY_DESIGN_PRE_SOURCE_CONTENT_ACCESS",
+  "source_dataset_doi": "10.22756/ETC.20260000001022",
+  "only_requested_uri": "https://doi.org/10.22756/ETC.20260000001022",
+  "allowed_redirect_hosts": [
+    "doi.org",
+    "www.nie-ecobank.kr",
+    "nie-ecobank.kr"
+  ],
+  "allowed_methods": [
+    "HEAD"
+  ],
+  "http_body_bytes_read": 0,
+  "allow_GET": false,
+  "allow_archive_download": false,
+  "allow_html_body_parsing": false,
+  "allow_event_csv_or_operation_log_content_read": false,
+  "output_fields_only": [
+    "final_https_host",
+    "final_https_path_without_query",
+    "http_status",
+    "content_type",
+    "content_length_header_or_null",
+    "redirect_count",
+    "landing_status"
+  ],
+  "max_redirects": 5,
+  "max_latency_seconds": 30,
+  "if_HEAD_405_or_403_or_redirect_outside_allowlist": "SOURCE_ACCESS_UNVERIFIED_NO_FALLBACK",
+  "if_content_type_is_html": "DOI_LANDING_PAGE_ONLY_NO_SOURCE_BYTES",
+  "if_content_type_is_archive": "HEADER_SUGGESTS_ARCHIVE_BUT_FILE_CONTENT_NOT_VERIFIED",
+  "claims": {
+    "source_download_uri_resolved": false,
+    "original_camera_operation_log_verified": false,
+    "hourly_camera_uptime_verified": false,
+    "ungulate_event_rows_accessed": false,
+    "prior_calendar_design_changed": false,
+    "primary_ecological_inference_qualified": false
+  }
+}
