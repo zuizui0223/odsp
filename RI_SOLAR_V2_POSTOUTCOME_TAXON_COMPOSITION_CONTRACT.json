@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "analysis_id": "ri-solar-v2-postoutcome-taxon-composition-sensitivity-v0",
+  "status": "POST_OUTCOME_DESCRIPTIVE_EXPLORATION_NOT_CONFIRMATORY",
+  "input": {
+    "first_frozen_v2_result_run": 37747931559,
+    "artifact_id": 11535843980,
+    "artifact_zip_digest": "sha256:af6d0feadbe0c36f40bfb17c96bee42f7ac5c7d73050d2ea6b4920490dd0be1a",
+    "expected_filename": "RI_SOLAR_CLOCK_YEARSEASON_V2_FIRST_RESULT.json",
+    "read_only_fields": [
+      "species_secondary_descriptive",
+      "primary_heldout_solar_clock",
+      "scored_events_by_season"
+    ],
+    "raw_zenodo_animal_records_needed": false,
+    "known_primary_winter_solar_gain": 0.02745845931504319,
+    "known_primary_summer_solar_gain": -0.0325742873706785,
+    "original_receipt_json_sha256": "5d4bca0efc079ec3ae58d1062d4c1fb4c0b6476b64d56eead6d79e39ae83edab",
+    "hash_materialized_before_descriptive_decomposition_run": true
+  },
+  "scientific_purpose": "Assess whether the observed opposite-season solar-vs-clock aggregate direction could plausibly be entirely explained by changing taxon composition; distinguish taxon-standardized descriptive patterns from original detection-weighted site-average target.",
+  "predeclared_summaries": [
+    "All reported taxonomic labels, equally weighted mean of per-taxon winter and summer site averages",
+    "Fully identified binomial mammal-like taxa excluding known bird Meleagris gallopavo, domestic Canis familiaris, and sp. unresolved groups; require >=8 heldout physical sites in BOTH seasons and >=100 total scored events across two future years",
+    "Number and identities of such included taxa with winter-positive/summer-negative and reverse signs",
+    "Unweighted within-taxon winter minus summer gain difference median, quartiles, simple means",
+    "Compare taxon-standardized signs with originally frozen all-detection site-weighted signs; do not replace original primary",
+    "Report share of scored detections attributable to Aves sp., Rodentia sp., Meleagris gallopavo and Canis familiaris when available from the frozen result"
+  ],
+  "minimum_each_season_site_count": 8,
+  "minimum_total_taxon_scored_events": 100,
+  "explicit_taxa_nonmammal_or_non_species": [
+    "aves sp.",
+    "meleagris gallopavo",
+    "rodentia sp.",
+    "canis familiaris"
+  ],
+  "no_significance_tests_or_resampled_p_values": true,
+  "limit": "Existing receipt does not retain matching site×taxon×season cells; equal-taxon means are not site-matched and cannot mathematically partition genuine within-site plasticity from composition/site-year turnover.",
+  "fail_closed": "No raw public data reload or alternative taxon inclusion after seeing decomposition outputs; retain the v2 exploratory negative primary result.",
+  "never_reclassify_v0_v1_v2_or_any_qualified_route": true
+}
