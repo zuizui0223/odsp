@@ -63,8 +63,9 @@ def expected_both_branches(N:int, fraction:float, groups:int=G)->float:
         return 0.
     x=float(fraction)/groups
     # Numerically stable cancellation-safe expression for tiny x.
+    log_both_missing=(-math.inf if x==1. else math.log1p(-x))
     ans=groups*(-2.*math.expm1(N*math.log1p(-x/2.))
-                +math.expm1(N*math.log1p(-x)))
+                +math.expm1(N*log_both_missing))
     if not -1e-8 <= ans <= groups + 1e-8:
         raise ValueError("inconsistent strict paired-support expectation")
     return max(0.,min(float(groups),ans))
@@ -78,7 +79,7 @@ def expected_at_least_two_any_branch(
     if N<2 or fraction==0.:
         return 0.
     x=float(fraction)/groups
-    logq=math.log1p(-x)
+    logq=(-math.inf if x==1. else math.log1p(-x))
     prob=-math.expm1(N*logq)-N*x*math.exp((N-1)*logq)
     if not -1e-8 <= prob <= 1+1e-8:
         raise ValueError("invalid occupancy ≥2 probability")
