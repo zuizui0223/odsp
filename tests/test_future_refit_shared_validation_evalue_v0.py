@@ -11,6 +11,7 @@ from odsp.future_refit_shared_validation_evalue_v0 import (
     METHOD_VERSION,
     _log_mixture_betting_e_value,
     certificate_probability_cp_lower,
+    constant_block_gain_example,
     evaluate_future_refit_shared_validation_evalue_v0,
     shared_validation_design_frontier,
     shared_validation_success_probability_lower,
@@ -184,3 +185,16 @@ def test_cp_and_design_frontier_do_not_make_unconditional_binomial_power_claim()
     assert f20["unconditional_binomial_power_inferred"] is False
     assert f20["prospective_qualification_passed"] is False
     assert shared_validation_design_frontier(50)["minimum_certificates"] == 47
+
+
+
+def test_constant_gain_feasibility_exposes_small_signal_block_demand():
+    assert constant_block_gain_example(.95)["blocks_per_group"] == 11
+    assert constant_block_gain_example(.2)["blocks_per_group"] == 41
+    assert constant_block_gain_example(.05)["blocks_per_group"] == 153
+    assert constant_block_gain_example(.05)["distinct_validation_blocks"] == 306
+    assert constant_block_gain_example(.05)["prospective_power_qualified"] is False
+    assert constant_block_gain_example(0.0)["certifiable"] is False
+    assert constant_block_gain_example(.02, maximum_blocks_per_group=100)["certifiable"] is False
+    with pytest.raises(ValueError, match="frozen score bounds"):
+        constant_block_gain_example(1.01)
