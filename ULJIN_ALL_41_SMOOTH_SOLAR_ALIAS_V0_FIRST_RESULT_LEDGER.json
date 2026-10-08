@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "record_type": "POST_FIRST_OUTCOME_ALL_41_SMOOTH_SOURCE_FREE_ORACLE_LEDGER",
+  "pr_number": 234,
+  "new_branch": "method/uljin-41pair-smooth-solar-alias-v0",
+  "frozen_contract_pre_result_commit": "f1ff5cebde54f380df9e988720bf2e7589af65d9",
+  "first_ci_run_id": 37783853011,
+  "first_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/37783853011",
+  "first_ci_head_sha": "8a760a05a7cf79954a1df7b1c4def6a41cc54ba4",
+  "first_ci_status": "success",
+  "first_result_artifact_id": 11553341988,
+  "first_result_artifact_digest": "sha256:72a5ac1c098d1834ee862a53278b105489ec4262d09665a711124311b169e881",
+  "first_focus_tests": "success",
+  "first_source_free_script": "success",
+  "original_date_pairs": 41,
+  "truth_profiles_and_results": {
+    "uniform_phase": {
+      "positive_clock_gain_pairs": 41,
+      "median_clock_gain_nats_per_pair": 0.0004783090033897248,
+      "median_clock_gain_nats_per_expected_event": 0.0000099647709039526,
+      "solar_gain_nats": 0
+    },
+    "broad_morning": {
+      "positive_clock_gain_pairs": 41,
+      "median_clock_gain_nats_per_pair": 0.00047324094843727207,
+      "median_clock_gain_nats_per_expected_event": 0.000007996875604104961,
+      "solar_gain_nats": 0
+    },
+    "smooth_morning": {
+      "positive_clock_gain_pairs": 41,
+      "median_clock_gain_nats_per_pair": 0.0007930479494589431,
+      "median_clock_gain_nats_per_expected_event": 0.00001262646327548824,
+      "solar_gain_nats": 0
+    },
+    "smooth_midday": {
+      "positive_clock_gain_pairs": 41,
+      "median_clock_gain_nats_per_pair": 0.00043629921359490263,
+      "median_clock_gain_nats_per_expected_event": 0.000006946510613058007,
+      "solar_gain_nats": 0
+    },
+    "smooth_evening": {
+      "positive_clock_gain_pairs": 41,
+      "median_clock_gain_nats_per_pair": 0.0026742773540298073,
+      "median_clock_gain_nats_per_expected_event": 0.0000425783394587484,
+      "solar_gain_nats": 0
+    }
+  },
+  "interpretation": {
+    "constructive_geometric_clock_alias_under_smooth_phase_stationarity": true,
+    "more_than_numerical_sign_result": false,
+    "empirical_ungulate_effect": false,
+    "real_false_positive_probability_estimated": false,
+    "oracle_not_heldout_model_prediction": true,
+    "six_bin_model_penalty_not_applied_to_oracle": true,
+    "actual_camera_uptime_unverified": true,
+    "exact_source_event_rows_accessed": false,
+    "original_qualified_odsp_routes_modified": false,
+    "post_outcome_effect_size_profile_tuning_forbidden_in_this_route": true
+  },
+  "next_route": "Future separately frozen finite-sample sensitivity only, comparing actual penalized heldout clock and phase models with identical validated exposure; this oracle itself never certifies scientific significance."
+}
