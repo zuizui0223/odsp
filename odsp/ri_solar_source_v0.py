@@ -24,6 +24,10 @@ from .ri_solar_clock_transfer_v0 import (
     site_is_sealed, summarize_site_level_transfer,
 )
 
+from .ri_zipinfo_technical_recovery_v0 import (
+    inspect_ri_pinned_zip_central_directory,
+)
+
 SOURCE_MD5="c66943e6c2a9aab0abce2a1eba8ce02e"
 EXPECTED_MEMBERS={
     "RI_CameraSurvey_Deployments.csv",
@@ -80,11 +84,19 @@ def _member_zip_csv(raw:bytes)->dict[str,list[dict[str,str]]]:
         raise ValueError("Zenodo v3 archive MD5 does not match frozen source")
     if len(raw)>75_000_000:
         raise ValueError("archive exceeds frozen input ceiling")
+    # Post-first-failure TECHNICAL repair only: the original 150 MB
+    # uncompressed-member gate was smaller than the pinned v3 detection
+    # CSV (245,234,894 bytes). The separately pre-result frozen ZIP
+    # contract requires MD5, only two known CSV basenames, safe member
+    # paths, finite expansion ratio and member/total expanded-size caps
+    # BEFORE the first byte of any CSV member is read. No ecological
+    # selection, state, score or predictor is changed.
+    inspection=inspect_ri_pinned_zip_central_directory(raw)
+    if inspection.recovery_eligibility != "TECHNICAL_ZIP_RECOVERY_ELIGIBLE":
+        raise ValueError("ZIP structure not authorized for source recovery")
     output={}
     with zipfile.ZipFile(io.BytesIO(raw)) as archive:
         infos=archive.infolist()
-        if len(infos)>20 or any(i.file_size>150_000_000 for i in infos):
-            raise ValueError("unexpected ZIP member count or size")
         for info in infos:
             if info.is_dir():
                 continue
