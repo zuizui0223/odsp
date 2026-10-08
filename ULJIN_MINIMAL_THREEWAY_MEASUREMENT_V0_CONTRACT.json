@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_minimal_threeway_measurement_design_v0",
+  "stage": "FROZEN_POST_PARENT_FIBER_RESULTS_BEFORE_FIRST_SUPPLEMENTAL_DESIGN_RESULT",
+  "parent_pr": 240,
+  "parent_contract": "ULJIN_THREEWAY_MARGIN_FIBER_BOUNDS_V1_CONTRACT.json",
+  "parent_first_result": "ULJIN_THREEWAY_MARGIN_FIBER_BOUNDS_V1_FIRST_RESULT_LEDGER.json",
+  "seen_before_freeze": "Parent 2,723 candidate full tables and OR interval 0.114..2.610 are known; optimal added measurements are a new post-parent-outcome design, not a blinded biology result.",
+  "observed_information": "All three static two-way count margins of original synthetic 2×2×6 positive integer table",
+  "candidate_supplemental_measurement": "Exact early-site × rising-branch count in each of six labeled solar-phase bins; each query is ONE previously withheld three-way cell",
+  "design_space": "ALL 64 subsets of six candidate cells, no candidate cherry-picking",
+  "targets": [
+    {
+      "id": "full_threeway_table",
+      "identified_if": "all feasible complete integer tables matching released subset coincide"
+    },
+    {
+      "id": "early_site_first_last_branch_odds_ratio",
+      "identified_if": "Fraction((early_fall_bin0*early_rise_bin5)/(early_rise_bin0*early_fall_bin5)) same in every feasible completion"
+    },
+    {
+      "id": "sign_of_early_site_first_last_branch_odds_ratio",
+      "identified_if": "every feasible table in the released-subset equivalence class has same OR sign relative to 1"
+    }
+  ],
+  "strict_assumptions": {
+    "positive_integer_cells_at_least": 1,
+    "fix_original_parent_three_pairwise_margins": true,
+    "no_unobserved_prior_for_completion": true,
+    "no_extra_measurement_error": true,
+    "no_device_exposure_uncertainty_modeled": true
+  },
+  "metrics": [
+    "for each subset, number of distinct measured outcomes/equivalence classes",
+    "number of ambiguous classes for sign/value/full_table",
+    "count of feasible full tables inside sign-ambiguous classes (combinatorial only, never probability)",
+    "globally identifying measurement subsets for sign, exact OR and full table",
+    "minimum counts of added cells for each target",
+    "single-cell outcomes giving a robust sign and outcomes requiring further observation",
+    "first/last two-cell release sufficiency checked explicitly",
+    "augmented linear marginalization matrix rank for every added-cell subset",
+    "exact parent 2723 feasible table count and both parent world witnesses replayed"
+  ],
+  "frozen_required_gates": [
+    "all 64 subsets included",
+    "baseline 2723 positive integer completions unchanged",
+    "zero added queries do not identify OR sign",
+    "full-table identification requires at least five independent three-way cells",
+    "exact first/last early-site rising bin counts identify specified OR",
+    "single-cell release cannot identify sign in the worst case across all completions",
+    "some one-cell release OUTCOMES can identify sign while others remain ambiguous",
+    "for every subset with augmented linear rank=24, all integer fibers are singletons",
+    "no inference of real wildlife behavior and no test p-values",
+    "no update to original qualified ODSP routes"
+  ],
+  "interpretation": "Target-specific minimal additional cross-tabulation counts for a synthetic fixed-margin contingency fiber, not sample-size power, a statistical confidence set, or a general ecological identification theorem.",
+  "source_access": {
+    "EcoBank_animal_events": false,
+    "real_device_uptime": false,
+    "protected_station_coordinates": false
+  },
+  "old_ODSP_routes_unchanged": true
+}
