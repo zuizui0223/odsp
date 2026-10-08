@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_geometry_neutral_paired_placebo_v1",
+  "stage": "FROZEN_POST_V0_OUTCOME_BEFORE_FIRST_PLACEBO_RESULT",
+  "parent_pr": 235,
+  "parent_v0_contract": "ULJIN_FINITE_SAMPLE_CLOCK_ALIAS_SELECTION_V0_CONTRACT.json",
+  "parent_v0_outcome": "ULJIN_FINITE_SAMPLE_CLOCK_ALIAS_SELECTION_V0_FIRST_RESULT_LEDGER.json",
+  "prior_outcomes_seen": "V0 all nine clock-only and mean-gain results; no pretense of blind rediscovery",
+  "population_truth": "Same stationary solar-phase intensity and full operation in all 41 original paired dates and 82 simulated stations",
+  "counterfactual": "Remove branch-specific astronomy by projecting BOTH rising and falling event phase into the ascending date's phase-to-civil mapping for that exact original pair; keep identical event counts, phase, station, pair, branch and RNG streams.",
+  "reference": "Actual uses true 2022 ascending/descending phase-to-clock mapping for each matched pair; solar uses original phase bins. Placebo clock uses ascending mapping for both dates.",
+  "predefined_model": "Reuse frozen v0 fit_conditional_branch_model six-bin conditional method lambda=2, fixed train40/heldout42 site split and full 41x6 heldout denominator",
+  "metric": "clock-only selection using positive heldout site-equal gain with solar <=0; compare actual geometry and placebo geometry on same events, per-world paired difference, NOT calibrated significance",
+  "profiles": [
+    "uniform_phase",
+    "smooth_morning",
+    "smooth_evening"
+  ],
+  "total_expected_event_counts": [
+    462,
+    4623,
+    46230
+  ],
+  "worlds_per_scenario": 200,
+  "seed": 2026100822,
+  "actual_v0_replay": "All nine actual clock-only selection frequencies and gains must reproduce frozen PR235 receipt to numerical floating tolerance, without post-outcome refitting/retuning",
+  "primary_effect": "Mean per-world paired difference I(actual_clock>0 AND solar<=0) - I(placebo_clock>0 AND solar<=0), reported across all nine profiles and event counts",
+  "secondary": [
+    "actual and placebo clock-only selection frequencies",
+    "actual and placebo clock-any selection frequencies",
+    "phase-any frequency",
+    "mean actual and placebo heldout score gain",
+    "Monte Carlo paired difference SE=sd(per-world difference,ddof=1)/sqrt(200)",
+    "same-events and fixed-pair frame conservation"
+  ],
+  "frozen_expectations": [
+    "under fixed geometry-neutral law, solar-phase distribution invariant by construction",
+    "actual selection may or may not exceed placebo",
+    "zero or negative excess must be reported unchanged",
+    "no crossing confidence threshold is predeclared",
+    "no sorting or winner selection of nine conditions"
+  ],
+  "guardrails": [
+    "no animal or camera-operator source rows",
+    "no real within-station solar geometry",
+    "no ecological false-positive inference",
+    "no two-region population claim",
+    "no historical route result reclassification",
+    "no parent PR235 contract/result modifications"
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_PAIRED_GEOMETRY_NEUTRAL_PLACEBO_V1_TERMINAL_LEDGER",
+  "prior_v0_first_outcome_seen": true,
+  "frozen_v1_contract_commit": "62d49b60799c92f98115cf534ee522e1f4b44805",
+  "first_completed_ci_run": 37786052828,
+  "first_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/37786052828",
+  "original_first_workflow_head": "a78b20efcf21b8075092dc7c2c57e26358fd2f1b",
+  "first_artifact_id": 11555455051,
+  "first_artifact_digest": "sha256:0121823ad30afad4c4af8d3da6a04c282c6d82a7f08e4dcba861677bcdca4d48",
+  "all_nine_outcomes": [
+    {
+      "actual_only": 0.08,
+      "n": 462,
+      "neutral_only": 0.08,
+      "paired_excess": 0,
+      "paired_mc_se": 0.01227818263605087,
+      "profile": "uniform_phase"
+    },
+    {
+      "actual_only": 0.08,
+      "n": 4623,
+      "neutral_only": 0.07,
+      "paired_excess": 0.01,
+      "paired_mc_se": 0.014159890979905674,
+      "profile": "uniform_phase"
+    },
+    {
+      "actual_only": 0.11,
+      "n": 46230,
+      "neutral_only": 0.075,
+      "paired_excess": 0.035,
+      "paired_mc_se": 0.017901882217651675,
+      "profile": "uniform_phase"
+    },
+    {
+      "actual_only": 0.075,
+      "n": 462,
+      "neutral_only": 0.095,
+      "paired_excess": -0.02,
+      "paired_mc_se": 0.012196053402349662,
+      "profile": "smooth_morning"
+    },
+    {
+      "actual_only": 0.15,
+      "n": 4623,
+      "neutral_only": 0.105,
+      "paired_excess": 0.045,
+      "paired_mc_se": 0.017789246370550967,
+      "profile": "smooth_morning"
+    },
+    {
+      "actual_only": 0.155,
+      "n": 46230,
+      "neutral_only": 0.09,
+      "paired_excess": 0.065,
+      "paired_mc_se": 0.02463553424910232,
+      "profile": "smooth_morning"
+    },
+    {
+      "actual_only": 0.125,
+      "n": 462,
+      "neutral_only": 0.105,
+      "paired_excess": 0.02,
+      "paired_mc_se": 0.01730599570776515,
+      "profile": "smooth_evening"
+    },
+    {
+      "actual_only": 0.13,
+      "n": 4623,
+      "neutral_only": 0.11,
+      "paired_excess": 0.02,
+      "paired_mc_se": 0.01578753404290166,
+      "profile": "smooth_evening"
+    },
+    {
+      "actual_only": 0.255,
+      "n": 46230,
+      "neutral_only": 0.085,
+      "paired_excess": 0.17,
+      "paired_mc_se": 0.027555334917435864,
+      "profile": "smooth_evening"
+    }
+  ],
+  "v0_replay_passed": true,
+  "statistic": "I(actual_clock>0 AND solar<=0)-I(neutral_clock>0 AND solar<=0)",
+  "causal_scope": "Synthetic intervention on date-specific astronomical mapping only, conditioning on fixed synthetic latent events",
+  "inference_flags": {
+    "formal_hypothesis_test": false,
+    "multiple_comparison_correction": false,
+    "real_ungulate_results": false,
+    "prior_qualified_ODSP_reclassified": false
+  },
+  "first_result_interpretation": "At hypothetical total=46,230 and smooth_evening excess is +0.17 (paired MC standard error 0.0276); at hypothetical total=4,623 excess across profiles is +0.01 to +0.045. The source's 4,623 published events cover the full sampling year, not the 41 paired dates."
+}
