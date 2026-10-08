@@ -14,7 +14,9 @@
     ],
     "raw_zenodo_animal_records_needed": false,
     "known_primary_winter_solar_gain": 0.02745845931504319,
-    "known_primary_summer_solar_gain": -0.0325742873706785
+    "known_primary_summer_solar_gain": -0.0325742873706785,
+    "original_receipt_json_sha256": "5d4bca0efc079ec3ae58d1062d4c1fb4c0b6476b64d56eead6d79e39ae83edab",
+    "hash_materialized_before_descriptive_decomposition_run": true
   },
   "scientific_purpose": "Assess whether the observed opposite-season solar-vs-clock aggregate direction could plausibly be entirely explained by changing taxon composition; distinguish taxon-standardized descriptive patterns from original detection-weighted site-average target.",
   "predeclared_summaries": [
