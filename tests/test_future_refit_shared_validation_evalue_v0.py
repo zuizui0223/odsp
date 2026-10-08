@@ -93,8 +93,8 @@ def test_shared_blocks_across_refits_are_permitted_and_not_treated_as_iid_certif
 def test_zero_weight_rows_do_not_count_and_block_means_are_uniform():
     gains, groups, blocks, ids = _fixture()
     weights = [1.0]*len(groups)
-    weights[0] = 0.0
-    # Block 0 in group 0 now has no support and therefore fails block-count floor.
+    weights[:5] = [0.0] * 5
+    # Five distinct group-0 blocks now lack support; only seven remain.
     with pytest.raises(ValueError, match="insufficient independent validation blocks"):
         _run((gains, groups, blocks, ids), sample_weight=weights)
 
