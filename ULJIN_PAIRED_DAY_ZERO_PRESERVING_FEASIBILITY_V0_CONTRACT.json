@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-uljin-outcome-free-paired-day-detection-sparsity-plan-v0",
+  "status": "SOURCE_FREE_PUBLIC_AGGREGATES_HYPOTHETICAL_FEASIBILITY_ONLY",
+  "source_provenance": {
+    "paper_doi": "10.3897/BDJ.14.e191556",
+    "published_independent_detection_events": 4623,
+    "published_functional_camera_nights": 29850,
+    "published_camera_stations": 82,
+    "published_focal_species": 4,
+    "original_calendar_pairs": 41,
+    "publishing_time_counts_not_source_outcome_rows": true
+  },
+  "hypothetical_model": {
+    "station_camera_night_detection_counts": "Homogeneous iid Poisson with constant equal rate per focal taxon, all 4 taxon detection rates identical; every matched station-date assumed fully available",
+    "lambda_total_per_camera_night_definition": "published events / published functional camera-nights",
+    "lambda_per_species_per_camera_night_definition": "lambda_total divided by 4",
+    "pair_detection_success_probability": "(1-exp(-lambda_per_species))^2 for both complete independent nights of the same station x species x date-pair",
+    "number_of_station_species_date_pair_trials": "41*82*4",
+    "conditional_expected_matched_station_taxon_day_pairs": "trials*pair success probability",
+    "counterfactual_probability_not_representative_of_actual_data": true,
+    "unknown_actual_richness_or_station_variance_no_inference": true,
+    "method_not_a_monte_carlo_test": true
+  },
+  "zero_preserving_design": {
+    "inferential_response": "counts for each original site x year-2022 paired date x species x six common 4h civil-clock bins, INCLUDING counts equal zero when covered",
+    "original_operation_exposure": "independently authenticated and clock-hour-resolved hardware logs, never photos-derived",
+    "same_target_for_all_models": "fixed six civil-clock count bins on all 41 original date pairs",
+    "correct_source_solar_projection": "integrate solar-phase intensity with continuous clock-time Jacobian/exposure over the SAME civil-clock bins",
+    "negative_binomial_or_poisson_candidates": "Use one predeclared predictive family, exposure offsets; never compare likelihoods across different response partitions",
+    "training_folds": "whole camera physical station and UJ1/UJ2 region nested; source independence and training/validation frame still unverified",
+    "minimum_per_bin_functional_hours": 3,
+    "zero_with_positive_exposure_must_contribute_to_predictive_log_score": true,
+    "count_without_exposure_must_fail_closed": true,
+    "zero_exposure_zero_count_is_uninformative_not_a_photographic_nondetection": true,
+    "no_species_based_station_admission_after_outcomes": true,
+    "no_pair_reselection_after_animal_observations": true
+  },
+  "hard_stops": [
+    "Original file/DOI v1.1 not authenticated and original operation log independence unverified",
+    "No real animal/event records are read by this planning program",
+    "Detections divided equally among species is a hypothetical scenario, not measured species-specific rates",
+    "Do not treat iid Poisson as validated for spatially clustered camera data",
+    "Do not turn expected site species pair count into actual inferred observation support",
+    "Do not modify 41 frozen dates or original 3-hour-per-four-hour-bin camera eligibility",
+    "No rate-model ecological finding or preregistered primary route automatically generated"
+  ],
+  "status_result": "HYPOTHETICAL_POWER_AND_ZERO_EXPOSURE_DESIGN_NOT_ECOLOGY"
+}
