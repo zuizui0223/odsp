@@ -361,9 +361,12 @@ def summarize_site_level_transfer(
         "solar_over_clock","solar_season_over_solar",
         "clock_season_over_clock","true_solar_over_wrong_sun"
     )
-    site_season:dict[tuple[str,str],dict[str,list[float]]]=defaultdict(
-        lambda:defaultdict(list)
-    )
+    # Each heldout physical site receives ONE unit of inferential mass.
+    # First average image events within a site-year-season, then average
+    # repeated years within the same site and season, then average sites.
+    per_site_year:dict[
+        tuple[str,str,int],dict[str,list[float]]
+    ]=defaultdict(lambda:defaultdict(list))
     for event,row in scored:
         if not site_is_sealed(event.site_id) or event.season_year<2022:
             raise ValueError("validation score not at an authorized site/year")
@@ -371,31 +374,55 @@ def summarize_site_level_transfer(
             value=row[name]
             if not math.isfinite(value):
                 raise ValueError("nonfinite heldout log-score comparison")
-            site_season[event.site_id,event.season][name].append(value)
+            per_site_year[
+                event.site_id,event.season,event.season_year
+            ][name].append(value)
+    per_site_season:dict[
+        tuple[str,str],dict[str,list[float]]
+    ]=defaultdict(lambda:defaultdict(list))
+    for (site,season,_year),values in per_site_year.items():
+        for name in names:
+            per_site_season[site,season][name].append(
+                float(np.mean(values[name]))
+            )
     site_average={
         group:{name:float(np.mean(vals)) for name,vals in values.items()}
-        for group,values in site_season.items()
+        for group,values in per_site_season.items()
     }
+    distinct_sites=sorted({site for site,season in site_average})
     result={
         "schema_version":1,
         "method_version":VERSION,
         "inference_target":"camera-detected local-clock category at new sites and later seasons, not underlying activity",
         "independent_sampling_unit":"physical camera site",
+        "bootstrap_method":"paired physical-site exponential-multiplier bootstrap (descriptive)",
+        "bootstrap_draws":draws,
+        "bootstrap_seed":seed,
         "bootstrap_site_iid_sampling_proven":False,
         "prior_empirical_endpoints_reclassified":False,
         "season_groups":{},
     }
+    # One COMMON set of positive site weights per draw across seasons
+    # preserves their matched physical-site covariance when sites recur.
     rng=np.random.default_rng(seed)
+    multipliers=rng.exponential(scale=1.0,size=(draws,len(distinct_sites)))
+    position={site:i for i,site in enumerate(distinct_sites)}
     for season in ("winter","summer"):
         sites=sorted(site for site,s in site_average if s==season)
         season_rows={}
+        indices=np.asarray([position[site] for site in sites],dtype=int)
         for name in names:
-            values=np.asarray([site_average[site,season][name] for site in sites])
+            values=np.asarray([
+                site_average[site,season][name] for site in sites
+            ],dtype=float)
             mean=float(values.mean()) if len(values) else None
             lower=None
             if len(sites)>=8:
-                ix=rng.integers(len(values),size=(draws,len(values)))
-                lower=float(np.quantile(values[ix].mean(axis=1),0.05))
+                weights=multipliers[:,indices]
+                draws_mean=(
+                    (weights@values) / np.sum(weights,axis=1)
+                )
+                lower=float(np.quantile(draws_mean,0.05))
             season_rows[name]={
                 "mean":mean,"one_sided_95_percent_cluster_bootstrap_lower":lower
             }
