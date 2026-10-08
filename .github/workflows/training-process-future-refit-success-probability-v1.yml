@@ -1,0 +1,44 @@
+name: training-process-future-refit-success-probability-v1
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/training_process_future_refit_success_probability.py'
+      - 'odsp/training_process_future_refit_success_probability_calibration.py'
+      - 'tests/test_training_process_future_refit_success_probability.py'
+      - 'tests/test_training_process_future_refit_success_probability_calibration.py'
+      - 'ODSP_TRAINING_PROCESS_FUTURE_REFIT_SUCCESS_PROBABILITY_V1_CONTRACT.json'
+      - 'ODSP_TRAINING_PROCESS_FUTURE_REFIT_SUCCESS_PROBABILITY_V1_CALIBRATION_CONTRACT.json'
+      - 'scripts/run_training_process_future_refit_success_probability_v1_calibration.py'
+      - '.github/workflows/training-process-future-refit-success-probability-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qualify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Run focused semantic tests
+        run: >-
+          python -m pytest -q
+          tests/test_training_process_future_refit_success_probability.py
+          tests/test_training_process_future_refit_success_probability_calibration.py
+      - name: Run frozen first-1000 qualification panel
+        run: |
+          python scripts/run_training_process_future_refit_success_probability_v1_calibration.py \
+            --output /tmp/future-refit-success-v1.json \
+            --seed 20261016 \
+            --simulations 1000 \
+            --bootstrap-draws 500
+          echo FUTURE_REFIT_SUCCESS_V1_BEGIN
+          cat /tmp/future-refit-success-v1.json
+          echo FUTURE_REFIT_SUCCESS_V1_END
