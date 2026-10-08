@@ -1,0 +1,66 @@
+name: training-process-future-refit-success-probability-v1
+
+on:
+  pull_request:
+    paths:
+      - 'odsp/training_process_future_refit_success_probability.py'
+      - 'odsp/training_process_future_refit_success_probability_calibration.py'
+      - 'tests/test_training_process_future_refit_success_probability.py'
+      - 'tests/test_training_process_future_refit_success_probability_calibration.py'
+      - 'ODSP_TRAINING_PROCESS_FUTURE_REFIT_SUCCESS_PROBABILITY_V1_CONTRACT.json'
+      - 'ODSP_TRAINING_PROCESS_FUTURE_REFIT_SUCCESS_PROBABILITY_V1_CALIBRATION_CONTRACT.json'
+      - 'scripts/run_training_process_future_refit_success_probability_v1_calibration.py'
+      - 'TRAINING_PROCESS_FUTURE_REFIT_SUCCESS_PROBABILITY_V1_FAILED_RECEIPT.json'
+      - 'tests/test_training_process_future_refit_probability_v1_failed_receipt.py'
+      - '.github/workflows/training-process-future-refit-success-probability-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qualify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Run focused semantic tests
+        run: >-
+          python -m pytest -q
+          tests/test_training_process_future_refit_success_probability.py
+          tests/test_training_process_future_refit_success_probability_calibration.py
+          tests/test_training_process_future_refit_probability_v1_failed_receipt.py
+      - name: Run frozen first-1000 qualification panel
+        run: |
+          python scripts/run_training_process_future_refit_success_probability_v1_calibration.py \
+            --output /tmp/future-refit-success-v1.json \
+            --seed 20261016 \
+            --simulations 1000 \
+            --bootstrap-draws 500
+          echo FUTURE_REFIT_SUCCESS_V1_BEGIN
+          cat /tmp/future-refit-success-v1.json
+          echo FUTURE_REFIT_SUCCESS_V1_END
+      - name: Verify frozen failed v1 result exactly
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          observed = json.loads(Path('/tmp/future-refit-success-v1.json').read_text())
+          frozen = json.loads(Path('TRAINING_PROCESS_FUTURE_REFIT_SUCCESS_PROBABILITY_V1_FAILED_RECEIPT.json').read_text())
+          assert observed['qualification_pass'] is False
+          assert len(observed['coverage_scenarios']) == 6
+          assert len(observed['power_scenarios']) == 2
+          assert {r['scenario_id'] for r in observed['coverage_scenarios']} == set(frozen['coverage']['scenario_ids'])
+          for row in observed['coverage_scenarios']:
+              assert row['acceptance_pass'] is True
+              assert row['overall_overclaim_rate'] == frozen['coverage']['all_reported_overclaim_rates']
+              assert row['validation_overcertification_rate'] == frozen['coverage']['all_reported_validation_overcertification_rates']
+          assert {r['scenario_id']: r['all_refits_certified_power'] for r in observed['power_scenarios']} == frozen['strong_power']['certified_all_refits_power_by_scenario']
+          assert all(not r['acceptance_pass'] for r in observed['power_scenarios'])
+          print('FUTURE_REFIT_V1_FAILED_QUALIFICATION_REPLAY_MATCH=true')
+          PY

@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "receipt_type": "odsp_future_refit_success_probability_v1_failed_qualification",
+  "date": "2026-10-08",
+  "candidate_method": "training_process_future_refit_success_probability_v1",
+  "frozen_calibration_contract": "ODSP_TRAINING_PROCESS_FUTURE_REFIT_SUCCESS_PROBABILITY_V1_CALIBRATION_CONTRACT.json",
+  "first_official_run": {
+    "github_actions_run_id": 37645429154,
+    "head_sha": "6cd4d73b20f170b3bb03cb4111fd5b66d7250c10",
+    "seed": 20261016,
+    "simulations_per_scenario": 1000,
+    "bootstrap_draws": 500,
+    "workflow_conclusion": "failure"
+  },
+  "independent_branch_replay": {
+    "github_actions_run_id": 37646555873,
+    "head_sha": "1ab40f64aaed025240a34aef0e531b2ea3f800bb",
+    "workflow_conclusion": "failure",
+    "same_reported_summary": true
+  },
+  "coverage": {
+    "scenario_ids": [
+      "p50-normal-r8-b8",
+      "p80-normal-r8-b20",
+      "p80-normal-r20-b8",
+      "p95-normal-r20-b20",
+      "p80-t3-r8-b20",
+      "p50-t3-r20-b20"
+    ],
+    "all_reported_overclaim_rates": 0,
+    "all_reported_validation_overcertification_rates": 0,
+    "gate_pass": true,
+    "caution": "Zero overclaim alone is not evidence of useful inference when the certification procedure has negligible power."
+  },
+  "strong_power": {
+    "scenario_ids": [
+      "all-success-r8-b8",
+      "all-success-r20-b8"
+    ],
+    "strong_shift_oracle_standard_errors": 8,
+    "certified_all_refits_power_by_scenario": {
+      "all-success-r8-b8": 0,
+      "all-success-r20-b8": 0
+    },
+    "minimum_accepted_power": 0.8,
+    "gate_pass": false
+  },
+  "summary": {
+    "qualification_pass": false,
+    "v1_closed_to_primary": true,
+    "thresholds_relaxed_after_outcome": false,
+    "process_mean_v5_unchanged": true,
+    "fixed_set_routes_unchanged": true
+  },
+  "claim_boundary": {
+    "positive_future_refit_probability_inference_qualified": false,
+    "experiment_result_is_not_ecological_evidence": true,
+    "a_successor_requires_distinct_prefrozen_method_and_calibration": true,
+    "no_reclassification_of_prior_results": true
+  }
+}
