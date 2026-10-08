@@ -93,6 +93,62 @@ sunrise/sunset. The current pooled parity comparison is a model
 criticism, NOT a causal test and NOT a universal rejection of solar
 entrainment.
 
+
+## Additional model-class confound: same six bins does NOT mean same clock-space flexibility
+
+The four-model identity is exact, but the biological interpretation
+requires another substantial qualification. The solar-phase histogram
+is not merely an alternative *label* for the same six clock bins.
+
+Let p be an arbitrary six-bin solar-phase probability distribution,
+M(site,date) the 6×6 piecewise-linear phase-to-clock transport matrix,
+and q the implied heldout clock-bin probabilities:
+
+    q_j = sum_k p_k M_{kj},       p_k >=0, sum_k p_k=1.
+
+Thus the set of solar-model predictions for a fixed site/date is the
+CONVEX HULL of M's six rows, which may be a strict subset of the
+six-dimensional clock probability simplex. For every clock category:
+
+    q_j <= max_k M_{kj}.
+
+A direct season-conditioned CLOCK histogram does not have this
+particular restriction. Therefore CS and SS have the same nominal
+histogram parameter count but generally **unequal expressivity in
+the common civil-clock prediction space**. The adjusted clock
+advantage can reflect not only ecological timing organization
+but also the solar-phase histogram's forced probability mixing.
+
+For an illustrative location 41.5° N, 71.5° W (not an observed
+camera site) on the northern winter and summer solstices, the
+original astronomical model yields approximately:
+
+| Date | Maximum possible solar-projected probability in 16–20 clock bin |
+|---|---:|
+| 2022-12-21 | about 0.60 |
+| 2022-06-21 | about 0.42 |
+
+A direct clock histogram may put arbitrarily close to 1.0
+there. At ideal sunrise 06:00/sunset 18:00, M is the identity
+and the restriction disappears. These are DETERMINISTIC model
+geometry demonstrations and not estimates of animal behavior.
+
+The new code
+odsp/ri_solar_phase_projection_capacity_v0.py
+and tests/test_ri_solar_phase_projection_capacity_v0.py
+prove the above convex-hull bound and verify it numerically for
+illustrative RI solar geometry, without accessing any wildlife data.
+
+**Important interpretation revision:** SS-CS < 0 in both seasons is
+a descriptive prediction-performance finding for these FIXED model
+families. It does not imply mammals use civil time rather than
+sunlight, and it is not a clean equal-expressivity test of the
+photoperiod mechanism. A future prospective head-to-head comparison
+should use models that produce densities on the same continuous
+clock domain (with a correct change-of-variables Jacobian), or
+explicitly match effective binned representational capacity.
+
+
 ## The uncertainty-identification boundary
 
 The first artifact provides site-bootstrap lower bounds for some
