@@ -1,0 +1,36 @@
+name: uljin-photoperiod-mirror-outcome-free-calendar-v0
+
+on:
+  push:
+    branches:
+      - ecology/uljin-photoperiod-mirror-design-v0
+    paths:
+      - 'ULJIN_PHOTOPERIOD_MIRROR_2022_V0_DESIGN_CONTRACT.json'
+      - 'odsp/uljin_photoperiod_mirror_design_v0.py'
+      - 'tests/test_uljin_photoperiod_mirror_design_v0.py'
+      - 'scripts/run_uljin_photoperiod_mirror_calendar_v0.py'
+      - '.github/workflows/uljin-photoperiod-mirror-calendar-v0.yml'
+  workflow_dispatch:
+
+jobs:
+  prospective-calendar-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install ODSP test requirements
+        run: python -m pip install -e '.[dev]'
+      - name: Check frozen astro/calendar and effort-provenance constraints
+        run: python -m pytest -q tests/test_uljin_photoperiod_mirror_design_v0.py
+      - name: Generate date-pair catalog only (DO NOT read EcoBank events)
+        run: python scripts/run_uljin_photoperiod_mirror_calendar_v0.py
+      - name: Preserve first original structural design receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: uljin-photoperiod-mirror-first-calendar-v0
+          path: ULJIN_PHOTOPERIOD_MIRROR_2022_FIRST_CALENDAR_RECEIPT.json
+          if-no-files-found: warn
