@@ -26,7 +26,7 @@ _ROLES = {
 _ALTERNATIVES = {"greater", "two_sided"}
 _VALIDATION_DESIGNS = {"independent_groups", "paired_shared_blocks"}
 _INFORMATION_STRUCTURES = {"filtration", "complete_lattice"}
-_REFIT_MODES = {"none", "fixed_set", "stochastic_population", "predeclared_training_process"}
+_REFIT_MODES = {"none", "fixed_set", "stochastic_population", "predeclared_training_process", "predeclared_training_source_process"}
 _EXTERNAL_MODES = {"none", "untouched_frozen", "untouched_unfrozen"}
 
 
@@ -40,6 +40,7 @@ class MethodRoute:
     requires_preoutcome_freeze: bool
     requires_exact_shared_block_support: bool
     refit_population_generalization_claimed: bool
+    training_source_process_generalization_claimed: bool
     historical_endpoint_reclassification_allowed: bool
     qualification_key: str | None = None
     qualification_evidence: tuple[str, ...] = ()
@@ -79,6 +80,7 @@ def _route(
     qualification_evidence: Sequence[str] = (),
     edge_count: int | None = None,
     refit_population_generalization_claimed: bool = False,
+    training_source_process_generalization_claimed: bool = False,
 ) -> MethodRoute:
     return MethodRoute(
         role=role,
@@ -89,6 +91,7 @@ def _route(
         requires_preoutcome_freeze=requires_preoutcome_freeze,
         requires_exact_shared_block_support=requires_exact_shared_block_support,
         refit_population_generalization_claimed=refit_population_generalization_claimed,
+        training_source_process_generalization_claimed=training_source_process_generalization_claimed,
         historical_endpoint_reclassification_allowed=False,
         qualification_key=qualification_key,
         qualification_evidence=tuple(qualification_evidence),
@@ -143,6 +146,7 @@ def route_confirmatory_method(
         requires_exact_shared_block_support: bool = False,
         edge_count: int | None = None,
         refit_population_generalization_claimed: bool = False,
+        training_source_process_generalization_claimed: bool = False,
     ) -> MethodRoute:
         if role in {"primary_confirmatory", "bidirectional_confirmatory"}:
             key = route_evidence_key(
@@ -164,6 +168,7 @@ def route_confirmatory_method(
                     requires_exact_shared_block_support=requires_exact_shared_block_support,
                     edge_count=edge_count,
                     refit_population_generalization_claimed=refit_population_generalization_claimed,
+                    training_source_process_generalization_claimed=training_source_process_generalization_claimed,
                 )
             return _route(
                 role,
@@ -176,6 +181,7 @@ def route_confirmatory_method(
                 qualification_evidence=evidence,
                 edge_count=edge_count,
                 refit_population_generalization_claimed=refit_population_generalization_claimed,
+                training_source_process_generalization_claimed=training_source_process_generalization_claimed,
             )
         return _route(
             role,
@@ -186,6 +192,7 @@ def route_confirmatory_method(
             requires_exact_shared_block_support=requires_exact_shared_block_support,
             edge_count=edge_count,
             refit_population_generalization_claimed=refit_population_generalization_claimed,
+            training_source_process_generalization_claimed=training_source_process_generalization_claimed,
         )
 
     if upstream_refits == "stochastic_population":
@@ -193,6 +200,40 @@ def route_confirmatory_method(
             "unqualified",
             "ODSP has no fit-sampling model that supports confidence statements about a refit population; use a fixed supplied refit set only as an intersection robustness claim.",
         )
+    if upstream_refits == "predeclared_training_source_process":
+        if alternative != "greater":
+            return routed(
+                "unqualified",
+                "The predeclared outer training-source-process route is qualified only for a one-sided positive directional claim.",
+                requires_preoutcome_freeze=True,
+                refit_population_generalization_claimed=True,
+                training_source_process_generalization_claimed=True,
+            )
+        if external_validation != "none":
+            return routed(
+                "unqualified",
+                "No untouched-external endpoint is qualified for the predeclared outer training-source-process route; current qualification is internal held-out validation only.",
+                requires_preoutcome_freeze=True,
+                refit_population_generalization_claimed=True,
+                training_source_process_generalization_claimed=True,
+            )
+        if validation_design != "independent_groups":
+            return routed(
+                "unqualified",
+                "The predeclared outer training-source-process route is qualified only for independent validation groups.",
+                requires_preoutcome_freeze=True,
+                requires_exact_shared_block_support=validation_design == "paired_shared_blocks",
+                refit_population_generalization_claimed=True,
+                training_source_process_generalization_claimed=True,
+            )
+        if information_structure != "filtration":
+            return routed(
+                "unqualified",
+                "No complete-lattice endpoint is qualified for the predeclared outer training-source-process route.",
+                requires_preoutcome_freeze=True,
+                refit_population_generalization_claimed=True,
+                training_source_process_generalization_claimed=True,
+            )
     if external_validation == "untouched_unfrozen":
         return routed(
             "unqualified",
@@ -273,6 +314,34 @@ def route_confirmatory_method(
     # Predeclared directional positive-transfer route.
     if information_structure == "filtration":
         if validation_design == "independent_groups":
+            if upstream_refits == "predeclared_training_source_process":
+                if external_validation != "none":
+                    return routed(
+                        "unqualified",
+                        "The qualified outer training-source-process v0 route is internal only; an untouched-external source-process endpoint has not been separately qualified.",
+                        requires_preoutcome_freeze=True,
+                        refit_population_generalization_claimed=True,
+                        training_source_process_generalization_claimed=True,
+                    )
+                if contrasts != 2:
+                    return routed(
+                        "unqualified",
+                        "The qualified outer training-source-process v0 route covers only an ordered two-contrast independent filtration.",
+                        requires_preoutcome_freeze=True,
+                        refit_population_generalization_claimed=True,
+                        training_source_process_generalization_claimed=True,
+                    )
+                return routed(
+                    "primary_confirmatory",
+                    "The qualified source-v0 managed route targets mean held-out gain over a prospectively declared outer source-resampling process, nested inner training-refit process and validation population. Inner refits are averaged within source before source x validation CV3(2) inference, so they do not create independent outer source clusters. The target remains conditional on the frozen original source roster and does not claim an unknown ecological source superpopulation.",
+                    canonical_surface=(
+                        "odsp.training_source_process_managed_internal_v0."
+                        "run_managed_internal_training_source_process_v0"
+                    ),
+                    requires_preoutcome_freeze=True,
+                    refit_population_generalization_claimed=True,
+                    training_source_process_generalization_claimed=True,
+                )
             if contrasts not in {2, 4}:
                 return routed(
                     "unqualified",
@@ -502,6 +571,7 @@ def route_confirmatory_method(
 
 
 _PRIMARY_SURFACES = {
+    "odsp.training_source_process_managed_internal_v0.run_managed_internal_training_source_process_v0",
     "odsp.training_process_confirmatory_v5.certify_predeclared_training_process_positive_information_v5",
     "odsp.training_process_untouched_external_v5.run_untouched_external_training_process_v5",
     "odsp.information_transfer_positive_v2.certify_positive_information_transfer_v2",

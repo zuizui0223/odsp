@@ -36,6 +36,8 @@ def test_machine_contract_freezes_calibrated_directional_family_sizes():
     assert scope[
         "predeclared_training_process_untouched_external_filtration_contrast_counts"
     ] == [2]
+    assert scope["predeclared_training_source_process_filtration_contrast_counts"] == [2]
+    assert scope["predeclared_training_source_process_internal_primary"] is True
 
 
 def test_machine_contract_freezes_calibrated_bidirectional_family_sizes():
@@ -73,6 +75,9 @@ def test_machine_contract_marks_legacy_and_refit_mixture_as_sensitivity_only():
     assert surfaces[
         "odsp.training_process_untouched_external_v5.run_untouched_external_training_process_v5"
     ] == "primary_confirmatory"
+    assert surfaces[
+        "odsp.training_source_process_managed_internal_v0.run_managed_internal_training_source_process_v0"
+    ] == "primary_confirmatory"
 
 
 def test_machine_contract_requires_full_routing_context_for_primary_claim():
@@ -96,11 +101,18 @@ def test_machine_contract_qualifies_process_mean_and_narrow_external_route():
     assert external["predeclared_training_process_declared_first_access_chronology_required"] is True
     assert external["predeclared_training_process_historical_nonaccess_machine_proven"] is False
     assert payload["qualification_evidence"]["registry"] == (
-        "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V6.json"
+        "ODSP_CONFIRMATORY_ROUTE_EVIDENCE_REGISTRY_V7.json"
     )
     assert payload["qualification_evidence"]["content_lock_contract"] == (
-        "ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V4.json"
+        "ODSP_CONFIRMATORY_EVIDENCE_CONTENT_LOCK_V5.json"
     )
+    assert boundary["predeclared_training_source_process_mean_claim_qualified"] is True
+    assert boundary[
+        "predeclared_training_source_process_mean_is_conditional_on_frozen_original_source_roster"
+    ] is True
+    assert boundary[
+        "predeclared_training_source_process_unknown_ecological_superpopulation_generalization_claimed"
+    ] is False
 
 
 def test_method_route_cli_emits_machine_readable_decision(tmp_path: Path, capsys):

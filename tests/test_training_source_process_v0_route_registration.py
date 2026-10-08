@@ -30,3 +30,41 @@ def test_source_v0_registration_uses_predeclared_15_artifact_chain():
     assert p["evidence"]["route_chain_artifact_count"] == 15
     assert p["evidence"]["hash_receipt_is_meta_evidence_not_route_chain_member"] is True
     assert p["prerequisites"]["hash_snapshot_completed_before_registration"] is True
+
+
+def test_source_v0_external_route_fails_closed_before_evidence_lookup():
+    from odsp.confirmatory_method_routing import route_confirmatory_method
+
+    for external_mode in ("untouched_frozen", "untouched_unfrozen"):
+        route = route_confirmatory_method(
+            alternative="greater",
+            validation_design="independent_groups",
+            information_structure="filtration",
+            upstream_refits="predeclared_training_source_process",
+            external_validation=external_mode,
+            contrast_count=2,
+        )
+        assert route.role == "unqualified"
+        assert route.primary_for_claim is False
+        assert route.canonical_surface is None
+        assert route.qualification_key is None
+        assert route.requires_preoutcome_freeze is True
+
+
+def test_source_v0_internal_c2_remains_qualified():
+    from odsp.confirmatory_method_routing import route_confirmatory_method
+
+    route = route_confirmatory_method(
+        alternative="greater",
+        validation_design="independent_groups",
+        information_structure="filtration",
+        upstream_refits="predeclared_training_source_process",
+        external_validation="none",
+        contrast_count=2,
+    )
+    assert route.role == "primary_confirmatory"
+    assert route.canonical_surface == (
+        "odsp.training_source_process_managed_internal_v0."
+        "run_managed_internal_training_source_process_v0"
+    )
+    assert route.training_source_process_generalization_claimed is True

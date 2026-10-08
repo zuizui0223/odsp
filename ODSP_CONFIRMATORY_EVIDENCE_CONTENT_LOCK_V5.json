@@ -1,0 +1,60 @@
+{
+  "schema_version": 5,
+  "contract_id": "odsp-confirmatory-evidence-content-lock-v5",
+  "date": "2026-10-07",
+  "purpose": "freeze exact qualification-evidence content under active route registry v7 after prospective qualification and provenance locking of the predeclared outer training-source-process route",
+  "composes_with": {
+    "routing_contract": "odsp-confirmatory-method-routing-v1",
+    "evidence_registry": "odsp-confirmatory-route-evidence-v7",
+    "frozen_route_layer": "odsp.frozen_confirmatory_route"
+  },
+  "freeze": {
+    "qualification_registry_id_frozen": true,
+    "qualification_key_frozen": true,
+    "artifact_name_frozen": true,
+    "artifact_sha256_frozen": true,
+    "evidence_order_is_semantic": true,
+    "pre_outcome": true
+  },
+  "source_validation": {
+    "source_ci_verifies_registered_sha256_against_repository_bytes": true,
+    "missing_artifact_digest_fails_closed": true,
+    "malformed_artifact_digest_fails_closed": true,
+    "duplicate_evidence_artifact_forbidden": true
+  },
+  "runtime": {
+    "exact_snapshot_match_required": true,
+    "same_filename_changed_content_allowed": false,
+    "calibration_recomputed": false,
+    "frozen_manifest_artifact_bytes_required_at_runtime": false,
+    "current_registered_snapshot_recomputed_from_route_key": true
+  },
+  "scope": {
+    "applies_to_active_internal_and_untouched_external_confirmatory_routes": true,
+    "training_process_external_c2_route_included": true,
+    "changes_statistical_estimand": false,
+    "changes_bootstrap_or_jackknife_algorithm": false,
+    "changes_refit_sampling_interpretation": false,
+    "training_source_process_external_c2_route_included": true,
+    "training_source_process_v0_internal_c2_route_included": true
+  },
+  "historical_governance": {
+    "empirical_endpoint_rerun": false,
+    "terminal_reclassification": false,
+    "evidence_registry_v2_deleted_or_rewritten": false,
+    "evidence_registry_v3_deleted_or_rewritten": false,
+    "evidence_registry_v4_deleted_or_rewritten": false,
+    "evidence_content_lock_v1_deleted_or_rewritten": false,
+    "evidence_content_lock_v2_deleted_or_rewritten": false,
+    "evidence_registry_v5_deleted_or_rewritten": false,
+    "evidence_content_lock_v3_deleted_or_rewritten": false,
+    "evidence_registry_v6_deleted_or_rewritten": false,
+    "evidence_content_lock_v4_deleted_or_rewritten": false
+  },
+  "migration": {
+    "legacy_manifest_auto_upgrade_allowed": false,
+    "post_outcome_retroactive_upgrade_allowed": false,
+    "pre_outcome_regeneration_allowed": true,
+    "rationale": "the outer training-source-process route is primary only prospectively after its pre-result evidence plan, focused provenance gate, identity receipt and official artifact hash snapshot; historical registries are retained unchanged"
+  }
+}
