@@ -36,7 +36,7 @@ def _datetime_shape(raw: str)->str:
         return "slash date prefix"
     if re.match(r"^[0-9]{1,2}-[A-Za-z]{3}-[0-9]{2,4}",value):
         return "day-monthname-year prefix"
-    if re.match(r"^[0-9]+(?:\\.[0-9]+)?$",value):
+    if re.match(r"^[0-9]+(?:\.[0-9]+)?$",value):
         return "numeric or spreadsheet serial"
     return "other format"
 
