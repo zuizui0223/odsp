@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-uljin-original-41-pairs-equation-of-time-diagnostic-v0",
+  "stage": "POST_FIRST_OUTCOME_FREE_ASTRONOMICAL_CALENDAR_SOURCE_FREE_SENSITIVITY",
+  "original_study_contract": "ULJIN_PHOTOPERIOD_MIRROR_2022_V0_DESIGN_CONTRACT.json",
+  "original_calendar_run_id": 37771342454,
+  "original_date_pairs_not_rematched": true,
+  "latitude_degrees": 36.85,
+  "longitude_degrees": 129.2,
+  "timezone_standard_utc_offset_hours": 9,
+  "leap_year_handling": "original 2022 day-of-year NOAA fractional-year n=365",
+  "equation_of_time_minutes_formula": "229.18*(.000075+.001868 cos(gamma)-.032077 sin(gamma)-.014615 cos(2gamma)-.040849 sin(2gamma))",
+  "apparent_solar_zenith_degrees": 90.833,
+  "original_pair_count_required": 41,
+  "fixed_checks": [
+    "each original pair has nonidentical civil-time solar noon despite approximately equal daylength",
+    "solar noon is longitude-dependent but paired solar-noon difference cancels fixed longitude",
+    "clock sunrise/sunset times can differ by multiple minutes",
+    "sunrise anchored at solar-phase 06 and sunset anchored at solar-phase 18 exactly in both dates",
+    "no matched date re-optimization, no camera operation logs, no ungulate time labels"
+  ],
+  "no_individual_camera_station_coordinates_accessed": true,
+  "no_animal_records_accessed": true,
+  "no_unseen_study_result_promoted": true,
+  "result_status": "SOLAR_NOON_CLOCK_OFFSET_DESIGN_CONTROL_ONLY"
+}
