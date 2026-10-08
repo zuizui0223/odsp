@@ -1,0 +1,53 @@
+name: future-refit-ecological-preflight-v0
+
+on:
+  push:
+    branches:
+      - method/future-refit-shared-validation-evalue-v0
+    paths:
+      - 'odsp/future_refit_bounded_brier_adapter_v0.py'
+      - 'odsp/future_refit_ecological_preflight_v0.py'
+      - 'scripts/audit_future_refit_ecological_admission_v0.py'
+      - 'tests/test_future_refit_bounded_brier_adapter_v0.py'
+      - 'tests/test_future_refit_ecological_preflight_v0.py'
+      - '.github/workflows/future-refit-ecological-preflight-v0.yml'
+      - 'ODSP_FUTURE_REFIT_SHARED_EVALUE_V0_SIMULATION_PLAN.json'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Focused scientific score and ecological admission tests
+        run: |
+          python -m pytest -q \
+            tests/test_future_refit_bounded_brier_adapter_v0.py \
+            tests/test_future_refit_ecological_preflight_v0.py \
+            tests/test_future_refit_shared_evalue_first_receipt.py
+      - name: Generate outcome-free closed-endpoint admission ledger
+        run: |
+          python scripts/audit_future_refit_ecological_admission_v0.py > future_refit_ecology_admission_v0.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          obj=json.loads(Path("future_refit_ecology_admission_v0.json").read_text())
+          assert obj["outcomes_read"] is False
+          assert obj["qualified_future_refit_ecological_endpoints"] == 0
+          assert obj["existing_lanes_audited"] == 4
+          assert obj["prior_empirical_terminal_categories_reclassified"] is False
+          print("Ecological admission: four prior endpoints remain closed; none promoted")
+          PY
+      - name: Archive structural admission report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: future-refit-ecology-admission-v0
+          path: future_refit_ecology_admission_v0.json
+          if-no-files-found: warn
