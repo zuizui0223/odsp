@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "analysis_id": "ri_solar_v2_site_paired_season_parity_bootstrap_v0",
+  "status": "POST_OUTCOME_EXPLORATORY_COVARIANCE_RECOVERY_NOT_PRIMARY",
+  "first_original": {
+    "run_id": 37747931559,
+    "method_version": "odsp-ri-solar-vs-clock-yearseason-v2-exploratory",
+    "first_scientific_status": "EXPLORATORY_NOT_SUPPORTED_OR_UNAVAILABLE",
+    "scored_detection_events": 19916,
+    "distinct_heldout_physical_sites": 43,
+    "winter_solar_minus_clock": 0.02745845931504319,
+    "summer_solar_minus_clock": -0.0325742873706785,
+    "winter_pooled_solar_95_lower": 0.017686837094790103,
+    "summer_pooled_solar_95_lower": -0.04153436486877643,
+    "first_receipt_sha256": "5d4bca0efc079ec3ae58d1062d4c1fb4c0b6476b64d56eead6d79e39ae83edab"
+  },
+  "source": {
+    "download_url": "https://zenodo.org/records/14508932/files/DataS1.zip?download=1",
+    "md5": "c66943e6c2a9aab0abce2a1eba8ce02e",
+    "original_v2_parser": "odsp.ri_solar_clock_yearseason_v2.v2_events_from_two_tables",
+    "original_train_fit": "odsp.ri_solar_clock_transfer_v0.fit_species_profiles",
+    "original_event_scoring": "odsp.ri_solar_clock_transfer_v0.score_new_site_future_year",
+    "original_site_aggregator": "odsp.ri_solar_clock_transfer_v0.summarize_site_level_transfer",
+    "no_source_substitution": true
+  },
+  "new_descriptive_target": {
+    "heldout_clock_target": "six 4-hour local civil-clock detection categories",
+    "four_models": [
+      "clock",
+      "solar",
+      "clock_season",
+      "solar_season"
+    ],
+    "row_level_identity": "(solar-clock)+(solar_season-solar)-(clock_season-clock)",
+    "aggregation": "equal per-event within physical site x season x year; then equal across present years within physical site x season; then equal physical sites within season",
+    "season_groups": [
+      "winter",
+      "summer"
+    ],
+    "no_favorable_species_or_site_filtering": true,
+    "same_original_21_training_taxa": true,
+    "require_reproducing_original_first_means_before_bootstrap": true
+  },
+  "bootstrap": {
+    "unit": "original entire physical Primary.Site.ID, not camera device, observation, individual unknown, season-year or taxon",
+    "replicates": 2000,
+    "seed": 2026100803,
+    "weights": "iid Exponential(1) site multipliers shared across both seasons and all original four score contrasts",
+    "estimator": "ratio of weighted site seasonal means",
+    "percentiles_two_sided": [
+      0.025,
+      0.975
+    ],
+    "site_set": "All original heldout scored sites, sorted and indexed; no matching subset selection",
+    "original_pooled_component_bootstrap_lower_quantile": 0.05,
+    "original_pooled_bootstrap_match_tolerance": 1e-10,
+    "new_adjusted_interval_declared_postoutcome": true,
+    "no_retroactive_confirmatory_significance_claim": true
+  },
+  "hard_stops": [
+    "Any source MD5, source v2 schema, original scored count or unique physical site count mismatch",
+    "Original winter/summer mean or 0.05 lower site-bootstrap bound differs from original by > 1e-10",
+    "Missing component score or nonfinite adjusted score",
+    "Any use of site/taxon matched post-outcome subset instead of full original heldout population",
+    "Any changing 2000 bootstrap draws/seed or percentile bounds after seeing adjusted contrast",
+    "Any declaration that these intervals independently confirm the seasonal clock mechanism"
+  ],
+  "claim_limits": [
+    "Post-outcome exploratory interval, not pre-specified inference",
+    "No guarantee of independent spatial sampling and bootstrap coverage",
+    "No camera hour-level operational effort denominator or independent clock calibration",
+    "No causal sunlight response or animal individual-level tracking",
+    "Original primary solar advantage both seasons is NOT SUPPORTED",
+    "Original ODSP qualified routes and terminal results remain untouched"
+  ]
+}
