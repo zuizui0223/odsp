@@ -93,7 +93,7 @@ def hypothetical_station_species_pair_feasibility(
     return {
         "schema_version":1,
         "method":"uljin_published_aggregate_homogeneous_poisson_sparsity_v0",
-        "status":"HYPOTHETICAL_RATE_SCENARIO_NEVER_ACTUAL_UJLIN_SOURCE_SUPPORT",
+        "status":"HYPOTHETICAL_RATE_SCENARIO_NEVER_ACTUAL_ULJIN_SOURCE_SUPPORT",
         "published_source_events":EVENTS,
         "published_source_camera_nights":NIGHTS,
         "assumed_all_four_taxa_equal_rate":True,
