@@ -59,7 +59,7 @@ def main() -> int:
         or plan["design"]["last_training_season_year"]!=2021
         or plan["design"]["duplicate_photo_suppression_minutes"]!=30
         or plan["validation"]["bootstrap_draws"]!=2000
-        if "bootstrap_draws" in plan["validation"] else False
+        or plan["validation"]["bootstrap_seed"]!=2026100803
     ):
         # No permissive source/analysis fallback after archive results.
         raise ValueError("frozen source/design identity changed")
