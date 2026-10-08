@@ -150,7 +150,13 @@ def exact_upper_tail_threshold(offset:int,p:np.ndarray,
 
 def rejection_prob(offset:int,p:np.ndarray,threshold:int)->float:
     idx=threshold-offset
-    return float(p[max(0,idx):].sum())
+    raw=float(p[max(0,idx):].sum())
+    if not isfinite(raw) or raw < -1e-12 or raw > 1.+1e-12:
+        raise ValueError("conditional rejection mass is not a probability")
+    # Summing a normalized numerical PMF can exceed 1 by a few ulps.
+    # This is a machine-precision correction, not a change of the
+    # frozen test statistic, rejection threshold, or inference target.
+    return max(0.,min(1.,raw))
 
 
 def sites_for_design(kind:str,R:int)->list[FixedSiteMargins]:
