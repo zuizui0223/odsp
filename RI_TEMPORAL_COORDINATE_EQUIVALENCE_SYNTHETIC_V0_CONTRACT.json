@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp_temporal_coordinate_identifiability_and_capacity_v0",
+  "status": "SYNTHETIC_THEORY_ONLY_POST_RI_EMPIRICAL_RESULTS",
+  "prior_ri_source_audit": "RI_SOLAR_V2_FOUR_MODEL_PARITY_FIRST_RUN_LEDGER.json",
+  "hypotheses": {
+    "H_clock": "For fixed species, civil-clock event density f(t) invariant across seasonal solar contexts",
+    "H_solar": "For fixed species, solar-phase density g(phi) invariant across seasonal solar contexts, with per-context clock density g(phi_z(t))*Jacobian_z(t)",
+    "H_unrestricted": "Both clocks may use arbitrary context-specific densities; then time-coordinate likelihood alone is observationally equivalent, via exact density change of variables"
+  },
+  "synthetic_plan": {
+    "astronomical_latitude": 41.5,
+    "astronomical_longitude": -71.5,
+    "winter_date": "2022-12-21",
+    "summer_date": "2022-06-21",
+    "independent_context_weights": [
+      0.5,
+      0.5
+    ],
+    "clock_time_bins": 0,
+    "clock_period_hours": 24,
+    "numerical_midpoint_grid_points": 24000,
+    "von_mises_concentration": 2.2,
+    "von_mises_peak_clock_or_phase_hour": 7.5,
+    "exact_coordinate_transform": "Original ODSP sunrise 06, sunset 18 double-anchored piecewise affine map",
+    "local_clock_zone": "America/New_York",
+    "proper_score": "continuous log density on civil-clock time with explicit d(solar phase)/d(clock hour) Jacobian",
+    "known_truth_worlds": [
+      "solar_invariant",
+      "clock_invariant"
+    ],
+    "calibrated_comparators": "Unrestricted within-coordinate population-optimal density under equal mixture of two season contexts; not trained on observed data",
+    "tolerance_mass": 0.002,
+    "required_qualitative_tests": [
+      "positive time-coordinate Jacobian, forward and inverse identity",
+      "transported continuous density integrates to one in both seasons",
+      "context-saturated unrestricted solar and clock densities have equal exact civil-clock log scores",
+      "a shared solar density beats the population-optimal shared clock density under solar-invariant truth",
+      "a shared clock density beats the population-optimal shared solar density under clock-invariant truth",
+      "no artificial clock-bin convex-hull upper cap remains for continuous transported densities",
+      "detection-effort aliasing can reproduce the same observed clock density under incompatible biological activity hypotheses"
+    ],
+    "never_compute_empirical_ri_effect_or_revise_frozen_results": true
+  },
+  "claims": {
+    "coordinate_change_is_not_a_causal_intervention": true,
+    "joint_unrestricted_context_dependence_means_identical_distribution_families": true,
+    "season_invariance_assumptions_create_the_real_testable_difference": true,
+    "all_actual_camera_detection_rates_require_effort_model": true,
+    "nonparametric_unrestricted_models_do_not_identify_internal_animal_clock": true,
+    "fixed_histogram_models_do_not_have_equal_prediction_support": true,
+    "synthetic_positive_truth_validation_is_not_real_ecological_discovery": true,
+    "no_inference_registry_promotion": true,
+    "original_ri_results_reclassified": false
+  }
+}
