@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-snapshot-usa-2024-calendar-span-deployment-screen-v1",
+  "status": "PRE_FIRST_CALENDAR_METADATA_RESULT_FROZEN_DESIGN",
+  "relationship": {
+    "base_screen": "ODSP_SNAPSHOT_USA_2024_DEPLOYMENT_SCREEN_V0_CONTRACT.json",
+    "base_branch": "research/snapshot-usa-2024-outcome-blind-screen-v0",
+    "new_separate_route": true,
+    "v0_selection_or_results_modified": false,
+    "changes_from_v0": "Replace image-derived Survey_Nights with installation/retrieval calendar span only; new separately versioned structural target",
+    "old_empirical_terminal_results_modified": false
+  },
+  "source": {
+    "dataset_doi": "10.5061/dryad.bnzs7h4qf",
+    "file_name": "ssusa_2024_deployments.csv",
+    "frozen_download_url": "https://datadryad.org/downloads/file_stream/4788613",
+    "prohibited_file_name": "ssusa_2024_sequences.csv",
+    "public_documentation": "https://datadryad.org/dataset/doi:10.5061/dryad.bnzs7h4qf",
+    "known_from_public_webpage": "Deployment Start_Date and End_Date are given as camera physical placement/retrieval dates; Survey_Nights is based on first/last detected images per Rooney et al. (2026)."
+  },
+  "prior_exposure_and_claim_ceiling": {
+    "published_aggregate_array_habitat_counts_seen": true,
+    "v0_metadata_download_workflow_started_or_queued_before_this_v1_freeze": true,
+    "all_historical_deployment_content_nonaccess_attested": false,
+    "per_sequence_species_datetime_rows_opened_by_this_screen": false,
+    "v1_is_not_first_global_access_to_public_metadata": true,
+    "v1_is_a_new_analytic_design_not_reclassification_of_v0": true,
+    "installation_interval_is_camera_uptime_or_detection_effort": false,
+    "iid_camera_sites_or_arrays_proven": false,
+    "cross_year_original_source_overlap_verified": false
+  },
+  "primary_estimand": "Number of unique Project×Camera_Trap_Array×Site_Name sites in each frozen forest/grassland habitat with at least one single camera calendar placement/retrieval interval of >=30 nights, excluding ambiguous/hard-fail metadata",
+  "outcome_independent_input_only": [
+    "Project",
+    "State",
+    "Camera_Trap_Array",
+    "Site_Name",
+    "Deployment_ID",
+    "Start_Date",
+    "End_Date",
+    "Habitat",
+    "Development_Level",
+    "Feature_Type",
+    "Latitude",
+    "Longitude"
+  ],
+  "present_but_never_read": [
+    "Survey_Nights",
+    "Species",
+    "Sequence_ID",
+    "Start_Time",
+    "End_Time",
+    "Common_Name",
+    "Image_Count",
+    "animal detections"
+  ],
+  "forbidden_response_csv": "ssusa_2024_sequences.csv",
+  "habitat_groups": {
+    "ordered": [
+      "forest",
+      "grassland"
+    ],
+    "selection": "casefold(Habitat) includes exactly one literal substring 'forest' or 'grassland'; otherwise exclude",
+    "minimum_calendar_span_nights": 30,
+    "minimum_unique_sites_per_group": 8,
+    "minimum_distinct_arrays_per_group": 8,
+    "no_group_switching_after_first_metadata_result": true
+  },
+  "site_and_deployment": {
+    "site_key_columns": [
+      "Project",
+      "Camera_Trap_Array",
+      "Site_Name"
+    ],
+    "array_key_columns": [
+      "Project",
+      "Camera_Trap_Array"
+    ],
+    "deployment_id_key_columns": [
+      "Project",
+      "Deployment_ID"
+    ],
+    "site_counted_once": true,
+    "same_site_duplicate_deployments": "Use MAX nonnegative End_Date - Start_Date across distinct rows, never sum even if disjoint; output duplicate conflicts only in aggregates",
+    "invalid_calendar_span": "missing, malformed, negative or >366 days excluded from qualifying interval and counted",
+    "contradictory_same_site_coordinates": "if two rounded-to-4-decimals valid coordinate pairs disagree, exclude site",
+    "contradictory_site_state_or_habitat": "exclude site from selected primary groups",
+    "missing_coordinates": "exclude from eligible groups",
+    "reused_project_deployment_id_on_different_sites": "mark conflicted deployment sites ineligible",
+    "user_provided_site_id_or_exact_coordinates_in_receipt": false
+  },
+  "secondary_only": {
+    "feature_exclusion_tokens": [
+      "trail",
+      "road",
+      "water",
+      "bait",
+      "feeder",
+      "salt"
+    ],
+    "cannot_override_primary": true,
+    "effort_cannot_be_derived_from_2024_image_timestamps": true
+  },
+  "metrics": [
+    "all_deployment_rows",
+    "missing_or_invalid_calendar_date_rows",
+    "unique_physical_sites",
+    "unique_arrays",
+    "forest/grassland eligible sites/arrays/states",
+    "duplicate deployment-ID conflicts",
+    "site coordinate and state conflicts",
+    "within-site max single placement calendar span >=30",
+    "secondary feature-filtered sites/arrays"
+  ],
+  "structural_gate": "Both frozen habitats have >=8 eligible unique sites AND >=8 arrays; this is NOT an iid sampling or power gate.",
+  "fail_closed": "If frozen Dryad deployment CSV unavailable or invalid, report SOURCE_METADATA_UNAVAILABLE; do not open sequence CSV or substitute another metadata version.",
+  "primary_confirmatory_qualified": false,
+  "no_auto_merging_or_route_registration": true,
+  "no_reclassification_of_prior_ecological_endpoints": true
+}
