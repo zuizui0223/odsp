@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "contract_id": "odsp-ri-camera-v3-header-only-recovery-v0",
+  "created_date": "2026-10-08",
+  "purpose": "Discover exact raw CSV column names and file-level byte sizes after original frozen RI solar-clock analysis stopped at required site/camera alias matching.",
+  "target_branch": "research/ri-camera-v3-header-recovery-v0",
+  "prior_runs": {
+    "first_test_stop": 37736523128,
+    "first_zip_guard_stop": 37743723775,
+    "first_real_schema_stop": 37744643137,
+    "first_real_schema_failure": "required source columns unavailable: ['site', 'camera']",
+    "prior_runner_already_decompressed_and_parsed_both_CSV_row_records_in_memory": true,
+    "no_heldout_scores_computed_or_reported": true,
+    "first_route_pre_outcome_status_can_be_restored": false
+  },
+  "source": {
+    "url": "https://zenodo.org/records/14508932/files/DataS1.zip?download=1",
+    "md5": "c66943e6c2a9aab0abce2a1eba8ce02e",
+    "allowed_members": [
+      "RI_CameraSurvey_Deployments.csv",
+      "RI_CameraSurvey_Detections.csv"
+    ],
+    "max_zip_compressed_bytes": 75000000,
+    "use_existing_prior_frozen_zipinfo_gate": true
+  },
+  "permitted_operations": [
+    "Download only frozen URL and recheck exact original MD5",
+    "Apply the qualified pre-existing ZIP-central-directory safety gate",
+    "For each expected CSV member, decompress only first 65536 bytes or less needed to read first header line",
+    "Return ONLY raw CSV column names, column count, header-line SHA256 and non-content metadata",
+    "Classify presence of columns by public pre-existing normalized alias candidates without opening data rows"
+  ],
+  "prohibited_operations": [
+    "Do not emit first or later data rows",
+    "Do not count species, dates, hours, sites, occurrence rates or ecological response variables",
+    "Do not alter original v0 outcomes, source identity or species-admission policy",
+    "Do not silently map unfamiliar columns to site/camera/detection without separately versioned source-schema contract",
+    "Do not promote v0 prior result or treat this as a pre-outcome ecological refit qualification"
+  ],
+  "max_header_line_bytes": 65536,
+  "fail_closed": {
+    "unexpected_header_quotation_or_newline": "header-only CSV parser stops and reports HEADER_NOT_READABLE",
+    "undecodable_text": "stop; no guessed encoding",
+    "unexpected_csv_member": "stop; no alternate data source",
+    "missing_member": "stop"
+  },
+  "status": "FROZEN_HEADER_ONLY_PROBE_AFTER_PRIOR_SCHEMA_FAILURE_NOT_ECOLOGY"
+}
