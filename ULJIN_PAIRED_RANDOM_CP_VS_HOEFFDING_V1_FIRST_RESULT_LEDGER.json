@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_PAIRED_RANDOM_CP_HOEFFDING_V1_TERMINAL_RESULT",
+  "pr_number": 250,
+  "frozen_contract_sha": "7b58d2888c7a32f8e037c429b87a9fbbd3a519b4",
+  "first_run_id": 37894118360,
+  "first_run_url": "https://github.com/zuizui0223/odsp/actions/runs/37894118360",
+  "first_scored_workflow_head_sha": "00c2fdfa4bdaa90d257bf4ef181993f17688cf61",
+  "first_artifact_id": 11599691697,
+  "first_artifact_sha256": "sha256:8584924ee9f5ed00ecc6652e168615dc4e51922b414d8b67e3649c99a3fb7a79",
+  "focused_tests": "success",
+  "first_frozen_9600_world_panel": "success",
+  "all_previous_Hoeffding_synthetic_16_case_results_replayed_exactly": true,
+  "independent_q_calibration_alpha": 0.025,
+  "independent_animal_conditional_test_alpha": 0.025,
+  "joint_false_certification_nominal_bound_under_assumptions": 0.05,
+  "truth": "alternative_strong_encounter; true within-site latent encounter OR=2 and detector interaction OR=1 under frozen site/season/bin margins",
+  "first_paired_alternative_results": [
+    {
+      "independent_reference_opportunities_per_cell": 50,
+      "CP_certification": 0.05333333333333334,
+      "Hoeffding_certification": 0,
+      "CP_only_count": 32,
+      "Hoeffding_only_count": 0
+    },
+    {
+      "independent_reference_opportunities_per_cell": 200,
+      "CP_certification": 0.62,
+      "Hoeffding_certification": 0.13166666666666665,
+      "CP_only_count": 293,
+      "Hoeffding_only_count": 0
+    },
+    {
+      "independent_reference_opportunities_per_cell": 1000,
+      "CP_certification": 0.9433333333333334,
+      "Hoeffding_certification": 0.815,
+      "CP_only_count": 77,
+      "Hoeffding_only_count": 0
+    },
+    {
+      "independent_reference_opportunities_per_cell": 5000,
+      "CP_certification": 0.9883333333333333,
+      "Hoeffding_certification": 0.9716666666666667,
+      "CP_only_count": 10,
+      "Hoeffding_only_count": 0
+    }
+  ],
+  "first_other_truths": {
+    "null_no_bias_CP_certification": [
+      0,
+      0.0016666666666666668,
+      0.005,
+      0.013333333333333334
+    ],
+    "null_effort_only_CP_certification": [
+      0,
+      0.0016666666666666668,
+      0.0033333333333333335,
+      0.0033333333333333335
+    ],
+    "null_detector_only_CP_certification": [
+      0,
+      0,
+      0,
+      0.006666666666666667
+    ],
+    "null_detector_only_Hoeffding_certification": [
+      0,
+      0,
+      0,
+      0.005
+    ]
+  },
+  "interpretation": {
+    "representative_rounded_success_CP_at_200_from_parent_does_not_mean_stochastic_80pct_power": true,
+    "predefined_grid_first_80pct_exceedance_is_1000_for_both": true,
+    "paired_CP_advantage_at_200_percentage_points": 48.83333333333333,
+    "independent_reference_trials_n_is_PER_EACH_OF_FOUR_Q_CELLS": true,
+    "trial_total_is_4_times_reported_n": true,
+    "simulation_uncertainty_not_a_prospective_ecological_power_guarantee": true,
+    "complete_full_16_case_first_result_archived_with_frozen_ci": true,
+    "no_real_ungulate_camera_q_or_uptime_source_access": true,
+    "no_new_general_CP_theorem_claimed": true,
+    "no_qualified_ODSP_prior_inference_reclassified": true
+  },
+  "status": "TERMINAL_SOURCE_FREE_PAIRED_CP_HOEFFDING_POWER_NOT_EMPIRICAL"
+}
