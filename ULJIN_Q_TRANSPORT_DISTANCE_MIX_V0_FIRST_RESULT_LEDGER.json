@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_PRE_FROZEN_ULJIN_DISTANCE_MIX_Q_TRANSPORT_V0_TERMINAL_SOURCE_FREE",
+  "pr": 251,
+  "original_contract_freeze_commit": "eb10c25bb1211fbf046b71ecd68e14f44cfce331",
+  "first_scored_ci_run": 37896564231,
+  "first_scored_head": "8fe1f9dec4a5bddd343a3636ebf65bdd85e85e6d",
+  "first_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/37896564231",
+  "artifact_id": 11600642381,
+  "artifact_digest": "sha256:fd9359c9729b520f2857716fc3b9fb301c93cf367576cec27e7e3f16b2795c32",
+  "focused_tests": "passed",
+  "first_source_free_panel": "12 cases×200 independent worlds passed",
+  "q_near_stratum": 0.9,
+  "q_far_stratum": 0.3,
+  "reference_near_mix": 0.5,
+  "confounded_target_near_mix": [
+    0.2,
+    0.8,
+    0.8,
+    0.2
+  ],
+  "confounded_true_detector_OR": 3.4489795918367343,
+  "reversed_true_detector_OR": 0.2899408284023669,
+  "source_free_cases": [
+    {
+      "world": "null_same_distance_mix",
+      "n": [
+        50,
+        200,
+        1000
+      ],
+      "naive": [
+        0,
+        0,
+        0.005
+      ],
+      "target_standardized": [
+        0,
+        0,
+        0
+      ],
+      "joint_12_coverage": [
+        0.97,
+        0.96,
+        0.955
+      ]
+    },
+    {
+      "world": "null_mixing_confounded",
+      "n": [
+        50,
+        200,
+        1000
+      ],
+      "naive": [
+        0.275,
+        0.9,
+        0.99
+      ],
+      "target_standardized": [
+        0,
+        0,
+        0
+      ],
+      "joint_12_coverage": [
+        0.98,
+        0.96,
+        0.955
+      ]
+    },
+    {
+      "world": "null_reverse_mixing",
+      "n": [
+        50,
+        200,
+        1000
+      ],
+      "naive": [
+        0,
+        0,
+        0
+      ],
+      "target_standardized": [
+        0,
+        0,
+        0
+      ],
+      "joint_12_coverage": [
+        1,
+        0.985,
+        0.965
+      ]
+    },
+    {
+      "world": "positive_encounter_with_mixing",
+      "n": [
+        50,
+        200,
+        1000
+      ],
+      "naive": [
+        1,
+        1,
+        1
+      ],
+      "target_standardized": [
+        0,
+        0,
+        0.39
+      ],
+      "joint_12_coverage": [
+        0.99,
+        0.97,
+        0.965
+      ]
+    }
+  ],
+  "validity": {
+    "all_original_41_dates_untouched": true,
+    "one_site_two_phase_bins_hypothetical": true,
+    "simultaneous_detector_alpha": 0.0125,
+    "simultaneous_target_distance_mix_alpha": 0.0125,
+    "exact_animal_count_alpha": 0.025,
+    "total_false_certification_union_bound_under_independence": 0.05,
+    "q_ref_heterogeneous_Bernoulli_count_naive_as_binomial_intentionally_not_calibrated": true,
+    "next_needed": "An IID correctly calibrated reference mixture q alone still fails when transported to a different animal passage opportunity composition; separate follow-up validation route needed.",
+    "no_real_camera_effort_q_reference_or_animal_events": true,
+    "no_previous_ODSP_qualified_route_reclassification": true
+  },
+  "status": "TERMINAL_SOURCE_FREE_DISTANCE_Q_TRANSPORT_STRESS_NOT_EMPIRICAL"
+}
