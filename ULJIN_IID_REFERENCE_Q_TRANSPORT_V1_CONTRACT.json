@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_iid_reference_camera_q_transport_v1",
+  "stage": "FROZEN_POST_HETEROGENEOUS_POOL_FIRST_RESULTS_BEFORE_VALID_REFERENCE_OUTCOME",
+  "parent_pr": 251,
+  "parent_first_ledger": "ULJIN_Q_TRANSPORT_DISTANCE_MIX_V0_FIRST_RESULT_LEDGER.json",
+  "parent_frozen_contract_sha": "eb10c25bb1211fbf046b71ecd68e14f44cfce331",
+  "prior_first_result_seen": "In PR251 naive pooled heterogeneous Bernoulli reference incorrectly assumed Binomial, and confounded null showed 27.5%,90%,99% naive detection vs 0% corrected. Here distinguish valid reference-binomial sampling from q transport.",
+  "identifiability_question": "Can an IID correctly calibrated camera reference population still fail when applied to a biologically different target distance-mixture even with infinite reference sample size?",
+  "inherited_exact_same_source_free_truths": "Four distance/season/solar-phase worlds, q_near=.9, q_far=.3, reference near fraction=.5, target mix [.5]*4, [.2,.8,.8,.2], [.8,.2,.2,.8], alternative latent OR2 + [.2,.8,.8,.2]. Reuse parent physical-site fixed-margin animal data and corrected 8 q+4 mix receipts with exactly same original RNG for each replicate.",
+  "comparator_reference": {
+    "physical_sampling": "Independently labeled reference opportunities: for each of four phase×season cells, each opportunity independently chooses near distance Bernoulli(0.5), then independently hits focal camera with q_near=.9 or q_far=.3. Marginal detector outcome for each reference opportunity is IID Bernoulli(0.6), thus total successes genuinely Binomial(2n,0.6) per cell.",
+    "random_reference_sample": "2n valid independent iid 50/50-mixture reference opportunities per season×solar-bin, n in original 50,200,1000; this equals 8n total reference q opportunities across 4 cells",
+    "random_seed_extra_reference": "SeedSequence([2026100916,world_index,n_index,replicate_index,734]) independent from prior complete old reference/wildlife draws",
+    "reference_interval": "Four-cell simultaneous Clopper-Pearson two-sided CP alpha_q=.025 (0.025/8 in each one-sided tail); correct finite-sample simultaneous coverage >=.975 for the REFERENCE q=.6 across all four bins, not target q when mix differs.",
+    "animal_exact_test": "Fisher noncentral upper tail at known camera effort OR1 times q-reference interaction upper bound, animal alpha=.025; no target-mixture correction; invalid ecological transport for shifted target mix even though reference q CP mathematically valid."
+  },
+  "corrected_target_calibration": "Reuse v0 8 separate distance q plus 4 independently measured target mix CP bands, animal alpha=.025, total .0125+.0125+.025=.05. Keep same animal observations and original target-calibrated results, assert replay.",
+  "replications": {
+    "original_seed": 2026100916,
+    "worlds": 4,
+    "calibration_n_per_q_distance_cell": [
+      50,
+      200,
+      1000
+    ],
+    "world_replicates": 200,
+    "total": 2400
+  },
+  "mandatory_checks": [
+    "all 12 original parent corrected target-calibrated certification fractions and 12-cell empirical coverages replay to first ledger exactly, same original seed and original animal count matrices",
+    "all 12 new iid reference q CP four-cell simultaneous coverages reported; theoretical coverage >=.975 independent of simulation",
+    "reference q=.6 yields count OR exactly1 for all 4 season/solar bins",
+    "confounded target mixture [.2,.8,.8,.2] q=(.42,.78,.78,.42), detector OR=(.78/.42)^2≈3.44898, animal encounter OR1 and no within-distance camera q variation",
+    "same animal events in both source-reference and target-standardized method for every replicate",
+    "new random iid reference samples independent of both original q calibration and animal counts",
+    "any strong false certification from source reference is invalid TRANSPORT, not calibration CP size failure",
+    "retain reverse-mix/null-balance and strong true alternative all cases; do not tune model or select winning seasons",
+    "no original EcoBank real hardware operation, wildlife detections, independent q reference trials, sensitive station GPS",
+    "original registered ODSP routes and previous parent first outcomes remain unchanged"
+  ],
+  "claims": "For an IID reference distribution, Clopper-Pearson can be exact and still be irrelevant to a target wildlife opportunity distribution. This is model transport/standardization, not a new Clopper-Pearson theorem nor observed animal ecology."
+}
