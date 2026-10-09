@@ -274,7 +274,8 @@ def frozen_joint_calibration_panel(
     return {
         "schema_version":1,
         "method":METHOD,
-        "status":("SOURCE_FREE_INDEPENDENT_Q_CALIBRATION_SPLIT_ALPHA_ONLY"\n                  if reps==REPS else "SOURCE_FREE_Q_CALIBRATION_PREFLIGHT_ONLY"),
+        "status":("SOURCE_FREE_INDEPENDENT_Q_CALIBRATION_SPLIT_ALPHA_ONLY"
+                  if reps==REPS else "SOURCE_FREE_Q_CALIBRATION_PREFLIGHT_ONLY"),
         "calibration_joint_error_budget":ALPHA_CAL,
         "animal_exact_test_error_budget":ALPHA_TEST,
         "guaranteed_total_false_certification_upper_bound":ALPHA_ALL,
