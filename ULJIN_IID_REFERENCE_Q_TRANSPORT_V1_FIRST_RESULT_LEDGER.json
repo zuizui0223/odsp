@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_VALID_IID_SOURCE_Q_DISTANCE_MIX_TRANSPORT_V1_TERMINAL_RESULT",
+  "pr_number": 252,
+  "original_pre_result_contract_commit": "dc550f8765201477def247a7b43659e5c9222aed",
+  "original_first_scored_workflow_head": "b9403d95389621ee6e1502c61a297f304eec66ea",
+  "first_full_ci_run": 37896989425,
+  "first_full_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/37896989425",
+  "first_result_artifact_id": 11600074912,
+  "first_result_artifact_sha256": "sha256:a4ef6fbdb7340bf9b16063013e0e89ff266ae1bd287652bc4db0e17afb62358c",
+  "first_focused_tests": "pass",
+  "first_full_panel": "pass",
+  "original_parent_v0_all_12_corrected_results_replayed": true,
+  "source_calibration_legal_binomial": true,
+  "true_reference_q": 0.6,
+  "reference_q_season_phase_crossproduct_OR": 1,
+  "true_target_distance_mix_confounded": [
+    0.2,
+    0.8,
+    0.8,
+    0.2
+  ],
+  "true_target_detector_q_confounded": [
+    0.42,
+    0.78,
+    0.78,
+    0.42
+  ],
+  "true_target_detector_q_OR": 3.4489795918367343,
+  "null_confounded_first_results": [
+    {
+      "reference_n_per_each_distance_season_cell": 50,
+      "valid_iid_reference_false_certificate": 0.245,
+      "correct_target_standardized_false_certificate": 0,
+      "reference_q_four_cell_coverage": 0.985
+    },
+    {
+      "reference_n_per_each_distance_season_cell": 200,
+      "valid_iid_reference_false_certificate": 0.875,
+      "correct_target_standardized_false_certificate": 0,
+      "reference_q_four_cell_coverage": 0.995
+    },
+    {
+      "reference_n_per_each_distance_season_cell": 1000,
+      "valid_iid_reference_false_certificate": 0.985,
+      "correct_target_standardized_false_certificate": 0,
+      "reference_q_four_cell_coverage": 0.98
+    }
+  ],
+  "other_prespecified_truths": {
+    "null_balanced_mix": {
+      "valid_iid_reference_positive_fractions": [
+        0,
+        0,
+        0
+      ],
+      "corrected_positive_fractions": [
+        0,
+        0,
+        0
+      ]
+    },
+    "null_reversed_mix": {
+      "valid_iid_reference_positive_fractions": [
+        0,
+        0,
+        0
+      ],
+      "corrected_positive_fractions": [
+        0,
+        0,
+        0
+      ]
+    },
+    "positive_latent_encounter_OR2_with_mix": {
+      "valid_iid_reference_positive_fractions": [
+        0.995,
+        1,
+        1
+      ],
+      "corrected_positive_fractions": [
+        0,
+        0,
+        0.39
+      ]
+    }
+  },
+  "first_result_limits": {
+    "four_synthetic_worlds_three_n_times_200": true,
+    "same_original_parent_animal_data_and_corrected_q_results": true,
+    "IID_reference_succeeds_at_reference_q_coverage": true,
+    "target_mixture_diff_invalidates_source_q_transport": true,
+    "not_equivalent_total_reference_measurement_cost": true,
+    "no_original_Uljin_animal_camera_q_or_device_operation_data": true,
+    "not_source_empirical_hysteresis": true,
+    "previous_qualified_ODSP_routes_untouched": true
+  },
+  "status": "SOURCE_FREE_PROPER_IID_REFERENCE_Q_TRANSPORT_COUNTEREXAMPLE_NOT_REAL_ECOLOGY"
+}
