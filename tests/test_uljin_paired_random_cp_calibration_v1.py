@@ -5,6 +5,10 @@ import math
 import numpy as np
 import pytest
 
+# SciPy is optional for ODSP's scientific core. Dedicated calibration
+# CI installs it and runs all assertions; core must not fail collection.
+pytest.importorskip("scipy", reason="optional exact beta-quantile calibration dependency")
+
 from odsp.uljin_paired_random_cp_calibration_v1 import (
     TRUTHS,N_REF,ALPHA_CAL,ALPHA_TEST,ALPHA_ALL,REPS,
     exact_cp_four_cell_bounds,paired_world,paired_randomized_cp_panel,
