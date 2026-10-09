@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_q_transport_two_distance_strata_v0",
+  "status": "FROZEN_AFTER_PARENT_Q_RESULTS_BEFORE_FIRST_TRANSPORT_OUTCOME",
+  "parents": {
+    "randomized_q_pr": 250,
+    "first_randomized_q_ci": 37894118360,
+    "first_randomized_q_ledger": "ULJIN_PAIRED_RANDOM_CP_VS_HOEFFDING_V1_FIRST_RESULT_LEDGER.json"
+  },
+  "science": "A change in approach-distance or velocity composition between matched photoperiod branches may generate apparent season×solar-phase detection interactions even when animal encounter time distribution and distance-specific camera detection efficiency are invariant.",
+  "frozen_axes": {
+    "season_phase": [
+      "rising_early",
+      "rising_late",
+      "falling_early",
+      "falling_late"
+    ],
+    "distance_strata": [
+      "near",
+      "far"
+    ],
+    "calendar_pairs": "Same 41 original Uljin 2022 matched astronomy dates, only hypothetical one-site two-bin comparison scored; not opening original animal events."
+  },
+  "q_truth": {
+    "near": [
+      0.9,
+      0.9,
+      0.9,
+      0.9
+    ],
+    "far": [
+      0.3,
+      0.3,
+      0.3,
+      0.3
+    ]
+  },
+  "reference_distance_mix": [
+    0.5,
+    0.5,
+    0.5,
+    0.5
+  ],
+  "worlds": [
+    {
+      "id": "null_same_distance_mix",
+      "true_latent_encounter_OR": 1,
+      "target_near_mix": [
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "artificial_conditional_margins_counts": [
+        80,
+        80,
+        80,
+        80
+      ]
+    },
+    {
+      "id": "null_mixing_confounded",
+      "true_latent_encounter_OR": 1,
+      "target_near_mix": [
+        0.2,
+        0.8,
+        0.8,
+        0.2
+      ],
+      "artificial_conditional_margins_counts": [
+        80,
+        80,
+        80,
+        80
+      ]
+    },
+    {
+      "id": "null_reverse_mixing",
+      "true_latent_encounter_OR": 1,
+      "target_near_mix": [
+        0.8,
+        0.2,
+        0.2,
+        0.8
+      ],
+      "artificial_conditional_margins_counts": [
+        80,
+        80,
+        80,
+        80
+      ]
+    },
+    {
+      "id": "positive_encounter_with_mixing",
+      "true_latent_encounter_OR": 2,
+      "target_near_mix": [
+        0.2,
+        0.8,
+        0.8,
+        0.2
+      ],
+      "artificial_conditional_margins_counts": [
+        200,
+        200,
+        200,
+        200
+      ]
+    }
+  ],
+  "source_free_sample_sizes_per_cell": [
+    50,
+    200,
+    1000
+  ],
+  "synthetic_monte_carlo": {
+    "replicates_per_world_n": 200,
+    "seed": 2026100916,
+    "unconditional_animal_event_counts": false,
+    "animal_fixed_margins_noncentral_fisher": true,
+    "animal_event_seed_scheme": "SeedSequence([seed, world_index, n_index, replicate_index])",
+    "reference_calibration_independent_of_animal_count_draw": true
+  },
+  "methods": {
+    "pooled_reference_naive": "Pool near and far reference successes in each solar-season cell and compute 4 simultaneous Clopper-Pearson q intervals with calibration alpha .025; treat 50/50 reference distance mix as if it transferred. Animal Fisher test uses alpha .025. This is invalid for target opportunity mixtures that differ.",
+    "target_stratified": "Estimate q_near and q_far with 8 simultaneous Clopper-Pearson intervals using alpha_q=.0125; estimate four target near-distance opportunity proportions with 4 simultaneous Clopper-Pearson intervals alpha_mix=.0125; animal one-sided exact Fisher alpha=.025; total bounded false certification <=.05 by union bound if both external reference streams correctly represent true passage opportunities.",
+    "cp_interval": "Two-sided CP using scipy.special.betaincinv at cellwise tail beta=alpha_component/(2 * number_cells); q=0 or n cases are respected.",
+    "detector_transport": "q_effective[b]=w_target[b] q_near[b]+(1-w_target[b]) q_far[b]; interval min/max obtained by optimizing separately over independent joint interval corners in q and w.",
+    "q_crossproduct": "B=q_effective[falling_early]_upper*q_effective[rising_late]_upper/(q_effective[rising_early]_lower*q_effective[falling_late]_lower); if zero lower, HOLD.",
+    "test": "One-sided exact conditional Fisher tail P_theta(X>=x) at theta=known_effort_OR*B; reject only p<.025.",
+    "effort_known_hours": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "reference_opportunities": "Near/far independently labeled passages at reference detector with identical sensor settings (n per each 8 branch×bin×distance cells) and independently observed target near/far mixing opportunities (n per each 4 branch×bin cells)."
+  },
+  "all_outcomes_reported": [
+    "4 worlds×3 n×200 paired samples",
+    "true target q crossproduct and naive 50/50 reference q crossproduct",
+    "pooled-reference naive-certification rate and target-stratified correctly calibrated certification rate",
+    "target-stratified CP q coverage, four w coverage, 12-cell joint coverage, detector-B HOLD fraction",
+    "separate physical reference opportunity totals 8*n calibration trials and 4*n target-mix trials, neither N is animal detections",
+    "paired difference and paired Monte Carlo SE",
+    "source-free original exact Fisher alpha guarantee conditional on fixed site margins"
+  ],
+  "hard_stops": [
+    "source-independent operation logs and original EcoBank v1.1 event files remain unopened",
+    "field q reference and target-mix passage labels must be independently correct or coverage/transport guarantee cannot be asserted",
+    "distance labels must be independently collected, not inferred only from triggered photo stream",
+    "two distance strata insufficient if speed angle species vegetation induce residual q heterogeneity; report limited scope",
+    "pooled naive q intervals can have correct coverage for reference distribution yet be invalid for target composition",
+    "no p-values for non-preregistered bins/sites/seasonal mechanisms",
+    "prior ODSP frozen source-process and ecological method routes remain unmodified"
+  ]
+}
