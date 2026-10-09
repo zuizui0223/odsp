@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin-paired-randomized-clopper-pearson-vs-hoeffding-power-v1",
+  "stage": "FROZEN_AFTER_HOEFFDING_AND_DETERMINISTIC_CP_RESULTS_BEFORE_RANDOM_CP_RESULTS",
+  "parent_prs": [
+    248,
+    249
+  ],
+  "parent_hoeffding_ledger": "ULJIN_INDEPENDENT_Q_SPLIT_ALPHA_V0_FIRST_RESULT_LEDGER.json",
+  "parent_cp_deterministic_ledger": "ULJIN_EXACT_CP_VS_HOEFFDING_Q_V0_FIRST_RESULT_LEDGER.json",
+  "prior_outcome_acknowledgement": "Parent 9600-world Hoeffding first result already seen, including 0.815 power for strong effect at n=1000 and deterministic CP early certification at n=200. This is a separate prospective paired comparison; no blinded discovery claim.",
+  "sampling": {
+    "worlds": [
+      "null_no_bias",
+      "null_effort_only",
+      "null_detector_only",
+      "alternative_strong_encounter"
+    ],
+    "source_truth_module": "odsp.uljin_independent_q_split_alpha_v0.TRUTHS",
+    "reference_trials_per_q_cell": [
+      50,
+      200,
+      1000,
+      5000
+    ],
+    "physical_sites": 1,
+    "matched_original_date_pairs": 1,
+    "preselected_phase_bins": 2,
+    "replicates_per_case": 600,
+    "root_seed": 2026100914,
+    "paired_seed_process": "Same original NumPy SeedSequence([2026100914, truth_index, n_index, replicate_index]); four Binomial q successes drawn before one Fisher-noncentral observed animal-table draw, shared by CP and Hoeffding.",
+    "fixed_animal_margins_same_as_parent": true,
+    "no_real_original_events": true
+  },
+  "methods": {
+    "Hoeffding": "Reuse exact same frozen previous source module simultaneous four-cell Hoeffding alpha_cal=.025",
+    "CP": "Exact per-cell two-sided Clopper-Pearson with beta quantile lower=BetaPPF(alpha_cal/8,S,n-S+1) if S>0 else 0; upper=BetaPPF(1-alpha_cal/8,S+1,n-S) if S<n else 1",
+    "implementation": "scipy.special.betaincinv for exact regularized incomplete Beta quantile. Optional test-only dependency in isolated workflow, not a change to ODSP requirements.",
+    "calibration_joint_alpha": 0.025,
+    "animal_conditional_alpha": 0.025,
+    "overall_false_positive_bound": 0.05,
+    "q_gamma_upper": "(fall_early_q_upper * rise_late_q_upper)/(rise_early_q_lower*fall_late_q_lower) or HOLD if any q denominator <=0",
+    "robust_test": "One-sided nonrandomized Fisher noncentral upper-tail using same original animal data at effort_OR*gamma_upper, reject when p<0.025",
+    "reference_gold_standard": "External independent labeled true animal-passage opportunities assumed perfect and representative; assumption not verified on EcoBank"
+  },
+  "primary_metrics": [
+    "paired CP robust success frequency and paired Hoeffding robust success frequency per each of 16 cases",
+    "paired difference in certification frequency, empirical paired Monte Carlo SE",
+    "number CP-only versus Hoeffding-only certifications per condition",
+    "joint four-cell detector q coverage for both methods",
+    "rate of HOLD due to q lower bound zero",
+    "median finite q gamma upper B",
+    "naive detector-ignorant 5% Fisher rejection frequency as original-context diagnostic"
+  ],
+  "predeclared_tests": [
+    "same synthetic calibration and animal count draw is reused for both methods",
+    "all 16x600 cases retained",
+    "original parent Hoeffding 16-case empirical frequencies, q-band coverage and HOLD status replay exactly within 1e-12",
+    "CP method four simultaneous cell bands guarantee familywise q coverage >=0.975 analytically with independent binomial reference labels, not from Monte Carlo alone",
+    "for both methods alpha_cal=.025, animal exact alpha_test=.025 and total <=.05",
+    "counts from source fixed season and bin margins exactly in every world",
+    "CP interval numerically agrees with known 0-success and n-success exact binomial formulas",
+    "no favorable calibration outcomes manually selected",
+    "all no-effect and detector-only false-certification frequencies reported even if surprising",
+    "no source wildlife and camera operation events opened, previous registered inferences intact"
+  ],
+  "post_result_constraint": "If tests fail, repair only proven numerical/programming errors, preserve failed CI logs and frozen design; do not tune n, q, effect, alpha or seed based on first CP results."
+}
