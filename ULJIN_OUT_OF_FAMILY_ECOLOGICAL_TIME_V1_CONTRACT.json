@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_common_clock_out_of_family_ecological_controls_v1",
+  "status": "FROZEN_POST_V0_RESULTS_BEFORE_NEW_TRUTH_OUTCOMES",
+  "parent_pr": 245,
+  "parent_first_ledger": "ULJIN_COMMON_CLOCK_MECHANISTIC_COMPARISON_V0_FIRST_RESULT_LEDGER.json",
+  "previous_outcomes_seen": "30/30 self-recovery under within-family generated truth; not independent biological validation",
+  "original_calendar_pairs": 41,
+  "common_clock_bins": 96,
+  "candidates_unchanged": [
+    "civil_clock",
+    "solar_noon",
+    "solar_phase",
+    "average_anchor",
+    "solar_phase_plus_branch"
+  ],
+  "all_scoring_on_identical_civil_bins": true,
+  "base_shape_concentration": 4,
+  "base_shape_background": 0.04,
+  "training_sites": 16,
+  "heldout_sites": 16,
+  "site_date_event_counts": [
+    20,
+    200
+  ],
+  "seeds": [
+    2026100912,
+    2026100913,
+    2026100914
+  ],
+  "truth_worlds": [
+    {
+      "id": "bimodal_sunrise_sunset",
+      "law": "equal probability mixture of the two solar-phase peaks 06:00 and 18:00, no seasonal branch effect",
+      "expected_mechanism": "crepuscular bimodality not representable by one peak"
+    },
+    {
+      "id": "mixed_clock_and_solar",
+      "law": "equal probability mixture of clock-peak=07:30 and solar-phase-peak=07:30, no branch effect",
+      "expected_mechanism": "combined human schedule and light cue, indistinguishable pure trigger may win"
+    },
+    {
+      "id": "real_seasonal_activity",
+      "law": "latent activity shifts solar-phase peak from 07:30 rising to 09:00 falling, detector efficiency time-invariant",
+      "expected_mechanism": "real detected season-dependent timing"
+    },
+    {
+      "id": "seasonal_detector_only",
+      "law": "latent activity is fixed solar-phase peak=07:30 in both seasons; detector efficiency q_b(bin) = c_b * p_target_b(bin)/p_fixed_b(bin) with c_b chosen to keep q<=1; observed conditional civil bin law exactly matches real_seasonal_activity",
+      "expected_mechanism": "detection bias observationally aliases as biological season shift"
+    },
+    {
+      "id": "weak_seasonal_phase_shift",
+      "law": "solar-phase peak 07:30 rising to 08:00 falling, no detector bias",
+      "expected_mechanism": "weak seasonal response likely confused with invariant phase under low observation support"
+    }
+  ],
+  "statistical_method": "Reuse frozen PR245 fit and all 96 common civil-bin heldout scores; separately compute oracle expected conditional KL regret in nats/event to expose misspecification. No new fit/threshold/tuning of original models.",
+  "required_controls": [
+    "all five old candidate implementations and first PR245 results byte-for-byte unchanged",
+    "for detector-only and real seasonal worlds, exact 82-day conditional observed event distributions equal within 1e-12",
+    "after normalizing q detector probabilities all are in (0,1]",
+    "paired RNG for real seasonal and detector-only makes the observed artificial count matrices exactly identical",
+    "do not claim identification of latent activity or photoperiod memory from a branch-positive model",
+    "bimodal and mixed cues may lead a wrong singleton model to be called best, report uncertainty and KL regret rather than posthoc new candidate",
+    "same physical site/date totals and same station heldout split",
+    "all 5 truths × 2 event counts × 3 seeds included without cherry picking",
+    "source actual animal event/operation/precise station records unopened"
+  ],
+  "provenance": {
+    "original_EcoBank_zip_verified": false,
+    "original_hardware_logs_verified": false,
+    "year_2022_41_pair_calendar_unchanged": true,
+    "previous_registered_ODSP_routes_unchanged": true
+  },
+  "interpretation": "Ecological prediction robustness and nonidentifiability under observation-process misspecification; simulation-level not an actual biological seasonality inference."
+}

@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_OUT_OF_FAMILY_ECOLOGICAL_TIME_V1_TERMINAL_RESULT",
+  "pr_number": 246,
+  "pre_result_contract_commit": "267bf711874fe99fe056fe6141518cb9215aa284",
+  "first_attempt_run": 37863868774,
+  "first_attempt_status": "FAILED_FOCUSED_TEST_BEFORE_OUTCOMES",
+  "first_attempt_cause": "Literal escaped linebreaks in Python comment plus invalid contract-test regex; no method/truth changes",
+  "source_only_repair_commit": "bfa4a0640811552e6afe9a4d98b60a3b5b43bb30",
+  "first_completed_run": 37863934405,
+  "first_completed_url": "https://github.com/zuizui0223/odsp/actions/runs/37863934405",
+  "first_completed_run_head": "bfa4a0640811552e6afe9a4d98b60a3b5b43bb30",
+  "first_artifact_id": 11587158161,
+  "first_artifact_digest": "sha256:f78440f88df800c5ab71dc07b3cc2b5812ef9823dc13e846d587e0a4adfff31d",
+  "first_focused_tests": "pass",
+  "all_30_synthetic_worlds": "pass",
+  "truth_worlds_and_winner_frequencies_by_sample_size": {
+    "bimodal_sunrise_sunset": {
+      "N20": {
+        "solar_phase": 2,
+        "solar_phase_plus_branch": 1
+      },
+      "N200": {
+        "solar_phase": 2,
+        "solar_phase_plus_branch": 1
+      }
+    },
+    "mixed_clock_and_solar": {
+      "N20": {
+        "solar_noon": 3
+      },
+      "N200": {
+        "solar_noon": 3
+      }
+    },
+    "real_seasonal_activity": {
+      "N20": {
+        "solar_phase_plus_branch": 3
+      },
+      "N200": {
+        "solar_phase_plus_branch": 3
+      }
+    },
+    "seasonal_detector_only": {
+      "N20": {
+        "solar_phase_plus_branch": 3
+      },
+      "N200": {
+        "solar_phase_plus_branch": 3
+      }
+    },
+    "weak_seasonal_phase_shift": {
+      "N20": {
+        "solar_phase_plus_branch": 3
+      },
+      "N200": {
+        "solar_phase_plus_branch": 3
+      }
+    }
+  },
+  "mean_minimum_population_KL_regret_nats_per_observed_event": {
+    "bimodal_sunrise_sunset": 0.7185450865,
+    "mixed_clock_and_solar": 0.00605888456,
+    "real_seasonal_activity": 0,
+    "seasonal_detector_only": 0,
+    "weak_seasonal_phase_shift": 0
+  },
+  "exact_observational_equivalence": {
+    "biologically_seasonal_and_detector_only_have_identical_civil_bin_distributions": true,
+    "synthetic_observed_event_count_matrices_identical_by_paired_rng": true,
+    "both_select_solar_phase_plus_branch_all_six_repetitions": true,
+    "real_latent_animal_activity_not_identifiable_from_detected_times_alone": true
+  },
+  "interpretation": {
+    "self_recovery_from_parent_not_robustness_proof": true,
+    "bimodal_single_peak_family_badly_misspecified": true,
+    "mixed_temporal_cues_can_look_like_a_single_solar_noon_clock": true,
+    "winning_seasonal_model_not_proof_of_endogenous_seasonal_memory": true,
+    "independent_camera_effort_does_not_itself_correct_detector_sensitivity": true,
+    "event_source_device_logs_precise_gps_unverified": true,
+    "not_ecological_empirical_finding": true,
+    "previous_qualified_ODSP_routes_untouched": true
+  },
+  "status": "TERMINAL_SOURCE_FREE_ECOLOGICAL_MODEL_COMPARISON_LIMITS"
+}
