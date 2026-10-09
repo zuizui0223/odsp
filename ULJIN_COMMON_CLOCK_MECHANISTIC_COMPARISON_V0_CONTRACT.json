@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_common_clock_mechanistic_time_comparison_v0",
+  "status": "FROZEN_SYNTHETIC_BEFORE_FIRST_MODEL_COMPARISON_OUTCOME",
+  "parent_study": "ULJIN_PHOTOPERIOD_MIRROR_2022_V0_DESIGN_CONTRACT.json",
+  "original_41_day_pairs_preserved": true,
+  "observed_target": "96 fixed 15-minute bins in Asia/Seoul civil CLOCK for every same station and date, not re-binned differently per candidate",
+  "scoring": "Conditional multinomial log probability of identical observed civil-bin counts given per-station-day total and independently observed device uptime, averaged equally over held-out physical sites, compared with same uniform-civil-time exposure baseline.",
+  "coordinate_rate_convention": "Each candidate parameterizes an event-time DENSITY per model-coordinate hour. Civil intensity is f(coord(t))*abs(dcoord/dcivil). Camera uptime is integrated in CIVIL time with this Jacobian. Do not compare scores from different response partitions.",
+  "astronomy_context": {
+    "latitude_degrees": 36.85,
+    "longitude_degrees": 129.2,
+    "timezone": "Asia/Seoul",
+    "source_gps_qualified": false,
+    "solar_geometry_module": "odsp.uljin_original_pairs_equation_of_time_v0",
+    "average_anchor": "average sunrise and sunset from the unchanged 82 public-astronomy matched days, frozen before outcomes"
+  },
+  "candidate_models": [
+    {
+      "id": "civil_clock",
+      "description": "fixed civil clock 24h coordinate, J=1",
+      "peak_count": 1
+    },
+    {
+      "id": "solar_noon",
+      "description": "civil time corrected for date-specific astronomical local noon; J=1",
+      "peak_count": 1
+    },
+    {
+      "id": "solar_phase",
+      "description": "double anchor sunrise→6 solar h and sunset→18 solar h, piecewise Jacobian",
+      "peak_count": 1
+    },
+    {
+      "id": "average_anchor",
+      "description": "date-specific sunrise/sunset mapped to across-frozen-date mean sunrise/sunset; piecewise Jacobian",
+      "peak_count": 1
+    },
+    {
+      "id": "solar_phase_plus_branch",
+      "description": "same solar-phase map but separate precommitted rising and falling branch peak parameters",
+      "peak_count": 2
+    }
+  ],
+  "peak_time_grid_hours": "0,0.5,...,23.5 (48 fixed equally spaced peaks)",
+  "common_shape": {
+    "concentration_kappa": 4,
+    "background_relative_rate": 0.04,
+    "profile": "background + exp[kappa*(cos(2*pi*(coordinate-peak)/24)-1)]",
+    "first_harmonic_only": true
+  },
+  "integration": {
+    "civil_bin_width_minutes": 15,
+    "method": "8-point Gauss-Legendre separately split by device interval bounds, sunrise/sunset and civil bin edges",
+    "full_day_analytic_normalization_requirement": true,
+    "partial_operation_intervals_allowed_from_independent_device_logs_only": true,
+    "empty_device_operation_interval": "HOLD_NO_POSITIVE_EXPOSURE",
+    "positive_count_zero_exposure": "FAIL_CLOSED",
+    "clock_bin_96_probability_sum_tolerance": 1e-10
+  },
+  "training_testing": {
+    "synthetic_physical_sites": 32,
+    "training_sites": 16,
+    "untouched_heldout_sites": 16,
+    "sites_split_by_physical_identifier_not_event": true,
+    "all_41_day_pairs_each_site": true,
+    "full_device_uptime_in_synthetic_truths": true,
+    "event_count_per_site_date_scenarios": [
+      20,
+      200
+    ],
+    "synthetic_seeds": [
+      2026100909,
+      2026100910,
+      2026100911
+    ],
+    "identical_simulated_event_count_frame_across_all_fitted_models": true,
+    "train_peak_via_conditional_multinomial_log_score_only": true,
+    "heldout_metric": "equal-site average log score per detected event in identical 15-minute civil bins",
+    "seasonal_model_has_extra_parameter_and_gets_no_automatic_confirmatory_status": true
+  },
+  "synthetic_truth_worlds": [
+    {
+      "id": "fixed_clock",
+      "generating_model": "civil_clock",
+      "peak_rising": 7.5,
+      "peak_falling": 7.5
+    },
+    {
+      "id": "solar_noon_tracking",
+      "generating_model": "solar_noon",
+      "peak_rising": 7.5,
+      "peak_falling": 7.5
+    },
+    {
+      "id": "sunrise_sunset_tracking",
+      "generating_model": "solar_phase",
+      "peak_rising": 7.5,
+      "peak_falling": 7.5
+    },
+    {
+      "id": "average_anchor_tracking",
+      "generating_model": "average_anchor",
+      "peak_rising": 7.5,
+      "peak_falling": 7.5
+    },
+    {
+      "id": "residual_seasonal_phase_shift",
+      "generating_model": "solar_phase_plus_branch",
+      "peak_rising": 7.5,
+      "peak_falling": 9
+    }
+  ],
+  "required_safety_tests": [
+    "all candidates use same civil 96-bin outcomes",
+    "all predicted mass integrates with correct Jacobian and is normalized over actual civil operation",
+    "full day phase/average anchor transforms map correctly at sunrise, sunset and midnight",
+    "positive count at zero uptime rejected",
+    "solar_phase_plus_branch adds season parameters but does not relabel a season effect as photoperiod memory",
+    "all 41 pairs unchanged and 32 physical sites heldout independently of outcomes",
+    "clock and solar candidate comparison cannot use transformed-event likelihood on different time partitions",
+    "report all five generating processes including weakly distinguishable pairs; no posthoc model/window winner selection",
+    "source original camera operation data and wildlife detections untouched"
+  ],
+  "interpretation_boundaries": {
+    "proof_of_original_ungulate_hysteresis": false,
+    "real_data_sampling_provenance_verified": false,
+    "solar_time_transformation_novelty_claimed": false,
+    "weather_temperature_food_or_human_data_verified": false,
+    "true_biological_zeitgeber_causally_identified": false,
+    "existing_ODSP_qualified_routes_untouched": true
+  }
+}

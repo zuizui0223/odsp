@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_COMMON_CIVIL_CLOCK_ECOLOGICAL_MODEL_COMPARISON_V0",
+  "first_contract_commit": "95edf93de7bd58e9cc7f3e7ac5052a227d2da981",
+  "first_scored_head": "53c209aabca2f3d534f6f31cbaed0db72c84c68d",
+  "first_ci_run": 37863548863,
+  "first_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/37863548863",
+  "first_artifact_id": 11587262497,
+  "first_artifact_sha256": "sha256:1cefaf9dee82213090b0f9e6aff31b1a07b0ca4d37c1d62b9c1d42147ecde4e3",
+  "test_result": "pass",
+  "full_panel": "pass",
+  "original_41_pairs": true,
+  "all_predictions_same_96_civil_bins": true,
+  "same_original_event_frame_for_all_models": true,
+  "training_physical_sites": 16,
+  "heldout_physical_sites": 16,
+  "worlds": 30,
+  "truth_recoveries": {
+    "fixed_clock": [
+      3,
+      3
+    ],
+    "solar_noon_tracking": [
+      3,
+      3
+    ],
+    "sunrise_sunset_tracking": [
+      3,
+      3
+    ],
+    "average_anchor_tracking": [
+      3,
+      3
+    ],
+    "residual_seasonal_phase_shift": [
+      3,
+      3
+    ]
+  },
+  "count_scenarios_per_site_date": [
+    20,
+    200
+  ],
+  "seeds_per_scenario": 3,
+  "interpretation": {
+    "synthetic_truths_exactly_within_candidate_model_families": true,
+    "high_recovery_does_not_prove_out_of_family_robustness": true,
+    "no_true_ecological_zeitgeber_identified": true,
+    "no_statistical_hypothesis_test": true,
+    "source_data_and_original_device_log_unavailable": true,
+    "seasonal_model_two_peaks_extra_flexibility": true,
+    "no_posthoc_scenario_tuning": true
+  },
+  "status": "TERMINAL_SOURCE_FREE_SAME_TARGET_MODEL_SELF_RECOVERY_NOT_EMPIRICAL"
+}
