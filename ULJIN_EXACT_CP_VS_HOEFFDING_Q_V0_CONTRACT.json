@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_clopper_pearson_vs_hoeffding_four_cell_detector_v0",
+  "stage": "FROZEN_POST_HOEFFDING_RESULTS_BEFORE_CP_FIRST_OUTPUT",
+  "parent_pr": 248,
+  "parent_first_ledger": "ULJIN_INDEPENDENT_Q_SPLIT_ALPHA_V0_FIRST_RESULT_LEDGER.json",
+  "previous_outcomes_seen": "First frozen Hoeffding panel results and strong alternative certification of 0%,13.17%,81.5%,97.17% by m 50/200/1000/5000 were seen before choosing exact CP; this is a prospective successor not blind independent validation.",
+  "calibration_model": "Four external independent Binomial(n,q) known-passage reference samples per season×predeclared-solar-bin, entirely independent of the animal detections",
+  "calibration_alpha_joint": 0.025,
+  "animals_exact_test_alpha": 0.025,
+  "overall_alpha": 0.05,
+  "exact_CP_intervals": "For each of four binomial counts S in n trials, CP two-sided confidence 1-alpha_joint/4=0.99375. Lower q solves P_q(Bin(n,q)>=S)=alpha_joint/8 for S>0, else 0; upper solves P_q(Bin(n,q)<=S)=alpha_joint/8 for S<n, else 1. Bonferroni gives four-cell simultaneous coverage >=0.975.",
+  "opponent": "Previously frozen parent symmetric Hoeffding intervals with eps=sqrt(log(8/alpha_joint)/(2*n)) and same 0.975 four-cell guarantee.",
+  "exact_numerics": "Use log-combination from lgamma, stable normalized full Binomial PMF with logsumexp on n+1 states, bisection of lower/upper tails for 52 iterations, support n<=5000, fail closed if final tail residual >5e-8.",
+  "calibration_scenarios": "Use only fixed previous four true q vectors and previous artificial count tables at trial counts n=50,200,1000,5000; deterministic representatively rounded successes round(n*q) in each cell, NOT randomly observed data or an empirical coverage experiment.",
+  "detector_upper_bound": "q_falling_early_upper*q_rising_late_upper/(q_rising_early_lower*q_falling_late_lower), infinity and status HOLD if denominator q lower<=0",
+  "animal_decision": "Same parent exact conditional one-sided noncentral Fisher robust test at theta_effort*B, alpha_test=.025; no new main count table or fitted animal effect",
+  "reporting": [
+    "all four synthetic q worlds × four reference trial levels for both band methods",
+    "CP vs Hoeffding upper detector OR B and resulting robust p for the same fixed synthetic animal count table",
+    "CP vs Hoeffding exact one-sided 97.5% lower latent encounter OR for the same table",
+    "first reference-per-cell level in predeclared grid supporting the strong-effect synthetic table for both methods, report none if absent",
+    "individual CP binomial tail residual and mathematical coverage union-bound checks",
+    "no statistical power or average calibration cost claim based only on rounded reference successes",
+    "first parent q calibration simulation remains terminal; no tuning it after first outcome"
+  ],
+  "hard_gates": [
+    "all 16 paired deterministic comparisons retained",
+    "all q bounds in [0,1] and true point q inside both for these representative rounded counts (diagnostic only)",
+    "CP cellwise Clopper-Pearson one-sided tail equations numerically verified for interior S",
+    "four CP intervals simultaneous coverage >=0.975 by Bonferroni; animal test alpha=0.025; combined <=0.05, with reference independent from wildlife observations",
+    "no favorable calibration count selection or cherry-picked site or astronomical date",
+    "same parent observed synthetic animal counts, same exposure OR, same solar bins",
+    "if either q lower limit zero, hold rather than treating an infinite detector crossproduct as evidence",
+    "no original wildlife source records, independent device effort, sensor calibration, restricted GPS or animal behavior inspected",
+    "previous ODSP qualified results and source-embedded temporal claims unchanged"
+  ],
+  "biological_interpretation": "This is a better finite-sample detector calibration design for robust observed encounter-rate inference; not a novel exact interval theorem or real photoperiod memory claim",
+  "source_access": {
+    "EcoBank_original_zip_verified": false,
+    "original_camera_q_reference_trials_measured": false,
+    "original_independent_hourly_uptime_verified": false,
+    "animal_events_opened": false
+  }
+}
