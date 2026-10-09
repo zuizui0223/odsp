@@ -48,7 +48,7 @@ def _check_contract(plan:Mapping[str,object],ledger:Mapping[str,object])->None:
         or ledger.get("first_ci_run")!=37863548863
         or ledger.get("worlds")!=30
     ):
-        raise ValueError("frozen out-of-family ecological control changed")
+        raise ValueError("frozen out-of-family ecological control contract changed")
 
 
 def truth_probabilities(
@@ -90,7 +90,9 @@ def truth_probabilities(
                     p0*q/np.sum(p0*q,axis=1,keepdims=True),
                     target,atol=1e-12,rtol=0)):
                 raise ValueError("detector-only observational-equivalence proof failed")
-            # Preserve the EXACT same observed law after proving the\n            # detection-factorization equivalence above.\n            out=target.copy()
+            # Preserve the EXACT same observed law after proving the
+            # detection-factorization equivalence above.
+            out=target.copy()
     if (out.shape!=(len(branches),BINS) or np.any(out<=0)
         or np.max(abs(out.sum(axis=1)-1))>1e-10):
         raise ValueError("out-of-family common clock law not normalized")
