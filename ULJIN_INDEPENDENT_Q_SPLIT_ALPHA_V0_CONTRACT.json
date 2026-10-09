@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin-independent-binomial-detector-q-coverage-v0",
+  "status": "FROZEN_BEFORE_FIRST_CALIBRATION_AND_SEASONAL_INFERENCE_OUTCOME",
+  "parent_pr": 247,
+  "previous_first_result_ledger": "ULJIN_DETECTOR_BIAS_ROBUST_OR_V0_FIRST_RESULT_LEDGER.json",
+  "prior_outcomes_seen": "The five previous hand-selected synthetic fixed count tables and sensitivity limits B have been exposed; this new calibration simulation is not independent ecological confirmation.",
+  "ecological_target": "One physical station and one original preselected daylength-matched date pair, early vs late solar phase bins: latent encounter-rate season-by-bin OR, not circadian state/photoperiod memory",
+  "observation_model": "Detected independent Poisson cell means = externally known device operating hours E_(branch,bin) * latent encounter rate A_(branch,bin) * externally calibrated independent detection probability q_(branch,bin)",
+  "calibration_sample_model": "Four independent per-bin/season binomial reference triggers: successes~Binomial(n,q_true), external to animal detections; reference sensor labels true opportunity times without error; one independent trigger per trial",
+  "combined_inference": {
+    "overall_one_sided_alpha": 0.05,
+    "calibration_joint_failure_budget": 0.025,
+    "animal_count_exact_conditional_test_budget": 0.025,
+    "calibration_interval": "Four two-sided simultaneous Hoeffding confidence bands, eps=sqrt(log(8/alpha_cal)/(2n_reference_per_cell)), trimmed to [0,1], familywise miss probability <=alpha_cal via four-cell union bound; no asymptotic approximation",
+    "detector_crossproduct_upper": "B=q_falling_early_upper*q_rising_late_upper/(q_rising_early_lower*q_falling_late_lower), infinite if either denominator lower is zero",
+    "under_null": "true latent season-bin OR<=1, independent camera hourly effort crossproduct known, worst-case theta_count<=effort_OR * B",
+    "robust_test": "exact nonrandomized upper-tail Fisher noncentral hypergeometric probability P_(theta_effort*B)(X>=observed) < alpha_test; if B infinite then HOLD/no rejection",
+    "lower_bound": "Exact one-sided (1-alpha_test) lower confidence limit for detected-count OR divided by known effort_OR*B; report zero if B infinity",
+    "confidence_statement": "At most alpha_cal+alpha_test overall false certification if independent calibration reference and animal process plus model assumptions hold; calibration and exact test error budgets not each 0.05"
+  },
+  "reference_trial_counts_per_cell": [
+    50,
+    200,
+    1000,
+    5000
+  ],
+  "monte_carlo": {
+    "world_replicates_per_case": 600,
+    "root_seed": 2026100914,
+    "rng_per_world": "numpy SeedSequence([root_seed, world_index, n_index, replicate_index])",
+    "fixed_conditional_margins": "Original artificial 2x2 table season and bin totals N,K,D predeclared per truth scenario; generate X=falling_early from Fisher noncentral hypergeometric with theta=effort_OR * detector_OR * true_latent_OR",
+    "report_all_cases": true,
+    "calibration_separately_generated_from_events": true,
+    "no_iterative_selection_of_favorable_seeds": true
+  },
+  "synthetic_truth_worlds": [
+    {
+      "id": "null_no_bias",
+      "reference_q": [
+        0.85,
+        0.85,
+        0.85,
+        0.85
+      ],
+      "device_hours": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "fixed_margin_source_counts": [
+        40,
+        40,
+        40,
+        40
+      ],
+      "true_latent_OR": 1
+    },
+    {
+      "id": "null_effort_only",
+      "reference_q": [
+        0.85,
+        0.85,
+        0.85,
+        0.85
+      ],
+      "device_hours": [
+        4,
+        4,
+        8,
+        4
+      ],
+      "fixed_margin_source_counts": [
+        40,
+        40,
+        80,
+        40
+      ],
+      "true_latent_OR": 1
+    },
+    {
+      "id": "null_detector_only",
+      "reference_q": [
+        0.8,
+        0.8,
+        0.8,
+        0.4
+      ],
+      "device_hours": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "fixed_margin_source_counts": [
+        80,
+        80,
+        160,
+        80
+      ],
+      "true_latent_OR": 1
+    },
+    {
+      "id": "alternative_strong_encounter",
+      "reference_q": [
+        0.85,
+        0.85,
+        0.85,
+        0.85
+      ],
+      "device_hours": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "fixed_margin_source_counts": [
+        200,
+        200,
+        280,
+        120
+      ],
+      "true_latent_OR": 2
+    }
+  ],
+  "primary_measures": [
+    "for each of 4 worlds×4 calibration n: joint q-band empirical coverage over 600 fixed-seed calibration samples",
+    "fraction of exact robust combined-alpha rejections for source-free known true null and known true alternative, independently generated fresh conditional animal events",
+    "number and fraction HOLD due to q lower bound zero",
+    "mean detector gamma upper bound including ∞ status separately, median finite B",
+    "naive uncalibrated one-sided Fisher rejection fraction at alpha=.05 shown only to diagnose false attribution; not a calibrated comparison"
+  ],
+  "admission_gates": [
+    "all 16 predeclared scenarios×600 worlds retained",
+    "all four q intervals jointly cover true q with at least the mathematical Hoeffding Bonferroni 97.5% coverage assurance (analytic, not empirical test of threshold)",
+    "all exact Fisher null tail and confidence inversions respect alpha_test=.025",
+    "valid reference q in (0,1], all device hours positive; forbid positive events at zero effort",
+    "for true animal null, theoretical unconditional false certificate probability <=alpha_cal+alpha_test when independent calibration and animal data assumptions hold; numerical observed rate is not an exact guarantee",
+    "for null_detector_only, stronger calibration should expose theta_q≈2 rather than relabel it an animal effect",
+    "if q lower bound reaches 0, status HOLD rather than numerical division or guessed gamma",
+    "all simulated animal X values preserve original artificial season and bin margins exactly",
+    "the earlier PR247 uncalibrated B grid and frozen outcomes never reclassified",
+    "real EcoBank animal events, calibration triggers, independent camera operation logs and precise station coordinates unavailable and unopened"
+  ],
+  "claim_boundaries": {
+    "one_site_one_date_pair_two_precommitted_phase_bins_only": true,
+    "source_free_synthetic_only": true,
+    "unknown_false_negative_reference_sensor_is_unmodeled": true,
+    "physical_stations_or_region_transport_not_inferred": true,
+    "no_evidence_of_endogenous_solar_or_circadian_zeitgeber": true,
+    "no_original_qualified_ODSP_routes_changed": true
+  }
+}
