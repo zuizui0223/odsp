@@ -1,0 +1,36 @@
+name: uljin-detector-bias-robust-or-v0
+
+on:
+  push:
+    branches:
+      - method/uljin-detector-bias-calibrated-odds-v0
+    paths:
+      - 'ULJIN_DETECTOR_BIAS_ROBUST_OR_V0_CONTRACT.json'
+      - 'odsp/uljin_detector_bias_robust_or_v0.py'
+      - 'tests/test_uljin_detector_bias_robust_or_v0.py'
+      - 'scripts/run_uljin_detector_bias_robust_or_v0.py'
+      - '.github/workflows/uljin-detector-bias-robust-or-v0.yml'
+  workflow_dispatch:
+
+jobs:
+  first-exact-frozen-detector-bias-sensitivity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install package
+        run: python -m pip install -e '.[dev]'
+      - name: Verify exact conditional size and effort/detector OR mathematics
+        run: python -m pytest -q tests/test_uljin_detector_bias_robust_or_v0.py
+      - name: Run first frozen exact detector-bias sensitivity panel
+        run: python scripts/run_uljin_detector_bias_robust_or_v0.py
+      - name: Archive exact source-free robustness envelope
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: uljin-detector-bias-robust-or-first-v0
+          path: ULJIN_DETECTOR_BIAS_ROBUST_OR_V0_FIRST_RECEIPT.json
+          if-no-files-found: warn
