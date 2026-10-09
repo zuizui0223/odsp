@@ -212,16 +212,21 @@ def _draw_one(
     }
 
 
-def frozen_joint_calibration_panel(plan:Mapping[str,object])->dict[str,object]:
+def frozen_joint_calibration_panel(
+    plan:Mapping[str,object],*,_test_replicates:int|None=None
+)->dict[str,object]:
     _guard(plan)
+    reps=REPS if _test_replicates is None else _test_replicates
+    if type(reps) is not int or not 1<=reps<=REPS:
+        raise ValueError("only bounded source-free diagnostic preflight allowed")
     cases=[]
     for wi,(name,q,e,source,truth_or) in enumerate(TRUTHS):
         theta_e=FourCells(source,e).effort_OR
         theta_q=true_detector_crossproduct(q)
         for ni,n in enumerate(N_REF):
-            draws=[_draw_one(wi,ni,k) for k in range(REPS)]
+            draws=[_draw_one(wi,ni,k) for k in range(reps)]
             def frac(key:str)->float:
-                return float(sum(bool(d[key]) for d in draws)/REPS)
+                return float(sum(bool(d[key]) for d in draws)/reps)
             finiteB=sorted(d["calibration_gamma_upper"] for d in draws
                            if math.isfinite(d["calibration_gamma_upper"]))
             center=tuple(int(round(n*p)) for p in q)
@@ -238,7 +243,7 @@ def frozen_joint_calibration_panel(plan:Mapping[str,object])->dict[str,object]:
                 "true_detector_crossproduct":theta_q,
                 "true_effort_crossproduct":theta_e,
                 "independent_reference_opportunities_per_4_cells":n,
-                "replicates":REPS,
+                "replicates":reps,
                 "empirical_joint_q_band_coverage":frac(
                     "calibration_joint_q_coverage"),
                 "fraction_with_insufficient_positive_q_lower_bounds":
@@ -262,19 +267,19 @@ def frozen_joint_calibration_panel(plan:Mapping[str,object])->dict[str,object]:
                     ALPHA_CAL+ALPHA_TEST,
             })
     if (len(cases)!=len(TRUTHS)*len(N_REF)
-        or not all(r["replicates"]==REPS for r in cases)
+        or not all(r["replicates"]==reps for r in cases)
         or any(r["unconditional_false_certification_alpha_bound"]>ALPHA_ALL
                for r in cases)):
         raise ValueError("not all frozen independent q calibration cases completed")
     return {
         "schema_version":1,
         "method":METHOD,
-        "status":"SOURCE_FREE_INDEPENDENT_Q_CALIBRATION_SPLIT_ALPHA_ONLY",
+        "status":("SOURCE_FREE_INDEPENDENT_Q_CALIBRATION_SPLIT_ALPHA_ONLY"\n                  if reps==REPS else "SOURCE_FREE_Q_CALIBRATION_PREFLIGHT_ONLY"),
         "calibration_joint_error_budget":ALPHA_CAL,
         "animal_exact_test_error_budget":ALPHA_TEST,
         "guaranteed_total_false_certification_upper_bound":ALPHA_ALL,
         "guarantee_conditional_on_independence_and_model":True,
-        "worlds_per_case":REPS,
+        "worlds_per_case":reps,
         "case_count":len(cases),
         "all_precommitted_cases":cases,
         "empirical_monte_carlo_fraction_not_formal_size_proof":True,
