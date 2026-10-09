@@ -90,14 +90,13 @@ def truth_probabilities(
                     p0*q/np.sum(p0*q,axis=1,keepdims=True),
                     target,atol=1e-12,rtol=0)):
                 raise ValueError("detector-only observational-equivalence proof failed")
-            out=p0*q/np.sum(p0*q,axis=1,keepdims=True)
+            # Preserve the EXACT same observed law after proving the\n            # detection-factorization equivalence above.\n            out=target.copy()
     if (out.shape!=(len(branches),BINS) or np.any(out<=0)
         or np.max(abs(out.sum(axis=1)-1))>1e-10):
         raise ValueError("out-of-family common clock law not normalized")
     return out,{
         "latent_animal_phase_stable_across_branches":
-            kind in ("seasonal_detector_only","bimodal_sunrise_sunset",
-                     "mixed_clock_and_solar"),
+            kind in ("seasonal_detector_only","bimodal_sunrise_sunset"),
         "detection_probability_branch_time_varies":
             kind=="seasonal_detector_only",
         "observed_seasonal_branch_shift_without_identified_cause":
