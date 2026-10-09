@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_INDEPENDENT_DETECTOR_Q_SPLIT_ALPHA_V0_TERMINAL_RESULT",
+  "pr": 248,
+  "frozen_contract_commit": "989c6026e3586bfbbd75251f5bc6827e09d23c28",
+  "first_attempt_workflow_run": 37888084404,
+  "first_attempt_status": "TEST_IMPORT_SYNTAX_ERROR_NO_STATISTICAL_RESULT",
+  "first_attempt_issue": "Literal escaped newline in Python diagnostic short-run status expression",
+  "technical_fix_commit": "c6bfbc98b10db58ecc9c1fbec13ffef9b79bbd4f",
+  "first_complete_ci_run": 37888152647,
+  "first_complete_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/37888152647",
+  "first_complete_scored_head": "c6bfbc98b10db58ecc9c1fbec13ffef9b79bbd4f",
+  "first_complete_artifact_id": 11596958428,
+  "first_complete_artifact_sha256": "sha256:0c59a25635ba5f5cd63a7c3b28f4d545879862005472175bf1c561c683057f90",
+  "focused_tests": "passed",
+  "all_source_free_16x600_simulations": "passed",
+  "calibration_failure_budget": 0.025,
+  "separate_conditional_count_test_error_budget": 0.025,
+  "mathematical_guaranteed_joint_false_certification_upper_bound": 0.05,
+  "mathematical_guarantee_assumptions": "Four external per-cell independently labeled binomial reference opportunity samples, independent of animal counts; independent Poisson cell counts, fixed preselected bins, accurate independently logged E, representative q and exact Fisher conditioning.",
+  "worlds": [
+    {
+      "id": "null_no_bias",
+      "m": [
+        50,
+        200,
+        1000,
+        5000
+      ],
+      "joint_q_coverages": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "robust_reject_fractions": [
+        0,
+        0,
+        0.0033333333333333335,
+        0.013333333333333334
+      ],
+      "naive_ignore_q_reject_fractions": [
+        0.04,
+        0.04,
+        0.05,
+        0.035
+      ],
+      "median_detector_bound_B": [
+        2.6926004764162985,
+        1.7676377280686646,
+        1.2862316987152809,
+        1.1196253398015323
+      ]
+    },
+    {
+      "id": "null_effort_only",
+      "m": [
+        50,
+        200,
+        1000,
+        5000
+      ],
+      "joint_q_coverages": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "robust_reject_fractions": [
+        0,
+        0,
+        0.0016666666666666668,
+        0.0033333333333333335
+      ],
+      "naive_ignore_q_reject_fractions": [
+        0.021666666666666667,
+        0.02666666666666667,
+        0.03833333333333333,
+        0.02
+      ],
+      "median_detector_bound_B": [
+        2.695500511982455,
+        1.7636653927687247,
+        1.2855860573471114,
+        1.1203299389050554
+      ]
+    },
+    {
+      "id": "null_detector_only",
+      "m": [
+        50,
+        200,
+        1000,
+        5000
+      ],
+      "joint_q_coverages": [
+        0.9983333333333333,
+        1,
+        0.9983333333333333,
+        1
+      ],
+      "robust_reject_fractions": [
+        0,
+        0,
+        0,
+        0.005
+      ],
+      "naive_ignore_q_reject_fractions": [
+        0.9416666666666667,
+        0.9466666666666667,
+        0.9383333333333334,
+        0.95
+      ],
+      "median_detector_bound_B": [
+        10.901009760618898,
+        4.450457391048941,
+        2.821916392141333,
+        2.3235246944970913
+      ],
+      "lower_zero_hold_fraction": [
+        0.01,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "alternative_strong_encounter",
+      "m": [
+        50,
+        200,
+        1000,
+        5000
+      ],
+      "joint_q_coverages": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "robust_reject_fractions": [
+        0,
+        0.13166666666666665,
+        0.815,
+        0.9716666666666667
+      ],
+      "naive_ignore_q_reject_fractions": [
+        1,
+        1,
+        1,
+        0.9983333333333333
+      ],
+      "median_detector_bound_B": [
+        2.689700440850142,
+        1.7664991340510514,
+        1.288313415760642,
+        1.12013022089184
+      ]
+    }
+  ],
+  "meta_caveats": {
+    "first_frozen_outcome_no_after_result_retuning": true,
+    "empirical_frequencies_not_nominal_test_sizes": true,
+    "calibration_q_coverage_bound_is_analytic_not_simulated": true,
+    "animal_counts_conditioned_on_arbitrary_fixed_site_margins": true,
+    "uncalibrated_detector_efficiency_makes_encounter_OR_unidentified": true,
+    "calibration_reference_detector_false_negative_gold_standard_unverified": true,
+    "no_real_EcoBank_event_data_or_camera_q_reference_access": true,
+    "not_individual_photoperiod_memory_identification": true,
+    "no_prior_ODSP_qualified_route_change": true
+  },
+  "status": "SOURCE_FREE_SIMULATION_CALIBRATION_BOUND_ONLY_NOT_EMPIRICAL"
+}
