@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_EXACT_CP_VS_HOEFFDING_Q_V0_TERMINAL_RESULT",
+  "pr_number": 249,
+  "frozen_contract_commit": "e982a00e29e57ebd87686a445ffa0ab53e59f39c",
+  "first_scored_head": "4a99e896c11e6cbd1c56733a763f0a9502e6a53c",
+  "first_ci_run": 37888492632,
+  "first_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/37888492632",
+  "first_artifact_id": 11597406317,
+  "first_artifact_sha256": "sha256:3a461aaa3a63495a8ebe53c230ad6d6ce15b224aa59020876b3034d99a00f7e2",
+  "all_exact_binomial_tests": "passed",
+  "all_deterministic_16_source_free_cases": "passed",
+  "representative_reference_successes": "round(n*true_q) for each four independent calibration cells; NOT actual stochastic field observation or prospective expected power",
+  "joint_detector_coverage_guarantee": 0.975,
+  "external_independent_animal_test_alpha": 0.025,
+  "calibration_joint_noncoverage_budget": 0.025,
+  "combined_false_certification_upper_bound_under_assumptions": 0.05,
+  "strong_fixed_artificial_animal_count_first_certifying_reference_opportunities_per_each_q_cell": {
+    "Hoeffding": 1000,
+    "exact_Clopper_Pearson": 200
+  },
+  "detector_crossproduct_upper_bound_on_strong_world": {
+    "n50": {
+      "Hoeffding": 2.7793830242633066,
+      "CP": 2.102238479869449
+    },
+    "n200": {
+      "Hoeffding": 1.7663567951036494,
+      "CP": 1.4038255089150584
+    },
+    "n1000": {
+      "Hoeffding": 1.2879651792742803,
+      "CP": 1.1593654925724666
+    },
+    "n5000": {
+      "Hoeffding": 1.119691071599783,
+      "CP": 1.0676593944699162
+    }
+  },
+  "fixed_four_truths_summary": {
+    "no_shift": "Neither method certifies artificial animal season change at any of four n levels",
+    "operation_hours_only": "Neither method certifies artificial latent season difference at any of four n levels",
+    "detector_only": "Neither method certifies artificial animal season change despite q_detector OR=2 at any of four n levels",
+    "true_animal_OR2": "CP certifies at n=200,1000,5000, Hoeffding only at n=1000,5000"
+  },
+  "limitations": {
+    "selected_four_reference_n_grid_only": true,
+    "representative_rounded_calibration_counts_not_random_simulation": true,
+    "fivefold_smaller_n_on_this_grid_not_average_sample_cost": true,
+    "exact_CP_interval_is_known_statistical_method_not_new_general_theorem": true,
+    "proper_q_calibration_required_for_real_animal_and_conditions": true,
+    "source_original_q_trials_not_verified": true,
+    "original_hourly_camera_log_not_verified": true,
+    "original_Uljin_animal_rows_not_opened": true,
+    "independent_source_transfer_and_astronomical_phase_uncertainty_unresolved": true,
+    "previous_qualified_ODSP_routes_unchanged": true
+  },
+  "status": "TERMINAL_SOURCE_FREE_EXACT_CP_DETECTOR_CALIBRATION_DESIGN_NOT_EMPIRICAL"
+}
