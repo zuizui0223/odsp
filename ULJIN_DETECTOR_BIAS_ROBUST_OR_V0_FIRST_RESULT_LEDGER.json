@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_PRE_RESULT_FROZEN_ULJIN_EXACT_DETECTOR_BIAS_SENSITIVITY_V0",
+  "pr_number": 247,
+  "pre_result_contract_commit": "46412b961a05faa30e245d3fd0cbf1c7b7af5bbd",
+  "first_scored_workflow_head": "5043ac6114ed174cfd7d0670aff9846c530cf086",
+  "first_scored_workflow_run": 37887375380,
+  "first_scored_workflow_url": "https://github.com/zuizui0223/odsp/actions/runs/37887375380",
+  "first_artifact_id": 11597006992,
+  "first_artifact_sha256": "sha256:bdcd9a0e66eff46ab772111d5fbb845356147dc257245d4532167497f5267206",
+  "focused_math_tests": "passed",
+  "first_full_sensitivity_panel": "passed",
+  "alpha": 0.05,
+  "detector_bias_upper_bounds": [
+    1,
+    1.25,
+    1.5,
+    2,
+    3
+  ],
+  "example_table_results": [
+    {
+      "id": "no_season_shift",
+      "observed_effort_adjusted_OR": 1,
+      "one_sided95pct_lower_without_q_variability": 0.567386067541972,
+      "robust_when_B_1p5": false
+    },
+    {
+      "id": "weak_shift",
+      "observed_effort_adjusted_OR": 1.6666666666666667,
+      "one_sided95pct_lower_without_q_variability": 1.118568728353489,
+      "robust_when_B_1p5": false
+    },
+    {
+      "id": "strong_shift",
+      "observed_effort_adjusted_OR": 2.3333333333333335,
+      "one_sided95pct_lower_without_q_variability": 1.8094916702083346,
+      "robust_when_B_1p5": true
+    },
+    {
+      "id": "unequal_effort_only",
+      "raw_observed_OR": 2,
+      "observed_effort_adjusted_OR": 1,
+      "one_sided95pct_lower_without_q_variability": 0.5891836853960462,
+      "robust_when_B_1p5": false
+    },
+    {
+      "id": "seasonal_detector_only",
+      "observed_effort_adjusted_OR": 2,
+      "one_sided95pct_lower_without_q_variability": 1.3873325711650852,
+      "robust_when_B_1p5": false
+    }
+  ],
+  "calibration_bound_caveat": "Full nominal confidence cannot be claimed when B is itself an uncertain pointwise estimate; simultaneous/joint independent q calibration or alpha sharing is required.",
+  "ecological_caveats": {
+    "synthetic_only": true,
+    "detector_q_not_observed_in_real_EcoBank": true,
+    "source_original_hourly_operation_not_verified": true,
+    "within_site_rate_OR_not_individual_circadian_rhythm": true,
+    "source_events_not_opened": true,
+    "previous_ODSP_qualified_routes_unchanged": true
+  },
+  "result_status": "TERMINAL_SOURCE_FREE_DETECTOR_BIAS_SENSITIVITY_NOT_EMPIRICAL"
+}

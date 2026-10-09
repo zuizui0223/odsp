@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_detector_bias_robust_within_site_seasonal_OR_v0",
+  "stage": "PRE_OUTCOME_FROZEN_SOURCE_FREE_TWO_BIN_DETECTOR_SENSITIVITY",
+  "parent_pr": 246,
+  "parent_exact_tests": [
+    242,
+    243
+  ],
+  "scientific_target": "Within-one-physical-station and original matched-date-pair detected EVENT encounter/active-passage early-versus-late seasonal odds ratio; not automatically circadian physiology, active state or zeitgeber causality",
+  "index_order": [
+    "rising_early",
+    "rising_late",
+    "falling_early",
+    "falling_late"
+  ],
+  "observation_model": "Independent Poisson means mu_bk = known externally logged operating_hours_bk * latent_encounter_rate_bk * detector_sensitivity_bk, conditional on both season and bin margins; four observed event cells",
+  "multiplicative_OR_identity": "theta_count = theta_effort * theta_encounter * theta_detector",
+  "fisher_conditioning": "Condition exact season totals, phase-bin totals; X=falling_early is Fisher noncentral hypergeometric parameter theta_count. One-sided H0: theta_encounter<=1 with calibrated theta_detector<=B tests upper tail at theta_count=theta_effort*B.",
+  "source_free_tables": [
+    {
+      "id": "no_season_shift",
+      "counts": [
+        40,
+        40,
+        40,
+        40
+      ],
+      "operating_hours": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "id": "weak_shift",
+      "counts": [
+        80,
+        80,
+        100,
+        60
+      ],
+      "operating_hours": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "id": "strong_shift",
+      "counts": [
+        200,
+        200,
+        280,
+        120
+      ],
+      "operating_hours": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "id": "unequal_effort_only",
+      "counts": [
+        40,
+        40,
+        80,
+        40
+      ],
+      "operating_hours": [
+        4,
+        4,
+        8,
+        4
+      ]
+    },
+    {
+      "id": "seasonal_detector_only",
+      "counts": [
+        80,
+        80,
+        160,
+        80
+      ],
+      "operating_hours": [
+        4,
+        4,
+        4,
+        4
+      ]
+    }
+  ],
+  "detector_crossproduct_max_B": [
+    1,
+    1.25,
+    1.5,
+    2,
+    3
+  ],
+  "hypothetical_independent_calibration": [
+    {
+      "id": "narrow_q_each_0p9_to_1",
+      "q_cell_lower": [
+        0.9,
+        0.9,
+        0.9,
+        0.9
+      ],
+      "q_cell_upper": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "asymmetric_q_intervals",
+      "q_cell_lower": [
+        0.8,
+        0.8,
+        0.85,
+        0.75
+      ],
+      "q_cell_upper": [
+        0.95,
+        0.95,
+        0.98,
+        0.9
+      ]
+    }
+  ],
+  "calibration_bounds": "B_gamma_upper=(q_falling_early_upper * q_rising_late_upper)/(q_rising_early_lower*q_falling_late_lower); lower analogous; all four bounds must come from simultaneous independent calibration coverage, NOT unadjusted marginal intervals",
+  "alpha_one_sided": 0.05,
+  "exact_nchypergeom": "weights_x=choose(K,x)choose(N-K,D-x)*theta_count**x, finite support max(0,K+D-N)..min(K,D). Use lgamma logsumexp.",
+  "lower_95pct_limit": "Invert right-tail p_theta(X>=Xobs)=0.05 in theta_count, then divide by known effort OR and maximal detector OR. A result >1 supports positive encounter OR under explicitly certified detector calibration; uncalibrated q leaves no nontrivial lower bound.",
+  "acceptance_gates": [
+    "all five source-free 2x2 scenarios and five B grid values, every result retained",
+    "all two independent hypothetical calibration shapes across all scenarios",
+    "one-sided exact hypergeom upper-tail inversion checked against direct p value",
+    "when B increases, robust p does not decrease, lower latent confidence bound does not increase",
+    "if theta_count/effort<=1, no positive season rate inferred with B>=1",
+    "unequal_effort_only observed raw OR=2 but effort-adjusted point OR=1",
+    "uncalibrated detector seasonal crossproduct unrestricted, so no finite lower bound or causal conclusion",
+    "all sensitivity priors/hardware q calibrations are arbitrary simulated examples and never EcoBank values",
+    "no selection of sites/day-pairs or bins based on outcomes; 2 preselected bins only",
+    "all source independent camera operation and detector calibration provenance real world remains HOLD",
+    "no real ungulate events, protected coordinates or original source rows accessed",
+    "no qualified ODSP inferential result or previous route reclassification"
+  ],
+  "interpretation": "Point and exact one-sided statistical lower bound for a within-site early/late seasonal encounter-rate odds ratio under bounded detector efficiency; not direct biological activity or photoperiod memory inference.",
+  "source_state": {
+    "ecobank_v1p1_archive_verified": false,
+    "independent_hourly_uptime_verified": false,
+    "independent_detector_calibration_verified": false,
+    "real_animal_detection_events_read": false
+  }
+}
