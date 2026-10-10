@@ -1,0 +1,478 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_COMMON_CIVIL_96BIN_SHARED_DETECTOR_Q_SENSITIVITY_V0_TERMINAL_RESULT",
+  "pr_number": 256,
+  "pre_result_contract_commit": "95e575ef15cc8823b36de45d5e4364151ea022f5",
+  "first_scored_ci_run": 38013624606,
+  "first_scored_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/38013624606",
+  "first_scored_head": "57edcf3e6c694699dd76478a1db298fb91108eea",
+  "first_scored_artifact_id": 11655347386,
+  "first_scored_artifact_sha256": "sha256:288889023a143244d0a507f7cfc8a467086a66fbc9c9a40aecb04e4c866eacbe",
+  "source_free_ci_focused_tests": "pass",
+  "full_240_q_envelopes_completed": true,
+  "mechanisms": [
+    "civil_clock_truth",
+    "solar_phase_truth",
+    "solar_phase_plus_branch_truth"
+  ],
+  "synthetic_n_per_site_day": [
+    20,
+    200
+  ],
+  "solar_phase_vs_civil_truth_examples_at_delta0p1": {
+    "clock_20": {
+      "gap_min": -0.03192,
+      "gap_max": -0.00048,
+      "robust_clock_preferred": true
+    },
+    "solar_20": {
+      "gap_min": 0.00109,
+      "gap_max": 0.03136,
+      "robust_solar_phase_preferred": true
+    },
+    "seasonal_20": {
+      "gap_min": 0.01484,
+      "gap_max": 0.05112,
+      "robust_solar_phase_preferred": true
+    }
+  },
+  "branch_phase_vs_invariant_phase_seasonal_truth_at_delta0p1": {
+    "n20": {
+      "gap_min": 0.02692,
+      "gap_max": 0.07735
+    },
+    "n200": {
+      "gap_min": 0.02468,
+      "gap_max": 0.0751
+    },
+    "robust_pretrained_branch_phase_preferred": true
+  },
+  "q_structure_sensitivity": {
+    "detector_q_civil_bin_count": 96,
+    "detector_q_per_civil_4hour_block_count": 6,
+    "six_block_envelope_nested_inside_ninety_six_bin_envelope": true,
+    "some_96bin_model_comparisons_indeterminate_while_six_block_comparisons_robust": true
+  },
+  "all_24_cases_delta0p1": [
+    {
+      "world": "fixed_clock",
+      "n_per_site_day": 20,
+      "model_A": "solar_phase",
+      "model_B": "civil_clock",
+      "nominal_gap": -0.01587502344943692,
+      "delta0p1_independent_96bins": {
+        "lower": -0.03191507534508207,
+        "upper": -0.0004774964328207211,
+        "status": "B_robustly_better"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": -0.023851633377550592,
+        "upper": -0.008159679549110881,
+        "status": "B_robustly_better"
+      }
+    },
+    {
+      "world": "fixed_clock",
+      "n_per_site_day": 20,
+      "model_A": "solar_phase_plus_branch",
+      "model_B": "solar_phase",
+      "nominal_gap": 0,
+      "delta0p1_independent_96bins": {
+        "lower": 0,
+        "upper": 0,
+        "status": "INDETERMINATE"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": 0,
+        "upper": 0,
+        "status": "INDETERMINATE"
+      }
+    },
+    {
+      "world": "fixed_clock",
+      "n_per_site_day": 20,
+      "model_A": "solar_noon",
+      "model_B": "civil_clock",
+      "nominal_gap": -0.0008470915005687196,
+      "delta0p1_independent_96bins": {
+        "lower": -0.00391912245912316,
+        "upper": 0.0022246194725321295,
+        "status": "INDETERMINATE"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": -0.0037151565930877806,
+        "upper": 0.002142010058738561,
+        "status": "INDETERMINATE"
+      }
+    },
+    {
+      "world": "fixed_clock",
+      "n_per_site_day": 20,
+      "model_A": "average_anchor",
+      "model_B": "solar_phase",
+      "nominal_gap": 0.014615984527809545,
+      "delta0p1_independent_96bins": {
+        "lower": -0.00042784118093146077,
+        "upper": 0.030234476062950683,
+        "status": "INDETERMINATE"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": 0.007378789593264465,
+        "upper": 0.02185713352536373,
+        "status": "A_robustly_better"
+      }
+    },
+    {
+      "world": "fixed_clock",
+      "n_per_site_day": 200,
+      "model_A": "solar_phase",
+      "model_B": "civil_clock",
+      "nominal_gap": -0.016190837711760775,
+      "delta0p1_independent_96bins": {
+        "lower": -0.03223088960740595,
+        "upper": -0.0007933106951445949,
+        "status": "B_robustly_better"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": -0.024167447639874474,
+        "upper": -0.008475493811434757,
+        "status": "B_robustly_better"
+      }
+    },
+    {
+      "world": "fixed_clock",
+      "n_per_site_day": 200,
+      "model_A": "solar_phase_plus_branch",
+      "model_B": "solar_phase",
+      "nominal_gap": 0,
+      "delta0p1_independent_96bins": {
+        "lower": 0,
+        "upper": 0,
+        "status": "INDETERMINATE"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": 0,
+        "upper": 0,
+        "status": "INDETERMINATE"
+      }
+    },
+    {
+      "world": "fixed_clock",
+      "n_per_site_day": 200,
+      "model_A": "solar_noon",
+      "model_B": "civil_clock",
+      "nominal_gap": -0.0009648119917629039,
+      "delta0p1_independent_96bins": {
+        "lower": -0.004036842950317657,
+        "upper": 0.0021068989813376334,
+        "status": "INDETERMINATE"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": -0.0038328770842822775,
+        "upper": 0.002024289567544066,
+        "status": "INDETERMINATE"
+      }
+    },
+    {
+      "world": "fixed_clock",
+      "n_per_site_day": 200,
+      "model_A": "average_anchor",
+      "model_B": "solar_phase",
+      "nominal_gap": 0.01471843872159262,
+      "delta0p1_independent_96bins": {
+        "lower": -0.0003253869871476297,
+        "upper": 0.030336930256734524,
+        "status": "INDETERMINATE"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": 0.0074812437870483,
+        "upper": 0.02195958771914757,
+        "status": "A_robustly_better"
+      }
+    },
+    {
+      "world": "sunrise_sunset_tracking",
+      "n_per_site_day": 20,
+      "model_A": "solar_phase",
+      "model_B": "civil_clock",
+      "nominal_gap": 0.016503153334701537,
+      "delta0p1_independent_96bins": {
+        "lower": 0.001088665942083223,
+        "upper": 0.031362317158804595,
+        "status": "A_robustly_better"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": 0.009180680152778365,
+        "upper": 0.02345969152683021,
+        "status": "A_robustly_better"
+      }
+    },
+    {
+      "world": "sunrise_sunset_tracking",
+      "n_per_site_day": 20,
+      "model_A": "solar_phase_plus_branch",
+      "model_B": "solar_phase",
+      "nominal_gap": 0,
+      "delta0p1_independent_96bins": {
+        "lower": 0,
+        "upper": 0,
+        "status": "INDETERMINATE"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": 0,
+        "upper": 0,
+        "status": "INDETERMINATE"
+      }
+    },
+    {
+      "world": "sunrise_sunset_tracking",
+      "n_per_site_day": 20,
+      "model_A": "solar_noon",
+      "model_B": "civil_clock",
+      "nominal_gap": -0.00016915753777135834,
+      "delta0p1_independent_96bins": {
+        "lower": -0.003241188496325995,
+        "upper": 0.0029025534353293086,
+        "status": "INDETERMINATE"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": -0.002690927468170564,
+        "upper": 0.002545981904264683,
+        "status": "INDETERMINATE"
+      }
+    },
+    {
+      "world": "sunrise_sunset_tracking",
+      "n_per_site_day": 20,
+      "model_A": "average_anchor",
+      "model_B": "solar_phase",
+      "nominal_gap": -0.014799341934593535,
+      "delta0p1_independent_96bins": {
+        "lower": -0.029208775948841473,
+        "upper": 0.00012144152409457841,
+        "status": "INDETERMINATE"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": -0.021126920653247422,
+        "upper": -0.008320562597715487,
+        "status": "B_robustly_better"
+      }
+    },
+    {
+      "world": "sunrise_sunset_tracking",
+      "n_per_site_day": 200,
+      "model_A": "solar_phase",
+      "model_B": "civil_clock",
+      "nominal_gap": 0.01563217999156885,
+      "delta0p1_independent_96bins": {
+        "lower": 0.00021769259895043462,
+        "upper": 0.030491343815671812,
+        "status": "A_robustly_better"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": 0.00830970680964558,
+        "upper": 0.022588718183697426,
+        "status": "A_robustly_better"
+      }
+    },
+    {
+      "world": "sunrise_sunset_tracking",
+      "n_per_site_day": 200,
+      "model_A": "solar_phase_plus_branch",
+      "model_B": "solar_phase",
+      "nominal_gap": 0,
+      "delta0p1_independent_96bins": {
+        "lower": 0,
+        "upper": 0,
+        "status": "INDETERMINATE"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": 0,
+        "upper": 0,
+        "status": "INDETERMINATE"
+      }
+    },
+    {
+      "world": "sunrise_sunset_tracking",
+      "n_per_site_day": 200,
+      "model_A": "solar_noon",
+      "model_B": "civil_clock",
+      "nominal_gap": -0.000672437196636011,
+      "delta0p1_independent_96bins": {
+        "lower": -0.0037444681551902386,
+        "upper": 0.0023992737764650654,
+        "status": "INDETERMINATE"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": -0.0031942071270348077,
+        "upper": 0.00204270224540044,
+        "status": "INDETERMINATE"
+      }
+    },
+    {
+      "world": "sunrise_sunset_tracking",
+      "n_per_site_day": 200,
+      "model_A": "average_anchor",
+      "model_B": "solar_phase",
+      "nominal_gap": -0.014027073742429064,
+      "delta0p1_independent_96bins": {
+        "lower": -0.028436507756676846,
+        "upper": 0.0008937097162592215,
+        "status": "INDETERMINATE"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": -0.020354652461082784,
+        "upper": -0.007548294405550849,
+        "status": "B_robustly_better"
+      }
+    },
+    {
+      "world": "residual_seasonal_phase_shift",
+      "n_per_site_day": 20,
+      "model_A": "solar_phase",
+      "model_B": "civil_clock",
+      "nominal_gap": 0.03345612208638471,
+      "delta0p1_independent_96bins": {
+        "lower": 0.01483885992703125,
+        "upper": 0.051116919300944905,
+        "status": "A_robustly_better"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": 0.021084569636051157,
+        "upper": 0.046246533122163834,
+        "status": "A_robustly_better"
+      }
+    },
+    {
+      "world": "residual_seasonal_phase_shift",
+      "n_per_site_day": 20,
+      "model_A": "solar_phase_plus_branch",
+      "model_B": "solar_phase",
+      "nominal_gap": 0.052133811743797054,
+      "delta0p1_independent_96bins": {
+        "lower": 0.0269228156595605,
+        "upper": 0.07734510834801607,
+        "status": "A_robustly_better"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": 0.027888868174446843,
+        "upper": 0.07702477716263237,
+        "status": "A_robustly_better"
+      }
+    },
+    {
+      "world": "residual_seasonal_phase_shift",
+      "n_per_site_day": 20,
+      "model_A": "solar_noon",
+      "model_B": "civil_clock",
+      "nominal_gap": 0.010936511067752619,
+      "delta0p1_independent_96bins": {
+        "lower": 0.007864480109197413,
+        "upper": 0.014008222040852735,
+        "status": "A_robustly_better"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": 0.007882127603018065,
+        "upper": 0.014007906401761498,
+        "status": "A_robustly_better"
+      }
+    },
+    {
+      "world": "residual_seasonal_phase_shift",
+      "n_per_site_day": 20,
+      "model_A": "average_anchor",
+      "model_B": "solar_phase",
+      "nominal_gap": -0.022672490531749467,
+      "delta0p1_independent_96bins": {
+        "lower": -0.040180238923089896,
+        "upper": -0.0042171911017968924,
+        "status": "B_robustly_better"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": -0.03549708758755321,
+        "upper": -0.010253083922265658,
+        "status": "B_robustly_better"
+      }
+    },
+    {
+      "world": "residual_seasonal_phase_shift",
+      "n_per_site_day": 200,
+      "model_A": "solar_phase",
+      "model_B": "civil_clock",
+      "nominal_gap": 0.03335754511208222,
+      "delta0p1_independent_96bins": {
+        "lower": 0.014740282952728695,
+        "upper": 0.05101834232664237,
+        "status": "A_robustly_better"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": 0.020985992661748602,
+        "upper": 0.04614795614786128,
+        "status": "A_robustly_better"
+      }
+    },
+    {
+      "world": "residual_seasonal_phase_shift",
+      "n_per_site_day": 200,
+      "model_A": "solar_phase_plus_branch",
+      "model_B": "solar_phase",
+      "nominal_gap": 0.049892712646585125,
+      "delta0p1_independent_96bins": {
+        "lower": 0.02468171656234907,
+        "upper": 0.07510400925080465,
+        "status": "A_robustly_better"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": 0.025647769077235413,
+        "upper": 0.07478367806542097,
+        "status": "A_robustly_better"
+      }
+    },
+    {
+      "world": "residual_seasonal_phase_shift",
+      "n_per_site_day": 200,
+      "model_A": "solar_noon",
+      "model_B": "civil_clock",
+      "nominal_gap": 0.010823115914676329,
+      "delta0p1_independent_96bins": {
+        "lower": 0.00775108495612105,
+        "upper": 0.013894826887776372,
+        "status": "A_robustly_better"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": 0.007768732449941702,
+        "upper": 0.013894511248685137,
+        "status": "A_robustly_better"
+      }
+    },
+    {
+      "world": "residual_seasonal_phase_shift",
+      "n_per_site_day": 200,
+      "model_A": "average_anchor",
+      "model_B": "solar_phase",
+      "nominal_gap": -0.022806823103983298,
+      "delta0p1_independent_96bins": {
+        "lower": -0.04031457149532344,
+        "upper": -0.004351523674030421,
+        "status": "B_robustly_better"
+      },
+      "delta0p1_six_civil_4h_blocks": {
+        "lower": -0.03563142015978675,
+        "upper": -0.010387416494499192,
+        "status": "B_robustly_better"
+      }
+    }
+  ],
+  "boundaries": {
+    "sharply_optimized_shared_q_in_each_original_day": true,
+    "q_is_shared_across_16_heldout_sites_that_day": true,
+    "external_q_96bin_bounds_NOT_source_calibrated": true,
+    "fixed_trained_predictions_NOT_q_refitted": true,
+    "unadjusted_species_detection_sampling_variance_not_addressed": true,
+    "not_confidence_intervals_or_p_values": true,
+    "no_real_EcoBank_wildlife_events_or_original_device_logs_opened": true,
+    "no_causal_animal_solar_zeitgeber_or_photoperiod_memory_claim": true,
+    "prior_qualified_ODSP_routes_untouched": true
+  },
+  "status": "SOURCE_FREE_EXACT_COMMON_CLOCK_PREDICTIVE_SENSITIVITY_NOT_EMPIRICAL"
+}
