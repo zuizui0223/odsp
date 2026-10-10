@@ -7,6 +7,10 @@ on:
     paths:
       - 'ULJIN_FOUR_UNGULATE_TEMPORAL_REFUGE_ECOLOGY_V0_CONTRACT.json'
       - 'odsp/uljin_ecological_temporal_refuge_v0.py'
+      - 'ULJIN_ECOLOGICAL_ZONE_SIGNATURE_V0_CONTRACT.json'
+      - 'odsp/uljin_ecological_refuge_rate_signatures_v0.py'
+      - 'tests/test_uljin_ecological_refuge_rate_signatures_v0.py'
+      - 'scripts/run_uljin_ecological_zone_rates_v0.py'
       - 'tests/test_uljin_ecological_temporal_refuge_v0.py'
       - 'scripts/run_uljin_ecological_temporal_refuge_source_admission_v0.py'
       - '.github/workflows/uljin-ecological-temporal-refuge-v0.yml'
@@ -25,5 +29,9 @@ jobs:
         run: python -m pip install -e '.[dev]'
       - name: Verify original 41 early-vs-midsummer date pairs and genuine 3-zone ecological definitions
         run: python -m pytest -q tests/test_uljin_ecological_temporal_refuge_v0.py
+      - name: Test independent ecological core-edge versus night-day source-hour denominators
+        run: python -m pytest -q tests/test_uljin_ecological_refuge_rate_signatures_v0.py
       - name: Source unprovided gives mandatory NO ECOLOGICAL CLAIM status
-        run: python scripts/run_uljin_ecological_temporal_refuge_source_admission_v0.py
+        run: |
+          python scripts/run_uljin_ecological_temporal_refuge_source_admission_v0.py
+          python scripts/run_uljin_ecological_zone_rates_v0.py
