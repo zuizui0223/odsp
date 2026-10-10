@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_q_w_variance_budget_decomposition_v0",
+  "stage": "FROZEN_AFTER_PR254_FIRST_RESULTS_BEFORE_NEW_MONTE_CARLO_VARIANCE_RESULT",
+  "parent_pr": 254,
+  "parent_first_result": "ULJIN_Q_W_EQUAL_BUDGET_V0_FIRST_RESULT_LEDGER.json",
+  "parent_first_ci": 38011059007,
+  "acknowledged_parent_outcomes": "PR254 first fixed simulations showed balanced q/w reference allocation outperformed q-heavy and w-heavy among 3 handpicked strategies in four source-free ecological truths. This new inference target is variance of detector log-OR; not a blind re-analysis of empirical data.",
+  "scientific_target": "Sampling variance due only to independent eight distance-stratum camera q references and four target distance-mix passage references for a preselected early/late × rising/falling photoperiod log detector odds ratio; not full season-effect variance or causal clock identification.",
+  "cell_order": [
+    "rising_early",
+    "rising_late",
+    "falling_early",
+    "falling_late"
+  ],
+  "source_unchanged": {
+    "q_near": [
+      0.9,
+      0.9,
+      0.9,
+      0.9
+    ],
+    "q_far": [
+      0.3,
+      0.3,
+      0.3,
+      0.3
+    ],
+    "target_truth_worlds": [
+      {
+        "id": "null_balanced",
+        "mix": [
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      {
+        "id": "null_distance_composition",
+        "mix": [
+          0.2,
+          0.8,
+          0.8,
+          0.2
+        ]
+      },
+      {
+        "id": "true_seasonal_equal_mix",
+        "mix": [
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      {
+        "id": "true_seasonal_with_distance_composition",
+        "mix": [
+          0.2,
+          0.8,
+          0.8,
+          0.2
+        ]
+      }
+    ],
+    "reference_budgets": [
+      2400,
+      6000,
+      12000,
+      24000
+    ],
+    "strategies": [
+      {
+        "id": "equal_per_cell",
+        "nq_per_8_q_cell": [
+          200,
+          500,
+          1000,
+          2000
+        ],
+        "nw_per_4_w_cell": [
+          200,
+          500,
+          1000,
+          2000
+        ]
+      },
+      {
+        "id": "q_heavy",
+        "nq_per_8_q_cell": [
+          250,
+          625,
+          1250,
+          2500
+        ],
+        "nw_per_4_w_cell": [
+          100,
+          250,
+          500,
+          1000
+        ]
+      },
+      {
+        "id": "w_heavy",
+        "nq_per_8_q_cell": [
+          100,
+          250,
+          500,
+          1000
+        ],
+        "nw_per_4_w_cell": [
+          400,
+          1000,
+          2000,
+          4000
+        ]
+      }
+    ]
+  },
+  "analytic_target": {
+    "q_effective": "p_i=w_i*q_near_i+(1-w_i)*q_far_i",
+    "target_log_detector_OR": "log(p_fall_early)+log(p_rise_late)-log(p_rise_early)-log(p_fall_late)",
+    "q_variance_coefficient_A": "sum over four cells [w_i^2 q_near_i(1-q_near_i)+(1-w_i)^2 q_far_i(1-q_far_i)]/p_i^2",
+    "w_variance_coefficient_C": "sum over four cells [(q_near_i-q_far_i)^2*w_i*(1-w_i)]/p_i^2",
+    "leading_variance": "Var(log_detector_OR_hat) ~= A/nq + C/nw, independent external reference streams, first-order delta method; NO claim exact at small n",
+    "budget_constraint": "8*nq+4*nw=T",
+    "continuous_delta_optimum": "nq/nw=sqrt((4*A)/(8*C))=sqrt(A/(2*C)); only variance-optimal in ideal Bernoulli gold-standard cost assumptions, not best CP/Fisher certification policy",
+    "variance_shares": "q_share=(A/nq)/(A/nq+C/nw); w_share=1-q_share"
+  },
+  "validation": {
+    "independent_replications_per_world_budget_strategy": 800,
+    "original_world_seed": 2026101015,
+    "rng": "NumPy SeedSequence([seed, world_index, budget_index, strategy_index, 0]); vectorized eight Binomial(nq,q) and four Binomial(nw,w) across 800 independent gold-standard reference worlds",
+    "all_parent_48_cases_reused_as_SCENARIO_DEFINITIONS_only": true,
+    "outputs": [
+      "exact analytic A,C coefficients per truth",
+      "delta predicted q/w variance components and shares for 4×4×3=48 frozen scenarios",
+      "empirical variance of estimated log detector OR over independent q/w replicate calibrations for each of 48 scenarios",
+      "empirical bias of log detector OR and empirical standard error of sample variance",
+      "continuous optimum nq/nw per truth and implied q opportunity budget fraction",
+      "diagnostic relative discrepancy MC vs delta variance with fixed fail-closed numeric tolerance, no p-value"
+    ],
+    "numerical_prerequisites": [
+      "at least 99.5% reference replicate q estimates strictly positive in all eight cells and p_eff positive in all four cells; no pseudo counts, no silent imputation; if fails, status HOLD and report failure",
+      "empirical vs delta predicted variance differs by at most 20% when n_q>=100 and n_w>=100, else fail rather than retune; 800 worlds per scenario",
+      "variance decomposition is first-order asymptotic, not a frequentist confidence interval or proof of actual detector transport",
+      "C positive in every scenario and no policy based on animal outcomes"
+    ]
+  },
+  "hard_gates": [
+    "exact original 4 truths ×4 budgets ×3 strategies =48 contrasts; fixed 800 independent reference q/w draws for each scenario",
+    "all 8*nq+4*nw equal corresponding frozen budget, no equal-price assumption for real labor",
+    "each reference q and target w drawn independently with binomial correct n and frozen known true probability, never conditional on observed animal detections",
+    "q/w derivative variance additivity checked against independent reference Monte Carlo variance",
+    "all analytic A,C are nonnegative; q/w variance shares sum to 1; predictions decrease with total budget under identical allocation ratio",
+    "continuous optimum ratio verified by both calculus and bounded numerical objective checks",
+    "no claim that variance-optimal ratio necessarily maximizes rare-event robust CP/Fisher rejection power",
+    "original 41 daylength-mirror calendar pairs, common clock-bin prediction and all qualified source-refit inference unaffected",
+    "original EcoBank v1.1 events/device logs/restricted sites/independent sensor q/w opportunities not available; no ecological empirical result"
+  ],
+  "limitation": "Fixed one-site preselected 2-bin log q crossproduct only. Does not include camera-operation uncertainty, empirical animal Poisson variance, physical-site clustering, false-negative reference sensor, distance×speed variation, original source climate history or causal zeitgeber inference."
+}
