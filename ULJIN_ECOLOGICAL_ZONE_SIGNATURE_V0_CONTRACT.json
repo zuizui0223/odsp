@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_matched_daylength_ecological_zone_signature_v0",
+  "parent_ecology_pr": 264,
+  "stage": "FROZEN_BEFORE_ORIGINAL_ECOBANK_2022_EVENT_AND_HOURLY_EFFORT_OUTCOME_OPEN",
+  "original_41_calendar_pairs_and_82_dates_immutable": true,
+  "original_four_taxa": [
+    "Goral",
+    "Water deer",
+    "Roe deer",
+    "Wild boar"
+  ],
+  "biological_zone_categories": [
+    "daylight_core",
+    "daylight_edge",
+    "night"
+  ],
+  "source_operation_requirement": "Independently authenticated normalized original camera date/hour intervals, complete physical station×all 82 dates; raw event source member independently confirmed.",
+  "site_pair_selection": "For each physical station × one ORIGINAL ascending/descending date pair require POSITIVE verified camera operation hours in ALL THREE zones on BOTH original dates. Selection based ONLY on independent original camera operation exposure, never on species detections; all four species and all zero count cells retained.",
+  "operation_assigned_denominator": "Detected events per 100 verified operational camera-hours summed over independent-operation-eligible station×date pairs within each branch and ecological zone. One source exposure denominator shared across 4 ungulates, no species-specific site selection.",
+  "rate_contrasts": [
+    {
+      "id": "CORE_VS_EDGE",
+      "definition": "log((rate_core_falling/rate_edge_falling)/(rate_core_rising/rate_edge_rising))",
+      "ecology": "negative shift => relative retreat from central daylight into daylight edges",
+      "null": "zero"
+    },
+    {
+      "id": "NIGHT_VS_DAYLIGHT",
+      "definition": "log((rate_night_falling/rate_combined_daylight_falling)/(rate_night_rising/rate_combined_daylight_rising))",
+      "ecology": "positive shift => relative detected time-use redistribution from daylight to night",
+      "null": "zero"
+    }
+  ],
+  "numerical_precommit": "No pseudocount or imputation. When one rate in a contrast is zero or its independently verified exposure denominator is zero, report UNDEFINED_ZERO_EVENT rather than infinite/smoothed effect.",
+  "source_consistency": "Every eligible source event time must fall within an independently attested original camera operation interval for that SAME station and original calendar date; otherwise HOLD_SOURCE_EVENT_OUTSIDE_VERIFIED_OPERATION rather than trusting one source over the other.",
+  "real_inference_bound": "Descriptive effort-adjusted DETECTION rate allocation only; without independent source detector q cannot claim latent animal activity; site/date non-independence precludes treating raw counts as iid replicates.",
+  "negative_controls": [
+    "A calendar-only attempt without source attestation must HOLD",
+    "Synthetic zone ratios identify core→edge and night→daylight redistribution separately",
+    "All 4 species, original station×pair roster and zero-event denominators preserved",
+    "A source event outside verified original camera operations must HOLD"
+  ],
+  "no_real_data_available_at_freeze": true,
+  "no_change_to_prior_odsp_qualified_results": true
+}
