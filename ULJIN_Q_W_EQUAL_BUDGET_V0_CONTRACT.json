@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_q_w_equal_budget_design_v0",
+  "stage": "FROZEN_POST_PR253_RESULTS_PRE_NEW_ALLOCATION_OUTCOMES",
+  "parent_pr": 253,
+  "parent_ledger": "ULJIN_DISTANCE_MIX_TIPPING_RADIUS_V0_FIRST_RESULT_LEDGER.json",
+  "parent_ledger_first_ci": 38010654940,
+  "acknowledged_prior_outcomes": "PR251 showed calibration for 8 distance×season×phase detector q and 4 season×phase near-passage mix w; PR253 found fixed-table oracle strong interaction tipping radius delta≈0.13589. Neither is an equal-total-reference-opportunity resource allocation trial.",
+  "question": "At the SAME total externally labeled true passage opportunity count, should ecology field effort prioritize calibrating detector q(distance,season,solar bin) or independently measuring target near/far passage mix w(season,solar bin), to certify an actual within-site seasonal encounter timing OR after astronomical normalization?",
+  "axes": {
+    "season_phase": [
+      "rising_early",
+      "rising_late",
+      "falling_early",
+      "falling_late"
+    ],
+    "distance": [
+      "near",
+      "far"
+    ],
+    "true_q_near": [
+      0.9,
+      0.9,
+      0.9,
+      0.9
+    ],
+    "true_q_far": [
+      0.3,
+      0.3,
+      0.3,
+      0.3
+    ],
+    "source_latent_encounter_rate_per_phase_not_estimated": true
+  },
+  "four_synthetic_truths": [
+    {
+      "id": "null_balanced",
+      "theta_latent": 1,
+      "mix": [
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "animal_fixed_margin_template": [
+        80,
+        80,
+        80,
+        80
+      ]
+    },
+    {
+      "id": "null_distance_composition",
+      "theta_latent": 1,
+      "mix": [
+        0.2,
+        0.8,
+        0.8,
+        0.2
+      ],
+      "animal_fixed_margin_template": [
+        80,
+        80,
+        80,
+        80
+      ]
+    },
+    {
+      "id": "true_seasonal_equal_mix",
+      "theta_latent": 2,
+      "mix": [
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "animal_fixed_margin_template": [
+        200,
+        200,
+        200,
+        200
+      ]
+    },
+    {
+      "id": "true_seasonal_with_distance_composition",
+      "theta_latent": 2,
+      "mix": [
+        0.2,
+        0.8,
+        0.8,
+        0.2
+      ],
+      "animal_fixed_margin_template": [
+        200,
+        200,
+        200,
+        200
+      ]
+    }
+  ],
+  "reference_budgets_and_allocations": [
+    {
+      "total_opportunities": 2400,
+      "strategies": [
+        {
+          "name": "equal_per_cell",
+          "q_n": 200,
+          "w_n": 200
+        },
+        {
+          "name": "q_heavy",
+          "q_n": 250,
+          "w_n": 100
+        },
+        {
+          "name": "w_heavy",
+          "q_n": 100,
+          "w_n": 400
+        }
+      ]
+    },
+    {
+      "total_opportunities": 6000,
+      "strategies": [
+        {
+          "name": "equal_per_cell",
+          "q_n": 500,
+          "w_n": 500
+        },
+        {
+          "name": "q_heavy",
+          "q_n": 625,
+          "w_n": 250
+        },
+        {
+          "name": "w_heavy",
+          "q_n": 250,
+          "w_n": 1000
+        }
+      ]
+    },
+    {
+      "total_opportunities": 12000,
+      "strategies": [
+        {
+          "name": "equal_per_cell",
+          "q_n": 1000,
+          "w_n": 1000
+        },
+        {
+          "name": "q_heavy",
+          "q_n": 1250,
+          "w_n": 500
+        },
+        {
+          "name": "w_heavy",
+          "q_n": 500,
+          "w_n": 2000
+        }
+      ]
+    },
+    {
+      "total_opportunities": 24000,
+      "strategies": [
+        {
+          "name": "equal_per_cell",
+          "q_n": 2000,
+          "w_n": 2000
+        },
+        {
+          "name": "q_heavy",
+          "q_n": 2500,
+          "w_n": 1000
+        },
+        {
+          "name": "w_heavy",
+          "q_n": 1000,
+          "w_n": 4000
+        }
+      ]
+    }
+  ],
+  "observation_frame": "For every strategy, 8 independent q reference cells (2 distance classes×4 branch×solar-bin) each have q_n independent gold-standard passages. Four target mix cells each have w_n independently labeled true passage opportunities. Equal cost is exactly 8*q_n+4*w_n at each listed budget, not equal animal detections.",
+  "alpha": {
+    "q_simultaneous_error": 0.0125,
+    "target_w_simultaneous_error": 0.0125,
+    "animal_exact_one_sided": 0.025,
+    "total_false_certification_union_bound": 0.05,
+    "q_CI": "eight two-sided Bonferroni Clopper–Pearson intervals each one-sided tail 0.0125/16",
+    "w_CI": "four two-sided Bonferroni Clopper–Pearson intervals each one-sided tail 0.0125/8",
+    "animal_test": "fixed-season and time-bin margins noncentral Fisher P_null(X>=x) at max detector crossproduct B times documented effort OR"
+  },
+  "synthetic_sampling": {
+    "replicates_per_case": 200,
+    "base_seed": 2026101011,
+    "rng_scheme": "SeedSequence([base_seed, truth_index, budget_index, strategy_index, replicate_index])",
+    "q_reference_successes": "eight independent binomial(q_n,q_stratum), never chosen based on focal detector outcomes",
+    "w_target_successes": "four independent binomial(w_n,w_target), independently labeled from all actual passages including missed focal detector events",
+    "animal_observed_counts": "independent draw from Fisher noncentral hypergeometric at theta_latent*target_detector_gamma, conditioned upon each frozen 2x2 animal margin",
+    "animal_device_hour_crossproduct": 1,
+    "source_41_original_2022_mirror_date_pairs_unchanged": true
+  },
+  "metrics": [
+    "all 4 truths×4 total budgets×3 strategies×200 full draws",
+    "robust certification fraction and binomial Monte Carlo standard error",
+    "4-reference-q, 4-target-w joint coverage separately and all 12 cells coverage",
+    "HOLD where detector denominator lower interval includes 0",
+    "median finite conservative detector seasonal crossproduct bound B",
+    "oracle conditional test rate with true detector crossproduct known, reported as diagnostic not a fair equal-cost field technique",
+    "paired best strategy within each fixed budget determined ONLY after scoring; no posthoc candidate additions"
+  ],
+  "hard_gates": [
+    "all 48 predeclared budget-by-truth cells and 9,600 total draws",
+    "each strategy actual external opportunity count equals fixed total budget",
+    "calibration samples independent of animal detections and each other, all near/far mixes based on opportunities not detected photos",
+    "all gamma(qeff) envelopes calculated by exact corner extrema",
+    "under calibration failure alpha bounds and exact test null, union bound mathematically <=.05; Monte Carlo observed frequencies are not the formal guarantee",
+    "one-sided Fisher null conditional calibration fixed at alpha=.025",
+    "include all negative and null worlds, no conditioning on significant results",
+    "original 41 astronomical dates and earlier first-results ledger untouched",
+    "original EcoBank v1.1 archive, actual camera logs, independent detector reference and animal events unverified/unopened",
+    "no inference about natural zeitgeber, organism circadian memory or actual Uljin animals"
+  ],
+  "claim_boundary": "One physical site and one fixed 2-bin matched photoperiod comparison with reference gold-standard opportunity labels, not a multi-site clock-vs-solar full-day observational validation. Optimization is relative to artificial worlds and independent reference cost structure."
+}
