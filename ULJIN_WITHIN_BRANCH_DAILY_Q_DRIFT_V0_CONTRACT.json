@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_within_branch_daily_camera_q_drift_v0",
+  "stage": "FROZEN_AFTER_PR260_FIRST_RESULTS_BEFORE_NEW_DAILY_DRIFT_OUTCOMES",
+  "parent_pr": 260,
+  "parent_first_result": "ULJIN_STATION_SEASON_CAMERA_Q_V0_FIRST_RESULT_LEDGER.json",
+  "parent_first_ci": 38016397672,
+  "parent_results_already_seen": "Station×branch q calibration first synthetic results had 13/48 site-majority certifications under branch-shifted camera q and 48/48 HOLD for branch-pooled q; no genuinely original Uljin wildlife data were seen. This new route is post-parent simulation, not an independent unseen ecological discovery.",
+  "target": "Same original 96 civil-clock event bins and 41 rising/falling daylength mirror pairs: new independent physical site fixed-trained clock vs astronomy vs season model majority probability, with independently calibrated physical camera detector q varying WITHIN each 41-day photoperiod branch.",
+  "day_drift_generator": {
+    "q_station_branch_source": "reuse PR260 physical_site_q(1), the heterogeneous station and season-branch q world, with the SAME 32 physical IID station-type assignments",
+    "calendar_pair_index": "For the 41 preselected mirrored ascending/descending pairs, index j=0..40; calendar days ordered rising_j,falling_j",
+    "artificial_daily_q": "q_site_branch_block_day = qmean + amp*min(qmean,1-qmean)*cos(2*pi*(j+0.5)/41 + block_index*pi/6 + physical_site_type*pi/3), repeated across sixteen original 15-min civil bins of each 4h block",
+    "drift_amplitudes": [
+      0,
+      0.35
+    ],
+    "q_bounds": "0<qday<1 for all generated site×date×civil blocks; the cosine mean over 41 dates in EACH branch×site×clock block is exactly 0, so the mean across those dates equals qmean",
+    "sampling_independent_reference_source": "Reference for each physical station×season branch×4h civil block samples EACH true passage date iid uniformly among the 41 days of THAT branch and then Bernoulli(q_day). Thus the marginal successes are genuinely iid Bernoulli(qmean) across opportunities, and the 192-cell simultaneous Clopper–Pearson intervals remain correct for the season-MEAN q even when q_day drifts.",
+    "site_assignment_rng_reused_from_parent": true,
+    "source_q_reference_rng_reused_from_parent": true,
+    "parent_station_q_generation_index": 1
+  },
+  "external_relative_daily_envelopes": {
+    "epsilon_grid": [
+      0,
+      0.1,
+      0.2,
+      0.35
+    ],
+    "mechanism": "Given independent simultaneous CP CI [L_sbg,U_sbg] for the independently sampled station×branch×4h source MEAN q, and an externally guaranteed per-date relative change |qday/qmean - 1|<=eps, the qday clock-group interval is [max(0,L_sbg*(1-eps)), min(1,U_sbg*(1+eps))]. Each original civil 15-min q shares its 4h site×date block value.",
+    "predeclared_external_bound_admission": "In this source-free generator, eps>=frozen amplitude is guaranteed conservatively because min(q,1-q)/q<=1 and |cos|<=1. For eps<amp, no independent external certificate is supplied: all corresponding labels HOLD_EXTERNAL_DAILY_DRIFT_CAP_NOT_ATTESTED, regardless of realized oracle true q CI coverage or positive site scores.",
+    "source_q_CI_familywise_alpha": 0.025,
+    "site_majority_four_hypotheses_familywise_alpha": 0.025,
+    "ordered_pairwise_one_sided_exact_alpha_each": 0.00625,
+    "total_combined_false_majority_certification_bound_given_external_drift_bound_and_iid_sites": 0.05,
+    "numerical_calendar_date_independence": "Shared true q across original 41 dates of a branch is used in the generator; optimize q separately by date for conservative OUTER lower site score bounds, never claim sharp joint 82-date nuisance profile.",
+    "oracle_coverage_gate_banned": true
+  },
+  "simulations": {
+    "original_daylength_mirror_pairs": 41,
+    "original_dates": 82,
+    "original_civil_clock_bins": 96,
+    "original_clock_bin_minutes": 15,
+    "independent_training_physical_sites": 16,
+    "independent_heldout_physical_sites": 16,
+    "artificial_animal_truths": [
+      "fixed_clock",
+      "sunrise_sunset_tracking",
+      "residual_seasonal_phase_shift"
+    ],
+    "events_per_site_date": [
+      20,
+      200
+    ],
+    "original_four_model_pairs": [
+      [
+        "solar_phase",
+        "civil_clock"
+      ],
+      [
+        "solar_phase_plus_branch",
+        "solar_phase"
+      ],
+      [
+        "solar_noon",
+        "civil_clock"
+      ],
+      [
+        "average_anchor",
+        "solar_phase"
+      ]
+    ],
+    "independent_source_reference_budgets": [
+      {
+        "total_true_passages": 38400,
+        "n_per_192_station_branch_civil_clock_block": 200
+      },
+      {
+        "total_true_passages": 153600,
+        "n_per_192_station_branch_civil_clock_block": 800
+      }
+    ],
+    "reference_source_rng": "EXACT original PR260 calibrated site×branch method 1 at source pattern index 1, with its original frozen reference seed; this is independent of the NEW animal event RNG",
+    "new_animal_rng_seed": 2026101027,
+    "new_animal_rng": "NumPy SeedSequence([2026101027, drift_amplitude_index, original_animal_truth_index, events_per_site_date]); source-free original PR260 event data generation is replayed at amp=0 for a strict baseline first-result agreement; only amp=.35 uses this NEW seed.",
+    "all_cases": 384
+  },
+  "non_outcome_checks": [
+    "All 2 amplitudes ×4 eps bounds ×2 external q reference budgets ×3 synthetic animal time truths ×2 event counts ×4 ordered forecast comparisons = 384 complete result rows, without selecting a winner based on outcomes.",
+    "All reference q mean samples genuinely iid binomial even under daily q heterogeneity, because sampled day is independently uniform among the same 41 branch dates for EACH true passage opportunity.",
+    "Station/branch detector source q must not be silently transported to an individual DATE when daily q drift is possible; eps=0 is valid only in true amp=0 world.",
+    "All eps<amp records are predeclared HOLD_EXTERNAL_DAILY_DRIFT_CAP_NOT_ATTESTED and cannot be used as evidence of source-wide detector validity.",
+    "Source q oracle actual coverage is AUDIT only. The test must never select favorable calibration outcomes after checking true q was covered.",
+    "For eps>=amp, if the true source qmean lies in all CP intervals, the conservatively enlarged date-q envelopes must contain all true station×date×clock-block q values and site score oracle gaps; fail otherwise.",
+    "Robust per-site lower score cannot increase as eps increases under the exact same independent reference q and animal events; K and exact significant certification cannot improve when enlarging uncertainty.",
+    "The exact source/site error budget is .025+.025=.05 per precommitted site population and four fixed ordered comparisons; do not claim 5% across all 384 artificial worlds.",
+    "When amp=0 and eps=0, the frozen parent PR260 station×branch result of 13 certified of 48 original synthetic comparisons must reproduce exactly (same station assignment, independent source samples, animal count seed and trained models).",
+    "With 16 IID physical heldout sites, minimum 14 robust positive site scores for exact one-sided Binomial(16,.5) under .00625 per original model pair.",
+    "The same 96 original civil bins, original five candidate time models, training-only fitting, original 41 calendar pairs and 16 test sites remain unchanged.",
+    "Original animal source ZIP NIE EcoBank v1.1, original independent camera-hour operation, protected site GPS, independent field q passages and actual ungulate detections NOT opened.",
+    "Prior qualified ODSP training/refit/external inferential routes and earlier synthetic first result ledgers untouched."
+  ],
+  "scientific_boundaries": {
+    "first_order_source_free_only": true,
+    "independent_reference_gold_standard_unverified": true,
+    "daily_drift_eps_requires_external_certification": true,
+    "station_detector_q_daily_drift_does_not_itself_prove_animal_activity_adjustment": true,
+    "site_majority_not_expected_population_logscore": true,
+    "no_identification_of_solar_zeitgeber_or_endogenous_photoperiod_memory": true
+  }
+}
