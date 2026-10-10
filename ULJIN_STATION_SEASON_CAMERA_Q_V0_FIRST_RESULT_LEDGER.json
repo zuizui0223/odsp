@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_SOURCE_FREE_STATION_BY_PHOTOPERIOD_BRANCH_Q_V0_TERMINAL_RESULT",
+  "pr_number": 260,
+  "pre_outcome_frozen_contract_commit": "678bcf2e04620f7a8d856676a20f93482a43d498",
+  "first_focused_ci_run": 38016397672,
+  "first_focused_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/38016397672",
+  "first_scored_head_sha": "993d5ca412fd2e9cf74fd6c472e1e0c6ccfd9046",
+  "first_full_result_artifact_id": 11656706264,
+  "first_artifact_sha256": "sha256:db82017465f64877e8b7597525c849f8c310633a4aa8d323a777ad8d87737377",
+  "focused_tests": "pass",
+  "first_full_96_pairs_x_2_arms": "pass",
+  "unchanged_artificial_41_daylength_pairs": true,
+  "uncertainty_and_site_tests": {
+    "site_q_simultaneous_source_CP_alpha": 0.025,
+    "four_model_pair_exact_site_majority_combined_alpha": 0.025,
+    "each_pair_exact_site_majority_one_sided_alpha": 0.00625,
+    "independent_heldout_physical_sites": 16,
+    "minimum_robust_positive_site_majority": 14,
+    "under_correct_iid_site_and_independent_reference_model_per_design_combined_false_certification_bound": 0.05
+  },
+  "gold_standard_independent_reference_opportunities": [
+    38400,
+    153600
+  ],
+  "calibration_groups": {
+    "site_only_branch_mixture": 96,
+    "site_by_branch": 192
+  },
+  "source_free_result_table": [
+    {
+      "camera_truth": "site_heterogeneous_but_branch_invariant",
+      "site_only_pooled_source": {
+        "paired_cases": 48,
+        "certified": 20,
+        "not_certified": 28,
+        "hold": 0
+      },
+      "site_by_branch": {
+        "paired_cases": 48,
+        "certified": 15,
+        "not_certified": 33,
+        "hold": 0
+      }
+    },
+    {
+      "camera_truth": "site_heterogeneous_and_branch_shifted",
+      "site_only_pooled_source": {
+        "paired_cases": 48,
+        "certified": 0,
+        "not_certified": 0,
+        "hold": 48
+      },
+      "site_by_branch": {
+        "paired_cases": 48,
+        "certified": 13,
+        "not_certified": 35,
+        "hold": 0
+      }
+    }
+  ],
+  "interpretation": {
+    "pooled_two_photoperiod_branch_REFERENCE_source_q_is_exact_iid_Binomial": true,
+    "pooled_source_q_confidence_coverage_does_not_prove_rising_or_falling_branch_target_q": true,
+    "site_branch_source_q_covers_both_if_reference_labeled_independent": true,
+    "source_oracle_coverage_not_an_inferential_admission_gate": true,
+    "model_score_binned_in_same_original_96_civil_time_categories": true,
+    "site_q_stationary_over_41_dates_within_each_branch_is_synthetic_assumption": true,
+    "site_q_temporal_binned_in_original_six_clock_4h_blocks": true,
+    "datewise_bounds_outer_not_sharp_over_shared_41date_q": true,
+    "source_site_population_iid_assumed": true,
+    "no_mean_log_score_superiority_inference": true,
+    "no_real_EcoBank_animal_events_or_camera_operation_or_site_q_true_passages_read": true,
+    "no_causal_photoperiod_memory_or_zeitgeber_identification": true,
+    "no_qualified_ODSP_or_previous_first_result_reclassification": true
+  },
+  "status": "TERMINAL_SOURCE_FREE_STATION_BRANCH_CAMERA_Q_SOURCE_SCOPE_NOT_ECOLOGICAL_DISCOVERY"
+}
