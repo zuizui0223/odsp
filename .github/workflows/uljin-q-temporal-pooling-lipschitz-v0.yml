@@ -1,0 +1,38 @@
+name: uljin-q-temporal-pooling-lipschitz-v0
+
+on:
+  push:
+    branches:
+      - method/uljin-rolling-daily-q-reference-v0
+    paths:
+      - 'ULJIN_Q_TEMPORAL_POOLING_LIPSCHITZ_V0_CONTRACT.json'
+      - 'odsp/uljin_q_temporal_pooling_lipschitz_v0.py'
+      - 'tests/test_uljin_q_temporal_pooling_lipschitz_v0.py'
+      - 'scripts/run_uljin_q_temporal_pooling_lipschitz_v0.py'
+      - '.github/workflows/uljin-q-temporal-pooling-lipschitz-v0.yml'
+  workflow_dispatch:
+
+jobs:
+  first-frozen-source-q-temporal-pooling:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install ODSP and optional source-reference exact beta quantiles
+        run: |
+          python -m pip install -e '.[dev]'
+          python -m pip install 'scipy>=1.12,<2'
+      - name: Verify IID mixture reference q, external Lipschitz daily bounds and 16-site sign inference
+        run: python -m pytest -q tests/test_uljin_q_temporal_pooling_lipschitz_v0.py
+      - name: Score first 384 predeclared site q time-scale combinations
+        run: python scripts/run_uljin_q_temporal_pooling_lipschitz_v0.py
+      - name: Archive original full q-time pooling score and source validity
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: uljin-q-temporal-pooling-lipschitz-first-v0
+          path: ULJIN_Q_TEMPORAL_POOLING_LIPSCHITZ_V0_FIRST_RECEIPT.json
+          if-no-files-found: warn
