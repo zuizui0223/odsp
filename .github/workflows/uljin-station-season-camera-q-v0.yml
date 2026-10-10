@@ -1,0 +1,38 @@
+name: uljin-station-season-camera-q-v0
+
+on:
+  push:
+    branches:
+      - method/uljin-station-season-camera-q-v0
+    paths:
+      - 'ULJIN_STATION_SEASON_CAMERA_Q_V0_CONTRACT.json'
+      - 'odsp/uljin_station_season_camera_q_v0.py'
+      - 'tests/test_uljin_station_season_camera_q_v0.py'
+      - 'scripts/run_uljin_station_season_camera_q_v0.py'
+      - '.github/workflows/uljin-station-season-camera-q-v0.yml'
+  workflow_dispatch:
+
+jobs:
+  first-frozen-station-season-detector-q:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install ODSP and optional exact reference-q CP solver
+        run: |
+          python -m pip install -e '.[dev]'
+          python -m pip install 'scipy>=1.12,<2'
+      - name: Verify legitimate pooled branch-mean source and inadmissible station-branch target
+        run: python -m pytest -q tests/test_uljin_station_season_camera_q_v0.py
+      - name: First all 96 source-free station branch q versus pooled season calibrations
+        run: python scripts/run_uljin_station_season_camera_q_v0.py
+      - name: Archive first source-free camera q temporal transport result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: uljin-station-season-camera-q-first-v0
+          path: ULJIN_STATION_SEASON_CAMERA_Q_V0_FIRST_RECEIPT.json
+          if-no-files-found: warn
