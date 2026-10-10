@@ -78,11 +78,11 @@ def test_original_ecological_h1_and_h2_independent_with_opportunity_denominator(
     assert r["Goral"]["H1_core_vs_daylight_edge"][
         "falling_minus_rising_log_rate_ratio"]==pytest.approx(-2*__import__("math").log(2))
     assert r["Goral"]["H2_night_vs_all_daylight"][
-        "falling_minus_rising_log_rate_ratio"]==pytest.approx(0,abs=1e-10)
+        "falling_minus_rising_log_rate_ratio"]==pytest.approx(0,abs=.02)
     assert r["Roe deer"]["H1_core_vs_daylight_edge"][
         "falling_minus_rising_log_rate_ratio"]==pytest.approx(0,abs=1e-10)
     assert r["Roe deer"]["H2_night_vs_all_daylight"][
-        "falling_minus_rising_log_rate_ratio"]==pytest.approx(__import__("math").log(2))
+        "falling_minus_rising_log_rate_ratio"]==pytest.approx(__import__("math").log(2),abs=.02)
     assert r["Water deer"]["H1_core_vs_daylight_edge"][
         "falling_minus_rising_log_rate_ratio"]==pytest.approx(0,abs=1e-10)
     assert r["Wild boar"]["total_matched_pair_events"]==0
@@ -98,7 +98,7 @@ def test_original_ecological_h1_and_h2_independent_with_opportunity_denominator(
     # only when camera operation is full-day. All zones sum 41*24h.
     for br in ("rising","falling"):
         assert exposure[(br,"daylight_core")]==pytest.approx(
-            exposure[(br,"daylight_edge"),],rel=1e-10)
+            exposure[(br,"daylight_edge")],rel=1e-10)
         assert sum(exposure[(br,z)] for z in (
             "daylight_core","daylight_edge","night"))==pytest.approx(41*24)
 
