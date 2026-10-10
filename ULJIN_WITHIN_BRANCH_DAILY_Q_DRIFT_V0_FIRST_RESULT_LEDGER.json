@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_WITHIN_BRANCH_DAILY_CAMERA_Q_DRIFT_V0_TERMINAL_SOURCE_FREE",
+  "pr_number": 261,
+  "pre_first_outcome_scientific_contract_commit": "03c3aa738cfad9639bd7e3eb51814e44214c9fe0",
+  "first_scored_workflow_run": 38035769887,
+  "first_scored_workflow_url": "https://github.com/zuizui0223/odsp/actions/runs/38035769887",
+  "first_scored_workflow_head_commit": "4cd2cab57d094f23e14ef6c5db1048d712ad0152",
+  "first_source_free_artifact_id": 11663816059,
+  "first_source_free_artifact_sha256": "sha256:f68a38508b9324d62fc9ccaba024140bf340c29cdb75f09c61cfef3ae8343829",
+  "focused_unit_test_suite": "passed",
+  "scored_full_384_frozen_comparisons": "passed",
+  "unchanged_original_calendar_mirror_pairs": 41,
+  "unchanged_common_civil_clock_bins": 96,
+  "independent_heldout_physical_sites": 16,
+  "source_detector_q_simultaneous_CP_alpha": 0.025,
+  "site_four_hypothesis_family_alpha": 0.025,
+  "site_each_pair_exact_alpha": 0.00625,
+  "parent_PR260_branch_specific_first_13_of_48_site_majority_positive_replayed": true,
+  "q_mean_source_correct_iid_binomial_under_independent_uniform_branch_date_reference_trials": true,
+  "scenario_counts": [
+    {
+      "true_daily_q_amplitude": 0,
+      "externally_attested_max_relative_daily_q_drift": 0,
+      "valid_pairs": 48,
+      "certified_positive_majority": 13,
+      "HOLD_no_external_cap": 0
+    },
+    {
+      "true_daily_q_amplitude": 0,
+      "externally_attested_max_relative_daily_q_drift": 0.1,
+      "valid_pairs": 48,
+      "certified_positive_majority": 8,
+      "HOLD_no_external_cap": 0
+    },
+    {
+      "true_daily_q_amplitude": 0,
+      "externally_attested_max_relative_daily_q_drift": 0.2,
+      "valid_pairs": 48,
+      "certified_positive_majority": 1,
+      "HOLD_no_external_cap": 0
+    },
+    {
+      "true_daily_q_amplitude": 0,
+      "externally_attested_max_relative_daily_q_drift": 0.35,
+      "valid_pairs": 48,
+      "certified_positive_majority": 0,
+      "HOLD_no_external_cap": 0
+    },
+    {
+      "true_daily_q_amplitude": 0.35,
+      "nominal_declared_max_relative_daily_q_drift": 0,
+      "valid_pairs": 0,
+      "certified_positive_majority": 0,
+      "HOLD_no_external_cap": 48
+    },
+    {
+      "true_daily_q_amplitude": 0.35,
+      "nominal_declared_max_relative_daily_q_drift": 0.1,
+      "valid_pairs": 0,
+      "certified_positive_majority": 0,
+      "HOLD_no_external_cap": 48
+    },
+    {
+      "true_daily_q_amplitude": 0.35,
+      "nominal_declared_max_relative_daily_q_drift": 0.2,
+      "valid_pairs": 0,
+      "certified_positive_majority": 0,
+      "HOLD_no_external_cap": 48
+    },
+    {
+      "true_daily_q_amplitude": 0.35,
+      "externally_attested_max_relative_daily_q_drift": 0.35,
+      "valid_pairs": 48,
+      "certified_positive_majority": 0,
+      "HOLD_no_external_cap": 0
+    }
+  ],
+  "conditionally_valid_inference": {
+    "external_daily_relative_drift_cap_must_be_independently_attested": true,
+    "exact_source_binomial_CP_covers_q_mean_not_individual_daily_q_without_cap": true,
+    "estimated_cap_would_require_additional_error_budget": true,
+    "q_mean_source_CP_alpha": 0.025,
+    "four_exact_site_majority_tests_alpha": 0.025,
+    "combined_per_original_design_error_if_external_cap_true": 0.05,
+    "site_sign_independent_physical_site_count": 16,
+    "site_required_for_majority_robust_positive": 14,
+    "separate_date_fractional_q_optima_CONSERVATIVE_OUTER_not_sharp_across_41_day_trajectory": true,
+    "oracle_true_q_coverage_never_used_as_inferential_gate": true,
+    "no_multiple_designs_384_global_fwer_claim": true,
+    "no_true_event_mean_sampling_ci_claim": true
+  },
+  "source_boundaries": {
+    "original_EcoBank_v1p1_archive_not_verified": true,
+    "original_animal_detection_rows_not_opened": true,
+    "original_independent_camera_operation_hour_logs_not_verified": true,
+    "actual_independent_true_passage_reference_not_available": true,
+    "original_sensitive_site_GPS_not_opened": true,
+    "no_real_animal_time_of_day_zeitgeber_or_photoperiod_memory_identification": true,
+    "original_ODSP_qualified_routes_and_prev_first_ledgers_unchanged": true
+  },
+  "status": "TERMINAL_SOURCE_FREE_WITHIN_BRANCH_DAILY_Q_DRIFT_NO_ECOLOGICAL_FINDING"
+}
