@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_ULJIN_82DAY_SIMULTANEOUS_CP_Q_COMMON_CLOCK_96BIN_V0",
+  "pr_number": 257,
+  "frozen_contract_commit": "e6cf5d69062aef7ef2cbf6cb16c5133efc6f2a0e",
+  "first_ci_attempt": 38014286340,
+  "first_ci_attempt_status": "FAILED_BEFORE_FIRST_OUTCOME_DUE_PARENT_CI_KEY_MISMATCH",
+  "first_ci_failure_details": "Guard referenced first_parent_ci, while frozen JSON uses parent_first_ci. No method/grid/model/calibration/seed changes.",
+  "pre_scoring_technical_fix_commit": "c25598c9bb20f47920b6e654eed12ed6814d1f99",
+  "first_complete_ci_run": 38014370170,
+  "first_complete_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/38014370170",
+  "first_complete_ci_head": "c25598c9bb20f47920b6e654eed12ed6814d1f99",
+  "first_artifact_id": 11654423645,
+  "first_artifact_sha256": "sha256:a792a22291e16f085fb9db8e271eed148b6f0010f74394046933c0e6c7c9d79f",
+  "first_focused_tests": "pass",
+  "first_full_192_source_free_cases": "pass",
+  "predeclared_worlds": 3,
+  "synthetic_detected_nlevels_per_site_day": [
+    20,
+    200
+  ],
+  "external_detector_temporal_patterns": [
+    "genuine_4hour_constant",
+    "within_block_quarterhour_heterogeneous"
+  ],
+  "external_reference_budgets": [
+    251904,
+    1007616
+  ],
+  "calibration_group_counts": {
+    "six_fourhour_blocks_per_82days": 492,
+    "individual_15min_bins_per_82days": 7872
+  },
+  "four_hour_q_calibration_uses_equal_gold_reference_opportunities_to_15min_method": true,
+  "source_free_q_alpha_joint": 0.025,
+  "result_outcomes": [
+    {
+      "temporal_true_q": "genuine_4hour_constant",
+      "total_external_reference_opportunities": 251904,
+      "six_block_method": {
+        "q_reference_trials_each": 512,
+        "robust_fixed_model_pairs": 16,
+        "indeterminate": 8
+      },
+      "individual_96_bin_method": {
+        "q_reference_trials_each": 32,
+        "robust_fixed_model_pairs": 0,
+        "indeterminate": 24
+      }
+    },
+    {
+      "temporal_true_q": "genuine_4hour_constant",
+      "total_external_reference_opportunities": 1007616,
+      "six_block_method": {
+        "q_reference_trials_each": 2048,
+        "robust_fixed_model_pairs": 17,
+        "indeterminate": 7
+      },
+      "individual_96_bin_method": {
+        "q_reference_trials_each": 128,
+        "robust_fixed_model_pairs": 2,
+        "indeterminate": 22
+      }
+    },
+    {
+      "temporal_true_q": "within_block_quarterhour_heterogeneous",
+      "total_external_reference_opportunities": 251904,
+      "six_block_method": {
+        "mean_source_q_simultaneous_coverage": true,
+        "actual_15min_q_simultaneous_coverage": false,
+        "certified_model_pairs": 0,
+        "all_24_unqualified": true
+      },
+      "individual_96_bin_method": {
+        "actual_15min_q_simultaneous_coverage": true,
+        "robust_fixed_model_pairs": 0,
+        "indeterminate": 24
+      }
+    },
+    {
+      "temporal_true_q": "within_block_quarterhour_heterogeneous",
+      "total_external_reference_opportunities": 1007616,
+      "six_block_method": {
+        "mean_source_q_simultaneous_coverage": true,
+        "actual_15min_q_simultaneous_coverage": false,
+        "certified_model_pairs": 0,
+        "all_24_unqualified": true
+      },
+      "individual_96_bin_method": {
+        "actual_15min_q_simultaneous_coverage": true,
+        "robust_fixed_model_pairs": 2,
+        "indeterminate": 22
+      }
+    }
+  ],
+  "interpretation": {
+    "group_average_binomial_source_calibration_valid_even_when_fine_q_time_heterogeneous": true,
+    "group_average_q_interval_not_96_clock_bin_q_confidence_when_heterogeneous": true,
+    "same_original_clock_bin_animal_response_and_equal_heldout_physical_sites": true,
+    "same_q_for_each_competing_prediction": true,
+    "model_peaks_fitted_once_on_training_sites_with_TRUE_DETECTED_q_driven_events": true,
+    "q_calibration_coverage_97p5_joint_theoretical_only_under_independent_reference_label_and_correct_granularity": true,
+    "single_calibration_realization_has_no_empirical_test_size_proof": true,
+    "no_heldout_physical_site_sampling_confidence_interval": true,
+    "no_original_Uljin_EcoBank_species_event_q_references_or_device_logs_opened": true,
+    "no_valid_real_world_photoperiod_memory_or_zeitgeber_claim": true,
+    "prior_ODSP_qualified_routes_unchanged": true
+  },
+  "status": "TERMINAL_SOURCE_FREE_JOINT_Q_CALIBRATION_SCOPE_AND_CLOCK_RANKING"
+}
