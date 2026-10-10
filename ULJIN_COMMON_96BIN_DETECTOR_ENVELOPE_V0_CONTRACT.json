@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_common_civil_96_detector_envelope_v0",
+  "stage": "FROZEN_AFTER_255_RESULTS_BEFORE_NEW_96_BIN_SCORE_OUTCOMES",
+  "parent_pr": 255,
+  "parent_first_result": "ULJIN_Q_W_VARIANCE_BUDGET_V0_FIRST_RESULT_LEDGER.json",
+  "first_parent_ci": 38013040523,
+  "prior_exposure": "Prior same-civil-bin #245/246 winner claims, detector-q alias #247-252, distance radius #253, and q/w variance #255 were seen before this distinct study. Do not treat new outcome as blind empirical confirmation.",
+  "question": "Which comparisons among frozen trained clock, astronomical solar-noon, sunrise/sunset solar-phase, average-anchor, and branch-dependent season models survive a common bounded detector sensitivity q in each of the SAME civil-clock 96 observation bins?",
+  "data_frame": {
+    "original_41_mirrored_date_pairs": true,
+    "civil_bin_minutes": 15,
+    "civil_bin_count": 96,
+    "independent_training_physical_sites": 16,
+    "untouched_heldout_physical_sites": 16,
+    "days": 82,
+    "source_free_only": true,
+    "generated_truths": [
+      "fixed_clock",
+      "sunrise_sunset_tracking",
+      "residual_seasonal_phase_shift"
+    ],
+    "events_per_site_date": [
+      20,
+      200
+    ],
+    "source_generating_seed": 2026101008,
+    "model_provenance": "Reuse odsp.uljin_common_clock_mechanistic_comparison_v0 precompute_profiles and _fit_and_score, existing 48 half-hour candidate peak grid, original five fixed families; do not retrain when changing q envelope."
+  },
+  "fixed_pairwise_comparisons": [
+    [
+      "solar_phase",
+      "civil_clock"
+    ],
+    [
+      "solar_phase_plus_branch",
+      "solar_phase"
+    ],
+    [
+      "solar_noon",
+      "civil_clock"
+    ],
+    [
+      "average_anchor",
+      "solar_phase"
+    ]
+  ],
+  "physical_detector_model": {
+    "q_near": 0.9,
+    "q_far": 0.3,
+    "reference_near_fraction": 0.5,
+    "external_target_near_fraction_bound": "Each clock-bin q_effective = qfar+(qnear-qfar)*w, with w in [0.5-delta,0.5+delta] for each day and civil-bin (or each 4h block), shared among all heldout sites on the same day and all competing model families. This bound is HYPOTHETICAL, not derived from two-bin q/w calibration.",
+    "delta_grid": [
+      0,
+      0.02,
+      0.05,
+      0.1,
+      0.2
+    ],
+    "q_bounds": "q_low=0.6-0.6delta; q_high=0.6+0.6delta for each 15min civil bin. Detector q assumed piecewise constant inside each original civil bin and camera operation frame.",
+    "two_external_constraint_classes": [
+      {
+        "id": "independent_civil_96bins",
+        "definition": "q_k can vary independently over each day×96 original civil-clock bins"
+      },
+      {
+        "id": "fixed_civil_6blocks",
+        "definition": "q_k shared for each six frozen 4-hour CIVIL blocks of sixteen 15-min bins within each day, but may vary between dates; same q across every model"
+      }
+    ]
+  },
+  "mathematics": {
+    "conditional_multinomial_common_response": "For a site/date, candidate fixed base predicted civil-bin masses m_{family,date,k} already integrate model-coordinate density, Jacobian and known camera operating hours. With shared detector q_{date,k}, predicted conditional probability is p_m,k(q)=m_m,k*q_k / sum_l(m_m,l*q_l).",
+    "same_q_requirement": "All candidates get exactly the SAME unknown q on the same original day and original event bins; never optimize q independently per candidate.",
+    "pairwise_logscore_difference": "sum_{s,d,k} site_equal_weight y_s,d,k*log(m_A,d,k/m_B,d,k) - sum_{s,d} site_equal_weight N_s,d*log[Z_A,d(q)/Z_B,d(q)], with site_equal_weight=1/(16*total_site_events) and Z_m=sum_k m_m,k*q_k.",
+    "sharp_extrema": "For positive masses a_k,b_k, q group g lower<=q_g<=upper, extrema of (sum_g A_g q_g)/(sum_g B_g q_g) are attained at group endpoint vertices. Solve fractional-linear roots via signed-coefficient extrema and 65 deterministic bisections; optimize common q not two independent denominators.",
+    "aggregate_day_separability": "Assume detector q independent across dates but COMMON for all 16 heldout sites on that date; add exact best/worst date-specific normalizer contributions. This is a conservative conditional SENSITIVITY interval, not a confidence interval.",
+    "reported": "Sharp min/max heldout EQUAL PHYSICAL SITE logscore difference nats/detected-event for each pair; fixed nominal-q heldout score difference; sign robustness only if entire interval >0 or <0. Model training remains at q=constant; no robust refit of training."
+  },
+  "fixed_checks": [
+    "3 truths ×2 n levels ×5 delta bounds ×2 q block structures ×4 fixed pairwise comparisons = 240 reports",
+    "all model families evaluated in identical 96 local-civil 15min response bins with same original 41 pairs and heldout physical-site split",
+    "delta0 lower=upper=original nominal q-invariant heldout score difference to 1e-10",
+    "q uncertainty bounds always include baseline original nominal result",
+    "for larger deltas intervals can only widen and no sign robust interval may be claimed when it crosses zero",
+    "6-block q constraints subset 96 independent-bin q hyperrectangle, so 6-block sharp interval nested in unrestricted sharp interval",
+    "fractional-linear extremum validated against exhaustive endpoint vertices on 4-bin toy case",
+    "common q cancels from event-specific log likelihood ratio, and only normalizer ratio remains",
+    "source 96-bin q bounds have no empirical/probabilistic confidence coverage, so robust sign is conditional on truthful EXTERNAL q bounds",
+    "only fixed trained model profile conditional scores, no trial-multiplicity corrected p-values and no source model-family biological identification",
+    "no original Uljin wildlife events, station GPS, operation logs, target passage distances, original q reference samples opened",
+    "all previous ODSP qualified routes and prior v0 first ledgers unchanged"
+  ],
+  "limitations": {
+    "no_real_source_data": true,
+    "no_q_calibration_joint_96bin_confidence_intervals": true,
+    "no_animal_count_sampling_ci": true,
+    "no_sitewise_detector_heterogeneity": true,
+    "no_unknown_camera_device_hours": true,
+    "no_weather_or_human_covariate_measurement": true,
+    "no_proof_of_causal_photoperiod_memory": true,
+    "no_historical_qualified_ODSP_endpoint_reclassification": true
+  }
+}
