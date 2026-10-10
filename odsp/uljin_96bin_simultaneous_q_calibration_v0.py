@@ -55,7 +55,7 @@ def freeze_guard(contract:Mapping[str,object],
                  prior:Mapping[str,object])->None:
     if not isinstance(contract,Mapping) or not isinstance(prior,Mapping):
         raise ValueError("source-free q calibration freeze/parent required")
-    f=contract.get("data_frame",{})
+    f=contract.get("calendar",{})
     q=contract.get("biological_q_truth",{})
     p=contract.get("calibration_experiment",{})
     if (
@@ -67,14 +67,14 @@ def freeze_guard(contract:Mapping[str,object],
         or contract.get("parent_first_result")!=
             "ULJIN_COMMON_96BIN_DETECTOR_ENVELOPE_V0_FIRST_RESULT_LEDGER.json"
         or contract.get("first_parent_ci")!=38013624606
-        or f.get("original_41_mirrored_date_pairs") is not True
-        or f.get("civil_bin_count")!=96
+        or f.get("original_41_day_pairs") is not True
+        or f.get("local_civil_bins")!=96
         or f.get("days")!=82
-        or f.get("independent_training_physical_sites")!=16
-        or f.get("untouched_heldout_physical_sites")!=16
-        or f.get("generated_truths")!=list(TRUTH_IDS)
-        or f.get("events_per_site_date")!=list(COUNTS)
-        or f.get("source_generating_seed")!=SEED
+        or f.get("training_sites")!=16
+        or f.get("heldout_sites")!=16
+        or contract.get("predeclared_worlds")!=list(TRUTH_IDS)
+        or f.get("site_date_event_count_levels")!=list(COUNTS)
+        or f.get("synthetic_generation_seed")!=SEED
         or q.get("rising_six_fourhour_blocks")!=list(RISING)
         or q.get("falling_six_fourhour_blocks")!=list(FALLING)
         or [w.get("id") for w in q.get("temporal_patterns",[])]!=list(PATTERNS)
