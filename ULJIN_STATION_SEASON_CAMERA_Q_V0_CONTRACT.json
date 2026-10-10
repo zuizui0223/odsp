@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_station_by_photoperiod_branch_q_calibration_v0",
+  "stage": "FROZEN_AFTER_PR259_FIRST_SOURCE_FREE_OUTCOMES_BEFORE_NEW_RESULTS",
+  "parent_pr": 259,
+  "parent_first_ledger": "ULJIN_SITE_SPECIFIC_CAMERA_Q_V0_FIRST_RESULT_LEDGER.json",
+  "parent_first_ci_run": 38015829149,
+  "previous_results_seen": "PR259 demonstrated that an IID source-population average camera q can be valid for the population and invalid for individual physical cameras; its source-free 96 paired comparisons and synthetic results were already exposed. This new frozen route keeps site identity but investigates temporal transport across rising/falling photoperiod branches.",
+  "ecological_question": "At SAME physical camera site, can a perfectly calibrated q averaged over rising and falling photoperiod branches be used to infer new-independent-site clock-vs-solar-vs-season forecast majority when actual camera sensitivity changes by branch?",
+  "common_response": {
+    "calendar_pairs": 41,
+    "dates": 82,
+    "original_civil_15min_bins": 96,
+    "physical_training_sites": 16,
+    "physical_heldout_sites": 16,
+    "preselected_model_pairs": [
+      [
+        "solar_phase",
+        "civil_clock"
+      ],
+      [
+        "solar_phase_plus_branch",
+        "solar_phase"
+      ],
+      [
+        "solar_noon",
+        "civil_clock"
+      ],
+      [
+        "average_anchor",
+        "solar_phase"
+      ]
+    ],
+    "artificial_animal_truths": [
+      "fixed_clock",
+      "sunrise_sunset_tracking",
+      "residual_seasonal_phase_shift"
+    ],
+    "site_date_detected_event_count_levels": [
+      20,
+      200
+    ]
+  },
+  "site_and_detector_truth": {
+    "site_type_IID_Bernoulli_half_over_32_physical_cameras": true,
+    "two_q_worlds": [
+      {
+        "id": "site_heterogeneous_but_branch_invariant",
+        "q_type_A_rising": [
+          0.95,
+          0.85,
+          0.35,
+          0.32,
+          0.6,
+          0.9
+        ],
+        "q_type_A_falling": [
+          0.95,
+          0.85,
+          0.35,
+          0.32,
+          0.6,
+          0.9
+        ],
+        "q_type_B_rising": [
+          0.3,
+          0.43,
+          0.9,
+          0.91,
+          0.73,
+          0.35
+        ],
+        "q_type_B_falling": [
+          0.3,
+          0.43,
+          0.9,
+          0.91,
+          0.73,
+          0.35
+        ]
+      },
+      {
+        "id": "site_heterogeneous_and_branch_shifted",
+        "q_type_A_rising": [
+          0.95,
+          0.85,
+          0.35,
+          0.32,
+          0.6,
+          0.9
+        ],
+        "q_type_A_falling": [
+          0.35,
+          0.4,
+          0.8,
+          0.9,
+          0.75,
+          0.4
+        ],
+        "q_type_B_rising": [
+          0.3,
+          0.43,
+          0.9,
+          0.91,
+          0.73,
+          0.35
+        ],
+        "q_type_B_falling": [
+          0.85,
+          0.8,
+          0.35,
+          0.4,
+          0.55,
+          0.85
+        ]
+      }
+    ],
+    "original_six_civil_4hour_blocks_per_day": true,
+    "q_constant_within_4h_block": true,
+    "q_constant_for_each_site_within_photoperiod_branch_over_all_41_dates": true,
+    "q_may_differ_across_physical_sites_and_rising_vs_falling_branches": true
+  },
+  "calibration_design": {
+    "two_equal_total_independent_reference_budgets": [
+      {
+        "total_true_independent_passages": 38400,
+        "site_only_per_96_cells": 400,
+        "site_x_branch_per_192_cells": 200
+      },
+      {
+        "total_true_independent_passages": 153600,
+        "site_only_per_96_cells": 1600,
+        "site_x_branch_per_192_cells": 800
+      }
+    ],
+    "method_site_only_source": "For each of 16 heldout sites ×6 civil 4h blocks, draw each independent reference opportunity's branch rising/falling by P=1/2 and then Bernoulli(q_site,branch,block); number triggered successes is EXACT Binomial(n_siteonly, mean(q_rise,q_fall)). CP simultaneous interval over 96 source cells has VALID coverage for branch-AVERAGE q, but it cannot cover actual branch-specific source target if q changes seasonally.",
+    "method_site_x_branch_source": "For each actual heldout physical site ×2 season branches ×6 civil 4h blocks, independently label known true passages and focal camera successes; exact 192-cell joint CP (alpha_q=.025) targets the correct station×branch×civil block q",
+    "source_reference_seed": 2026101024,
+    "site_types_seed": 2026101022,
+    "animal_event_seed": 2026101023,
+    "q_alpha_joint": 0.025,
+    "four_comparison_sign_test_total_alpha": 0.025,
+    "each_precommitted_comparison_one_sided_alpha": 0.00625,
+    "complete_error_alpha_under_assumptions": 0.05,
+    "reference_coverage_oracle_only": true,
+    "source_reference_truth_validity_not_chosen_using_q_coverage": true,
+    "site_majority_test": "Physical heldout sites n=16. For each site and fixed trained pair A/B, lower bound the score gap over the independently calibrated q confidence region using SAME original 96 civil bins and shared q for both models. Count strict-positive robust physical site lower bounds, exact right-tail Binom(16,0.5); require >=14/16 after 4-way Bonferroni.",
+    "cross_date_bound": "Since true q_station,branch,block is shared among all 41 days of each branch, summing per-date sharp normalizer bounds is a CONSERVATIVE OUTER interval, NOT the sharp feasible 82-day joint q limit.",
+    "no_oracle_gating": "True known synthetic q in confidence intervals is saved only for debugging, never used to decide pass/HOLD/site sign test. Source q interval miscoverage is already paid by alpha_q."
+  },
+  "output_contract": {
+    "paired_model_cases": 96,
+    "method_arms_per_case": 2,
+    "reference_receipts": 8,
+    "pooled_branch_source_to_target_HOLD_cases": 48,
+    "source_transport_qualified_arms": 144,
+    "all_case_counts": "2 camera q seasonal worlds ×3 animal time truths ×2 event n ×2 reference budgets ×4 model pairs =96 paired comparisons, 192 arms."
+  },
+  "hard_gates": [
+    "Preserve exact 41 astronomy-mirror pairs, 82 original civil dates, same 96 15-minute civil response bins, original five frozen forecast families, and 16 separate training/16 heldout PHYSICAL camera sites.",
+    "Every method's external reference costs match by independent known TRUE opportunities: 16*6*n_site_only =16*2*6*n_site_branch = nominal total budget.",
+    "IID branch-mixture reference successes are genuinely Binomial at source branch-average q, even when two branches' per-camera q differ.",
+    "Source site-only branch-average CP interval NEVER qualifies as a clock-bin-specific per-branch detector confidence set if branch q heterogeneous; all such 48 paired cases predeclared HOLD, regardless of positive forecast winner.",
+    "Qualified station×branch CP covers 192 source q cells jointly with alpha=.025 under binomial independent reference opportunities; carry familywise error alongside exact physical-site sign test four-pair alpha=.025.",
+    "All 16 heldout site q source reference data independent of animal events, and q truth stationary within each branch across dates; no event-driven selection of source reference sensors.",
+    "Source q oracle coverage audit must NEVER be an operational admission gate or influence significance.",
+    "When site 16 q denominator intervals have zero lower support return HOLD, no pseudocount.",
+    "Compare two frozen training-estimated event-time model predictors via the SAME unknown physical detector q in both normalizers and same original clock-bin event counts; no transform-specific outcome bins.",
+    "The per-date extrema summed across dates are conservative OUTER rather than SHARP for q shared over 41 dates in a season branch.",
+    "No inference on actual causal circadian entrainment, individual animal behavioral state, mean per-site prediction advantage or true photoperiod memory.",
+    "No original EcoBank v1.1 ungulate event rows, independently logged camera operation, station GPS or gold-standard reference passage counts accessed.",
+    "All ODSP prior qualified external validation and PR245–259 first ledgers remain untouched."
+  ]
+}
