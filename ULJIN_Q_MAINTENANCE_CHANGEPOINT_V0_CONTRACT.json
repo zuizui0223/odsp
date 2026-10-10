@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_camera_q_known_maintenance_step_time_pooling_v0",
+  "stage": "FROZEN_AFTER_PR262_FIRST_SOURCE_FREE_RESULTS_BEFORE_NEW_STEP_OUTCOMES",
+  "parent_pr": 262,
+  "parent_first_ledger": "ULJIN_Q_TEMPORAL_POOLING_LIPSCHITZ_V0_FIRST_RESULT_LEDGER.json",
+  "parent_first_ci_run": 38045380294,
+  "prior_outcome_disclosure": "PR262 stationary/cosine daily detector q source results have already been seen. This separate route tests a known maintenance step, not blind confirmation.",
+  "science": "A correct iid Binomial source detector q group mean cannot be transported to each wildlife recording day when the group crosses an independently logged hardware change point.",
+  "original_time_frame": {
+    "mirrored_photoperiod_pairs": 41,
+    "dates": 82,
+    "original_civil_15min_bins": 96,
+    "physical_training_sites": 16,
+    "independent_physical_heldout_sites": 16,
+    "fixed_pairs": [
+      [
+        "solar_phase",
+        "civil_clock"
+      ],
+      [
+        "solar_phase_plus_branch",
+        "solar_phase"
+      ],
+      [
+        "solar_noon",
+        "civil_clock"
+      ],
+      [
+        "average_anchor",
+        "solar_phase"
+      ]
+    ],
+    "animal_truths": [
+      "fixed_clock",
+      "sunrise_sunset_tracking",
+      "residual_seasonal_phase_shift"
+    ],
+    "site_date_n": [
+      20,
+      200
+    ]
+  },
+  "q_truth_worlds": [
+    {
+      "id": "station_branch_stable",
+      "step_index": null,
+      "post_rule": "q_post=q_base"
+    },
+    {
+      "id": "externally_logged_step_index20",
+      "step_index": 20,
+      "post_rule": "q_post=0.4+0.2*q_base"
+    }
+  ],
+  "reference_method_names": [
+    "daily_source",
+    "seven_day_unaware",
+    "seven_day_maintenance_split"
+  ],
+  "reference_grouping": {
+    "daily_source": "All 41 within-branch dates individually calibrated with independent day source q reference",
+    "seven_day_unaware": "Original chronological disjoint 7day groups, final shorter group. Source q-group mean valid but daily q transfer HOLD if step truth.",
+    "seven_day_maintenance_split": "Intersect the chronological 7day groups with original j<20 or j>=20. The independent maintenance log supplies cut index20 before inspecting animal outcomes."
+  },
+  "equal_gold_reference_budgets": [
+    {
+      "per_day_per_site_branch_clock_cell": 32,
+      "total_gold_passages": 251904
+    },
+    {
+      "per_day_per_site_branch_clock_cell": 128,
+      "total_gold_passages": 1007616
+    }
+  ],
+  "synthetic_rng": {
+    "station_types_reuse_parent": true,
+    "station_q_original_pattern": 1,
+    "reference_seed": 2026101031,
+    "animal_step_seed": 2026101032,
+    "animal_no_step_replay_parent": true,
+    "reference_group_date_selection": "For every independently labeled true reference passage in a group, independently draw DATE uniformly among source-group dates then detector success Bernoulli(q_site_branch_day_block), yielding genuine iid Binomial(n_day*group_len, group mean q)."
+  },
+  "statistical_budget": {
+    "source_q_CP_simultaneous_alpha": 0.025,
+    "four_exact_independent_site_sign_tests_alpha_total": 0.025,
+    "each_pair_exact_one_sided_alpha": 0.00625,
+    "iid_heldout_physical_sites": 16,
+    "minimum_robust_positive_sites_for_certification": 14,
+    "combined_per_design_false_certification_alpha": 0.05,
+    "group_source_cp": "Exact two-sided CP Bonferroni over all independent site×branch×group×six original civil 4h clock q source cells, n=n_day×actual group length.",
+    "daily_transport": "Each group mean q interval applies to its actual day q only with independently verified constant q within group; source temporal transport fails closed otherwise.",
+    "site_scoring": "Model pairs share q in the SAME original 96 civil-bin event likelihood, and trained forecast peaks fixed after independent 16-site training.",
+    "datewise_q_outer": "Extremize q by original date independently for conservative outer site lower score; not sharp for linked datewise q.",
+    "oracle_q_source_CI_coverage_audit_only": true,
+    "zero_lower_q_HOLD": true
+  },
+  "full_results": {
+    "q_truth_worlds": 2,
+    "budgets": 2,
+    "animal_truths": 3,
+    "animal_event_count_levels": 2,
+    "fixed_pairs": 4,
+    "three_method_arms_per_case": 3,
+    "paired_cases": 96,
+    "all_method_results": 288,
+    "calibration_source_receipts": 12
+  },
+  "hard_gates": [
+    "96 original paired clock/noon/solar/branch cases×3 q calibration arms retained, with exactly same 251904/1007616 independently labeled reference opportunity budgets across methods.",
+    "41 original matching rising/falling photoperiod day pairs, 82 dates, 96 original civil 15minute bins and 16 training/16 heldout IID physical sites unchanged.",
+    "Two q worlds: stationary and step at j20; q post=0.4+0.2q pre exactly, all q positive.",
+    "Each pooled source detector success is iid Bernoulli(group mean q) due independent uniform date selection per source opportunity.",
+    "At step world the 7day unaware interval may correctly cover group q mean but CANNOT qualify daily q for its original straddling step source group; all 48 paired comparisons HOLD.",
+    "Step-aware partition retains all 41 original day-pair indices and splits straddling group exactly at externally preknown 20.",
+    "Independent maintenance date independent of all observed animal timestamps and q reference trigger outcomes.",
+    "When valid CP source mean coverage holds, daily target true q is contained in all admitted source boxes and true-q site scores are inside outer bounds.",
+    "Synthetic oracle CP coverage never used for operational admission or model certification.",
+    "Any zero lower source q reference interval yields HOLD, never inferred animal effect.",
+    "16 physically independent sites only; no treating daily counts or detected events as independent units.",
+    "Source-representative q temporal resolution verified BEFORE interpreting fixed-trained model rankings.",
+    "No original real NIE EcoBank animal events, independent camera operation logs, reference true passage data, maintenance metadata or GPS read.",
+    "Previous qualified ODSP and PR245–262 first frozen ledgers unmodified."
+  ],
+  "limits": {
+    "synthetic_only": true,
+    "external_maintenance_log_assumed_not_real": true,
+    "source_q_constant_within_segment_and_fourhour_block_assumed": true,
+    "no_causal_zeitgeber_or_animal_memory_inference": true,
+    "does_not_measure_expected_site_logscore_mean": true
+  }
+}
