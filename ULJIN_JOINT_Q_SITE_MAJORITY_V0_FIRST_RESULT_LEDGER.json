@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_JOINT_96BIN_Q_AND_INDEPENDENT_SITE_MAJORITY_V0_TERMINAL_RESULT",
+  "pr_number": 258,
+  "pre_first_outcome_frozen_contract_commit": "cd78c8710caab3c4c7feda058ef06af99912fd06",
+  "original_first_scored_workflow_commit": "2afe65a1b0ee64a96f001ce486230b4fc5027d09",
+  "first_complete_ci_run": 38014938577,
+  "first_complete_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/38014938577",
+  "first_artifact_id": 11655159899,
+  "first_artifact_digest": "sha256:c18c003c5ce9c015d704fe885f521fe1706cc5e1115e86d99c0062f03c81b717",
+  "focused_tests_result": "success",
+  "full_192_source_free_site_cases": "success",
+  "unchanged_parent_pr257_first_scored_method": true,
+  "q_reference_source_familywise_alpha": 0.025,
+  "site_exact_familywise_alpha_for_four_prior_comparisons": 0.025,
+  "per_pair_exact_site_alpha": 0.00625,
+  "per_source_design_false_certification_union_bound_under_independent_sites_and_source_q": 0.05,
+  "site_sample_size": 16,
+  "exact_site_sign_p_for_13": 0.0106353759765625,
+  "exact_site_sign_p_for_14": 0.0020904541015625,
+  "minimum_robustly_positive_physical_sites_for_exact_site_majority": 14,
+  "all_original_date_pairs": 41,
+  "common_original_clock_response_bins": 96,
+  "first_source_free_status_by_q_temporal_pattern_and_reference_resolution": [
+    {
+      "truth_q": "genuine_4hour_constant",
+      "reference": "82dates_x_6_fourhour_blocks",
+      "case_count": 48,
+      "robust_new_site_A_majority_certifications": 20,
+      "not_certified": 28,
+      "HOLD_temporal_scope": 0
+    },
+    {
+      "truth_q": "genuine_4hour_constant",
+      "reference": "82dates_x_96_quarterhour_bins",
+      "case_count": 48,
+      "robust_new_site_A_majority_certifications": 2,
+      "not_certified": 46,
+      "HOLD_temporal_scope": 0
+    },
+    {
+      "truth_q": "within_block_quarterhour_heterogeneous",
+      "reference": "82dates_x_6_fourhour_blocks",
+      "case_count": 48,
+      "robust_new_site_A_majority_certifications": 0,
+      "not_certified": 0,
+      "HOLD_temporal_scope": 48
+    },
+    {
+      "truth_q": "within_block_quarterhour_heterogeneous",
+      "reference": "82dates_x_96_quarterhour_bins",
+      "case_count": 48,
+      "robust_new_site_A_majority_certifications": 2,
+      "not_certified": 46,
+      "HOLD_temporal_scope": 0
+    }
+  ],
+  "source_free_totals": {
+    "all_cases": 192,
+    "site_majority_certified_A": 24,
+    "site_test_not_certified": 120,
+    "hold_temporal_source_scope": 48
+  },
+  "methods": {
+    "source_q_simultaneous_cps_over_correct_time_resolution_required": true,
+    "site_sign_test_normalized_over_all_82_calendar_dates": true,
+    "site_is_independent_unit_not_date_or_detection": true,
+    "oracle_q_CI_contains_true_q_is_NEVER_admission_or_test_gate": true,
+    "data_dependent_oracle_coverage_selection_banned": true,
+    "shared_q_same_candidate_models_and_all_sites_on_date": true,
+    "per_preselected_site_frame_four_comparison_Bonferroni_required": true,
+    "no_fwer_claim_for_joint_192_design_panel": true,
+    "new_site_majority_inference_different_from_expected_new_site_mean_logscore": true,
+    "independent_training_sites_and_heldout_sites": true,
+    "time_heterogeneous_coarse_source_average_q_valid_but_clock_quarterhour_q_invalid": true
+  },
+  "limitations": {
+    "synthetic_data_only": true,
+    "no_real_EcoBank_animal_events_opened": true,
+    "no_original_independent_camera_device_hour_logs": true,
+    "no_original_gold_standard_q_reference_passages": true,
+    "no_source_station_specific_q_heterogeneity_estimated": true,
+    "no_true_photoperiod_memory_or_causal_zeitgeber_identified": true,
+    "qualified_ODSP_training_resampling_external_validity_routes_untouched": true
+  },
+  "status": "SOURCE_FREE_FIRST_COMPLETE_SITE_MAJORITY_AND_Q_INTERVAL_NOT_EMPIRICAL"
+}
