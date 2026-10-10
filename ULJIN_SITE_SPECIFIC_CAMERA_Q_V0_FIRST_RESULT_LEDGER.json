@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_IID_POOLED_VERSUS_PHYSICAL_SITE_CAMERA_Q_TRANSPORT_V0_TERMINAL_RESULT",
+  "pr_number": 259,
+  "pre_first_outcome_frozen_contract_commit": "e68305c91623cc8e35e96fd550f7a71223e52657",
+  "first_ci_attempt": 38015690363,
+  "first_ci_attempt_status": "FAILED_FOCUSED_TEST_BEFORE_FIRST_FULL_RECEIPT",
+  "first_ci_attempt_problems": [
+    "one source-only test passed arguments to reference calibration in wrong order",
+    "two methods per original 96 paired comparisons were accidentally counted as 192 separate rows; original frozen 96 paired comparisons retained and each stores TWO equal-cost arms"
+  ],
+  "technical_fixes_before_first_complete_receipt": [
+    "ac2db07ab5618fb518ddfc6228f3b105b80df624",
+    "68d42c25ab97da8614d4cff29b77848f1c812c30",
+    "2449ab40d23113f91263b084d0307216b038d1d6"
+  ],
+  "no_changes_to_frozen_site_q_true_patterns_or_seeds_or_sign_test_alpha": true,
+  "first_complete_ci_run": 38015829149,
+  "first_complete_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/38015829149",
+  "first_complete_scored_workflow_head": "2449ab40d23113f91263b084d0307216b038d1d6",
+  "first_result_artifact_id": 11656805488,
+  "first_result_artifact_sha256": "sha256:8d4bc287cb256bf3d1893752eea83463489422ca0f5c8e0f6cb41cbd3c2ba878",
+  "first_focused_unit_tests": "PASS",
+  "first_full_96_pair_cases_two_methods_each": "PASS",
+  "external_reference_opportunity_budgets": [
+    38400,
+    153600
+  ],
+  "calibration_reference_shapes": {
+    "pooled_valid_IID_population_mixture_q_source_groups": 6,
+    "station_specific_valid_reference_groups": 96
+  },
+  "frozen_site_q_worlds": [
+    "homogeneous_site_q",
+    "heterogeneous_site_q"
+  ],
+  "first_status_counts_by_truth_and_calibration": {
+    "homogeneous_site_q": {
+      "pooled_source": {
+        "certified_majority": 20,
+        "not_certified": 28,
+        "HOLD": 0
+      },
+      "station_specific": {
+        "certified_majority": 17,
+        "not_certified": 31,
+        "HOLD": 0
+      }
+    },
+    "heterogeneous_site_q": {
+      "pooled_source": {
+        "certified_majority": 0,
+        "not_certified": 0,
+        "HOLD": 48
+      },
+      "station_specific": {
+        "certified_majority": 12,
+        "not_certified": 36,
+        "HOLD": 0
+      }
+    }
+  },
+  "by_budget": {
+    "homogeneous_38400": {
+      "pooled_certified": 10,
+      "station_certified": 7
+    },
+    "homogeneous_153600": {
+      "pooled_certified": 10,
+      "station_certified": 10
+    },
+    "heterogeneous_38400": {
+      "pooled_HOLD": 24,
+      "station_certified": 4
+    },
+    "heterogeneous_153600": {
+      "pooled_HOLD": 24,
+      "station_certified": 8
+    }
+  },
+  "calibration_oracle_audits_only": {
+    "homogeneous_pooled_source_joint_coverage_all_budgets": true,
+    "homogeneous_station_specific_joint_coverage_all_budgets": true,
+    "heterogeneous_pooled_reference_SOURCE_q_joint_coverage_all_budgets": true,
+    "heterogeneous_pooled_reference_TARGET_individual_site_q_joint_coverage_all_budgets": false,
+    "heterogeneous_pooled_reference_target_individual_sites_all_six_q_cells_covered": 0,
+    "heterogeneous_station_specific_reference_budget_38400_individual_site_joint_coverage": false,
+    "heterogeneous_station_specific_reference_budget_38400_sites_all_six_cells_covered": 15,
+    "heterogeneous_station_specific_reference_budget_153600_individual_site_joint_coverage": true,
+    "oracle_q_coverage_NOT_admission_or_sign_test_input": true
+  },
+  "statistical_limits": {
+    "independent_heldout_sites": 16,
+    "source_q_joint_alpha": 0.025,
+    "four_site_majority_tests_total_alpha": 0.025,
+    "site_test_alpha_each": 0.00625,
+    "minimum_robust_positive_sites": 14,
+    "per_frozen_design_false_certification_bound_if_iid_and_gold_standard": true,
+    "does_not_control_familywise_across_all_96_diagnostic_worlds": true,
+    "datewise_q_extrema_conservative_outer_not_sharp_due_true_station_q_temporal_constancy": true,
+    "correct_iid_source_q_mean_NOT_automatically_portable_to_each_physical_camera": true,
+    "q_reference_opportunities_gold_standard_independent_and_correct_are_synthetic_assumptions": true,
+    "no_actual_EcoBank_animal_events_device_logs_or_reference_q": true,
+    "no_causal_zeitgeber_or_photoperiod_memory_inferred": true,
+    "original_41_mirror_pairs_and_prior_ODSP_qualified_routes_untouched": true
+  },
+  "status": "TERMINAL_SOURCE_FREE_STATION_SPECIFIC_Q_TRANSPORT_NOT_ECOLOGICAL_DISCOVERY"
+}

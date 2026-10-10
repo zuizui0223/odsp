@@ -1,0 +1,38 @@
+name: uljin-site-specific-camera-q-transport-v0
+
+on:
+  push:
+    branches:
+      - method/uljin-site-specific-camera-q-transport-v0
+    paths:
+      - 'ULJIN_SITE_SPECIFIC_CAMERA_Q_V0_CONTRACT.json'
+      - 'odsp/uljin_site_specific_camera_q_transport_v0.py'
+      - 'tests/test_uljin_site_specific_camera_q_transport_v0.py'
+      - 'scripts/run_uljin_site_specific_camera_q_transport_v0.py'
+      - '.github/workflows/uljin-site-specific-camera-q-transport-v0.yml'
+  workflow_dispatch:
+
+jobs:
+  first-frozen-station-specific-q:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install ODSP and optional binomial q exact quantiles
+        run: |
+          python -m pip install -e '.[dev]'
+          python -m pip install 'scipy>=1.12,<2'
+      - name: Prove iid pooled source calibration but invalid site target q and check 16 station tests
+        run: python -m pytest -q tests/test_uljin_site_specific_camera_q_transport_v0.py
+      - name: Score first frozen 96 station camera source transport cases
+        run: python scripts/run_uljin_site_specific_camera_q_transport_v0.py
+      - name: Archive complete first source-free station q results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: uljin-site-specific-camera-q-first-v0
+          path: ULJIN_SITE_SPECIFIC_CAMERA_Q_V0_FIRST_RECEIPT.json
+          if-no-files-found: warn
