@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_joint_q_and_site_majority_predictive_test_v0",
+  "status": "PRE_OUTCOME_FROZEN_AFTER_96BIN_CP_FIRST_RESULTS",
+  "parent_pr": 257,
+  "parent_first_result": "ULJIN_96BIN_SIMULTANEOUS_Q_CALIBRATION_V0_FIRST_RESULT_LEDGER.json",
+  "parent_first_completed_workflow": 38014370170,
+  "prior_results_seen": "PR257 192 synthetic common-clock q-calibrated fixed trained predictor rankings already inspected; under correct 4h q time scope 16/24 or 17/24 pairwise fixed-sample signs robust, not population site confidence. This new test estimates probability of A score > B at a fresh independent physical site, conditional on trained models, source camera q time structure, and the same 82 matched dates.",
+  "scientific_estimand": "P_unseen_physical_site[fixed-trained model A has GREATER observed-event conditional heldout 96 CIVIL-bin logscore per event than fixed-trained B, over the SAME original 82 days] > 1/2, not mean logscore superiority, causal phase or latent animal activity.",
+  "sampling": {
+    "calendar_original_41_matched_pairs": true,
+    "local_civil_bins": 96,
+    "calendar_dates": 82,
+    "training_sites": 16,
+    "independent_heldout_sites": 16,
+    "heldout_unit": "An independently sampled PHYSICAL SITE with ALL 82 date records; never treat 82 date observations, 96 time bins or individual events as new independent sites.",
+    "site_event_counts_each_date": [
+      20,
+      200
+    ],
+    "synthetic_worlds": [
+      "fixed_clock",
+      "sunrise_sunset_tracking",
+      "residual_seasonal_phase_shift"
+    ],
+    "detector_true_patterns": [
+      "genuine_4hour_constant",
+      "within_block_quarterhour_heterogeneous"
+    ],
+    "reference_budgets": [
+      251904,
+      1007616
+    ],
+    "q_calibration_methods": [
+      "six_clock_4hour_blocks",
+      "individual_96_civil_15min_bins"
+    ],
+    "fixed_pairs": [
+      [
+        "solar_phase",
+        "civil_clock"
+      ],
+      [
+        "solar_phase_plus_branch",
+        "solar_phase"
+      ],
+      [
+        "solar_noon",
+        "civil_clock"
+      ],
+      [
+        "average_anchor",
+        "solar_phase"
+      ]
+    ],
+    "simulation_identity": "REPLAY EXACT original PR257 reference CP calibration, original simulated detected animal count tensor and frozen peak estimates via odsp.uljin_96bin_simultaneous_q_calibration_v0 helper functions. NO new seed or favorable resampling; parent first source code and result ledger unchanged."
+  },
+  "error_allocation": {
+    "q_reference_joint_noncoverage_alpha": 0.025,
+    "site_majority_four_comparisons_alpha_total": 0.025,
+    "site_majority_each_of_four_pairwise_one_sided_alpha": 0.00625,
+    "overall_fwer_per_predeclared_scenario": 0.05,
+    "site_exact_test": "For each site i, compute exact SHARP minimum over the SAME source q box of its logscore gap D_i(q), with fixed trained A,B and original civil 96 bins. K=sum_i 1{min_q D_i(q)>0}; one-sided exact Binomial(16,1/2) tail P(X>=K) tests H0 P_new_site[D_i(true q)>0]<=1/2. For true q inside independently calibrated BOX, conservative robust-positive count K<=true positive count. No normal approximation or bootstrap for n=16.",
+    "per_scenario_multiplicity": "Four hypothesis tests each at .00625. The 192 source-free design cases are diagnostic mechanism worlds, NOT jointly claimed 5% across all 192, and different model-truth worlds may share the same random synthetic observations."
+  },
+  "temporal_source_scope": {
+    "q_true_4hour_constant": "CP confidence interval for source 4h q can transport to original quarter-hour detection when calibrated camera q truly CONSTANT within all six original 4hour blocks for each day.",
+    "q_true_within_block_variation": "Exact CP confidence for source 4h average q does NOT cover actual fine-grained 15min q; HOLD_TIME_RESOLUTION_NOT_ADMISSIBLE for ALL coarse 4h-based tests, irrespective of observed CP interval width or positive site count.",
+    "fine_96bin_valid_scope": "Exact source q reference CP intervals are correctly specified for every original quarter-hour cell in BOTH frozen synthetic q worlds.",
+    "coverage_leak_prevention": "Whether true q was contained in the ACTUAL randomly sampled CP reference interval is an ORACLE outcome audit only, NEVER a prerequisite for an inferential label. Selection based on realized coverage is infeasible in real research and breaks nominal coverage interpretation.",
+    "zero_lower": "Any source q group with 0 lower bound yields HOLD_UNKNOWN_DETECTOR_Q. No pseudo-counts."
+  },
+  "algorithm": {
+    "heldout_site_score": "Each site's same-civil-bin conditional 96bin event logscore gap normalized by that site's whole 82-day detected event count; all physical sites receive equal site weight.",
+    "shared_q": "For each of 82 dates, detector q is common across all 16 HELDOUT sites and both competing models, and may differ by date. One q box is optimized *jointly* for the log normalizer ratio, not separately per candidate. Site-specific robust lower D_i(q) uses shared per-day fractional-linear optima; no inner q fitting from wildlife outcomes.",
+    "fractional_extrema": "Use PR256's exact 65-bisection linear-fractional ratio extrema after summing each block's 16 original civil bins for 4h calibration; use all 96 original bins for fine q.",
+    "strict_positive": "A site is robust-positive iff lower logscore gap > 1e-12. Ties/ambiguous sites are counted NOT robust-positive.",
+    "tail_threshold": "With 16 independent sites, one-sided alpha=.00625 requires at least 14 robust-positive site scores; exact P[Binom(16,.5)>=14]=137/65536 approx .0020904541. 13 robust-positive sites is NOT enough: 697/65536 approx .010635.",
+    "familywise_null": "P_site-majority null applies to each fixed ordered forecast pair, not global five-family model selection. Per-scenario four-test Bonferroni and independent source detector coverage union bound yields 5% false certification under the specified independent physical site, fixed training, and correct time-scope model.",
+    "oracle_diagnostics": "Compute K_true using true 96bin q only to assess false noncoverage; never use it for decisions. All source-free cal q coverage and whether K_robust<=K_true when covered must be reported."
+  },
+  "reporting": {
+    "rows_expected": 192,
+    "unique_reference_receipts_expected": 8,
+    "true_heterogeneous_4hour_scope_held_rows": 48,
+    "other_valid_scope_rows": 144,
+    "report_each": [
+      "true animal clock/phase/season process",
+      "true detector temporal scope",
+      "source total independent passage budget",
+      "4h or 15min source calibration method",
+      "16 physical site nominal q=constant score signs",
+      "16 physical site true-q score signs (oracle diagnostic)",
+      "16 q-ROBUSTLY positive site count",
+      "exact one-sided site Binomial(16,.5) tail p",
+      "familywise 4-comparison corrected threshold and site majority certified/HOLD label",
+      "source CP q joint coverage audit ONLY",
+      "full sample-only mean score q interval separately descriptive"
+    ]
+  },
+  "hard_stops": [
+    "Original 192 PR257 synthetic cases reused and all four fixed pairwise families preserved, with zero user-provided source animal data accessed.",
+    "Oracle CP coverage must NOT be used as an admission/decision rule. It is unknown at application time; future valid confidence guarantees would be selected dishonestly if conditional on seeing true q coverage.",
+    "No independence inflation: 16 physical heldout sites, not 82 days or 96 response bins, are trial count n in sign test.",
+    "Guard reference calibration and heldout q sources are independently sampled; genuine original wildlife counts/time slices remain unavailable.",
+    "Four pairwise tests alpha_site_each=.00625 and simultaneous q coverage alpha=.025, with per-scenario union bound ≤.05 under correct source detector temporal calibration scope.",
+    "Individual site robust lower score bound uses SAME q shared by all compared models and sites on a day.",
+    "If CP intervals not jointly containing real true q (in synthetic oracle diagnostic), procedures still execute WITHOUT oracle outcome gating; mathematical noncoverage is paid by calibration .025 budget.",
+    "Block coarse detector q is banned from 96bin inference under within-block temporal heterogeneity even though averaged q CP coverage is valid.",
+    "End result cannot claim statistical confidence in expected population logscore difference, endogenous photoperiod memory, or causal zeitgeber.",
+    "Existing qualified ODSP upstream training/external untouched routes, 41 astronomy calendar pairs and original PR257 first result ledger remain unchanged."
+  ]
+}
