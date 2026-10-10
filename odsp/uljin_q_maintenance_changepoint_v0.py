@@ -277,7 +277,7 @@ def first_frozen_maintenance_panel(
     comparisons=[]
     for wi,name in enumerate(WORLDS):
         qday=step_day_q(branch,base,wi)
-        if wi==1 and not np.any(qday[:,40,:]!=qday[:,42,:]):
+        if wi==1 and not np.any(qday[:,38,:]!=qday[:,40,:]):
             raise ValueError("hardware source changepoint disappeared")
         for bi,(perday,total) in enumerate(BUDGETS):
             calibs=[source_reference(qday,wi,bi,mi)
