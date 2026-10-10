@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_site_specific_camera_q_transport_v0",
+  "state": "PRE_OUTCOME_FROZEN_AFTER_PR258_FIRST_COMPLETE_SITE_MAJORITY_RESULTS",
+  "parent_pr": 258,
+  "parent_first_result": "ULJIN_JOINT_Q_SITE_MAJORITY_V0_FIRST_RESULT_LEDGER.json",
+  "parent_first_ci": 38014938577,
+  "prior_result_exposure": "PR258 site-majority 192 source-free results with common q, 24 synthetic positive certifications, 120 noncertifications, 48 time-granularity HOLD have been seen; this new site-q route changes inference target and is NOT preregistered independently of that parent.",
+  "scientific_question": "Does a correctly calibrated IID reference-population average camera q transport to the independent PHYSICAL station-specific heldout site score comparisons when camera height, vegetation, angle, traffic, and site hardware induce persistent heterogeneity?",
+  "common_observation_frame": {
+    "original_41_astronomy_pairs": true,
+    "date_count": 82,
+    "civil_clock_bins": 96,
+    "minutes_per_bin": 15,
+    "train_sites": 16,
+    "heldout_sites": 16,
+    "all_dates_retained": true,
+    "five_frozen_model_families_unchanged": true,
+    "pairwise_models": [
+      [
+        "solar_phase",
+        "civil_clock"
+      ],
+      [
+        "solar_phase_plus_branch",
+        "solar_phase"
+      ],
+      [
+        "solar_noon",
+        "civil_clock"
+      ],
+      [
+        "average_anchor",
+        "solar_phase"
+      ]
+    ],
+    "generating_truths": [
+      "fixed_clock",
+      "sunrise_sunset_tracking",
+      "residual_seasonal_phase_shift"
+    ],
+    "detected_events_per_physical_site_date": [
+      20,
+      200
+    ]
+  },
+  "true_camera_site_patterns": [
+    {
+      "id": "homogeneous_site_q",
+      "site_type_A": [
+        0.62,
+        0.66,
+        0.57,
+        0.6,
+        0.64,
+        0.67
+      ],
+      "site_type_B": [
+        0.62,
+        0.66,
+        0.57,
+        0.6,
+        0.64,
+        0.67
+      ]
+    },
+    {
+      "id": "heterogeneous_site_q",
+      "site_type_A": [
+        0.95,
+        0.85,
+        0.35,
+        0.32,
+        0.6,
+        0.9
+      ],
+      "site_type_B": [
+        0.3,
+        0.43,
+        0.9,
+        0.91,
+        0.73,
+        0.35
+      ]
+    }
+  ],
+  "site_generation": {
+    "each_of_32_physical_station_type_IID_Bernoulli_half": true,
+    "site_type_seed": 2026101019,
+    "site_type_seed_sequence": "NumPy SeedSequence([2026101019, q_pattern_index, 1]) for 32 independent types",
+    "animal_event_seed": 2026101020,
+    "animal_event_seed_sequence": "NumPy SeedSequence([2026101020,q_pattern_index,animal_truth_index,event_count])",
+    "animals_per_site_day": "Independent Multinomial(n, latent_m_date_clockbin * station_specific_q_block / normalization), with 82 dates and same 96 civil 15min responses",
+    "site_q_stationary_across_calendar_82_dates": true,
+    "q_constant_within_original_six_civil_4hour_blocks": true,
+    "sites_exchangeable_from_two_type_superpopulation": true,
+    "all_16_heldout_site_types_reported_only_as_synthetic_A_B_not_protected_ids": true
+  },
+  "external_calibration": {
+    "q_source_alpha": 0.025,
+    "animal_site_majority_family_alpha": 0.025,
+    "four_fixed_pairwise_site_test_alpha_each": 0.00625,
+    "total_false_certification_bound_under_correct_site_q_and_iid_sites": 0.05,
+    "two_equal_gold_reference_budgets": [
+      {
+        "total_independent_passage_reference_opportunities": 38400,
+        "n_each_16site_x_6blocks": 400,
+        "n_each_6_pooled_blocks": 6400
+      },
+      {
+        "total_independent_passage_reference_opportunities": 153600,
+        "n_each_16site_x_6blocks": 1600,
+        "n_each_6_pooled_blocks": 25600
+      }
+    ],
+    "methodA": "pooled_reference_iid_station_mixture: each of n_pool independently labeled opportunities first samples a randomly selected reference station TYPE A/B with P=.5 and then camera true detection Bernoulli(q_type,4h-block), so pooled success genuinely IID Binomial(n_pool,(qA+qB)/2), exact six-cell CP Bonferroni 97.5% SOURCE q-mean coverage. Valid for a reference passage mixture, NOT for each heldout physical station if qA differs from qB.",
+    "methodB": "site_stratified_reference: independent labeled passages at each of the 16 actual HELDOUT physical cameras, 6 original civil 4h blocks, n_site trials per cell; exact joint 96-cell two-sided CP Bonferroni alpha=.025. Source q is time-stationary over 82 dates and constant within original clock blocks, assumed only in these synthetic worlds.",
+    "source_reference_rng": 2026101021,
+    "source_reference_rng_sequence": "NumPy SeedSequence([2026101021,q_pattern_index,budget_index,method_index,999]), independent of site assignment and animal events",
+    "test": "Each site has 82-day 96 civil-bin fixed-trained pairwise logscore. Compute a conservative LOWER score gap bound over each date's full source q interval using same q in both candidate models. Site-specific q is fixed over dates, but numerical per-date separate extrema form an OUTER, not sharp, envelope. K=# of 16 physical sites with positive lower. Test Binomial(16,.5) right tail against .00625, exact criterion K>=14.",
+    "do_not_oracle_gate": "True station-specific q coverage may be checked in synthetic audit but cannot be used to select or qualify a statistical test. Pooling transport invalidity is a scientifically predeclared population-vs-station scope restriction, not selected after viewing CP coverage."
+  },
+  "analytic_reference_counterexample": {
+    "station_mixture_q_ref": "0.5*q_A + 0.5*q_B per original civil 4hour block, which is a VALID IID reference-calibration target",
+    "station_q_per_site": "q_station_block differs by type for heterogeneous world and cannot be inferred from q_ref alone even with infinite source reference n",
+    "report": "Source CP q_ref coverage, fraction of individual heldout site q values covered by pooled interval, true-q site score positive count, q-robust certified count when external q method transports correctly, and descriptive raw pooled K but HOLD its majority inference under heterogeneity."
+  },
+  "expected_results": {
+    "original_cases": 96,
+    "calibration_receipts": 8,
+    "misportability_held_pooled_heterogeneous": 24,
+    "valid_scope_cases": 72,
+    "n_reference_budgets": 2,
+    "q_true_patterns": 2,
+    "animal_truth_processes": 3,
+    "site_day_event_levels": 2,
+    "model_pairs": 4
+  },
+  "hard_checks": [
+    "96 fixed rows 2 q patterns×3 animal truths×2 site-day counts×2 external budgets×2 site-calibration resolutions×4 preselected model pairs; no outcome selection",
+    "reference opportunity budgets are exactly equal between 6 pooled blocks and 16×6 site-specific blocks in every predeclared budget",
+    "pooled reference source q confidence is mathematically CORRECT for IID 50:50 station-type mixture, even when heterogeneity makes it invalid for actual station-specific q targets",
+    "all original 41 astronomy date pairs, 82 dates, same 96 civil response bins and 16 heldout independent physical sites",
+    "one site-type assignment reused across animal truths and reference budgets, but iid across 32 physical sites",
+    "q stationary within physical site over dates and constant within each six original 4h blocks, otherwise 96 source q calibrations from 82 date scans would be required",
+    "calibration q posterior/true coverage oracle flags NEVER used to run or skip site majority decision",
+    "pooled heterogeneity world HOLD_REFERENCE_TO_SITE_Q_NOT_TRANSPORTABLE irrespective of apparent favorable pooled synthetic site tally",
+    "source q interval lower zero -> HOLD, no pseudocounts",
+    "exact site sign test n=16 and alpha=.00625 require 14 of 16 robust-positive independent physical sites",
+    "cross-date q remains constant for a station; separate per-day q optimization is conservative OUTER bound not falsely advertised as sharp",
+    "does not claim expected mean score superiority, causal circadian/solar zeitgeber, within-species latent animal behavioral change",
+    "no authentic NIE EcoBank v1.1 animal event rows, operation logs, real site q calibration trials or sensitive station GPS accessed",
+    "earlier PR245-258 first ledgers and qualified ODSP source inference routes untouched"
+  ]
+}
