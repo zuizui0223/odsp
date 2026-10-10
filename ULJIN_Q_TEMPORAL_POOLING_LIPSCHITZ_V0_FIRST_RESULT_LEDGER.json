@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_ULJIN_DETECTOR_Q_TEMPORAL_POOLING_LIPSCHITZ_V0_TERMINAL_SOURCE_FREE",
+  "pr_number": 262,
+  "frozen_before_first_outcome_contract_commit": "eb500592715653e261012606793713b157139826",
+  "first_completed_scored_ci_run": 38045380294,
+  "first_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/38045380294",
+  "first_scored_head_commit": "b1e76a14fc28f8ec67a2599907a35ca918f7e615",
+  "first_result_artifact_id": 11667303281,
+  "first_result_artifact_sha256": "sha256:1b9777a99f696cc6dae211db212ddecc96c3a6d32d2ef53aa74785ea758e9148",
+  "focused_unit_tests": "passed",
+  "full_96paired_cases_x_four_calibration_lengths": "passed",
+  "q_true_generator": "Original PR261 stationary branch q or synthetic cosine daily q amplitude 0.35; q source calibration date chosen independently uniformly within each fixed group.",
+  "pre_frozen_calendar_date_group_lengths": [
+    1,
+    3,
+    7,
+    41
+  ],
+  "source_reference_total_passage_budgets": [
+    251904,
+    1007616
+  ],
+  "calibration_q_coverage_source_familywise_alpha": 0.025,
+  "four_physical_site_sign_tests_familywise_alpha": 0.025,
+  "preselected_pair_site_one_sided_alpha_each": 0.00625,
+  "expected_independent_heldout_physical_sites": 16,
+  "site_majority_robust_positive_threshold": 14,
+  "source_temporal_external_absolute_Lipschitz_q_day_bound_per_day": {
+    "branch_stationary": 0,
+    "daily_cosine_drift": 0.03
+  },
+  "all_results_at_pre_frozen_four_lengths_and_two_budgets": [
+    {
+      "q_truth": "branch_stationary",
+      "source_true_passage_budget": 251904,
+      "by_date_group": [
+        {
+          "calendar_days_per_source_group": 1,
+          "certified_out_of_24_fixed_pair_cases": 0,
+          "source_q_zero_lower_hold_cases": 0
+        },
+        {
+          "calendar_days_per_source_group": 3,
+          "certified_out_of_24_fixed_pair_cases": 0,
+          "source_q_zero_lower_hold_cases": 0
+        },
+        {
+          "calendar_days_per_source_group": 7,
+          "certified_out_of_24_fixed_pair_cases": 2,
+          "source_q_zero_lower_hold_cases": 0
+        },
+        {
+          "calendar_days_per_source_group": 41,
+          "certified_out_of_24_fixed_pair_cases": 10,
+          "source_q_zero_lower_hold_cases": 0
+        }
+      ]
+    },
+    {
+      "q_truth": "branch_stationary",
+      "source_true_passage_budget": 1007616,
+      "by_date_group": [
+        {
+          "calendar_days_per_source_group": 1,
+          "certified_out_of_24_fixed_pair_cases": 1,
+          "source_q_zero_lower_hold_cases": 0
+        },
+        {
+          "calendar_days_per_source_group": 3,
+          "certified_out_of_24_fixed_pair_cases": 6,
+          "source_q_zero_lower_hold_cases": 0
+        },
+        {
+          "calendar_days_per_source_group": 7,
+          "certified_out_of_24_fixed_pair_cases": 10,
+          "source_q_zero_lower_hold_cases": 0
+        },
+        {
+          "calendar_days_per_source_group": 41,
+          "certified_out_of_24_fixed_pair_cases": 10,
+          "source_q_zero_lower_hold_cases": 0
+        }
+      ]
+    },
+    {
+      "q_truth": "daily_cosine_drift",
+      "source_true_passage_budget": 251904,
+      "by_date_group": [
+        {
+          "calendar_days_per_source_group": 1,
+          "certified_out_of_24_fixed_pair_cases": 0,
+          "source_q_zero_lower_hold_cases": 0
+        },
+        {
+          "calendar_days_per_source_group": 3,
+          "certified_out_of_24_fixed_pair_cases": null,
+          "source_q_zero_lower_hold_cases": 24
+        },
+        {
+          "calendar_days_per_source_group": 7,
+          "certified_out_of_24_fixed_pair_cases": null,
+          "source_q_zero_lower_hold_cases": 24
+        },
+        {
+          "calendar_days_per_source_group": 41,
+          "certified_out_of_24_fixed_pair_cases": null,
+          "source_q_zero_lower_hold_cases": 24
+        }
+      ]
+    },
+    {
+      "q_truth": "daily_cosine_drift",
+      "source_true_passage_budget": 1007616,
+      "by_date_group": [
+        {
+          "calendar_days_per_source_group": 1,
+          "certified_out_of_24_fixed_pair_cases": 1,
+          "source_q_zero_lower_hold_cases": 0
+        },
+        {
+          "calendar_days_per_source_group": 3,
+          "certified_out_of_24_fixed_pair_cases": 2,
+          "source_q_zero_lower_hold_cases": 0
+        },
+        {
+          "calendar_days_per_source_group": 7,
+          "certified_out_of_24_fixed_pair_cases": 2,
+          "source_q_zero_lower_hold_cases": 0
+        },
+        {
+          "calendar_days_per_source_group": 41,
+          "certified_out_of_24_fixed_pair_cases": null,
+          "source_q_zero_lower_hold_cases": 24
+        }
+      ]
+    }
+  ],
+  "scientific_interpretation": {
+    "stationary_source_q_all_41_dates_constant_scenario_can_benefit_from_longer_temporal_pooling": true,
+    "daily_drift_41day_pooled_reference_q_estimates_source_mean_correctly_but_has_no_positive_daily_lower_support_after_L_expansion": true,
+    "daily_drift_scenario_3_and_7day_pooling_at_high_budget_certified_2_of_24_cases_each": true,
+    "daily_drift_low_budget_3_and_7day_all_hold_due_zero_q_lower_support": true,
+    "calibration_results_are_one_source_free_random_reference_realization_per_predeclared_case_not_empirical_power_estimates": true,
+    "equality_of_gold_standard_reference_passage_count_not_equality_of_real_field_cost": true,
+    "theoretical_5pct_false_majority_certification_conditional_on_valid_external_L_iid_sites_and_correct_reference_labels": true,
+    "synthetic_CP_oracle_q_coverage_is_diagnostic_never_admission_gate": true,
+    "daily_lipschitz_bound_not_empirically_estimated_or_verified": true,
+    "if_L_statistically_estimated_requires_separate_familywise_error_spending": true,
+    "conservative_daywise_outer_site_score_bounds_not_jointly_sharp_with_time_smoothness": true,
+    "not_animal_behavior_site_effect_population_mean_or_causal_photoperiod_memory": true,
+    "original_EcoBank_v1p1_source_archive_animal_events_camera_hours_reference_labels_and_protected_GPS_unopened": true,
+    "prior_qualified_ODSP_routes_and_pr245_to_261_frozen_first_results_untouched": true
+  },
+  "status": "TERMINAL_SOURCE_FREE_IID_Q_GROUP_CALIBRATION_WITH_LIPSCHITZ_SENSITIVITY"
+}
