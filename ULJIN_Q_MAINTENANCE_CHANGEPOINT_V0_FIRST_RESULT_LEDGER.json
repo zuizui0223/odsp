@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_ULJIN_INDEPENDENT_MAINTENANCE_STEP_CAMERA_Q_V0_TERMINAL_SOURCE_FREE",
+  "pr_number": 263,
+  "scientific_contract_frozen_commit": "813bb765739ead602f98b412b58b6a3c25a21445",
+  "first_focused_ci_run": 38056623734,
+  "first_focused_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/38056623734",
+  "first_scored_commit": "204c6e03b126c7bc9ace8e8104d18f916b1db10a",
+  "first_artifact_id": 11671661371,
+  "first_artifact_sha256": "sha256:1eb839b96b9dca6f1248489cf5214706493749a576ca30647586a80b6c4751e7",
+  "first_targeted_tests": "passed",
+  "first_96_original_cases_three_methods_288_arms": "passed",
+  "reference_opportunity_budgets": [
+    251904,
+    1007616
+  ],
+  "method_names": [
+    "daily_source",
+    "seven_day_unaware",
+    "seven_day_maintenance_split"
+  ],
+  "independent_hardware_step_index": 20,
+  "step_q_transform": "0.4+0.2*original physical camera branch q on original matched pair indexes 20..40",
+  "observed_source_free_outcomes": [
+    {
+      "q": "station_branch_stable",
+      "budget": 251904,
+      "daily": {
+        "pass": 0,
+        "hold": 0
+      },
+      "unaware": {
+        "pass": 2,
+        "hold": 0
+      },
+      "split": {
+        "pass": 2,
+        "hold": 0
+      }
+    },
+    {
+      "q": "station_branch_stable",
+      "budget": 1007616,
+      "daily": {
+        "pass": 0,
+        "hold": 0
+      },
+      "unaware": {
+        "pass": 10,
+        "hold": 0
+      },
+      "split": {
+        "pass": 10,
+        "hold": 0
+      }
+    },
+    {
+      "q": "externally_logged_step_index20",
+      "budget": 251904,
+      "daily": {
+        "pass": 0,
+        "hold": 0
+      },
+      "unaware": {
+        "pass": 0,
+        "hold": 24
+      },
+      "split": {
+        "pass": 2,
+        "hold": 0
+      }
+    },
+    {
+      "q": "externally_logged_step_index20",
+      "budget": 1007616,
+      "daily": {
+        "pass": 0,
+        "hold": 0
+      },
+      "unaware": {
+        "pass": 0,
+        "hold": 24
+      },
+      "split": {
+        "pass": 10,
+        "hold": 0
+      }
+    }
+  ],
+  "site_test": {
+    "n_physical_independent_heldout_sites": 16,
+    "min_positive_for_each_one_sided_site_majority": 14,
+    "q_source_CP_joint_familywise_alpha": 0.025,
+    "site_four_tests_familywise_alpha": 0.025,
+    "site_each_ordered_pair_alpha": 0.00625,
+    "conditional_per_selected_design_false_certification_bound": 0.05,
+    "source_calibration_true_q_oracle_coverage_gate_disabled": true
+  },
+  "interpretation": {
+    "gold_standard_reference_group_success_iid_binomial_due_independent_uniform_reference_date_draw": true,
+    "unaware_7day_group_mean_q_correct_for_reference_population_not_target_individual_date_after_step": true,
+    "unaware_7day_step_world_48_total_paired_cases_HOLD": true,
+    "maintenance_step_split_7day_7_groups_per_branch": true,
+    "all_41_original_day_indexes_retained_no_event_driven_break_search": true,
+    "same_total_ref_gold_true_passage_budget_all_arms": true,
+    "daywise_detector_q_score_interval_conservative_outer_not_jointly_sharp": true,
+    "one_first_source_free_random_realization_not_stochastic_power_distribution": true,
+    "no_real_independent_maintenance_records_read": true,
+    "no_real_EcoBank_v1p1_animal_events_device_hours_reference_passage_labels_or_protected_coordinates_opened": true,
+    "no_real_clock_solar_causal_zeitgeber_or_endogenous_photoperiod_memory_discovery": true,
+    "all_prior_qualified_ODSP_routes_and_first_result_ledgers_untouched": true
+  },
+  "status": "TERMINAL_SOURCE_FREE_Q_MAINTENANCE_SCOPE_VALIDITY_ONLY_NOT_EMPIRICAL"
+}
