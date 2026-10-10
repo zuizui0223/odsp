@@ -403,32 +403,41 @@ def run_first_site_q_transport_panel(
                     data,preds,fit=site_masses_and_counts(
                         profiles,branch,pi,truth,n,site_q)
                     for aa,bb in PAIRS:
+                        calibrated={}
                         for cal in cals:
-                            result=station_site_majority(
+                            calibrated[cal["method"]]=station_site_majority(
                                 data,preds[aa],preds[bb],
                                 site_q[16:],cal)
-                            rows.append({
-                                "true_camera_site_q_pattern":name,
-                                "synthetic_animal_time_truth":truth,
-                                "detected_events_per_site_date":n,
-                                "reference_opportunity_budget":budget,
-                                "q_calibration_method":cal["method"],
-                                "ordered_model_A":aa,
-                                "ordered_model_B":bb,
-                                "fitted_training_peak_A":fit[aa][
-                                    "training_only_peak_parameters"],
-                                "fitted_training_peak_B":fit[bb][
-                                    "training_only_peak_parameters"],
-                                **result
-                            })
+                        rows.append({
+                            "true_camera_site_q_pattern":name,
+                            "synthetic_animal_time_truth":truth,
+                            "detected_events_per_site_date":n,
+                            "reference_opportunity_budget":budget,
+                            "ordered_model_A":aa,
+                            "ordered_model_B":bb,
+                            "fitted_training_peak_A":fit[aa][
+                                "training_only_peak_parameters"],
+                            "fitted_training_peak_B":fit[bb][
+                                "training_only_peak_parameters"],
+                            "both_equal_cost_reference_calibration_methods":
+                                calibrated,
+                        })
     if len(rows)!=96 or len(source_receipts)!=8:
         raise ValueError("not all frozen q site transport alternatives preserved")
-    if sum(z["scope"]=="HOLD_POOLED_Q_NOT_PORTABLE_TO_INDIVIDUAL_SITE"
-           for z in rows)!=24:
-        raise ValueError("source mixture q must HOLD when site q is heterogeneous")
-    if any(z["site_majority_certified"] is True and
-           z["physical_robust_positive_site_count"]<14
-           for z in rows):
+    held=[r for r in rows if r[
+        "both_equal_cost_reference_calibration_methods"][METHODS[0]]["scope"]==
+        "HOLD_POOLED_Q_NOT_PORTABLE_TO_INDIVIDUAL_SITE"]
+    unique_hold_pairs={
+        (r["synthetic_animal_time_truth"],r["detected_events_per_site_date"],
+         r["ordered_model_A"],r["ordered_model_B"])
+        for r in held
+    }
+    if len(held)!=48 or len(unique_hold_pairs)!=24:
+        raise ValueError("source mixture q must HOLD 24 distinct model cases across two budgets")
+    if any(out["site_majority_certified"] is True and
+           out["physical_robust_positive_site_count"]<14
+           for r in rows
+           for out in r["both_equal_cost_reference_calibration_methods"].values()):
         raise ValueError("wrong 16-site binomial multiple-test threshold")
     return {
         "schema_version":1,
