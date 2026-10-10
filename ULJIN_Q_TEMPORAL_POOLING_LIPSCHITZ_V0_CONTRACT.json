@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_q_reference_time_block_resolution_lipschitz_v0",
+  "stage": "FROZEN_AFTER_PR261_FIRST_SOURCE_FREE_OUTCOME_BEFORE_NEW_TEMPORAL_POOLING_OUTPUT",
+  "parent_pr": 261,
+  "parent_first_result_ledger": "ULJIN_WITHIN_BRANCH_DAILY_Q_DRIFT_V0_FIRST_RESULT_LEDGER.json",
+  "parent_first_workflow_run": 38035769887,
+  "parent_results_seen": "Parent PR261 has 13/48 robust new-site majority outcomes under amp=0 eps=0, and zero robust under amp=.35 eps=.35; its synthetic true-q oracle still had 20/48 positive comparisons. This new route is post-exposure methodological work, not blind discovery.",
+  "science_question": "With the SAME number of independently gold-standard-labeled true animal passage opportunities, what temporal pooling length for per-camera per-season-branch per-civil-clock-block detector q best balances simultaneous 97.5% source calibration precision and legitimate within-branch date-to-date q drift?",
+  "original_observation_contract": {
+    "astronomy_mirror_pairs": 41,
+    "dates": 82,
+    "original_civil_15minute_bins": 96,
+    "training_physical_sites": 16,
+    "independent_heldout_physical_sites": 16,
+    "site_branch_clock_reference_cells": 192,
+    "frozen_clock_forecast_candidates": [
+      "civil_clock",
+      "solar_noon",
+      "solar_phase",
+      "average_anchor",
+      "solar_phase_plus_branch"
+    ],
+    "four_pairs": [
+      [
+        "solar_phase",
+        "civil_clock"
+      ],
+      [
+        "solar_phase_plus_branch",
+        "solar_phase"
+      ],
+      [
+        "solar_noon",
+        "civil_clock"
+      ],
+      [
+        "average_anchor",
+        "solar_phase"
+      ]
+    ],
+    "animal_generating_truths": [
+      "fixed_clock",
+      "sunrise_sunset_tracking",
+      "residual_seasonal_phase_shift"
+    ],
+    "event_count_per_site_date": [
+      20,
+      200
+    ]
+  },
+  "q_data_generating_worlds": [
+    {
+      "id": "branch_stationary",
+      "amplitude": 0,
+      "external_absolute_Lipschitz_cap_per_original_pair_day": 0
+    },
+    {
+      "id": "daily_cosine_drift",
+      "amplitude": 0.35,
+      "external_absolute_Lipschitz_cap_per_original_pair_day": 0.03
+    }
+  ],
+  "q_generator": "Reuse parent PR261 same physical station-by-branch q from PR260 heterogeneous branch-shifted world (index 1), same 32 physical site type assignment and parent true_daily_q cosine formula. For amp=0 reuse original parent animal-event counts and fitted training predictions. For amp=.35 reuse parent PR261 source-free daily-distorted event counts with its original frozen new animal RNG.",
+  "uniform_reference_opportunities": {
+    "reference_seed": 2026101029,
+    "reference_rng": "NumPy SeedSequence([2026101029, q_world_index, budget_index, block_length, 999]) independently generates all source calibration successes; never depends on animal detections",
+    "method": "At each site×branch×clock 4h group, partition its ORIGINAL 41 date-pair indices into successive NONOVERLAPPING chronological groups of maximum length m, with final group possibly shorter. For each of n_day*group_length independent gold-standard passage references within one group, independently sample source date UNIFORMLY among its group dates, then trigger Bernoulli(q_true_site_branch_date_clock). Therefore each triggered source reference event is exactly iid Bernoulli(mean(q_true across group dates)); successes are genuinely Binomial(n_day*group_length, group_mean_q) even if daily camera q is heterogeneous.",
+    "time_pooling_lengths": [
+      1,
+      3,
+      7,
+      41
+    ],
+    "reference_budgets": [
+      {
+        "n_independent_true_passages_per_day_per_original_site_branch_clock_block": 32,
+        "total_independent_true_passages": 251904
+      },
+      {
+        "n_independent_true_passages_per_day_per_original_site_branch_clock_block": 128,
+        "total_independent_true_passages": 1007616
+      }
+    ],
+    "reference_total_identity": "T=16 heldout physical sites ×2 photoperiod branches×6 original civil 4h camera q bins×41 original dates×n_day; identical across all four partition lengths within a given budget."
+  },
+  "statistical_procedure": {
+    "q_joint_alpha": 0.025,
+    "physical_site_majority_four_test_family_alpha": 0.025,
+    "site_majority_alpha_each_fixed_model_pair": 0.00625,
+    "combined_per_selected_design_alpha_with_truthful_external_L_and_iid_sites": 0.05,
+    "q_group_confidence": "Two-sided exact Clopper–Pearson intervals with Bonferroni over ALL 192×groups_per_branch independent source q means. For group length m, use independent group reference count n_day*actual_group_length, not individual day n.",
+    "external_smoothness": "If genuine independently certified absolute adjacent-day |q_site,branch,j+1,block - q_site,branch,j,block|<=L, and μ_g is group average over d consecutive days, then each group's true day q is within L*(d-1)/2 of μ_g (in absolute q probability), by the maximum average temporal distance bound. This bound is deterministic and must NOT be inferred or selected by reading animal detections or inspecting synthetic confidence coverage.",
+    "q_daily_interval": "day q lower=max(0, CP_lower_group - L*(actual_group_length-1)/2); upper=min(1, CP_upper_group+L*(actual_group_length-1)/2); if any q interval lower zero return HOLD rather than insert pseudocount.",
+    "source_reference_correct_but_drift_transport_invalid_without_L": "Each pooled group q SOURCE CP interval has finite-sample simultaneous reference-group mean coverage, but never claim it also covers each individual day unless the independent external Lipschitz cap is valid.",
+    "score_envelope": "For the fixed training-estimated five models, use SAME detected civil-bin responses and same unknown physical q in each model normalizer. For each original site×day, exactly bound the positive ratio Z_A/Z_B for six original civil 4h groups, then sum across all 82 original days for a conservative OUTER lower site logscore gap (q links over time ignored in optimization). Never call it sharp across all 82 days.",
+    "site_majority": "16 independent heldout sites with strict-positive q-robust lower A−B score contribute to K. Exact nonrandomized Binomial(16,.5) one-sided upper tail at .00625 per four precommitted pairs; >=14 robust-positive independent physical sites required.",
+    "coverage_oracle_gating": "Synthetic oracle truth whether CP source box covers group q is AUDIT ONLY; not used to decide if test runs, HOLD, q-group pooling, α, or site-majority certification.",
+    "no_global_384_case_FWER_claim": true
+  },
+  "reporting": {
+    "paired_model_cases": 96,
+    "q_time_pooling_methods_per_case": 4,
+    "total_q_source_calibrated_score_results": 384,
+    "external_q_reference_receipts": 16,
+    "all_four_candidates_retained": true,
+    "synthetic_proof_gates": [
+      "Every 16×2×6×41×n_day total source reference opportunity count EXACT for all 4 time pooling lengths",
+      "Joint CP interval implemented on actual mean of ORIGINAL independent-date sample mixture, not invalid fixed-count heterogeneous Bernoulli pooling",
+      "Daily q drift from source-free amp=.35 has maximum ABSOLUTE adjacent-day variation <=0.03; amp=0 has <=0",
+      "On simultaneous group mean CP coverage event, expanded per-date bounds contain ALL original 16×82×6 true q, except where zero q lower triggers HOLD",
+      "Within a fixed q truth/budget/animal observed event table, q lower site score is nondecreasing in source precision only if confidence boxes are nested; no arbitrary monotonicity across differently randomized source reference samples claimed",
+      "Reference q group CP oracle coverage is NEVER used as an operational gate",
+      "Source q 41-day reference date mean does not automatically identify actual each-day q if within-branch drift is present",
+      "All first 96 paired cases×4 methods report counts of certified 16-site majority, not-certified and zero lower CP HOLD",
+      "At L=0 in stationary q world every method's q-group temporal scope is source-admissible; at L=.03 in cosine world group CP bounds must be expanded by L*(d-1)/2",
+      "No new biological inference or real EcoBank source eligibility claimed."
+    ]
+  },
+  "limitation": {
+    "external_day_Lipschitz_bound_is_structural_in_synthetic_generator_only": true,
+    "real_daily_q_trajectory_unobserved": true,
+    "new_source_reference_and_original_EcoBank_event_logs_unavailable": true,
+    "artificial_gold_standard_reference_labels_perfect": true,
+    "site_q_constant_within_each_four_hour_civil_clock_block": true,
+    "same_41_day_calendar_and_16_site_split_preserved": true,
+    "confidence_coverage_for_means_only_not_population_expected_forecast_score": true,
+    "new_site_majority_not_causal_zeitgeber_or_endogenous_photoperiod_memory": true,
+    "all_previous_ODSP_qualified_routes_and_parent_first_results_unchanged": true
+  }
+}
