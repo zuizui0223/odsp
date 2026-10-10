@@ -66,7 +66,7 @@ def freeze_guard(contract:Mapping[str,object],
         or contract.get("parent_pr")!=256
         or contract.get("parent_first_result")!=
             "ULJIN_COMMON_96BIN_DETECTOR_ENVELOPE_V0_FIRST_RESULT_LEDGER.json"
-        or contract.get("first_parent_ci")!=38013624606
+        or contract.get("parent_first_ci")!=38013624606
         or f.get("original_41_day_pairs") is not True
         or f.get("local_civil_bins")!=96
         or f.get("days")!=82
