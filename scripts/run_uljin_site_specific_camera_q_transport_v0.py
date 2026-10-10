@@ -26,9 +26,11 @@ def main()->int:
     result["pre_first_source_free_outcome_contract_sha256"]=hashlib.sha256(raw).hexdigest()
     OUT.write_text(json.dumps(result,indent=2,sort_keys=True,allow_nan=False)+"\n")
     statuses=Counter(
-        (x["true_camera_site_q_pattern"],x["q_calibration_method"],
-         x["scope"],x["site_majority_certified"])
+        (x["true_camera_site_q_pattern"],method,
+         arm["scope"],arm["site_majority_certified"])
         for x in result["all_96_precommitted_model_comparisons"]
+        for method,arm in
+            x["both_equal_cost_reference_calibration_methods"].items()
     )
     receipts=result["all_8_independent_reference_calibration_receipts"]
     print(json.dumps({
