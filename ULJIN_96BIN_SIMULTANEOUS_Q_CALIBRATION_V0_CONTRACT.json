@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_same_clock_empirical_q_96bin_joint_calibration_v0",
+  "state": "FROZEN_POST_PR256_RESULTS_BEFORE_NEW_CALIBRATION_OUTCOMES",
+  "parent_pr": 256,
+  "parent_first_result": "ULJIN_COMMON_96BIN_DETECTOR_ENVELOPE_V0_FIRST_RESULT_LEDGER.json",
+  "parent_first_ci": 38013624606,
+  "source_status": "ORIGINAL_ECOBANK_V1P1_ANIMAL_EVENTS_DEVICE_HOURS_AND_CALIBRATION_TRIALS_UNVERIFIED",
+  "science_question": "How does simultaneously valid detector calibration granularity affect robustness of the original 96 civil-bin clock, solar phase and seasonal fixed-trained prediction score rankings, especially when detector sensitivity varies inside presumed 4h camera-q blocks?",
+  "calendar": {
+    "original_41_day_pairs": true,
+    "local_civil_bins": 96,
+    "days": 82,
+    "heldout_sites": 16,
+    "training_sites": 16,
+    "site_date_event_count_levels": [
+      20,
+      200
+    ],
+    "synthetic_generation_seed": 2026101017
+  },
+  "predeclared_worlds": [
+    "fixed_clock",
+    "sunrise_sunset_tracking",
+    "residual_seasonal_phase_shift"
+  ],
+  "biological_q_truth": {
+    "rising_six_fourhour_blocks": [
+      0.78,
+      0.75,
+      0.66,
+      0.57,
+      0.54,
+      0.65
+    ],
+    "falling_six_fourhour_blocks": [
+      0.56,
+      0.6,
+      0.74,
+      0.81,
+      0.7,
+      0.57
+    ],
+    "temporal_patterns": [
+      {
+        "id": "genuine_4hour_constant",
+        "expression": "each six block probability repeated over sixteen 15-min bins"
+      },
+      {
+        "id": "within_block_quarterhour_heterogeneous",
+        "expression": "base_six_block_q + 0.13*sin(2*pi*(index_mod16 + 0.5)/16), exactly zero mean for each block"
+      }
+    ],
+    "all_q_true_between_zero_one": true,
+    "q_station_independent_across_dates": true,
+    "q_shared_across_sites_in_one_date": true,
+    "reference_truth": "Independent separately verified known passage opportunity triggers per original date × selected clock interval; sensor detection outcome Binomial with q in that actual reference interval. For broad 4h bins, trials independently draw clock sub-bin uniformly within the interval, so total focal-camera success is legitimately Binomial(n, mean of sixteen sub-bin q), even when within-block q is heterogeneous; the MEAN interval does NOT cover 15-minute q when heterogeneous."
+  },
+  "calibration_experiment": {
+    "simultaneous_detector_alpha": 0.025,
+    "confidence_method": "Clopper-Pearson exact two-sided per original-date detector group with Bonferroni across ALL dates and all groups in that method, using beta inverse quantile at alpha/(2 * number_of_groups).",
+    "fixed_reference_budgets": [
+      {
+        "total_gold_standard_passage_opportunities": 251904,
+        "per_82date_six_fourhour_block": 512,
+        "per_82date_96_clock_bin": 32
+      },
+      {
+        "total_gold_standard_passage_opportunities": 1007616,
+        "per_82date_six_fourhour_block": 2048,
+        "per_82date_96_clock_bin": 128
+      }
+    ],
+    "equal_opportunity_cost": "82*6*n_6block = 82*96*n_96bin EXACTLY per budget; source reference observations are independent of synthetic animal detections.",
+    "independent_reference_rng": "numpy SeedSequence([2026101017, pattern_index, budget_index, method_index, 999]) generates all binomial reference samples for 82 days; same calibration source for all 3 animal truths and 2 event abundance levels, independent of wildlife.",
+    "methods": [
+      "six_clock_4hour_blocks",
+      "individual_96_civil_15min_bins"
+    ],
+    "confidence_source_q_bounds": "Four-hour CP q intervals guarantee the four-hour reference-AVERAGED detector q only; they do NOT guarantee every of the original 15min q unless constancy within 4hour block is separately true.",
+    "animal_model_training": "Reuse existing five predeclared PR245 families and original training physical site split; fit on the actually detected synthetic clock counts with unknown q then KEEP fitted candidate peaks fixed across both calibration methods and q bounds. No refitting under q uncertainty."
+  },
+  "time_model_pairs": [
+    [
+      "solar_phase",
+      "civil_clock"
+    ],
+    [
+      "solar_phase_plus_branch",
+      "solar_phase"
+    ],
+    [
+      "solar_noon",
+      "civil_clock"
+    ],
+    [
+      "average_anchor",
+      "solar_phase"
+    ]
+  ],
+  "score_bounds": {
+    "mechanism": "For each day, given two already trained common civil-bin probability vectors a,b and the SAME detector q across both models, score difference includes log(a_k/b_k) minus log((a·q)/(b·q)). Use sharp 65-step fractional-linear roots on common q box. Group each sixteen original quarter-hour bins for six-block q and use all original 96 bins for fine q. Day-by-day q uncertainty and same q across 16 heldout sites per day.",
+    "confidence_interpretation": "The joint CP calibration box covers TRUE q for ALL day×clock bins with probability >=.975 only when the calibration q granularity is correct. On that event, the FIXED observed animal count's TRUE-q comparative sample score is contained in the computed score envelope. This is a conditional CALIBRATION uncertainty statement, not a confidence interval on expected score for new sites and not an animal-behavior significance test.",
+    "validity_indicator": "Check realized calibration simultaneous coverage of actual 15min q values. For 6block method in heterogeneous world, the sampling model correctly calibrates each 4h *average*, but it is INVALID for 15-minute q and its reported intervals are descriptive only."
+  },
+  "outputs_and_stops": [
+    "3 animal truths ×2 event counts ×2 actual q patterns ×2 equal total source budgets ×2 calibration methods ×4 fixed pairwise model comparisons =192 full reports.",
+    "all 82 original calendar dates and 96 civil time bins retained",
+    "all calibration group CP intervals positive; if lower zero in any group, explicitly HOLD and do not optimize ratio over nonpositive q",
+    "same total independent reference opportunities for both methods at each budget; no real hardware or economic cost equivalence claimed",
+    "delta0 if known exact true q should recover a fixed score; reported envelope contains true-q fixed-count heldout score ONLY for valid calibration coverage and correctly specified q temporal structure",
+    "for genuinely block-constant q, both 6block and 96bin calibration q bands are mathematically valid for actual model q; report joint coverage and robust score-rank decisions",
+    "for actual heterogeneous q within a 4h block, 6block binomial confidence can be CORRECT FOR the 4h averaged q and STILL INVALID for 15-minute q. Treat any 6block ranking as UNSAFE unless independent within-block invariance evidence exists.",
+    "Do not turn model score confidence boxes into confidence intervals on source animal rate, out-of-sample expected score, unknown true photoperiod sensitivity or a biological zeitgeber",
+    "same fixed original candidate model shape and heldout physical-site sample with no outcome-based cherry picking of windows",
+    "all prior #245/#256 and qualified ODSP training-process/external-validation results unchanged",
+    "no original source camera uptime, ungulate detections, site GPS, or independent reference true passages read"
+  ]
+}
