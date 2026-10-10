@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_ULJIN_DISTANCE_MIX_TIPPING_RADIUS_V0_TERMINAL_RESULT",
+  "pr_number": 253,
+  "pre_first_result_frozen_contract_commit": "75346e728b808919a552d4e3b34152b130f1eeff",
+  "first_scored_ci_run": 38010654940,
+  "first_scored_url": "https://github.com/zuizui0223/odsp/actions/runs/38010654940",
+  "first_scored_implementation_head": "090046056ad5907ec03e5f6cd54d74f56b07b4ba",
+  "first_result_artifact_id": 11653186076,
+  "first_artifact_sha256": "sha256:bb19ee03ccb36310dc98cd2c926a2d01e6346720544faeff57802b5197ceba63",
+  "focused_tests": "passed",
+  "all_first_150_source_free_cells": "passed",
+  "oracle_detector_max_B_for_delta": {
+    "0": 1,
+    "0.05": 1.2216066481994463,
+    "0.1": 1.4938271604938274,
+    "0.15": 1.830449826989619,
+    "0.2": 2.2499999999999996,
+    "0.3": 3.4489795918367356
+  },
+  "first_one_sided_97p5pct_critical_distance_mix_radius_by_table": [
+    {
+      "id": "no_season_shift",
+      "observed_count_OR": 1,
+      "exact_lower_count_OR": 0.5136545480602054,
+      "oracle_delta_critical": null,
+      "CP_n50": null,
+      "CP_n200": null,
+      "CP_n1000": null,
+      "CP_n5000": null
+    },
+    {
+      "id": "weak_shift",
+      "observed_count_OR": 1.6666666666666667,
+      "exact_lower_count_OR": 1.0420468410009522,
+      "oracle_delta_critical": 0.010296359944752946,
+      "CP_n50": null,
+      "CP_n200": null,
+      "CP_n1000": null,
+      "CP_n5000": null
+    },
+    {
+      "id": "strong_shift",
+      "observed_count_OR": 2.3333333333333335,
+      "exact_lower_count_OR": 1.7279561031124402,
+      "oracle_delta_critical": 0.13588899161715134,
+      "CP_n50": null,
+      "CP_n200": 0.00003118772385345636,
+      "CP_n1000": 0.07617745097002519,
+      "CP_n5000": 0.10926640221735998
+    },
+    {
+      "id": "unequal_effort_algebra_only",
+      "observed_count_OR": 2,
+      "effort_OR": 2,
+      "exact_lower_count_OR": 1.0747534746926692,
+      "oracle_delta_critical": null,
+      "CP_n50": null,
+      "CP_n200": null,
+      "CP_n1000": null,
+      "CP_n5000": null
+    },
+    {
+      "id": "observed_OR_2_generic",
+      "observed_count_OR": 2,
+      "exact_lower_count_OR": 1.2995918904753045,
+      "oracle_delta_critical": 0.06541900741526017,
+      "CP_n50": null,
+      "CP_n200": null,
+      "CP_n1000": 0.005584000947236766,
+      "CP_n5000": 0.03885909903127043
+    }
+  ],
+  "statistics": {
+    "exact_fisher_alpha": 0.025,
+    "eight_simultaneous_q_calibration_alpha": 0.025,
+    "total_if_delta_external_truthful_deterministic_alpha_at_most": 0.05,
+    "delta_is_proven_external_constraint_not_measured": false,
+    "if_delta_random_confidence_limit_error_must_be_budgeted_separately": true,
+    "no_monte_carlo_detection_power_claim": true,
+    "no_original_Uljin_animal_or_camera_operation_events_opened": true,
+    "no_original_ODSP_qualified_inference_reclassification": true
+  },
+  "status": "TERMINAL_SOURCE_FREE_ANALYTIC_DISTANCE_MIX_RADIUS_NOT_EMPIRICAL"
+}
