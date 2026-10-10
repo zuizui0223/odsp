@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "record_type": "ULJIN_FOUR_UNGULATES_MATCHED_DAYLENGTH_ECOLOGICAL_SOURCE_READINESS_V0_FIRST_RESULT",
+  "pr_number": 264,
+  "original_biological_hypothesis_frozen_commit": "6026ff2292c08fa39063f933945bf60617295967",
+  "original_ecological_zone_effect_signature_frozen_commit": "0620798c8ce618ea3e98cd12f6b7aa01265b3cf6",
+  "ci_run": 38062613672,
+  "ci_url": "https://github.com/zuizui0223/odsp/actions/runs/38062613672",
+  "ci_scored_commit": "db210829a22771054eccdf0109f255f4a72f71df",
+  "dedicated_ecological_source_tests": "PASSED",
+  "hypothesis_tests_reproduced_on_SYNTHETIC_FIXTURES_ONLY": {
+    "H1_daylight_core_to_edge_refuge": "Goral synthetic paired daylight-core to edge relative rate log interaction negative; nocturnality contrast approximately zero",
+    "H2_daylight_to_night_refuge": "Roe deer synthetic night vs combined daylight relative rate log interaction positive; core-edge relative contrast zero",
+    "H0_no_difference": "Water deer synthetic paired relative rates unchanged in both zones within subminute astronomical matching tolerance",
+    "four_taxa_with_zero_events": "Wild boar retained with NO numerical pseudocount; contrast UNDEFINED_ZERO_EVENT",
+    "hourly_camera_effort_GUARDS": "Missing independent original hourly operation chronology, incomplete camera×calendar-day support, overlapping operation intervals, event outside independently verified source operation, unknown event station fail closed"
+  },
+  "original_astronomical_calendar": {
+    "unchanged_pairs": 41,
+    "rising_window_2022": [
+      "2022-05-01",
+      "2022-06-10"
+    ],
+    "falling_window_2022": [
+      "2022-07-01",
+      "2022-08-31"
+    ],
+    "not_spring_vs_autumn": true,
+    "same_original_physical_station_required": true
+  },
+  "confirmed_public_metadata_NOT_82day_event_counts": {
+    "article_doi": "10.3897/BDJ.14.e191556",
+    "dataset_release_doi": "10.22756/ETC.20260000001022",
+    "published_full_period_events": 4623,
+    "published_physical_stations": 82,
+    "published_full_period_independent_events_by_taxon": {
+      "Goral": 2317,
+      "Water deer": 814,
+      "Roe deer": 808,
+      "Wild boar": 684
+    },
+    "published_full_period_clock_time_species_pair_overlap_examples": {
+      "Goral_Roe_deer": 0.84,
+      "Water_deer_Wild_boar": 0.653
+    },
+    "not_the_fixed_41_pair_biological_result": true
+  },
+  "first_real_source_admission_software_output": {
+    "original_event_csv_verified": false,
+    "independent_hourly_camera_operation_member_verified": false,
+    "status": "HOLD_REAL_EVENT_AND_INDEPENDENT_HOURLY_OPERATION_SOURCE_NOT_ATTESTED",
+    "real_ecological_effect_sizes_computed": false,
+    "causal_animal_thermal_photoperiod_or_competition_claims": false
+  },
+  "limitations": {
+    "source_original_v1p1_event_csv_not_read": true,
+    "source_original_camera_operation_hour_intervals_not_read": true,
+    "authoritative_public_zenodo_supplement_3_describes_whole_period_rate_normalisation_not_specific_matched_date_pairs": true,
+    "generalized_public_lat_lon_not_original_station_GPS": true,
+    "independent_q_detector_calibration_absent": true,
+    "source_2_regions_not_82_independent_landscape_regions": true,
+    "ecological_descriptive_rate_contrasts_not_population_level_significance": true,
+    "all_previous_qualified_ODSP_and_PR245_to_263_first_results_unmodified": true
+  },
+  "status": "TERMINAL_ECOLOGICAL_SOURCE_READINESS_HOLD_NO_REAL_BEHAVIORAL_FINDING"
+}
