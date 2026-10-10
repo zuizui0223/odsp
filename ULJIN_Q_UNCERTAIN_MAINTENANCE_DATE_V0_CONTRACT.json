@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_interval_logged_maintenance_date_detector_q_v0",
+  "state": "FROZEN_AFTER_PR263_FIRST_RESULTS_BEFORE_INTERVAL_CHANGEPOINT_OUTCOME",
+  "parent_pr": 263,
+  "parent_ledger": "ULJIN_Q_MAINTENANCE_CHANGEPOINT_V0_FIRST_RESULT_LEDGER.json",
+  "parent_first_ci": 38056623734,
+  "prior_outcomes_seen": "PR263 already showed 0/24 daily, 10/24 known-change-point split seven-day and 24/24 HOLD when seven-day pooled source crossed a known step at high budget. This follow-up is exploratory relative to that public source-free result.",
+  "scientific_question": "A maintenance log restricts a detector q change to original within-branch pair index j∈{18,19,20,21,22,23}; can fixed-trained clock/solar/season model rankings be certified without pretending one date is known?",
+  "observation": {
+    "mirror_pairs": 41,
+    "dates": 82,
+    "civil_bins": 96,
+    "training_sites": 16,
+    "heldout_sites": 16,
+    "behavior_worlds": [
+      "fixed_clock",
+      "sunrise_sunset_tracking",
+      "residual_seasonal_phase_shift"
+    ],
+    "events_per_site_date": [
+      20,
+      200
+    ],
+    "fixed_pairs": [
+      [
+        "solar_phase",
+        "civil_clock"
+      ],
+      [
+        "solar_phase_plus_branch",
+        "solar_phase"
+      ],
+      [
+        "solar_noon",
+        "civil_clock"
+      ],
+      [
+        "average_anchor",
+        "solar_phase"
+      ]
+    ]
+  },
+  "camera_q_worlds": [
+    {
+      "id": "no_step_diagnostic",
+      "step_index": null,
+      "q_post_transform": "unchanged"
+    },
+    {
+      "id": "step_at_18",
+      "step_index": 18,
+      "q_post_transform": "0.4+0.2*q_before"
+    },
+    {
+      "id": "step_at_20",
+      "step_index": 20,
+      "q_post_transform": "0.4+0.2*q_before"
+    },
+    {
+      "id": "step_at_23",
+      "step_index": 23,
+      "q_post_transform": "0.4+0.2*q_before"
+    }
+  ],
+  "external_maintenance_evidence": {
+    "candidate_step_indexes": [
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    "definitely_pre": "original branch pair indices 0..17",
+    "uncertain": "original branch pair indices 18..22",
+    "definitely_post": "original branch pair indices 23..40",
+    "no_step_world": "negative control generator; external log may record ambiguous maintenance but does NOT attest q unchanged, so point guess still nonadmissible",
+    "no_animal_based_change_date_selection": true
+  },
+  "equal_cost_reference_methods": [
+    {
+      "id": "guess_day20_not_attested",
+      "q_source": "independently select reference date uniformly j<20 vs j>=20 for each trial, count Binomial at group MEAN q; source is valid but daily TARGET q not attested over the external interval, so HOLD in all step and no-step worlds"
+    },
+    {
+      "id": "uncertain_interval_robust",
+      "q_source": "independent reference true-passages ONLY from guaranteed-pre j0..17 or guaranteed-post j23..40, with 20*n source trials per pre group and 21*n per post group, budget conserved. Each uncertain date j18..22 gets union of pre/post simultaneous CP intervals: [min(Lpre,Lpost),max(Upre,Upost)]. Valid if detector q is piecewise constant with at most one step in independent candidate set."
+    },
+    {
+      "id": "oracle_exact_date_comparator",
+      "q_source": "simulator ONLY: knows actual step j18/20/23 (or no step), partitions original dates into pre/post by true step and draws independent source true-passages uniformly from the correct segment, 20*n and 21*n opportunities allocated to pre/post (not necessarily proportional to segment duration). This is an unrealizable gold-standard comparator for uncertain real maintenance logs; source calibration joint CP applies to each true group."
+    }
+  ],
+  "external_source_budgets": [
+    {
+      "per_original_site_branch_civil_clock_date": 32,
+      "total_true_independent_passage_opportunities": 251904
+    },
+    {
+      "per_original_site_branch_civil_clock_date": 128,
+      "total_true_independent_passage_opportunities": 1007616
+    }
+  ],
+  "randomization": {
+    "original_site_types": "reuse PR260 physical_site_q(1) fixed 32 IID sites",
+    "original_no_step_animal": "reuse PR263 station-branch-stable event generator for step null",
+    "step20_animal": "reuse PR263 step20 animal event generator and frozen RNG exactly",
+    "other_step_animal_seed": 2026101034,
+    "independent_reference_seed": 2026101033,
+    "reference_sampling": "For each predeclared source segment, every true passage opportunity independently picks a reference date uniformly from eligible segment days then detects Bernoulli(q_day). Valid iid Binomial(group mean q) even when group crosses step; its mean may be wrong for target dates.",
+    "source_budget": "Each source method uses 41*n reference opportunities PER physical heldout station×photoperiod branch×civil4h clock cell, identically 16×2×6×41×n total, allocated 20*n to pre and 21*n to post for both true oracle and uncertainty envelope methods.",
+    "site_assignment_independent_and_training_frozen": true
+  },
+  "inference": {
+    "simultaneous_source_q_cp_alpha": 0.025,
+    "four_exact_site_majority_tests_family_alpha": 0.025,
+    "each_preselected_pair_exact_alpha": 0.00625,
+    "combined_per_selected_design_false_certification_bound_under_valid_external_candidate_set_iid_sites_and_reference": 0.05,
+    "cp_source": "Exact simultaneous two-sided Clopper–Pearson across 16 sites×2 branches×6 civil4h bins×2 groups =384 q-source cells, each one-sided tail .025/(2*384), source trials 20*n and 21*n.",
+    "target_day_q": "definite pre or definite post uses respective CP interval; uncertain j18..22 uses envelope union across both independent CP intervals; conditionally guaranteed if independent candidate set contains true step and the single-step q assumption holds.",
+    "per_site_pred_score": "All 82 original dates and 96 original CIVIL quarterhour bins, 5 fixed training-only model families. Shared same unknown q of one physical site/date original civil bin for candidate A/B. Event-specific q cancels; normalizer ratio optimized with 65-step linear fractional routine over six original civil 4h blocks, per date separately to give conservative OUTER q site logscore.",
+    "site_sign": "16 IID physically independent heldout camera sites; K strict-positive q-robust lower scores; nonrandomized Binomial(16,.5) right tail <.00625 => K>=14. No treating dates or recorded detections as independent.",
+    "oracle_coverage_flag_ignored_in_test_decisions": true,
+    "point_guess20_HOLD_even_if_actual_true_step20": true,
+    "missing_positive_q_lower_HOLD": true,
+    "time_scope_if_no_real_external_log": "HOLD real-life inference absent verified candidate bounds and station-specific gold true passage calibration; source-free synthetic only."
+  },
+  "full_panel": {
+    "camera_q_worlds": 4,
+    "external_reference_budgets": 2,
+    "animal_worlds": 3,
+    "event_n_levels": 2,
+    "model_pairs": 4,
+    "paired_model_cases": 192,
+    "calibration_methods_each": 3,
+    "total_arm_scores": 576,
+    "source_receipts": 24
+  },
+  "fail_closed": [
+    "Original 41 date pairs, original 82 civil calendar dates and SAME 96 clock bins across all models.",
+    "All 192×3 source-free comparisons retained regardless of unfavorable outcomes.",
+    "Original true step at j18/20/23 and no-step generator; candidate set j18..23 fixed before outputs.",
+    "Reference candidate source eligible guaranteed pre indices 0..17 and guaranteed post indices 23..40; all 5 uncertain indices 18..22 may be either side under possible step dates.",
+    "Each independently labeled true passage reference date is iid sampled within a source group and camera success Bernoulli(q_true_day).",
+    "All methods receive exactly the same total true gold passage opportunity B, allocated 20n+21n to reference groups.",
+    "Correct CP familywise 0.025 for 384 source groups, independent of wildlife count response.",
+    "Even when point guess happens to equal true step in a synthetic world, external candidate log does NOT certify exact date; point guess method must HOLD, never benefit from synthetic oracle knowledge.",
+    "If group-source q CP simultaneously covers true group q, uncertain envelope contains every true date q for any single step in predeclared candidate range.",
+    "Never gate an inferential test on oracle knowledge that q intervals covered actual synthetic true q.",
+    "Only 16 physical camera sites count toward site-majority trial; 4 preregistered model pairs have alpha=.00625 each.",
+    "Datewise sharp q bounds are conservative OUTER for physically shared q segments; no claim overall sharpness or source empirical test of solar zeitgeber.",
+    "No original real EcoBank wildlife events, device uptime logs, q reference passage labels, or source maintenance logs inspected; earlier ODSP qualified inferences and previous first ledgers untouched."
+  ],
+  "limitations": {
+    "source_free_only": true,
+    "known_external_step_candidate_set_hypothetical": true,
+    "assumes_single_step_stationarity_on_each_side": true,
+    "no_temporal_adjacent_day_confidence_for_maintenance_log": true,
+    "no_real_animal_photoperiod_memory_claim": true
+  }
+}
