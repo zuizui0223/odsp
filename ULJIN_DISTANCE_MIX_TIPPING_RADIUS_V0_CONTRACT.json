@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_distance_mix_tipping_radius_v0",
+  "stage": "FROZEN_POST_PARENT_RESULTS_BEFORE_FIRST_RADIUS_OUTPUT",
+  "parent_pr": 252,
+  "parent_first_ledger": "ULJIN_IID_REFERENCE_Q_TRANSPORT_V1_FIRST_RESULT_LEDGER.json",
+  "previous_result_seen": "The PR252 98.5% false seasonal certification under valid source Binomial q=.6 and target distance mix [.2,.8,.8,.2] is already known; this is a separate post-result sensitivity analysis, not new blind field data.",
+  "scientific_question": "For a seasonal early-vs-late matched-photoperiod detected-event odds ratio, how accurately must the target near/far passage composition be constrained before a positive latent encounter-time interaction can be certified?",
+  "measurement_grain": "One physical site, one fixed ascending/descending original mirrored photoperiod date pair, and two prespecified early/late solar-phase categories only; original 41 dates are not reoptimized.",
+  "synthetic_detector_truth": {
+    "four_cells": [
+      "rising_early",
+      "rising_late",
+      "falling_early",
+      "falling_late"
+    ],
+    "near_q": [
+      0.9,
+      0.9,
+      0.9,
+      0.9
+    ],
+    "far_q": [
+      0.3,
+      0.3,
+      0.3,
+      0.3
+    ],
+    "reference_near_fraction": [
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "external_target_near_weight_constraints": "Each of four true wildlife near weights is independently bounded within [max(0,0.5-delta),min(1,0.5+delta)]. This delta requires an externally authenticated deterministic bound or simultaneous confidence guarantee; it is NOT established by reference q calibration alone."
+  },
+  "delta_grid": [
+    0,
+    0.05,
+    0.1,
+    0.15,
+    0.2,
+    0.3
+  ],
+  "calibration_n_per_eight_distance_q_cells": [
+    50,
+    200,
+    1000,
+    5000
+  ],
+  "calibration_example": "For each reference calibration scenario q near/far, take deterministic successes round(n*q) in each of 8 cells; compare with ORACLE known-q bound (no calibration uncertainty). These are representative EXAMPLES, not stochastic reference trial outcomes, power estimates or field sample sizes.",
+  "calibration_cp": "Bonferroni four season×phase by TWO distance strata=8 exact two-sided Clopper-Pearson intervals at family alpha_q=.025, each tail alpha_q/(2*8); beta quantile with scipy.special.betaincinv in isolated CI.",
+  "animal_exact_inference": "Exact noncentral Fisher right-tail at null count-OR = independently logged effort crossproduct × worst-case detector B(delta). One-sided test alpha_animal=.025. Count-OR inverted one-sided 97.5% lower limit divided by effort_OR*B gives robust lower latent encounter OR.",
+  "combined_error_bound": {
+    "calibration_q_alpha": 0.025,
+    "animal_test_alpha": 0.025,
+    "external_delta_bounds_are_deterministic_and_valid": true,
+    "combined_false_certification_alpha_at_most": 0.05,
+    "if_delta_bound_is_statistical": "Do NOT retain .05 claim without a separate error budget for uncertainty in externally estimated distance fractions."
+  },
+  "synthetic_observed_tables": [
+    {
+      "id": "no_season_shift",
+      "counts": [
+        40,
+        40,
+        40,
+        40
+      ],
+      "operating_hours": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "id": "weak_shift",
+      "counts": [
+        80,
+        80,
+        100,
+        60
+      ],
+      "operating_hours": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "id": "strong_shift",
+      "counts": [
+        200,
+        200,
+        280,
+        120
+      ],
+      "operating_hours": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "id": "unequal_effort_algebra_only",
+      "counts": [
+        40,
+        40,
+        80,
+        40
+      ],
+      "operating_hours": [
+        4,
+        4,
+        8,
+        4
+      ]
+    },
+    {
+      "id": "observed_OR_2_generic",
+      "counts": [
+        80,
+        80,
+        160,
+        80
+      ],
+      "operating_hours": [
+        4,
+        4,
+        4,
+        4
+      ]
+    }
+  ],
+  "synthetic_table_limit": "The 8-hour exposure value in unequal_effort_algebra_only is a crossproduct algebra stress test for an aggregated >=8-hour observation window, NOT a permissible device exposure in a single 4-hour clock bin; it cannot qualify for the original 41 day-pair 4h-coverage gate.",
+  "precommitted_bounds": [
+    "Under exact oracle q and four independent near proportions w_i ∈ [.5-delta,.5+delta], q_effective_i in [.6-.6delta,.6+.6delta], and the max detector crossproduct is ((1+delta)/(1-delta))^2 for delta<.5.",
+    "Under simultaneous 8-cell q CP calibration, bound every effective q_i = w_i*q_near_i+(1-w_i)*q_far_i over q interval lower/upper and w interval corners; calibrate Fisher robust p and lower bound as above.",
+    "Give analytic oracle critical delta for each observed table based on inverted exact 97.5% detected count-OR lower limit L: if L/effort_OR<=1 then no positive radius even at delta0; else delta_star=(sqrt(L/effort_OR)-1)/(sqrt(L/effort_OR)+1).",
+    "Report calibrated critical delta supremum in [0,0.49] for each n using frozen 48-step binary search, or NULL if δ=0 already fails; this numerical radius is conditional on rounded artificial successes."
+  ],
+  "hard_gates": [
+    "5 count tables×6 delta grid×(one q-oracle+four q-calibration sizes) must be reported, no alternative windows selected",
+    "detector B nondecreasing with delta; robust p nondecreasing and robust lower OR nonincreasing",
+    "source-free confounded near-mix [.2,.8,.8,.2] falls within delta=.3 and produces detector OR3.44897959 without latent time shift",
+    "oracle max gamma formula exact at all frozen delta values and theta_e effort correction applied",
+    "δ=0 q oracle detector gamma=1 and strong table q-bias tipping delta between .1 and .2",
+    "when independent q upper/lower bands not jointly valid, ecological effect must stay HOLD",
+    "no event observations from original Uljin EcoBank, no independent target passage-mix records, no camera q ground truth, no restricted locations",
+    "original ODSP training/resampling external-validity routes and already frozen PR251/252 outcomes unchanged"
+  ],
+  "status_limitations": {
+    "source_free_only": true,
+    "no_actual_wildlife_behavior_estimated": true,
+    "no_causal_zeitgeber_identified": true,
+    "not_fresh_unseen_data": true,
+    "no_real_detector_calibration": true,
+    "no_actual_target_mix_bound": true,
+    "source_original_hourly_uptime_unknown": true
+  }
+}
