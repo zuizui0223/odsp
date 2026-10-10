@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_ULJIN_Q_W_VARIANCE_BUDGET_V0_TERMINAL_SOURCE_FREE",
+  "pr_number": 255,
+  "frozen_contract_commit": "72c6365948350ce8ff05eaedf9aa76efb7ea5380",
+  "first_scored_head": "df09c7098eb66ca0245c46f448d7546a4cc8d807",
+  "first_ci_run": 38013040523,
+  "first_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/38013040523",
+  "first_artifact_id": 11655326146,
+  "first_artifact_digest": "sha256:a33065bb38314b85998ae02912a526b0057e37bd0d9c63e663db5de17fdacb94",
+  "focused_tests": "passed",
+  "first_48_times_800_world_result": "passed",
+  "first_order_q_w_analytic_variance_equation": "A/nq+C/nw",
+  "reference_cost": "8*nq+4*nw",
+  "analytic_continuous_variance_optimum_nq_over_nw": "sqrt(A/(2*C))",
+  "comparison_per_budget_12000": [
+    {
+      "truth": "null_balanced",
+      "analytic_A": 0.8333333333333334,
+      "analytic_C": 1,
+      "continuous_optimal_nq_over_nw": 0.6454972243679027,
+      "continuous_optimal_fraction_reference_to_q": 0.5635083268962915,
+      "strategies": {
+        "equal_per_cell": {
+          "first_order_var": 0.0018333333333333335,
+          "empirical_var": 0.0018394159744679213,
+          "q_var_share": 0.45454545454545453
+        },
+        "q_heavy": {
+          "first_order_var": 0.002666666666666667,
+          "empirical_var": 0.0026511269675961124,
+          "q_var_share": 0.25
+        },
+        "w_heavy": {
+          "first_order_var": 0.002166666666666667,
+          "empirical_var": 0.0023374959640922194,
+          "q_var_share": 0.7692307692307692
+        }
+      }
+    },
+    {
+      "truth": "null_distance_composition",
+      "analytic_A": 1.7815883749949684,
+      "analytic_C": 0.8424103369158314,
+      "continuous_optimal_nq_over_nw": 1.0283165929277422,
+      "continuous_optimal_fraction_reference_to_q": 0.6728426542551844,
+      "strategies": {
+        "equal_per_cell": {
+          "first_order_var": 0.0026239987119108,
+          "empirical_var": 0.0028727393669626417,
+          "q_var_share": 0.6789593176658281
+        },
+        "q_heavy": {
+          "first_order_var": 0.003110091373827638,
+          "empirical_var": 0.0029327209097619205,
+          "q_var_share": 0.4582729343549389
+        },
+        "w_heavy": {
+          "first_order_var": 0.003984381918447853,
+          "empirical_var": 0.004170346303492709,
+          "q_var_share": 0.8942859452032651
+        }
+      }
+    },
+    {
+      "truth": "true_seasonal_equal_mix",
+      "same_analytic_coefficients_as": "null_balanced",
+      "continuous_optimal_nq_over_nw": 0.6454972243679027,
+      "first_order_equal_var": 0.0018333333333333335,
+      "empirical_equal_var": 0.0017688043868166958
+    },
+    {
+      "truth": "true_seasonal_with_distance_composition",
+      "same_analytic_coefficients_as": "null_distance_composition",
+      "continuous_optimal_nq_over_nw": 1.0283165929277422,
+      "first_order_equal_var": 0.0026239987119108,
+      "empirical_equal_var": 0.0026832778361861754
+    }
+  ],
+  "first_frozen_acceptance": {
+    "all_48_equal_reference_costs": true,
+    "all_48_analytic_vs_mc_relative_errors_abs_at_most_0p2": true,
+    "all_four_original_truths_retained": true,
+    "source_independent_binomial_opportunity_assumption": true,
+    "three_original_candidate_allocation_methods_only": true,
+    "new_frozen_seed_no_post_result_tuning": true
+  },
+  "interpretation_bounds": {
+    "variance_of_LOG_DETECTOR_response_only": true,
+    "not_confidence_interval_of_biological_seasonality": true,
+    "not_true_unconditional_robust_CP_Fisher_power_optimization": true,
+    "continuous_variance_optimum_not_global_field_cost_optimum": true,
+    "detector_reference_gold_standard_labels_not_real_verified": true,
+    "animal_event_count_variance_and_station_clusters_omitted": true,
+    "original_Uljin_EcoBank_species_events_device_uptime_unavailable": true,
+    "original_41_mirror_dates_untouched": true,
+    "earlier_qualified_ODSP_route_unchanged": true
+  },
+  "status": "TERMINAL_SOURCE_FREE_Q_W_MEASUREMENT_VARIANCE_ONLY_NOT_ECOLOGICAL_DISCOVERY"
+}
