@@ -94,7 +94,7 @@ def test_pooled_heterogeneous_q_HOLD_does_not_consult_oracle_coverage():
     observations[:,:,5]=20
     types=make_32_physical_site_types(1)
     qs,pool=source_q_and_station_q(1,types)
-    ref=frozen_reference_calibration(1,0,qs,pool,0)
+    ref=frozen_reference_calibration(1,0,0,qs,pool)
     res=station_site_majority(observations,a,b,qs[16:],ref)
     assert res["scope"]=="HOLD_POOLED_Q_NOT_PORTABLE_TO_INDIVIDUAL_SITE"
     assert res["site_majority_certified"] is None
@@ -122,18 +122,32 @@ def test_all_96_frozen_clock_comparisons_and_q_site_scope_invariants():
     assert len(res["all_8_independent_reference_calibration_receipts"])==8
     cases=res["all_96_precommitted_model_comparisons"]
     assert len(cases)==96
-    assert sum(z["scope"]=="HOLD_POOLED_Q_NOT_PORTABLE_TO_INDIVIDUAL_SITE"
-               for z in cases)==24
+    pooled_held=[z for z in cases if z[
+        "both_equal_cost_reference_calibration_methods"][
+            "pooled_reference_iid_station_mixture"]["scope"]==
+            "HOLD_POOLED_Q_NOT_PORTABLE_TO_INDIVIDUAL_SITE"]
+    assert len(pooled_held)==48
+    assert len({
+        (z["synthetic_animal_time_truth"],z["detected_events_per_site_date"],
+         z["ordered_model_A"],z["ordered_model_B"])
+        for z in pooled_held
+    })==24
     for z in cases:
-        assert z["no_oracle_q_coverage_decision_gate"]
         assert [z["ordered_model_A"],z["ordered_model_B"]] in [
             list(x) for x in PAIRS]
-        if z["scope"]=="SOURCE_SITE_Q_CALIBRATION_TRANSPORTS_TO_TARGET":
-            assert z["physical_robust_positive_site_count"] in range(17)
-            if z["site_majority_certified"]:
-                assert z["physical_robust_positive_site_count"]>=14
-        else:
-            assert z["site_majority_certified"] is None
+        methods=z["both_equal_cost_reference_calibration_methods"]
+        assert set(methods)=={
+            "pooled_reference_iid_station_mixture",
+            "site_stratified_reference"
+        }
+        for out in methods.values():
+            assert out["no_oracle_q_coverage_decision_gate"]
+            if out["scope"]=="SOURCE_SITE_Q_CALIBRATION_TRANSPORTS_TO_TARGET":
+                assert out["physical_robust_positive_site_count"] in range(17)
+                if out["site_majority_certified"]:
+                    assert out["physical_robust_positive_site_count"]>=14
+            else:
+                assert out["site_majority_certified"] is None
     assert res["station_q_outer_bounds_by_independently_extremizing_dates"]
     assert res["real_original_EcoBank_species_camera_hours_or_reference_q_not_accessed"]
     json.dumps(res,allow_nan=False)
