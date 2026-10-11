@@ -30,5 +30,7 @@ def test_annual_published_season_p_not_an_original_biological_time_refuge_result
     assert C["yearly_model"].find("WINTER reference")>=0
     assert C["original_41pairs_data_available"] is False
     assert C["authentic_hourly_camera_on_off_available"] is False
-    assert all("NOT" in s or "not" in s or "cannot" in s
-               for s in C["interpretation_guard"])
+    assert len(C["interpretation_guard"])==6
+    assert "NOT hourly" in C["interpretation_guard"][0]
+    assert "not" in C["interpretation_guard"][1].lower()
+    assert "cannot" in C["interpretation_guard"][2]
