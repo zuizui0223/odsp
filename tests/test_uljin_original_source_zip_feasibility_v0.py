@@ -27,7 +27,7 @@ def _csv(header,records):
     return stream.getvalue()
 
 
-def _make_fixture_zip(tmp_path,*,missing=None,unsafe=False):
+def _make_fixture_zip(tmp_path,*,missing=None,unsafe=False,events_override=None):
     days=assert_frozen_ecology(BIOLOGY,CAL)
     a=next(k for k,v in days.items() if v=="rising")
     b=next(k for k,v in days.items() if v=="falling")
@@ -37,6 +37,8 @@ def _make_fixture_zip(tmp_path,*,missing=None,unsafe=False):
         {"Station":"UJ2_test","Species":"Water deer","scientificName":"Hydropotes inermis","Date":a,"Time":"02:10:00"},
         {"Station":"UJ2_test","Species":"Wild boar","scientificName":"Sus scrofa","Date":"2023-01-01","Time":"03:10:00"},
     ]
+    if events_override is not None:
+        source_rows=events_override
     file=tmp_path/"SYNTHETIC_ECOBANK_FIXTURE_NOT_REAL.zip"
     with zipfile.ZipFile(file,"w") as handle:
         payload={
@@ -124,3 +126,38 @@ def test_unsafe_archive_paths_and_post_hoc_taxa_redefinition_fail_closed(tmp_pat
     with pytest.raises(ValueError,match="frozen"):
         read_original_source_feasibility(
             changed,BIOLOGY,CAL,None)
+
+
+def test_original_pair_requires_same_physical_camera_ON_BOTH_DATES(tmp_path):
+    from odsp.uljin_photoperiod_mirror_design_v0 import (
+        generate_preoutcome_2022_mirror_calendar
+    )
+    pairs=generate_preoutcome_2022_mirror_calendar(CAL)["matched_dates"]
+    p0,p1=pairs[0],pairs[1]
+    # Both cameras appear in BOTH broad branches, but for EACH specific
+    # original astronomical pair the detections occur at DIFFERENT
+    # cameras. Such an unmatched biological contrast MUST score zero.
+    # This guards against wrongly treating branch-wide station overlap
+    # as paired-date overlap.
+    events=[]
+    for station,day in (
+        ("UJ1_alpha",p0["ascending_date"]),
+        ("UJ2_beta",p0["descending_date"]),
+        ("UJ2_beta",p1["ascending_date"]),
+        ("UJ1_alpha",p1["descending_date"]),
+    ):
+        events.append({
+            "Station":station,"Species":"Goral",
+            "scientificName":"Naemorhedus caudatus",
+            "Date":day,"Time":"11:12:00"
+        })
+    archive=_make_fixture_zip(tmp_path,events_override=events)
+    result=read_original_source_feasibility(
+        PLAN,BIOLOGY,CAL,archive,
+        externally_verified_original_v1p1=True,
+        externally_verified_archive_sha256=hashlib.sha256(archive.read_bytes()).hexdigest())
+    gor=next(r for r in result["source_species_branch_original_timestamp_support"]
+             if r["Species"]=="Goral")
+    assert gor["unique_stations_with_source_events_in_BOTH_branches"]==2
+    assert gor["original_mirrored_date_pairs_with_events_both_dates_at_any_shared_station"]==0
+    assert gor["station_x_matched_date_pair_both_dates_positive_event_cells"]==0
