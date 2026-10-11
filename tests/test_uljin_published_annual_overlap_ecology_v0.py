@@ -37,10 +37,8 @@ def test_all_six_original_published_pairwise_annual_results_retained():
     extrema={tuple(x["pair"]):x["delta"] for x in results}
     assert extrema["Goral","Roe deer"]==.840
     assert extrema["Water deer","Wild boar"]==.653
-    assert extrema["Goral","Roe deer"]-extrema[
-        "Water deer","Wild boar"]==round(.840-.653,3) or abs(
-        extrema["Goral","Roe deer"]-extrema[
-            "Water deer","Wild boar"]-(.840-.653))<1e-12
+    assert abs((extrema["Goral","Roe deer"] -
+                extrema["Water deer","Wild boar"]) - .187)<1e-12
 
 
 def test_original_pair_calendar_is_early_to_midsummer_not_fall():
