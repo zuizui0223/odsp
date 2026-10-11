@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_original_v1p1_archive_41pairs_four_taxon_feasibility_v0",
+  "stage": "PRE_ORIGINAL_SOURCE_ZIP_OUTCOME_FROZEN_AFTER_ECOLOGICAL_H1_H2_IMPLEMENTATION",
+  "source_release": "National Institute of Ecology NIE EcoBank Uljin Version 1.1",
+  "source_doi": "10.22756/ETC.20260000001022",
+  "source_license": "KOGL Type 1 attribution per Jeon & Lim 2026",
+  "source_trust_requirements": [
+    "Exact original NIE EcoBank Version 1.1 archive must be externally acquired with verified release provenance and checksum from its hosting record. Merely observing ZIP path/member names cannot authenticate provenance.",
+    "Never substitute journal PDF, article supplementary figure ZIP, sample tables or a fabricated CSV for source original camera operation records.",
+    "Source roster schema and deployment operation timestamps require independent checks; original physical hourly operational exposure NOT inferred from station_season_effort.csv or functional nights."
+  ],
+  "necessary_exact_zip_members": [
+    "01_core_data/cameratrap_event_records.csv",
+    "01_core_data/camera_operation_log.csv",
+    "01_core_data/site_covariates_public.csv",
+    "03_documentation/MANIFEST.tsv"
+  ],
+  "expected_original_event_columns": [
+    "Station",
+    "Species",
+    "scientificName",
+    "Date",
+    "Time"
+  ],
+  "original_four_species": [
+    "Goral",
+    "Water deer",
+    "Roe deer",
+    "Wild boar"
+  ],
+  "original_date_pairs": 41,
+  "original_calendar_windows": {
+    "rising_start": "2022-05-01",
+    "rising_end": "2022-06-10",
+    "falling_start": "2022-07-01",
+    "falling_end": "2022-08-31"
+  },
+  "pre_declared_report_fields": [
+    "original archive file SHA256 and verified provenance flag",
+    "original raw event and operation log headers only without station GPS",
+    "matched 41 pair dates and 82 source event record availability",
+    "all four ungulate species retained even if n=0 in either branch",
+    "species×branch×core/edge/night original source-event counts",
+    "per species unique camera station count with independently released source events in BOTH matched branches",
+    "per species number of original 41 date pairs having at least one independently released detection in both corresponding dates at some station",
+    "per species number of station×matched-date pairs with >0 events on BOTH dates; NOT an eligibility denominator or selection rule",
+    "all event timestamps local Asia/Seoul, only source-released station IDs and public generalized astronomy; never reconstruct protected station GPS",
+    "UNKNOWN hourly camera operation denominators until original timestamp schema independently normalized and attested",
+    "if no externally verified input exact ZIP return HOLD_NOT_ORIGINAL_SOURCE_INPUT rather than an artificial species biological result"
+  ],
+  "min_events_each_branch_support_guard": 30,
+  "min_source_event_both_branch_stations_exploratory_guard": 8,
+  "admitted_output_tier": "VERIFIED_ORIGINAL_EVENT_TIMESTAMP_ONLY_FEASIBILITY_NOT_EFFORT_AND_NOT_TRUE_ACTIVITY",
+  "excluded_from_conclusion": [
+    "published all-year 4,623 detections are NOT counted as observations in the frozen 82 days",
+    "source event station occurrence alone does not prove the station was active both dates",
+    "positive species pair event support is descriptive, not evidence of independence, causal competition or temporal refuge",
+    "source operation log fields only identified; no operation-hours inferred until independent adapter provided",
+    "no rate effect, animal activity or ecological hypothesis test before hour-exact operation exposure",
+    "published UJ1/UJ2 site generalized locations only; exact stations' geographical coordinates NOT sought"
+  ]
+}
