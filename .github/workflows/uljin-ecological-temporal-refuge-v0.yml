@@ -7,6 +7,10 @@ on:
     paths:
       - 'ULJIN_FOUR_UNGULATE_TEMPORAL_REFUGE_ECOLOGY_V0_CONTRACT.json'
       - 'odsp/uljin_ecological_temporal_refuge_v0.py'
+      - 'ULJIN_ORIGINAL_V1P1_SOURCE_FEASIBILITY_V0_CONTRACT.json'
+      - 'odsp/uljin_original_source_zip_feasibility_v0.py'
+      - 'tests/test_uljin_original_source_zip_feasibility_v0.py'
+      - 'scripts/run_uljin_original_v1p1_source_feasibility_v0.py'
       - 'ULJIN_ECOLOGICAL_ZONE_SIGNATURE_V0_CONTRACT.json'
       - 'odsp/uljin_ecological_refuge_rate_signatures_v0.py'
       - 'tests/test_uljin_ecological_refuge_rate_signatures_v0.py'
@@ -31,7 +35,10 @@ jobs:
         run: python -m pytest -q tests/test_uljin_ecological_temporal_refuge_v0.py
       - name: Test independent ecological core-edge versus night-day source-hour denominators
         run: python -m pytest -q tests/test_uljin_ecological_refuge_rate_signatures_v0.py
+      - name: Audit original 41-pair four-species event/operation source readiness with synthetic ZIP fixtures
+        run: python -m pytest -q tests/test_uljin_original_source_zip_feasibility_v0.py
       - name: Source unprovided gives mandatory NO ECOLOGICAL CLAIM status
         run: |
           python scripts/run_uljin_ecological_temporal_refuge_source_admission_v0.py
           python scripts/run_uljin_ecological_zone_rates_v0.py
+          python scripts/run_uljin_original_v1p1_source_feasibility_v0.py
