@@ -193,9 +193,13 @@ def read_original_source_feasibility(
         station_pair_count=0
         for p in pairs:
             a,b=p["ascending_date"],p["descending_date"]
-            any_a=any(matched[(station,a,sp)]>0 for station in both_sites)
-            any_b=any(matched[(station,b,sp)]>0 for station in both_sites)
-            if any_a and any_b:
+            # BOTH dates must have released detections at the SAME
+            # physical station, not at two different sites that happen
+            # to occur in the species' branch-wide site intersection.
+            if any(
+                matched[(station,a,sp)]>0 and matched[(station,b,sp)]>0
+                for station in both_sites
+            ):
                 pair_count+=1
             station_pair_count+=sum(
                 matched[(station,a,sp)]>0 and matched[(station,b,sp)]>0
