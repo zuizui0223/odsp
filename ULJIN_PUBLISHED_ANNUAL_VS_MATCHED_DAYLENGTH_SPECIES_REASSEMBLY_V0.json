@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_annual_vs_same_daylength_species_temporal_niche_ecology_v0",
+  "stage": "PUBLISHED_ANNUAL_RESULTS_KNOWN_BEFORE_UNOPENED_ORIGINAL_82DAY_MATCHED_OUTCOME",
+  "paper": "Jeon J-H, Lim A (2026) Biodiversity Data Journal 14:e191556",
+  "paper_doi": "10.3897/BDJ.14.e191556",
+  "annual_pooled_civil_KDE_fixed_data_from_paper": {
+    "time_span": "2022-05-01..2023-05-22 independent detections, NOT original frozen 82 paired dates",
+    "counts": {
+      "Goral": 2317,
+      "Water deer": 814,
+      "Roe deer": 808,
+      "Wild boar": 684
+    },
+    "n_physical_stations": 82,
+    "overlap_metric": "Delta4 KDE on observed local civil clock, bootstrap B=1000 as paper",
+    "all_six_species_pairs": [
+      {
+        "pair": [
+          "Goral",
+          "Roe deer"
+        ],
+        "delta": 0.84,
+        "ci95": [
+          0.803,
+          0.872
+        ]
+      },
+      {
+        "pair": [
+          "Goral",
+          "Water deer"
+        ],
+        "delta": 0.811,
+        "ci95": [
+          0.774,
+          0.842
+        ]
+      },
+      {
+        "pair": [
+          "Goral",
+          "Wild boar"
+        ],
+        "delta": 0.81,
+        "ci95": [
+          0.77,
+          0.841
+        ]
+      },
+      {
+        "pair": [
+          "Roe deer",
+          "Water deer"
+        ],
+        "delta": 0.799,
+        "ci95": [
+          0.746,
+          0.829
+        ]
+      },
+      {
+        "pair": [
+          "Roe deer",
+          "Wild boar"
+        ],
+        "delta": 0.757,
+        "ci95": [
+          0.706,
+          0.789
+        ]
+      },
+      {
+        "pair": [
+          "Water deer",
+          "Wild boar"
+        ],
+        "delta": 0.653,
+        "ci95": [
+          0.609,
+          0.692
+        ]
+      }
+    ],
+    "publication_ref": "https://www.sciencedirect.com/org/science/article/pii/S131428362600134X",
+    "not_observed_matched_pair_result": true,
+    "not_independent_new_hypothesis_testing": true
+  },
+  "new_ecological_question": "Is annual pooled high temporal overlap hiding early-versus-midsummer species-specific REWIRING in time allocation under matched daylength, including a core-to-edge versus daylight-to-night shift? Do some pairs diverge as others synchronize?",
+  "fixed_new_ecological_predictions": [
+    {
+      "id": "E0_common_temporal_shift",
+      "prediction": "All 4 taxa change clock-zone allocations in the same direction across the 41 matched daylength pairs. Pairwise temporal overlap rankings remain broadly conserved, even though seasonal mean time shifts.",
+      "falsifier": "Some taxa shift daylight core->edge while others shift daylight->night or reverse direction at matched stations."
+    },
+    {
+      "id": "E1_divergent_refuge_allocation",
+      "prediction": "After effort standardization at the SAME physical cameras, the taxon×branch×(core/edge/night) interactions differ. One species' late-season use moves toward daylight edges, while another goes mainly to night or changes little.",
+      "falsifier": "All four species have matched estimates of both log-rate signatures with small interaction and adequate source precision."
+    },
+    {
+      "id": "E2_pooled_overlap_masks_seasonal_reassembly",
+      "prediction": "For one or more fixed species pairs, effort-aware site-paired time-zone distributions on the matched early and midsummer dates differ more than would be expected under a common branch temporal allocation shift; high full-year KDE overlap cannot be extrapolated to both windows.",
+      "falsifier": "Within-pair, station-balanced species differences in zone distribution are invariant across photoperiod branch with adequate calibrated support."
+    }
+  ],
+  "all_fixed_species_pairs_carried_from_published_table": true,
+  "no_scanning_to_pick_extreme_41_pair_results": true,
+  "no_overlap_delta_comparison_using_annual_bootstrap_ci_as_new_seasonal_pvalue": true,
+  "not_identification_of_causal_competition_or_predation_or_temperature": true,
+  "normalization_and_source_required": "The first admissible observed ecological response is rate per verified camera on-hour in daylight core/edge/night at fixed originally operated sites, preserving zero-event species-site-date cells. Original 41 matched 2022 date pairs NEVER reselected to maximize overlap changes.",
+  "inference_type": "Exploratory biological contrast formulated after publication of annual data but BEFORE source admission of the fixed original 82-day event/time-effort records",
+  "dataset_doi": "10.22756/ETC.20260000001022",
+  "actual_original_zip_events_hourly_operation_unopened": true
+}
