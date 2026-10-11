@@ -151,3 +151,38 @@ If those source conditions are NOT met, report
 an appropriately scoped inconclusive/low-support
 result rather than searching new date windows or
 inventing spring-autumn seasons.
+
+
+## Another published ecological clue — seasonal detectability is taxon-specific, but does not yet show behavioral timing
+
+The same Jeon & Lim (2026) article's **Table 3** reports
+summer-versus-WINTER fitted coefficients on the **station–season
+occupancy model DETECTION probability `p` logit scale**, adjusting
+for transformed original functional-night effort:
+
+| Ungulate | Published detection `p` summer vs winter logit beta | 95% CI |
+|---|---:|---:|
+| Goral | +0.886 | −0.361 to +2.134 |
+| Water deer | **+1.234** | +0.493 to +1.974 |
+| Roe deer | +0.030 | −0.693 to +0.754 |
+| Wild boar | **−0.888** | −1.372 to −0.404 |
+
+The paper thereby supplies one already-published ecological
+motivation for comparing **species-specific** seasonality:
+water deer and wild boar have opposite fitted summer-versus-
+winter signs. However these are separately fitted occupancy
+detection submodels, not a formal test of pairwise
+between-species coefficient differences. They are NOT hourly
+camera optical sensitivity q, NOT core/edge/night activity,
+NOT early May-to-June vs midsummer matched-daylength effects,
+and NOT a natural temperature experiment. The source defines
+summer as June–August and winter as December–February;
+our original paired rising branch includes **May dates**.
+No attempt is made to transfer the winter/summer odds ratio
+to the different 41-pair question.
+
+This contrasts annual temporal overlap with broad seasonal
+detection heterogeneity, and strengthens the REASON to ask
+whether species allocate time differently, but it remains
+a research hypothesis until original event, operational
+hourly source, and detector calibration evidence exists.
