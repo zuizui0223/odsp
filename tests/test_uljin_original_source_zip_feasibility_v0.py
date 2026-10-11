@@ -90,7 +90,6 @@ def test_source_fixture_event_support_and_original_members_without_rates(tmp_pat
         "station_x_matched_date_pair_both_dates_positive_event_cells"] in (0,1)
     # Exactly 41 original matched days; our earliest ascending/falling
     # selected date need not belong to the SAME pair: report remains truthful.
-    assert species["Wild boar"]["total_matched_pair_events"] if False else True
     assert species["Wild boar"]["rising_night_events"]==0
     assert species["Roe deer"]["falling_night_events"]==0
     assert all(r["LOW_SUPPORT_event_only_exploratory_guard"] for r in species.values())
