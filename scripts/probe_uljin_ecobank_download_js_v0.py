@@ -81,7 +81,18 @@ def summarize_function(text: str) -> dict[str, object]:
     calls = re.findall(r"\b([A-Za-z_$][\w$]*)\s*\(",cleaned)
     allowed = {"ajax","post","get","submit","modal","dialog","location","open","download","alert","confirm","fetch","serialize","trigger","val","html","attr","action","setTimeout","show","hide"}
     common = [name for name in calls if name.lower() in allowed or name.startswith("fn_")]
+    signature = re.match(r"(?:function\\s+)?"+re.escape(FUNCTION)+r"\\s*\\(([^)]*)\\)", excerpt)
+    parameters = []
+    if signature:
+        parameters = [x.strip() for x in signature.group(1).split(",")
+                      if re.fullmatch(r"[A-Za-z_$][A-Za-z0-9_$]*", x.strip())]
+    methods = re.findall(r"\\b(?:type|method)\\s*:\\s*['\\\"](GET|POST|PUT)['\\\"]", excerpt, re.I)
+    # Sanitized control-flow excerpt: remove ALL quote-delimited JS literals and large numbers.
+    shape = re.sub(r"\\b[0-9]{4,}\\b", "<number>", cleaned[:2700])
     return {
+      "formal_parameter_NAMES_only": parameters[:10],
+      "http_method_literals_near_handler": list(dict.fromkeys(methods)),
+      "sanitized_control_flow_excerpt": shape[:2300],
       "function_definition_found": True,
       "static_url_path_literals_only": paths[:15],
       "public_js_call_identifiers_only": list(dict.fromkeys(common))[:25],
