@@ -89,8 +89,9 @@ def summarize_function(text: str) -> dict[str, object]:
     methods = re.findall(r"\\b(?:type|method)\\s*:\\s*['\\\"](GET|POST|PUT)['\\\"]", excerpt, re.I)
     # Sanitized control-flow excerpt: remove ALL quote-delimited JS literals and large numbers.
     shape = re.sub(r"\\b[0-9]{4,}\\b", "<number>", cleaned[:2700])
+    shape = re.sub(re.escape(FUNCTION)+r"\s*\([^)]*\)", FUNCTION+"(<parameters-redacted>)", shape, count=1)
     return {
-      "formal_parameter_NAMES_only": parameters[:10],
+      "formal_parameter_count_only": len(parameters),
       "http_method_literals_near_handler": list(dict.fromkeys(methods)),
       "sanitized_control_flow_excerpt": shape[:2300],
       "function_definition_found": True,
