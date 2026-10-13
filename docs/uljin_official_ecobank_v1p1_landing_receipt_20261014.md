@@ -1,0 +1,48 @@
+# Official NIE EcoBank Uljin 1.1 landing recovered — 2026-10-14
+
+## Distinct from previous SOURCE HOLD
+
+The original DOI previously could not be resolved by the standard web retrieval route, but a JavaScript-aware HTTP extraction of the **DOI redirect** on 2026-10-14 resolved to the **official host**:
+
+- DOI: https://doi.org/10.22756/ETC.20260000001022
+- Exact official landing: https://www.nie-ecobank.kr/rdm/geodoi/selectRsrchDtaDtlVw.do?rsrchDtaId=RSD_0000000000012950
+- Listed public downloadable attachment: `Uljin_camera_trap_ungulates_public_dataset_v1.1_20260305_EcoBank_revised.zip`
+- Portal-displayed file size: **43,978 bytes**, which is *listing metadata*, not a byte-count verified against downloaded archive content.
+- Portal-displayed dataset title retains `public dataset v1.0, 2026-03-05`, but **Version 1.1** appears in the attached ZIP filename and the official update history.
+- Portal-displayed original release: **2026-03-09**, approval of update **2026-03-13 14:06:48** (Korean local time shown on portal).
+- Portal version history describes revised coordinate generalisation in `site_covariates_public.csv` (public coordinates at lower precision), with corresponding `README_EcoBank.txt` and `MANIFEST.tsv` revisions. **Do not attempt to reconstruct protected camera coordinates.**
+- The host describes its work as subject to KOGL; cite the original dataset under **KOGL Type 1 (attribution)** as documented by Jeon and Lim (2026), https://doi.org/10.3897/BDJ.14.e191556.
+
+This is concrete **original-provider release discovery**, not a successful download or verified raw-data analysis. It supersedes only the **landing-page-discovery limitation** in the 2026-10-11 acquisition receipt; it does not supersede the scientific source admission contract or any prior result.
+
+## Original file byte and integrity admission status
+
+The official HTML shows a clickable **Download** affordance, but the HTTP text extraction did not expose a validated direct ZIP URL, local ZIP bytes, HTTP response headers for the ZIP, original independent published SHA256, or its internal member manifest. The browser click attempt was **not performed** (the connected paid web automation could not start because its wallet was out of credit). A separate standard URL retrieval route timed out/failed; that must not be interpreted as portal unavailability. Therefore:
+
+`HOLD_ORIGINAL_V1P1_ZIP_BYTES_AND_INDEPENDENT_HASH_UNVERIFIED`
+
+Do **not** infer from the filename or 43,978-byte listing that the archive contains source event rows or hour-exact operation intervals. Do **not** substitute journal supplementary plot archives or fabricated CSV data. Do **not** use a calculated local SHA256 alone as evidence of trusted official origin.
+
+## Minimal reproducible follow-through (manual official download)
+
+1. In a normal browser, visit the exact official NIE EcoBank URL above. Click the **Version 1.1 ZIP** attachment listed under `Data`, and retain the unmodified ZIP file. If login or permission is required, record that fact; do not bypass access controls.
+2. Record the final download URL, retrieval date, release/version, host, any original release checksum or manifest, and the ZIP's actual local size and SHA256. Preserve site attribution; do not publish camera GPS.
+3. Establish independent trust in downloaded bytes: official host download metadata/transport receipt plus a separately documented checksum or equivalent versioned release attestation. The **frozen v0** source feasibility contract requires independently attested SHA256. Where the host provides no external checksum, leave v0 on HOLD and document the external provenance alternative for scientific review; do not silently reinterpret a user-computed SHA256 as independent.
+4. Verify expected original members **without leaking coordinates**:
+   - `01_core_data/cameratrap_event_records.csv`
+   - `01_core_data/camera_operation_log.csv`
+   - `01_core_data/site_covariates_public.csv`
+   - `03_documentation/MANIFEST.tsv`
+5. Run the existing `scripts/run_uljin_original_v1p1_source_feasibility_v0.py` only with **qualified v0** original-source attestation and independently documented checksum, then independently normalise and verify station-by-date operation intervals before `scripts/run_uljin_ecological_zone_rates_v0.py`.
+
+The original 41 daylength-matched calendar pairs (2022-05-01..06-10 rising and 2022-07-01..08-31 falling), all four focal ungulates, source-hour eligibility independent of detections, and H0/H1/H2/H3 scientific freeze remain untouched.
+
+## Scientific interpretation remains bounded
+
+No new empirical detections per 100 on-hours, source-event season-specific ecological contrasts, latent animal activity, temperature causation or evidence for competition has been obtained **from the original 82 days**. This receipt is an advance in identifying the authoritative data source, **not** a biological result.
+
+Source links:
+
+- https://doi.org/10.22756/ETC.20260000001022
+- https://www.nie-ecobank.kr/rdm/geodoi/selectRsrchDtaDtlVw.do?rsrchDtaId=RSD_0000000000012950
+- https://doi.org/10.3897/BDJ.14.e191556
