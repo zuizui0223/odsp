@@ -60,3 +60,17 @@ The separate source-only metadata probe `scripts/probe_uljin_ecobank_landing_v0.
 Runs: https://github.com/zuizui0223/odsp/actions/runs/38421971398 and https://github.com/zuizui0223/odsp/actions/runs/38422415330.
 
 **The source admission is still HOLD**. The definitive missing step is interacting with the official page's Version 1.1 attachment control and checking the unmodified archive with its release provenance; independent scientific inference remains unavailable until real operation hours are verified.
+
+
+## Public download handler requires choosing user category and purpose — 2026-10-14
+
+The companion read-only original-page JS audit `scripts/probe_uljin_ecobank_download_js_v0.py` inspected static first-party inline JavaScript (without submitting any HTTP form). GitHub Actions [run 38424632037](https://github.com/zuizui0223/odsp/actions/runs/38424632037) **PASSED** its privacy/error tests and obtained the following first-party control-flow facts:
+
+- Clicking the official attachment calls `fn_atchFileDwldOpinionModal`, whose AJAX popup source path is `/rdm/selectAtchFileDwldPopup.do` and whose input variables include a dataset record and attachment identity.
+- The next official function `fn_insertAtchFileDwldOpinion` checks a **user-category selection** and a **download/use-purpose selection**; a free-text “other” purpose appears to need at least two non-whitespace characters.
+- It submits the selected inputs to `/rdm/insertAtchFileDwldOpinion.do`; **only if success is returned** does the page call `fn_egov_downFile` with the existing attachment identity. A separate error branch may redirect to `/uat/uia/egovLoginUsr.do`, but whether sign-in is compulsory for this release has **not** been established.
+- This is an **interactive official user declaration**, NOT a static or broken ZIP URL. It must not be bypassed by directly invoking the lower-level download function or fabricating a user category or research-purpose declaration.
+
+**Appropriate next official action:** From the [Version 1.1 source page](https://www.nie-ecobank.kr/rdm/geodoi/selectRsrchDtaDtlVw.do?rsrchDtaId=RSD_0000000000012950), click the ZIP entry, select the **actual** user category and the accurate scientific-research use purpose, and complete the official portal's permitted download workflow. The present automated source-only check intentionally **did not submit such a declaration**; no original ZIP bytes, member data, independent SHA256, real 82-day animal rates or original operation hours were obtained. If login is demanded, document the provider's requested account path; do not work around controls.
+
+The biology paper Table 3 reanalysis is **separate** from this original-source hold, documented at `docs/uljin_published_four_taxon_seasonal_detection_difference_20261014.md`. It uses already-published coefficients with an unknown-covariance and six-comparison Bonferroni bound and cannot be relabelled as the original 41-day data analysis.
