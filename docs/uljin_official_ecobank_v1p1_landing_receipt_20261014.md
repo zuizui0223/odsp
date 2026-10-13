@@ -46,3 +46,17 @@ Source links:
 - https://doi.org/10.22756/ETC.20260000001022
 - https://www.nie-ecobank.kr/rdm/geodoi/selectRsrchDtaDtlVw.do?rsrchDtaId=RSD_0000000000012950
 - https://doi.org/10.3897/BDJ.14.e191556
+
+## GitHub Actions public-host independent metadata verification — 2026-10-14
+
+The separate source-only metadata probe `scripts/probe_uljin_ecobank_landing_v0.py` was tested by `tests/test_probe_uljin_ecobank_landing_v0.py` and run on a GitHub-hosted Python 3.11 runner. It made an HTTPS GET of the official DOI target and returned:
+
+- HTTP **200**, exact **official** HTTPS host, official record identifier `RSD_0000000000012950`.
+- The expected **Version 1.1 ZIP name** appears in actual provider HTML; the update history contains `1.1`.
+- The download control is `href="javascript:..."`, with the public function name **`fn_atchFileDwldOpinionModal`**. No stable direct ZIP URL was exposed from the source HTML. This suggests a modal interaction rather than a plain static attachment URL, but **does not prove a login or payment requirement**.
+- The probe records `original_zip_bytes_read=false`, `independent_sha256_attested=false`, `biological_effect_computed=false`, with status `OFFICIAL_LANDING_ZIP_LISTED_BYTES_NOT_DOWNLOADED`. It intentionally never logs JavaScript argument values, temporary tokens, event records, GPS or camera-hour fields.
+- Focused 3/3 public-source metadata tests succeeded; original frozen biological source tests and assumptions were not changed.
+
+Runs: https://github.com/zuizui0223/odsp/actions/runs/38421971398 and https://github.com/zuizui0223/odsp/actions/runs/38422415330.
+
+**The source admission is still HOLD**. The definitive missing step is interacting with the official page's Version 1.1 attachment control and checking the unmodified archive with its release provenance; independent scientific inference remains unavailable until real operation hours are verified.
