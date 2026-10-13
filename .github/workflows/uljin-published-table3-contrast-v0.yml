@@ -1,0 +1,29 @@
+name: uljin-published-table3-species-season-contrast-v0
+
+on:
+  push:
+    branches: [ecology/uljin-matched-daylength-temporal-refuge-v0]
+    paths:
+      - 'ULJIN_PUBLISHED_TABLE3_SEASONAL_SPECIES_CONTRAST_V0.json'
+      - 'scripts/run_uljin_published_table3_species_contrasts_v0.py'
+      - 'tests/test_uljin_published_table3_species_contrasts_v0.py'
+      - '.github/workflows/uljin-published-table3-contrast-v0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  read-published-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest
+      - name: Verify covariance bound, four taxa, all six contrasts and no 41-pair biological claim
+        run: python -m pytest -q tests/test_uljin_published_table3_species_contrasts_v0.py
+      - name: Recompute every published-coefficient pairwise exploratory bound
+        run: python scripts/run_uljin_published_table3_species_contrasts_v0.py
