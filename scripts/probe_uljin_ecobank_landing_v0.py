@@ -82,6 +82,21 @@ def _nearby_tag_signatures(page: str) -> list[dict[str, object]]:
             name = re.search(r"\b([A-Za-z_$][A-Za-z0-9_$]*)\s*\(", unescape(onclick.group(2)))
             if name:
                 signature["onclick_function_only"] = name.group(1)
+        href = re.search(r"\bhref\s*=\s*([\"'])(.*?)\1", fields, re.I | re.S)
+        if href:
+            value = unescape(href.group(2)).strip()
+            if value.lower().startswith("javascript:"):
+                fn = re.search(r"\b([A-Za-z_$][A-Za-z0-9_$]*)\s*\(", value[len("javascript:"):])
+                signature["href_kind"] = "javascript"
+                if fn:
+                    signature["href_js_function_only"] = fn.group(1)
+            elif value.startswith("#"):
+                signature["href_kind"] = "anchor_hash"
+            elif value:
+                abs_url = urljoin(URL, value)
+                signature["href_kind"] = "same_origin_https" if _attestation_url(abs_url) else "external_or_other"
+                if _attestation_url(abs_url):
+                    signature["same_origin_path_only"] = urlparse(abs_url).path
         signatures.append(signature)
     return signatures[:18]
 
