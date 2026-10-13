@@ -61,6 +61,31 @@ def _extract_relevant_markup(page: str) -> tuple[bool, list[dict[str, str]]]:
     return True, candidates[:12]
 
 
+def _nearby_tag_signatures(page: str) -> list[dict[str, object]]:
+    """Only print tag/attribute NAMES; never expose HTML values or request tokens."""
+    location = page.find(FILENAME)
+    if location < 0:
+        return []
+    excerpt = page[max(0, location - 850):location + 700]
+    signatures = []
+    for match in re.finditer(r"<\s*([A-Za-z][\w-]*)\b([^>]*)>", excerpt, re.I | re.S):
+        tagname, fields = match.groups()
+        if tagname.lower() not in ("a", "button", "input", "span", "div", "li", "p", "i"):
+            continue
+        names = re.findall(r"\s([A-Za-z_:][A-Za-z0-9_:.-]*)\s*=", fields)
+        signature: dict[str, object] = {
+            "tag": tagname.lower(),
+            "attribute_names_only": sorted(set(names)),
+        }
+        onclick = re.search(r"\bonclick\s*=\s*([\"'])(.*?)\1", fields, re.I | re.S)
+        if onclick:
+            name = re.search(r"\b([A-Za-z_$][A-Za-z0-9_$]*)\s*\(", unescape(onclick.group(2)))
+            if name:
+                signature["onclick_function_only"] = name.group(1)
+        signatures.append(signature)
+    return signatures[:18]
+
+
 def inspect_page_bytes(data: bytes, *, final_url: str) -> dict[str, object]:
     if not _attestation_url(final_url):
         return {"status": "HOLD_NON_OFFICIAL_FINAL_URL", "official_origin": False}
@@ -74,6 +99,7 @@ def inspect_page_bytes(data: bytes, *, final_url: str) -> dict[str, object]:
         "portal_visible_v1p1_zip_filename": FILENAME if found else None,
         "portal_version_history_mentions_v1p1": version_in_page,
         "download_controls_redacted": elements,
+        "nearby_html_tag_attribute_names_only": _nearby_tag_signatures(page),
         "original_zip_bytes_read": False,
         "independent_sha256_attested": False,
         "raw_camera_events_or_operation_hours_read": False,
