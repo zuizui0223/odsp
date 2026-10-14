@@ -111,6 +111,13 @@ def compute(p:dict,author_contract:dict)->dict:
     clock_first=1-time
     spatial_given_clock=time-space_clock
     joint_mismatch=1-space_clock
+    # Neutral-to-order arithmetic average of TWO exact marginalization paths.
+    # Even this Shapley-style attribution is not causal (more site than
+    # clock categories; operational effort and q remain unidentified).
+    symmetric_space=(spatial_first+spatial_given_clock)/2
+    symmetric_clock=(clock_first+time_given_spatial)/2
+    if not isclose(symmetric_space+symmetric_clock,joint_mismatch,rel_tol=0,abs_tol=1e-12):
+        raise ValueError("HOLD_SYMMETRIC_BOOKKEEPING_IDENTITY")
     if (not isclose(spatial_first+time_given_spatial,joint_mismatch,rel_tol=0,abs_tol=1e-12) or
         not isclose(clock_first+spatial_given_clock,joint_mismatch,rel_tol=0,abs_tol=1e-12)):
         raise ValueError("HOLD_SCHOENER_REFINEMENT_IDENTITY")
@@ -199,6 +206,15 @@ def compute(p:dict,author_contract:dict)->dict:
           "clock_first_alternative":{
              "clock_marginal_TV":round(clock_first,9),
              "ADDITIONAL_spatial_given_clock_refinement_TV":round(spatial_given_clock,9),
+          },
+          "symmetric_average_over_both_refinement_orders_NOT_CAUSAL":{
+              "spatial_record_distribution_component_TV":round(symmetric_space,9),
+              "clock_record_distribution_component_TV":round(symmetric_clock,9),
+              "spatial_fraction_of_joint_record_discrepancy":round(
+                  symmetric_space/joint_mismatch,9),
+              "clock_fraction_of_joint_record_discrepancy":round(
+                  symmetric_clock/joint_mismatch,9),
+              "different_numbers_of_site_and_clock_categories_NOT_CONTROLLED":True,
           },
           "both_exact_marginalization_identities_verified":True,
           "attribution_is_order_dependent_and_not_causal":True,
