@@ -217,7 +217,7 @@ def analyze(plan: dict, source_contract: dict) -> dict:
         },
         "clock_bins_01to06_and_19to24_not_date_solar_phase":True,
         "site_clustering_community_population_or_occupancy_significance_claimed":False,
-        "original_u ljin_2022_41_fixed_date_pairs_processed":False,
+        "original_uljin_2022_41_fixed_date_pairs_processed":False,
         "published_source_stations_not_camera_operation_hours_or_q":True
     }
 
