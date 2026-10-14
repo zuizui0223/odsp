@@ -109,3 +109,28 @@ def test_try_to_relabel_source_or_frozen_predata_is_rejected(monkeypatch):
     p["stage"]="PRE_PUBLICATION_PREREGISTERED"
     with pytest.raises(ValueError,match="PLAN_MISMATCH"):
         phase.inspect(p,SOURCE_PLAN,raw)
+
+
+def test_all_twilight_reclassification_bounds_certify_water_highest_boar_lowest(monkeypatch):
+    o=compute_fixture(monkeypatch)
+    b=o["adversarial_civil_twilight_as_night_source_fraction_bounds"]
+    assert b["water_deer_always_greater_than_all_three_other_taxa"]
+    assert b["wild_boar_always_less_than_all_three_other_taxa"]
+    assert len(b["all_six_pairwise_partial_order_certificates"])==6
+    data={x["species"]:x for x in b["per_taxon"]}
+    assert abs(data["Water deer"]["night_share_lower_percent"]-61.302211302)<1e-7
+    assert abs(data["Water deer"]["night_share_upper_percent"]-67.567567568)<1e-7
+    assert abs(data["Wild boar"]["night_share_lower_percent"]-25.146198830)<1e-7
+    assert abs(data["Wild boar"]["night_share_upper_percent"]-30.555555556)<1e-7
+    assert abs(b["water_deer_minus_wild_boar_difference_pp_bounds"][0]-30.746655747)<1e-7
+    assert abs(b["water_deer_minus_wild_boar_difference_pp_bounds"][1]-42.421368737)<1e-7
+    assert not b["perfect_camera_q_or_matched_site_hours_claimed"]
+    assert not b["independent_station_ecology_or_original_41_pairs_claimed"]
+
+
+def test_middle_taxa_rank_not_guaranteed_under_twilight_reassignment(monkeypatch):
+    o=compute_fixture(monkeypatch)
+    certificates=o["adversarial_civil_twilight_as_night_source_fraction_bounds"]["all_six_pairwise_partial_order_certificates"]
+    middle=next(p for p in certificates if set((p["species_a"],p["species_b"]))==
+                {"Long-tailed goral","Siberian roe deer"})
+    assert middle["verdict"]=="OVERLAPPING_POOLED_TWILIGHT_REALLOCATION_INTERVALS"
