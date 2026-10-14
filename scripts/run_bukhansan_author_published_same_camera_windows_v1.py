@@ -78,6 +78,40 @@ def stratified(rows):
       "cluster_robust_biological_significance":False,
       "score":round(score,9)}
 
+def common_site_photo_composition(rows):
+    """Symmetric Kitagawa on same SITE, SOURCE EVENT counts, late/early only.
+
+    This is an OBSERVATION-PROFILE identity on the seven sites with both
+    species' early+late published records. It does not assign a causal
+    biological site/habitat contribution or validate independent cameras.
+    """
+    common=[]
+    for r in rows:
+        a=r["water_deer"];b=r["wild_boar"]
+        wa=a["01to06"]+a["19to24"];ba=b["01to06"]+b["19to24"]
+        if wa and ba:
+            common.append((r["site"],wa,ba,a["01to06"]/wa,b["01to06"]/ba))
+    if len(common)!=7:
+        raise ValueError("HOLD_SHARED_STATION_ROSTER_UNEXPECTED")
+    totw=sum(q[1] for q in common);totb=sum(q[2] for q in common)
+    latew=sum(q[1]*q[3] for q in common)/totw
+    lateb=sum(q[2]*q[4] for q in common)/totb
+    within=sum(.5*(q[1]/totw+q[2]/totb)*(q[3]-q[4]) for q in common)
+    mix=sum(.5*(q[3]+q[4])*(q[1]/totw-q[2]/totb) for q in common)
+    if not math.isclose(within+mix,latew-lateb,rel_tol=0,abs_tol=1e-12):
+        raise ValueError("HOLD_PUBLIC_SITE_COMPOSITION_IDENTITY")
+    return {"estimand":"PUBLISHED_LATE_01to06_SHARE_AMONG_7_SHARED_SITES_AND_EARLY_LATE_RECORDS_ONLY",
+      "number_of_both_species_clock_window_sites":len(common),
+      "water_deer_late_photo_share_common_sites":round(latew,9),
+      "boar_late_photo_share_common_sites":round(lateb,9),
+      "water_minus_boar_late_share_diff_pp":round(100*(latew-lateb),9),
+      "within_camera_detected_time_profile_component_pp":round(100*within,9),
+      "different_camera_weight_composition_component_pp":round(100*mix,9),
+      "component_sum_identity_verified":True,
+      "different_camera_weight_component_is_NOT_caused_by_species":True,
+      "conditional_on_posthoc_co_detected_sites":True,
+      "population_effect_or_true_activity_claimed":False}
+
 def analyze(c):
     rows=read_source_contract(c)
     profiles=[]
@@ -104,6 +138,7 @@ def analyze(c):
       "all_11_public_station_code_summaries_with_zeros":profiles,
       "both_species_detected_site_count":sum(x["water_deer_all"]>0 and x["wild_boar_all"]>0 for x in profiles),
       "published_3_window_source_counts":totals,
+      "shared_site_symmetric_photo_composition_observation_only":common_site_photo_composition(rows),
       "pooled_water_vs_boar_late_early_odds_ratio":round(pooled,9),
       "site_direction_diagnostic":{"water_deer_later_count":positive,"boar_later_count":n-positive,
         "n_non_ties":n,"exact_two_sided_sign_p_not_independent_site_validated":round(signp,9)},
