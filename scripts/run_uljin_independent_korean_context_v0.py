@@ -157,6 +157,20 @@ def compare(contract:dict,uljin:dict,han_html:str,jeong_html:str)->dict:
        "season_matched_to_other_studies":False}
     ]
     assert len(contexts)==4
+    # New within-PUBLICATION, post-outcome descriptive habitat signature.
+    # Each species has an observed image share in both habitats, but neither
+    # habitat × station denominators nor clustered uncertainty are released.
+    water_habitat_night_diff = round(
+        jeong["water_deer_wetland"] - jeong["water_deer_forest"], 6)
+    boar_habitat_night_diff = round(
+        jeong["wild_boar_wetland"] - jeong["wild_boar_forest"], 6)
+    habitat_species_interaction = round(
+        water_habitat_night_diff - boar_habitat_night_diff, 6)
+    # Trail-adjacent camera photo proportions are NOT treatment effects.
+    water_trail_day_diff = round(
+        han["water_deer_far"] - han["water_deer_near"], 6)
+    boar_trail_day_diff = round(
+        han["wild_boar_far"] - han["wild_boar_near"], 6)
     return {
       "status":STATUS,
       "sources_rechecked":["10.3897/BDJ.14.e191556.suppl3",
@@ -170,6 +184,18 @@ def compare(contract:dict,uljin:dict,han_html:str,jeong_html:str)->dict:
       "han_suburban_wild_boar_winter_night_percent":han["wild_boar_winter"],
       "han_suburban_trail_near_far_day_percent":{
         k:han[k] for k in ("water_deer_near","water_deer_far","wild_boar_near","wild_boar_far")
+      },
+      "bukhansan_within_study_forest_vs_wetland_night_share_pp":{
+        "water_deer_wetland_minus_forest":water_habitat_night_diff,
+        "wild_boar_wetland_minus_forest":boar_habitat_night_diff,
+        "difference_of_reported_differences":habitat_species_interaction,
+        "statistical_significance_claimed":False,
+        "independently_effect_adjusted":False,
+      },
+      "han_within_study_day_share_near_far_trail_pp":{
+        "water_deer_far_minus_near":water_trail_day_diff,
+        "wild_boar_far_minus_near":boar_trail_day_diff,
+        "human_avoidance_causally_proven":False,
       },
       "cross_study_night_zone_definition_harmonized":False,
       "between_study_difference_significance_claimed":False,
