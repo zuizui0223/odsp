@@ -1,0 +1,30 @@
+name: uljin-independent-Korean-context-ecology-v0
+
+on:
+  push:
+    branches: [ecology/uljin-matched-daylength-temporal-refuge-v0]
+    paths:
+      - 'ULJIN_INDEPENDENT_KOREAN_UNGULATE_CONTEXT_V0_CONTRACT.json'
+      - 'scripts/run_uljin_independent_korean_context_v0.py'
+      - 'tests/test_uljin_independent_korean_context_v0.py'
+      - '.github/workflows/uljin-independent-korean-context-v0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independently-published-ecological-context:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install minimal tests
+        run: python -m pip install pytest
+      - name: Verify same-publication comparisons and no between-study significance
+        run: python -m pytest -q tests/test_uljin_independent_korean_context_v0.py
+      - name: Recheck authentic Korean journal public abstracts and published Zenodo data
+        run: python scripts/run_uljin_independent_korean_context_v0.py
