@@ -47,6 +47,12 @@ def test_unique_integer_photo_table_at_declared_source_rounding_precision():
     assert sum(sum(x) for x in rows.values())==457
     assert r["group_candidate_count_if_independently_considered"]==[12,10,14,12]
     assert r["source_validation"]["all_8_day_night_published_percentages_found"]
+    missing=r["assumption_sensitivity_if_unclassified_photos_are_allowed"]
+    assert missing["lowest_number_of_hypothetically_nonpartitioned_photos_needed_for_alternative"]==7
+    assert missing["first_alternative_four_group_photo_count_total"]==450
+    assert [q["CONDITIONAL_total"] for q in missing["first_alternative_group_total_night_pairs"]]==[74,247,55,74]
+    assert not missing["unclassified_photos_observed_in_real_study"]
+    assert missing["the_exact_four_group_partition_is_required_for_uniqueness"]
     assert not r["original_real_event_records_obtained"]
 
 
