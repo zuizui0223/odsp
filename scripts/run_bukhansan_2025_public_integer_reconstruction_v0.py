@@ -151,6 +151,18 @@ def reconstruct(plan:dict, authenticated_html:str|None)->dict:
         n_solutions+=1
         if n_solutions==1:
             chosen=candidate
+    # "All 457 photos exhaust these four groups" is a substantive
+    # assumption. Audit how few potentially UNCLASSIFIED other photos
+    # would permit a different rounding-compatible four-group table.
+    # This is a counterexample sensitivity, not a claim those other photos
+    # actually existed in the article's analyzed 457.
+    other_candidates=[]
+    for candidate in product(*options):
+        used=sum(x[0] for x in candidate)
+        if used<total:
+            other_candidates.append((total-used,candidate))
+    other_candidates.sort(key=lambda pair:pair[0])
+    first_alternative=other_candidates[0] if other_candidates else None
     if n_solutions!=1 or chosen is None:
         return {"status":"HOLD_NOT_UNIQUELY_RECONSTRUCTIBLE_UNDER_ASSUMPTIONS",
                 "candidate_group_option_counts":[len(o) for o in options],
@@ -220,6 +232,20 @@ def reconstruct(plan:dict, authenticated_html:str|None)->dict:
         "focal_image_count":total,
         "group_candidate_count_if_independently_considered":[len(o) for o in options],
         "number_of_all_integer_solutions_after_total_constraint":n_solutions,
+        "assumption_sensitivity_if_unclassified_photos_are_allowed":{
+            "lowest_number_of_hypothetically_nonpartitioned_photos_needed_for_alternative":
+                first_alternative[0] if first_alternative else None,
+            "first_alternative_four_group_photo_count_total":
+                sum(x[0] for x in first_alternative[1]) if first_alternative else None,
+            "first_alternative_group_total_night_pairs":
+                [{"group":slots[i]["taxon"]+"_"+slots[i]["habitat"],
+                  "CONDITIONAL_total":item[0],
+                  "CONDITIONAL_night":item[1]}
+                 for i,item in enumerate(first_alternative[1])]
+                if first_alternative else [],
+            "unclassified_photos_observed_in_real_study":False,
+            "the_exact_four_group_partition_is_required_for_uniqueness":True
+        },
         "only_integer_solution_under_EXPLICIT_UNVERIFIED_assumptions":displayed,
         "taxon_photo_marginal_total":wt,
         "taxon_photo_wetland_representation": {
