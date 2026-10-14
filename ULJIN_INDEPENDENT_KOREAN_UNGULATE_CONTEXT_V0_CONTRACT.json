@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_public_independent_korean_context_comparison_v0",
+  "analysis_stage": "POST_PUBLICATION_TARGETED_ECOLOGICAL_CONTEXT_NOT_PREREGISTERED",
+  "sources": {
+    "uljin_2026": {
+      "journal_doi": "10.3897/BDJ.14.e191556",
+      "supplement_doi": "10.3897/BDJ.14.e191556.suppl3",
+      "zenodo_record": "https://zenodo.org/records/21319408",
+      "metadata_type": "original_public_aggregated_4_species_3_periods",
+      "temporal_support": "2022-2023 yearlong pooled",
+      "night_definition": "after civil dusk and before civil dawn",
+      "raw_original_EcoBank_v1p1_verified": false
+    },
+    "suburban_2024": {
+      "doi": "10.13087/kosert.2024.27.2.55",
+      "url": "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003076639",
+      "source": "Han et al. 2024 KCI public abstract",
+      "sampling": "18 camera traps Jan 2021-Nov 2022",
+      "data_type": "reported four period night-time photographic rate percentages, fall and winter",
+      "dayparts": "dawn/day/dusk/night, not verified equivalent to Uljin three-zone solar boundaries",
+      "night_fraction_pct": {
+        "water_deer_fall": 61.9,
+        "wild_boar_fall": 77.6,
+        "wild_boar_winter": 78
+      },
+      "published_trail_day_pct": {
+        "water_deer_near": 12.1,
+        "water_deer_far": 24.6,
+        "wild_boar_near": 3.4,
+        "wild_boar_far": 5.7
+      }
+    },
+    "bukhansan_2025": {
+      "doi": "10.14397/jals.2025.59.5.111",
+      "url": "https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART003260212",
+      "source": "Jeong et al. 2025 KCI public abstract",
+      "sampling": "457 analyzed images from 2529 photos, forest/wetland near-urban-national-park habitats",
+      "data_type": "reported day/night image shares within each habitat",
+      "dayparts": "binary day/night, precise twilight inclusion may differ from other studies",
+      "night_fraction_pct": {
+        "water_deer_forest": 70.27,
+        "wild_boar_forest": 70.85,
+        "water_deer_wetland": 83.64,
+        "wild_boar_wetland": 77.03
+      }
+    }
+  },
+  "prescribed_ecological_question": "Is published water-deer versus wild-boar nocturnality ordering universal across landscapes and seasons, or context-dependent?",
+  "all_numerical_effects": "WITHIN_PUBLICATION_NIGHT_PERCENTAGE_POINT_CONTRAST_DESCRIPTIVE_ONLY",
+  "cross_study_conclusion_ceiling": "DIRECTION_OF_REPORTED_NOCTURNAL_RECORD_SHARE_IS_NOT_UNIVERSAL_IN_SOURCE_REPORTS; CAUSAL_LANDSCAPE_EFFECT_NOT_IDENTIFIABLE",
+  "integrity_guards": {
+    "cross_study_night_metric_harmonized": false,
+    "season_and_habitat_matched": false,
+    "camera_hour_effort_matched": false,
+    "raw_independent_camera_event_rows_shared": false,
+    "shared_camera_detection_q_calibration_available": false,
+    "cross_study_p_value_computed": false,
+    "cross_study_forest_vs_urban_causal_effect_estimated": false,
+    "environmental_entrainment_or_competition_proved": false,
+    "original_Uljin_41_predeclared_mirror_pairs_analyzed": false,
+    "photos_assumed_independent_animals": false,
+    "new_preregistered_discovery_claimed": false
+  }
+}
