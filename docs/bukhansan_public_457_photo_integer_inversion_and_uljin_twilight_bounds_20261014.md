@@ -121,3 +121,22 @@ The original Uljin 2022 41 astronomical calendar pairs, PR264's H1 daylight-edge
 - Original EcoBank source: https://doi.org/10.22756/ETC.20260000001022, and remaining provider user-declaration/original-source admission is tracked in https://github.com/zuizui0223/odsp/issues/265.
 
 **Evidence tier**: conditional inverse-aggregation identity, descriptive standardized photo distribution, naïve photo-independent non-significance check, and source-backed civil-twilight night-rank bounds. Not empirical habitat-selection, causal behavior or original 41-pair seasonal reassembly.
+
+
+## How sensitive is the unique table to an incomplete 457-photo partition?
+
+The full feasible count enumeration now also checks whether the **sum of the four four-group totals** might be **smaller than 457** if some of the 457 images had not been attributed to these four report groups. This is a sensitivity counterexample ONLY, not evidence that any such image was actually excluded.
+
+With the identical published rounded percentages and the same numerical integer constraints, **the first different four-group solution appears if seven photos are allowed to remain outside the four groups**, so their group totals sum to **450 rather than 457**:
+
+| Hypothetical alternative **if 7 of 457 photos lie outside four groups** | Reconstructed total | Reconstructed night |
+| --- | ---: | ---: |
+| Water deer, forest | 74 | 52 |
+| Wild boar, forest | 247 | 175 |
+| Water deer, wetland | 55 | 46 |
+| Wild boar, wetland | 74 | 57 |
+| **Four-group total** | **450** | **289** |
+
+The remaining hypothetical **7 photos** are **not observed or assigned** to any actual author category. This alternative only proves that the four-group exhaustiveness assumption is consequential. Under its 450-photo four-group subset, the pooled Water-minus-Boar nighttime photograph difference would be **+3.695 percentage points** instead of the first solution's +5.733 points.
+
+Thus the accurate formulation is: **conditional UNIQUE integer inversion IF all 457 photographs partition the four source groups**, not “we discovered the original 457-photo counts.” The source paper's actual group totals, any weighting and any exclusions still need author-file confirmation for literal raw-data identity. The expanded [CI 38583206793](https://github.com/zuizui0223/odsp/actions/runs/38583206793) reproduces this seven-photo sensitivity and re-verifies the original KCI article text.
