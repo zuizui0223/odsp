@@ -1,0 +1,30 @@
+name: bukhansan-published-11-camera-clock-ecology-v1
+
+on:
+  push:
+    branches: [ecology/uljin-matched-daylength-temporal-refuge-v0]
+    paths:
+      - 'BUKHANSAN_PUBLISHED_SITE_HOUR_WINDOWS_V1_CONTRACT.json'
+      - 'scripts/run_bukhansan_author_published_same_camera_windows_v1.py'
+      - 'tests/test_bukhansan_author_published_same_camera_windows_v1.py'
+      - '.github/workflows/bukhansan-published-11-camera-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-verified-author-table-margins:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install minimal test requirements
+        run: python -m pip install pytest
+      - name: Verify author hour/habitat margins and observational-only inference limitations
+        run: python -m pytest -q tests/test_bukhansan_author_published_same_camera_windows_v1.py
+      - name: Recompute site-level shared-camera early/late record contrast and M2 exclusion
+        run: python scripts/run_bukhansan_author_published_same_camera_windows_v1.py
