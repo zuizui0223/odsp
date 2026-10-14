@@ -87,11 +87,13 @@ def verify_abstract(html_text:str,reference:dict,case:str)->dict:
     for token in must_include:
         if token not in excerpt:
             raise ValueError("HOLD_PUBLIC_ABSTRACT_DESIGN_NOT_GROUNDED_"+re.sub(r"\W+","_",token))
+    # Check as numeric percentages: 78 and 78.0 are the same
+    # published percentage, despite JSON serialization of a terminal .0.
+    published_percentages = [
+        float(v) for v in re.findall(r"(?<![\d.])(\d+(?:\.\d+)?)\s*%", excerpt)
+    ]
     for key,val in perc.items():
-        # Exact percentages MUST exist within the published English abstract,
-        # not in a guessed model output, a related-paper sidebar or title.
-        pat=rf"(?<!\d){re.escape(str(val))}\s*%"
-        if re.search(pat,excerpt) is None:
+        if not any(abs(v-float(val))<1e-9 for v in published_percentages):
             raise ValueError("HOLD_EXPECTED_PUBLISHED_PERCENT_NOT_IN_ABSTRACT_"+key)
     return {"doi":reference["doi"],
             "public_source_verified":True,
