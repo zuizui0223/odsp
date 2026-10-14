@@ -112,6 +112,38 @@ def inspect(plan: dict, source_plan: dict, authentic_supp3_zip: bytes) -> dict:
             "population_behavior_or_species_preference_inferred": False,
         })
 
+    # FULLY DISTRIBUTION-FREE IN THE POOLED RELEASED COUNT TABLE:
+    # each recorded crepuscular event may be assigned to either night or
+    # non-night, even in a species-specific adversarial way. This yields
+    # an interval for the source-record NIGHT FRACTION only. It does NOT
+    # correct station composition, camera time-on, detector q or season.
+    twilight_bounds={}
+    for taxon in SPECIES:
+        c=counts[taxon]
+        total_n=sum(c[p] for p in CATEGORIES)
+        twilight_bounds[taxon]=(
+            c["nighttime"]/total_n,
+            (c["nighttime"]+c["crepuscular"])/total_n
+        )
+    source_rank_certificates=[]
+    for a,b in combinations(SPECIES,2):
+        alo,ahi=twilight_bounds[a]
+        blo,bhi=twilight_bounds[b]
+        if alo>bhi:
+            verdict="a_gt_b_FOR_EVERY_TWILIGHT_ASSIGNMENT"
+        elif blo>ahi:
+            verdict="b_gt_a_FOR_EVERY_TWILIGHT_ASSIGNMENT"
+        else:
+            verdict="OVERLAPPING_POOLED_TWILIGHT_REALLOCATION_INTERVALS"
+        source_rank_certificates.append({
+            "species_a":a,"species_b":b,"verdict":verdict,
+            "biological_significance_or_causation_estimated":False
+        })
+    water_lower,water_upper=twilight_bounds["Water deer"]
+    boar_lower,boar_upper=twilight_bounds["Wild boar"]
+    if not water_lower>boar_upper:
+        raise ValueError("HOLD_RECORDED_WATER_BOAR_ORDER_NOT_ROBUST")
+
     six = []
     for a, b in combinations(SPECIES, 2):
         day_twilight = _contrast(counts[a], counts[b],
@@ -191,6 +223,28 @@ def inspect(plan: dict, source_plan: dict, authentic_supp3_zip: bytes) -> dict:
         "analysis_stage": plan["stage"],
         "source_supplement_doi": plan["source_doi"],
         "four_species_all_three_parts":all_species,
+        "adversarial_civil_twilight_as_night_source_fraction_bounds":{
+            "definition":"Each species' civil-twilight detections may be reclassified individually as night or not-night; time category robustness of POOLED DETECTED EVENTS ONLY",
+            "per_taxon":[
+                {"species":sp,
+                 "night_share_lower_percent":round(100*twilight_bounds[sp][0],9),
+                 "night_share_upper_percent":round(100*twilight_bounds[sp][1],9)}
+                for sp in SPECIES
+            ],
+            "all_six_pairwise_partial_order_certificates":source_rank_certificates,
+            "water_deer_minus_wild_boar_difference_pp_bounds":[
+                round(100*(water_lower-boar_upper),9),
+                round(100*(water_upper-boar_lower),9)
+            ],
+            "water_deer_always_greater_than_all_three_other_taxa":
+                all(twilight_bounds["Water deer"][0]>twilight_bounds[s][1]
+                    for s in SPECIES if s!="Water deer"),
+            "wild_boar_always_less_than_all_three_other_taxa":
+                all(twilight_bounds["Wild boar"][1]<twilight_bounds[s][0]
+                    for s in SPECIES if s!="Wild boar"),
+            "perfect_camera_q_or_matched_site_hours_claimed":False,
+            "independent_station_ecology_or_original_41_pairs_claimed":False
+        },
         "all_six_unordered_species_pairs":six,
         "all_four_source_profiles_peak_in_civil_twilight_per_published_period_hour":
             all(p["highest_detected_rate_per_published_period_hour"]=="crepuscular"
