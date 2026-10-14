@@ -53,6 +53,12 @@ def test_spatial_first_and_clock_first_exact_decompositions_both_add():
                .904690412)<1e-8
     assert abs(s["fraction_of_joint_discrepancy_additional_after_adding_clock"]-
                .095309588)<1e-8
+    sym=x["symmetric_average_over_both_refinement_orders_NOT_CAUSAL"]
+    assert abs(sym["spatial_record_distribution_component_TV"]-.323409380)<1e-8
+    assert abs(sym["clock_record_distribution_component_TV"]-.061126374)<1e-8
+    assert abs(sym["spatial_fraction_of_joint_record_discrepancy"]-.841038517)<1e-8
+    assert abs(sym["clock_fraction_of_joint_record_discrepancy"]-.158961483)<1e-8
+    assert sym["different_numbers_of_site_and_clock_categories_NOT_CONTROLLED"]
 
 def test_temporal_overlap_loss_is_mainly_G19_not_M2_and_no_individual_CI():
     o=result()
