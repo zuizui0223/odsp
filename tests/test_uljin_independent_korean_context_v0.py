@@ -62,6 +62,15 @@ def test_identifies_nonuniversal_species_ordering_without_cross_study_p():
     assert a[3]["water_minus_boar_percentage_points"]==6.61
     assert out["reported_night_share_ordering_not_universal_across_contexts"]
     assert out["han_suburban_wild_boar_winter_night_percent"]==78.
+    habitat=out["bukhansan_within_study_forest_vs_wetland_night_share_pp"]
+    assert habitat["water_deer_wetland_minus_forest"]==13.37
+    assert habitat["wild_boar_wetland_minus_forest"]==6.18
+    assert habitat["difference_of_reported_differences"]==7.19
+    assert not habitat["statistical_significance_claimed"]
+    trail=out["han_within_study_day_share_near_far_trail_pp"]
+    assert trail["water_deer_far_minus_near"]==12.5
+    assert trail["wild_boar_far_minus_near"]==2.3
+    assert not trail["human_avoidance_causally_proven"]
     assert not out["cross_study_night_zone_definition_harmonized"]
     assert not out["between_study_difference_significance_claimed"]
     assert not out["landscape_causal_effect_estimated"]
