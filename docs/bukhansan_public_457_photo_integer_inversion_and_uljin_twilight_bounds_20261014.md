@@ -1,5 +1,8 @@
 # From 457 published wildlife photos to a *conditional* species × habitat × night table
 
+> **2026-10-14 primary-full-text correction — stronger source now available:** The author-uploaded original [Jeong et al. (2025) full-text PDF](https://doi.org/10.14397/jals.2025.59.5.111) contains **actual explicit** 58/141, 17/57, 22/52 and 18/92 daytime/nighttime group counts (Tables 3–4), together with full **11 camera × 24 hour** species tables (Tables 1–2). Thus the historical conditional integer-inversion proof below is retained as a mathematical exercise, but **its raw-count-identity uncertainty has been resolved by the full paper**; these four numbers need not be inferred from rounded percentages anymore. The hypothetical 7-unassigned-photo alternative is not a plausible ambiguity about what the authors printed. See the new [source-verified station-clock ecological results](https://github.com/zuizui0223/odsp/blob/ecology/uljin-matched-daylength-temporal-refuge-v0/docs/bukhansan_author_verified_11_camera_same_clock_ecology_v1.md). This does NOT provide original individual/photo sequences, independently verified hourly camera uptime or Uljin's fixed 41 date pairs.
+
+
 **Date:** 2026-10-14 (Asia/Tokyo)  
 **Route:** exploratory secondary mathematical reconstruction of published aggregate percentages, *not* original author event data and *not* original frozen Uljin 41 daylength pairs.  
 **Source:** Jeong SM, Shin KC, Kim EK (2025), *Journal of Agriculture & Life Science* 59(5), 111–118, DOI https://doi.org/10.14397/jals.2025.59.5.111, official KCI https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART003260212.
