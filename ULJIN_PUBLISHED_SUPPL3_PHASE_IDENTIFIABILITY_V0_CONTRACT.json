@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_published_supp3_three_part_phase_vs_camera_bias_v0",
+  "stage": "POST_PUBLICATION_EXPLORATORY_NOT_FROZEN_BEFORE_SOURCES",
+  "parent_pr": 264,
+  "upstream_source_contract": "uljin_published_supp3_whole_period_rate_signature_v0",
+  "source_doi": "10.3897/BDJ.14.e191556.suppl3",
+  "comparison_scope": "FOUR_SPECIES_ALL_SIX_PAIRS_THREE_PERIODS",
+  "anchor_species": [
+    "Water deer",
+    "Wild boar"
+  ],
+  "phase_categories": [
+    "daytime",
+    "crepuscular",
+    "nighttime"
+  ],
+  "ecological_questions": [
+    "Do the four observed pooled period-hour detection profiles all peak in civil twilight?",
+    "Does Water deer versus Wild boar whole-period night/day difference comprise a twilight/day and night/twilight contrast?",
+    "What hypothetical differential effective observation factor would erase the Water deer vs Wild boar pooled day/night contrast?",
+    "Could identical species phase distributions within unmeasured site groups generate all four observed pooled day/night fractions?"
+  ],
+  "models": {
+    "phase_decomposition": "(A_tw/A_day)/(B_tw/B_day) * (A_night/A_tw)/(B_night/B_tw) = (A_night/A_day)/(B_night/B_day)",
+    "detector_model": "R_detected = R_latent * ((q_A_night/q_A_day)/(q_B_night/q_B_day)) ONLY for matched exposure and homogeneous effective observation population",
+    "q_minmax_ratio_scenarios": [
+      1,
+      1.2,
+      1.5,
+      2,
+      2.25,
+      2.3,
+      2.5
+    ],
+    "q_latent_lower_bound_under_homogeneous_assumptions": "R_detected/(qmax/qmin)^2",
+    "q_boundary_to_equal_latent_ratio": "sqrt(R_detected)",
+    "site_mixture_counterexample": {
+      "group_A_common_night_probability": 0.75,
+      "group_B_common_night_probability": 0.15,
+      "formula": "p_species=(n_night/(n_night+n_day)) = w_species*p_A+(1-w_species)*p_B",
+      "interpretation": "Expected frequencies in TWO ABSTRACT STRATA, not known stations or empirical station memberships"
+    }
+  },
+  "source_guards": {
+    "original_2022_41_pairs_tested": false,
+    "physical_station_operation_hours_loaded": false,
+    "physical_station_identifiers_loaded": false,
+    "detector_q_measured": false,
+    "site_group_membership_measured": false,
+    "species_independent_station_cluster_CI_calculated": false,
+    "temporal_competition_measured": false,
+    "causal_time_refuge_effect_estimated": false,
+    "new_inferential_p_values_calculated": false,
+    "crepuscular_equals_original_H1_daylight_edge": false,
+    "camera_bias_bound_scenario_is_observed_calibration": false
+  },
+  "publication_claim_limit": "DESCRIPTIVE SOURCE_VERIFIED POOLED THREE_PHASE COUNTS + HYPOTHETICAL CAMERA_BIAS AND SITE_MIX NONIDENTIFICATION; NOT CAUSAL ECOLOGICAL DIFFERENTIATION"
+}
