@@ -69,3 +69,18 @@ def test_no_preregistered_or_solar_hour_operation_promotion():
     broken["analysis"]["selected_postpublication_equal_six_row_windows"]["19to24"]=[18,19,20,21,22,23]
     with pytest.raises(ValueError,match="CLOCK_WINDOW"):
         m.analyze(broken)
+
+
+def test_common_station_observed_clock_profile_vs_station_weights():
+    x=m.analyze(PLAN)
+    w=x["shared_site_symmetric_photo_composition_observation_only"]
+    assert w["number_of_both_species_clock_window_sites"]==7
+    assert abs(w["water_deer_late_photo_share_common_sites"]-.46835443)<1e-7
+    assert abs(w["boar_late_photo_share_common_sites"]-.384210526)<1e-7
+    assert abs(w["water_minus_boar_late_share_diff_pp"]-8.414390406)<1e-7
+    assert abs(w["within_camera_detected_time_profile_component_pp"]-10.220464754)<1e-7
+    assert abs(w["different_camera_weight_composition_component_pp"]-(-1.806074348))<1e-7
+    assert w["component_sum_identity_verified"]
+    assert w["conditional_on_posthoc_co_detected_sites"]
+    assert w["different_camera_weight_component_is_NOT_caused_by_species"]
+    assert not w["population_effect_or_true_activity_claimed"]
