@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "contract_id": "bukhansan_2025_published_camera_spatial_temporal_influence_v2",
+  "analysis_stage": "POST_PUBLICATION_EXPLORATORY_SITE_INFLUENCE_NOT_PRE_REGISTERED",
+  "parent_source_contract": "BUKHANSAN_PUBLISHED_SITE_HOUR_WINDOWS_V1_CONTRACT.json",
+  "origin_doi": "10.14397/jals.2025.59.5.111",
+  "source_grain": "author_2025_published_11_site_x_24_hour_tables_reduced_to_site_x_3_windows",
+  "analysis_species": [
+    "water_deer",
+    "wild_boar"
+  ],
+  "analysis_clock_windows": [
+    "01to06",
+    "19to24"
+  ],
+  "site_categories": [
+    "Forest",
+    "Wetland"
+  ],
+  "site_roster_immutable": [
+    "G1",
+    "G3",
+    "G4",
+    "G9",
+    "G12",
+    "G17",
+    "G19",
+    "G21",
+    "G22",
+    "M1",
+    "M2"
+  ],
+  "analyses": [
+    "number of cameras with source-positive records for each species and co-detected cameras",
+    "reported photographic event spatial overlap 1-0.5*sum|p_water_site-p_boar_site| and effective camera number 1/sum p_site^2",
+    "all 11 leave-one-published-camera-out MH detection odds ratios for 01to06 vs 19to24 at common sites, preserving four single-species cameras",
+    "all 11 leave-one-camera-out observed same-shared-site marginal differences in 01to06 share",
+    "all 11 leave-one-camera-out equal-shared-camera mean differences, with small source counts disclosed",
+    "contribution of site M2 to published site-stratified observed score, NOT population significance"
+  ],
+  "negative_controls": {
+    "original_raw_photo_sequence_available": false,
+    "independent_site_by_hour_operating_camera_hours_available": false,
+    "independent_animal_per_event_verified": false,
+    "site_sampling_independent_population_replicates_verified": false,
+    "camera_detection_q_measured": false,
+    "exact_date_specific_astronomical_phase_from_published_hour_bins": false,
+    "specimen_human_avoidance_or_competition_causally_identified": false,
+    "Uljin_41_photoperiod_matched_pairs_tested": false,
+    "frozen_original_ODSP_inference_reclassified": false,
+    "confidence_intervals_or_biological_p_values_claimed": false
+  },
+  "interpretation_ceiling": "Descriptive detected-event spatial camera concentration and in-camera clock-window direction stability, not independent animal activity or inferential ecology"
+}
