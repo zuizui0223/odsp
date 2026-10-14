@@ -67,3 +67,31 @@ Additional ecological specificity: water deer account for **61.3%** of their poo
 - Data-read-only checksum and privacy inspection: `scripts/inspect_uljin_published_supp3_aggregate_v0.py` with [CI 38492475055](https://github.com/zuizui0223/odsp/actions/runs/38492475055).
 - Verified source-to-contrast analysis: `ULJIN_PUBLISHED_SUPPL3_DAYPART_SIGNATURE_V0_CONTRACT.json`, `scripts/run_uljin_published_supp3_daypart_signatures_v0.py` and [CI 38492757442](https://github.com/zuizui0223/odsp/actions/runs/38492757442).
 - Original NIE EcoBank Source Version 1.1 **remains HOLD** in issue #265; only a genuine user-category and research-use-purpose declaration through the provider UI can complete the file acquisition. No bypass or fabricated declaration. Once authenticated raw data and operation are supplied, evaluate the **original fixed 41 paired dates** using the established camera-hour and station roster gates; never reclassify the post-publication analysis into that preregistered result.
+
+
+## Solar-time reparameterization of the same year-long events — independent SOURCE verification, not independent biological replication
+
+The journal's separately published Supplement 2 (https://doi.org/10.3897/BDJ.14.e191556.suppl2 ; https://zenodo.org/records/21319406) was obtained and checked against publisher-listed MD5 `466ae68374ea02803653883466bfe77d`. Its `EA02_Solar_Table_Delta_SolarTime.csv` contains the six Dhat4 **solar-time** overlap coefficients (B=1000 bootstrap for the original authors' confidence intervals), verified by [CI 38493040296](https://github.com/zuizui0223/odsp/actions/runs/38493040296). Its public ZIP SHA256 is `7eca5ad36d2baff80f8fc3d3cb55dae696d0bace62dcd42748b32727024d9bd9`—again **NOT** a checksum for the unretrieved original EcoBank Version 1.1 archive.
+
+For ecological comparison, the original article's **rounded** Table 4 clock-time Dhat4 estimates were frozen *post publication*, and all six pair identities compared to the verified Supplement 2 CSV through [CI 38493198473](https://github.com/zuizui0223/odsp/actions/runs/38493198473).
+
+| Species pair | Clock-time published Dhat4 (rounded) | Solar-time published Dhat4 | Solar minus rounded clock |
+|---|---:|---:|---:|
+| Goral–Roe deer | 0.840 | 0.819488 | −0.020512 |
+| Goral–Water deer | 0.811 | 0.765380 | −0.045620 |
+| Goral–Wild boar | 0.810 | 0.812238 | +0.002238 |
+| Roe deer–Water deer | 0.799 | 0.748830 | −0.050170 |
+| Roe deer–Wild boar | 0.757 | 0.752480 | −0.004520 |
+| **Water deer–Wild boar** | **0.653** | **0.633456** | **−0.019544** |
+
+**Two robust rank extrema as descriptive facts:** Among these six, the **least overlapping** pair remains Water deer–Wild boar, and the **most overlapping** remains Goral–Roe deer, both under local clock-time and the source's published astronomical solar-time reparameterization. Intermediate ordering is *not* all identical. The Water deer–Wild boar **solar-time bootstrap 95% interval** in the journal's Supplement 2 is **[0.59040,0.67480]**, while the originally published clock-time interval is **[0.609,0.692]**; these are NOT independent estimates, and overlapping confidence intervals are NOT a formal paired clock-vs-solar difference test.
+
+**Biological meaning:** The direction of the *relative detected temporal niche contrast* is not exclusively the product of a civil-clock label; after applying the authors' pooled year-long solar-time transformation, Water deer vs Wild boar is still the least-overlapping species pair. This supports the **descriptive robustness of the species-pair ranking to the time coordinate**, not temporal niche competition, equal-daylength seasonal allocation, physical camera detector q, or direct ecological mechanisms. Supplement 2 and Supplement 3 use the SAME source event population (not independent biological replication); their different response summaries are informative but do not jointly identify causal processes.
+
+Reproducible source reader: `scripts/inspect_uljin_published_supp2_solar_overlap_v0.py`; exact paired published-clock-vs-solar reader: `scripts/run_uljin_published_clock_solar_pair_extrema_v0.py`, with `ULJIN_PUBLISHED_CLOCK_SOLAR_PAIR_EXTREMA_V0_CONTRACT.json` and `tests/test_uljin_published_clock_solar_pair_extrema_v0.py`. Both CI runs **PASSED**. The original 41 date pairs and authenticated original operation-log route remain untouched and on **SOURCE HOLD**.
+
+### Warranted current publication-level result statement
+
+> In the 2026 published Uljin pooled event dataset, water deer displayed 2.156-fold nighttime relative to daytime detections per published period-duration hour, while wild boar displayed 0.413-fold, corresponding to a 5.22-fold species contrast in night/day detected-time profiles. Water deer and wild boar also retained the lowest annual detected-time overlap among the four ungulates after published photoperiod adjustment (clock Δ4=0.653; solar Δ4=0.633). This is a descriptive ecological differentiation of observed times, not an independently replicated or causally explained behavioral response.
+
+New work beyond the paper is the **source-audited, all-six-pair whole-period night/day contrast computation**, not an original raw-data site-season result. The paper itself already published period-normalized rates and separate overlap estimates. A genuinely new **seasonal** result still requires original station×hour EcoBank inputs.
