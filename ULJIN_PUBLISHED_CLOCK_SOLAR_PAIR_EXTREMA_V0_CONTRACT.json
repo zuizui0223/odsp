@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "stage": "POST_PUBLICATION_COMPARISON_TWO_ANALYSES_SAME_EVENTS_NOT_INDEPENDENT_REPLICATION",
+  "scientific_target": "Does the identity of the highest/lowest year-long species-pair overlap persist when local clock time is photoperiod-adjusted?",
+  "article_doi": "10.3897/BDJ.14.e191556",
+  "solar_supp2_doi": "10.3897/BDJ.14.e191556.suppl2",
+  "zenodo_supp2_publisher_md5": "466ae68374ea02803653883466bfe77d",
+  "clock_table4_three_decimal": [
+    {
+      "a": "Long-tailed goral",
+      "b": "Siberian roe deer",
+      "delta": 0.84
+    },
+    {
+      "a": "Long-tailed goral",
+      "b": "Water deer",
+      "delta": 0.811
+    },
+    {
+      "a": "Long-tailed goral",
+      "b": "Wild boar",
+      "delta": 0.81
+    },
+    {
+      "a": "Siberian roe deer",
+      "b": "Water deer",
+      "delta": 0.799
+    },
+    {
+      "a": "Siberian roe deer",
+      "b": "Wild boar",
+      "delta": 0.757
+    },
+    {
+      "a": "Water deer",
+      "b": "Wild boar",
+      "delta": 0.653
+    }
+  ],
+  "uncertainty_claims": {
+    "independent_observation_sets": false,
+    "paired_delta_difference_ci_available": false,
+    "original_2022_mirror_dates_analyzed": false,
+    "reported_bootstrap_CI_comparisons_are_not_difference_tests": true
+  },
+  "inferential_new_p_values_permitted": false,
+  "biological_conclusion_max": "Published whole-period detected clock-time KDE pairwise overlap extremes persist after published solar-time reparameterization; not seasonal or causal"
+}
