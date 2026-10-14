@@ -81,9 +81,8 @@ def test_leave_one_camera_diagnostics_identify_one_site_dependence_without_erasi
 def test_wrong_source_margins_fail_before_ecological_output():
     changed=json.loads(json.dumps(SOURCE))
     changed["derived_publication_site_six_hour_window_counts"][10]["water_deer"]["01to06"]+=1
-    with pytest.raises(ValueError,match="SOURCE_SITE_HOUR_MARGINS"):
-        result_changed=m.analyze(PLAN,changed)
-    assert "result_changed" not in locals()
+    with pytest.raises(ValueError,match="HOLD_SITE_HOUR_MARGINS_DISAGREE"):
+        m.analyze(PLAN,changed)
 
 def test_cannot_relabel_nonindependent_record_contrast_as_real_animal_effect():
     changed=json.loads(json.dumps(PLAN))
