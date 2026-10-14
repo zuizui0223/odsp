@@ -1,0 +1,30 @@
+name: bukhansan-published-457-photo-inverse-ecology-v0
+
+on:
+  push:
+    branches: [ecology/uljin-matched-daylength-temporal-refuge-v0]
+    paths:
+      - 'BUKHANSAN_PUBLISHED_INTEGER_RECONSTRUCTION_V0_CONTRACT.json'
+      - 'scripts/run_bukhansan_2025_public_integer_reconstruction_v0.py'
+      - 'tests/test_bukhansan_2025_public_integer_reconstruction_v0.py'
+      - '.github/workflows/bukhansan-published-inverse-ecology-v0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-grounded-conditional-photo-partition-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install tests
+        run: python -m pip install pytest
+      - name: Check exhaustive rounded-percent inversion, photo mix decomposition and source-guard tests
+        run: python -m pytest -q tests/test_bukhansan_2025_public_integer_reconstruction_v0.py
+      - name: Fetch original KCI public abstract and check exact 457-photo published percentage constraints
+        run: python scripts/run_bukhansan_2025_public_integer_reconstruction_v0.py
