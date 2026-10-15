@@ -1,0 +1,62 @@
+{
+  "contract_id": "serengeti_photo_climate_site_date_alignment_exploratory_v0",
+  "frozen_on": "2026-10-15",
+  "sequencing_note": "This v0 is frozen AFTER both source pooled animal photo odds and external ERA5 522-day seasonal environment result were already inspected. Therefore it is a diagnostic exploratory alignment, never a confirmatory test or independently hidden replication.",
+  "question": "Do source-admissible matched-photoperiod camera date pairs represent the same regional weather contrast as all astronomical candidate pairs? Across three calendar cycles, do yearly descriptive photo-time changes agree with a simplistic warmer-falling-branch heat-avoidance account?",
+  "animal_source": {
+    "provenance": "Snapshot Serengeti original consensus 2010–2013",
+    "consensus_md5": "5ed2d32fd09127c178cf9dca8ccfd623",
+    "effort_md5": "27cb42f3feaa0642b17cbde24ba15fbd",
+    "original_script": "scripts/run_serengeti_source_recorded_solar_season_v0.py",
+    "original_frozen_first_result_sha256": "0b70f7425d8ade2489a989bebc7b22fda997d82b2190e5e7d3c5d6f83ee71ef3",
+    "original_first_verification": {
+      "scored_photo_records": 38792,
+      "matched_site_date_pairs": 24290,
+      "source_taxon_labels": 43,
+      "physical_sites": 186
+    },
+    "original_first_run": "https://github.com/zuizui0223/odsp/actions/runs/38677521888",
+    "preserve_all_original_tags_and_other_branches": true
+  },
+  "environment_source": {
+    "model": "ERA5",
+    "provider": "Open-Meteo public historical archive",
+    "lat": -2.5,
+    "lon": 34.75,
+    "scope": "ONE regional coarse public representative cell, not physical camera locations",
+    "source_daily_arrays_sha256": "aaa93eec1ac0fab3315bfc712020970746d47cd1d407b8a7778243b2f627bee7",
+    "original_independent_weather_run": "https://github.com/zuizui0223/odsp/actions/runs/38699783443",
+    "source_script": "scripts/run_serengeti_era5_environment_v0.py",
+    "weather_days": "2010-01-01 through 2013-06-30",
+    "missing_or_checksum_mismatch": "HOLD"
+  },
+  "strict_join": {
+    "solstice_years": [
+      2010,
+      2011,
+      2012
+    ],
+    "daylength_source": "Original photo-site NOAA latitude/longitude and original December 21 ±k roster; <=1-minute paired astronomical daylength.",
+    "original_eligible_source_photo_date_pairs_not_retuned": true,
+    "weather_included_only_for_same_exact_local_dates": true,
+    "daylight_solar_zone": "Original central 50% day vs two edge 25% day, and outside sunrise/sunset night",
+    "q_and_true_hardware_uptime": "UNAVAILABLE; do NOT interpret as measured activity or per-camera-hour rate"
+  },
+  "result_targets": [
+    "Reproduce original first frozen photo result full 43-taxonomy, 24,290 site-date pairs and 38,792 source photo records before using the new alignment.",
+    "For each of three original December solstice cycles: number of eligible site-date-pairs and independent physical sites; number of paired days whose weather data are present.",
+    "Compute mean falling-minus-rising ERA5 regional T2m maximum and trailing 30-day precipitation difference across ACTUAL original eligible site×date pairs, with literal replication weighted by sites as descriptive observation support; do not treat pairs as independent climate samples.",
+    "For every original detected source taxon, output branch-zone source photo counts and site-stratified Mantel-Haenszel descriptive odds edge/core and night/day per cycle, undefined odds remain undefined, zeros retained.",
+    "Leave everything as descriptive, do not calculate inferential p values or a 3-year regression.",
+    "Display five prespecified-after-previous-results focal source labels: spotted hyena, lion female, zebra, buffalo, Thomson's gazelle. The exact source names are hyenaSpotted, lionFemale, zebra, buffalo, gazelleThomsons. Retain ALL source taxon labels in JSON."
+  ],
+  "hard_limits": [
+    "Source operational support is inferred only from first/last valid SD card photos, not true device on/off zone hours.",
+    "Site-specific detection q or independent true animal passages not known.",
+    "Climate single spatial cell and at most three cycles cannot estimate a population environmental slope or causal heat response.",
+    "Source site/date mirror weather and photo records are observational and do not establish endogenous photoperiod memory.",
+    "Previous pooled photo OR results remain frozen; no adjustment rescues or retroactively confirms them.",
+    "No exact source camera location, station ID, raw photo timestamp or per-station climate value in exported artifacts.",
+    "Year-cycles are NOT independent landscape replications and 24,290 pairs are not independent weather replicates."
+  ]
+}
