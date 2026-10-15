@@ -1,0 +1,60 @@
+{
+  "id": "SERENGETI_SITE_MODIS_NDVI_PHOTO_REWEIGHT_V0_EXPLORATORY",
+  "freeze_date": "2026-10-15",
+  "provenance_sequencing": "Previously pooled and annual animal PHOTO results and ONE regional-area MODIS 522-pair NDVI result were opened. Source camera-specific MODIS pixels and their association with camera-photo reweighting have not been computed. This is exploratory, not a prospectively untouched dataset or causal design.",
+  "source_pins": {
+    "original_animal_consensus_md5": "5ed2d32fd09127c178cf9dca8ccfd623",
+    "original_camera_valid_date_md5": "27cb42f3feaa0642b17cbde24ba15fbd",
+    "original_source_photo_result_sha256": "0b70f7425d8ade2489a989bebc7b22fda997d82b2190e5e7d3c5d6f83ee71ef3",
+    "original_matched_camera_photos": 38792,
+    "original_matched_site_date_pairs": 24290,
+    "original_observation_sites": 186,
+    "first_MODIS_83scene_source_receipt_sha256": "e0e3c57de8d6a3ab9996412886e9733ea572cf9989f88a68b5c3ac5fb5557f11",
+    "first_MODIS_83scene_source_CI": "https://github.com/zuizui0223/odsp/actions/runs/38742381644",
+    "first_MODIS_83_scene_count": 83,
+    "regional_scene_QA_good_count": 75,
+    "source": "Microsoft Planetary Computer public STAC collection modis-13Q1-061; only MOD13Q1 Terra V061 16-day 250m NDVI",
+    "product_doi": "10.5067/MODIS/MOD13Q1.061"
+  },
+  "spatial": {
+    "source_site_coords": "Use original source-public normalized UTM camera locations privately inside ephemeral GitHub runner. Output ONLY aggregate counts and taxon/year correlations: NEVER exact camera ID, site coordinates or pixel location.",
+    "satellite_grid": "NASA MODIS sinusoidal tiled 250m H21V09 covering public original 1,125km2 Serengeti camera region; if fewer than 80% of original 186 supported source cameras fall within tile, fail HOLD; no pretending other tiles are sampled",
+    "pixel": "At each camera source coordinate sample centered 3x3 250m pixels, primary QA=0 good only, at least 6 pixels raw NDVI in [-2000,10000] times 0.0001",
+    "source_original_public_site_GPS_reported": false,
+    "NDVI_not_grass_biomass_and_camera_placement_prefers_trees": true
+  },
+  "date_calendar": {
+    "original_camera_date_pairs": "Exactly the already frozen 24,290 camera-specific photoperiod <=1 minute paired source dates, 2010-2012 December21±k where k=7..180. Original same-site date set MUST replay before NDVI analysis.",
+    "ndvi_composite": "Latest completed original 16-day Terra composite with end date <= source photograph calendar day, lag <=20 days; if latest scene QA fails do not reach back further.",
+    "pair_NDVI": "Only include original camera/daylight pair if its site-pixel NDVI has >=6 good pixels on BOTH rising and falling date-aligned composites.",
+    "sitecycle_NDVI": "For each camera×year, mean of all paired falling-rising NDVI deltas; require >=10 valid source datepairs AND valid fraction >=60% of the original astronomy-pair roster (else siteyear insufficient).",
+    "photo_source": "Within this NEW NDVI-qualified paired date set only, separately count previous 30-min deduped source photographed events at EXACT same physical camera × year × rising/falling seasonal branch; preserve zero records.",
+    "species": [
+      "zebra",
+      "wildebeest",
+      "buffalo",
+      "gazelleThomsons",
+      "hyenaSpotted"
+    ],
+    "site_taxon_admission": "For observational correlations, require >=5 photo records for each focal species on BOTH NDVI-qualified branches at each same camera×cycle; leave others as no source event support (never add pseudo-counts).",
+    "year_support": "At least 15 qualifying individual physical camera IDs and >=50% of source same-year photographed observations retained on NDVI-qualified roster before showing descriptive correlation for a taxon/cycle.",
+    "full_original_species_preservation": "Original first output all 43 species labels and all 38,792 total source matched photos MUST be reproduced/verified before any five-taxon new matched-NDVI analysis. Only five previously named focal labels receive exploratory NDVI association summaries, cannot relabel as all-mammal confirmatory."
+  },
+  "estimands": {
+    "independent_covariate": "Camera×calendar-cycle local satellite source NDVI delta falling minus rising on only quality-qualified matched astronomy day pairs.",
+    "photo_reweight_outcome": "Camera×cycle natural log of (falling matched NDVI-date photo count/rising matched NDVI-date photo count), both >=5, same number matched calendar dates per branch; not actual animal presence/migration or exposure rate.",
+    "within_camera_time_outcome": "Camera×cycle falling night-photo fraction minus rising night-photo fraction on NDVI-quality date matched photos; not latent animal night activity.",
+    "descriptive_correlations": "Spearman rank correlation for each covariate-outcome in each of three cycles and each of five prelisted taxa, no animal event p-values or region-generalized inference.",
+    "robustness": "Leave-one-physical-camera-out min/max of Spearman rho, not confidence interval, undefined for insufficient sites or zero variability.",
+    "numeric_null_coverage": "If NDVI QA or source camera-day data fail inclusion, output exact support counts and UNAVAILABLE rather than imputing environmental predictors or broadening site/taxon/time windows.",
+    "no_output_per_camera_NDVI": true
+  },
+  "required_negative_controls": [
+    "Check every MODIS scene id, start/end, regional first-probe QA and median against FIRST hash-pinned original 83-scene JSON before reading focal-site pixels; if difference, fail hold.",
+    "Preserve original 186-source-camera and 24,290 paired calendar count; do not change original dated animal results or previous photo W/B decomposition.",
+    "Check 16-day observation age <=20 days and never substitute future composite for missing true satellite imagery.",
+    "Original source photo rows and vegetation pixel NDVI are not independent latent animal passage records; camera-hours, model/flash, day zone q unknown.",
+    "Report all five taxa and all three cycles including zeros/unavailable/mixed signs; do not select best species by correlation magnitude."
+  ],
+  "claim_ceiling": "Study uses one savanna landscape and physical-camera sites that were selected for photos and detector placement; satellite NDVI at 250m includes woody foliage and is not forage biomass. Even positive NDVI/photo correlation cannot identify movement or mechanism without independently verified device on-hours, q and movement data. No p-values, cross-biome universality, causal rainfall→NDVI→animal mediation."
+}
