@@ -1,0 +1,63 @@
+{
+  "contract_id": "serengeti_equal_daylength_detected_event_clock_v0",
+  "frozen_date": "2026-10-15",
+  "preregistration_status": "new outcome-specific exploratory freeze, after site/date only preflight and old N2 temporal results; NOT a prospective untouched-dataset validation",
+  "source": {
+    "consensus_url": "https://zenodo.org/records/5026386/files/consensus_data.csv?download=1",
+    "consensus_md5": "5ed2d32fd09127c178cf9dca8ccfd623",
+    "effort_url": "https://zenodo.org/records/5026386/files/search_effort.csv?download=1",
+    "effort_md5": "27cb42f3feaa0642b17cbde24ba15fbd",
+    "timezone": "Africa/Dar_es_Salaam (fixed UTC+03:00, no DST)",
+    "site_coordinates": "LocationX/LocationY, source Arc1960 UTM zone 36S EPSG:21036 transformed to WGS84 via pyproj; never display original or derived exact station coordinates",
+    "camera_operation_limitation": "search_effort first/last valid SD-card photo date only. NO independently attested hour-level operation and q. Report camera recorded conditional event time only."
+  },
+  "source_roster_preflight": {
+    "site_count": 225,
+    "candidate_site_day_mirror_pairs": 25016,
+    "sites_with_20_or_more_pairs_in_a_solstice_cycle": 186,
+    "site_cycles_with_any_pair": 448,
+    "solstice_mirror_rule": "For each Dec21 solstice year y, pair dates December21-k and December21+k, integer k in [7,180], within same physical SiteID original merged valid-photo date interval. Only eligible site-cycle with >=20 such date pairs enters all taxon outcome analyses.",
+    "daylength_difference_tolerance_minutes": 1,
+    "eligibility_independent_of_animal_detection": true
+  },
+  "preprocessing": {
+    "species_certainty_votes_ratio_min": 0.8,
+    "source_datetime_field": "DateTime",
+    "source_physical_site_field": "SiteID",
+    "excluded_species_tokens": [
+      "human",
+      "birdother",
+      "otherbird",
+      "reptiles",
+      "reptile",
+      "rodents",
+      "rodent"
+    ],
+    "deduplicate_minutes": 30,
+    "deduplicate_before_mirror_day_membership": true,
+    "source_event_time_basis": "Tanzania local civil time UTC+3; solar geometry based on year+date+site position, not fixed civil bins",
+    "sunrise_sunset": "NOAA fractional-year declination, equation-of-time, upper limb/refraction 90.833 degrees; solar phase splits true sunrise-sunset day into central 50% core and combined first/last 25% edge; outside sunrise-sunset night",
+    "invalid_or_conflicting_station_coordinates": "Fail closed for the station (never infer protected coordinates); if <80% of 186 structurally eligible sites have coordinate support, HOLD source outcome",
+    "daylength_mismatch": "qualifying site/day pair must have |daylength_up-daylength_down| <=1.0 minute from site coordinates; does not re-pair for favorable animal outcomes"
+  },
+  "endpoints": {
+    "primary": "Source-observed time-of-recording for each species, site, solstice-cycle, branch and solar zone, counts all including zeros; no behavioral activity-time interpretation.",
+    "contrasts": [
+      "falling-versus-rising descriptive odds ratio of edge vs core among recorded daylight events",
+      "falling-versus-rising descriptive odds ratio of night vs whole daylight among camera-recorded events"
+    ],
+    "site_conditioned": "Mantel-Haenszel observed odds ratio stratified by physical site x solstice cycle, no event-independent p-value",
+    "robustness": "leave-one-physical-site-out range of site-conditioned observed odds ratios, retaining all prequalified source sites",
+    "taxon_reporting": "all observed species with their branch-zone counts and undefined OR when cells/denominators zero; display flag if >=100 records in each branch and >=10 source site-cycles with detections on both branches, but do not drop others",
+    "negative_outcomes_retained": true
+  },
+  "interpretational_ceiling": [
+    "ONE ecological landscape (Serengeti), 225 stations not 225 independently sampled regions.",
+    "Annual rainfall migration, vegetation and camera q may vary strongly between matched solar-date branches.",
+    "No independent station x date x solar-zone camera ON-hours, no direct passage q reference.",
+    "Thus neither true latent daily animal activity, seasonal memory, sun causality, thermal refuge nor global multi-biome generality is identifiable.",
+    "Site-stratified detection time odds are descriptive, not a valid inter-animal p-value or fixed-effect causal estimate.",
+    "Original N2 17-species result remains frozen; this is a separate post-N2 exploratory study and cannot replace that endpoint."
+  ],
+  "decision_rule": "Report all source counts, effect signs, undefined quantities, jackknife ranges and admissibility limits; do not tune bin boundaries, dates, species thresholds or fit method after outcomes. If missing source or geometry, HOLD rather than substitute."
+}
