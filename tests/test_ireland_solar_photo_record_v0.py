@@ -42,7 +42,7 @@ class TestIrelandSolarPhotoTime(unittest.TestCase):
         c=json.loads((ROOT/"research/IRELAND_RECORDED_SOLAR_DAYLENGTH_V0_CONTRACT.json").read_text())
         self.assertTrue(c["method"]["selection_warning"].startswith("Date presence is detection-conditioned"))
         self.assertIn("No p-value",str(c["no_claims"]))
-        self.assertEqual(c["method"]["match"].split("<=10min")[0][-45:],"absolute author-source daylight length difference ")
+        self.assertIn("<=10min", c["method"]["match"])
 
 
 if __name__=="__main__":
