@@ -2,6 +2,10 @@
 
 **2026-10-15 | Post-publication ecological analysis | ODSP PR #264 (Draft)**
 
+> **2026-10-15 multi-scale follow-up (v6):** The original 11-camera detected species distributions show habitat-level TV **0.326764**, site-level TV **0.347886**, and joint site×clock TV **0.384536**. Thus **93.93% of full-camera spatial recorded mismatch** is visible by forest/wetland grouping alone. But **removing only M2** (and renormalizing Water N=92, Boar N=224) reduces that habitat-visible share to **24.87%**, with within-habitat site mismatch now dominant. The original full-network extra habitat→camera mismatch **0.021122** comes **entirely from forest camera G19**, not from wetland. These are exact order-dependent detection-record identities, not causal niche partition. See [v6 Results](https://github.com/zuizui0223/odsp/blob/ecology/uljin-matched-daylength-temporal-refuge-v0/docs/bukhansan_nested_habitat_micro_site_clock_ecology_20261015.md) and [dedicated six-test CI 38674113573](https://github.com/zuizui0223/odsp/actions/runs/38674113573).
+
+
+
 ## Biological question
 
 In Jeong, Shin & Kim (2025), Water Deer (*Hydropotes inermis*) and Wild Boar (*Sus scrofa*) were recorded at nine **forest** and two **wetland** cameras. Is the stronger pooled Water-deer representation in the wetland category a repeatable signal from the **two separate wetland cameras**, or is it mainly a concentration of source records at one particular location?
