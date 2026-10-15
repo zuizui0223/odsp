@@ -1,5 +1,8 @@
 # Bukhansan: does co-detection in space lead to divergence in detection time?
 
+> **2026-10-15 exact-null follow-through: The apparent additional camera-conditioned clock discrepancy of **0.036649944** is **NOT unusually large** under an EXACT conditional photographic-record species-label allocation null that fixes each source camera's species totals and combined three-bin counts. The mathematically exact null mean is **0.041139977**, with exact one-sided tail **0.569788726301** and central reference interval **[0.011825,0.079412]**. Even source-selected G19 has only an unadjusted conditional local tail **0.12537**. Thus **the v3 overlap-decomposition is a descriptive accounting identity, NOT positive evidence of within-camera time partition**. These reference probabilities are not valid animal-level significance tests without independent photos, q and camera on-time; no original 2022 Uljin date-pair source has been admitted. See the [v4 exact observational null report](https://github.com/zuizui0223/odsp/blob/ecology/uljin-matched-daylength-temporal-refuge-v0/docs/bukhansan_exact_camera_conditional_time_null_ecology_20261015.md) and [successful exact-null CI](https://github.com/zuizui0223/odsp/actions/runs/38662204765).
+
+
 **2026-10-15 | Source-verified post-publication ecological reanalysis | ODSP PR #264**
 
 ## Biological question
