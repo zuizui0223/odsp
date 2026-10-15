@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_four_ungulates_equal_daylength_temporal_refuge_ecology_v0",
+  "stage": "BIOLOGICAL_QUESTIONS_FROZEN_BEFORE_REAL_EVENT_AND_HOURLY_OPERATION_SOURCE_ADMISSION",
+  "parent_methods_pr": 263,
+  "explicit_pivot": "The biological inferential target is NOT which astronomical time transform has the best logscore. It is whether detected time-use niches shift between early and late growing season at matched DAYLENGTH, and whether species redistribute toward daylight edges or into nighttime with shared or divergent directions.",
+  "correct_calendar": {
+    "year": 2022,
+    "original_41_unchanged_mirror_pairs": true,
+    "early_growing_season_window": [
+      "2022-05-01",
+      "2022-06-10"
+    ],
+    "late_growing_season_window": [
+      "2022-07-01",
+      "2022-08-31"
+    ],
+    "forbidden_mislabel": "DO NOT call these pairs spring versus autumn. They are rising daylength in late spring/early summer versus falling daylength in midsummer.",
+    "calendar_source": "ULJIN_PHOTOPERIOD_MIRROR_2022_V0_DESIGN_CONTRACT.json",
+    "original_published_data_event_range": [
+      "2022-05-01",
+      "2023-05-22"
+    ],
+    "public_solar_geometry_context_only": {
+      "latitude": 36.85,
+      "longitude": 129.2,
+      "utc_offset_hours": 9
+    }
+  },
+  "ecological_question": "Given nearly equal daylight length at a physically fixed camera station, do the four sympatric ungulates allocate their detectable daily activity differently between the cooler early growing-season and the later summer period? Is the change common among species or ecologically divergent?",
+  "species_predeclared": [
+    "Goral",
+    "Water deer",
+    "Roe deer",
+    "Wild boar"
+  ],
+  "biological_mechanism_contrasts": [
+    {
+      "id": "H0_phase_invariance",
+      "prediction": "After matching daylength and accounting for station and hourly camera exposure, relative core-daylight, daylight-edge, and night detection intensities remain unchanged by rising/falling daylength branch within each taxon.",
+      "falsifier": "Supported branch×time-zone rate differences in heldout site replication."
+    },
+    {
+      "id": "H1_daylight_edge_refuge",
+      "prediction": "Later summer redistributes detected daytime encounters from central daylight toward dawn/dusk-adjacent daylight, without necessarily increasing night; core-vs-edge log-rate ratio decreases.",
+      "corollary": "If measured daily heat is a plausible proximate driver, predicted change is stronger on hotter date pairs AFTER matched daylength. This is an association, NOT evidence of thermoregulatory cause.",
+      "falsifier": "Core-to-edge odds are stable or increase, with enough independent source-qualified opportunity support."
+    },
+    {
+      "id": "H2_night_refuge",
+      "prediction": "Later summer redistributes detected encounters from daylight to night; night-to-all-daylight rate ratio increases, not merely core-to-edge redistribution.",
+      "falsifier": "Night-to-daylight rate stays stable while core-to-edge changes, with source-qualified effort."
+    },
+    {
+      "id": "H3_species_specific_temporal_reassembly",
+      "prediction": "Species show heterogeneous sign and/or magnitude of changes in the above two orthogonal ecological responses even when compared at the same camera station/date pairs; an overall pooled ungulate rhythm is inadequate.",
+      "falsifier": "Species×branch×temporal-zone interaction near zero with sufficiently precise independent-site validation.",
+      "limit": "Heterogeneous species responses are not proof of interspecific competition, because detection alone cannot identify interaction or individual resource payoff."
+    }
+  ],
+  "zone_definitions": {
+    "solar_daylight_core": "Central HALF of sunrise-to-sunset daylight, [sunrise+0.25*daylength,sunrise+0.75*daylength), i.e. solar-phase 09:00–15:00.",
+    "solar_daylight_edge": "Remaining TWO daylight quarters, [sunrise,sunrise+0.25*daylength) U [sunrise+0.75*daylength,sunset).",
+    "solar_night": "Outside sunrise-to-sunset, excludes nothing else; solar noon computed from publicly reported generalized site coordinates and SOURCE date only.",
+    "equal_daytime_zone_duration": "When a camera operates throughout all daylight, daylight core and combined daylight edges have equal hours for each DATE, avoiding a trivial difference from category duration.",
+    "time_basis": "All animal events retain original local Asia/Seoul civil timestamps. Solar boundaries are only externally computed labels, not separate fitted response spaces."
+  },
+  "primary_ecological_estimands": [
+    {
+      "symbol": "D_core_edge_species",
+      "definition": "Within physical site and matched daylength-date pairs, the early-vs-late change in log(EFFORT-adjusted daylight-core detections / daylight-edge detections) for each species, with site fixed effects and all eligible zero-event operation cells retained.",
+      "interpretation": "Conditional detected temporal refuge allocation, not true latent activity without independent detector q calibration."
+    },
+    {
+      "symbol": "D_night_day_species",
+      "definition": "The early-vs-late change in log(EFFORT-adjusted night detections / total daylight detections) for each species.",
+      "interpretation": "Distinguish partial daytime-edge retreat from whole-night allocation."
+    },
+    {
+      "symbol": "species_x_branch_x_zone",
+      "definition": "Differential branch effect of four declared taxa across core/edge/night categories under the same original station/time effort frame.",
+      "interpretation": "Evidence of differential temporal niche reassembly; no mechanistic proof of competition or endogenous circadian change."
+    }
+  ],
+  "ecological_controls": {
+    "site_composition": "Use identical physically deployed camera station roster for both branches; do not compare species-specific site subsets selected on having positive event detections.",
+    "human_context": "Public annual station frequency_of_people can be used ONLY as exploratory between-site context, not as hour-of-day human activity or causal human avoidance.",
+    "thermal_context": "Use a single externally defined hourly/daily temperature dataset and unaltered extraction rule if supplied; absent independent temperature data, call the result matched-daylength seasonal history, not thermal causation.",
+    "solar_context": "Allow small actual sunrise/sunset and equation-of-time differences; classify zones by actual date and the PUBLIC site-level representative astronomical geometry, not invented station GPS.",
+    "two_regions": "UJ1 and UJ2 are only 2 landscapes. Never generalize an estimated random landscape variance or independent 82-region inference.",
+    "temporal_overlap": "Species-pair kernel overlap is a SECONDARY descriptive consequence of marginal densities, not independent proof of competition or causal interaction.",
+    "source_q": "All detector-q and independent operation-log issues found in prior ODSP methods remain HOLD for latent biological activity; detected-event zone patterns can only be source-admitted after verifying actual operating HOURS."
+  },
+  "real_data_admission": {
+    "required_original_members": [
+      "01_core_data/cameratrap_event_records.csv",
+      "01_core_data/camera_operation_log.csv",
+      "01_core_data/site_covariates_public.csv"
+    ],
+    "first_data_gate": "Compute species×branch×clock-zone detectable events and source-audited operational HOURS for all 41 calendar pairs, WITHOUT altering pairs after looking at events.",
+    "event_timestamp_fields": [
+      "Station",
+      "Species",
+      "Date",
+      "Time"
+    ],
+    "source_operational_hour_precision_required": true,
+    "station_operation_timestamps_must_be_original_source_verified": true,
+    "if_only_functional_nights_or_station_season_effort": "HOLD_NO_HOURLY_OPERATION_DURATION; can report timestamp-only exploratory distributions but NO effort-adjusted ecological intensity result.",
+    "source_only_site_geometry": "Use generalized representative site coordinates, not protected camera location; flag geographic uncertainty in solar bounds.",
+    "source_q_unmeasured": "NO_LATENT_ACTIVITY_OR_CAUSAL_ZEITGEBER_CERTIFICATION",
+    "minimum_descriptive_support": "Report original 4 species regardless of n. Mark each species as LOW_SUPPORT if fewer than 30 independent events in EITHER branch or fewer than 8 physical stations with independently logged positive operation hours in BOTH branches. Threshold is an exploration/display guard, NOT proof of power.",
+    "no_event_based_pair_or_species_filtering": true,
+    "claim_tiers": [
+      "CALENDAR_ONLY_NO_REAL_ECOLOGY",
+      "SOURCE_TIMESTAMP_DESCRIPTIVE_ONLY",
+      "SOURCE_OPERATION_HOURS_ADMITTED_DETECTED_TIME_NICHE",
+      "INDEPENDENT_DETECTOR_Q_AND_SITE_INFERENCE_REQUIRED_FOR_LATENT_BEHAVIOR"
+    ]
+  },
+  "novelty_guard": {
+    "recent_same_diel_ungulate_activity_and_cold_warm_overlaps_published": true,
+    "marginal_overlap_not_novel_enough": true,
+    "ecologically_distinct_test": "Matched DAYLENGTH paired dates plus response-mechanism partition (core-to-edge vs daylight-to-night) and four species interactions at unchanged physical camera locations.",
+    "not_proof_of_temporal_coexistence": true,
+    "not_an_original_real_ungulate_finding_yet": true
+  },
+  "never_change": [
+    "Frozen 41 date pairs and sunrise calculation, all prior 5 model families and qualified ODSP source inference remain untouched.",
+    "Do not report real ecological observations until original EcoBank v1.1 event/operation source file provenance and exact deployment-time support established.",
+    "Do not present prior artificial 96-bin detector-calibration positive outcomes as a biological activity discovery.",
+    "Do not use source calendar 'spring-autumn' terminology for May/June versus July/August.",
+    "Do not change hypothesis sign or split category definitions after inspecting real event results."
+  ]
+}

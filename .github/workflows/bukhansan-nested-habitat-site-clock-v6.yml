@@ -1,0 +1,30 @@
+name: bukhansan-nested-habitat-site-clock-ecology-v6
+
+on:
+  push:
+    branches: [ecology/uljin-matched-daylength-temporal-refuge-v0]
+    paths:
+      - 'BUKHANSAN_NESTED_HABITAT_SITE_CLOCK_V6_CONTRACT.json'
+      - 'scripts/run_bukhansan_published_nested_habitat_site_clock_v6.py'
+      - 'tests/test_bukhansan_published_nested_habitat_site_clock_v6.py'
+      - '.github/workflows/bukhansan-nested-habitat-site-clock-v6.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  true-published-source-multi-scale-observation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install minimal test tools
+        run: python -m pip install pytest
+      - name: Check true published author margins, nested TV and all 11 camera deletion controls
+        run: python -m pytest -q tests/test_bukhansan_published_nested_habitat_site_clock_v6.py
+      - name: Independently reproduce real recorded habitat then camera then clock scale identity
+        run: python scripts/run_bukhansan_published_nested_habitat_site_clock_v6.py

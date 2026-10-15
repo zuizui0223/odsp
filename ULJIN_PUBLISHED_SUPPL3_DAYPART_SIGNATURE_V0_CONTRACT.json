@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_published_supp3_whole_period_rate_signature_v0",
+  "stage": "POST_SOURCE_EXPOSURE_EXPLORATORY_REANALYSIS_NOT_PREREGISTERED",
+  "source": {
+    "name": "Jeon and Lim 2026 Supplement 3",
+    "doi": "10.3897/BDJ.14.e191556.suppl3",
+    "zenodo": "https://zenodo.org/records/21319408",
+    "filename": "oo_1559451.zip",
+    "zenodo_md5": "085afc8382ae5668edfa8ad74122a68e",
+    "member": "EA02_DielRate_Table_BySpecies.tsv"
+  },
+  "species": {
+    "Long-tailed goral": 2317,
+    "Siberian roe deer": 808,
+    "Water deer": 814,
+    "Wild boar": 684
+  },
+  "prescribed_diel_classes": [
+    "daytime",
+    "crepuscular",
+    "nighttime"
+  ],
+  "published_period_hours": {
+    "daytime": 4757.1675,
+    "crepuscular": 360.01444444444445,
+    "nighttime": 4170.8180555555555
+  },
+  "published_source_total_detections": 4623,
+  "published_period_duration_hour_sum": 9288,
+  "original_physical_camera_station_operation_exposure_confirmed": false,
+  "original_2022_fixed_41_matched_pairs_analyzed": false,
+  "published_table_3_monthly_season_effect_tested": false,
+  "inferential_p_value_permitted": false,
+  "biological_interpretation": "DESCRIPTIVE_POOLED_CALENDAR_PERIOD_NORMALIZED_DETECTIONS_NOT_PHYSICAL_CAMERA_ON_HOURS",
+  "excluded": [
+    "Original NIE EcoBank ZIP",
+    "41 matched astronomy day-pairs",
+    "species abundance",
+    "true latent activity",
+    "per-camera valid hours",
+    "station-specific ecological partition",
+    "between species causal competition",
+    "original H1 daylight-core to daylight-edge (civil twilight is different)"
+  ]
+}

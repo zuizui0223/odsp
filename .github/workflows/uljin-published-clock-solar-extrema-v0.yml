@@ -1,0 +1,28 @@
+name: uljin-published-clock-solar-extrema-v0
+
+on:
+  push:
+    branches: [ecology/uljin-matched-daylength-temporal-refuge-v0]
+    paths:
+      - 'ULJIN_PUBLISHED_CLOCK_SOLAR_PAIR_EXTREMA_V0_CONTRACT.json'
+      - 'scripts/run_uljin_published_clock_solar_pair_extrema_v0.py'
+      - 'tests/test_uljin_published_clock_solar_pair_extrema_v0.py'
+      - '.github/workflows/uljin-published-clock-solar-extrema-v0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  published-same-data-sensitivity-not-season-effect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: python -m pip install pytest
+      - name: Validate six-pair identities and no independent-replication claim
+        run: python -m pytest -q tests/test_uljin_published_clock_solar_pair_extrema_v0.py
+      - name: Repeat source-verified published clock-vs-solar overlap extrema comparison
+        run: python scripts/run_uljin_published_clock_solar_pair_extrema_v0.py

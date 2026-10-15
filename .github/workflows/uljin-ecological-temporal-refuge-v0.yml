@@ -1,0 +1,52 @@
+name: uljin-ecological-temporal-refuge-v0
+
+on:
+  push:
+    branches:
+      - ecology/uljin-matched-daylength-temporal-refuge-v0
+    paths:
+      - 'ULJIN_FOUR_UNGULATE_TEMPORAL_REFUGE_ECOLOGY_V0_CONTRACT.json'
+      - 'odsp/uljin_ecological_temporal_refuge_v0.py'
+      - 'ULJIN_PUBLISHED_SEASONAL_DETECTABILITY_SPECIES_CONTEXT_V0.json'
+      - 'tests/test_uljin_published_seasonal_context_ecology_v0.py'
+      - 'ULJIN_PUBLISHED_ANNUAL_VS_MATCHED_DAYLENGTH_SPECIES_REASSEMBLY_V0.json'
+      - 'tests/test_uljin_published_annual_overlap_ecology_v0.py'
+      - 'ULJIN_ORIGINAL_V1P1_SOURCE_FEASIBILITY_V0_CONTRACT.json'
+      - 'odsp/uljin_original_source_zip_feasibility_v0.py'
+      - 'tests/test_uljin_original_source_zip_feasibility_v0.py'
+      - 'scripts/run_uljin_original_v1p1_source_feasibility_v0.py'
+      - 'ULJIN_ECOLOGICAL_ZONE_SIGNATURE_V0_CONTRACT.json'
+      - 'odsp/uljin_ecological_refuge_rate_signatures_v0.py'
+      - 'tests/test_uljin_ecological_refuge_rate_signatures_v0.py'
+      - 'scripts/run_uljin_ecological_zone_rates_v0.py'
+      - 'tests/test_uljin_ecological_temporal_refuge_v0.py'
+      - 'scripts/run_uljin_ecological_temporal_refuge_source_admission_v0.py'
+      - '.github/workflows/uljin-ecological-temporal-refuge-v0.yml'
+  workflow_dispatch:
+
+jobs:
+  biological-questions-and-source-admission:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install ODSP
+        run: python -m pip install -e '.[dev]'
+      - name: Verify original 41 early-vs-midsummer date pairs and genuine 3-zone ecological definitions
+        run: python -m pytest -q tests/test_uljin_ecological_temporal_refuge_v0.py
+      - name: Test independent ecological core-edge versus night-day source-hour denominators
+        run: python -m pytest -q tests/test_uljin_ecological_refuge_rate_signatures_v0.py
+      - name: Preserve the published season-detection p coefficients distinct from diel behavior
+        run: python -m pytest -q tests/test_uljin_published_seasonal_context_ecology_v0.py
+      - name: Check published year-long six species-pair overlaps never counted as 41-day outcomes
+        run: python -m pytest -q tests/test_uljin_published_annual_overlap_ecology_v0.py
+      - name: Audit original 41-pair four-species event/operation source readiness with synthetic ZIP fixtures
+        run: python -m pytest -q tests/test_uljin_original_source_zip_feasibility_v0.py
+      - name: Source unprovided gives mandatory NO ECOLOGICAL CLAIM status
+        run: |
+          python scripts/run_uljin_ecological_temporal_refuge_source_admission_v0.py
+          python scripts/run_uljin_ecological_zone_rates_v0.py
+          python scripts/run_uljin_original_v1p1_source_feasibility_v0.py

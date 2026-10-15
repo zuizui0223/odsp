@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "contract_id": "uljin_published_table3_species_season_detection_correlation_bound_v0",
+  "analysis_class": "POST_PUBLICATION_EXPLORATORY_REANALYSIS_NOT_PREREGISTERED",
+  "original_2022_41_pair_animal_evidence": false,
+  "data_source": {
+    "citation": "Jeon J-H, Lim A (2026), Biodiversity Data Journal 14:e191556, Table 3",
+    "article_doi": "10.3897/BDJ.14.e191556",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13379711/",
+    "variable": "p:is_summer against winter reference",
+    "scale": "logit conditional occupancy-model detection probability",
+    "site_season_summer_definition": "June-August; compared against winter December-February",
+    "not_original_frozen_mirror_dates": true
+  },
+  "coefficients": [
+    {"species": "Goral", "best_model": "M2", "beta": 0.886, "se": 0.636, "source_ci95": [-0.361, 2.134]},
+    {"species": "Water deer", "best_model": "M1", "beta": 1.234, "se": 0.378, "source_ci95": [0.493, 1.974]},
+    {"species": "Roe deer", "best_model": "M1", "beta": 0.030, "se": 0.369, "source_ci95": [-0.693, 0.754]},
+    {"species": "Wild boar", "best_model": "M1", "beta": -0.888, "se": 0.247, "source_ci95": [-1.372, -0.404]}
+  ],
+  "comparison": {
+    "scope": "ALL_SIX_UNORDERED_SPECIES_PAIRS_NO_POSTHOC_SINGLE_PAIR_ALPHA",
+    "alpha_family": 0.05,
+    "cross_species_covariance": "UNKNOWN_BOUND_BY_CAUCHY_SCHWARZ",
+    "worst_case_se_formula": "sqrt(se1^2+se2^2-2cov) <= se1+se2",
+    "p_value": "TWO_SIDED_ASYMPTOTIC_NORMAL_UPPER_BOUND",
+    "multiplicity": "BONFERRONI_SIX_PAIRS",
+    "confidence_intervals": "SIMULTANEOUS_WALD_APPROX_BY_WORST_CASE_SE"
+  },
+  "mandatory_caveats": [
+    "The published species-specific coefficient estimates and standard errors are reused rather than independently fitted to source event data.",
+    "The unknown cross-species covariance is bounded mathematically, but standard-error uncertainty, post-model-selection bias, model misspecification, and unmodelled site heterogeneity are NOT covered.",
+    "The response is conditional model-based camera detection p per site-season, not detector optical q, latent animal encounters, species abundance, actual temporal niche redistribution, or causation.",
+    "The original year-long summer-vs-winter season contrast cannot be re-labelled as the original early-May/June versus July/August 41 daylength-matched mirror pairs.",
+    "The six comparisons, including statistically unpersuasive ones, must all be reported; discovery remains exploratory, not a novel preregistered confirmatory test.",
+    "A species contrast in model p does not establish differences in temporal phase, habitat competition, phenology, or thermoregulation."
+  ]
+}

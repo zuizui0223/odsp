@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "status": "PUBLISHED_CONTEXT_ONLY_NO_ORIGINAL_MATCHED_DATE_EVENT_OR_OPERATION_HOURS",
+  "published_source": "Jeon J-H, Lim A (2026) A year-long camera-trap dataset for assessing spatial occurrence and diel activity of sympatric ungulates in South Korea, Biodiversity Data Journal 14:e191556, Table 3",
+  "doi": "10.3897/BDJ.14.e191556",
+  "yearly_model": "Best-species-wise occupancy model, detection submodel p ~ log_effort_z + season with WINTER reference; p is station-season occupancy detection probability, NOT hourly camera q and NOT animal time-of-day activity rate.",
+  "annual_event_record_metadata": {
+    "Goral": 2317,
+    "Water deer": 814,
+    "Roe deer": 808,
+    "Wild boar": 684
+  },
+  "published_season_summer_vs_winter_detection_logit": [
+    {
+      "species": "Goral",
+      "best_occupancy_model": "M2",
+      "beta": 0.886,
+      "se": 0.636,
+      "ci95": [
+        -0.361,
+        2.134
+      ]
+    },
+    {
+      "species": "Water deer",
+      "best_occupancy_model": "M1",
+      "beta": 1.234,
+      "se": 0.378,
+      "ci95": [
+        0.493,
+        1.974
+      ]
+    },
+    {
+      "species": "Roe deer",
+      "best_occupancy_model": "M1",
+      "beta": 0.03,
+      "se": 0.369,
+      "ci95": [
+        -0.693,
+        0.754
+      ]
+    },
+    {
+      "species": "Wild boar",
+      "best_occupancy_model": "M1",
+      "beta": -0.888,
+      "se": 0.247,
+      "ci95": [
+        -1.372,
+        -0.404
+      ]
+    }
+  ],
+  "interpretation_guard": [
+    "Water deer positive and Wild boar negative fitted summer vs winter detection contrast is a verified published seasonal DETECTABILITY difference, NOT proof of opposite daily chronotypes.",
+    "Models are fitted separately by species; a between-species test of the contrast, including correlation and event data, has NOT been performed.",
+    "Study season definition summer = Jun–Aug and winter = Dec–Feb; original 41-pair early vs midsummer includes dates in May and in Jun, so the summer-vs-winter coefficient cannot be applied to that matched design.",
+    "Occupancy p combines animal local availability and imperfect detection at station-season scale, and is neither camera optical sensitivity q nor latent animal activity timing.",
+    "The paper specifically warns long-tailed goral occupancy coefficients can be imprecise; no strong independent occupancy ecological mechanism claimed.",
+    "Do not treat published fitted coefficients as new independent 82-day results, multiple-comparison confirmatory evidence or temperature causation."
+  ],
+  "ecological_motivation": "Species can have divergent broad seasonal detection patterns in published data even though they exhibit moderate to high year-long clock-time overlap. The new biological question is whether within-DAYLIGHT core-to-edge versus DAYLIGHT-to-night reallocations under matched daylength similarly diverge by species, with physical camera/time exposure held consistent. These are testable only with original 41-pair event and operation time series.",
+  "original_41pairs_data_available": false,
+  "authentic_hourly_camera_on_off_available": false,
+  "not_a_test_of_evolutionary_adaptation_or_fitness": true
+}

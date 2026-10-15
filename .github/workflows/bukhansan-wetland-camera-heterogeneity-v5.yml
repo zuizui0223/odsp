@@ -1,0 +1,30 @@
+name: bukhansan-wetland-camera-heterogeneity-v5
+
+on:
+  push:
+    branches: [ecology/uljin-matched-daylength-temporal-refuge-v0]
+    paths:
+      - 'BUKHANSAN_PUBLISHED_WETLAND_CAMERA_HETEROGENEITY_V5_CONTRACT.json'
+      - 'scripts/run_bukhansan_published_wetland_camera_heterogeneity_v5.py'
+      - 'tests/test_bukhansan_published_wetland_camera_heterogeneity_v5.py'
+      - '.github/workflows/bukhansan-wetland-camera-heterogeneity-v5.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-margins-and-two-real-wetland-stations:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pytest
+        run: python -m pip install pytest
+      - name: Verify original published source 11-camera margins and absence of habitat causality
+        run: python -m pytest -q tests/test_bukhansan_published_wetland_camera_heterogeneity_v5.py
+      - name: Recompute M1 versus M2, exact 55-camera-pair descriptive benchmark and photo-label reference
+        run: python scripts/run_bukhansan_published_wetland_camera_heterogeneity_v5.py

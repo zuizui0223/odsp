@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "record_type": "FIRST_FROZEN_ORIGINAL_ECOBANK_V1P1_FOUR_UNGULATE_41PAIR_SOURCE_FEASIBILITY_V0",
+  "pr_number": 264,
+  "biological_hypothesis_first_frozen_commit": "6026ff2292c08fa39063f933945bf60617295967",
+  "first_source_readiness_contract_commit": "d6500bf7e199486534ef5bfde5d9743d14619c01",
+  "first_complete_focused_source_readiness_ci_run": 38104761737,
+  "first_focused_source_readiness_ci_url": "https://github.com/zuizui0223/odsp/actions/runs/38104761737",
+  "first_successful_focused_ci_scored_commit": "81fcd5bbae5fcefc90b33797912341c8ee4d7664",
+  "source_status": "HOLD_NOT_ORIGINAL_SOURCE_INPUT_AND_CHECKSUM_ATTESTED",
+  "result_tier": "NO_REAL_BIOLOGICAL_FINDING",
+  "frozen_observation_frame": {
+    "unchanged_matched_daylength_date_pairs": 41,
+    "unchanged_calendar_dates": 82,
+    "rising_window": [
+      "2022-05-01",
+      "2022-06-10"
+    ],
+    "falling_window": [
+      "2022-07-01",
+      "2022-08-31"
+    ],
+    "taxa": [
+      "Goral",
+      "Water deer",
+      "Roe deer",
+      "Wild boar"
+    ],
+    "date_time_zone": "Asia/Seoul",
+    "ecological_zones": [
+      "daylight_core",
+      "daylight_edge",
+      "night"
+    ]
+  },
+  "published_original_source_information": {
+    "published_all_period_detection_count": 4623,
+    "published_station_count": 82,
+    "source_dataset_doi": "10.22756/ETC.20260000001022",
+    "source_article_doi": "10.3897/BDJ.14.e191556",
+    "published_source_claim_original_members": [
+      "01_core_data/cameratrap_event_records.csv",
+      "01_core_data/camera_operation_log.csv",
+      "01_core_data/site_covariates_public.csv",
+      "03_documentation/MANIFEST.tsv"
+    ],
+    "actual_release_zip_verified": false,
+    "trusted_external_original_release_sha256_available": false,
+    "original_41pair_species_detection_counts_computed": false
+  },
+  "source_feasibility_code": {
+    "module": "odsp/uljin_original_source_zip_feasibility_v0.py",
+    "cli": "scripts/run_uljin_original_v1p1_source_feasibility_v0.py",
+    "tests": "tests/test_uljin_original_source_zip_feasibility_v0.py",
+    "documentation": "docs/uljin_original_v1p1_four_taxon_real_source_feasibility_v0.md",
+    "valid_test_fixture": "synthetic ZIP only, explicitly NOT original EcoBank",
+    "hash_verification": "external provenance + full ZIP SHA256 required before opening event member",
+    "all_four_species_and_zero_counts_preserved": true,
+    "matched_pair_and_physical_station_support_counted_without_event_based_selection": true,
+    "original_operation_csv_headers_read_only_not_hourly_adapter": true,
+    "protected_station_exact_coordinates_not_exported": true,
+    "real_ecological_refuge_rates_and_significance_NOT_calculated": true
+  },
+  "tests": {
+    "dedicated_source_workflow": "PASSED",
+    "missing_original_archive_HOLD": "PASSED",
+    "wrong_external_sha_HOLD": "PASSED",
+    "missing_mandatory_members_HOLD": "PASSED",
+    "unsafe_ZIP_members_rejected": "PASSED",
+    "four_species_original_matched_dates_and_station_support": "PASSED synthetic fixture",
+    "real_causal_thermal_human_or_interaction_mechanism_tested": false
+  },
+  "next_input_needed": [
+    "Original Version 1.1 EcoBank ZIP acquired from official repository",
+    "Independent verifiable SHA256 released/attested for original ZIP",
+    "Independent original camera operation hour schema and chronology verified for 41 calendar pairs"
+  ],
+  "original_ODSP_qualified_inference_and_all_parent_first_outcomes_unchanged": true
+}

@@ -1,0 +1,309 @@
+{
+  "schema_version": 1,
+  "contract_id": "bukhansan_2025_original_published_site_hour_derivative_v1",
+  "parent_ecology_pr": 264,
+  "stage": "SOURCE_PUBLISHED_POST_OUTCOME_MANUAL_PDF_TABLE_VISION_VERIFIED_EXPLORATORY",
+  "origin": {
+    "doi": "10.14397/jals.2025.59.5.111",
+    "article_title": "Daily Activity Patterns of Wild Boars and Water Deer in Forest and Wetland Habitats of Bukhansan National Park",
+    "author_uploaded_public_pdf_url": "https://www.researchgate.net/profile/Sang-Min-Jeong-2/publication/397496454_Daily_Activity_Patterns_of_Wild_Boars_and_Water_Deer_in_Forest_and_Wetland_Habitats_of_Bukhansan_National_Park_Implications_for_Human-Wildlife_Conflict_Mitigation/links/69133b2d368b49329fab380f/Daily-Activity-Patterns-of-Wild-Boars-and-Water-Deer-in-Forest-and-Wetland-Habitats-of-Bukhansan-National-Park-Implications-for-Human-Wildlife-Conflict-Mitigation.pdf",
+    "original_publication_tables": "Table 1 site×hour Wild boar at printed journal page 114 / PDF page index 3; Table 2 site×hour Water deer journal page 115 / PDF index 4; printed result tables 3 and 4 also journal page 115",
+    "rows_transcribed_by_visual_2026_10_14": "Only derived 3 coarse hour-window counts by public station code were retained in ODSP; original publication contains complete 24-hour station tables",
+    "study_start": "2019-06-14",
+    "study_end": "2019-09-05",
+    "reported_operated_days": 83,
+    "station_roster": "11 cameras, 9 forest and 2 wetland",
+    "site_identifiers_are_public_codes_only": true,
+    "protected_precise_camera_GPS_accessed": false,
+    "observations_are": "Published author tabulated photograph/individual frequencies with 30-min duplicate filtering, not authenticated raw event rows"
+  },
+  "analysis": {
+    "clock_row_labels_with_no_event_dates": [
+      "01:00",
+      "02:00",
+      "03:00",
+      "04:00",
+      "05:00",
+      "06:00",
+      "07:00",
+      "08:00",
+      "09:00",
+      "10:00",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "17:00",
+      "18:00",
+      "19:00",
+      "20:00",
+      "21:00",
+      "22:00",
+      "23:00",
+      "24:00"
+    ],
+    "selected_postpublication_equal_six_row_windows": {
+      "01to06": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "19to24": [
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ]
+    },
+    "other_row_window": "07to18",
+    "clock_row_24_semantics_exact_clock_interval_unknown": true,
+    "no_same_date_solar_geometry_exposed": true,
+    "compare": "Species differential in 01to06 relative to 19to24, stratified by published physical camera code; not a date-level solar/night comparison",
+    "site_selection": "All original 11 published sites; source-positive BOTH taxa only for informative site-direction comparisons, never selecting on contrast sign",
+    "all_site_results_including_zero_taxa_preserved": true
+  },
+  "published_table_independent_checks": {
+    "wild_boar_total": 273,
+    "water_deer_total": 184,
+    "total": 457,
+    "species_by_habitat": {
+      "wild_boar": {
+        "Forest": 199,
+        "Wetland": 74
+      },
+      "water_deer": {
+        "Forest": 74,
+        "Wetland": 110
+      }
+    },
+    "printed_hourly_both_species_totals": {
+      "wild_boar": [
+        11,
+        18,
+        18,
+        15,
+        16,
+        14,
+        1,
+        2,
+        2,
+        2,
+        0,
+        1,
+        1,
+        0,
+        4,
+        1,
+        8,
+        11,
+        32,
+        27,
+        29,
+        14,
+        27,
+        19
+      ],
+      "water_deer": [
+        15,
+        15,
+        14,
+        14,
+        12,
+        4,
+        0,
+        3,
+        1,
+        0,
+        1,
+        3,
+        1,
+        3,
+        3,
+        1,
+        3,
+        7,
+        8,
+        21,
+        10,
+        13,
+        19,
+        13
+      ]
+    }
+  },
+  "derived_publication_site_six_hour_window_counts": [
+    {
+      "site": "G1",
+      "habitat": "Forest",
+      "water_deer": {
+        "01to06": 0,
+        "07to18": 0,
+        "19to24": 0
+      },
+      "wild_boar": {
+        "01to06": 6,
+        "07to18": 1,
+        "19to24": 23
+      }
+    },
+    {
+      "site": "G3",
+      "habitat": "Forest",
+      "water_deer": {
+        "01to06": 0,
+        "07to18": 0,
+        "19to24": 0
+      },
+      "wild_boar": {
+        "01to06": 11,
+        "07to18": 4,
+        "19to24": 4
+      }
+    },
+    {
+      "site": "G4",
+      "habitat": "Forest",
+      "water_deer": {
+        "01to06": 5,
+        "07to18": 3,
+        "19to24": 6
+      },
+      "wild_boar": {
+        "01to06": 9,
+        "07to18": 7,
+        "19to24": 18
+      }
+    },
+    {
+      "site": "G9",
+      "habitat": "Forest",
+      "water_deer": {
+        "01to06": 0,
+        "07to18": 0,
+        "19to24": 0
+      },
+      "wild_boar": {
+        "01to06": 1,
+        "07to18": 0,
+        "19to24": 0
+      }
+    },
+    {
+      "site": "G12",
+      "habitat": "Forest",
+      "water_deer": {
+        "01to06": 0,
+        "07to18": 0,
+        "19to24": 1
+      },
+      "wild_boar": {
+        "01to06": 6,
+        "07to18": 2,
+        "19to24": 8
+      }
+    },
+    {
+      "site": "G17",
+      "habitat": "Forest",
+      "water_deer": {
+        "01to06": 0,
+        "07to18": 0,
+        "19to24": 0
+      },
+      "wild_boar": {
+        "01to06": 1,
+        "07to18": 1,
+        "19to24": 4
+      }
+    },
+    {
+      "site": "G19",
+      "habitat": "Forest",
+      "water_deer": {
+        "01to06": 15,
+        "07to18": 13,
+        "19to24": 17
+      },
+      "wild_boar": {
+        "01to06": 21,
+        "07to18": 6,
+        "19to24": 34
+      }
+    },
+    {
+      "site": "G21",
+      "habitat": "Forest",
+      "water_deer": {
+        "01to06": 1,
+        "07to18": 1,
+        "19to24": 0
+      },
+      "wild_boar": {
+        "01to06": 4,
+        "07to18": 4,
+        "19to24": 3
+      }
+    },
+    {
+      "site": "G22",
+      "habitat": "Forest",
+      "water_deer": {
+        "01to06": 8,
+        "07to18": 1,
+        "19to24": 3
+      },
+      "wild_boar": {
+        "01to06": 12,
+        "07to18": 3,
+        "19to24": 6
+      }
+    },
+    {
+      "site": "M1",
+      "habitat": "Wetland",
+      "water_deer": {
+        "01to06": 5,
+        "07to18": 4,
+        "19to24": 9
+      },
+      "wild_boar": {
+        "01to06": 8,
+        "07to18": 3,
+        "19to24": 14
+      }
+    },
+    {
+      "site": "M2",
+      "habitat": "Wetland",
+      "water_deer": {
+        "01to06": 40,
+        "07to18": 4,
+        "19to24": 48
+      },
+      "wild_boar": {
+        "01to06": 13,
+        "07to18": 2,
+        "19to24": 34
+      }
+    }
+  ],
+  "limitations": {
+    "independently_authenticated_original_dated_events": false,
+    "independent_hourly_camera_ON_OFF_logs_available": false,
+    "individual_photo_independence_established": false,
+    "true_activity_intensity_estimated": false,
+    "species_time_q_calibrated": false,
+    "astronomical_solar_phase_date_level_tested": false,
+    "original_41_daylength_mirror_pairs_tested": false,
+    "predata_preregistered_analysis": false,
+    "population_effect_or_causality_claimed": false,
+    "two_wetland_stations_are_independent_regions": false
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "contract_id": "bukhansan_published_camera_x_clock_distribution_refinement_v3",
+  "analysis_class": "POST_PUBLICATION_EXPLORATORY_SOURCE_VERIFIED_RECORD_DISTRIBUTIONS",
+  "original_paper_doi": "10.14397/jals.2025.59.5.111",
+  "published_table_source": "Original author Tables 1-2: eleven site codes times twenty-four clock-labelled hourly rows, collapsed to three clock windows under existing v1 contract",
+  "parent_source_path": "BUKHANSAN_PUBLISHED_SITE_HOUR_WINDOWS_V1_CONTRACT.json",
+  "source_species": [
+    "water_deer",
+    "wild_boar"
+  ],
+  "source_public_site_roster": [
+    "G1",
+    "G3",
+    "G4",
+    "G9",
+    "G12",
+    "G17",
+    "G19",
+    "G21",
+    "G22",
+    "M1",
+    "M2"
+  ],
+  "source_clock_periods": [
+    "01to06",
+    "07to18",
+    "19to24"
+  ],
+  "source_total_counts": {
+    "water_deer": 184,
+    "wild_boar": 273
+  },
+  "central_ecological_question": "When the same public camera and clock period are simultaneously considered, is the recorded species distribution discrepancy driven more by unequal spatial detection shares or by additional differences within the observed site-hour cells?",
+  "definitions": {
+    "species_joint_record_distribution": "p_species(site,clock_window)=n_species(site,clock_window)/N_species",
+    "distribution_overlap": "O(P,Q)=sum_cells min(P(cell),Q(cell))=1−TV(P,Q)",
+    "three_marginal_overlap_targets": [
+      "site",
+      "clock_window",
+      "site×clock_window"
+    ],
+    "exact_spatial_first_refinement": "[1−O_joint]=[1−O_site]+[O_site−O_joint]",
+    "exact_temporal_first_refinement": "[1−O_joint]=[1−O_time]+[O_time−O_joint]",
+    "primary_refinement_order": "spatial_then_clock",
+    "important_noncausal_warning": "Attribution share depends on chosen marginalization order; the decomposition has no causal biological meaning",
+    "site_level_conditional_overlap": "sum_clock min(nWater(site,clock)/Nwater(site),nBoar(site,clock)/Nboar(site)), only when both species have positive records",
+    "site_balance": "2min(Nwater(site),Nboar(site))/(Nwater(site)+Nboar(site)), recorded species evenness not ecological cooccurrence",
+    "minimum_both_species_record_sensitivity": [
+      1,
+      5
+    ],
+    "rank_association_scope": "Exploratory Spearman between source record-balance and local three-period time-overlap, no p-value; observe whether inclusion of 1–2 Water-register sites reverses sign"
+  },
+  "output_guards": {
+    "raw_dated_events_available": false,
+    "camera_independent_operating_hours_available": false,
+    "camera_detector_q_available": false,
+    "individual_photo_independence_verified": false,
+    "camera_site_statistical_independence_verified": false,
+    "original_2022_Uljin_fixed_41_mirror_dates_evaluated": false,
+    "original_source_EcoBank_v1p1_admitted": false,
+    "actual_interspecific_competition_measured": false,
+    "true_population_niche_and_habitat_selection_estimated": false,
+    "genuine_significance_p_values_or_CI_computed": false,
+    "clock_window_is_solar_phase": false,
+    "confirms_ecological_space_time_partitioning": false
+  }
+}

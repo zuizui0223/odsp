@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "contract_id": "bukhansan_2025_public_457_images_integer_partition_v0",
+  "stage": "POST_PUBLICATION_EXPLORATORY_CONDITIONAL_INVERSE_AGGREGATION",
+  "source": {
+    "doi": "10.14397/jals.2025.59.5.111",
+    "official_kci_url": "https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART003260212",
+    "source_anchor": "the objective of this study was to investigate the daily activity patterns",
+    "all_camera_photos_reported": 2529,
+    "focal_analyzed_images_reported": 457,
+    "night_and_day_exhaustive_categories_ASSUMPTION_NOT_INDEPENDENTLY_CONFIRMED": true,
+    "group_rows_all_part_of_457_ASSUMPTION_NOT_INDEPENDENTLY_CONFIRMED": true,
+    "percent_rounding_nearest_0p01_ASSUMPTION_NOT_INDEPENDENTLY_CONFIRMED": true,
+    "photo_independence_NOT_established": true,
+    "camera_effort_by_habitat_NOT_available": true
+  },
+  "groups": [
+    {
+      "taxon": "Water deer",
+      "habitat": "forest",
+      "rounded_night_percent": "70.27",
+      "rounded_day_percent": "29.73"
+    },
+    {
+      "taxon": "Wild boar",
+      "habitat": "forest",
+      "rounded_night_percent": "70.85",
+      "rounded_day_percent": "29.15"
+    },
+    {
+      "taxon": "Water deer",
+      "habitat": "wetland",
+      "rounded_night_percent": "83.64",
+      "rounded_day_percent": "16.36"
+    },
+    {
+      "taxon": "Wild boar",
+      "habitat": "wetland",
+      "rounded_night_percent": "77.03",
+      "rounded_day_percent": "22.97"
+    }
+  ],
+  "design_guards": {
+    "genuine_raw_species_by_station_counts_obtained": false,
+    "reconstructed_counts_are_official_reported_raw_data": false,
+    "within_camera_habitat_effect_identified": false,
+    "independent_photo_events_verified": false,
+    "population_level_p_or_ci_justified": false,
+    "weighted_photo_habitat_distribution_represents_animal_habitat_preference": false,
+    "external_studies_day_night_harmonized": false,
+    "causal_human_or_habitat_effect_proved": false,
+    "pre_outcome_frozen_hypothesis_claimed": false,
+    "original_uljin_2022_41_pairs_observed": false
+  },
+  "partition_rule": "sum of four group photo counts EXACTLY 457; both day and night counts are positive integers; rounded to nearest 0.01 percentage point; no weighted percentages",
+  "interpretation_scope": "conditional unique integer solution plus descriptive Kitagawa decomposition and naive photo-independent Wald diagnostic; no empirical camera-clustered inference"
+}

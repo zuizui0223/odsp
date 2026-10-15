@@ -1,0 +1,27 @@
+name: uljin-published-solar-time-supp2-v0
+
+on:
+  push:
+    branches: [ecology/uljin-matched-daylength-temporal-refuge-v0]
+    paths:
+      - 'scripts/inspect_uljin_published_supp2_solar_overlap_v0.py'
+      - 'tests/test_uljin_published_supp2_solar_overlap_v0.py'
+      - '.github/workflows/uljin-published-solar-supp2-v0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-published-solar-time-overlaps:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: python -m pip install pytest
+      - name: Validate source checksum and source-only scope
+        run: python -m pytest -q tests/test_uljin_published_supp2_solar_overlap_v0.py
+      - name: Independently read solar-time overlap published aggregate, NOT original 41 pairs
+        run: python scripts/inspect_uljin_published_supp2_solar_overlap_v0.py
