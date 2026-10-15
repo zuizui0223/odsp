@@ -40,9 +40,9 @@ The five previously disclosed focal source taxa are `zebra`, `wildebeest`, `buff
 | Zebra 2012 | 31 | **−0.0488** | **+0.3121** | YES |
 | Wildebeest 2011 | 27 | **−0.0015** | **−0.0706** | YES |
 | Zebra 2010 | 10 | undefined | undefined | **NO**: site count floor |
-| All other 5 taxon×year outcomes (11 additional cells) | 0–9 | undefined | undefined | **NO**: insufficient site photo support |
+| All other 5 taxon×year outcomes (12 additional cells) | 0–9 | undefined | undefined | **NO**: insufficient site photo support |
 
-Original full 15-row and all year QA support records are archived in GitHub artifact `serengeti-camera-pixel-ndvi-vs-photo-mix-source-v0` from **[CI 38744196749](https://github.com/zuizui0223/odsp/actions/runs/38744196749)**, source JSON SHA256 `b6ed0294d6e4c6277f07ef9327f536c564c33c79265570bf7b37197eb951c25f`. The non-qualification of the remaining 12 (actually 5×3−3=12) taxon×cycle comparisons must be carried forward; no substitution with photo-only sites or arbitrary pseudo-counts. All all-species source photo results remain original and unchanged.
+Original full 15-row and all year QA support records are archived in GitHub artifact `serengeti-camera-pixel-ndvi-vs-photo-mix-source-v0` from **[CI 38744196749](https://github.com/zuizui0223/odsp/actions/runs/38744196749)**, source JSON SHA256 `b6ed0294d6e4c6277f07ef9327f536c564c33c79265570bf7b37197eb951c25f`. The non-qualification of the remaining 12 taxon×cycle comparisons must be carried forward; no substitution with photo-only sites or arbitrary pseudo-counts. All all-species source photo results remain original and unchanged.
 
 For the qualified species/years, **NDVI greening magnitude did not show a strong consistent monotonic association with local PHOTO record-number reweighting**: ρ_photo_count is small, near zero, and changes sign across zebra years. By contrast, zebra nighttime fraction change was more positively associated with local greening in 2012 (ρ≈0.312), but much less so in 2011 (ρ≈0.129); this is *heterogeneous, observational, post-discovery and a single landscape*, not an established NDVI-triggered behavioral response. The 2012 zebra leave-one-camera-out descriptive range was ≈+0.244 to +0.391 (NOT a statistical CI); repeated photographs and unknown q remain.
 
