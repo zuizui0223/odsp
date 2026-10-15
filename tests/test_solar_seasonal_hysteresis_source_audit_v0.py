@@ -54,7 +54,7 @@ class TestSolarSeasonalHysteresisSourceGate(unittest.TestCase):
     def test_catalog_does_not_mistake_41_studies_for_41_seasonal_replications(self):
         source = json.loads((ROOT / "research/solar_seasonal_hysteresis_source_feasibility_v0.json").read_text())
         entries = source["sources"]
-        self.assertEqual(len(entries), 10)
+        self.assertEqual(len(entries), 11)
         ids = [entry["id"] for entry in entries]
         self.assertEqual(len(ids), len(set(ids)))
         self.assertTrue(all(entry["gate"] for entry in entries))
@@ -65,6 +65,9 @@ class TestSolarSeasonalHysteresisSourceGate(unittest.TestCase):
         self.assertEqual(len(kays["seasonality_area_names"]), 5)
         self.assertFalse(kays["original_event_zip_member_rows_verified"])
         self.assertFalse(kays["source_independent_hourly_camera_operation_verified"])
+        ireland = next(e for e in entries if e["id"] == "ireland_caravaggi2018")
+        self.assertEqual(ireland["first_source_audit_result_20261015"]["matched_recorded_date_pairs"], 353)
+        self.assertFalse(ireland["primary_equal_daylength_eligible_now"])
         self.assertEqual(
             next(e for e in entries if e["id"] == "snapshot_japan_2023")["gate"],
             "NOT_RISING_DAYLENGTH_COVERAGE",
