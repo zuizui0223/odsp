@@ -1,7 +1,7 @@
 # Equal daylight, different animal time?
 ## Testing seasonal asymmetry in mammalian diel activity across landscapes
 
-**Status:** Ecology manuscript v0 — Introduction and Analysis Plan, **NO NEW EMPIRICAL RESULTS**  
+**Status:** Ecology manuscript v0 — Introduction/Methods and **new exploratory observed camera-record results from two original public sources**; NO exposure-calibrated activity or cross-region universality result  
 **Date:** 2026-10-15  
 **Companion evidence:** [ecological protocol](../docs/solar_seasonal_hysteresis_ecology_paper_protocol_20261015.md) | [machine-readable source gates](../research/solar_seasonal_hysteresis_source_feasibility_v0.json) | [issue #266](https://github.com/zuizui0223/odsp/issues/266).
 
@@ -59,17 +59,19 @@ We therefore separate source-admissibility checks from a predeclared biological 
 
 **Sensitivity and falsification.** Stable-solar-phase source-free counterexample, station-composition shifts, seasonal camera detection probability q, timestamp uncertainties, partial on-hours, known alternative calendar windows, external species taxon variation and negative controls. Favor the source-level HOLD over a spurious precise confidence interval.
 
-### Results (empty by design; not yet a tested paper)
+### Results — exploratory original-source **photograph time**, not animal activity
 
-**Figure 1: seasonal matching and ecological lag.** No source-admitted paired empirical figure computed.
+Full source and numerical reproducibility: [2026-10-15 two-study ecological results](../docs/solar_seasonal_real_exploratory_results_20261015.md). These post-publication observational comparisons were separately frozen relative to their newly generated outcome tables; they do not establish independent preregistered confirmation of a biological phenomenon.
 
-**Figure 2: core→edge and day→night matched branch effects.** No source-admitted biological H available.
+**East African Serengeti**. In the independently published Snapshot Serengeti original observation archive, 334,671 source consensus rows and 225 original site ID values were verified against original checksums. Original source date-only checking found 186 sites with at least 20 candidate opposite-side December-solstice dates, giving 25,016 prospective **date** pairs (not source-confirmed active hours). After original source public-coordinate sunrise/sunset calculation and ≤1-minute matched-daylength restriction, 24,290 station-date pairs remained across 186 source sites, with 38,792 author-source recorded and quality-filtered detections on accepted dates. Among the original photo-recorded source labels, 43 taxa had observations, and the frozen rule nominated 15 labels for readable descriptive comparison (one nonmammal, guinea fowl, retained by original all-taxa rule, not asserted a mammal).
 
-**Figure 3: guild/ecology drivers and held-out region prediction.** Not estimable; no admitted cross-region Tier-A result.
+The falling-versus-rising branch camera-site×solstice-cycle stratified **recorded event odds ratios** differed by species and response axis. For spotted hyena, daylight edge/core 1.34 and night/daylight 2.63; for female lion, 2.63 and 2.74; for zebra, 1.08 and 1.41; for buffalo, 0.70 and 1.36; and for Thomson's gazelle, 0.62 and 0.79. This is an interesting example of observed species-specific reallocations rather than a common directional effect, but the data **do not** identify latent behavioral activity because true site×date×hour ON exposure and `q` are unknown.
 
-**Figure 4: robust-to-detection and astronomical placebo checks.** Historical ODSP *synthetic methods checks* are available but are not new mammalian ecological responses.
+**Independent Northern Ireland published camera source**. Caravaggi et al.'s tagged v1.2.1 source contains **9,411** raw rows; applying the original authors' four named exclusion groups exactly yields the published **8,761** independent detections. Original `all_data.csv` has local sunrise/sunset and dates (plus 25 anomalous 2001-year rows excluded from the present 2013–2016 dating comparison, not corrected). Only 13 site-years contain photographing dates on both annual sides of June 21 with documented sunrise/sunset daylight difference ≤10 min, yielding 353 **record-detected date-pairs**, 988 matched-period source photo records. One site-year contributes 51.56% of those detected-day match candidates. Literal taxon names contain case/trailing-space duplicates; original exploratory outcome preserves all labels, including zero and undefined values. For literal source `Badger` (507 events), recorded edge/core MH odds 0.50 and night/daylight 0.20; for `Fox` (63), 2.80 and 1.98. The matched date selection is CONDITIONED on detection presence (there are no independent original ON-day logs), so this does NOT independently verify biological seasonality, despite the geographically distinct landscape and author source authentication.
 
-Published external ecological motivation: Kays et al. studied 41 total areas but only five year-long sites for their seasonal question, with two in temperate North America and three in tropical/subtropical regions; Ikeda et al. reported species-specific seasonal activity changes in one northern Japanese forest. Neither is a verified equal-daylength replication of the present hypothesis.
+**Current ecological interpretation.** This creates a cross-continent **descriptive observation** that relative detected photograph-time distributions may change between similar-daylength solar dates, with nonidentical response directions among source taxa. It cannot quantify a universal population effect, determine thermal or phenological causes, or claim valid external predictive generalization. Different algorithms selected solstice mirrored dates (Serengeti) and available photograph-detected similar daylight dates (Ireland), and both sources lack independently measured time-specific camera ON-hours and calibration of `q`. A new data source with actual event-independent station-hour opportunity evidence and an independent region is needed for the original manuscript's intended H1–H4 tests.
+
+**Proposed full manuscript figures, conditional on new qualified data:** (1) original rising/falling dates and verified environmental lag; (2) all eligible species × region H_edge and H_night with site-clustered uncertainty; (3) independently withheld regional prediction/calibration; (4) q/effort and geometrical sensitivity. None is a currently justified causal or meta-analytic result.
 
 ### What conclusions will be defensible?
 
