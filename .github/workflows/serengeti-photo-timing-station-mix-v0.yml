@@ -1,0 +1,55 @@
+name: Serengeti source photo time versus spatial station mix v0
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/SERENGETI_WITHIN_STATION_VERSUS_SPATIAL_MIX_V0_CONTRACT.json'
+      - 'scripts/run_serengeti_photo_site_timing_mix_v0.py'
+      - 'tests/test_serengeti_photo_site_timing_mix_v0.py'
+      - '.github/workflows/serengeti-photo-timing-station-mix-v0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  observed-photo-decomposition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install original coordinate projection dependency only
+        run: python -m pip install 'pyproj>=3.6,<4'
+      - name: Verify six known-truth decomposition and epistemic tests BEFORE original animal outcomes
+        run: python -m unittest discover -s tests -p 'test_serengeti_photo_site_timing_mix_v0.py' -v
+      - name: Obtain exactly the previously admitted source ZIP members as published CSVs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .serengeti_input_mix
+          curl -L --fail --retry 3 --retry-delay 5 --max-time 1400 \
+            'https://zenodo.org/records/5026386/files/consensus_data.csv?download=1' \
+            -o .serengeti_input_mix/consensus_data.csv
+          curl -L --fail --retry 3 --retry-delay 3 --max-time 120 \
+            'https://zenodo.org/records/5026386/files/search_effort.csv?download=1' \
+            -o .serengeti_input_mix/search_effort.csv
+          echo '5ed2d32fd09127c178cf9dca8ccfd623  .serengeti_input_mix/consensus_data.csv' | md5sum -c -
+          echo '27cb42f3feaa0642b17cbde24ba15fbd  .serengeti_input_mix/search_effort.csv' | md5sum -c -
+      - name: Replay all 43 ORIGINAL published photo taxa and exactly decompose 2010–2012 station-night records
+        run: |
+          python -m scripts.run_serengeti_photo_site_timing_mix_v0 \
+            --consensus .serengeti_input_mix/consensus_data.csv \
+            --effort .serengeti_input_mix/search_effort.csv \
+            --output outputs/serengeti_photo_time_vs_station_record_mix_v0.json
+      - name: Archive only all-taxa year-level PHOTO aggregate (NEVER protected site IDs or events)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: serengeti-photo-time-vs-station-mix-v0
+          path: outputs/serengeti_photo_time_vs_station_record_mix_v0.json
+          if-no-files-found: warn
