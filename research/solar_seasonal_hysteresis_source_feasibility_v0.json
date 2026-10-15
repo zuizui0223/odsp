@@ -36,7 +36,14 @@
       "tier_candidate": "A_after_source_admission_for_stable_stations_else_B",
       "primary_equal_daylength_eligible_now": false,
       "gate": "HOLD_ARCHIVE_COLUMNS_STATION_AND_HOURLY_EFFORT",
-      "candidate_value": "Highest-priority independent multi-biome audit; original seasonal.zip member schema must be inspected before claiming five Tier-A replicates."
+      "candidate_value": "Highest-priority independent multi-biome audit; original seasonal.zip member schema must be inspected before claiming five Tier-A replicates.",
+      "official_api_file_id": 235082,
+      "official_api_version_id": 51007,
+      "official_archive_filename": "seasonal.zip",
+      "official_archive_size_bytes": 432139,
+      "official_archive_sha256": "f2669718e7792def2b90ee13f8d7be8d2f8ab1930a3b1f70c7b4909c8b7ea91a",
+      "official_digest_url": "https://datadryad.org/api/v2/files/235082",
+      "source_access_status_20261015": "API metadata successfully retrieved including SHA256; binary download returned HTTP 401 in independent public-page reader, CI receipt HOLD; no raw rows read"
     },
     {
       "id": "uljin2026",
@@ -86,7 +93,17 @@
       "tier_candidate": "B_tropical_environment_season_comparator",
       "primary_equal_daylength_eligible_now": false,
       "gate": "HOLD_HOURLY_UPTIME_AND_RISING_FALLING_DATE_SUPPORT",
-      "candidate_value": "Potential environmental season test near equator; first/last EXIF-valid capture dates are not independently measured hardware on-hours."
+      "candidate_value": "Potential environmental season test near equator; first/last EXIF-valid capture dates are not independently measured hardware on-hours.",
+      "source_date_only_replay_20261015": {
+        "source": "https://github.com/zuizui0223/odsp/actions/runs/38677045328",
+        "original_md5_verified": true,
+        "physical_sites_in_archive": 225,
+        "physical_sites_with_20_plus_solstice_reflected_date_pairs": 186,
+        "all_site_calendar_mirror_day_pairs": 25016,
+        "site_cycles_with_at_least_one_mirror": 448,
+        "source_definition": "first/last valid SD card photo date intervals; calendar/geometry proxy only, not actual station×hour hardware ON/OFF",
+        "animal_outcomes_opened": false
+      }
     },
     {
       "id": "freiburg2026",
@@ -182,5 +199,6 @@
       "gate": "HOLD_DUTY_CYCLE_AND_BEHAVIOURAL_PROXY",
       "candidate_value": "Independent sensor-type triangulation candidate, but not direct equivalence to camera activity or automatically valid diel sampling."
     }
-  ]
+  ],
+  "last_source_audit": "2026-10-15: official Dryad Kays file SHA256; true source-only 225-station Serengeti mirror-date overlap 186 sites, 25,016 candidate site-date pairs."
 }
