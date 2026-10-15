@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "contract_id": "bukhansan_2025_published_camera_specific_wetland_ecology_v5",
+  "analysis_stage": "POST_SOURCE_EXPOSURE_EXPLORATORY_SITE_LEVEL_HABITAT_INTERPRETATION",
+  "scientific_question": "Do the two original wetland camera stations share a differential Water Deer-to-Boar detected-record distribution, or is the pooled forest-versus-wetland association localized to a single wetland camera?",
+  "author_source": {
+    "doi": "10.14397/jals.2025.59.5.111",
+    "source_path": "BUKHANSAN_PUBLISHED_SITE_HOUR_WINDOWS_V1_CONTRACT.json",
+    "known_station_ids": [
+      "G1",
+      "G3",
+      "G4",
+      "G9",
+      "G12",
+      "G17",
+      "G19",
+      "G21",
+      "G22",
+      "M1",
+      "M2"
+    ],
+    "habitat_roster": "nine published forest camera codes G1-G22 and exactly two published wetland codes M1 and M2",
+    "source_water_records": 184,
+    "source_boar_records": 273,
+    "author_released_source_grain": "11 camera×24 clock-hour published count table, no dated events or actual station on-time"
+  },
+  "roster_and_comparisons": {
+    "wetland_site_codes": [
+      "M1",
+      "M2"
+    ],
+    "forest_site_count": 9,
+    "equal_unit_comparison": "enumerate all 55 possible unordered two-camera subsets and rank the actual source-defined wetland pair by water-share minus boar-share in full original species record totals",
+    "site_label_assignment_was_randomized_in_real_field_study": false,
+    "source_record_fraction_difference": "Σwetland_sites(W_site/184−B_site/273), contributions to overall observed wetland record contrast",
+    "excluded_wetland_recompute_rule": "When removing one wetland camera, recompute BOTH species' full retained-camera totals before calculating the remaining site share; keep all original forest sites",
+    "formal_photo_label_reference": "one-sided exact hypergeometric tail P(X≥110) conditional on 184 Water labels, 273 Boar labels, 184 combined Wetland photos and 273 combined Forest photos",
+    "formal_M2_photo_label_reference": "one-sided exact hypergeometric tail P(X≥92) conditional on 184 Water, 273 Boar, 141 M2 photos",
+    "exact_probability_uses_original_individual_photograph_exchangeability_only": false,
+    "inspect_species_camera_record_distribution_without_causal_selection_claim": true
+  },
+  "interpretation_limit": "LOCAL_M2_SOURCE_PHOTO_CONCENTRATION_WITH_HABITAT_CONTEXT; no causal wetland selection, independently replicated habitat effects or valid animal-population p-value",
+  "negative_controls": {
+    "no_original_dated_individual_photo_events": false,
+    "no_independently_verified_animal_identity_or_independent_encounters": false,
+    "no_camera_site_hour_operation_logs": false,
+    "no_species_by_camera_detection_q": false,
+    "no_site_level_randomized_habitat_treatments": false,
+    "no_independent_multi_wetland_ecological_replication": false,
+    "no_valid_biological_fisher_or_camera_permutation_p_value": false,
+    "no_prepublication_preregistration": false,
+    "no_causal_wetland_preference_measured": false,
+    "no_original_Uljin_2022_frozen_41_date_pairs_tested": false,
+    "no_original_NIE_EcoBank_v1p1_original_archive_admitted": false
+  }
+}
