@@ -103,6 +103,17 @@
         "site_cycles_with_at_least_one_mirror": 448,
         "source_definition": "first/last valid SD card photo date intervals; calendar/geometry proxy only, not actual station×hour hardware ON/OFF",
         "animal_outcomes_opened": false
+      },
+      "first_observed_record_solar_branch_result_20261015": {
+        "status": "SOURCE_RECORD_TIME_ONLY_NOT_LATENT_ACTIVITY",
+        "original_consensus_source_rows": 334671,
+        "source_mirror_date_pairs_after_one_minute_astronomy_caliper": 24290,
+        "original_camera_record_detections_on_matched_dates": 38792,
+        "physical_camera_sites_original_geometry_verified": 186,
+        "source_taxon_labels_observed": 43,
+        "source_taxon_labels_meeting_predeclared_descriptive_rule": 15,
+        "caution": "The 15 displayed labels include one bird (guinea fowl); original all-taxon source labels preserved; record time OR only not animal behavioral activity.",
+        "evidence": "https://github.com/zuizui0223/odsp/actions/runs/38677521888"
       }
     },
     {
@@ -198,7 +209,37 @@
       "primary_equal_daylength_eligible_now": false,
       "gate": "HOLD_DUTY_CYCLE_AND_BEHAVIOURAL_PROXY",
       "candidate_value": "Independent sensor-type triangulation candidate, but not direct equivalence to camera activity or automatically valid diel sampling."
+    },
+    {
+      "id": "ireland_caravaggi2018",
+      "doi": "10.7717/peerj.5827",
+      "reference": "Caravaggi et al. (2018), PeerJ 6:e5827",
+      "source": "https://github.com/arcaravaggi/PeerJ_mammal_activity/blob/v1.2.1/all_data.csv",
+      "immutable_archive": "https://zenodo.org/records/1470320",
+      "version": "v1.2.1",
+      "published_original_git_blob_sha1": "2084dfac55acb75efe6e61c1abc306aeda0904eb",
+      "original_camera_record_rows": 9411,
+      "original_exclusions_reproduced_rows": 8761,
+      "time_coverage_evidence": "Year-labelled original records 2013-2016 plus 25 anomalous year=2001 rows; date, clock time, author solar sunrise/sunset and site labels present",
+      "original_event_zip_member_rows_verified": true,
+      "same_station_both_photoperiod_branches_verified": false,
+      "source_independent_hourly_camera_operation_verified": false,
+      "observation_modality": "camera trap",
+      "tier_candidate": "B_exploratory_independent_geographical_source_not_yearround_hourly_effort_calibrated",
+      "primary_equal_daylength_eligible_now": false,
+      "gate": "HOLD_INDEPENDENT_CAMERA_ON_DAYS_AND_HOURS_AND_Q",
+      "candidate_value": "Independent temperate source has 13 site-year units with recorded photographed dates within 10-min daylength; 353 PHOTO-DATE potential pairs, 988 source photographed event records, most frequent site-year 51.56% of date candidates; no no-photo camera effort. Raw species spellings inconsistent, no p-value or causal claim.",
+      "first_source_audit_result_20261015": {
+        "source_verified_ci": "https://github.com/zuizui0223/odsp/actions/runs/38678277593",
+        "same_site_year_opposite_branch_recorded_date_units": 13,
+        "matched_recorded_date_pairs": 353,
+        "matched_source_photo_events": 988,
+        "largest_one_siteyear_candidate_pair_share": 0.5155807365439093,
+        "source_species_label_spelling_variants_exist": true,
+        "source_2001_anomaly_rows": 25,
+        "real_animal_activity_identified": false
+      }
     }
   ],
-  "last_source_audit": "2026-10-15: official Dryad Kays file SHA256; true source-only 225-station Serengeti mirror-date overlap 186 sites, 25,016 candidate site-date pairs."
+  "last_source_audit": "2026-10-15: 11 candidate sources. Kays official public file metadata verified but 401 download; Serengeti matched-daylength actual SOURCE PHOTO-TIME: 38,792 on 24,290 solar-caliper date pairs, 186 physical sites, NOT camera-hour calibrated; Northern Ireland independent geographical observational source 9,411→8,761 original rows, matched record-date-only source: 13 site-years/353 date pairs/988 photo events, selected on detection and dominated by one site-year."
 }
