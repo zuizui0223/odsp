@@ -27,6 +27,18 @@
 | Elephant (`elephant`) | 1,804 | 0.9777 | 1.0948 | 169 |
 | Wildebeest (`wildebeest`) | 6,166 | 0.9639 | 1.3937 | 102 |
 
+**Frozen leave-one-original-physical-camera-out descriptive stability, recovered from the first untouched archived JSON (artifact 11947226039):**
+
+| Source mammal taxon | Edge/core OR leave-one-site-out min–max | Night/day OR leave-one-site-out min–max |
+|---|---:|---:|
+| Spotted hyena | 0.822–1.488 | **1.839–3.075** |
+| Female lion | **1.812–3.798** | **2.279–3.786** |
+| Zebra | **1.050–1.119** | **1.376–1.466** |
+| Buffalo | **0.660–0.740** | **1.228–1.507** |
+| Thomson's gazelle | **0.542–0.718** | **0.673–0.923** |
+
+All single-camera exclusions keep the shown bold ranges on one side of 1 for these descriptive source subsets. The hyena daylight-edge interval crosses 1, while its night/day interval does not. **These min/max values are NOT confidence intervals, independent-site null tests, correction for q/operating-hour bias, or an external-region population replication.** They do show that for several taxa, the reported *site-stratified detected-photo odds* are not driven by removing just one original camera code. Do not cherry-pick only stable taxa into a confirmatory multi-taxon universality claim; report all 43 original source labels and original outcome artifact unchanged.
+
 **New descriptive observation:** Distinct source taxa have contrasting *detected photograph-time* reallocations between opposite solstice-date branches even with nearly matched astronomical daylength; within a given taxon the core→daylight-edge contrast and overall daylight→night contrast need not agree (e.g., source-record Buffalo edge/core <1 versus night/day >1). Nothing here establishes biological photoperiod memory, thermal avoidance, independent animal events or stable behavioral chronotype. There is only ONE sampled ecological landscape, so **this is not 186 independent ecosystem replications**. Source opening detected 43 taxa including several nonmammals/low-support; full machine-readable archive holds ALL, with undefined cells unchanged. The headline 8 mammals are illustrative after-source examples, not a separately pre-frozen familywise selected analysis; all 15 original fixed-support taxa including `guineaFowl` and all 43 original taxa stay in original outcome artifact.
 
 **Major camera observation limit:** Authors' first/last valid photo dates do NOT independently establish continuously powered hourly operation; same-day photoperiod does NOT ensure same branch camera sensitivity `q`, day zone ON-hours, animal passage opportunity, weather, vegetation, population composition or actual animal behavior. Condition on source recorded photographs, not true exposure. Site×calendar-cycle MH odds are descriptive not independent animal inferential p-values.
