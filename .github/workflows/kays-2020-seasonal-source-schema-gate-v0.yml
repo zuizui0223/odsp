@@ -1,0 +1,34 @@
+name: Kays 2020 seasonal archive — schema-only ecological source gate
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-only-feasibility:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout paper branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify NO biological outcomes are opened by the schema auditor
+        run: python -m unittest discover -s tests -p 'test_solar_seasonal_hysteresis_source_audit_v0.py' -v
+      - name: Inspect author-posted official Dryad ZIP schema if available
+        run: |
+          python scripts/audit_kays_2020_seasonal_zip_schema_v0.py \
+            --output outputs/kays_2020_seasonal_source_only_receipt.json
+      - name: Upload source-only HOLD/admissibility receipt (NEVER an animal result)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kays-2020-seasonal-source-schema-only-v0
+          path: outputs/kays_2020_seasonal_source_only_receipt.json
+          if-no-files-found: warn
