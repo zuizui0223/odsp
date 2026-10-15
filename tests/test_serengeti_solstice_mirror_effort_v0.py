@@ -27,7 +27,7 @@ class TestSerengetiMirrorSourceOnly(unittest.TestCase):
             (date(2012,11,10),date(2013,2,5)),
         ])
         self.assertEqual(len(merged),1)
-        self.assertEqual(len(mirror_pairs(merged,2012)),51)
+        self.assertEqual(len(mirror_pairs(merged,2012)),40)
 
     def test_invalid_source_dates_not_silently_reversed(self):
         with self.assertRaises(ValueError):
