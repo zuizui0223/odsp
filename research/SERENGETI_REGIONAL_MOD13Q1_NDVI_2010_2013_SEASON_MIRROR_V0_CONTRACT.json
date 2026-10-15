@@ -1,0 +1,64 @@
+{
+  "contract_id": "SERENGETI_REGIONAL_MOD13Q1_NDVI_2010_2013_SEASON_MIRROR_V0",
+  "freeze_date": "2026-10-15",
+  "epistemic_status": "Post earlier camera results and a single 2012 source-probe NDVI=0.5484: new 2010-2013 season-average outcome frozen before full NDVI series. Regional environment only, not source camera greenness or animal behavior.",
+  "source": "NASA MOD13Q1 v061 Terra 16-day NDVI via Microsoft Planetary Computer STAC + anonymous SAS; product DOI 10.5067/MODIS/MOD13Q1.061",
+  "source_root": "https://planetarycomputer.microsoft.com/api/stac/v1",
+  "collection": "modis-13Q1-061",
+  "use_only_platform": "terra",
+  "spatial": {
+    "latitude": -2.5,
+    "longitude": 34.75,
+    "selection": "same public representative point as earlier 2010–13 ERA5 atmospheric reanalysis",
+    "footprint": "3×3 adjacent 250m sinusoidal source pixels",
+    "all_actual_cameras_not_sampled": true,
+    "no_source_camera_GPS_access": true
+  },
+  "temporal": {
+    "query_start": "2010-01-01",
+    "query_end": "2013-07-16",
+    "matched_period_source": "original published independent ERA5 season mirrors 2010/2011/2012 December21±k, k=7...180 (522 pairs)",
+    "NDVI_temporal_alignment": "ONLY most recently completed 16-day Terra composite with end date <= paired calendar day (never future lookahead), age <=20d",
+    "no_interpolation": true,
+    "single_scene_first_source_probed": "MOD13Q1.A2012017.h21v09.061.2021203222829 (QA good=9/9, source NDVI 0.5484); this item value does not select favorable dates"
+  },
+  "quality": {
+    "asset": "250m_16_days_NDVI",
+    "scale": 0.0001,
+    "valid_int16_range": [
+      -2000,
+      10000
+    ],
+    "quality_asset": "250m_16_days_pixel_reliability",
+    "good_QA_exact": 0,
+    "marginal_QA_1_excluded": true,
+    "min_good_pixels_per_scene": 6,
+    "aggregate_median_of_good_pixels_only": true,
+    "qa_source_fill_not_allowed": true,
+    "if_scene_missing_or_low_quality": "scene NDVI null; no carry-forward beyond last completed good 16-day composite; if nearest temporal source scene is clouded, pair is missing instead of reaching further back"
+  },
+  "results": {
+    "include_all_Terra_scene_sources": true,
+    "report_per_year": "Number of original 174 day mirrors with both branch NDVI present; mean+median and p10/p90, fractions positive and negative of falling-minus-rising NDVI, result only if >=0.60 coverage",
+    "report_all_cycles": "Mean/median NDVI contrast on available original 522 fixed date pairs, but DO NOT treat pairs as independent climate replications",
+    "output_readiness": "If fewer than 60% pair coverage for a cycle, mark that year insufficient and do not make interpretive sign claim",
+    "no_p_value_or_species_predictor": true,
+    "independent_data_integrity": "STAC item IDs and dates, original asset scale, COG QA pixels, exact source-returned scene receipts",
+    "source_volume_bounds": "At most 150 Terra scenes / 6 search pages, no unbounded input or download",
+    "no_animal_data_opened": true
+  },
+  "interpretation": {
+    "strong_scope": "Can show whether one source public representative regional vegetation patch is greener in one branch than the other at similar astronomical daylength.",
+    "weak_scope": "Single 0.75 km region patch and original NDVI cloud screening is NOT biomass for all Serengeti grasslands or foliage around 186 source cameras.",
+    "not_claim": [
+      "animal migration",
+      "true animal activity",
+      "food availability",
+      "rainfall-mediated behavior",
+      "thermal causation",
+      "cross-biome universal photoperiod response",
+      "independent camera-hour effort",
+      "species/site NDVI slope"
+    ]
+  }
+}
