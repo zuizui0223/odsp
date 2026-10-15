@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "contract_id": "bukhansan_published_11_camera_exact_conditional_record_clock_null_v4",
+  "stage": "FROZEN_AFTER_FULL_AUTHOR_TABLE_EXPOSURE_POSTPUBLICATION_EXPLORATORY",
+  "author_paper_doi": "10.14397/jals.2025.59.5.111",
+  "public_author_derived_source": "BUKHANSAN_PUBLISHED_SITE_HOUR_WINDOWS_V1_CONTRACT.json",
+  "preceding_observed_route": "BUKHANSAN_PUBLIC_JOINT_SPACE_CLOCK_OVERLAP_V3_CONTRACT.json",
+  "original_source_units": "11 public camera ID x 3 author-publication-derived clock label bins; 184 Water deer and 273 Wild boar photographed event counts",
+  "fixed_clock_bins": [
+    "01to06",
+    "07to18",
+    "19to24"
+  ],
+  "fixed_camera_roster": [
+    "G1",
+    "G3",
+    "G4",
+    "G9",
+    "G12",
+    "G17",
+    "G19",
+    "G21",
+    "G22",
+    "M1",
+    "M2"
+  ],
+  "fixed_species": [
+    "water_deer",
+    "wild_boar"
+  ],
+  "null": {
+    "object": "Conditional random allocation of each camera's published species counts across its fixed three combined species clock-period totals",
+    "site_invariants": [
+      "Water-deer total per camera",
+      "Wild-boar total per camera",
+      "camera×clock-bin combined species total"
+    ],
+    "assigned_worlds": "Each possible Water-deer 3-bin allocation w_s,z has count weight product_z choose(t_s,z,w_s,z); all 11 camera allocations combine independently under the formal null",
+    "local_denominator": "choose(site combined total,site Water-deer total)",
+    "global_denominator": "product of each site's local denominator",
+    "global_score": "S=sum_camera,clock min(Nboar*w_camera_clock,Nwater*b_camera_clock)",
+    "observed_original_v3_statistic": "D=O(camera_only)−O(camera×clock), with O=sum cells min(record fraction water,record fraction boar); site-only overlap is fixed under null",
+    "one_sided_direction": "Greater conditional detected-time dissimilarity D means S <= observed original table score",
+    "expected_value": "Exact sum of local integer-score expectations, NOT Monte Carlo",
+    "probability_calculation": "Exact DP convolution of integer-weighted camera score pmfs; P_null(S<=S_observed) as a ratio of integers",
+    "central_interval": "Exact distribution 2.5 and 97.5 percent quantiles for D using inverse-CDF",
+    "one_site_diagnostic": "Post-outcome source camera G19, one-sided observed extra-gap probability within only that camera; NOT a confirmatory site test",
+    "max_supported_integer_states": 50000,
+    "max_camera_cell_count": 1000
+  },
+  "interpretation_ceiling": "FORMAL_FINITE_RECORD_LABEL_EXCHANGEABILITY_NULL_ONLY; does not reject time-within-camera equality nor claim ecological animal-population mechanism",
+  "source_holds": {
+    "independently_identified_animals": false,
+    "independent_photographic_events": false,
+    "individual_event_permutation_null_biologically_validated": false,
+    "calibrated_q_camera_species_clock": false,
+    "independently_authenticated_camera_operation_hours": false,
+    "true_habitat_or_niche_selection_estimated": false,
+    "valid_biological_significance_or_confidence_interval_reported": false,
+    "predata_preregistered_inference_claimed": false,
+    "original_2022_Uljin_fixed_41_date_pairs_tested": false,
+    "original_EcoBank_v1p1_event_data_authenticated": false,
+    "actual_competition_or_behavioral_mechanism_established": false
+  }
+}
