@@ -1,5 +1,8 @@
 # Bukhansan: exact camera-conditional null for apparent temporal partitioning
 
+> **2026-10-15 companion spatial-ecology follow-through:** The *separate* v5 study of the **same real published camera network** decomposes the pooled forest/wetland species-record contrast: **98.09% of the original Water-minus-Boar wetland record-share differential comes from camera M2**, not an independently replicated wetland habitat effect. Dropping M2 reduces the source wetland-vs-forest odds-ratio from **3.997** to **1.936**; the remaining wetland is only M1. See [source-localized M2 ecological study](https://github.com/zuizui0223/odsp/blob/ecology/uljin-matched-daylength-temporal-refuge-v0/docs/bukhansan_wetland_M2_source_localized_ecology_20261015.md) and [v5 CI success](https://github.com/zuizui0223/odsp/actions/runs/38672793731). This updates the **spatial question**, NOT the exact time-null v4 result or its source assumptions. Neither analysis proves animal habitat preference or competition.
+
+
 **15 October 2026 | ODSP PR #264 | Post-publication exploratory reanalysis, NOT a preregistered biological test**
 
 ## Ecological question
