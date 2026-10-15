@@ -239,7 +239,37 @@
         "source_2001_anomaly_rows": 25,
         "real_animal_activity_identified": false
       }
+    },
+    {
+      "id": "mara_guthmann2023_independent_conservancy_camera",
+      "doi": "10.5061/dryad.79cnp5j28",
+      "reference": "Guthmann et al. 2023/2024 Journal of Animal Ecology: Livestock activity shifts large herbivore temporal distributions to their crepuscular edges (DOI 10.1111/1365-2656.14034)",
+      "source": "https://datadryad.org/dataset/doi:10.5061/dryad.79cnp5j28",
+      "official_dryad_file_event_id": 2797636,
+      "original_event_filename": "Mara_Filtered.csv",
+      "original_event_size_bytes": 4013782,
+      "original_event_sha256": "180d088846ca397c060fa174d8300d26b75127362830a3334aee74b14fd13b92",
+      "official_dryad_file_site_metadata_id": 2797640,
+      "original_site_metadata_filename": "Mara_Metadata.csv",
+      "original_site_metadata_sha256": "e281cd77a7a2a4651048c6f00239617c158ae56a734b323568b066496f389ca4",
+      "published_camera_stations": 63,
+      "documented_site_groups": [
+        "ENO / Enonkishu",
+        "OLC / Ol Choro",
+        "LEM / Lemek"
+      ],
+      "original_study_2018_to_2022": true,
+      "time_coverage_evidence": "Camera study original metadata: 21 ENO cameras installed Nov 2018, whole 2018–2022 survey; OLC/LEM extension Aug 2021. Raw record Date YYYY-MM-DD and Time HH:mm:ss UTC+03:00, 30 min species-specific dedup. Site metadata initial camera setup date, move/pulled status, not per-hour independent device-on intervals.",
+      "original_event_zip_member_rows_verified": false,
+      "same_station_both_photoperiod_branches_verified": false,
+      "source_independent_hourly_camera_operation_verified": false,
+      "original_first_party_download_attempt_20261015": "HTTP 401 for both original official event.csv and metadata.csv API file endpoints; Dryad metadata itself verified with registered independent SHA256. No raw event row opened.",
+      "observation_modality": "camera trap; original day=three images per trigger night=one image per trigger camera configuration described by authors",
+      "tier_candidate": "B_independent_serengeti_mara_ecoregion_not_independent_biome; environmental livestock covariate but insufficient on-hour effort",
+      "primary_equal_daylength_eligible_now": false,
+      "gate": "HOLD_ORIGINAL_SOURCE_BYTES_STABLE_PHYSICAL_SITE_MOVE_CHRONOLOGY_AND_INDEPENDENT_SOLAR_ZONE_ON_HOURS",
+      "candidate_value": "Promising nearby but distinct Kenya conservancy landscape and genuine time-varying livestock ecology with multi-year 63-camera records. Explicitly NOT 63 independent regions; camera relocations in metadata; no original physically measured hourly effort, detector q or authenticated event bytes currently available."
     }
   ],
-  "last_source_audit": "2026-10-15: 11 candidate sources. Kays official public file metadata verified but 401 download; Serengeti matched-daylength actual SOURCE PHOTO-TIME: 38,792 on 24,290 solar-caliper date pairs, 186 physical sites, NOT camera-hour calibrated; Northern Ireland independent geographical observational source 9,411→8,761 original rows, matched record-date-only source: 13 site-years/353 date pairs/988 photo events, selected on detection and dominated by one site-year."
+  "last_source_audit": "2026-10-15: 12 candidate sources. New independently published Kenya Maasai Mara conservancy 63-camera 2018–22 timestamped mammal+livestock source, provider registered two SHA256, source binary HTTP 401 and physical relocation/ON-hour lineage unverified. Existing Serengeti/NI/RI original photo findings unchanged; no newly admitted cross-region latent animal activity."
 }
