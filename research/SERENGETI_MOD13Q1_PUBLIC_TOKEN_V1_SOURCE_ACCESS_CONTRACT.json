@@ -1,0 +1,29 @@
+{
+  "id": "SERENGETI_REGIONAL_MODIS_TOKEN_V1_AFTER_SOURCE_ACCESS_HOLD",
+  "freeze_date": "2026-10-15",
+  "reason": "Historical NDVI source v0 found 83 Terra scenes, but 78 per-asset signing/read attempts returned HTTPError after five scenes (four good, one marginal QA), so original v0 remains INSUFFICIENT QA COVERAGE with 0/522 valid mirrored pairs. This is a separately marked post-outcome source-access engineering retry, not a retroactive retune of original science.",
+  "source": "Anonymous public Microsoft Planetary Computer STAC + official container-wide token endpoint (supported by planetary-computer-python SDK), not a credential bypass.",
+  "token_api": "https://planetarycomputer.microsoft.com/api/sas/v1/token/modiseuwest/modis-061-cogs",
+  "token_scope": "ONLY explicitly published NASA MODIS public COG assets, temporary, never logged or persisted",
+  "original_first_probe_receipt": {
+    "scene": "MOD13Q1.A2012017.h21v09.061.2021203222829",
+    "good_pixels": 9,
+    "good_only_ndvi": 0.5484,
+    "source_verified_GH_CI": "https://github.com/zuizui0223/odsp/actions/runs/38740896537",
+    "mandatory_v1_before_83_scenes": "repeat same composite, exactly 9 original QA-good pixels and NDVI≈0.5484 before first outcome expansion; if not, HOLD"
+  },
+  "unchanged_science": {
+    "source_collection": "modis-13Q1-061",
+    "satellite": "Terra MOD13Q1 v061 only",
+    "lat": -2.5,
+    "lon": 34.75,
+    "raster_roi": "same public coarse region point 3x3 250-m MODIS pixels, QA reliability exactly 0; at least 6 of 9, no future-date composites or gap filling",
+    "temporal": "2010-01-01...2013-07-16 original 83 STAC Terra source scenes; December21±7..180 for 2010–2012, exactly 522 original date mirrors",
+    "scene_quality": "0 only; cloud or marginal scenes null even if previous good",
+    "aggregate": "each year minimum 60% paired data availability; report all actual source scene states and NULL years; no animal source or original camera GPS input",
+    "avoid_false_inference": "no forage biomass, individual animal movement, true camera operation/q, animal night activity, cross-region universality or causal response",
+    "v0_science_modified": false
+  },
+  "quality_transaction": "One container token must give read access to original known 2012 scene plus all historical scenes through fixed signed URLs. If token or known-scene fails, all 522 pairs remain HOLD, not guessed.",
+  "results_frozen": "Report 83 original scene retrieval states, quality subset, number of 522 pair observations and per-year NDVI falling-minus-rising summaries only if coverage-qualified; no cherry-picked dates."
+}
