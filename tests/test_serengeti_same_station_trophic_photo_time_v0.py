@@ -16,7 +16,7 @@ class TestTrophicCoRecordedPhotoTime(unittest.TestCase):
         ar=Counter(night=4,core=6)
         br=Counter(night=2,core=8)
         self.assertAlmostEqual(sitecycle_difference(af,bf,ar,br),0.0)
-        self.assertGreater(strict_log_three_way(af,bf,ar,br),0)
+        self.assertAlmostEqual(strict_log_three_way(af,bf,ar,br),0.0)
 
     def test_site_difference_positive_when_predator_night_fraction_changes_more(self):
         af=Counter(night=8,edge=2)
