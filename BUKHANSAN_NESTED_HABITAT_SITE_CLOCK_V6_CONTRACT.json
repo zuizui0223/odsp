@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "contract_id": "bukhansan_published_nested_habitat_site_clock_observational_v6",
+  "stage": "POST_PUBLICATION_SOURCE_EXPOSED_EXPLORATORY_NESTED_ECOLOGY",
+  "parent_author_doi": "10.14397/jals.2025.59.5.111",
+  "parent_source_path": "BUKHANSAN_PUBLISHED_SITE_HOUR_WINDOWS_V1_CONTRACT.json",
+  "comparison_routes": {
+    "prior_record_distribution_v3": "BUKHANSAN_PUBLIC_JOINT_SPACE_CLOCK_OVERLAP_V3_CONTRACT.json",
+    "prior_exact_conditional_clock_null_v4": "BUKHANSAN_PUBLISHED_SITE_CONDITIONAL_CLOCK_NULL_V4_CONTRACT.json",
+    "prior_wetland_M1_M2_v5": "BUKHANSAN_PUBLISHED_WETLAND_CAMERA_HETEROGENEITY_V5_CONTRACT.json"
+  },
+  "source_species": [
+    "water_deer",
+    "wild_boar"
+  ],
+  "original_public_station_roster": [
+    "G1",
+    "G3",
+    "G4",
+    "G9",
+    "G12",
+    "G17",
+    "G19",
+    "G21",
+    "G22",
+    "M1",
+    "M2"
+  ],
+  "original_habitat_categories": [
+    "Forest",
+    "Wetland"
+  ],
+  "source_clock_bins": [
+    "01to06",
+    "07to18",
+    "19to24"
+  ],
+  "fixed_full_source_counts": {
+    "water_deer": 184,
+    "wild_boar": 273
+  },
+  "ecology_question": "Which scale first makes the published recorded species distributions different: forest/wetland, distinct cameras within habitat, or three clock categories within physical camera; and how sensitive is the hierarchical allocation to removal of individual cameras?",
+  "observational_statistics": {
+    "normalized_species_cell_fraction": "for each species counts(s,c)/species N, with N recomputed for any omission",
+    "finite_support_TV": "0.5 sum_cells |p_water-p_boar|",
+    "ordered_nested_TV": "TV(habitat) + [TV(camera)-TV(habitat)] + [TV(camera×clock)-TV(camera)] = TV(camera×clock)",
+    "interpretation_warning": "order, species-specific source weights, camera versus clock class resolution matter; percentage components NOT causal ecological attribution",
+    "single_camera_omission": "all 11 original site codes; independently recompute both species totals, every marginal and joint TV after one camera omission, original forest/wetland label preserved",
+    "conditional_within_habitat_overlap": "use species counts renormalized within each habitat only as separate descriptive number; not equal to the unconditioned hierarchy loss",
+    "increment_at_habitat": "sum over habitats min(W_h/Nw,B_h/Nb) - sum source sites min(W_s/Nw,B_s/Nb); each habitat term nonnegative",
+    "habitat_vs_camera_locus": "identify source site with species-normalized excess that creates the observed within-habitat extra TV; no mechanistic attribution"
+  },
+  "source_and_inference_holds": {
+    "not_independent_original_individual_photos": true,
+    "not_independently_verified_camera_on_off_hours": true,
+    "not_species_by_camera_q_calibrated": true,
+    "not_author_event_dates_available": true,
+    "not_original_2022_Uljin_41_photoperiod_pairs_tested": true,
+    "not_original_NIE_EcoBank_v1p1_event_archive_admitted": true,
+    "not_randomized_forest_wetland_camera_treatment": true,
+    "not_biological_population_significance_tested": true,
+    "not_source_camera_habitat_preference_estimated": true,
+    "not_vegetation_or_human_avoidance_mechanism_tested": true,
+    "not_interference_competition_or_fitness_confirmed": true,
+    "not_original_frozen_workflows_reclassified": true
+  },
+  "claim_ceiling": "EMPIRICAL_STATION_CAMERA_RECORD_DISTRIBUTION_HIERARCHY_AND_ALL_11_SENSITIVITY_ONLY"
+}
