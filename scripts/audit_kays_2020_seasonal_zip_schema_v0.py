@@ -21,6 +21,7 @@ import zipfile
 from pathlib import Path
 
 OFFICIAL_FILE_URL = "https://datadryad.org/downloads/file_stream/235082"
+OFFICIAL_API_DOWNLOAD_URL = "https://datadryad.org/api/v2/files/235082/download"
 MAX_DOWNLOAD_BYTES = 12_000_000
 MAX_EXPANDED_BYTES = 120_000_000
 MAX_MEMBERS = 100
@@ -100,26 +101,44 @@ def schema_only_receipt(payload: bytes) -> dict:
     return receipt
 
 
-def official_schema_preflight(url: str = OFFICIAL_FILE_URL) -> dict:
-    if url != OFFICIAL_FILE_URL:
+def official_schema_preflight(url: str | None = None) -> dict:
+    """Try only two documented first-party Dryad paths; never bypass access control."""
+    if url is not None and url not in (OFFICIAL_FILE_URL, OFFICIAL_API_DOWNLOAD_URL):
         return {"status": "HOLD_UNREGISTERED_DOWNLOAD_URL", "source": url}
-    try:
-        req = urllib.request.Request(url, headers={"User-Agent": "ODSP-source-header-only/0.1 (ecological-research)"})
-        with urllib.request.urlopen(req, timeout=35) as response:
-            # Use a content limit, not an asserted Content-Length.
-            payload = response.read(MAX_DOWNLOAD_BYTES + 1)
-        if len(payload) > MAX_DOWNLOAD_BYTES:
-            return {"status": "HOLD_SOURCE_DOWNLOAD_EXCEEDS_SIZE_CAP", "source": url}
-        receipt = schema_only_receipt(payload)
-        receipt["status"] = "HOLD_SCHEMA_ONLY_NEEDS_SOURCE_INDEPENDENT_HARDWARE_ON_HOURS"
-        return receipt
-    except (OSError, urllib.error.URLError, zipfile.BadZipFile, UnicodeError, ValueError) as exc:
-        return {
-            "status": "HOLD_OFFICIAL_ARCHIVE_NOT_SCHEMA_INSPECTED",
-            "source": url,
-            "error_type": type(exc).__name__,
-            "scientific_status": "NO_NEW_BIOLOGICAL_RESULT",
-        }
+    sources = [url] if url else [OFFICIAL_FILE_URL, OFFICIAL_API_DOWNLOAD_URL]
+    attempts = []
+    for source in sources:
+        try:
+            req = urllib.request.Request(
+                source,
+                headers={
+                    "User-Agent": "Mozilla/5.0 (ODSP-public-source-preflight/0.1)",
+                    "Accept": "application/zip, application/octet-stream, */*",
+                },
+            )
+            with urllib.request.urlopen(req, timeout=35) as response:
+                payload = response.read(MAX_DOWNLOAD_BYTES + 1)
+            if len(payload) > MAX_DOWNLOAD_BYTES:
+                attempts.append({"source": source, "state": "DOWNLOAD_EXCEEDS_SIZE_CAP"})
+                continue
+            receipt = schema_only_receipt(payload)
+            receipt["source"] = source
+            receipt["status"] = "HOLD_SCHEMA_ONLY_NEEDS_SOURCE_INDEPENDENT_HARDWARE_ON_HOURS"
+            receipt["retrieval_attempts"] = attempts + [{"source": source, "state": "ZIP_HEADERS_READ"}]
+            return receipt
+        except (OSError, urllib.error.URLError, zipfile.BadZipFile, UnicodeError, ValueError) as exc:
+            attempts.append({
+                "source": source,
+                "state": "UNAVAILABLE",
+                "error_type": type(exc).__name__,
+                "http_status_if_any": getattr(exc, "code", None),
+            })
+    return {
+        "status": "HOLD_OFFICIAL_ARCHIVE_NOT_SCHEMA_INSPECTED",
+        "source": OFFICIAL_FILE_URL,
+        "retrieval_attempts": attempts,
+        "scientific_status": "NO_NEW_BIOLOGICAL_RESULT",
+    }
 
 
 def main() -> int:
