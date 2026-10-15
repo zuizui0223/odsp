@@ -1,0 +1,74 @@
+{
+  "id": "odsp_serengeti_equal_photoperiod_era5_environment_v0",
+  "date_frozen": "2026-10-15",
+  "related_pr": 267,
+  "interpretation": "NEW post-photo-outcome exploratory environmental-context design; original mammal event results are known and this is NOT external outcome-blind validation or a causal environmental mechanism.",
+  "question": "At near-equal astronomical daylength, how different are independently reanalyzed near-surface heat and rainfall between rising and falling seasons in the Serengeti? Does the sign rule out a simplistic warmer-falling-branch thermal explanation?",
+  "independent_source": {
+    "provider": "Open-Meteo ERA5 historical archive; underlying ECMWF ERA5",
+    "docs": "https://open-meteo.com/en/docs/historical-weather-api",
+    "endpoint": "https://archive-api.open-meteo.com/v1/archive",
+    "model": "era5",
+    "latitude": -2.5,
+    "longitude": 34.75,
+    "locator_scope": "PUBLIC COARSE REGIONAL REPRESENTATIVE CENTER, not any true/private physical camera coordinate. All cameras share the same regional climatic exposure in this limited screen.",
+    "spatial_resolution": "ERA5 approximately 0.25 degree; returned selected grid cell/elevation are model metadata, not exact source camera placement.",
+    "timezone": "Africa/Dar_es_Salaam",
+    "start_date": "2010-01-01",
+    "end_date": "2013-06-30",
+    "variables": [
+      "temperature_2m_mean",
+      "temperature_2m_max",
+      "precipitation_sum",
+      "shortwave_radiation_sum"
+    ],
+    "units": [
+      "degrees Celsius",
+      "degrees Celsius",
+      "millimetres",
+      "MJ/m2"
+    ],
+    "citation": "Open-Meteo historical ERA5 model; license/terms https://open-meteo.com/en/features; ERA5 climate reanalysis must be explicitly acknowledged.",
+    "never_access_camera_station_GPS": true
+  },
+  "astronomy_pairs": {
+    "solstice_years": [
+      2010,
+      2011,
+      2012
+    ],
+    "solstice": "December 21 local date",
+    "k_day_min": 7,
+    "k_day_max": 180,
+    "rising": "December 21 minus k days",
+    "falling": "December 21 plus k days",
+    "total_pairs_target": 522,
+    "matched_according_to": "symmetric solar calendar geometry (approximate fixed photoperiod at the regional latitude); NOT actual station-specific original event/photo roster",
+    "pair_selection_uses_event_outcome": false
+  },
+  "endpoints_frozen": [
+    "delta_falling_minus_rising_daily_maximum_temperature_C for each of 522 date pairs",
+    "delta_falling_minus_rising_daily_mean_temperature_C for each of 522 date pairs",
+    "delta_falling_minus_rising_trailing_30day_precipitation_mm (include target date and 29 preceding local dates)",
+    "delta_falling_minus_rising_daily_shortwave_radiation_MJm2",
+    "yearwise descriptive mean and median of each difference, fraction strictly positive, and across all date pairs the median, 10th and 90th percentiles",
+    "each solstice year is one weather-cycle and 174 k pairs within that year are temporally autocorrelated; NO 522 iid independent tests",
+    "one deliberately simple check of signs relative to previously OBSERVED photographed-time effects, no weather-activity regression and no ecological p-value"
+  ],
+  "data_integrity": {
+    "require_four_daily_series": true,
+    "require_local_time_and_consecutive_full_date_support": true,
+    "reject_null_or_nonfinite_values": true,
+    "reject_duplicate_dates": true,
+    "fail_closed": "HOLD_SOURCE_NOT_RETRIEVED_OR_MISSING_COVERAGE",
+    "no_interpolation_or_value_selection": true,
+    "source_content_SHA256_to_be_recorded_post_fetch": true
+  },
+  "limits": [
+    "Regional ERA5 modeled air temperature and precipitation are not direct animal core-hour body heat or grass resources.",
+    "Only one climate cell and at most three annual cycles—cannot identify across-landscape generality or site-level climate-response coefficient.",
+    "No camera on-hour or detection q source; previous animal result remains recorded PHOTO time distribution only.",
+    "Environmental differences between the two branches do not identify thermal regulation or circadian memory without stronger design.",
+    "Keep all signs, no reverse-date selection after inspecting climate values."
+  ]
+}
