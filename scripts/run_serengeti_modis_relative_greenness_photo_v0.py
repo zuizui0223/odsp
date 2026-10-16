@@ -124,22 +124,24 @@ def source_pixel_and_camera_date_sample(consensus:Path,effort:Path,satellite:Pat
     if orig_pair_sum!=REQUIRED_ORIGINAL_DATE_PAIRS:
         raise ValueError("HOLD_OLD_SOURCE_PHOTOPERIOD_PAIR_ROSTER")
 
-    # NDVI rank shift is defined against ALL original QA-qualified cameras,
-    # NOT photo-positive selected cameras.
+    # Rank support is original independent satellite QA admission, never
+    # species photo positivity. Required site counts fixed from v0 first.
     for y in YEARS:
-        sites=sorted(s for s,k in qualified_siteyear if k==y)
-        if len(sites)!=SOURCE_EXPECTED_SAT_QA_CAMERA_YEARS[YEARS.index(y)]:
+        assigned = camera_relative_rank_change(qualified_siteyear,y)
+        if assigned!=SOURCE_EXPECTED_SAT_QA_CAMERA_YEARS[YEARS.index(y)]:
             raise ValueError("HOLD_OLD_NDVI_CAMERA_YEAR_ADMISSION")
-        rvals=[qualified_siteyear[(s,y)]["rising"] for s in sites]
-        fvals=[qualified_siteyear[(s,y)]["falling"] for s in sites]
-        ranks_r=_rank(rvals)
-        ranks_f=_rank(fvals)
-        if len(sites)>1:
-            for site,rr,ff in zip(sites,ranks_r,ranks_f):
-                qualified_siteyear[(site,y)]["relative_rank_shift"]=(ff-rr)/(len(sites)-1)
-        else:
-            raise ValueError("HOLD_SINGLE_SATELLITE_SOURCE_SITE")
     return geos,events,source_dates,qualified_photo_dates,qualified_siteyear,year_roster
+
+def camera_relative_rank_change(siteyear:dict,year:int)->int:
+    sites=sorted(s for s,k in siteyear if k==year)
+    if len(sites)<2:raise ValueError("HOLD_SINGLE_SATELLITE_SOURCE_SITE")
+    rvals=[siteyear[(s,year)]["rising"] for s in sites]
+    fvals=[siteyear[(s,year)]["falling"] for s in sites]
+    rr=_rank(rvals)
+    ff=_rank(fvals)
+    for site,r,f in zip(sites,rr,ff):
+        siteyear[(site,year)]["relative_rank_shift"]=(f-r)/(len(sites)-1)
+    return len(sites)
 
 def species_photo_cells(geos,events,source_dates,qualified_photo_dates):
     previous_photo_count=0
