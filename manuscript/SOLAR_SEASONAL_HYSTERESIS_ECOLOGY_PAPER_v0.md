@@ -1,9 +1,17 @@
-# Equal daylight, different animal time?
-## Testing seasonal asymmetry in mammalian diel activity across landscapes
+# Equal daylight, different recorded time?
+## Seasonal photoperiod asymmetry in vegetation greenness and Serengeti mammal camera detections
 
-**Status:** Ecology manuscript v0 — Introduction, Methods, exploratory source-photo Results, independently reanalyzed ERA5 ecological context and Discussion; NO exposure-calibrated activity, causal mechanism or cross-region universality result  
-**Date:** 2026-10-15  
+**Status:** Empirical ecology manuscript v0.2 — documented 2010–2012 Serengeti PHOTO timing and independently measured MODIS site-level greenness, with explicit observational ceilings. NO exposure-calibrated animal activity, causal mechanism, population effect or cross-region universality result  
+**Date:** 2026-10-16  
 **Companion evidence:** [ecological protocol](../docs/solar_seasonal_hysteresis_ecology_paper_protocol_20261015.md) | [machine-readable source gates](../research/solar_seasonal_hysteresis_source_feasibility_v0.json) | [issue #266](https://github.com/zuizui0223/odsp/issues/266).
+
+### Abstract (working, observational claim-limited, 2026-10-16)
+
+Daylength provides a repeatable astronomical calendar, but plants and animals may experience contrasting ecological conditions on dates with nearly identical sunlight duration. We asked whether the seasonal distribution of mammal camera **recording times** and satellite-measured vegetation differed between opposite sides of the December solstice in the Serengeti. From independently checksum-verified public Snapshot Serengeti data, we identified 24,290 original physical-camera × date pairs within one minute of equal astronomical daylength across 2010–2012 and retained 38,792 quality-filtered photographic detections from 186 original camera stations. NASA/Terra MODIS 250-m vegetation NDVI was quality-checked against the same frozen source dates and camera locations. Among 322 site × annual-cycle combinations meeting prior satellite-support thresholds, all had greater greenness on the declining-daylength branch (mean NDVI differences +0.165, +0.273 and +0.222 for 2010, 2011 and 2012). Camera-record nighttime fractions also differed among species and seasons, but a symmetric decomposition showed that within-camera changes and reweighting of which cameras supplied photographs could oppose each other. An independently repeated source audit found only three of 15 focal taxon × year comparisons had sufficient photo-positive site support to relate NDVI differences to camera PHOTO-count changes; the vegetation predictors had heterogeneous associations rather than one common direction. These observations demonstrate that near-identical astronomical daylength does not guarantee ecological equivalence of vegetation or photographed temporal distributions. **Because actual camera hour-by-hour uptime and detection sensitivity are unavailable, they do not establish true animal activity hysteresis, environmental causation or transfer to new ecosystems.** Independent movement devices and verifiable camera effort are needed before testing such mechanistic or universal claims.
+
+**Keywords:** camera traps; photoperiod; diel detection; greenness; MODIS NDVI; observational seasonality; spatial mixture; Serengeti.
+
+**Scope decision:** This is a source-backed **single-landscape observational empirical manuscript**. A future strong claim about mammalian diel behavior across landscapes requires independent GPS/deployment/effort sampling and a new-region held-out design. Do not conflate the present PHOTO distribution with an individual's clock.
 
 ### Intended conceptual advance
 
