@@ -1,0 +1,49 @@
+name: Ireland source-record solar/daylength season comparison v0
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/IRELAND_RECORDED_SOLAR_DAYLENGTH_V0_CONTRACT.json'
+      - 'scripts/audit_ireland_solar_daylength_recorded_v0.py'
+      - 'tests/test_ireland_solar_photo_record_v0.py'
+      - '.github/workflows/ireland-observed-solar-daylength-v0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-author-records-exploratory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test mathematical controls and detection-limited claims
+        run: python -m unittest discover -s tests -p 'test_ireland_solar_photo_record_v0.py' -v
+      - name: Get pinned original-author v1.2.1 source and prove Git blob hash
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ireland_source
+          curl -L --fail --retry 3 --max-time 120 \
+            'https://raw.githubusercontent.com/arcaravaggi/PeerJ_mammal_activity/v1.2.1/all_data.csv' \
+            -o .ireland_source/all_data.csv
+          HASH=$(git hash-object .ireland_source/all_data.csv)
+          test "$HASH" = '2084dfac55acb75efe6e61c1abc306aeda0904eb'
+      - name: Calculate declared same-site same-photoperiod camera RECORD profiles
+        run: |
+          python -m scripts.audit_ireland_solar_daylength_recorded_v0 \
+            --source .ireland_source/all_data.csv \
+            --output outputs/ireland_observed_solar_daylength_photo_time_v0.json
+      - name: Archive aggregate evidence, no new observed-event causal claims
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ireland-observed-solar-daylength-photo-record-v0
+          path: outputs/ireland_observed_solar_daylength_photo_time_v0.json
+          if-no-files-found: warn

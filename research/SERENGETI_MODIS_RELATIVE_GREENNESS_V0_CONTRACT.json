@@ -1,0 +1,78 @@
+{
+  "contract_id": "SERENGETI_MODIS_RELATIVE_GREENNESS_V0_EXPLORATORY",
+  "frozen_date": "2026-10-16",
+  "epistemic_status": "NEW exploratory predictor diagnostic after all earlier 2010–2012 photo, 83 MODIS scene, site NDVI-difference and prior 3 rho results were opened. Not an untouched test, no causal identification.",
+  "research_question": "Does the same camera's PHOTO-count change depend more clearly on the average absolute green environment or changes in its vegetation rank among peer cameras, rather than simply greenness difference, when solar daylength is matched?",
+  "provenance": {
+    "original_Serengeti_photo_first_sha256": "0b70f7425d8ade2489a989bebc7b22fda997d82b2190e5e7d3c5d6f83ee71ef3",
+    "original_camera_ndvi_photo_previous_sha256": "b6ed0294d6e4c6277f07ef9327f536c564c33c79265570bf7b37197eb951c25f",
+    "original_83_terra_satellite_json_sha256": "e0e3c57de8d6a3ab9996412886e9733ea572cf9989f88a68b5c3ac5fb5557f11",
+    "original_83_terra_satellite_run_id": 38742381644,
+    "original_camera_ndvi_photo_run_id": 38744196749,
+    "original_consensus_md5": "5ed2d32fd09127c178cf9dca8ccfd623",
+    "original_search_effort_md5": "27cb42f3feaa0642b17cbde24ba15fbd",
+    "original_first_2012_good_NDVI_0_5484": true,
+    "original_eligible_sites": 186,
+    "original_daylength_mirror_camera_datepairs": 24290,
+    "original_animal_PHOTO_detections": 38792,
+    "original_qa_good_camera_site_years": [
+      98,
+      112,
+      112
+    ]
+  },
+  "frozen_sample": {
+    "matched_camera_dates": "Reuse EXACT 24,290 sunrise/sunset + 1 minute-source calendar mirrors, 2010, 2011, 2012 December21 +/-7..180 days.",
+    "original_NDVI": "All 83 original MOD13Q1 Terra V061 scenes, same 3x3 250m QA reliability 0 ONLY >=6 good pixels, most recently completed composite age<=20 days, no forward lookahead or interpolation",
+    "year_site_NDVI": "At each original physical station+year with >=10 2-branch good matched NDVI pairs and >=60% of source astronomy-date roster quality support, compute mean original rising NDVI R_i, mean falling NDVI F_i and delta_i=F_i-R_i using exactly the old admitted satellite date pairs.",
+    "relative_rank": "Among ALL independent NDVI-quality-admitted original camera sites IN SAME year (not selected by animal detections), calculate midrank of R_i and F_i separately, scaled to [0,1]. Define rank_shift_i=relative_rank(F_i)-relative_rank(R_i); this is zero if a site does not change greenness rank among the original cameras.",
+    "focal_taxa": [
+      "zebra",
+      "wildebeest",
+      "buffalo",
+      "gazelleThomsons",
+      "hyenaSpotted"
+    ],
+    "years": [
+      2010,
+      2011,
+      2012
+    ],
+    "photo_sample": "Retain the source original photo-only `>=5` deduplicated records per branch per focal species on the same satellite-qualified date sets; site chosen by co-photo detection. Keep original 15 source taxon×year records and original source coverage.",
+    "reporting_gate": "At least 15 original distinct cameras with >=5 source photos on BOTH branches and >=50% of original first-photo branch-record support; EXACT gate as original source first NDVI paper. Must preserve original 3 supported [zebra 2011, zebra 2012, wildebeest 2011], all 12 other cells unavailable."
+  },
+  "fixed_covariates": [
+    {
+      "name": "delta_NDVI",
+      "definition": "mean F_i - mean R_i for the same source paired days; replay old rho as a first gate, DO NOT reinterpret previous values"
+    },
+    {
+      "name": "mean_level_NDVI",
+      "definition": "(mean F_i + mean R_i)/2 — where vegetation is typically greener, not how much site greens up"
+    },
+    {
+      "name": "relative_rank_shift",
+      "definition": "mean-rank percentile F_i minus mean-rank percentile R_i across ALL original QA-qualified cameras in a calendar year, independent of focal-species photo co-detection"
+    }
+  ],
+  "fixed_observed_outcomes": [
+    "log(N_falling_photo/N_rising_photo) at same physical camera and original satellite-quality date-pair source sample; NOT effort-corrected animal activity or residence",
+    "NIGHT-photo fraction falling minus rising on same photo-positive source camera; NOT latent animal nocturnality"
+  ],
+  "fixed_statistics": {
+    "primary": "Spearman midrank rho for every predictor×outcome×focal species×year, including undefined, plus camera count/coverage and leave-one-physical-camera-out min–max (NOT confidence intervals).",
+    "photo_outcome_independence": "No p-values; repeated camera photographs and calendar pairs are not independent wildlife individuals.",
+    "previous_result_requirements": "Before opening new predictors re-reproduce exactly all 15 original supported status/sample sizes and old delta-NDVI Spearman rhos (absolute tolerance <= 1e-10). Fail HOLD otherwise.",
+    "hypothesized_pattern": "Camera-relative NDVI rank shift could be more relevant to seasonal photo-location reweighting than common regional greenup: compare sign and absolute rho magnitude to original delta-NDVI within the same preadmitted rows. No selecting whichever predictor gives better result ex post.",
+    "year_result": "Include full distribution range and site count for mean_level_NDVI and relative_rank_shift across all 98/112/112 NDVI-ready camera-years without publishing exact site coordinates.",
+    "no_causal_interpretation": true
+  },
+  "red_lines": [
+    "One ecosystem, at most 3 annual cycles, 3 earlier photo-gated supported taxon-years; cannot demonstrate universal photoperiod ecological memory.",
+    "All 322 originally admitted site-years may green up yet camera-specific photo counts need not correspond; positive or negative rank effects cannot be marketed as migration without independent movement and verified camera-hour q.",
+    "Original hardware model/flash changes between 2010 and 2012; no independent date×solar-zone power ON/OFF camera operation.",
+    "Pixel NDVI measures foliage reflectance including woody cover and camera setting, not edible grass forage biomass.",
+    "Output only aggregate year×taxon correlations, QA/source coverage and no source station IDs, precise coordinates, original event datetimes or individual vegetation pixels.",
+    "Do not retroactively relabel archived v0 SOURCE PHOTO and prior qualified original results."
+  ]
+}

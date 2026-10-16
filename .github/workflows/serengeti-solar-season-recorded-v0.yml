@@ -1,0 +1,55 @@
+name: Serengeti solar-matched recorded event contrasts v0
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/SERENGETI_SOLAR_SEASON_RECORDED_EVENT_V0_CONTRACT.json'
+      - 'scripts/run_serengeti_source_recorded_solar_season_v0.py'
+      - 'tests/test_serengeti_source_recorded_solar_season_v0.py'
+      - '.github/workflows/serengeti-solar-season-recorded-v0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-source-exploratory-observed-records:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install astronomy coordinate package
+        run: python -m pip install 'pyproj>=3.6,<4'
+      - name: Check frozen known-truth solar/event-count tests first
+        run: python -m unittest discover -s tests -p 'test_serengeti_source_recorded_solar_season_v0.py' -v
+      - name: Download ONLY original source consensus and camera-valid-date CSVs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .serengeti_season_source
+          curl -L --fail --retry 3 --retry-delay 4 --max-time 300 \
+            'https://zenodo.org/records/5026386/files/consensus_data.csv?download=1' \
+            -o .serengeti_season_source/consensus_data.csv
+          curl -L --fail --retry 3 --retry-delay 4 --max-time 100 \
+            'https://zenodo.org/records/5026386/files/search_effort.csv?download=1' \
+            -o .serengeti_season_source/search_effort.csv
+          echo '5ed2d32fd09127c178cf9dca8ccfd623  .serengeti_season_source/consensus_data.csv' | md5sum -c -
+          echo '27cb42f3feaa0642b17cbde24ba15fbd  .serengeti_season_source/search_effort.csv' | md5sum -c -
+      - name: Run ONE frozen same-site solar/season recorded-event comparison
+        run: |
+          python -m scripts.run_serengeti_source_recorded_solar_season_v0 \
+            --consensus .serengeti_season_source/consensus_data.csv \
+            --effort .serengeti_season_source/search_effort.csv \
+            --output outputs/serengeti_solar_season_recorded_event_v0.json
+      - name: Archive aggregate-only source/result with NO station or protected coordinates
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: serengeti-solar-season-recorded-event-source-v0
+          path: outputs/serengeti_solar_season_recorded_event_v0.json
+          if-no-files-found: warn

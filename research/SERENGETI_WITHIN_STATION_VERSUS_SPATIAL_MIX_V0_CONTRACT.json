@@ -1,0 +1,67 @@
+{
+  "id": "SERENGETI_WITHIN_STATION_VERSUS_SPATIAL_MIX_V0",
+  "frozen_at": "2026-10-15",
+  "issue": 266,
+  "pr": 267,
+  "source_first_run": "https://github.com/zuizui0223/odsp/actions/runs/38677521888",
+  "source": {
+    "consensus_md5": "5ed2d32fd09127c178cf9dca8ccfd623",
+    "effort_md5": "27cb42f3feaa0642b17cbde24ba15fbd",
+    "first_receipt_sha256": "0b70f7425d8ade2489a989bebc7b22fda997d82b2190e5e7d3c5d6f83ee71ef3",
+    "original_matched_photo_records": 38792,
+    "matched_site_date_pairs": 24290,
+    "original_source_sites": 186,
+    "original_taxon_labels": 43
+  },
+  "sequencing": "Exploratory POST earlier species-aggregate and site-matched photo outcomes, NOT a preregistered independent confirmation. Freeze this algebra, support and all-taxon reporting BEFORE opening NEW common-support within-vs-composition values.",
+  "ecological_question": "Do reported seasonal changes in the apparent NIGHT share of Serengeti camera photos arise primarily from changes within a station's photographed diel schedule, from changes in which camera stations contribute photographs, or both?",
+  "justification": "The camera survey covers the spatially variable Serengeti plains/woodlands migration zone; known zebra/wildebeest migration follows rainfall. Distinguishing where animals are photographed from when animals are photographed is a genuinely ecological interpretation problem, not proof of movement or resource causality.",
+  "labels": {
+    "rising": "Before December 21 at original retained sunrise/sunset-matched days",
+    "falling": "After December 21 at same frozen site/year mirror dates",
+    "night": "Outside original site's computed daily sunrise-to-sunset; civil twilight OUTSIDE daylight included as night",
+    "daylight": "All sunrise-to-sunset daylight including central and edge daytime",
+    "site": "physical original SiteID",
+    "cycle": "December solstice original year"
+  },
+  "estimand": {
+    "unit": "Species × December-solstice year, within single original Serengeti ecological landscape",
+    "sample": "Common physical camera roster C where species has >=1 source photo event BOTH rising and falling for that calendar cycle. Common support is DETECTION-SELECTED; all structural camera sites and unmatched coverage must be reported separately. No pseudocounting.",
+    "per_camera": "n_ib source PHOTO night events, d_ib source PHOTO daylight events, N_ib=n_ib+d_ib>0, p_ib=n_ib/N_ib",
+    "weights": "w_ib=N_ib/sum_{j in C}N_jb, for b=rising/falling, sum_i w_ib=1",
+    "delta": "Δ P_common = sum_i [w_iF p_iF − w_iR p_iR] over common source photographed cameras",
+    "within_term": "W=sum_i 0.5*(w_iF+w_iR)*(p_iF-p_iR)",
+    "between_term": "B=sum_i 0.5*(w_iF-w_iR)*(p_iF+p_iR)",
+    "identity": "W+B = ΔP_common exactly, tolerant only to 1e-12 floating arithmetic",
+    "common_support_selection": "eligible common cameras selected on presence of source photographs; report source PHOTO proportions covered of total branch records, NOT effort-standardized detections",
+    "source_camera_turnover": "TV_station=0.5*sum_i abs(w_iF-w_iR) on common photographed camera set; descriptive photo-location shift NOT actual animal movement",
+    "missing_site_coverage": "Report N_sites_rising, N_sites_falling, N_common_sites, unmatched_photo_fraction_per_branch. Pooled all-site delta and common-only delta must be reported separately; no algebra claiming all-site change decomposed by W/B.",
+    "denominator": "Zero-photo branch cameras remain in observed all-site denominators and eligibility audits; only C common roster supports W/B. Low or undefined common support yields undefined W and B."
+  },
+  "outputs": {
+    "all_taxa": "All 43 source taxon labels, including bird labels and source spellings; all three years; retain low-support/undefined/negative results.",
+    "focal_labels_from_prior_first_outcomes": [
+      "zebra",
+      "wildebeest",
+      "gazelleThomsons",
+      "hyenaSpotted",
+      "buffalo",
+      "giraffe",
+      "lionFemale"
+    ],
+    "support_context": "Prespecified descriptive attention if common camera count >=20, fraction of both rising/falling ORIGINAL photographed records on common roster >=0.5, and recorded source events >=100 each branch; label as descriptive support only.",
+    "year_summary": "Each year separately, no data-driven year picking; optional all-cycles camera-averaged descriptive median of W/B over years but no inference.",
+    "no_pvalues": true,
+    "no_zero_pseudocount": true,
+    "no_site_ID_or_coordinates_or_event_times_in_output": true
+  },
+  "null_limits": [
+    "Station photograph weights can change because true animal distribution, camera observation uptime/q, density, habitat visibility, camera vegetation, camera setup, and weather change. Calling B true spatial migration is NOT identified.",
+    "Within-camera photographed p may change because q differs by time and season; W is not direct animal diel plasticity.",
+    "The common-photo roster itself selects on positive outcomes, possibly large bias; the all-camera population/latent activity cannot be inferred.",
+    "No source-verified device-hour operating intervals or independent q; even all-site total photo proportions are not unbiased exposure-based activity rates.",
+    "No independent new-region transfer, ecological significance tests, individual animal samples, or causal climate/NDVI/food evidence.",
+    "Within/B terms can be opposite sign or small; zero, mixed, positive and negative outcomes must all be retained.",
+    "Site-year camera occurrences are correlated within one landscape. Number of cameras != independent ecological landscapes."
+  ]
+}
