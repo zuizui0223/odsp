@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 jobs:
-  57-individual-gps-source-integrity:
+  gps57_original_source_integrity:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
