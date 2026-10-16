@@ -54,7 +54,7 @@ class TestSeasonalAbsoluteGreennessVsRelativeRank(unittest.TestCase):
         c=json.loads((ROOT/"research/SERENGETI_MODIS_RELATIVE_GREENNESS_V0_CONTRACT.json").read_text())
         self.assertEqual(len(c["fixed_covariates"]),3)
         self.assertEqual(len(c["fixed_observed_outcomes"]),2)
-        self.assertIn("post",c["epistemic_status"].lower())
+        self.assertIn("after",c["epistemic_status"].lower())
         self.assertEqual(c["frozen_sample"]["years"],list(YEARS))
         self.assertTrue(c["fixed_statistics"]["no_causal_interpretation"])
 
