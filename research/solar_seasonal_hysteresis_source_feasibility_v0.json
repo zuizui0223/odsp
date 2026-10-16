@@ -269,7 +269,37 @@
       "primary_equal_daylength_eligible_now": false,
       "gate": "HOLD_ORIGINAL_SOURCE_BYTES_STABLE_PHYSICAL_SITE_MOVE_CHRONOLOGY_AND_INDEPENDENT_SOLAR_ZONE_ON_HOURS",
       "candidate_value": "Promising nearby but distinct Kenya conservancy landscape and genuine time-varying livestock ecology with multi-year 63-camera records. Explicitly NOT 63 independent regions; camera relocations in metadata; no original physically measured hourly effort, detector q or authenticated event bytes currently available."
+    },
+    {
+      "id": "masolele2026_serengeti_wildebeest_gps_2019_2023",
+      "doi": "10.5061/dryad.rn8pk0ps8",
+      "publication_doi": "10.1111/1365-2664.70435",
+      "reference": "Masolele, Hopcraft, Faust & Torney (2026) Journal of Applied Ecology 63(6):e70435, 57 adult migratory wildebeest GPS-collared January 2019–September 2023.",
+      "source": "https://datadryad.org/dataset/doi:10.5061/dryad.rn8pk0ps8",
+      "publication": "https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2664.70435",
+      "original_file": "WB2019_2023_data.csv",
+      "original_file_id": 4763314,
+      "official_sha256": "9631aa94bda8b9efd7adbe8ca0004e58f22c98d03b729fcab4df40434a0fc148",
+      "original_file_bytes": 13481100,
+      "original_README_file_id": 4763337,
+      "official_README_SHA256": "949cb307b2d17d82f3315773e7afdc327564ff417308ce554cb321767a4252b7",
+      "license": "CC0 1.0 per official Dryad catalog",
+      "animals_reported_by_paper": 57,
+      "location_rows_paper": 143168,
+      "years": "2019-2023",
+      "time_precision": "Timestamp Date, individual AID, collar ID, UTM coordinates, step length, migratory indicator and sex listed in official README",
+      "device_fix_cadence": "Study paper: 4h 65%, 1h 19%, 8h 15%, other 2%; filtered consecutive fix gaps >=1h and <24h. Sampling schedule and gap can bias circadian inference, and GPS speed/step length ≠ active behavior or energy use.",
+      "original_event_zip_member_rows_verified": false,
+      "source_download_success_verified": false,
+      "same_animal_both_photoperiod_branches_verified": false,
+      "independent_gps_sampling_calendar_verified": false,
+      "source_independent_hourly_camera_operation_verified": false,
+      "observation_modality": "individual-GPS; NOT camera photography",
+      "tier_candidate": "independent_sensor_modality_and_years_within_same_broad_serengeti_ecosystem_if_raw_rows_and_fix_schedule_admitted",
+      "primary_equal_daylength_eligible_now": false,
+      "gate": "HOLD_ORIGINAL_FILE_CHECKSUM_INDIVIDUAL_CALENDAR_SOLSTICE_MIRRORS_AND_FIX_DUTY_CYCLE",
+      "candidate_value": "Strong potential 57-animal device-based replication without camera detector bias; different sampling years 2019–23 and sensors, but same broad Serengeti–Mara ecosystem, not an independent biome. Cannot interpret distribution of GPS FIXES as behavior. Predefine step speed only on verified location intervals and correct duty-cycle/time-of-day sampling before calculating solar-season outcomes."
     }
   ],
-  "last_source_audit": "2026-10-15: 12 candidate sources. New independently published Kenya Maasai Mara conservancy 63-camera 2018–22 timestamped mammal+livestock source, provider registered two SHA256, source binary HTTP 401 and physical relocation/ON-hour lineage unverified. Existing Serengeti/NI/RI original photo findings unchanged; no newly admitted cross-region latent animal activity."
+  "last_source_audit": "2026-10-16: 13 candidates. New public 2026 57-animal 2019–23 wildebeest GPS dataset: official file bytes/sha verified via Dryad metadata; source row-access and hour-cycle effort not yet verified. GPS fixes measured irregularly at ~1/4/8h intervals; not independent animal activity. Previous 2010–12 camera/NDVI findings remain observational and non-generalizing."
 }
