@@ -17,7 +17,7 @@ class TestOriginal2026WildebeestGPSHeaderOnly(unittest.TestCase):
         self.assertEqual(c["published_individuals"],57)
         self.assertEqual(c["published_paper_eligible_observations"],143168)
         self.assertEqual(len(REQUIRED_COLUMNS),5)
-        self.assertIn("no protected animal GPS rows",c["nature"].lower())
+        self.assertIn("no protected animal gps rows",c["nature"].lower())
 
     def test_source_never_promoted_on_changed_or_fabricated_bytes(self):
         junk=b"AID,Date,Step_length,SPECIES,COLLAR_ID\nsecretlion,2020-01-01,1,WB,tag42\n"
