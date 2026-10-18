@@ -77,7 +77,9 @@ class TestSolarSeasonalHysteresisSourceGate(unittest.TestCase):
         self.assertFalse(gps['original_event_zip_member_rows_verified'])
         self.assertFalse(gps['primary_equal_daylength_eligible_now'])
         duck = next(e for e in entries if e['id'] == 'vantoor2025_multispecies_duck_gps')
-        self.assertFalse(duck['source_download_success_verified'])
+        self.assertTrue(duck['source_download_success_verified'])
+        self.assertEqual(duck['original_source_fixes_verified'], 294683)
+        self.assertEqual(duck['animal_count_strictly_both_branch_daynight_speed'], 9)
         self.assertFalse(duck['primary_equal_daylength_eligible_now'])
         self.assertEqual(duck['published_species_count'], 7)
         self.assertEqual(
