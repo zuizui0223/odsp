@@ -69,6 +69,6 @@ class TestMatchedSolarSourceMovement(unittest.TestCase):
         self.assertIn("294,683",c["status"])
         self.assertEqual(c["source"]["source_fix_rows"] if "source_fix_rows" in c["source"] else c["source"]["source_GPS_fix_rows"],294683)
         self.assertIn("5 minutes",c["unit"]["daylength"])
-        self.assertTrue(any("Different observation modality" in s for s in c["sensitivity_and_limit"]))
+        self.assertTrue(any("different response from Serengeti" in s for s in c["sensitivity_and_limit"]))
 
 if __name__=="__main__":unittest.main()
