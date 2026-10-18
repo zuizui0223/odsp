@@ -299,7 +299,29 @@
       "primary_equal_daylength_eligible_now": false,
       "gate": "HOLD_ORIGINAL_FILE_CHECKSUM_INDIVIDUAL_CALENDAR_SOLSTICE_MIRRORS_AND_FIX_DUTY_CYCLE",
       "candidate_value": "Strong potential 57-animal device-based replication without camera detector bias; different sampling years 2019–23 and sensors, but same broad Serengeti–Mara ecosystem, not an independent biome. Cannot interpret distribution of GPS FIXES as behavior. Predefine step speed only on verified location intervals and correct duty-cycle/time-of-day sampling before calculating solar-season outcomes."
+    },
+    {
+      "id": "vantoor2025_multispecies_duck_gps",
+      "doi": "10.5281/zenodo.16940654",
+      "reference": "van Toor & Waldenström (2025) GPS telemetry data (hourly relocations) of seven species of dabbling ducks captured in Sweden, Netherlands, Lithuania, Bangladesh, Mongolia and Portugal",
+      "source": "https://zenodo.org/records/16940654",
+      "source_file": "250823_LNU_dabbling_ducks_hourly.csv",
+      "source_file_md5": "1972d0ef08b83c2b88a169ba07bb48b3",
+      "published_size": "46.3 MB",
+      "original_file_url": "https://zenodo.org/records/16940654/files/250823_LNU_dabbling_ducks_hourly.csv?download=1",
+      "published_species_count": 7,
+      "sensor": "GPS/GSM OrniTrack; sensor-reported instantaneous ground.speed m/s; individual.id and UTC timestamp as documented",
+      "source_tracking_deployment": "2017-2022 multi-country GPS captures, different tag models OT-10 (min two-hour fixes), OT-15/OT-25E (hourly at >75% battery); actual duty-cycle/season branch source rows to be verified",
+      "original_event_zip_member_rows_verified": false,
+      "source_download_success_verified": false,
+      "same_individual_both_photoperiod_branches_verified": false,
+      "source_independent_hourly_camera_operation_verified": false,
+      "observation_modality": "multi-species individual GPS tracking, different lineage from Serengeti mammals",
+      "tier_candidate": "separate_ecological_region_sensor_cross_clade_confirmatory_candidate_after_timestamps_same_cell_and_fix_schedule_gates",
+      "primary_equal_daylength_eligible_now": false,
+      "gate": "HOLD_ORIGINAL_2025_DUCK_GPS_CSV_MD5_HEADER_INDIVIDUAL_DATE_BOTH_BRANCHES_AND_GROUND_SPEED_CADENCE",
+      "candidate_value": "Public 46.3 MB GPS sensor source includes species ID, individual ID, fix UTC, position and ground.speed. Potential wetland cross-clade generalization. Need original source MD5 and individual/cell/solstice daylength matched support. GPS fixes and ground.speed may be missing or sampled unevenly by battery; no physical animal activity inference without duty-cycle/quality control."
     }
   ],
-  "last_source_audit": "2026-10-16: 13 candidates. New public 2026 57-animal 2019–23 wildebeest GPS dataset: official file bytes/sha verified via Dryad metadata; source row-access and hour-cycle effort not yet verified. GPS fixes measured irregularly at ~1/4/8h intervals; not independent animal activity. Previous 2010–12 camera/NDVI findings remain observational and non-generalizing."
+  "last_source_audit": "2026-10-18: 14 public candidate sources. Added 2025 7-species multi-country hourly/two-hourly duck GPS archive at Zenodo DOI 10.5281/zenodo.16940654 (46.3MB, MD5 known). Independent bird lineage and countries, source download and within-individual station/photoperiod support not yet admitted. Previous Serengeti/NI photography and NDVI outcomes unchanged."
 }
