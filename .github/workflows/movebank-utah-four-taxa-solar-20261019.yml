@@ -1,7 +1,7 @@
 name: Utah original multi-taxon ungulates matched-solar seasonal displacement
 on:
   push:
-    branches: [ecology/seasonal-hysteresis-cross-landscape-paper-v0]
+    branches: [ecology/seasonal-hysteresis-cross-landscape-paper-v0, ecology/utah-four-taxa-solar-20261019]
     paths:
       - 'research/MOVEBANK_UTAH_FOUR_TAXA_SOLAR_V0_20261019.json'
       - 'scripts/movebank_utah_four_taxa_solar_20261019.py'
