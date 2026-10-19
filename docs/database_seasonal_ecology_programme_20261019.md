@@ -1,7 +1,7 @@
 # A public-data ecology programme: solar and ecological calendars
 
 Date: 2026-10-19  
-Status: central hypothesis, registry source inventories and first exploratory independent 21-site ERA5 environment grid; animal-level database assembly and comparative animal response tests remain incomplete.  
+Status: complete 437-public-package Movebank native-source inventory, six authenticated mammal GPS cohort seasonal results (197 eligible animals), all six linked to exact-source-date regional ERA5, and exploratory within-individual/year temperature/water association completed. Population-general and causal ecological drivers remain UNVERIFIED.  
 Companion: [source inventory](../research/seasonal_database_catalog/README.md) · [existing Serengeti evidence](../manuscript/SOLAR_SEASONAL_HYSTERESIS_ECOLOGY_PAPER_v0.md)
 
 Purpose clarification, 2026-10-19: the primary goal is comparative ecological inference—estimating seasonal differences, environmental associations, and their variation among populations and taxa. Predictive performance is optional and is not a condition for an ecological finding.
@@ -11,6 +11,16 @@ Purpose clarification, 2026-10-19: the primary goal is comparative ecological in
 **Updated post-outcome ecological result (2026-10-19).** Etosha elephant GPS time-of-day displacement shifts remained negative across **two independently reported Southern solar-year cycles** when analyzed separately: 2009 **−0.26287** (11/11 animals negative), 2010 **−0.24226** (5/5 negative). The Etosha jackal source was near zero in 2009 **+0.00926** (7 animals; bootstrap interval includes zero) and supported only one animal in 2010. Thus do **not** describe a robust elephant-versus-jackal sign opposition, even though their pooled-source point estimates had opposite signs. The shared regional coarse ERA5 30-day water-balance proxy rose in each source cohort's 2009 paired-date comparison (+118.31/+116.29 mm). These are exploratory GPS-step and regional weather observations, not causal activity or forage effects. [Year-stratified source run](https://github.com/zuizui0223/odsp/actions/runs/39210319995), [complete ecological synthesis](../docs/solar_calendar_multispecies_ecological_results_20261019.md).
 
 **Direct original collar-temperature outcome (2026-10-19).** The independent Kruger public GPS archive (`Loxodonta africana`, 13 admitted elephants, 1,787 original matched-photoperiod date pairs) includes validated relative collar thermal readings. The declining-daylength branch showed daytime sensor temperature **+1.0615°C**, nighttime **+1.5326°C**, and mean DAY-minus-NIGHT gradient change **−0.4711°C**, alongside **−0.02889** relative NIGHT-minus-DAY log1p GPS speed change. Yet the within-elephant year-centered association between thermal-gradient and movement-gradient differences averaged just **+0.001172 per °C**, individual-bootstrap interval **[−0.002041, +0.004154]**, with **8 positive / 5 negative** individuals. Thus the simple linear *relative thermal gradient alone* has **not been supported as an explanation** of the repeated elephant movement contrast; this does not show temperature is irrelevant. Original sensor readings mix ambient/circuit/animal heating (Thaker et al. 2019 already studied ordinary speed-temperature associations), so no new causal temperature mechanism is claimed. [Complete original-data ecology result](../docs/kruger_thermal_gradient_matched_solar_ecological_results_20261019.md); [source-tested workflow](https://github.com/zuizui0223/odsp/actions/runs/39211773115).
+
+## 最新の実測到達点：6調査群の季節差と個体内の気候関連（2026-10-19）
+
+Movebank公開データベースの**437パッケージ**から元データを取得・検証した結果、固定した元のGPS時刻・日長条件で**6調査群・197個体**の昼夜変位差が算出された。さらに実際に対応づけた各個体の日付について、全6群のERA5地域代表格子の2m平均気温と直近30日間のP−ET0水分収支を結合し、元の6つのGPS効果量を一切変更せず再現できた（[6群完了Results](movebank_six_original_cohort_matched_era5_complete_ecological_result_20261019.md)、[元原本実行](https://github.com/zuizui0223/odsp/actions/runs/39214116116)）。
+
+最も明瞭な非自明の結果は、**ミュールジカとクロクマはどちらも日長減少期が約+9〜10°C暖かく、P−ET0が低下する環境にもかかわらず、記録された夜間相対変位の季節変化の符号が逆である**こと。さらに、6群すべてで同じ個体・同じ太陽年のGPS原日付ペアを使って個体内の気温・水分収支と昼夜変位の関連を計算した結果（[6群の個体内環境関連](movebank_six_source_within_animal_era5_thermal_water_ecology_20261019.md)、[原本再計算・6テスト成功](https://github.com/zuizui0223/odsp/actions/runs/39217223363)）、群全体で季節差がほぼゼロの**オジロジカでも気温差に対する個体内観測関連が33個体中31個体で正**だった。
+
+ただし、**これは独立した31回の気温実験ではない**。同じ研究地域の個体はERA5の同じ気象暦と原本測位計画を共有しており、種・地域・年・繁殖／移動季節・人為圧・植物資源は分離できていない。個体内の回帰傾きは**単変量の季節的共変動**であり、熱による因果効果、真の活動時間、動物の生理的温度、普遍的な昼夜ニッチ再編成の法則を示すものではない。P−ET0は実測土壌水分でも植物可食資源でもない。
+
+**生態学上の次の分岐：** (1) 同一種の複数地域（既に本リポにあるエトーシャ／クルーガーのアフリカゾウ等）と異なる気候状態を対応させる、(2) GPSの実際に利用された地点の環境差と繁殖・植生・人為活動の季節差を独立資料で扱う。単一の地域格子に基づく6点回帰や、事後的に日付窓を広げて都合よい動物の符号を探す作業は行わない。
 
 ## 研究の中心
 
