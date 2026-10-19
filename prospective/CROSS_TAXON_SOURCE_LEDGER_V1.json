@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "created_date": "2026-10-19",
+  "source_type": "public metadata and repository-provenance ledger",
+  "phase": "outcome_blind_source_inventory",
+  "new_biological_outcome_opened": false,
+  "statements_not_licensed": [
+    "universal vertical individual specialization",
+    "central-place causal mechanism",
+    "taxon specialness determined",
+    "same endpoint for bat movement and penguin breeding components"
+  ],
+  "sources": [
+    {
+      "id": "batter-frozen-bat",
+      "taxa": "Chiroptera: four studied bat taxa",
+      "source": "https://github.com/zuizui0223/batter/blob/main/README.md",
+      "phenomenon": "individual GPS altitude distribution identity",
+      "status": "historical benchmark only",
+      "metadata_count": "six panels/four taxa",
+      "old_result": "five comparative panels retain centered shape; motivating Tadarida panel does not",
+      "independent_new_confirmation": false
+    },
+    {
+      "id": "lbbg-schiermonnikoog-v1",
+      "taxa": "Larus fuscus",
+      "source": "https://zenodo.org/records/20706447",
+      "doi": "10.5281/zenodo.20706447",
+      "source_record_status": "archived dataset; newer version exists; archival DOI must remain fixed",
+      "reference_csv": "LBBG_SCHIERMONNIKOOG-reference-data.csv",
+      "reference_rows": 29,
+      "distinct_animal_ids": 29,
+      "deploy_start_years": {
+        "2017": 20,
+        "2018": 9
+      },
+      "schema_fields_present": [
+        "timestamp",
+        "location-long",
+        "location-lat",
+        "height-above-msl",
+        "individual-local-identifier"
+      ],
+      "phenomenon": "flight altitude; movement-state filtering required",
+      "status": "metadata_and_schema_candidate_not_event_admitted",
+      "independent_new_confirmation": "candidate"
+    },
+    {
+      "id": "medgull-antwerpen-v1",
+      "taxa": "Ichthyaetus melanocephalus",
+      "source": "https://zenodo.org/records/15685037",
+      "doi": "10.5281/zenodo.15685037",
+      "reference_csv": "MEDGULL_ANTWERPEN-reference-data.csv",
+      "reference_rows": 14,
+      "distinct_animal_ids": 14,
+      "deploy_start_years": {
+        "2021": 4,
+        "2022": 10
+      },
+      "schema_fields_present": [
+        "timestamp",
+        "location-long",
+        "location-lat",
+        "height-above-msl",
+        "individual-local-identifier"
+      ],
+      "phenomenon": "flight altitude; movement-state filtering required",
+      "status": "metadata_and_schema_candidate_not_event_admitted",
+      "independent_new_confirmation": "candidate"
+    },
+    {
+      "id": "bop-rodent-2023-pinned",
+      "taxa": "Buteo, Circus, Asio (5 taxa in source)",
+      "source": "https://zenodo.org/records/10055071",
+      "doi": "10.5281/zenodo.10055071",
+      "reference_rows": 35,
+      "distinct_animal_ids": 35,
+      "phenomenon": "GPS altitude state",
+      "status": "ODSP already examined subset; cannot count as independent post-ODSP proof",
+      "independent_new_confirmation": false,
+      "archival_warning": "2026 version of same underlying Movebank study is not independent"
+    },
+    {
+      "id": "usap-palmer-2026",
+      "taxa": "Pygoscelis adeliae and Pygoscelis papua",
+      "source": "https://www.usap-dc.org/view/dataset/602035",
+      "doi": "10.15784/602035",
+      "phenomenon": "GPS and dive depth; 6 seasonal files",
+      "year_files": [
+        "2018-19",
+        "2019-20",
+        "2020-21",
+        "2022-23",
+        "2023-24",
+        "2024-25"
+      ],
+      "individual_count": null,
+      "status": "source_page_confirmed_no_event_admission",
+      "download_constraint": "website reCAPTCHA",
+      "independent_new_confirmation": "candidate"
+    },
+    {
+      "id": "usap-cape-crozier-2025",
+      "taxa": "Pygoscelis adeliae",
+      "source": "https://www.usap-dc.org/view/dataset/601928",
+      "doi": "10.15784/601928",
+      "phenomenon": "maximum dive depth per dive with interpolated x-y, per-deployment ID and location-time offset",
+      "schema_fields_reported": [
+        "DeployId",
+        "maxdep",
+        "divetim",
+        "Longitude",
+        "Latitude",
+        "Datetime_UTC",
+        "tdiff"
+      ],
+      "individual_count": null,
+      "status": "catalog_only_no_event_admission",
+      "download_constraint": "website reCAPTCHA",
+      "independent_new_confirmation": "candidate"
+    },
+    {
+      "id": "bas-chinstrap-tdr-v2",
+      "taxa": "Pygoscelis antarcticus",
+      "source": "https://data.bas.ac.uk/full-record.php?id=GB/NERC/BAS/PDC/02020",
+      "doi": "10.5285/da13e049-be2b-4345-bbdd-ab960cb24731",
+      "phenomenon": "pressure/depth time series linked to GPS by deployment ID",
+      "reported_tdr_csv_files": 317,
+      "study_deployed_individuals_reported": 326,
+      "status": "metadata_only_join_integrity_not_checked",
+      "access_problem": "data endpoint returned 401 in current retrieval; metadata public",
+      "independent_new_confirmation": "candidate"
+    },
+    {
+      "id": "so-abba-seals-v1",
+      "taxa": "southern elephant, Weddell and crabeater seals",
+      "source": "https://zenodo.org/records/19121676",
+      "doi": "10.5281/zenodo.19121676",
+      "phenomenon": "georeferenced per-dive maxima/bathymetry, not continuous depth occupancy",
+      "reported_georeferenced_dives": 4492019,
+      "reported_seals": 1394,
+      "status": "catalog_only_session_and_individual_id_schema_not_checked",
+      "independent_new_confirmation": "candidate"
+    },
+    {
+      "id": "smp-bto-jncc",
+      "taxa": "UK/Ireland breeding seabirds, non-penguin",
+      "source": "https://app.bto.org/seabirds/public/data.jsp",
+      "formal_status": "requires bespoke longitudinal site/subsite extract",
+      "phenomenon": "annual breeding counts by stable site components",
+      "status": "secondary_macroecological_lane_source_structure_conditional_go_no_abundance_outcomes",
+      "constraints": "site identity, coverage, count unit, explicit nil and boundary history required",
+      "independent_new_confirmation": "not yet tested"
+    }
+  ],
+  "comparison_rules": [
+    "Do not pool instantaneous GPS altitude, per-dive maximum depth, and annual breeding-component counts as one response",
+    "Do not count source recensions or resampled Movebank/GBIF exports as independent biological evidence",
+    "No numerical ecological outcomes until independent-session and metadata gates are fixed",
+    "Underpowered/unavailable sources stay documented and do not become biological negatives",
+    "Central-place metadata must be independent of vertical use values"
+  ]
+}
