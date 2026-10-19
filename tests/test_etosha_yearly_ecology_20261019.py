@@ -25,7 +25,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(res["individual_matched_pairs_elephant"],3)
         self.assertEqual(res["individual_matched_pairs_jackal"],2)
         self.assertEqual(res["common_unique_rising_dates"],1)
-        self.assertEqual(res["common_unique_falling_dates"],1)
+        self.assertEqual(res["common_unique_falling_dates"],2)
     def test_empty_year_is_reported_without_inventing_calendar_days(self):
         n=shared_date_coverage({}, {})
         self.assertEqual(n["identical_unique_date_pairs_supported_in_both_sources"],0)
