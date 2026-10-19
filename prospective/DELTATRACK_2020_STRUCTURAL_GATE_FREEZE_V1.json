@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "program": "odsp-cross-taxon-generality-gull-deltatrack",
+  "frozen_at": "2026-10-19",
+  "archive": {
+    "record": "https://zenodo.org/records/22102508",
+    "doi": "10.5281/zenodo.22102508",
+    "version": "v5 corrected datapackage",
+    "study": "DELTATRACK",
+    "source_file": "DELTATRACK-gps-2020.csv.gz",
+    "md5": "730549beb8079213ac893d3bf126c2bf",
+    "reference_file": "DELTATRACK-reference-data.csv",
+    "reference_md5": "f1dd2f8966b3748a24165b989c10095d"
+  },
+  "outcome_blind_source_selection": "2020 was selected using deployment reference metadata only: at most 25 herring and 25 lesser black-backed gull individuals during May-Jul. No 2020 GPS altitudes inspected.",
+  "species": [
+    "Larus argentatus",
+    "Larus fuscus"
+  ],
+  "same_primary_screen_as_existing_gulls": {
+    "month_utc_in": [
+      5,
+      6,
+      7
+    ],
+    "ground_speed_min_max_m_s": [
+      5,
+      55
+    ],
+    "provider_outlier_flag": true,
+    "one_first_valid_moving_event_per_UTC_5min_bin": true,
+    "horizontal_grid_m": 5000,
+    "projection": "EPSG:32631",
+    "minimum_self_other_day_train_per_cell": 10,
+    "minimum_other_conspecific_train_per_cell": 10,
+    "minimum_target_flight_events_per_day_after_thin": 50,
+    "minimum_distinct_scorable_days_per_individual": 2,
+    "min_distinct_individuals_per_species": 10
+  },
+  "no_results_read": true,
+  "altitude_variable_unopened": true,
+  "species_are_not_pooled": true,
+  "gate": "Each species is independently eligible iff it has >=10 animals satisfying repeated x-y/time shared-cell screen; a species below threshold is structurally unavailable, not non-specialized.",
+  "previous_exclusions_preserved": {
+    "lbbg-schier-2017-2020": "9 distinct eligible birds across 2017-2020, below 10",
+    "medgull-antwerpen-2022": "9 birds under final altitude-scored matching, final inference unavailable"
+  },
+  "future_outcomes_rule": "Do not inspect delta-flight altitude values until both species' roster/eligibility result is recorded. If eligibility passes, specify frozen centered-altitude endpoint and independent species-wise null, with multiple-test adjustment, before opening heights."
+}
