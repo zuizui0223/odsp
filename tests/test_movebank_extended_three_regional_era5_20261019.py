@@ -87,7 +87,7 @@ class ExtendedThreeClimateTests(unittest.TestCase):
         c=self.cfg
         self.assertEqual(c["weather"]["model"],"era5")
         self.assertEqual(len(c["frozen_expected_results"]),3)
-        self.assertTrue(any("no animal IDs" in v.lower() for v in c["source_safety"]))
+        self.assertTrue(any("no animal ids" in v.lower() for v in c["source_safety"]))
         self.assertTrue(any("taxon" in v.lower() for v in c["source_safety"]))
         self.assertIn("not soil moisture",c["weather"]["antecedent_water_proxy"])
 
