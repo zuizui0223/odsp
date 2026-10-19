@@ -1,0 +1,89 @@
+name: prospective MEDGULL centered altitude identity v1
+
+on:
+  push:
+    branches:
+      - prospective/biological-generality-20261019
+    paths:
+      - prospective/run_medgull_centered_altitude.py
+      - prospective/test_run_medgull_centered_altitude.py
+      - prospective/MEDGULL_CENTERED_ALTITUDE_TEST_FREEZE_V1.json
+      - .github/workflows/prospective-medgull-centered-altitude.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  one-shot-v1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate implementation and pre-outcome frozen test
+        run: |
+          python -m pip install numpy pyproj pytest
+          python -m pytest -q prospective/test_run_medgull_centered_altitude.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("prospective/MEDGULL_CENTERED_ALTITUDE_TEST_FREEZE_V1.json")
+          d=json.loads(p.read_text())
+          assert d["preoutcome_locked"] is True
+          assert d["source"]["primary_year"] == 2022
+          assert d["source"]["doi"]=="10.5281/zenodo.15685037"
+          assert d["primary"]["permutations"]==999
+          print("Scientific contract present and internally locked")
+          PY
+      - name: Fetch only frozen primary 2022 GPS archive
+        run: |
+          set -euo pipefail
+          mkdir -p build/medgull_2022
+          cd build/medgull_2022
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 5 \
+            --connect-timeout 20 --max-time 600 \
+            "https://zenodo.org/records/15685037/files/MEDGULL_ANTWERPEN-gps-2022.csv.gz?download=1" \
+            -o MEDGULL_ANTWERPEN-gps-2022.csv.gz
+          echo "aea4ac8900f553e105e797e0553d84e7  MEDGULL_ANTWERPEN-gps-2022.csv.gz" | md5sum --check
+      - name: Run frozen biological endpoint only once
+        run: |
+          set -euo pipefail
+          python prospective/run_medgull_centered_altitude.py \
+            --gps build/medgull_2022/MEDGULL_ANTWERPEN-gps-2022.csv.gz \
+            --out build/medgull_2022/MEDGULL_CENTERED_ALTITUDE_RESULT_V1.json
+      - name: Validate report integrity and classification
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("build/medgull_2022/MEDGULL_CENTERED_ALTITUDE_RESULT_V1.json")
+          d=json.loads(p.read_text())
+          assert d["endpoint"]=="medgull-centered-altitude-shape-v1"
+          assert d["quality"]["gps_file"].endswith("-gps-2022.csv.gz")
+          assert d["terminal"] in {
+            "altitude_quality_unavailable",
+            "altitude_supported_individuals_unavailable",
+            "null_support_unavailable",
+            "centered_individual_shape_supported",
+            "centered_individual_shape_not_supported",
+          }
+          print(json.dumps({
+            "outcome_category":d["terminal"],
+            "finite_height_fraction":d["quality"]["valid_altitude_fraction"],
+            "eligible_birds":d.get("observed",{}).get("eligible_birds"),
+            "day_count":d["quality"]["days_with_at_least_50_valid_bins"],
+            "test_gain":d.get("observed",{}).get("mean_gain"),
+            "null_p":d.get("null",{}).get("one_sided_p"),
+            "null_valid":d.get("null",{}).get("valid")
+          },sort_keys=True))
+          PY
+      - name: Store frozen v1 scientific result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: medgull-centered-altitude-result-v1
+          path: build/medgull_2022/MEDGULL_CENTERED_ALTITUDE_RESULT_V1.json
+          if-no-files-found: warn
