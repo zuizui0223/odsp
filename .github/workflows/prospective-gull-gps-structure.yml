@@ -1,0 +1,121 @@
+name: prospective gull GPS x-y time and flight-session eligibility
+
+on:
+  push:
+    branches:
+      - prospective/biological-generality-20261019
+    paths:
+      - prospective/screen_gull_event_support.py
+      - prospective/test_screen_gull_event_support.py
+      - prospective/GULL_XYTIME_SUPPORT_FREEZE_V1.json
+      - .github/workflows/prospective-gull-gps-structure.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify no vertical-outcome access on synthetic cases
+        run: |
+          python -m pip install pytest pyproj
+          python -m pytest -q prospective/test_screen_gull_event_support.py
+  structural-screen:
+    needs: synthetic-tests
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - source: lbbg
+            record: "20706447"
+            prefix: LBBG_SCHIERMONNIKOOG
+            checksums: |
+              b3897d0ab21cf4d5403508576b2c0eea  LBBG_SCHIERMONNIKOOG-gps-2017.csv.gz
+              e3f8bbc3fdb394824494c1d57b64d399  LBBG_SCHIERMONNIKOOG-gps-2018.csv.gz
+              67c50b50acdd71b0415c32d8ead23558  LBBG_SCHIERMONNIKOOG-gps-2019.csv.gz
+              22f4e7c0abd4f424e16571e03c8c04f0  LBBG_SCHIERMONNIKOOG-gps-2020.csv.gz
+          - source: medgull
+            record: "15685037"
+            prefix: MEDGULL_ANTWERPEN
+            checksums: |
+              623b47b9d317f590cf00e3b7060772e8  MEDGULL_ANTWERPEN-gps-2021.csv.gz
+              aea4ac8900f553e105e797e0553d84e7  MEDGULL_ANTWERPEN-gps-2022.csv.gz
+              e3102ed704acd0ac6f4e5cd6f7d9cbdb  MEDGULL_ANTWERPEN-gps-2023.csv.gz
+              2c41b213e2bb789962adb5f2b2b69b38  MEDGULL_ANTWERPEN-gps-2024.csv.gz
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install projection dependency
+        run: python -m pip install pyproj
+      - name: Fetch and verify frozen archive GPS
+        shell: bash
+        env:
+          SOURCE: ${{ matrix.source }}
+          RECORD: ${{ matrix.record }}
+          PREFIX: ${{ matrix.prefix }}
+          CHECKSUMS: ${{ matrix.checksums }}
+        run: |
+          set -euo pipefail
+          mkdir -p "build/gull_xytime/$SOURCE"
+          cd "build/gull_xytime/$SOURCE"
+          printf '%s\n' "$CHECKSUMS" > pinned_checksums.md5
+          while read -r checksum file; do
+            if [[ -z "${checksum:-}" ]]; then continue; fi
+            curl --fail --location --silent --show-error --retry 4 --retry-delay 5 --connect-timeout 20 --max-time 600 \
+              "https://zenodo.org/records/$RECORD/files/$file?download=1" -o "$file"
+          done < pinned_checksums.md5
+          md5sum --check pinned_checksums.md5
+      - name: Screen source without reading GPS altitude
+        shell: bash
+        env:
+          SOURCE: ${{ matrix.source }}
+        run: |
+          set -euo pipefail
+          python prospective/screen_gull_event_support.py --source "$SOURCE" \
+            --gps build/gull_xytime/"$SOURCE"/*-gps-*.csv.gz \
+            --out build/gull_xytime/"$SOURCE"/outcome_blind_xytime_support.json
+      - name: Guard source result semantic boundary
+        shell: bash
+        env:
+          SOURCE: ${{ matrix.source }}
+        run: |
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          source=os.environ["SOURCE"]
+          f=Path("build/gull_xytime")/source/"outcome_blind_xytime_support.json"
+          r=json.loads(f.read_text())
+          assert r["source"]==source
+          assert r["status"]=="XY_TIME_FLIGHT_PROXY_SCREEN_ONLY"
+          assert r["biological_study_admitted"] is False
+          assert r["vertical_shape_tested"] is False
+          assert r["gps_altitude_values_read"] is False
+          assert len(r["by_year"]) == 4
+          assert all(y["counts"]["all_rows"]>0 for y in r["by_year"])
+          print(json.dumps({
+            "source":source,
+            "individuals_with_2_scorable_days":r["source_individuals_with_2_scorable_days_any_year"],
+            "preoutcome_potential":r["source_metadata_stage_potential"],
+            "flight_proxy_events":sum(y["counts"].get("flight_proxy_raw_rows",0) for y in r["by_year"]),
+            "flight_5min_bins":sum(y["flight_proxy_5min_unique_bins"] for y in r["by_year"]),
+            "no_altitude_opened":not r["gps_altitude_values_read"]
+          },sort_keys=True))
+          PY
+      - name: Upload outcome-blind support receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gull-xytime-support-${{ matrix.source }}
+          path: build/gull_xytime/${{ matrix.source }}/outcome_blind_xytime_support.json
+          if-no-files-found: warn
