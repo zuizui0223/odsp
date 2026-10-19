@@ -1,0 +1,40 @@
+name: Extended three Movebank mammal GPS cohorts x matched-date regional ERA5 2026-10-19
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/MOVEBANK_EXTENSION_THREE_ERA5_DATE_CONTEXT_V0_20261019.json'
+      - 'scripts/movebank_extended_three_regional_era5_20261019.py'
+      - 'tests/test_movebank_extended_three_regional_era5_20261019.py'
+      - '.github/workflows/movebank-three-more-regional-era5-20261019.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source_locked_wyoming_virginia_alberta_region_context:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Known truth and prior source/MD5/effect lock tests first
+        run: |
+          python -m unittest discover -s tests \
+            -p 'test_movebank_extended_three_regional_era5_20261019.py' -v
+      - name: Retrieve exactly three ORIGINAL Movebank bitstreams, verify MD5 and frozen individual movement effects, then attach coarse regional ERA5 to original paired dates
+        run: |
+          python -m scripts.movebank_extended_three_regional_era5_20261019 \
+            --output-dir outputs/movebank_three_more_era5_20261019
+      - name: Upload aggregate source/ERA5 context and hold states only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: movebank-wyoming-virginia-alberta-matched-original-gps-era5-20261019
+          path: outputs/movebank_three_more_era5_20261019/extension_three_mammal_matched_date_regional_era5.json
+          if-no-files-found: warn
