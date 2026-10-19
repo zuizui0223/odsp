@@ -1,0 +1,38 @@
+{
+  "id": "DUCK_GPS_REPORTED_SPEED_TWO_PART_20261019",
+  "date": "2026-10-19",
+  "status": "POST-HOC EXPLORATORY SENSOR DESCRIPTION. Previous median-speed outcomes and zero-median audit are known. This is not preregistration, confirmation, or a calibrated behavioral hurdle model.",
+  "question": "On the unchanged matched individuals and dates, is seasonal change in reported speed associated with the fraction of positive readings or the size of positive readings?",
+  "source_md5": "1972d0ef08b83c2b88a169ba07bb48b3",
+  "original_result_sha256": "557c21c6446556f16c24ccf496b0b2c7ea8e22c259830a9e9a764faec10e5e8b",
+  "source_url": "https://zenodo.org/records/16940654/files/250823_LNU_dabbling_ducks_hourly.csv?download=1",
+  "invariants": {
+    "original_greedy_dates_unchanged": true,
+    "original_0_to_60_mps_filter_unchanged": true,
+    "individuals": 9,
+    "matched_date_pairs": 186,
+    "solar_date_blocks": 744,
+    "selected_sensor_readings": 7850,
+    "old_median_endpoint_unchanged": true,
+    "duplicates_retained_and_counted_not_independent_opportunities": true
+  },
+  "definitions": {
+    "u": "log(1+reported speed in m/s)",
+    "p": "Mean across original matched dates of fraction of readings with reported speed >0. A reporting event, NOT validated animal activity or movement initiation.",
+    "M": "Mean across original matched dates of mean u, retaining all zero readings.",
+    "C": "M/p when p>0: positive-u conditional mean in the date-equal mixture. Undefined when p=0; no pseudocount or fill.",
+    "double_difference": "(falling NIGHT - falling DAY) - (rising NIGHT - rising DAY)",
+    "two_terms": "For each solar zone, delta M = mean(C_F,C_R)*delta p + mean(p_F,p_R)*delta C, only when both C exist. Difference of NIGHT and DAY contributions yields total double difference. Otherwise decomposition undefined.",
+    "weights": "Equal dates within individual-cell-cycle, equal eligible groups within an individual, then equal individuals within species. Never pool individual effects by their count of fixes.",
+    "uncertainty": "Descriptive mean, median, individual sign counts and leave-one-individual-out mean range; no p-values, population CI or claim of statistical significance. Only n>=5 gets a species-level headline. All seven taxa retained."
+  },
+  "limits": [
+    "The publisher documents GPS-estimated ground speed and variable tag/battery schedules but provides no low-speed behavior calibration, no validated stop/move threshold and no scheduled-missing-fix denominators in this CSV.",
+    "Positive speed is not a count of movement bouts or proportion of time active. Conditional magnitude is not speed of a validated behavioral class.",
+    "Source zeros may reflect resting, rounding or sensor characteristics; the underlying cause is unidentified.",
+    "The two known repeated timestamps in selected teal blocks remain in the exact-replay primary sample and are separately counted. Original matched bird/date inclusion is not silently changed.",
+    "A mean is a NEW response, not a correction or replacement of the frozen median result. Direction changes across these responses are not contradictory tests of one estimand.",
+    "No new sensor, region, species replication or causal seasonal mechanism is added. This bounded diagnostic cannot rescue a generality claim."
+  ],
+  "stop_rule": "Report all two-part descriptors once. Do not scan positive-speed cutoffs or refit matching after results. The main ecological paper remains centered on original solar-season vegetation and camera-time/place results; the GPS diagnostic is supplementary."
+}
