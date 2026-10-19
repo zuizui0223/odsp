@@ -1,0 +1,24 @@
+{
+  "version": "african-elephant-independent-kruger-source-v0",
+  "date": "2026-10-19",
+  "sampling_frame": "The complete frozen 437-package Movebank Data Repository public catalog. A second independent Loxodonta africana publication was selected by taxonomy, Southern Hemisphere locale and publicly declared original GPS data volume, NOT based on its night/day seasonal displacement effect.",
+  "source": {
+    "label": "kruger_elephant_2007",
+    "taxon": "Loxodonta africana",
+    "package_uuid": "b777279a-581d-43ce-b790-8e60304fb8b4",
+    "study_title": "Fine-scale tracking of ambient temperature and movement reveals shuttling behavior of elephants to water",
+    "doi": "10.5441/001/1.403h24q5",
+    "original_bitstream_uuid": "10240da1-0a99-42bf-a34f-eff15883bbfb",
+    "original_md5": "970ea06b9de69f1cc0d9f733d7f7e463",
+    "original_bytes": 43776326,
+    "original_filename": "ThermochronTracking Elephants Kruger 2007.csv",
+    "license": "CC0 1.0 Universal",
+    "country": "South Africa"
+  },
+  "primary": "Use the identical independent Etosha elephant v1 observation algorithm: within animal choose at most one recorded fix at each UTC clock hour using only timestamp, then original Southern v0 sun-phase/30–120min GPS-step analysis with >=3 day and night fixes per date, <=5min daylength mismatch, >=30d date separation, >=10 matched pairs/animal-solar-year, 0.5–2 falling/rising sample count ratio, 2000 individual bootstrap. Report all qualified/null/negative results with source-level attribution.",
+  "secondary": "Original adjacent-fix cadence endpoint (same as Etosha v0) reported separately to reveal sensor dependence; never pool the two endpoints into one effect.",
+  "reference": "Etosha source-specific elephant hourly-v1 effect -0.15012724713090492 in 14 admitted animals (from a different study and observation years), is pre-observed background rather than a blinded holdout. No equality or directional result required for inclusion.",
+  "preeffect_sensor_inventory": "Publish provider-verified original CSV column names to identify whether source reports actual onboard temperature, but do not interpret unsourced sensor columns as direct individual body temperature.",
+  "failure_policy": "Original MD5/access failure or insufficient matched-day sample remains source_hold or insufficient_independent_animals, not an animal-level zero or license to retune the sampling gates.",
+  "inference_boundary": "A different elephant source is still one sample, not species-wide generality. Kruger 2007 and Etosha 2008-2013 are not temporally replicated, and differences could reflect habitat, water, sex, tag, year or protocol. Raw location or tag IDs not redistributed; CC0 original metadata credited."
+}
