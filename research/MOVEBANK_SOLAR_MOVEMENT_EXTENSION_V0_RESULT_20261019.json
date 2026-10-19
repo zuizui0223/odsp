@@ -1,0 +1,101 @@
+{
+  "version": "independent-published-source-extension-v0",
+  "date": "2026-10-19",
+  "workflow": "https://github.com/zuizui0223/odsp/actions/runs/39203695999",
+  "method": "Unchanged MOVEBANK_SOLAR_MOVEMENT_V0_20261019; all eight selected source archives shown, including provider-checksum holds and no-eligible moose; not 8 independent proven populations.",
+  "sources": [
+    {
+      "label": "mule_deer_wyoming",
+      "taxon": "Odocoileus hemionus",
+      "doi": "10.5441/001/1.708",
+      "status": "exploratory_population_description",
+      "gps_rows": 948632,
+      "source_individuals": 135,
+      "eligible_individuals": 118,
+      "relative_effect": 0.03114824366094135,
+      "day_component": -0.016573549520154343,
+      "night_component": 0.014574694140787008,
+      "positive": 103,
+      "negative": 15,
+      "bootstrap_95": [
+        0.024749314205339153,
+        0.037081252344503574
+      ]
+    },
+    {
+      "label": "white_tail_virginia",
+      "taxon": "Odocoileus virginianus",
+      "doi": "10.5441/001/1.718",
+      "status": "exploratory_population_description",
+      "gps_rows": 559830,
+      "source_individuals": 34,
+      "eligible_individuals": 33,
+      "relative_effect": -0.0031894638756262794,
+      "day_component": 0.003167048714583989,
+      "night_component": -0.000022415161042290707,
+      "positive": 12,
+      "negative": 21,
+      "bootstrap_95": [
+        -0.009219341876863945,
+        0.004317409190856757
+      ]
+    },
+    {
+      "label": "moose_jackson",
+      "taxon": "Alces alces",
+      "doi": "10.5441/001/1.701",
+      "status": "source_hold",
+      "reason": "Original bitstream bytes did not match provider-stored MD5; no animal response calculated."
+    },
+    {
+      "label": "moose_snowy_range",
+      "taxon": "Alces alces",
+      "doi": "10.5441/001/1.700",
+      "status": "insufficient_independent_animals",
+      "gps_rows": 123399,
+      "source_individuals": 26,
+      "eligible_individuals": 0,
+      "relative_effect": null
+    },
+    {
+      "label": "wolves_alberta",
+      "taxon": "Canis lupus",
+      "doi": "10.5441/001/1.662",
+      "status": "exploratory_population_description",
+      "gps_rows": 174454,
+      "source_individuals": 68,
+      "eligible_individuals": 9,
+      "relative_effect": 0.02841038749300514,
+      "day_component": -0.011776124169609587,
+      "night_component": 0.016634263323395553,
+      "positive": 5,
+      "negative": 4,
+      "bootstrap_95": [
+        -0.09596914314665432,
+        0.18616601339352673
+      ]
+    },
+    {
+      "label": "cougar_olympic",
+      "taxon": "Puma concolor",
+      "doi": "10.5441/001/1.716",
+      "status": "source_hold",
+      "reason": "Original bitstream bytes did not match provider-stored MD5; no animal response calculated."
+    },
+    {
+      "label": "pronghorn_wyoming",
+      "taxon": "Antilocapra americana",
+      "doi": "10.5441/001/1.74pf3n2p",
+      "status": "source_hold",
+      "reason": "Original bitstream bytes did not match provider-stored MD5; no animal response calculated."
+    },
+    {
+      "label": "elk_alberta_fear",
+      "taxon": "Cervus elaphus",
+      "doi": "10.5441/001/1.j484vk24",
+      "status": "source_hold",
+      "reason": "Original bitstream bytes did not match provider-stored MD5; no animal response calculated."
+    }
+  ],
+  "interpretation": "Direct GPS measurement suggests both elk and mule deer have positive declining-daylength night-relative speed shifts within selected individuals, whereas black bears in the separate first cohort are negative; the other sampled sources do not establish a shared sign. These differences are descriptive source/individual contrasts, not trait causality or a global species law."
+}
