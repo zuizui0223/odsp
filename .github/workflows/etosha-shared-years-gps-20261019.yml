@@ -1,0 +1,31 @@
+name: Etosha original mammal GPS same 2009 2010 southern solar cycles
+on:
+  push:
+    branches: [ecology/seasonal-hysteresis-cross-landscape-paper-v0]
+    paths:
+      - 'research/ETOSHA_COMMON_YEARS_GPS_V0_20261019.json'
+      - 'scripts/etosha_shared_years_gps_20261019.py'
+      - 'tests/test_etosha_shared_years_gps_20261019.py'
+      - '.github/workflows/etosha-shared-years-gps-20261019.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  same_region_same_solar_year_ecology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test source support-driven years and hemispheric solstice
+        run: python -m unittest discover -s tests -p 'test_etosha_shared_years_gps_20261019.py' -v
+      - name: Reproduce exact frozen full-source hourly effects first and then compare 2009-2010 sources only
+        run: python -m scripts.etosha_shared_years_gps_20261019 --out outputs/etosha_common_years_gps
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: etosha-elephant-jackal-common-2009-2010-source-gps
+          path: outputs/etosha_common_years_gps/etosha_2009_2010_hourly_gps_groups.json
+          if-no-files-found: warn
