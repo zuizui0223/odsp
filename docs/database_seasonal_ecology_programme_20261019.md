@@ -6,6 +6,8 @@ Companion: [source inventory](../research/seasonal_database_catalog/README.md) �
 
 Purpose clarification, 2026-10-19: the primary goal is comparative ecological inference—estimating seasonal differences, environmental associations, and their variation among populations and taxa. Predictive performance is optional and is not a condition for an ecological finding.
 
+**Empirical update (2026-10-19).** The first independent-from-manuscript raw-GPS analysis has now been completed: [three-source original GPS seasonal results](../research/MOVEBANK_SOLAR_MOVEMENT_V0_RESULT_20261019.json) and [all eight metadata-preselected extension outcomes](../research/MOVEBANK_SOLAR_MOVEMENT_EXTENSION_V0_RESULT_20261019.json). At matched photoperiod, Canadian elk (12 qualified individuals; 11 positive night-relative shifts) and Wyoming mule deer (118 qualified; 103 positive) differ from Connecticut black bears (20 qualified; all night-relative decreases). Florida wild pigs and Virginia white-tailed deer have means near zero; wolves are uncertain. Four additional source files failed provider-checksum verification; one moose archive had zero eligible individuals. These are observed straight-line GPS displacement patterns in six single-source populations, **not** proof of environmental mediation, a species-general response or measured circadian activity. The originally frozen three-source estimates remain untouched.
+
 ## 研究の中心
 
 **太陽の暦と、その動物が経験する環境の暦のずれは、動物の昼夜の移動配分をどう変えるか。**
