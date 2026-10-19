@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-19",
+  "status": "frozen_pre_altitude_outcome",
+  "history": "First 8-file structural screen run 39216613590 completed successfully before this endpoint was set.",
+  "existing_sources_boundary": {
+    "lbbg": "NOT_ADMITTED: 9 unique individuals with at least two eligible shared-cell flight days; frozen minimum 10. Never lower v1 denominator.",
+    "medgull": "STRUCTURAL_POTENTIAL: 14 unique individuals across years. 2022 has 13, 2023 has 9, 2024 has 7, 2021 has 3 within-year candidates."
+  },
+  "biological_question": "Does an individual's centered GPS flight-altitude probability shape repeat across separate breeding-season days in a nonbat flying taxon when comparing identical supported 5-km x-y cells?",
+  "source": {
+    "repo": "zuizui0223/odsp",
+    "record": "https://zenodo.org/records/15685037",
+    "doi": "10.5281/zenodo.15685037",
+    "name": "MEDGULL_ANTWERPEN",
+    "species": "Ichthyaetus melanocephalus",
+    "primary_year": 2022,
+    "followup_years": [
+      2023,
+      2024
+    ],
+    "structurally_insufficient_years": [
+      2021
+    ],
+    "compressed_gps_md5": {
+      "2021": "623b47b9d317f590cf00e3b7060772e8",
+      "2022": "aea4ac8900f553e105e797e0553d84e7",
+      "2023": "e3102ed704acd0ac6f4e5cd6f7d9cbdb",
+      "2024": "2c41b213e2bb789962adb5f2b2b69b38"
+    }
+  },
+  "selection": "2022 primary chosen before altitude access because it has maximal predeclared x-y/time repeated-bird support (13 vs 3/9/7). No year reassignment following altitude inspection.",
+  "geometry_time": "May-July UTC; same proxy speed 5-55m/s; exclude provider-marked outliers; exactly earliest flight-proxy event per 5min UTC bin; EPSG:32631, 5000m cells; sessions are UTC days.",
+  "altitude_qc": {
+    "field": "height-above-msl",
+    "unit": "m",
+    "missing": "drop earliest-selected 5min bin, never replace with later event in that bin",
+    "finite_range_m": [
+      -300,
+      3000
+    ],
+    "source_outliers": "exclude source-marked imported/manually-marked outliers if fields present",
+    "rule": "If less than 80 percent of the already selected 5min flight GPS events have finite in-bound native altitudes, primary altitude endpoint is unavailable rather than rescue via interpolation or wider bounds.",
+    "measurement_caveat": "session median subtraction eliminates additive height offsets, not tag-specific time-dependent variance or behavioural state mixing."
+  },
+  "primary": {
+    "response": "within-day-median-centered altitude probability shape",
+    "centering": "subtract day-wide median of valid prefiltered altitudes; day median is estimated using the target session and so the result describes held-out whole-session shape identity, not online prediction of absolute height.",
+    "altitude_bin_edges_centered_m": [
+      "-inf",
+      -200,
+      -100,
+      -50,
+      -25,
+      0,
+      25,
+      50,
+      100,
+      200,
+      "inf"
+    ],
+    "conditioning": "same 5km cells for matched self-other train and heldout target events",
+    "training": "same individual other UTC breeding days vs all other conspecific birds in the same year on other UTC calendar days; both restricted to target-matched cells",
+    "min_self_other_day_events_per_cell": 10,
+    "min_other_individual_events_per_cell": 10,
+    "min_scored_valid_5min_fixes_per_heldout_day": 50,
+    "min_scored_heldout_days_per_bird": 2,
+    "min_eligible_individuals_primary_year": 10,
+    "smoothed_frequency": "Jeffreys 0.5 pseudocount per bin, declared for both models, no tuning.",
+    "statistic": "mean over scored days per bird, then mean over birds of per-fix log likelihood ratio log(P_self centered_alt_bin | cell) - log(P_others centered_alt_bin | cell)",
+    "calibration": "whole UTC-day session bird labels permuted within calendar-month strata, preserving individual label counts within each month; recompute full statistic and eligibility across permutations",
+    "permutations": 999,
+    "seed": 20261019,
+    "one_sided_positive_p": "(1+null>=observed)/(1+999)",
+    "null_relative_gain": "observed statistic minus mean of permuted full-statistic draws",
+    "null_validity": "At least 950/999 permutations must meet minimum 10 birds eligible; otherwise inference unavailable rather than reporting an optimistic subset-only p-value.",
+    "success": "minimum 10 eligible biological individuals after altitude QC, valid null >=950/999, one-sided p<0.05, null-relative estimate positive",
+    "negative": "valid null and p>=0.05 (or sign not positive); do not call failed/unstable data a biological negative",
+    "if_unavailable": "report separately if QC/overlap/power or null fails; no tuning or threshold relaxation."
+  },
+  "secondary": [
+    "absolute-altitude identity with identical bins, descriptive only because instrument zero offsets unresolved",
+    "2022 donor to 2023 and/or 2024 test within overlapping individuals, but no prospective claim if too few whole-subject repeats",
+    "barometric-height centered shape for events with native barometer data; independent-instrument corroboration only if >=80% complete under the same 5min bins and no posthoc retuning",
+    "source-level observed missingness and tag-specific measurement uncertainty are limitations, not sufficient for causal individual behavioural inference"
+  ],
+  "claim_boundary": {
+    "can_if_positive": "One non-bat flying species has repeatable within-breeding-season centered flight-altitude organization at the declared x-y grain under the session exchangeability null.",
+    "cannot": "Universal cross-class/taxon ecological identity, biological personality, genotype, adaptive niche segregation, central-place causation, tag-error-free altitude truth, independent multi-species replication.",
+    "scope": "Two independent non-bat species with successful prior gates would be needed for taxonomic generality. LBBG remains structurally unadmitted."
+  },
+  "preoutcome_locked": true
+}
