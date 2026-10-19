@@ -51,7 +51,7 @@ jobs:
       - name: Run frozen biological endpoint only once
         run: |
           set -euo pipefail
-          python prospective/run_medgull_centered_altitude.py \
+          python -m prospective.run_medgull_centered_altitude \
             --gps build/medgull_2022/MEDGULL_ANTWERPEN-gps-2022.csv.gz \
             --out build/medgull_2022/MEDGULL_CENTERED_ALTITUDE_RESULT_V1.json
       - name: Validate report integrity and classification
