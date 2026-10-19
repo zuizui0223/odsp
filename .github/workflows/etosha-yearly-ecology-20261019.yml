@@ -1,0 +1,31 @@
+name: Etosha mammal GPS year-stratified ecology and common regional climate
+on:
+  push:
+    branches: [ecology/seasonal-hysteresis-cross-landscape-paper-v0]
+    paths:
+      - 'research/ETOSHA_YEAR_STRATIFIED_ECOLOGY_V0_20261019.json'
+      - 'scripts/etosha_yearly_ecology_20261019.py'
+      - 'tests/test_etosha_yearly_ecology_20261019.py'
+      - '.github/workflows/etosha-yearly-ecology-20261019.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  year_by_year_original_mammal_ecology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test hemisphere, year and shared-date coverage independently of GPS outcomes
+        run: python -m unittest discover -s tests -p 'test_etosha_yearly_ecology_20261019.py' -v
+      - name: Reproduce full 2009-10 source effects and estimate each year separately with shared ERA5 context
+        run: python -m scripts.etosha_yearly_ecology_20261019 --out outputs/etosha_year_stratified_ecology_20261019
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: etosha-elephant-jackal-year-specific-hydrothermal-ecology-20261019
+          path: outputs/etosha_year_stratified_ecology_20261019/etosha_year_by_year_ecology.json
+          if-no-files-found: warn
