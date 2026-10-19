@@ -1,0 +1,31 @@
+{
+  "datasetKey": "50cebe49-559b-42e8-955d-1df120b03f89",
+  "requestURL": "https://ipt.inbo.be/archive.do?r=nphk1",
+  "retrievedUTC": "2026-10-19T02:28:29.619269+00:00",
+  "archiveSha256": "c694bdcf117aedfa06bd02f77cbbb9d0615fa7a274f2e5d8ea1d6ece6e4895a9",
+  "deploymentTableSha256": "5f6e836bef3d70206b43b8c41e1a4a05fe404d9ab4660e23ac605eba3560048e",
+  "deployments": 1414,
+  "uniqueLocationIDs": 1372,
+  "deploymentDaysByCalendarMonth": {
+    "1": 3422,
+    "2": 3152,
+    "3": 3371,
+    "4": 3669,
+    "5": 3911,
+    "6": 3349,
+    "7": 3479,
+    "8": 3558,
+    "9": 3484,
+    "10": 3581,
+    "11": 3197,
+    "12": 3211
+  },
+  "sameLocationIDMinDaysBothMarchAprilAndSeptemberOctober": {
+    "1": 0,
+    "14": 0,
+    "30": 0,
+    "45": 0
+  },
+  "method": "Sum inclusive deployment days by locationID across all years separately in Mar-Apr and Sep-Oct; compare each station against both thresholds. A full ecological outcome analysis was not performed.",
+  "caveat": "Analysis is a screening calculation only. Same-location ID cannot rule out nearby distinct IDs or data errors; deployments may overlap and duplicate day counts."
+}
