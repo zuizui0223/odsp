@@ -1,0 +1,52 @@
+{
+  "id": "SOLAR_SEASON_MACROCLIMATE_PILOT_20261019",
+  "registered_date": "2026-10-19",
+  "purpose": "Independent environmental layer for the ODSP ecological hypothesis: solar phase alone does not identify thermal and hydroclimatic seasonal context. Stop adding endpoints to the same nine GPS birds. This is a database-first geographic pilot, NOT animal-response validation or a globally representative ecological law.",
+  "prior_exposure": "Serengeti 2010-2012 climate/NDVI and all existing camera/GPS outcomes are known. New selected-grid 2018-2023 climate values have not been read. No study, species, location or year is selected for a favorable effect.",
+  "sampling": {
+    "latitude_bands": [-45,-30,-15,15,30,45,60],
+    "candidate_longitudes": "-176.25 + 7.5*j, j=0..47",
+    "land_source": "https://naciscdn.org/naturalearth/110m/physical/ne_110m_land.zip",
+    "land_sha256": "1926c621afd6ac67c3f36639bb1236134a48d82226dc675d3e3df53d02d2a3de",
+    "land_source_hash_authority": "GeoPandas geodatasets naturalearth.land catalogue; Natural Earth public-domain land polygons",
+    "eligibility": "Point strictly inside original land union and at least 0.25 coordinate-degrees from its boundary. This is a coarse land-screen, not a habitat or biome classification.",
+    "longitude_sectors": [[-180,-30],[-30,60],[60,180]],
+    "selection": "One land-eligible point per latitude x longitude-sector: minimum SHA256 of the UTF-8 string 'ODSP-macroclimate-20261019|{latitude:.2f}|{longitude:.2f}'. Empty strata remain empty; no hand-picked replacements.",
+    "max_sites": 21,
+    "roster_lock": "Write all candidate decisions and selected-sites JSON/CSV plus SHA256 BEFORE requesting any weather. Never replace failed sites using weather values or retry a different grid cell.",
+    "target_population": "Only this fixed stratified geographic pilot. Not a random sample of all land area, habitats, animals, independent ecoregions, or the catalogue of tracking studies. Equatorial |latitude|<15, polar and many islands are outside scope."
+  },
+  "source": {
+    "provider": "Open-Meteo Historical Weather API, fixed ERA5 model; C3S/ECMWF reanalysis, not direct field measurements",
+    "endpoint": "https://archive-api.open-meteo.com/v1/archive",
+    "models": "era5",
+    "start_date": "2017-12-01",
+    "end_date": "2023-06-30",
+    "daily": ["temperature_2m_mean","temperature_2m_max","precipitation_sum","et0_fao_evapotranspiration"],
+    "elevation": "nan (disable DEM downscaling)",
+    "cell_selection": "nearest",
+    "timezone": "Fixed Etc/GMT offset rounded from longitude/15, no DST; dates approximate local mean-solar days within half an hour, not changing civil clocks.",
+    "missingness": "Record failures and nulls without fabrication. Pair only when all required source days and antecedent-30-day values exist. No post-result variable or source replacement.",
+    "reproducibility": "Retain source response JSON, exact request URLs, resolved coordinates, dates, units, raw-response SHA256 and a typed SQLite/CSV database. A locally computed response hash is a snapshot fingerprint, not a provider-attested checksum."
+  },
+  "astronomy": {
+    "summer_solstice_years": [2018,2019,2020,2021,2022],
+    "summer_anchor": "June 21 for Northern Hemisphere, December 21 for Southern Hemisphere. Increasing-daylength branch BEFORE local summer maximum, decreasing branch AFTER it. This avoids treating the Northern December branch as if it were the Southern branch.",
+    "candidate_dates": "Each side 21..160 days from the anchor. Source branches are never inferred from temperature or rainfall.",
+    "daylength": "NOAA fractional-year declination with zenith 90.833 degrees at site latitude; label all tolerance statements as modeled photoperiod.",
+    "matching": "One-to-one maximum-cardinality/minimum-total-absolute-daylength-difference bipartite assignment, <=2 minutes; no date reused. Astronomy only, before climate outcomes. Fixed dummy penalty exceeds the total feasible mismatch range.",
+    "caliper_minutes": 2.0,
+    "min_pairs_to_report_site_cycle": 60,
+    "min_valid_fraction_of_astronomy_pairs": 0.8
+  },
+  "endpoints": {
+    "primary": "Mean declining-minus-increasing daily mean air temperature at matched modeled photoperiod, per site and local-summer cycle.",
+    "secondary": ["same difference in daily maximum air temperature", "same difference in prior-30-day precipitation sum", "same difference in prior-30-day climatic water balance sum(precipitation - reference ET0)"],
+    "water_balance_scope": "Climatic supply-minus-reference-demand index. NOT measured soil moisture, actual evapotranspiration, edible forage, habitat quality or NDVI.",
+    "signs": "Report all point/cycle effects, missingness and counts; joint warmer/cooler x wetter/drier quadrants use the signs of mean temperature and 30-day P-ET0 differences. These are descriptive signs, not significance tests.",
+    "replication": "Five repeated annual cycles per selected site, not independent climate regions; paired days autocorrelated. No p-values or population confidence intervals. Summarize site-balanced means and within-site year sign stability without inflating N.",
+    "validation": "Constant environmental series must yield zero contrasts; hemisphere reversal, matching cardinality, missing-data propagation and database counts tested on fixtures before source execution."
+  },
+  "delivery": "One bounded original-source run, all-candidate and selected-site records, daily and matched-date tables, site/cycle summaries, SQLite database, raw snapshots and a claim-limited ecological report. Do not merge/replace historical PR267 results.",
+  "falsifiers": ["A uniform declining-branch warmer/wetter story fails if held-fixed geographical sites give opposite signs, or signs change among years.", "No support for a predicted context is not evidence that animal behavior is absent.", "Even consistent climate signs cannot establish animal diel reallocation; later animal-data integration is a different outcome with sampling-effort requirements."]
+}
