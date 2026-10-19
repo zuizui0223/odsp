@@ -1,0 +1,70 @@
+name: prospective cross-taxon metadata source audit
+
+on:
+  push:
+    branches:
+      - prospective/biological-generality-20261019
+    paths:
+      - prospective/audit_cross_taxon_metadata.py
+      - prospective/test_audit_cross_taxon_metadata.py
+      - .github/workflows/prospective-cross-taxon-metadata.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test outcome-blind screening code
+        run: |
+          python -m pip install pytest
+          python -m pytest -q prospective/test_audit_cross_taxon_metadata.py
+      - name: Fetch published reference metadata only
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/cross_taxon_metadata
+          for spec in \
+            "20706447 LBBG_SCHIERMONNIKOOG lbbg" \
+            "15685037 MEDGULL_ANTWERPEN medgull"
+          do
+            read -r record prefix label <<< "$spec"
+            base="https://zenodo.org/records/$record/files"
+            curl --fail --location --silent --show-error --retry 3 --retry-delay 3 --max-time 120 \
+              "$base/datapackage.json?download=1" -o "build/cross_taxon_metadata/${label}_datapackage.json"
+            curl --fail --location --silent --show-error --retry 3 --retry-delay 3 --max-time 120 \
+              "$base/${prefix}-reference-data.csv?download=1" -o "build/cross_taxon_metadata/${label}_reference.csv"
+            python prospective/audit_cross_taxon_metadata.py \
+              --datapackage "build/cross_taxon_metadata/${label}_datapackage.json" \
+              --reference-csv "build/cross_taxon_metadata/${label}_reference.csv" \
+              --output "build/cross_taxon_metadata/${label}_audit.json"
+          done
+      - name: Validate source identity and metadata boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          base = Path("build/cross_taxon_metadata")
+          expected = {"lbbg": ("20706447", 29), "medgull": ("15685037", 14)}
+          for name, (record, n) in expected.items():
+              d = json.loads((base / f"{name}_audit.json").read_text())
+              assert record in d["dataset_id"], d
+              assert d["distinct_animal_ids"] == n, d
+              assert d["schema_candidate"], d
+              assert not d["ecological_outcomes_computed"], d
+              print(name, "reference animal IDs", n, "SCHEMA CANDIDATE ONLY")
+          PY
+      - name: Upload public metadata audit receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cross-taxon-source-metadata-audit
+          path: build/cross_taxon_metadata/*_audit.json
+          if-no-files-found: warn
