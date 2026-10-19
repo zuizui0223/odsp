@@ -57,7 +57,9 @@ def safe_unzip_data_csv(zip_path, csv_path):
     with ZipFile(zip_path) as archive:
         members=[x for x in archive.infolist()
                  if not x.is_dir() and x.filename.lower().endswith(".csv")
-                 and "reference-data" not in x.filename.lower()]
+                 and "reference-data" not in x.filename.lower()
+                 and not x.filename.startswith("__MACOSX/")
+                 and not x.filename.rsplit("/",1)[-1].startswith("._")]
         if len(members)!=1:
             raise ValueError(f"ZIP contains {len(members)} candidate ORIGINAL CSVs")
         m=members[0]
