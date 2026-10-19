@@ -52,7 +52,14 @@ A **separately registered, post-original-GPS-outcome** three-region ERA5 linkage
 
 All three group-average thermal differences were positive while the GPS response signs were not the same. It does **not** follow that local temperature is irrelevant: each climate source is a single coarse public ERA5 grid, not measured individual exposure, and species is confounded with study region, recruitment years and traits. The water index is **precipitation minus reference evapotranspiration demand**, not actual soil moisture. [Full three-source GPS+ERA5 result](movebank_gps_regional_era5_joint_ecological_result_20261019.md), [successful source run](https://github.com/zuizui0223/odsp/actions/runs/39203998039).
 
-Further Southern Etosha matched-date region-climate integration is a **separate planned result**, not inferred from the Northern table. There is no tested vegetation phenophase/forage mediation or taxonomic trait coefficient as of this synthesis.
+A **separate post-outcome Etosha ERA5 same-region result** now links the *actual admitted animal GPS date-pairs* to a common regional grid (19°S, 16°E), without modifying the earlier movement outcomes:
+
+| Etosha source | Qualifying Southern solar cycles | Falling−rising ERA5 daily mean T | Falling−rising preceding-30d P−ET0 | Already measured GPS contrast |
+| --- | --- | ---: | ---: | ---: |
+| *Loxodonta africana*, hourly fix route | 2008–2013 | **−1.047 °C** | **+99.629 mm** | **−0.15013** |
+| *Canis mesomelas*, same hourly sampling | 2009–2010 | **+0.091 °C** | **+107.850 mm** | **+0.04479** |
+
+The original observed solar years overlap in **2009 and 2010**, but the older elephant full-source mean includes four additional solar cycles. The water proxy has a positive within-individual mean in all **14/14** eligible elephants and all **8/8** eligible jackals, but climatic P−ET0 is neither forage quality nor measured soil moisture. Temperature directions differ across their source-specific sets of sampled dates. [Original archive, solar-date and regional ERA5 combined run](https://github.com/zuizui0223/odsp/actions/runs/39208971379), whose source responses, hashes and zero climate-join losses are preserved. A **separately fixed 2009–2010-only GPS follow-up** is needed to address this remaining temporal confound. Neither temperature nor water has a causal coefficient in these figures. There is still no tested vegetation phenophase/forage mediation or cross-population taxonomic trait coefficient.
 
 ## Source failures and sample-selection limits
 
