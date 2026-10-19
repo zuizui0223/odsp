@@ -15,7 +15,12 @@
     "README.md",
     "taxon_daylength_summary.csv",
     "shared_gridmonth_species_contrasts.csv",
-    "provenance.json"
+    "provenance.json",
+    "spatial_block_day_night_components.csv"
   ],
-  "privacy": "Only source-group aggregate values. No animal IDs, precise GPS, or event timestamps."
+  "privacy": "Only source-group aggregate values. No animal IDs, precise GPS, or event timestamps.",
+  "spatial_block_source_replay_run": "https://github.com/zuizui0223/odsp/actions/runs/39218494366",
+  "spatial_block_original_six_effects_reproduced": true,
+  "spatial_block_shared_species_pairs": 6,
+  "spatial_block_pairs_with_geographic_bootstrap": 5
 }
