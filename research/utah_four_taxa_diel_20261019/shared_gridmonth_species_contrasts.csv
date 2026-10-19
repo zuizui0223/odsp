@@ -1,0 +1,7 @@
+taxon_a,taxon_b,shared_1degree_grid_x_calendar_yearmonth_cells,night_minus_day_contrast_a_minus_b_log1p_kmh,descriptive_support
+Antilocapra americana,Cervus elaphus,16,-0.11039588318680489,eligible_gridmonth_roster
+Antilocapra americana,Odocoileus hemionus,50,-0.10504146392302441,eligible_gridmonth_roster
+Antilocapra americana,Ovis canadensis,27,-0.04988128734983355,eligible_gridmonth_roster
+Cervus elaphus,Odocoileus hemionus,76,0.0031937138077901177,eligible_gridmonth_roster
+Cervus elaphus,Ovis canadensis,24,0.05350609691859285,eligible_gridmonth_roster
+Odocoileus hemionus,Ovis canadensis,92,0.038532731043657835,eligible_gridmonth_roster
