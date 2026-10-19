@@ -1,0 +1,31 @@
+name: Etosha elephant source-cadence hourly GPS ecology v1
+on:
+  push:
+    branches: [ecology/seasonal-hysteresis-cross-landscape-paper-v0]
+    paths:
+      - 'research/MOVEBANK_ELEPHANT_HOURLY_V1_20261019.json'
+      - 'scripts/movebank_elephant_hourly_20261019.py'
+      - 'tests/test_movebank_elephant_hourly_20261019.py'
+      - '.github/workflows/movebank-elephant-hourly-20261019.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_elephant_hourly_ecology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate timestamp-only thinning before source outcome read
+        run: python -m unittest discover -s tests -p 'test_movebank_elephant_hourly_20261019.py' -v
+      - name: Run separate v1 original source elephant hour-sampled diel movement
+        run: python -m scripts.movebank_elephant_hourly_20261019 --out outputs/elephant_hourly_ecology_20261019
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: elephant-original-hourly-time-only-v1-20261019
+          path: outputs/elephant_hourly_ecology_20261019/etosha_elephant_hourly_result.json
+          if-no-files-found: warn
