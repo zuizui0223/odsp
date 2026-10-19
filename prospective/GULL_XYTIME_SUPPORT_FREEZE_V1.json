@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-19",
+  "phase": "structural_only_before_vertical_outcome",
+  "rules": {
+    "source_ids": [
+      "lbbg",
+      "medgull"
+    ],
+    "primary_months": [
+      5,
+      6,
+      7
+    ],
+    "source_ground_speed_min_ms": 5,
+    "source_ground_speed_max_ms": 55,
+    "thin_minutes": 5,
+    "projected_xy_cell_m": 5000,
+    "projection_by_source": {
+      "lbbg": "EPSG:32632",
+      "medgull": "EPSG:32631"
+    },
+    "min_5min_binned_events_per_day": 50,
+    "min_other_day_own_binned_events_per_cell": 10,
+    "min_other_conspecific_binned_events_per_cell": 10,
+    "min_scorable_days_per_individual_per_year": 2,
+    "min_unique_repeat_individuals_per_source": 10,
+    "outlier_source_fields": [
+      "import-marked-outlier",
+      "manually-marked-outlier"
+    ],
+    "vertical_values_opened": false,
+    "scored_height_availability": false,
+    "observed_effects_opened": false,
+    "failure_rule": "source has insufficient event-level horizontal+time support => structurally unavailable, not evidence for absence of altitude identity",
+    "scientific_limit": "independent central-place mechanism cannot be tested by animal altitude differences alone"
+  },
+  "archive_files": [
+    {
+      "source": "lbbg",
+      "year": 2017,
+      "archive_record": "20706447",
+      "file": "LBBG_SCHIERMONNIKOOG-gps-2017.csv.gz",
+      "md5": "b3897d0ab21cf4d5403508576b2c0eea"
+    },
+    {
+      "source": "lbbg",
+      "year": 2018,
+      "archive_record": "20706447",
+      "file": "LBBG_SCHIERMONNIKOOG-gps-2018.csv.gz",
+      "md5": "e3f8bbc3fdb394824494c1d57b64d399"
+    },
+    {
+      "source": "lbbg",
+      "year": 2019,
+      "archive_record": "20706447",
+      "file": "LBBG_SCHIERMONNIKOOG-gps-2019.csv.gz",
+      "md5": "67c50b50acdd71b0415c32d8ead23558"
+    },
+    {
+      "source": "lbbg",
+      "year": 2020,
+      "archive_record": "20706447",
+      "file": "LBBG_SCHIERMONNIKOOG-gps-2020.csv.gz",
+      "md5": "22f4e7c0abd4f424e16571e03c8c04f0"
+    },
+    {
+      "source": "medgull",
+      "year": 2021,
+      "archive_record": "15685037",
+      "file": "MEDGULL_ANTWERPEN-gps-2021.csv.gz",
+      "md5": "623b47b9d317f590cf00e3b7060772e8"
+    },
+    {
+      "source": "medgull",
+      "year": 2022,
+      "archive_record": "15685037",
+      "file": "MEDGULL_ANTWERPEN-gps-2022.csv.gz",
+      "md5": "aea4ac8900f553e105e797e0553d84e7"
+    },
+    {
+      "source": "medgull",
+      "year": 2023,
+      "archive_record": "15685037",
+      "file": "MEDGULL_ANTWERPEN-gps-2023.csv.gz",
+      "md5": "e3102ed704acd0ac6f4e5cd6f7d9cbdb"
+    },
+    {
+      "source": "medgull",
+      "year": 2024,
+      "archive_record": "15685037",
+      "file": "MEDGULL_ANTWERPEN-gps-2024.csv.gz",
+      "md5": "2c41b213e2bb789962adb5f2b2b69b38"
+    }
+  ],
+  "github_workflow": ".github/workflows/prospective-gull-gps-structure.yml"
+}
