@@ -1,0 +1,31 @@
+name: Utah original multi-taxon ungulates matched-solar seasonal displacement
+on:
+  push:
+    branches: [ecology/seasonal-hysteresis-cross-landscape-paper-v0]
+    paths:
+      - 'research/MOVEBANK_UTAH_FOUR_TAXA_SOLAR_V0_20261019.json'
+      - 'scripts/movebank_utah_four_taxa_solar_20261019.py'
+      - 'tests/test_movebank_utah_four_taxa_solar_20261019.py'
+      - '.github/workflows/movebank-utah-four-taxa-solar-20261019.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  same_study_four_species_ecology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Source/solar identity and source-specific taxon-isolation known-truth checks
+        run: python -m unittest discover -s tests -p 'test_movebank_utah_four_taxa_solar_20261019.py' -v
+      - name: Read provider MD5-verified Utah original ZIP and estimate all four taxon source effects
+        run: python -m scripts.movebank_utah_four_taxa_solar_20261019 --out outputs/utah_original_four_taxa_solar_20261019
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: utah-four-taxonomic-guilds-original-solar-ecology-20261019
+          path: outputs/utah_original_four_taxa_solar_20261019/utah_four_taxa_original_results.json
+          if-no-files-found: warn
