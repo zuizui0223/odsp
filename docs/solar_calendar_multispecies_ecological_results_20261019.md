@@ -32,13 +32,31 @@ The same solar-branch definition follows **June summer solstice in the North** a
 
 **Cross-source robustness of the Etosha contrast:** Subjecting jackal GPS to the **same** outcome-blind hourly time selection as elephants gives **+0.04479** rather than the native +0.05485, for eight eligible jackals (5 positive/3 negative; 95% animal-bootstrap interval [-0.00211, +0.11922]). Thus the point-estimate direction of elephant (negative) versus jackal (positive) remains different under the same time selection scheme, but the jackal effect is less precise. The comparison is *post-outcome sensitivity*, not independent blinded confirmation. [Jackal hourly sensitivity run](https://github.com/zuizui0223/odsp/actions/runs/39208418314).
 
+
+## Critical post-outcome year-stratified Etosha follow-up (2026-10-19)
+
+**The apparent pooled elephant-vs-jackal sign opposition must be qualified.** After restricting to the two originally source-supported overlapping solar-year cycles (2009 and 2010) and then splitting **each year separately**, the source-matched results were:
+
+| Southern solar cycle | Etosha elephants, hourly GPS | Etosha jackals, identical hourly GPS | Same regional matched-date water-balance proxy (elephant / jackal) |
+| --- | --- | --- | --- |
+| **2009** | **−0.26287**, 11/11 individuals negative; animal bootstrap 95% [−0.34969, −0.17352] | **+0.00926**, 4/7 positive; bootstrap [−0.00617, +0.02605], includes zero | **+118.31 / +116.29 mm** (30-day regional P−ET0) |
+| **2010** | **−0.24226**, 5/5 negative; bootstrap [−0.30207, −0.18244] | Only **one** qualifying animal and 11 date pairs: **direction UNAVAILABLE**, not zero | +157.90 mm elephant; jackal one animal +48.73 mm, insufficient for a robust group comparison |
+
+The 2009 observed solar calendar contains **173 distinct identical matched date pairs admitted somewhere in each species' dataset** (not 173 simultaneously collared co-located animal pairs). In 2010 only **9** such common date pairs were supported. Original provider checksums and the earlier pooled whole-source effects were reproduced **exactly before the new year-specific effects were opened**, all three source-blind tests passed, and the [GitHub Actions analysis succeeded](https://github.com/zuizui0223/odsp/actions/runs/39210319995).
+
+**Biological conclusion now supported:** At near-equal photoperiod, Etosha elephants in these tracked cohorts consistently had **greater relative daylight movement on the decreasing-daylength side in both separate solar years**. The jackal population did not have a clearly detected analogous displacement; evidence for an *opposite, positive* jackal shift is weak after disaggregation by year. The robust result is therefore **elephant-specific repeated temporal redistribution in this source sample and heterogeneity of measured temporal response**, NOT a validated pair of opposing species-wide seasonal strategies.
+
+In the **2009** observational windows for both source cohorts, the *same* coarse regional ERA5 grid shows a rising climatic P−ET0 proxy on the decreasing-daylight branch. This is a meaningful environmental context for the ecological calendar question, **not** a demonstration that rainfall or water availability caused the elephant movement shift. Environmental estimates are modeled coarse-region conditions, not animals' experienced vegetation, waterhole use or individual thermal exposure. Source individuals share years and region, but exact GPS dates, habitat and recruitment conditions are not held equal.
+
+Original source attribution: Etosha elephant [10.5441/001/1.3nj3qj45_2](https://doi.org/10.5441/001/1.3nj3qj45_2) (source metadata CC BY-NC 4.0); Etosha jackal [10.5441/001/1.n1r7ds5r](https://doi.org/10.5441/001/1.n1r7ds5r) (CC0). This derived report republishes no coordinates, individual identities or raw trajectories.
+
 ## Three positive biological observations, with strict scope
 
 **A. Same astronomical photoperiod does not imply a universal diel movement response.** Multiple qualified Northern and Southern source cohorts show positive, negative, or very small seasonal changes. One simple claim—"animals uniformly shift toward night on the declining-daylight branch"—does not describe these nine sources. The question is now **which ecological contexts and biological traits are related to different reallocations**, not whether a model can predict the sign.
 
 **B. Similar group seasonal means can hide different day/night components.** In Banff wapiti, relative nightward displacement (+0.04500) combines lower daytime log1p GPS speed (-0.02411) and higher nighttime log1p GPS speed (+0.02089). In Connecticut bears, the reverse contrast (-0.07717) combines higher daytime (+0.06685) and lower nighttime (-0.01032). In Etosha native-step jackals, the relative nightward contrast (+0.05485) includes **higher** daytime (+0.01638) as well as greater nighttime (+0.07123) displacement. Thus "more nocturnal" is an incomplete biological interpretation of this measured endpoint.
 
-**C. Same broad ecosystem can contain opposite source-level directions.** Etosha elephants are negative under time-blind hourly selection, while Etosha jackals are positive under a matched hourly extraction sensitivity. This creates a tractable comparative problem—possibly physiological heat exposure, feeding ecology, trophic timing, or differences in seasonal resource dynamics—but it **does not yet distinguish species biology from noncontemporaneous study years, microhabitats, and source-specific GPS recording regimes**. Contemporary temporal interaction or competition is NOT established.
+**C. Same broad ecosystem can contain different magnitudes of response, but the earlier apparent sign opposition is not robust to year stratification.** Etosha elephants have a pronounced negative same-photoperiod night-relative shift in both 2009 and 2010. In 2009, jackals are near zero under the same timestamp-only hourly selection, while 2010 jackal data support just one animal. The resulting central ecological question is **why elephant temporal redistribution is repeatable across these wetting seasonal transitions while an analogous jackal shift is not clearly detected**. This is a source-specific association, not proof of species physiology, food, behavior-mediated water use, competitive displacement or direct contemporary interaction.
 
 ## Environmental status
 
