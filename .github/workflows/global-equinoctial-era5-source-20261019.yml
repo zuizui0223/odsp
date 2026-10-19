@@ -1,0 +1,38 @@
+name: Global equinox original ERA5 21-site environmental comparison (2018–20)
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'scripts/analyze_fixed_21site_global_equinoctial_era5_20261019.py'
+      - 'tests/test_fixed_21site_global_equinoctial_era5_20261019.py'
+      - 'research/solar_global_equinoctial_pilot_20261019/**'
+      - '.github/workflows/global-equinoctial-era5-source-20261019.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source_checked_21_sites_63_environmental_pairs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate unchanged original 21 land sites and 63 solar-date pairs
+        run: python -m unittest discover -s tests -p 'test_fixed_21site_global_equinoctial_era5_20261019.py' -v
+      - name: Replay only source-stored original ERA5 temperature and soil moisture (no alternate sources)
+        run: python -m scripts.analyze_fixed_21site_global_equinoctial_era5_20261019
+      - name: Archive original-pair results and all rejected original dates and site-level summaries
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: odsp-original-global-equinox-era5-21sites-2018-2020
+          path: |
+            results/global_equinoctial_ERA5_2018_2020_63pairs.csv
+            results/global_equinoctial_ERA5_2018_2020_source_summary.json
+          if-no-files-found: warn
