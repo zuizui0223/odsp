@@ -1,0 +1,66 @@
+name: prospective corrected DELTATRACK 2020 mixed-gull x-y eligibility
+
+on:
+  push:
+    branches:
+      - prospective/biological-generality-20261019
+    paths:
+      - prospective/screen_deltatrack_2020.py
+      - prospective/test_screen_deltatrack_2020.py
+      - prospective/DELTATRACK_2020_STRUCTURAL_GATE_FREEZE_V1.json
+      - .github/workflows/prospective-deltatrack-2020-structure.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  outcome-blind-screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate outcome-blind species classification
+        run: |
+          python -m pip install pytest pyproj
+          python -m pytest -q prospective/test_screen_deltatrack_2020.py
+      - name: Download source archived 2020 GPS with fixed checksum
+        run: |
+          set -euo pipefail
+          mkdir -p build/deltatrack_xytime
+          cd build/deltatrack_xytime
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 5 \
+            --connect-timeout 20 --max-time 900 \
+            "https://zenodo.org/records/22102508/files/DELTATRACK-gps-2020.csv.gz?download=1" \
+            -o DELTATRACK-gps-2020.csv.gz
+          echo "730549beb8079213ac893d3bf126c2bf  DELTATRACK-gps-2020.csv.gz" | md5sum --check
+      - name: Screen time and common horizontal occupancy per species
+        run: |
+          python -m prospective.screen_deltatrack_2020 \
+            --gps build/deltatrack_xytime/DELTATRACK-gps-2020.csv.gz \
+            --out build/deltatrack_xytime/DELTATRACK_2020_XYTIME_RESULT_V1.json
+      - name: Confirm no vertical outcomes were used
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open("build/deltatrack_xytime/DELTATRACK_2020_XYTIME_RESULT_V1.json"))
+          assert not d["altitude_values_opened"]
+          assert not d["altitude_outcomes_tested"]
+          assert sorted(d["species"])==["Larus argentatus","Larus fuscus"]
+          assert d["source_total_rows"]>0
+          print(json.dumps({k:{"eligible":v["animals_with_two_scorable_days"],
+                               "structural_candidate":v["structural_species_potential"],
+                               "flight_5min_events":v["flight_proxy_unique_5min_bins"],
+                               "scorable_days":v["scorable_days"]}
+                            for k,v in d["species"].items()},sort_keys=True))
+          PY
+      - name: Preserve structural eligibility receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deltatrack-2020-source-xytime-result-v1
+          path: build/deltatrack_xytime/DELTATRACK_2020_XYTIME_RESULT_V1.json
+          if-no-files-found: warn
