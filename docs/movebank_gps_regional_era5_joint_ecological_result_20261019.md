@@ -20,7 +20,7 @@ The ORIGINAL-CSV movement comparison used 30–120-minute consecutive GPS interv
 
 The **regional weather connection was designed after the first numerical GPS results were observed**, and is therefore **post-outcome exploratory**. A separate [registered weather-join contract](../research/MOVEBANK_REGIONAL_ERA5_MOVEMENT_LINK_V0_20261019.json) fixes the three public coarse regional climate reference points, provider, original movement-effect reproduction requirement and climate variables. Weather values were then retrieved from historical Open-Meteo ERA5 using fixed standard local calendar dates; prior 30-day climate water balance proxy is summed precipitation minus reference FAO evapotranspiration (P - ET0). It is **not measured soil water**.
 
-The [new workflow run 39203998039](https://github.com/zuizui0223/odsp/actions/runs/39203998039) **PASSED**. Its nine source-independent arithmetic/timezone tests and source MD5 controls succeeded, and before returning the climate summary it **reproduced exactly the previous three frozen group movement means**. All three regional ERA5 source queries succeeded. Original weather retrieval URLs, source response hashes, number of days and provider grid coordinates are retained in its grouped JSON artifact. There were **zero climate-date matching failures** in this source comparison.
+The [new workflow run 39203998039](https://github.com/zuizui0223/odsp/actions/runs/39203998039) **PASSED**. Its four source-independent arithmetic/timezone tests and source MD5 controls succeeded, and before returning the climate summary it **reproduced exactly the previous three frozen group movement means**. All three regional ERA5 data retrievals succeeded (four dated source-response chunks). Original weather retrieval URLs, source response hashes, number of days and provider grid coordinates are retained in its grouped JSON artifact. There were **zero climate-date matching failures** in this source comparison.
 
 ## Ecological results
 
@@ -32,7 +32,7 @@ All contrasts below are **decreasing-daylength minus increasing-daylength**, at 
 | Southern Florida / wild pig | **5** | **321** | **+1.794** | +112.014 | -0.00098 | -0.04009 to +0.03354 |
 | Connecticut / black bear | **20** | **962** | **+9.865** | -66.457 | **-0.07717** | -0.08877 to -0.06591 |
 
-All **12/12**, **5/5**, and **20/20** admitted individuals were paired across dates for which the *coarse study-region* temperature was higher on the decreasing-daylength side. The reported thermal means are based on weather at named study-region reference grids, **not reconstructed fixes' microclimates**. An identical +10°C regional seasonal context is not a controlled experiment: source region, species, year, habitat, physiological state, life history and sampling design remain confounded.
+All **12/12**, **5/5**, and **20/20** admitted individuals had a **positive individual-averaged** falling-minus-rising *coarse regional* temperature contrast. This does not mean every matched date-pair was warmer. The reported thermal means are based on weather at named study-region reference grids, **not reconstructed fixes' microclimates**. An identical +10°C regional seasonal context is not a controlled experiment: source region, species, year, habitat, physiological state, life history and sampling design remain confounded.
 
 The components of the original GPS result are ecologically revealing:
 
