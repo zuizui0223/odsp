@@ -1,0 +1,148 @@
+{
+  "title": "Utah UDWR original four-taxon GPS diel displacement and photoperiod gradient v0",
+  "status": "verified original-source descriptive ecology",
+  "data_retrieved": "2026-10-19",
+  "source": {
+    "doi": "10.5441/001/1.711",
+    "original_bitstream_uuid": "9c4aaf76-7476-4305-8b14-9a6d8886e39a",
+    "provider_md5": "08200c9dbdf7989fb5a35467213b7e5a",
+    "reported_original_rows": 4916617,
+    "original_individuals": 2694,
+    "source_license": "CC0 1.0 Universal",
+    "source_registry": "437 Movebank Data packages enumerated on 2026-10-19"
+  },
+  "provenance": {
+    "workflow_url": "https://github.com/zuizui0223/odsp/actions/runs/39216810610",
+    "workflow_run_id": 39216810610,
+    "artifact_id": 12170170759,
+    "artifact_name": "utah-solar-diel-original-four-taxa-20261019",
+    "original_endpoint_url": "https://github.com/zuizui0223/odsp/actions/runs/39212935666",
+    "original_endpoint_status": "all four cohorts insufficient for 5-minute opposite-branch matched-daylength analysis",
+    "tests_passed": 6
+  },
+  "observation": "One actual GPS fix per UTC clock hour selected by timestamp only. Original observed GPS step 0.5-2 hours; >=3 original DAY steps and >=3 NIGHT steps per local solar day, >=10 qualified individual-days per calendar year; equal within-year, equal year within animal, equal animal within taxon.",
+  "q_definition": "log1p(median night GPS minimum step speed km/h)-log1p(median day GPS minimum step speed km/h)",
+  "solar_slope_definition": "Centered within animal-calendar-year OLS slope of q on modeled astronomical daylight hours, >=0.5h span and >=10 days, then animal-equal mean",
+  "uncertainty": "2,000 individual-resampling bootstrap replicates with seed 20261019; uncertainty is conditional on one source recruitment context",
+  "species": [
+    {
+      "taxon": "Antilocapra americana",
+      "original_animals": 222,
+      "eligible_diel_animals": 215,
+      "diel_mean": -0.1171668232141959,
+      "diel_bootstrap_95": [
+        -0.12175099359970626,
+        -0.11258860955602955
+      ],
+      "diel_positive": 0,
+      "diel_negative": 215,
+      "eligible_slope_animals": 213,
+      "slope_mean": 0.004899934756973461,
+      "slope_bootstrap_95": [
+        0.001561212082156493,
+        0.008013190234533785
+      ],
+      "slope_positive": 133,
+      "slope_negative": 80
+    },
+    {
+      "taxon": "Cervus elaphus",
+      "original_animals": 349,
+      "eligible_diel_animals": 337,
+      "diel_mean": -0.031888720397475416,
+      "diel_bootstrap_95": [
+        -0.03576520611434819,
+        -0.02763130251964814
+      ],
+      "diel_positive": 58,
+      "diel_negative": 279,
+      "eligible_slope_animals": 332,
+      "slope_mean": 0.009598574984599324,
+      "slope_bootstrap_95": [
+        0.007141137925156471,
+        0.011945341113971272
+      ],
+      "slope_positive": 209,
+      "slope_negative": 123
+    },
+    {
+      "taxon": "Odocoileus hemionus",
+      "original_animals": 1771,
+      "eligible_diel_animals": 1723,
+      "diel_mean": -0.02184895488685285,
+      "diel_bootstrap_95": [
+        -0.02321004124388584,
+        -0.02046763062163855
+      ],
+      "diel_positive": 319,
+      "diel_negative": 1404,
+      "eligible_slope_animals": 1683,
+      "slope_mean": 0.005619415769068772,
+      "slope_bootstrap_95": [
+        0.004386924666028622,
+        0.006920929490934685
+      ],
+      "slope_positive": 1164,
+      "slope_negative": 519
+    },
+    {
+      "taxon": "Ovis canadensis",
+      "original_animals": 352,
+      "eligible_diel_animals": 343,
+      "diel_mean": -0.06576087192631512,
+      "diel_bootstrap_95": [
+        -0.06902186763881439,
+        -0.06272814999976593
+      ],
+      "diel_positive": 1,
+      "diel_negative": 342,
+      "eligible_slope_animals": 339,
+      "slope_mean": -0.003411758739636626,
+      "slope_bootstrap_95": [
+        -0.0065198033863652855,
+        0.0006122483290776015
+      ],
+      "slope_positive": 123,
+      "slope_negative": 216
+    }
+  ],
+  "shared_geographic_calendar_cells": [
+    {
+      "species_first": "Antilocapra americana",
+      "species_second": "Cervus elaphus",
+      "qualified_1degree_cell_year_month": 16,
+      "mean_diel_speed_contrast_first_minus_second": -0.11039588318680489
+    },
+    {
+      "species_first": "Antilocapra americana",
+      "species_second": "Odocoileus hemionus",
+      "qualified_1degree_cell_year_month": 50,
+      "mean_diel_speed_contrast_first_minus_second": -0.10504146392302441
+    },
+    {
+      "species_first": "Antilocapra americana",
+      "species_second": "Ovis canadensis",
+      "qualified_1degree_cell_year_month": 27,
+      "mean_diel_speed_contrast_first_minus_second": -0.04988128734983355
+    },
+    {
+      "species_first": "Cervus elaphus",
+      "species_second": "Odocoileus hemionus",
+      "qualified_1degree_cell_year_month": 76,
+      "mean_diel_speed_contrast_first_minus_second": 0.0031937138077901177
+    },
+    {
+      "species_first": "Cervus elaphus",
+      "species_second": "Ovis canadensis",
+      "qualified_1degree_cell_year_month": 24,
+      "mean_diel_speed_contrast_first_minus_second": 0.05350609691859285
+    },
+    {
+      "species_first": "Odocoileus hemionus",
+      "species_second": "Ovis canadensis",
+      "qualified_1degree_cell_year_month": 92,
+      "mean_diel_speed_contrast_first_minus_second": 0.038532731043657835
+    }
+  ],
+  "interpretive_ceiling": "Four original tagged cohorts from one statewide source, not four independent ecosystems; cell-month strata are coarse and repeatedly observed; original tags may have unequal observation schedules. This estimates minimum observed GPS step displacement, not latent animal activity, species evolutionary differences, causal temperature or solar entrainment. No numeric same-photoperiod opposite-season inference is made."
+}
