@@ -1,0 +1,34 @@
+name: Eight-source public mammal GPS ecology extension 2026-10-19
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/MOVEBANK_SOLAR_MOVEMENT_EXTENSION_V0_20261019.json'
+      - 'scripts/movebank_solar_movement_extension_20261019.py'
+      - '.github/workflows/movebank-solar-movement-extension-20261019.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  all_eight_new_archives:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test original source and unchanged GPS-step geometry first
+        run: |
+          python -m unittest discover -s tests -p 'test_movebank_native_ecology_20261019.py' -v
+          python -m unittest discover -s tests -p 'test_movebank_solar_movement_20261019.py' -v
+      - name: Evaluate all eight frozen source archives without excluding negative effects
+        run: python -m scripts.movebank_solar_movement_extension_20261019 --out outputs/movebank_solar_movement_extension_20261019
+      - name: Save every source result and all missing outcomes without original trajectories
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: movebank-solar-movement-extension-8-source-20261019
+          path: outputs/movebank_solar_movement_extension_20261019/all_eight_grouped_results.json
+          if-no-files-found: warn
