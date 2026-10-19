@@ -11,7 +11,7 @@ This directory starts ODSP's own integration of public movement and camera datab
 
 The snapshots preserve provenance and discovery completeness. They do not constitute an animal-level movement database yet. Source metadata counts may overlap, issued dates are publication dates, and scientific-name strings are not a reconciled species taxonomy. Both positive and negative future biological results belong in the same cohort.
 
-The research question is whether thermal and vegetation conditions explain within-individual changes in diel movement at matched photoperiod, across independent populations. The primary movement channel and complementary camera channel retain distinct measurements and observation models. See the programme document for predictions, data-table definitions, competing explanations, and the next event-level coverage analysis.
+The research question is how thermal and vegetation conditions relate to within-individual changes in diel movement at matched photoperiod, and how those relationships vary among independently sampled populations and taxa. The primary aim is comparative ecological inference; predictive accuracy is optional. The primary movement channel and complementary camera channel retain distinct measurements and observation models. See the programme document for expected ecological patterns, data-table definitions, competing explanations, and the next event-level coverage analysis.
 
 ## Provenance and reuse
 

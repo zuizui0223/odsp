@@ -5,7 +5,7 @@
 **Date:** 2026-10-18  
 **Companion evidence:** [ecological protocol](../docs/solar_seasonal_hysteresis_ecology_paper_protocol_20261015.md) | [machine-readable source gates](../research/solar_seasonal_hysteresis_source_feasibility_v0.json) | [issue #266](https://github.com/zuizui0223/odsp/issues/266).
 
-**Programme update, 2026-10-19:** This manuscript remains the Serengeti discovery study. The [new public-database ecology programme](../docs/database_seasonal_ecology_programme_20261019.md) defines the central environmental-calendar hypothesis and a registry-wide movement/camera sampling frame. The [latest duck endpoint audit](../docs/duck_gps_identifiability_and_next_ecology_20261019.md) constrains the interpretation of the GPS pilot. Equal-photoperiod seasonal asymmetry itself is not a new discovery: [Daan & Aschoff (1975)](https://doi.org/10.1007/BF00345851) reported it in captive finches. The proposed new empirical contribution is the environmental explanation and its independent-population prediction.
+**Programme update, 2026-10-19:** This manuscript remains the Serengeti discovery study. The [new public-database ecology programme](../docs/database_seasonal_ecology_programme_20261019.md) defines the central environmental-calendar hypothesis and a registry-wide movement/camera sampling frame. The [latest duck endpoint audit](../docs/duck_gps_identifiability_and_next_ecology_20261019.md) constrains the interpretation of the GPS pilot. Equal-photoperiod seasonal asymmetry itself is not a new discovery: [Daan & Aschoff (1975)](https://doi.org/10.1007/BF00345851) reported it in captive finches. The proposed new empirical contribution is a comparative account of seasonal differences, environmental associations, and variation among populations and taxa. Predictive accuracy is optional; the research does not require a new-region prediction benchmark to yield an ecological finding.
 
 ### Abstract (working, observational claim-limited, 2026-10-16)
 
@@ -13,7 +13,7 @@ Daylength provides a repeatable astronomical calendar, but plants and animals ma
 
 An independent seven-species bird GPS sensor archive was also screened under source-first solar-time controls; only nine independent individuals from five taxa met strict matched-daylength speed sampling requirements, and only one taxon contained five individuals, so external animal-response generality remains unresolved.\n\n**Keywords:** camera traps; photoperiod; diel detection; greenness; MODIS NDVI; observational seasonality; spatial mixture; Serengeti.
 
-**Scope decision:** This is a source-backed **single-landscape observational empirical manuscript**. A future strong claim about mammalian diel behavior across landscapes requires independent GPS/deployment/effort sampling and a new-region held-out design. Do not conflate the present PHOTO distribution with an individual's clock.
+**Scope decision:** This is a source-backed **single-landscape observational empirical manuscript**. A future broad claim about mammalian diel behavior requires adequate biological measurements and independently sampled populations/landscapes. Cross-region comparison can estimate commonality and heterogeneity without making predictive performance the primary goal. Do not conflate the present PHOTO distribution with an individual's clock.
 
 ### Intended conceptual advance
 
@@ -27,7 +27,7 @@ We refer to a branch contrast at matched photoperiod as **observational seasonal
 
 Seasonal switching between nocturnal, diurnal and crepuscular niches is **already established**. Continuous intraperitoneal activity meters on 12 free-roaming Arabian oryx from two desert sites found summer nocturnal/crepuscular versus winter diurnal allocation with strong temperature and photoperiod associations (2017, https://doi.org/10.1016/j.physbeh.2017.04.014). A Northern Ireland year-round camera-trap study (8,761 detections) already reported species-specific seasonal changes *relative to sunrise and sunset* across several mammal species (2018, https://pmc.ncbi.nlm.nih.gov/articles/PMC6252065/). Japanese Hokkaido mammal cameras reported seasonal diurnal peak changes in eight species (2016, https://doi.org/10.1371/journal.pone.0163602), while tropical/subtropical Chinese muntjac and wild boar studies also report seasonal diel plasticity (2026, https://doi.org/10.1016/j.gecco.2026.e04334).
 
-Consequently this manuscript **must NOT claim novelty** from (1) day/night seasonal shifts, (2) correcting clocks to sunrise, (3) relating diel activity to temperature or photoperiod, or (4) seasonal mammal temporal niche plasticity itself. The testable addition, if source coverage permits, is **same-photoperiod within-site opposite-branch comparisons**, the *orthogonal* daylight-core-to-edge versus whole-daylight-to-night response signatures, and transfer of *environmentally conditioned response differences* to wholly new landscapes with distinct sensor/source uncertainties. One tropical landscape alone cannot establish this broad claim.
+Consequently this manuscript **must NOT claim novelty** from (1) day/night seasonal shifts, (2) correcting clocks to sunrise, (3) relating diel activity to temperature or photoperiod, or (4) seasonal mammal temporal niche plasticity itself. Equal-photoperiod seasonal differences also have prior evidence. The proposed addition, if source coverage permits, is a systematic comparative account of within-site/individual opposite-season contrasts, separate daylight-core/edge and night/day responses, and their environmental and biological heterogeneity across independently sampled populations. One tropical landscape alone cannot establish the breadth of those relationships.
 
 ### Introduction (working draft)
 
@@ -37,11 +37,11 @@ Classical day-night classification poses a second problem. The astronomical dura
 
 Existing ecological evidence already documents strong seasonal differences in camera-trap encounter rates and in diel activity. For instance, Ikeda and colleagues (2016) described season-dependent activity peaks among mammals in Hokkaido, whereas Kays and colleagues (2020) found seasonality in occupancy or detection rates in temperate and tropical study sites. These studies provide a biological starting point but did not establish a cross-landscape law of within-species diel redistribution **at fixed photoperiod on both seasonal branches**.
 
-We hypothesize that observed diel allocation contains information about seasonal ecological context beyond instantaneous astronomical daylength. We distinguish two biologically different possible responses: (i) a shift from midday-centered to dawn/dusk-adjacent daylight use, consistent with—but not proving—daylight thermal refuge, and (ii) a shift from all daylight to the night, potentially reflecting broader heat, resource or disturbance constraints. Different taxa need not respond in the same direction; the more general question is whether response heterogeneity can be predicted from environmental differences at matched daylength.
+We hypothesize that observed diel allocation contains information about seasonal ecological context beyond instantaneous astronomical daylength. We distinguish two biologically different possible responses: (i) a shift from midday-centered to dawn/dusk-adjacent daylight use, consistent with—but not proving—daylight thermal refuge, and (ii) a shift from all daylight to the night, potentially reflecting broader heat, resource or disturbance constraints. Different taxa need not respond in the same direction; the more general question is how response heterogeneity relates to environmental differences at matched daylength and to biological differences among taxa.
 
 Testing this hypothesis requires a stricter unit of ecological replication than photographs. Events must be dated and linked to an identified physical site whose real camera operation is known at the relevant time of day, and rising and falling branch observations must be available without post hoc selection on sightings. Variation across cameras in one study region tests local reproducibility; independently sampled regions are necessary to test ecological generality.
 
-We therefore separate source-admissibility checks from a predeclared biological analysis, and require new-region predictions for the strongest conclusions. Failure to acquire adequate simultaneous source effort is an identification limit rather than an ecological negative result.
+We therefore define biological contrasts and source support before estimating new effects, and use independent populations to assess shared patterns and heterogeneity. Predictive validation is an optional additional question. Failure to acquire adequate simultaneous source effort is an identification limit rather than an ecological negative result.
 
 ### Predictions to test
 
@@ -51,7 +51,7 @@ We therefore separate source-admissibility checks from a predeclared biological 
 
 **P3 (daylight-to-night):** night/daylight redistribution is partially distinct from P2. A species can use dawn/dusk-adjacent *daylight* more without increasing night use.
 
-**P4 (ecological transfer):** environmental and guild variables predict the direction and magnitude of branch contrasts in an independent region held out before model selection. A pooled mean effect with strongly inconsistent regions is insufficient evidence of universality.
+**P4 (ecological heterogeneity):** the direction and magnitude of branch contrasts are associated with environmental conditions and documented biological traits. Estimate within-population effects and variation among independently sampled regions, including null and opposite associations. An overall mean cannot by itself describe the breadth or conditionality of the relationship.
 
 ### Methods (registered intent; source admission pending)
 
@@ -61,11 +61,11 @@ We therefore separate source-admissibility checks from a predeclared biological 
 
 **Time categories.** Central 50% of daylight = core; combined first/last 25% of daylight = edge; all outside sunrise/sunset = night. Compute zone operating-hours from hardware/deployment records with any verified downtime. Do not mistake the published Korean civil twilight period outside daylight for our daylight edge.
 
-**Biological endpoints.** Estimate two separate site/species seasonal log-ratios, H_edge and H_night, through an exposure-offset count model with explicitly preselected pooling and zero-count rules. Cluster uncertainty at physical sites and independent landscapes. Treat the nested model's comparison as a conditional observational prediction, not evidence of intrinsic circadian memory.
+**Biological endpoints.** Estimate two separate site/species seasonal log-ratios, H_edge and H_night, through an exposure-offset count model with explicitly preselected pooling and zero-count rules. Cluster uncertainty at physical sites and independent landscapes. These are conditional observational contrasts, not evidence of intrinsic circadian memory.
 
 **Environmental explanation.** On the same matched dates compute daily temperature, thermal exposure during daylight core, precipitation, vegetation greenness and their branch differences from separately sourced, versioned climate and remote-sensing products. Use environmental predictors as observational explanations and test lag associations, not as natural experiments that uniquely identify temperature causation.
 
-**Cross-landscape replication.** Train in independently sampled study regions, then hold out a complete region and assess the predictive distribution of the observed log-ratios. Report a new-region prediction interval, heterogeneity and direction as well as average effects. Within-camera sites are clustered, not independent landscape replications.
+**Cross-landscape replication.** Estimate the observed log-ratios and environmental associations in independently sampled study regions, then quantify their shared components and heterogeneity. Report effect sizes, uncertainty, and the conditions associated with different directions. Within-camera sites are clustered, not independent landscape replications. A held-out-region exercise may be added for a separate predictive aim, but is not required for the primary comparative analysis.
 
 **Sensitivity and falsification.** Stable-solar-phase source-free counterexample, station-composition shifts, seasonal camera detection probability q, timestamp uncertainties, partial on-hours, known alternative calendar windows, external species taxon variation and negative controls. Favor the source-level HOLD over a spurious precise confidence interval.
 
@@ -87,7 +87,7 @@ Within the same unmodified source-record dataset, spotted hyena site-stratified 
 
 **Current ecological interpretation.** This creates a cross-continent **descriptive observation** that relative detected photograph-time distributions may change between similar-daylength solar dates, with nonidentical response directions among source taxa. It cannot quantify a universal population effect, determine thermal or phenological causes, or claim valid external predictive generalization. Different algorithms selected solstice mirrored dates (Serengeti) and available photograph-detected similar daylight dates (Ireland), and both sources lack independently measured time-specific camera ON-hours and calibration of `q`. A new data source with actual event-independent station-hour opportunity evidence and an independent region is needed for the original manuscript's intended H1–H4 tests.
 
-**Proposed full manuscript figures, conditional on new qualified data:** (1) original rising/falling dates and verified environmental lag; (2) all eligible species × region H_edge and H_night with site-clustered uncertainty; (3) independently withheld regional prediction/calibration; (4) q/effort and geometrical sensitivity. None is a currently justified causal or meta-analytic result.
+**Proposed full manuscript figures, conditional on new qualified data:** (1) original rising/falling dates and environmental contrasts; (2) all eligible species × region H_edge and H_night with site-clustered uncertainty; (3) thermal/vegetation associations and variation by biological traits and region; (4) observation-effort and geometrical sensitivity. These planned figures are not completed causal or meta-analytic results.
 
 ### Added Results — seasonal night-record reallocation is NOT automatically predator–prey differentiation at shared cameras
 

@@ -11,7 +11,7 @@ See [`FOUR_CHAPTER_PROGRAM.md`](FOUR_CHAPTER_PROGRAM.md), [`CHAPTER_CONTRACT.jso
 
 ## Current seasonal ecology programme — 2026-10-19
 
-**How does the mismatch between the solar calendar and the environment an animal experiences change its diel movement?** The [central hypothesis and research design](docs/database_seasonal_ecology_programme_20261019.md) specify within-individual comparisons at matched photoperiod, thermal and vegetation predictors, and tests in independent populations. The [first complete public-source inventory](research/seasonal_database_catalog/README.md) contains 437 Movebank data packages and 26 GBIF Camtrap DP registry datasets. These are discovery records; animal-level eligibility and the new ecological effects are still to be calculated.
+**How does the mismatch between the solar calendar and the environment an animal experiences change its diel movement?** The [central hypothesis and research design](docs/database_seasonal_ecology_programme_20261019.md) specify within-individual comparisons at matched photoperiod, thermal and vegetation associations, and differences among populations and taxa. The primary aim is to estimate ecological patterns and their environmental relationships; predictive performance is optional. The [first complete public-source inventory](research/seasonal_database_catalog/README.md) contains 437 Movebank data packages and 26 GBIF Camtrap DP registry datasets. These are discovery records; animal-level eligibility and the new ecological effects are still to be calculated.
 
 ## Scientific center
 
