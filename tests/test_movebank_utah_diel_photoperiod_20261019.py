@@ -4,7 +4,7 @@ class Tests(unittest.TestCase):
     def test_old_unsupported_endpoint_not_reclassified(self):
         a=json.loads(CONTRACT.read_text())
         self.assertEqual(a["version"],"utah-diel-photoperiod-description-v0")
-        self.assertIn("not a rescue",a["reason"].lower())
+        self.assertIn("remains unchanged",a["reason"].lower())
     def test_known_daylight_gradient(self):
         x=[(10+i*.1,1+2*(10+i*.1)) for i in range(12)]
         self.assertAlmostEqual(slope(x),2)
