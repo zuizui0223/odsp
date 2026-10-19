@@ -1,0 +1,31 @@
+name: Etosha jackal same hourly sampling as elephant sensitivity
+on:
+  push:
+    branches: [ecology/seasonal-hysteresis-cross-landscape-paper-v0]
+    paths:
+      - 'research/MOVEBANK_JACKAL_HOURLY_SENSITIVITY_V1_20261019.json'
+      - 'scripts/movebank_jackal_hourly_20261019.py'
+      - 'tests/test_movebank_jackal_hourly_20261019.py'
+      - '.github/workflows/movebank-jackal-hourly-20261019.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  same_timestamp_policy_source_test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify registered rule and time-only invariants
+        run: python -m unittest discover -s tests -p 'test_movebank_jackal_hourly_20261019.py' -v
+      - name: Source checksum and matched-hour jackal solar displacement comparison
+        run: python -m scripts.movebank_jackal_hourly_20261019 --out outputs/jackal_hourly_v1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: etosha-jackal-hourly-sensitivity-v1-20261019
+          path: outputs/jackal_hourly_v1/jackal_hourly_grouped.json
+          if-no-files-found: warn
