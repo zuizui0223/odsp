@@ -36,6 +36,15 @@ class Tests(unittest.TestCase):
                 z.writestr("main-reference-data.csv","id\n"+"a\n"*4)
             self.assertGreater(safe_unzip_data_csv(inp,out),128)
             self.assertEqual(out.read_text().splitlines()[0],"one,two")
+    def test_appledouble_sidecar_not_second_gps_file(self):
+        # Original Etosha public archive includes a __MACOSX/._ shadow of its one CSV.
+        with TemporaryDirectory() as t:
+            z=Path(t)/"original.zip";out=Path(t)/"elephant.csv"
+            with ZipFile(z,"w") as arc:
+                arc.writestr("elephant.csv","timestamp,individual-local-identifier,location-lat,location-long\\n"+("2020-01-01,a,-20,15\\n"*50))
+                arc.writestr("__MACOSX/._elephant.csv",b"bplist00" * 80)
+            self.assertGreater(safe_unzip_data_csv(z,out),128)
+            self.assertTrue(out.read_text().startswith("timestamp"))
     def test_zip_multiple_candidate_failclosed(self):
         with TemporaryDirectory() as t:
             z=Path(t)/"bad.zip"
