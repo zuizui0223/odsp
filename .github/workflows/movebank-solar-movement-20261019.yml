@@ -1,0 +1,35 @@
+name: First ecological GPS equal-daylength movement contrasts 2026-10-19
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/MOVEBANK_SOLAR_MOVEMENT_V0_20261019.json'
+      - 'scripts/movebank_solar_movement_20261019.py'
+      - 'tests/test_movebank_solar_movement_20261019.py'
+      - '.github/workflows/movebank-solar-movement-20261019.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  first_three_source_ecological_contrasts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test source and GPS-step known truths before measuring seasonal movement
+        run: |
+          python -m unittest discover -s tests -p 'test_movebank_native_ecology_20261019.py' -v
+          python -m unittest discover -s tests -p 'test_movebank_solar_movement_20261019.py' -v
+      - name: Download independently MD5-verified original GPS CSVs and estimate all three source contrasts
+        run: python -m scripts.movebank_solar_movement_20261019 --out outputs/movebank_solar_movement_20261019
+      - name: Publish grouped ecology findings and all undefined outcomes only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: movebank-solar-movement-3-source-v0-20261019
+          path: outputs/movebank_solar_movement_20261019/grouped_results.json
+          if-no-files-found: warn
