@@ -1,0 +1,33 @@
+{
+  "frozen_before_original_animal_csv_access": "2026-10-19",
+  "purpose": "Check which tracked wild mammal individuals can be contrasted at equal photoperiod before inspecting GPS displacement outcomes; publish aggregate observation coverage only.",
+  "selection": "Fixed pilot of three public, Northern Hemisphere, terrestrial wild mammal GPS packages selected from the complete Movebank Data inventory using animal count, original fix count, multiple latitudes and diet/movement ecology, not movement response results; not a global sample.",
+  "coverage_rule": "At least 3 recorded locations during mean-solar daytime and nighttime on each paired calendar date; opposite June-solstice branch, daylength difference <=5 minutes, >=30 days separation; one use of each date; source observation coverage only.",
+  "sources": [
+    {
+      "label": "elk_canada",
+      "package_uuid": "dce434f5-0cae-45be-8847-e45b61833bf0",
+      "original_csv_bitstream_uuid": "80b6ef22-316f-41f0-9348-bd5ee6022122",
+      "original_csv_md5": "fe45946999900bdd27c36de88a7eb1ee",
+      "doi": "10.5441/001/1.5g4h5t6c",
+      "taxon": "Cervus elaphus"
+    },
+    {
+      "label": "wild_pig_florida",
+      "package_uuid": "0a2f2a67-20fe-42c6-b864-68a1a7147c18",
+      "original_csv_bitstream_uuid": "42323c7f-e101-4d2e-9544-0179d9db121c",
+      "original_csv_md5": "ee6a068fd76aa6963e93063603e557e3",
+      "doi": "10.5441/001/1.719",
+      "taxon": "Sus scrofa"
+    },
+    {
+      "label": "black_bear_connecticut",
+      "package_uuid": "89b8132d-fc88-498f-9040-39643b387dd4",
+      "original_csv_bitstream_uuid": "9ccaea48-fe76-4bda-bcbb-dcdb59c1d5e1",
+      "original_csv_md5": "91e81522224611d8aede79d47b9e60f8",
+      "doi": "10.5441/001/1.706",
+      "taxon": "Ursus americanus"
+    }
+  ],
+  "output_policy": "No exact locations, animal identifiers, raw trajectories, or behavioral effects in committed files/artifacts. Access failures remain source HOLD."
+}
