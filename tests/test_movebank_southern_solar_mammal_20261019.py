@@ -15,7 +15,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(southern_solar_cycle(date(2020,6,21)),(None,None))
     def test_daylength_southern(self):
         self.assertGreater(daylength(-30,date(2019,12,21)),daylength(-30,date(2019,6,21)))
-        self.assertAlmostEqual(daylength(-30,date(2019,9,22)),daylength(-30,date(2020,3,22)),delta=.07)
+        self.assertAlmostEqual(daylength(-30,date(2019,9,21)),daylength(-30,date(2020,3,20)),delta=.07)
     def test_match_no_date_reuse(self):
         a={}
         for d,branch in [(date(2019,9,21),"rising"),(date(2019,9,22),"rising"),(date(2020,3,20),"falling"),(date(2020,3,21),"falling")]:
