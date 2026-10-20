@@ -1,5 +1,29 @@
 # Cross-taxon biological generality — current state
 
+## Latest evidence: wind-conditioned vertical shape recurs in two breeding years
+
+The cross-taxon biological-generalization lane advanced from the previous 2021 DELTATRACK individual identity experiment to **two fixed yearly tests of environmental context**, in the distinct `LBBG_ZEEBRUGGE` Movebank tracking study (one species, `Larus fuscus`). Source 2016 and 2017 native GPS, CERRA regional 100m winds at four archival colony centers, exact-identifier site join, and all altitude-blind support screens were independently anchored before opening each year's height outcomes.
+
+| Breeding year | Original altitude-blind wind candidates | Scored birds | Bird-days | GPS fixes | Wind-conditioned vs pooled raw gain | Mean null | Null-calibrated excess | p-upper |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 2016 | 41 | 39 | 744 | 31,002 | +0.0110375 | −0.0234812 | **+0.0345187** | **0.001** |
+| 2017 | 25 | 24 | 422 | 18,348 | +0.0217185 | −0.0210897 | **+0.0428082** | **0.001** |
+
+Both years used the same frozen numerical algorithm: within-individual, same 5-km horizontal cell, different-day ten-bin height-shape distributions centered by each day's median; compare conditional same-regional-wind group vs wind-pooled reference on identical held-out GPS fixes. Within-grid and month whole-wind-day permutations (999 each) yielded **999/999 valid** and 0 null observations at least as high. Count bird-level, not GPS fixes, as biological replication; site/date null exchangeability remains observational.
+
+The 39 and 24 birds share **11 exact animal IDs**. Unique union **52 birds** across both years. Individual-level raw gain is positive in 27/39 (2016) and 18/24 (2017); among the 11 reappearing birds, 7 have positive gains in both years. The year-specific raw gain rank of an individual is **not established** as stable across years (the shared 11 show only weak descriptive alignment). No combined or meta-analytic p value is calculated because same study sites, tags and partly the same birds.
+
+**Biological statement:** This provides one species / one Movebank study / two consecutive years of evidence that the shape of individual-level vertical flight-use probabilities is **environment-context dependent rather than fully fixed by identity alone**. It does not establish causal wind-driven flight decisions; source wind is a regional 100m site measure, not actual 3D air flow at each GPS location. Speed-based filtering does not validate flapping or soaring, and tag-specific non-additive altitude noise remains unresolved. Penguin colony-count concentration in MINA remains a separate population-level endpoint.
+
+**Auditable evidence:**
+- [2016 biological result](https://github.com/zuizui0223/odsp/blob/prospective/gull-wind-behaviour-context-20261020/prospective/ZEEBRUGGE_2016_CERRA_WIND_SHAPE_BIOLOGICAL_RESULT_V1.md) — run [39401802547](https://github.com/zuizui0223/odsp/actions/runs/39401802547).
+- [2017 temporal validation receipt](https://github.com/zuizui0223/odsp/blob/prospective/zeebrugge-2017-temporal-wind-test-20261020/prospective/ZEEBRUGGE_2017_CERRA_WIND_RESULT_RECEIPT_V1.json) — preregistered preheight run [39403638754](https://github.com/zuizui0223/odsp/actions/runs/39403638754), full test [39404195393](https://github.com/zuizui0223/odsp/actions/runs/39404195393).
+- [Two-year ecological synthesis](https://github.com/zuizui0223/odsp/blob/prospective/zeebrugge-2017-temporal-wind-test-20261020/prospective/ZEEBRUGGE_2016_2017_WIND_HEIGHT_BIOLOGICAL_SYNTHESIS_V1.md).
+
+**Next unique goal:** move beyond this single species/network. Prefer an independent taxon/study with externally derived flight/dive behavior and/or device-calibrated vertical state, prespecifying the identical conditional-probability transfer question. Do not continue source/year mining to amplify p values.
+
+---
+
 ## New independent ecological context result: 2016 regional wind and height shape
 
 A new, separately checksum-pinned `LBBG_ZEEBRUGGE` GPS source (2016) was joined to independently obtained 100m CERRA wind at four source-defined colony centers **before inspecting GPS heights**. Outcome-blind screening run 39391834277 passed 41 candidate birds. The frozen within-bird, same-5km-cell, held-out-day wind-context analysis run [39401802547](https://github.com/zuizui0223/odsp/actions/runs/39401802547) completed successfully.
