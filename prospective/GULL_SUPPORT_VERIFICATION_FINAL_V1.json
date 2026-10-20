@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-20",
+  "diagnostic_run": 39369189157,
+  "diagnostic_code_sha": "6b8608904ad75cd313dbd39f687b311230dcb16a",
+  "new_regression_tests": {"local_passed": 5, "github_job_success": true},
+  "real_source_diagnostic_jobs": {"passed": 3, "failed": 0},
+  "default_repository_suite": {
+    "passed": 1514,
+    "failed": 2,
+    "skipped": 1,
+    "total": 1517,
+    "count_method": "Count completed pytest progress symbols in preserved full-suite.txt; one symbol per test",
+    "artifact_id": 12240952570,
+    "artifact_sha256": "70c479e0c0648fbfcdd07089f983fbc982c369d9279e03830ba771a6f130e60f",
+    "failure_names": [
+      "tests/test_n2_mee_state_prediction_v4_final_readiness_receipt.py::test_final_receipt_rebuilds_manuscript_and_anonymous_bundle",
+      "tests/test_n2_mee_state_prediction_v4_final_readiness_receipt.py::test_closed_empirical_workflows_are_path_filtered"
+    ]
+  },
+  "parent_reproduction": {
+    "run_id": 39370203022,
+    "parent_sha": "199501251d2c49b73569f491816a45bc98f380c7",
+    "same_two_failures_reproduced": true,
+    "pytest_returncode": 1,
+    "artifact_id": 12241222010,
+    "artifact_sha256": "3fe79dd4caeb26c7d21bc57128e88d0ef39ec9b2e61827139674a25df8b73ba7",
+    "empirical_endpoints_rerun": false
+  },
+  "conclusion": "New diagnostic tests and all source audits pass. The two full-suite failures predate the diagnostic additions and remain unresolved in the historical submission-package checks. Do not claim the whole repository test suite is green.",
+  "failure_details": [
+    "Anonymous review ZIP expected hash 8d54ff22b277b2a831cfe01b2fbcf2020ecf42ae67cb9dcb35f9ad9477db1390 differs from rebuilt hash 8ebda0ce195229f7f177077642d0c4d03149b5e5e59188dbf2ce59920304d08f on both parent and diagnostic checkout.",
+    "Historical readiness test expects paths: in closed empirical workflow; that expectation fails on both parent and diagnostic checkout. Closed workflows were not re-enabled to make the test pass."
+  ]
+}
