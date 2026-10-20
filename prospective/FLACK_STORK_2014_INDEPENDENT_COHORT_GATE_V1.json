@@ -1,0 +1,65 @@
+{
+  "analysis": "FLACK_2014_INDEPENDENT_STORK_COHORT_XYTIME_GATE_V1",
+  "created_date": "2026-10-20",
+  "phase": "STRICTLY_PRE_ALTITUDE",
+  "question": "Does migration-scale, between-day individual 3D vertical-profile identity replicate in an independent GPS-tracked Ciconia ciconia cohort, rather than only Rotics 2013?",
+  "sources": {
+    "parent": "Movebank Data Repository",
+    "doi": "10.5441/001/1.bj96m274",
+    "title": "Wind estimation based on thermal soaring of birds (Weinzierl et al. 2016)",
+    "study": "Fall migration of white storks in 2014",
+    "movebank_study_id": "332044860",
+    "downstream_larger_parent": "LifeTrack White Stork SWGermany 2014-2017 (ID 21231406) — DO NOT count variants as independent",
+    "zip_name": "Fall migration of white storks in 2014-gps.csv.zip",
+    "md5": "c1fa0c4ca28d3fce5d61caaac36e87d2",
+    "zip_bytes": 232976084,
+    "zip_url": "https://datarepository.movebank.org/server/api/core/bitstreams/b4178d75-0023-4611-9394-c65cd74458ae/content",
+    "reference_name": "Fall migration of white storks in 2014-reference-data.csv",
+    "reference_md5": "116a3d82cd11e1bb4e16b32532725359",
+    "reference_url": "https://datarepository.movebank.org/server/api/core/bitstreams/ed6e24c7-0c51-49b8-b54e-e96f4cae6212/content",
+    "license": "CC0",
+    "source_2013_distinction": "Rotics et al 2013 last archive year, Movebank Study 150450794, DOI 10.5441/001/1.hn1bd23k; a separate archived study. Verify IDs before calling individual animals independent."
+  },
+  "selection": {
+    "taxon": "Ciconia ciconia",
+    "target_year": 2014,
+    "target_months_UTC": [
+      8,
+      9,
+      10,
+      11
+    ],
+    "original_comparison_definition": "Use exactly 2013 50km definition as a NEW separate-cohort prospective replication, without inspecting 2014 altitudes.",
+    "filters": [
+      "source native GPS events with valid animal ID and timestamp",
+      "source-marked outliers or visible=false excluded",
+      "finite WGS84 lon/lat within [-180,180] and [-86,86]",
+      "ground-speed 5 to 55 m/s; if absent, mark source structurally unavailable, do not invent speed",
+      "earliest qualifying GPS event per bird-date-five-minute bin, selected independent of all height columns"
+    ],
+    "projection": "EPSG:6933",
+    "primary_x_y_cell_m": 50000,
+    "declared_nonprimary_scales_m": [
+      5000,
+      100000
+    ],
+    "target_eval_day_min_events": 50,
+    "own_other_date_donor_per_cell_min_events": 10,
+    "other_bird_other_date_per_cell_min_events": 10,
+    "min_independent_eval_days_per_bird": 2,
+    "min_eval_birds": 10,
+    "reference_age": "Read source-archived animal-life-stage as an exact animal-id crosswalk; do not force adult/juvenile contrast if only one known age group.",
+    "must_verify_native_height_column": "height-above-ellipsoid (native meters), schema presence only; do not inspect missingness until after structural admission",
+    "observe_heights_now": false,
+    "no_2013_height_reuse": true
+  },
+  "source_type": "independent year and Movebank study, not yet verified independent individual animals",
+  "decision": "Only if >=10 eligible birds in same 50km cells across at least two UTC dates, freeze numerical effect and null again before opening 2014 native height. Otherwise conclude lack of comparable horizontal support, not absence of individuality.",
+  "falsification": "A later independently acquired 2014 study with enough 50km recurring birds but no null-relative identity supports a biological or measurement boundary; cannot simply substitute 100km for a fail.",
+  "caveats": [
+    "2014 animals may be nestlings/juveniles only; age confounding and group-specific movement need source metadata.",
+    "Height above ellipsoid includes changing terrain and GPS tag errors.",
+    "One 2014 data package may be a subset of larger 2014-17 Movebank parent; never count reexports as independent confirmation.",
+    "Wind estimates inferred from same bird GPS are not independent meteorological drivers; use independent gridded weather in any future environmental test."
+  ]
+}
