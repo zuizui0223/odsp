@@ -1,0 +1,110 @@
+name: prospectively frozen white-stork 2013 50km centered-altitude identity
+
+on:
+  push:
+    branches: [prospective/stork2013-50km-vertical-identity-20261020]
+    paths:
+      - prospective/WHITE_STORK_2013_50KM_VERTICAL_IDENTITY_TEST_FREEZE_V1.json
+      - prospective/stork_2013_migrant_altitude_shape.py
+      - prospective/test_stork_2013_migrant_altitude_shape.py
+      - .github/workflows/stork-2013-50km-centered-shape.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install fixed offline test dependencies
+        run: python -m pip install numpy numba pyproj pytest
+      - name: Verify age-blocked label null and scorer support before real GPS heights
+        env:
+          NUMBA_CACHE_DIR: /tmp/stork2013-synthetic-numba
+        run: |
+          python -m pytest -q prospective/test_stork_2013_migrant_altitude_shape.py
+          python - <<'PY'
+          import json
+          f='prospective/WHITE_STORK_2013_50KM_VERTICAL_IDENTITY_TEST_FREEZE_V1.json'
+          c=json.load(open(f))
+          assert c['source_screen']['fingerprint_50km']=='901b92d50bfeb763feed6abcdd0b59e27a69b2b0825149b1343769ea2edb69df'
+          assert c['source_screen']['scales_preopening_altitude']['5000']['birds']==0
+          assert c['source_screen']['scales_preopening_altitude']['50000']['birds']==25
+          assert c['observation']['null_seed']==20261020
+          print("Frozen 2013 stage and threshold contract accepted")
+          PY
+  original-migrant-data:
+    needs: synthetic-gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install unchanged gull identity scorer
+        run: python -m pip install numpy numba pyproj
+      - name: Download only frozen Movebank white-stork 2013 archive inputs
+        run: |
+          set -euo pipefail
+          mkdir -p build/stork2013_height
+          cd build/stork2013_height
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 5 --max-time 900 \
+            'https://datarepository.movebank.org/server/api/core/bitstreams/ef95f900-1cde-417e-be8a-c6e64e576bea/content' \
+            -o 'Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip'
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 5 --max-time 120 \
+            'https://datarepository.movebank.org/server/api/core/bitstreams/f5bfa548-4c4b-47c2-a842-3a6ae2e70cda/content' \
+            -o 'Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv'
+          printf '%s\n' \
+            '2ec22217c0f566650d245ae2da4694bf  Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip' \
+            'b38407ed744cf2bd4806afce929f604a  Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv' | md5sum --check
+      - name: Verify original 2013 XY-only individual roster THEN open native GPS heights
+        env:
+          NUMBA_CACHE_DIR: /tmp/stork2013-identity-numba
+        run: |
+          set -euo pipefail
+          python -m prospective.stork_2013_migrant_altitude_shape \
+            --gps-zip 'build/stork2013_height/Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip' \
+            --reference 'build/stork2013_height/Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv' \
+            --out build/stork2013_height/result
+      - name: Verify terminal classification and no 5km endpoint rescue
+        run: |
+          python - <<'PY'
+          import json
+          p='build/stork2013_height/result/WHITE_STORK_2013_MIGRATION_ALTITUDE_SHAPE_RESULT_V1.json'
+          d=json.load(open(p))
+          assert d['analysis']=='WHITE_STORK_2013_MIGRATORY_50KM_VERTICAL_IDENTITY_V1'
+          assert d['source_year']==2013
+          assert d['preheight_5km_birds']==0
+          assert d['preheight_50km_birds']==25
+          assert d['preheight_fingerprint_verified']=='901b92d50bfeb763feed6abcdd0b59e27a69b2b0825149b1343769ea2edb69df'
+          assert d['source_gps_md5']=='2ec22217c0f566650d245ae2da4694bf'
+          assert d['separate_migrant_scale_estimator'] is True
+          assert d['terminal'] in ['unavailable','not_supported_50km_individual_height_shape','supported_50km_individual_height_shape']
+          if d['terminal']!='unavailable':
+              assert d['observed']['eligible_birds']>=10
+              assert d['calibration']['requested']==999
+              assert d['calibration']['valid']>=950
+          print(json.dumps({'terminal':d['terminal'],
+             'reason':d.get('reason'),
+             'height_quality_fraction':d['quality']['altitude_valid_fraction'],
+             'birds':d.get('observed',{}).get('eligible_birds'),
+             'bird_days':d.get('observed',{}).get('eligible_days'),
+             'scored_fixes':d.get('observed',{}).get('eligible_bins'),
+             'score':d.get('observed',{}).get('mean_gain'),
+             'p_upper':d.get('calibration',{}).get('p_upper'),
+             'null_valid':d.get('calibration',{}).get('valid'),
+             'excess':d.get('calibration',{}).get('observed_minus_valid_null_mean')},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stork2013-50km-age-blocked-altitude-shape-v1
+          path: build/stork2013_height/result/*
+          if-no-files-found: warn
