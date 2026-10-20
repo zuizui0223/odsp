@@ -1,0 +1,79 @@
+name: DELTATRACK 2021 prospective identity v1
+on:
+  push:
+    branches: [prospective/deltatrack-2021-identity-20261020]
+    paths: [.github/workflows/deltatrack-2021-identity-v1.yml]
+permissions:
+  contents: read
+jobs:
+  source-and-identity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Dependencies and synthetic regressions
+        run: |
+          python -m pip install 'numpy==2.3.5' 'numba==0.65.1' 'pyproj==3.7.2' pytest
+          mkdir -p build/identity2021
+          set -o pipefail
+          python -m pytest -q prospective/test_medgull_sensitivity.py prospective/test_deltatrack_2021_identity.py 2>&1 | tee build/identity2021/module_tests.txt
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          p=Path('prospective/medgull_sensitivity.py')
+          expected='7d5f552e6b5b28d3981f00f37c5ec64fa9d8daa747e5973ab6f5c87a4b91396e'
+          actual=hashlib.sha256(p.read_bytes()).hexdigest()
+          assert actual==expected, (actual,expected)
+          print('Unchanged MEDGULL numerical kernel verified:',actual)
+          PY
+      - name: Fetch only predeclared immutable source
+        run: |
+          set -euo pipefail
+          mkdir -p build/source
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 5 --connect-timeout 20 --max-time 600 \
+            'https://zenodo.org/records/22102508/files/DELTATRACK-gps-2021.csv.gz?download=1' \
+            -o build/source/DELTATRACK-gps-2021.csv.gz
+          echo '1a3145234cccd1a48b280b0fb485d679  build/source/DELTATRACK-gps-2021.csv.gz' | md5sum --check
+      - name: Fixed two-species identity test
+        run: |
+          set -o pipefail
+          python -u -m prospective.deltatrack_2021_identity \
+            --gps build/source/DELTATRACK-gps-2021.csv.gz --out build/identity2021 \
+            2>&1 | tee build/identity2021/execution.txt
+      - name: Copy executable evidence and checksums
+        if: always()
+        run: |
+          mkdir -p build/identity2021/code
+          cp prospective/medgull_sensitivity.py prospective/deltatrack_2021_identity.py prospective/test_deltatrack_2021_identity.py prospective/test_medgull_sensitivity.py prospective/DELTATRACK_2021_IDENTITY_PLAN_V1.md build/identity2021/code/
+          git rev-parse HEAD > build/identity2021/execution_commit.txt
+          find build/identity2021 -type f ! -name sha256.txt -print0 | sort -z | xargs -0 sha256sum > build/identity2021/sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deltatrack-2021-identity-v1-evidence
+          path: build/identity2021/
+          if-no-files-found: error
+  repository-suite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -e '.[dev,predict]'
+      - name: Complete default suite (historical failures retained)
+        run: |
+          mkdir -p build
+          set -o pipefail
+          python -m pytest -q --junitxml=build/whole_suite.xml 2>&1 | tee build/whole_suite.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deltatrack-2021-repository-tests
+          path: |
+            build/whole_suite.xml
+            build/whole_suite.txt
