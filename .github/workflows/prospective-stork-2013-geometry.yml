@@ -1,0 +1,80 @@
+name: 2013 white-stork migration alternate-source spatial-only admission
+
+on:
+  push:
+    branches: [prospective/stork2013-migration-geometry-20261020]
+    paths:
+      - prospective/WHITE_STORK_2013_XYTIME_ADMISSION_PLAN_V1.json
+      - prospective/stork_2013_xytime_admission.py
+      - prospective/test_stork_2013_xytime_admission.py
+      - .github/workflows/prospective-stork-2013-geometry.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest pyproj
+      - run: python -m pytest -q prospective/test_stork_2013_xytime_admission.py prospective/test_stork_2014_xytime_source_screen.py
+  empirical-gate:
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pyproj
+      - name: Read Movebank GPS source at official DSpace binary endpoint
+        run: |
+          set -euo pipefail
+          mkdir -p build/stork2013
+          cd build/stork2013
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 4 --max-time 300 \
+            'https://datarepository.movebank.org/server/api/core/bitstreams/ef95f900-1cde-417e-be8a-c6e64e576bea/content' \
+            -o 'Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip'
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 4 --max-time 120 \
+            'https://datarepository.movebank.org/server/api/core/bitstreams/f5bfa548-4c4b-47c2-a842-3a6ae2e70cda/content' \
+            -o 'Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv'
+          printf '%s\n' \
+            '2ec22217c0f566650d245ae2da4694bf  Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip' \
+            'b38407ed744cf2bd4806afce929f604a  Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv' | md5sum --check
+      - name: Same biological group x-y/time comparison support in 2013 with heights unopened
+        run: |
+          python -m prospective.stork_2013_xytime_admission \
+            --gps-zip 'build/stork2013/Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip' \
+            --reference 'build/stork2013/Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv' \
+            --output build/stork2013/WHITE_STORK_2013_XYTIME_RESULT_V1.json
+      - name: Validate source year and result category
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('build/stork2013/WHITE_STORK_2013_XYTIME_RESULT_V1.json'))
+          assert d['source_year']==2013
+          assert not d['gps_altitude_values_accessed']
+          assert not d['GPS_altitude_shape_tested']
+          assert d['closed_2014_outcome_changed'] is False
+          assert d['source']['GPS_archive_md5']=='2ec22217c0f566650d245ae2da4694bf'
+          print(json.dumps({
+              "flight_birds":d["GPS_time_speed_xy_rows"]["birds_with_thinned_flight"],
+              "5km_eligible_birds":d["horizontal_support_by_grid_m"]["5000"]["birds_with_2_scorable_shared_cell_days"],
+              "50km_eligible_birds":d["horizontal_support_by_grid_m"]["50000"]["birds_with_2_scorable_shared_cell_days"],
+              "100km_eligible_birds":d["horizontal_support_by_grid_m"]["100000"]["birds_with_2_scorable_shared_cell_days"],
+              "main_5km":d["horizontal_support_by_grid_m"]["5000"]["admitted"],
+              "altitude_read":False},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stork-2013-horizontal-geometry-before-altitude-v1
+          path: build/stork2013/WHITE_STORK_2013_XYTIME_RESULT_V1.json
+          if-no-files-found: warn
