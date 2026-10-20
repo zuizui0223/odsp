@@ -37,7 +37,7 @@ def test_constant_shape_across_wind_has_no_context_gain():
         s["hists"]={(300,500):h}
     o=score_context(sessions,birds,labels)
     assert o["eligible_birds"]==10
-    assert o["mean_gain"]==0
+    assert o["mean_gain"]<=0  # conditioned reference has fewer donors and smoothing
 
 
 def test_daily_median_center_removes_additive_device_offset():
