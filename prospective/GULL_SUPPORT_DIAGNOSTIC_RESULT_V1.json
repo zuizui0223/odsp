@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-20",
+  "diagnostic_only": true,
+  "run_id": 39369189157,
+  "implementation_sha": "6b8608904ad75cd313dbd39f687b311230dcb16a",
+  "raw_gps_rows": 2369570,
+  "thinned_flight_bins": 177657,
+  "height_values_accessed": false,
+  "old_endpoints_changed": false,
+  "thresholds": {"day_bins": 50, "cell_training": 10, "days_per_bird": 2, "birds_for_primary": 10, "grid_m": 5000, "thin_min": 5},
+  "panels": [
+    {"source":"medgull2022","taxon":"Ichthyaetus melanocephalus","flight_birds":14,"raw_day":14,"self_other_days":13,"legacy_bug":13,"correct_other_ids":11,"exclude_same_date":11,"long_donor_days_only":9,"final_diagnostic_days":241},
+    {"source":"lbbg2018","taxon":"Larus fuscus","flight_birds":21,"raw_day":11,"self_other_days":8,"legacy_bug":8,"correct_other_ids":6,"exclude_same_date":6,"long_donor_days_only":4,"final_diagnostic_days":68},
+    {"source":"delta2020","taxon":"Larus argentatus","flight_birds":25,"raw_day":11,"self_other_days":7,"legacy_bug":7,"correct_other_ids":6,"exclude_same_date":6,"long_donor_days_only":3,"final_diagnostic_days":50},
+    {"source":"delta2020","taxon":"Larus fuscus","flight_birds":25,"raw_day":24,"self_other_days":13,"legacy_bug":13,"correct_other_ids":9,"exclude_same_date":9,"long_donor_days_only":7,"final_diagnostic_days":129}
+  ],
+  "artifacts": {
+    "medgull2022": {"id":12240676449,"zip_sha256":"31038dc1f27b267951d2bead4fc192a9b435c94231f6fb1ed40782d10e738d96","input_gzip_sha256":"ab2949f0fd09b3fe938ad3aea1bcba0fe897fd39d501b30d9480de5aa601c3f3"},
+    "lbbg2018": {"id":12241205295,"zip_sha256":"0d21ae2f9c04a45641695a703f96f10f90473da2c775a0a57a7b3c86757dbb36","input_gzip_sha256":"aa6b844321c4906d98feb31267bca0aaa73d199e9e3563d5ffc8c5fec4d1dcc6"},
+    "delta2020": {"id":12240427353,"zip_sha256":"1f6bae3ac0a0ba0867f2fda37abf5952ed573eaf268ec39cf91541480c651eaf","input_gzip_sha256":"6c17ef88ae5083fb27337a395505ac14447f76452069465ba6c2f0f21b1d4567"}
+  },
+  "verification": {"local_new_regression_tests": "5 passed", "github_new_regression_job":"success", "github_source_diagnostic_jobs":"3/3 success", "default_repository_suite":"in progress at receipt creation; no all-suite-pass claim"},
+  "corrected_previous_explanation": "MEDGULL 2022 falls 13 -> 11 after correcting the other-ID Counter key, 11 -> 11 after same-date exclusion, and 11 -> 9 after discarding short donor days. The earlier attribution of 13 -> 9 to calendar-date exclusion was incorrect.",
+  "interpretation": "Admission failures are not ecological negative results. Corrected other-individual support and consistent donor/evaluation roles must be established before another confirmatory endpoint.",
+  "limits": ["The diagnostic reads no altitude values, so it is not a new test of vertical individuality.", "DELTATRACK's original 6/9 structural result is reproduced; its code did not contain the Counter-key defect.", "Short-donor-day exclusion is a distinct modelling choice, not automatically a programming bug.", "The original MEDGULL primary n=9 endpoint and score remain closed, not rescued.", "Retaining short donor days is only a candidate post-outcome sensitivity, not an independent replication or prespecified primary success."]
+}
