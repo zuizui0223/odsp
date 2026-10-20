@@ -1,0 +1,108 @@
+name: prospective Zeebrugge 2016 CERRA wind-height shape test
+on:
+  push:
+    branches: [prospective/gull-wind-behaviour-context-20261020]
+    paths:
+      - prospective/ZEEBRUGGE_2016_CERRA_WIND_SHAPE_TEST_FREEZE_V1.json
+      - prospective/zeebrugge_cerra_2016_wind_shape.py
+      - prospective/run_zeebrugge_2016_wind_shape.py
+      - prospective/test_zeebrugge_cerra_2016_wind_shape.py
+      - .github/workflows/prospective-zeebrugge-wind-shape.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  synthetic-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy numba pyproj pytest
+      - name: Synthetic wind condition / null model tests
+        env:
+          NUMBA_CACHE_DIR: /tmp/numba-zeebrugge-synthetic
+        run: python -m pytest -q prospective/test_zeebrugge_cerra_2016_wind_shape.py
+  immutable-source:
+    needs: synthetic-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy numba pyproj
+      - name: Load checksum-pinned pre-outcome support receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/zeebrugge_wind
+          curl --fail --silent --show-error --location --retry 3 --max-time 180 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12250561258/zip' \
+            -o build/zeebrugge_wind/preoutcome.zip
+          echo '7e5d350fca89e8ee9a2486795460cac843d51c43cf6391f1d094d2456f572e7b  build/zeebrugge_wind/preoutcome.zip' | sha256sum --check
+          unzip -p build/zeebrugge_wind/preoutcome.zip ZEEBRUGGE_2016_CERRA_WIND_SUPPORT_V1.json \
+            > build/zeebrugge_wind/preoutcome.json
+          python - <<'PY'
+          import json
+          d=json.load(open('build/zeebrugge_wind/preoutcome.json'))
+          assert d['height_or_biological_effect_opened'] is False
+          assert d['structural']['wind_both_regimes_birds']==41
+          assert d['structural']['matched_wind_eligible_birds_sha256']=='110e3db80e869f758b0660ca7ae6d059362074879bfd418b86bbea469f191379'
+          print('Original outcome-blind source support is intact')
+          PY
+      - name: Fetch frozen 2016 archived GPS and deployment reference
+        run: |
+          set -euo pipefail
+          cd build/zeebrugge_wind
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 5 --max-time 1000 \
+            'https://zenodo.org/records/22273603/files/LBBG_ZEEBRUGGE-gps-2016.csv.gz?download=1' \
+            -o LBBG_ZEEBRUGGE-gps-2016.csv.gz
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 5 --max-time 120 \
+            'https://zenodo.org/records/22273603/files/LBBG_ZEEBRUGGE-reference-data.csv?download=1' \
+            -o LBBG_ZEEBRUGGE-reference-data.csv
+          printf '%s\n' \
+            '8789e188f1b33af9d4d8c810cded005a  LBBG_ZEEBRUGGE-gps-2016.csv.gz' \
+            '76c5b0c8a3a17f7bdd7f589b3d87014c  LBBG_ZEEBRUGGE-reference-data.csv' | md5sum --check
+      - name: Open altitude only after pre-height archive and weather fingerprint checks
+        env:
+          NUMBA_CACHE_DIR: /tmp/numba-zeebrugge-production
+        run: |
+          set -euo pipefail
+          python -m prospective.run_zeebrugge_2016_wind_shape \
+            --gps build/zeebrugge_wind/LBBG_ZEEBRUGGE-gps-2016.csv.gz \
+            --reference build/zeebrugge_wind/LBBG_ZEEBRUGGE-reference-data.csv \
+            --source-receipt build/zeebrugge_wind/preoutcome.json \
+            --output build/zeebrugge_wind/results
+      - name: Verify source and preregistered terminal boundaries
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('build/zeebrugge_wind/results/ZEEBRUGGE_2016_CERRA_WIND_SHAPE_RESULT_V1.json'))
+          assert d['preheight_support_run']==39391834277
+          assert d['source_gps_md5']=='8789e188f1b33af9d4d8c810cded005a'
+          assert d['terminal'] in {'unavailable','supported_wind_context_transfer','wind_context_transfer_not_supported'}
+          if d['terminal']!='unavailable':
+              assert d['observed']['eligible_birds']>=10
+              assert d['calibration']['requested']==999
+              assert d['calibration']['valid']>=950
+          print(json.dumps({'status':d['terminal'],'reason':d.get('reason'),
+              'birds':d.get('observed',{}).get('eligible_birds'),
+              'gain':d.get('observed',{}).get('mean_gain'),
+              'null_valid':d.get('calibration',{}).get('valid'),
+              'excess':d.get('calibration',{}).get('observed_minus_null_mean'),
+              'null_p_upper':d.get('calibration',{}).get('p_upper')},sort_keys=True))
+          PY
+      - name: Store falsifiable scientific result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zeebrugge-2016-cerra-wind-height-shape-v1
+          path: build/zeebrugge_wind/results/*
+          if-no-files-found: warn
