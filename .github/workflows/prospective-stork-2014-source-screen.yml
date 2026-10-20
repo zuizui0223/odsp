@@ -1,0 +1,81 @@
+name: prospective white-stork migration x-y time altitude-blind source audit
+
+on:
+  push:
+    branches: [prospective/stork-migration-wind-generality-20261020]
+    paths:
+      - prospective/WHITE_STORK_2014_XYTIME_SOURCE_GATE_V1.json
+      - prospective/stork_2014_xytime_source_screen.py
+      - prospective/test_stork_2014_xytime_source_screen.py
+      - .github/workflows/prospective-stork-2014-source-screen.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest pyproj
+      - run: python -m pytest -q prospective/test_stork_2014_xytime_source_screen.py
+  archived-source:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pyproj
+      - name: Download two Movebank archived CC0 source files
+        run: |
+          set -euo pipefail
+          mkdir -p build/stork2014
+          cd build/stork2014
+          curl --fail --silent --show-error --location --retry 4 --retry-delay 5 --max-time 900 \
+            'https://datarepository.movebank.org/bitstreams/ef95f900-1cde-417e-be8a-c6e64e576bea/download' \
+            -o 'Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip'
+          curl --fail --silent --show-error --location --retry 4 --retry-delay 5 --max-time 120 \
+            'https://datarepository.movebank.org/bitstreams/f5bfa548-4c4b-47c2-a842-3a6ae2e70cda/download' \
+            -o 'Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv'
+          printf '%s\n' \
+            '2ec22217c0f566650d245ae2da4694bf  Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip' \
+            'b38407ed744cf2bd4806afce929f604a  Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv' | md5sum --check
+      - name: Run 2014 migrant spatial support without opening native GPS heights
+        run: |
+          set -euo pipefail
+          python -m prospective.stork_2014_xytime_source_screen \
+            --gps-zip 'build/stork2014/Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip' \
+            --reference 'build/stork2014/Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv' \
+            --output build/stork2014/WHITE_STORK_2014_XYTIME_SOURCE_RESULT_V1.json
+      - name: Validate source and no-opened outcomes
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/stork2014/WHITE_STORK_2014_XYTIME_SOURCE_RESULT_V1.json'))
+          assert x['gps_altitude_values_accessed'] is False
+          assert x['GPS_altitude_shape_tested'] is False
+          assert x['source']['GPS_archive_md5']=='2ec22217c0f566650d245ae2da4694bf'
+          assert set(x['horizontal_support_by_grid_m'])=={'5000','50000','100000'}
+          print(json.dumps({
+              'raw_source_birds':x['source']['unique_birds'],
+              'flight_proxy_birds':x['GPS_time_speed_xy_rows']['birds_with_thinned_flight'],
+              '5km':x['horizontal_support_by_grid_m']['5000']['birds_with_2_scorable_shared_cell_days'],
+              '50km':x['horizontal_support_by_grid_m']['50000']['birds_with_2_scorable_shared_cell_days'],
+              '100km':x['horizontal_support_by_grid_m']['100000']['birds_with_2_scorable_shared_cell_days'],
+              'native_height_above_ellipsoid_column':x['GPS_schema_has_height_above_ellipsoid']
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: white-stork-2014-outcome-blind-movement-gate-v1
+          path: build/stork2014/WHITE_STORK_2014_XYTIME_SOURCE_RESULT_V1.json
+          if-no-files-found: warn
