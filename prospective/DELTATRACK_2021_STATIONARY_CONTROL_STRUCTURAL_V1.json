@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-20",
+  "status": "STRUCTURAL_ONLY_BEFORE_STATIONARY_HEIGHT_SHAPE_INSPECTION",
+  "source": "DELTATRACK-gps-2021.csv.gz",
+  "doi": "10.5281/zenodo.22102508",
+  "source_md5": "1a3145234cccd1a48b280b0fb485d679",
+  "discovery": "Previously opened flying-height individuality in 2021 Larus fuscus; 2021 device audit found same-bird re-tagging unavailable, constant-zero barometric height, but abundant ground-speed<=0.5m/s records.",
+  "scientific_question": "Can at-rest/slow-moving GPS altitude within the same small horizontal space show repeatable tag/individual-associated shape independent of flight behavior?",
+  "nonconfirmatory_status": "POST_OUTCOME_NEGATIVE_CONTROL_FEASIBILITY - never count as external taxonomic replication or calibration of a biological causal mechanism",
+  "admitted_species": [
+    "Larus fuscus",
+    "Larus argentatus"
+  ],
+  "primary_geometry": {
+    "projection": "EPSG:32631",
+    "cell_m": 100,
+    "other_sensitivity_cell_m": 500,
+    "claim_from_sensitivity": "descriptive only"
+  },
+  "selection": {
+    "native": "2021 May-July UTC, exclude source-marked outliers, finite WGS84 x-y, ground-speed 0-0.5m/s inclusive, first selected fix per bird/date/UTC 5min bin; do not use height for selection.",
+    "daily_cell": "select modal 100m cell from each bird-day by count, tie broken deterministic numeric x/y; other-cell days ignored for primary. At 500m repeat independently from the same selected 5-min record set.",
+    "scorable_day_min_bins": 20,
+    "own_other_day_min_bins": 10,
+    "other_bird_other_date_min_bins": 10,
+    "min_scorable_bird_days_per_bird": 2,
+    "min_individual_birds_per_species": 10,
+    "donor_days_only": "Only qualifying >=20-bin same-cell bird-days form comparison pools. Do not use short donor days.",
+    "null_preconditioning": "No heights are inspected and no final test is performed at structural stage."
+  },
+  "interpretation": {
+    "positive_support": "Reanalysis of stationary height distributions still cannot distinguish tag artifact from repeated micro-roost/perch placement within 100m.",
+    "negative_support": "Lack of a stationary signal does not exclude movement-specific GPS altitude error.",
+    "not_admitted": "Structural lack of overlap is unavailable, not evidence absence of tag-specific errors."
+  },
+  "next_allowed": "If 100m primary gate meets >=10 biological birds with repeat days, freeze a stationary centered-altitude-shape descriptive/label-null test and execute; otherwise do not widen primary to 500m to rescue."
+}
