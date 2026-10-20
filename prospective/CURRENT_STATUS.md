@@ -1,56 +1,67 @@
 # Cross-taxon biological generality — current state
 
-Updated 2026-10-20. The support diagnosis and the bounded MEDGULL donor-day sensitivity are COMPLETE. The original primary test remains closed; new results are explicitly post-outcome sensitivity, not independent confirmation.
+Updated 2026-10-20. Latest completed step: a prospectively fixed external tracking-study test in DELTATRACK 2021. Prior MEDGULL exploratory results and unavailable original endpoints remain unchanged.
 
-## Latest completed ecological result
+## Latest external-study result
 
-Branch: `sensitivity/medgull-donor-days-20261020`.
+Branch: `prospective/deltatrack-2021-identity-20261020`.
 
-MEDGULL 2022, Ichthyaetus melanocephalus, Zenodo 15685037, original pinned GPS source. Retaining short days for training while preserving >=50 scored records/evaluation day and >=2 evaluation days/bird gives **11 birds, 258 bird-days, 17,054 scored five-minute flight records**.
+Using the unchanged MEDGULL D1 balanced estimator, **Larus fuscus: 40 individuals, 899 bird-days and 66,811 scored five-minute flight records** retain individual-label-associated cross-day centered altitude shape beyond exact-date session relabeling.
 
-| Reference | Observed log-score gain | Exact-date permutation mean | Observed minus null mean | Holm p (two sensitivity contrasts) |
-|---|---:|---:|---:|---:|
-| Pooled donor records | -0.0296285 | -0.0945509 | +0.0649224 | 0.002 |
-| Equal donor days within bird, equal other birds | +0.0362684 | -0.0167478 | +0.0530162 | 0.002 |
+- Observed mean log-score gain: +0.0456739261.
+- Null mean: -0.0278862764.
+- Observed minus null: +0.0735602025 nats/record.
+- 999/999 valid permutations; none at least as large as observed.
+- One-sided Monte Carlo p=0.001; Holm p=0.002 across the TWO prespecified species.
+- 37/40 positive individual point scores, not 37 significant individual tests.
+- Null eligible birds 49–59 versus observed 40; full support re-estimation and this difference are retained.
 
-Both use 999/999 valid whole-session permutations within exact UTC dates; no unavailable draws discarded. Raw sign is not the inferential reference: even the negative pooled gain exceeds its procedure-specific null. In the balanced variant 10/11 individual point scores are positive, NOT 10 separately significant individual tests.
+Larus argentatus: 14 individuals had valid flight heights but only 1 individual / 7 bird-days / 449 records passed the full comparison support. Its endpoint is **unavailable**, not a negative biological result. It stays in the multiplicity family with placeholder p=1; no biological p-value is reported.
 
-The balanced variant also smooths each day/cell before averaging; it differs in smoothing level as well as weighting. Do not assign the raw sign change to weights alone.
+The dataset is an external study relative to MEDGULL, not an independent study for each DELTATRACK year. The two species share site/instrument context. The supported external result is one species, not two successful independent species.
 
-## What was and was not established
+## Frozen design and execution
 
-Supported within this exploratory design: identity-matched, within-day-median-centered altitude profiles retain more cross-day correspondence than exact-date relabeling in one already-examined nonbat species.
+Source DOI 10.5281/zenodo.22102508; DELTATRACK-gps-2021.csv.gz; MD5 1a3145234cccd1a48b280b0fb485d679. Target two-species raw count 3,637,037; valid thinned height count 216,407.
 
-Not established: independent replication, universal cross-taxon individuality, adaptive resource partitioning, central-place causation, or separation of biological identity from tag-specific non-additive errors, sampling effort and unobserved behavioral/context differences. The date-exchangeability assumption is substantive. Holm adjustment covers only the two stated sensitivity comparisons, not the whole historical sequence of exploratory decisions.
+Plan saved before this 2021 height analysis: commit abd6416013cf8aedf0acff9b91782964ce947228. Successful run 39375585874, execution commit 089194d368ca43554d3ea681d008d01e5ce51008, artifact 12242743398.
 
-This is shape matching, not online absolute-height prediction: heldout sessions supply their own centering median. Short training-day medians can be noisy. New n=11 eligibility does NOT rescue the original n=9 primary.
+First attempt failed at Numba cache loading after parsing heights but before emitting an identity statistic. The error was reproduced with synthetic data; only the production cache directory was separated. No year, model, threshold, seed, source or numerical kernel changed.
 
-## Reproduction and verification
+Durable report and receipt on the external-test branch:
+- prospective/DELTATRACK_2021_IDENTITY_REPORT_V1.md
+- prospective/DELTATRACK_2021_IDENTITY_RECEIPT_V1.json
+- prospective/DELTATRACK_2021_IDENTITY_PLAN_V1.md
+- prospective/DELTATRACK_2021_RUNTIME_RECOVERY_V1.json
+- prospective/deltatrack_2021_identity.py
+- prospective/test_deltatrack_2021_identity.py
 
-Original D50 pooled result reproduced exactly within numerical tolerance: **9 birds, 241 days, 15,904 records, mean gain -0.014494591842618162**. D50 balanced is +0.0555508 but remains descriptive.
+The complete result JSON, all 999 null draws, all per-bird comparisons and executable code are saved in the verified run artifact and the conversation reproducibility package.
 
-New module tests: 10/10 passed locally. Independent dictionary/NumPy recomputation agrees for every bird in all four variants, maximum absolute difference 5.56e-17. Published script blob matches the executed local script: `eb0069c98218ae097a9b1310c8556d3258cc1c07`.
+## Interpretation and remaining scientific boundary
 
-The existing whole-repository suite was not rerun for this standalone sensitivity. The two historical submission-readiness failures from run 39369189157 were previously reproduced on the unchanged parent in run 39370203022 and remain unresolved. Do not claim all repository tests are green.
+Evidence now extends from the post-outcome MEDGULL discovery to a pre-specified test in a different gull study/species. The safest claim concerns **individual-label-associated vertical-use shape**, not biological personality or adaptive specialization free from instrumentation.
 
-## Durable latest evidence
+Tag-specific non-additive altitude errors, effort, unobserved behavioral mixtures, within-cell routes and the substantive exact-date exchangeability assumption remain limitations. Day medians use the heldout session itself; this is shape matching, not online absolute-height prediction. Do not compare raw calibrated-score magnitudes as directly comparable biological strengths across datasets.
 
-On the sensitivity branch:
-- `prospective/MEDGULL_DONOR_SENSITIVITY_PLAN_V1.md` — post-outcome plan fixed before this calculation; commit cdc516f04bef29be3f5a786ee78916fea90d104d.
-- `prospective/medgull_sensitivity.py` — unified support/scoring and exact-date null implementation.
-- `prospective/test_medgull_sensitivity.py` — synthetic and optional pinned-source integration tests.
-- `prospective/MEDGULL_DONOR_SENSITIVITY_RESULT_V1.json` — results, provenance, source and complete-output hashes.
-- `prospective/MEDGULL_DONOR_SENSITIVITY_REPORT_V1.md` — Japanese ecological interpretation and limitations.
+No inference of resource partitioning, central-place causation or universal mammal–bird equivalence. MINA penguin breeding-component concentration is a different response variable; do not combine the two into one demonstrated law.
 
-Complete per-bird scores, all 999 null draws, processed session arrays and independent validation code are included in the conversation's reproducibility package.
+Next scientific boundary: measurement/context attribution and extension beyond a narrow colonial-flying comparison. Do not continue changing thresholds on already-viewed MEDGULL or treat the excluded L. argentatus panel as a biological negative.
 
-## Preserved diagnosis and closed endpoints
+## Preserved MEDGULL sensitivity
 
-MEDGULL's earlier 13-to-9 drop was NOT caused by same-date exclusion:
-13 -> 11 after correcting the Counter (individual, cell) key;
-11 -> 11 after excluding same-date donors;
-11 -> 9 after removing short donor days.
+Branch sensitivity/medgull-donor-days-20261020. MEDGULL 2022 I. melanocephalus: 11 birds, 258 bird-days, 17,054 records under D1. D1 pooled observed -0.0296285 vs null -0.0945509; D1 balanced +0.0362684 vs null -0.0167478. Both Holm p=0.002 across those two exploratory comparisons. This remains post-outcome sensitivity, not an independent confirmation. Balanced uses different smoothing level as well as weighting.
 
-DELTATRACK 2020 remains structurally below its unchanged minimum-10 rule: L. argentatus 6, L. fuscus 9. Its original code did not have the Counter-key defect. Schiermonnikoog 2018 had 6 with correct shared-cell matching, 4 after short-donor removal. These are sampling-support findings, not ecological negatives.
+Original D50 pooled reproduced: 9 birds, 241 days, 15,904 records, gain -0.014494591842618162. Its original minimum-10 primary stays closed as unavailable.
 
-The next scientific boundary is measurement/context confounding and genuinely independent nonbat confirmation, not another threshold change to the already-viewed MEDGULL sample. Bat movement individuality and MINA breeding-component concentration remain different response variables and must not be pooled into one claimed law.
+## Preserved structural diagnosis
+
+MEDGULL 13 -> 11 after correcting the individual/cell Counter key; 11 -> 11 after same-date exclusion; 11 -> 9 after removing short donor days. Earlier attribution solely to same-date exclusion was wrong.
+
+DELTATRACK 2020 stays below its original minimum-10 rule: L. argentatus 6, L. fuscus 9. Its code did not have the Counter-key defect. Schiermonnikoog 2018 had 6 correct shared-cell candidates, 4 after short-donor-day removal. These are support findings, not ecological negatives.
+
+## Verification closeout
+
+New and reused module tests: 15 passed, 1 optional source integration test skipped. Independent dictionary reference agrees in 96 irregular synthetic cases; max score difference 6.67e-16. Saved real-data individual aggregates, full null means/tail counts/p values and Holm adjustment rechecked independently; artifact file hashes verified.
+
+Full default repository suite rerun in 39374955129: 1,514 passed, 2 failed, 1 skipped, 0 errors. The two unresolved historical failures are test_final_receipt_rebuilds_manuscript_and_anonymous_bundle and test_closed_empirical_workflows_are_path_filtered. They had previously been reproduced on the unchanged parent. Scientific job success does not mean the entire repository suite is green.
