@@ -1,0 +1,66 @@
+{
+  "analysis": "POST_OUTCOME_MEDGULL_DONOR_SENSITIVITY_V1",
+  "date": "2026-10-20",
+  "original_primary_reopened": false,
+  "independent_replication": false,
+  "plan_commit": "cdc516f04bef29be3f5a786ee78916fea90d104d",
+  "code_commit": "28274d1f01a4aff419f608e5f80c8d59aa3d3f3e",
+  "code_git_blob": "eb0069c98218ae097a9b1310c8556d3258cc1c07",
+  "code_sha256": "7d5f552e6b5b28d3981f00f37c5ec64fa9d8daa747e5973ab6f5c87a4b91396e",
+  "source": {
+    "doi": "10.5281/zenodo.15685037",
+    "file": "MEDGULL_ANTWERPEN-gps-2022.csv.gz",
+    "md5": "aea4ac8900f553e105e797e0553d84e7",
+    "sha256": "ab2949f0fd09b3fe938ad3aea1bcba0fe897fd39d501b30d9480de5aa601c3f3",
+    "source_handoff_run": 39371657194,
+    "source_handoff_artifact": 12241806374,
+    "raw_rows": 458251,
+    "five_minute_flight_bins": 46508,
+    "valid_altitude_bins": 46505,
+    "all_bird_day_sessions": 1055,
+    "sessions_ge50_bins": 401,
+    "dates": 92
+  },
+  "comparisons": {
+    "D50_pooled": {"birds":9,"bird_days":241,"scored_bins":15904,"mean_gain":-0.014494591842618159,"positive_bird_gains":2,"inferential_status":"original_n9_primary_reproduced_descriptive_only"},
+    "D50_balanced": {"birds":9,"bird_days":241,"scored_bins":15904,"mean_gain":0.05555077184385637,"positive_bird_gains":9,"inferential_status":"descriptive_only_no_primary_gate_rescue"},
+    "D1_pooled": {"birds":11,"bird_days":258,"scored_bins":17054,"mean_gain":-0.0296284631304095,"positive_bird_gains":3,"inferential_status":"exploratory_date_permutation_calibrated"},
+    "D1_balanced": {"birds":11,"bird_days":258,"scored_bins":17054,"mean_gain":0.0362684211971134,"positive_bird_gains":10,"inferential_status":"exploratory_date_permutation_calibrated"}
+  },
+  "exploratory_calibration": {
+    "unit":"whole bird-day session",
+    "stratum":"exact UTC date",
+    "draws":999,
+    "seed":20261020,
+    "valid_draws":999,
+    "eligible_birds_in_null_min":12,
+    "eligible_birds_in_null_max":14,
+    "mean_fraction_labels_changed":0.913085597445787,
+    "pooled":{"null_mean":-0.09455086232658293,"observed_minus_null_mean":0.06492239919617343,"null_quantiles_025_50_975":[-0.11312567211164518,-0.0948099585501893,-0.0774658616126973],"draws_ge_observed":0,"one_sided_p":0.001,"holm_p_two_tests":0.002},
+    "balanced":{"null_mean":-0.01674780927103785,"observed_minus_null_mean":0.05301623046815125,"null_quantiles_025_50_975":[-0.02537188065450063,-0.016744208556065027,-0.008926484880667305],"draws_ge_observed":0,"one_sided_p":0.001,"holm_p_two_tests":0.002}
+  },
+  "verification": {
+    "new_module_tests_passed":10,
+    "original_9_bird_241_day_value_reproduced":true,
+    "preflight_and_scorer_share_kernel":true,
+    "all_four_variants_independently_recomputed":true,
+    "independent_reference_max_absolute_discrepancy":5.551115123125783e-17,
+    "full_repository_suite_rerun_this_turn":false,
+    "previous_repository_failures_unchanged":"Two historical submission-readiness failures remain documented in GULL_SUPPORT_VERIFICATION_FINAL_V1.json; this receipt makes no whole-repository-green claim."
+  },
+  "local_complete_outputs": {
+    "RESULT.json_sha256":"961d4d2a6fb71430c13cf428c1146dabd35825b52aa017f5f2ace962ca2a9004",
+    "null_draws.csv_sha256":"5ab6690adf9486085aebaa0dda2ff7f2677f35b2b83f91c59303c239bda03108",
+    "per_bird.csv_sha256":"95c3d199bec4f16ad3171412bcd768ef6b00bdf7cdd99346a0882b18a013d106",
+    "processed_sessions.npz_sha256":"b5a0147202a212c911371a039bf627b557097ac74c999fe61bccf9887bd34125"
+  },
+  "claim": "Under this explicitly post-outcome donor-retention sensitivity and exact-date session-exchangeability assumption, identity-matched centered altitude profiles outperform their randomized-label reference in one already-examined non-bat species. This is not a rescued original primary test or independent cross-taxon confirmation.",
+  "limits": [
+    "Balanced and pooled variants differ in both weighting and smoothing level; raw sign change cannot be assigned to weights alone.",
+    "Short-donor-day medians can be noisy; retaining them is a sensitivity, not established best practice.",
+    "Permutation null assumes whole sessions exchangeable among birds observed on the same date. Individual-specific sensor variance, effort, persistent context and fine-scale route use may violate biological interpretations of that assumption.",
+    "Observed support is 11 birds, while null support varies 12-14; support and complete statistic are recomputed, not held fixed or silently filtered.",
+    "Day-centering is learned from the target day; shape matching is not online absolute-height forecasting.",
+    "One already-viewed gull species cannot establish taxonomic generality, adaptive specialization, resource partition or central-place causation."
+  ]
+}
