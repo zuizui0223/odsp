@@ -40,10 +40,10 @@ jobs:
           mkdir -p build/stork2014
           cd build/stork2014
           curl --fail --silent --show-error --location --retry 4 --retry-delay 5 --max-time 900 \
-            'https://datarepository.movebank.org/bitstreams/ef95f900-1cde-417e-be8a-c6e64e576bea/download' \
+            'https://datarepository.movebank.org/server/api/core/bitstreams/ef95f900-1cde-417e-be8a-c6e64e576bea/content' \
             -o 'Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip'
           curl --fail --silent --show-error --location --retry 4 --retry-delay 5 --max-time 120 \
-            'https://datarepository.movebank.org/bitstreams/f5bfa548-4c4b-47c2-a842-3a6ae2e70cda/download' \
+            'https://datarepository.movebank.org/server/api/core/bitstreams/f5bfa548-4c4b-47c2-a842-3a6ae2e70cda/content' \
             -o 'Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv'
           printf '%s\n' \
             '2ec22217c0f566650d245ae2da4694bf  Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip' \
