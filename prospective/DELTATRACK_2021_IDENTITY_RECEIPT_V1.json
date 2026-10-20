@@ -1,0 +1,87 @@
+{
+  "analysis": "DELTATRACK_2021_IDENTITY_V1",
+  "date": "2026-10-20",
+  "status": "complete",
+  "plan_commit": "abd6416013cf8aedf0acff9b91782964ce947228",
+  "execution_commit": "089194d368ca43554d3ea681d008d01e5ce51008",
+  "workflow_run": 39375585874,
+  "scientific_job": 118472869529,
+  "scientific_job_conclusion": "success",
+  "artifact_id": 12242743398,
+  "artifact_zip_sha256": "f3b762919e2bb7648b788ca15ded9c50a8dc531bca4c612eceb82d7214681e79",
+  "full_result_sha256": "5e49a9645c1cc54a920639774097bb7a0607fc546b9156e62cdd0a33ccefccf3",
+  "null_csv_sha256": "9a8d9a98ee3a0470c0400c88aef496dcfc5b5a623ce03665252970a2013b25e6",
+  "source": {
+    "doi": "10.5281/zenodo.22102508",
+    "file": "DELTATRACK-gps-2021.csv.gz",
+    "md5": "1a3145234cccd1a48b280b0fb485d679",
+    "sha256": "52f478ac5efd472835d30b0387f9f4982e4991c12a8f85bdd4cb6da29cbdbf00",
+    "raw_rows_two_taxa": 3637037,
+    "valid_five_minute_height_records_two_taxa": 216407
+  },
+  "primary_estimator": "D1 balanced: nonempty donor days; equal days within bird and equal other birds; exact shared 5-km target cells; exclude same-date donors; day-median centered height; >=50 scored events/day, >=2 days/bird, >=10 birds",
+  "panels": {
+    "Larus fuscus": {
+      "terminal": "supported",
+      "raw_rows": 2851127,
+      "valid_height_records": 189598,
+      "valid_height_fraction": 0.9993200756876987,
+      "flight_individuals": 64,
+      "eligible_birds": 40,
+      "eligible_bird_days": 899,
+      "eligible_records": 66811,
+      "observed_gain": 0.045673926106348135,
+      "null_mean": -0.02788627642143601,
+      "observed_minus_null_mean": 0.07356020252778414,
+      "requested_permutations": 999,
+      "valid_permutations": 999,
+      "null_values_at_least_observed": 0,
+      "one_sided_p": 0.001,
+      "holm_upper_p_two_species": 0.002,
+      "positive_individual_point_scores": 37,
+      "individual_point_score_denominator": 40,
+      "null_eligible_birds_range": [49,59],
+      "mean_fraction_labels_changed": 0.9772595135916936,
+      "D50_balanced_descriptive": {"birds":36,"bird_days":833,"records":62069,"gain":0.04838413768439673},
+      "D1_pooled_descriptive_gain": -0.07302262800483486
+    },
+    "Larus argentatus": {
+      "terminal": "unavailable",
+      "reason": "minimum_ten_individuals",
+      "raw_rows": 785910,
+      "valid_height_records": 26809,
+      "flight_individuals": 14,
+      "eligible_birds": 1,
+      "eligible_bird_days": 7,
+      "eligible_records": 449,
+      "descriptive_gain": 0.027608410151948298,
+      "biological_p_value": null,
+      "multiplicity_family_placeholder_p": 1.0
+    }
+  },
+  "verification": {
+    "module_tests_passed": 15,
+    "module_tests_skipped": 1,
+    "independent_synthetic_reference_cases": 96,
+    "maximum_synthetic_score_difference": 6.661338147750939e-16,
+    "saved_result_and_999_null_draw_arithmetic_rechecked": true,
+    "artifact_file_hashes_verified": 10,
+    "repository_default_suite": {"passed":1514,"failed":2,"skipped":1,"errors":0,"run":39374955129,"artifact":12243133246},
+    "unresolved_existing_tests": [
+      "test_final_receipt_rebuilds_manuscript_and_anonymous_bundle",
+      "test_closed_empirical_workflows_are_path_filtered"
+    ]
+  },
+  "recovery": "First attempt parsed source heights but failed at first JIT cache load before emitting an identity statistic. Only production cache isolation changed; source, algorithm, thresholds and seed did not. See DELTATRACK_2021_RUNTIME_RECOVERY_V1.json.",
+  "interpretation": "A prospectively specified external tracking-study test supports individual-label-associated cross-day centered altitude shape in L. fuscus. L. argentatus is unavailable, not a negative biological replication.",
+  "boundaries": [
+    "This is external relative to MEDGULL; not a new independent DELTATRACK study for every year.",
+    "The two DELTATRACK species share site and instrument context; do not count them as two fully independent studies.",
+    "Exact-date permutation preserves dates but still assumes exchangeability; null support counts differ from observed support counts.",
+    "Tag-specific non-additive errors, sampling effort, behavioral mixtures and within-cell horizontal routes remain potential contributors.",
+    "37/40 positive scores are descriptive, not 37 separately significant individual tests.",
+    "D50 and pooled comparisons are descriptive; their raw signs do not replace the calibrated prespecified primary.",
+    "No inference of adaptive resource partitioning, central-place causation or universal mammal-bird equivalence.",
+    "Original MEDGULL n=9 and DELTATRACK 2020 failures remain closed and unchanged."
+  ]
+}
