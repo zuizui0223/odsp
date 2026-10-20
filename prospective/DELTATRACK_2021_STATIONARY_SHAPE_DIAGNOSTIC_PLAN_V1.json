@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-20",
+  "role": "POST_OUTCOME_NEGATIVE_CONTROL_NOT_A_FRESH_BIOLOGICAL_REPLICATION",
+  "prior_support": {
+    "run": 39379854839,
+    "Larus fuscus": {
+      "birds": 63,
+      "days": 1737
+    },
+    "Larus argentatus": {
+      "birds": 12,
+      "days": 485
+    }
+  },
+  "source": "DELTATRACK corrected v5",
+  "file": "DELTATRACK-gps-2021.csv.gz",
+  "md5": "1a3145234cccd1a48b280b0fb485d679",
+  "question": "Does individual/tag-associated vertical distribution shape recur across days even among slow-moving GPS observations in spatially overlapping 100m cells?",
+  "fixed_before_stationary_height_shapes": {
+    "observed_species": [
+      "Larus argentatus",
+      "Larus fuscus"
+    ],
+    "source_filter": "2021 May-July UTC, provider-marked outlier excluded, speed 0-0.5 m/s, first event per bird/date/UTC 5minute bin before altitude inspection",
+    "daily_site": "project EPSG32631, choose day modal 100m cell by x-y counts, tie deterministic lexicographic; require >=20 selected bins in modal cell before numeric altitude quality; no stationarity inference",
+    "height_native": "height-above-msl finite between -300 and 3000m. Missing earliest event never replaced by a later event in the same 5minute bin.",
+    "qc_requirement": "at least 0.80 finite in-range height fraction among frozen first-bin modal-cell events; report unavailable otherwise",
+    "donor_days": "all modal-cell days with at least20 native valid heights. Days with fewer excluded from both training and evaluation.",
+    "evaluation": "the unchanged medgull_sensitivity balanced D1 numerical kernel requires >=50 scored events per evaluation day and >=2 evaluation days per biological individual, >=10 individuals for inferential reporting",
+    "within_day_center": "subtract day median height, same ten bins as previously evaluated flying shape: -Inf,-200,-100,-50,-25,0,25,50,100,200,+Inf m",
+    "same_cell_constraints": "Own other-day>=10 and other-individual other-date>=10 in the identical modal 100m cell, with date exclusion, equal donor days and other bird weights and Jeffreys 0.5/bin",
+    "primary": "D1 balanced same kernel as DELTATRACK 2021 flight analysis. D1 pooled raw score descriptive only.",
+    "null": "999 within-exact-date whole-session bird-label permutations, seed 20261022 per species, recompute support each permutation, record null eligible birds and all unavailable draws.",
+    "null_gate": "at least950 of999 valid null draws and >=10 observed eligible biological individuals; report p_upper accounting for all invalid draws; Holm correction across both species, unavailable placeholder p=1",
+    "interpretation": "Positive stationary ID after 100m matching implies detectable ID-associated altitude shape in low-speed records. It cannot discriminate tag noise from individual micro-perch/nest height. Negative does not rule out motion-specific tag errors."
+  },
+  "unselected_sensitivity": "500m geometry already recorded as descriptive structural support, not an alternative primary endpoint; do not run extra grids or tune height bins based on real stationary result.",
+  "stop_rule": "If support/quality/null gate fails, report unavailable, do not relax minima."
+}
