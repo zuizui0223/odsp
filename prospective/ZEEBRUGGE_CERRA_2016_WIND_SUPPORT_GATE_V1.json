@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-20",
+  "phase": "PREOUTCOME_MULTI_COLONY_GPS_WIND_SUPPORT",
+  "source": {
+    "archive": "https://zenodo.org/records/22273603",
+    "doi": "10.5281/zenodo.22273603",
+    "study": "LBBG_ZEEBRUGGE",
+    "underlying_movebank_study": "985143423",
+    "native_taxon": "Larus fuscus",
+    "reference_file": "LBBG_ZEEBRUGGE-reference-data.csv",
+    "reference_md5": "76c5b0c8a3a17f7bdd7f589b3d87014c",
+    "gps_file": "LBBG_ZEEBRUGGE-gps-2016.csv.gz",
+    "gps_md5": "8789e188f1b33af9d4d8c810cded005a",
+    "selection": "2016 fixed before viewing year-specific height effects; reference metadata show 37 tags started in 2016 (highest single-year deployment start count), four colony study-site codes.",
+    "universe": "One Movebank source, do not count same tracks imported via GBIF/OBIS/Zenodo updates as independent replications. 162 individual reference rows across 2013-2023, not 162 simultaneously observed in 2016."
+  },
+  "meteorology": {
+    "independent_source": "Open-Meteo Historical Weather API (ECMWF CERRA Europe, 5 km resolution in 2016)",
+    "endpoint": "https://archive-api.open-meteo.com/v1/archive",
+    "model": "cerra",
+    "variable": "wind_speed_100m",
+    "unit": "m/s",
+    "timezone": "UTC",
+    "window": "2016-05-01 through 2016-07-31",
+    "spatial_link": "For each of the four source-defined study-site codes, take median deploy-on coordinates among 2016-deployed birds from the published reference file (no GPS altitude or outcome). Request one daily 24-hour hourly wind series per site; DO NOT assert weather at animal's position.",
+    "day_statistic": "mean of 24 hourly CERRA wind_speed_100m values; days missing >20% hourly wind excluded as meteorological unavailable",
+    "regimes": "Within each site x each month, lower <=25th and upper >=75th percentile of all May-Jul 2016 calendar-day mean wind, computed without any tracking results. Middle 50% excluded from contrast.",
+    "unavailable_fields": "CERRA 2016 boundary_layer_height returned all null; exclude it rather than silently imputing.",
+    "permissions": "Public noncommercial source; rate limits and required attribution to be maintained in manuscripts."
+  },
+  "GPS_structural_gate": {
+    "year": 2016,
+    "months_UTC": [
+      5,
+      6,
+      7
+    ],
+    "gps_fields": [
+      "timestamp",
+      "location-long",
+      "location-lat",
+      "ground-speed",
+      "individual-local-identifier",
+      "tag-local-identifier",
+      "import-marked-outlier",
+      "height-above-msl"
+    ],
+    "eligible_speed_m_s": [
+      5,
+      55
+    ],
+    "event_choice": "For each bird-date five-minute bin select the earliest GPS fix that passes only speed/time/x-y/provider outlier checks, prior to height handling.",
+    "map_bird_to_site": "Try identity crosswalk between event individual-local-identifier / tag-local-identifier and reference animal-id / tag-id / tag-serial-no. Accept only one-to-one, source-supported mappings: no guessing. If no >=95% mapping, site-level wind test unavailable.",
+    "horizontal_grid": "EPSG:32631, 5km cells; choose same-cell own-other-day and cross-individual records independently before altitude.",
+    "nonwind_source_min": "At least 10 unique birds with >=2 days each having >=50 five-minute flight bins and at least 10 self-other-day plus 10 other-bird-other-day records per evaluation cell.",
+    "wind_context_min": "At least 10 birds have >=2 separately sampled days in BOTH low and high site-month CERRA wind regimes, with >=20 5min flight bins per day in a cell they also visit on another day; do not relax if unavailable.",
+    "biological_effect_not_opened": true
+  },
+  "biological_question": "In an independently tracked, multiple-colony gull cohort, does site-level wind regime predict within-bird vertical probability-shape reorganization across separate flight days beyond stable bird identity and horizontal occupancy?",
+  "prediction_class": "Context-dependent vertical distribution shapes are more transferable within similar wind regimes than across regimes, conditional on the same bird and coarse horizontal cell.",
+  "not_allowed_claims": [
+    "Wind causes flight individual specialization",
+    "ERA5/CERRA regional wind represents local updraft at each GPS point",
+    "Behavioral flight class measured by speed alone",
+    "GPS tag error resolved",
+    "A 162-individual macro outcome is already observed"
+  ],
+  "next_stage": "Run source+meteorology ID-crosswalk and x-y support without opening altitude. If gate passes freeze a subsequent day-heldout primary; else retain structural no-support and pivot to a different independent archive."
+}
