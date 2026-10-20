@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-20",
+  "status": "VERIFIED_EXPLORATORY_PAIRED_CONTEXT_ASSOCIATION",
+  "source": {
+    "archive": "https://zenodo.org/records/22102508",
+    "doi": "10.5281/zenodo.22102508",
+    "year": 2021,
+    "taxon": "Larus fuscus",
+    "gps_file_md5": "1a3145234cccd1a48b280b0fb485d679",
+    "gps_source_sha256": "52f478ac5efd472835d30b0387f9f4982e4991c12a8f85bdd4cb6da29cbdbf00"
+  },
+  "provenance": {
+    "original_flight_run": 39375585874,
+    "original_flight_result_sha256": "5e49a9645c1cc54a920639774097bb7a0607fc546b9156e62cdd0a33ccefccf3",
+    "original_stationary_run": 39380619623,
+    "matched_workflow_run": 39383667556,
+    "matched_workflow_conclusion": "success",
+    "scientific_artifact_id": 12247305470,
+    "artifact_zip_sha256": "8f304f4709f9ae27ae49af5dbfbbc2c917a914efd7db622b9fee6780d76381bf",
+    "matched_result_json_sha256": "16b4b077302cf2f2c12c138c6f7ab639e359ce35d052206c23908d354bd8d154",
+    "paired_csv_sha256": "d40651dd76d9b8bc4fa907443707c4791672a4adafb0b7186f2fc8abcf2364a7",
+    "unchanged_numerical_kernel_sha256": "7d5f552e6b5b28d3981f00f37c5ec64fa9d8daa747e5973ab6f5c87a4b91396e"
+  },
+  "observation": {
+    "flying": {
+      "eligible_birds": 40,
+      "bird_days": 899,
+      "scored_fixes": 66811,
+      "observed_gain": 0.045673926106348135,
+      "null_mean": -0.02788627642143601,
+      "excess": 0.07356020252778414,
+      "Holm_p": 0.002
+    },
+    "low_speed": {
+      "eligible_birds": 46,
+      "bird_days": 590,
+      "scored_fixes": 51960,
+      "observed_gain": 0.008155087267786831,
+      "null_mean": -0.025646330209622276,
+      "excess": 0.033801417477409106,
+      "Holm_p": 0.002
+    },
+    "matched": {
+      "n": 33,
+      "flight_positive": 30,
+      "stationary_positive": 20,
+      "concordant_signs": 23,
+      "pearson_r": 0.06991535780411211,
+      "spearman_rho": 0.10227272727272728,
+      "bootstrap_95_CI": [
+        -0.2640620461906166,
+        0.4256010644878246
+      ],
+      "two_sided_permutation_p": 0.5672,
+      "n_permutations": 9999,
+      "n_bootstrap": 5000,
+      "effort_descriptive_rho": {
+        "flying_gain_with_flying_day_count": 0.3314374031416667,
+        "stationary_gain_with_stationary_day_count": 0.43296996723748477
+      }
+    }
+  },
+  "independent_validation": {
+    "same_rho_scipy_recomputed": 0.10227272727272728,
+    "p_two_sided_scipy_asymptotic": 0.5711578644496513,
+    "artifact_shas_recomputed": true,
+    "original_stationary_aggregate_identical": true,
+    "synthetic_tests_success": true
+  },
+  "interpretation": {
+    "supported": [
+      "Within the matched 33 gulls, stronger flight-day individual ID gain did not consistently correspond to stronger low-speed individual ID gain; observed rho=0.102 with broad interval and p=0.5672.",
+      "Cross-day ID-associated centered altitude shape signal is present in both flight proxy and low-speed proxy at their respective spatial supports.",
+      "Measurement/device effects and microperch fidelity remain plausible alternatives."
+    ],
+    "not_supported": [
+      "Flight ID shape is wholly explained by stable tag noise.",
+      "Absence of cross-context rank correlation rules out instrument confounding; flight-dependent sensor errors remain possible.",
+      "The individual identity signal demonstrates adaptive foraging or behavioral specialization.",
+      "Per-fix altitude logscore contrasts across different contexts/grids represent the same biological effect scale.",
+      "The study identifies a universal law shared with penguin breeding-component concentration."
+    ],
+    "methodological_caveats": [
+      "Matched association is post-outcome exploratory, not independent replication.",
+      "Bird ID and tag ID are one-to-one during 2021; without re-tag or independent measurement, causes cannot be disentangled.",
+      "Flight and low-speed estimators condition on different horizontal grains (5000m versus100m).",
+      "Low-speed does not prove physical stationarity or identical perch elevation.",
+      "The exact-date label permutation changes the null-eligible-bird set; treat permutation exchangeability as an assumption.",
+      "Both flight and stationary per-bird gains show positive descriptive relationships with their own number of scored days."
+    ]
+  },
+  "next_boundary": "Do not repeatedly re-score this same source to select a favorable explanation. Prefer independent device-calibrated altitude source or externally validated behavioral-state / wind context and a new frozen ecological test."
+}
