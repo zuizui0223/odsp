@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-20",
+  "status": "POST_OUTCOME_EXPLORATORY_MATCHED_CONTEXT_CONTRAST",
+  "source": "DELTATRACK corrected v5 GPS 2021",
+  "md5": "1a3145234cccd1a48b280b0fb485d679",
+  "frozen_flight_run": 39375585874,
+  "frozen_flight_result_sha256": "5e49a9645c1cc54a920639774097bb7a0607fc546b9156e62cdd0a33ccefccf3",
+  "frozen_flight_zip_sha256": "f3b762919e2bb7648b788ca15ded9c50a8dc531bca4c612eceb82d7214681e79",
+  "stationary_run": 39380619623,
+  "stationary_result": "STATIONARY_NEGATIVE_CONTROL_RESULT_V1.json",
+  "stationary_observed_birds": 46,
+  "flight_observed_birds": 40,
+  "known_overlap_before_pair_scores": 33,
+  "population": "Only Larus fuscus birds independently eligible for the previously defined flight 5km D1 balanced and low-speed 100m D1 balanced estimators, using the exact source and saved original outputs; no replacement of species/year or admission gates.",
+  "estimand": "Bird-level association between flight and low-speed stationary ID-vs-other heldout log-score gains across matched birds (not equal-scale biological effect sizes).",
+  "primary_metric": "Spearman rho of flight and stationary bird-level original uncalibrated gains for matched bird IDs",
+  "null": "9999 random permutations of stationary bird-level gains across the matched birds; two-sided p with (1+abs(null)>=abs(obs))/(10000), seed 20261020. Exploratory pairing null, not a biological causal hypothesis or independent replication.",
+  "ci": "5000 simple matched-bird pair bootstraps, percentile 95% Spearman rho; do not treat day/fix as replicates.",
+  "secondary": [
+    "Pearson correlation (descriptive)",
+    "sign concordance (descriptive)",
+    "relationship of both gains to scored sessions and matched individuals per source (sampling-effort confound audit)"
+  ],
+  "verification": [
+    "Do not compute new flying effect statistics; load exact previously checksum-pinned full flight result JSON",
+    "Do not reopen stationary 999-draw calibration or change any stationary algorithm; recompute only per-bird original D1-balanced scores and verify 46 birds/590 days/51960 fixes/mean score +0.008155087267786831 exactly",
+    "Use independent tag registry to avoid counting same study-year multiple times, and clearly report devices inseparable from birds in 2021"
+  ],
+  "interpretation": {
+    "positive_association": "May indicate a shared individual-, location- or tag-linked factor affecting both contexts. Cannot attribute the cause to tag error.",
+    "null_association": "Does not remove instrument artefact in flight because observation error can be state-dependent; different effect scales and sampling make absence uninformative for causality.",
+    "negative_association": "Could represent different ecological states, observation biases, or estimator calibration. No claim of opposite biological strategies."
+  }
+}
