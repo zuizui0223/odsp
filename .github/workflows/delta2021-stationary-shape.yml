@@ -1,0 +1,76 @@
+name: DELTATRACK 2021 stationary GPS shape negative control
+
+on:
+  push:
+    branches: [diagnostic/delta2021-device-context-20261020]
+    paths:
+      - prospective/DELTATRACK_2021_STATIONARY_SHAPE_DIAGNOSTIC_PLAN_V1.json
+      - prospective/delta2021_stationary_shape.py
+      - prospective/test_delta2021_stationary_shape.py
+      - .github/workflows/delta2021-stationary-shape.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest pyproj numpy numba
+      - name: Verify reusable numerical kernel and height-selection tests
+        env:
+          NUMBA_CACHE_DIR: ${{ runner.temp }}/numba-stationary-tests
+        run: python -m pytest -q prospective/test_delta2021_stationary_shape.py
+  one-shot-stationary-control:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pyproj numpy numba
+      - name: Fetch frozen 2021 GPS
+        run: |
+          set -euo pipefail
+          mkdir -p build/stationary2021
+          cd build/stationary2021
+          curl --fail --silent --show-error --location --retry 3 --retry-delay 5 --max-time 900 \
+            'https://zenodo.org/records/22102508/files/DELTATRACK-gps-2021.csv.gz?download=1' -o DELTATRACK-gps-2021.csv.gz
+          echo '1a3145234cccd1a48b280b0fb485d679  DELTATRACK-gps-2021.csv.gz' | md5sum --check
+      - name: Execute frozen low-speed shape negative control
+        env:
+          NUMBA_CACHE_DIR: ${{ runner.temp }}/numba-stationary-real
+        run: |
+          set -euo pipefail
+          python -m prospective.delta2021_stationary_shape \
+            --gps build/stationary2021/DELTATRACK-gps-2021.csv.gz \
+            --out build/stationary2021/results
+      - name: Check non-confirmatory result classification
+        run: |
+          python - <<'PY'
+          import json
+          p='build/stationary2021/results/STATIONARY_NEGATIVE_CONTROL_RESULT_V1.json'
+          d=json.load(open(p))
+          assert d['flight_identity_retested'] is False
+          assert set(d['panels'])=={'Larus fuscus','Larus argentatus'}
+          assert d['input_hashes']['md5']=='1a3145234cccd1a48b280b0fb485d679'
+          for species,row in d['panels'].items():
+              assert row['terminal'] in {'unavailable','stationary_identity_present','stationary_identity_not_supported'}
+              print(species,row['terminal'],'birds',row.get('observed',{}).get('eligible_birds'),
+                    'null',row.get('calibration',{}).get('valid'),
+                    'p',row.get('holm_upper_p'))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: delta2021-stationary-negative-control-v1
+          path: build/stationary2021/results/*
+          if-no-files-found: warn
