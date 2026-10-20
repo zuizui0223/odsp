@@ -1,0 +1,72 @@
+name: prospective gull wind-behaviour vertical support gate
+
+on:
+  push:
+    branches: [prospective/gull-wind-behaviour-context-20261020]
+    paths:
+      - prospective/GULL_WIND_BEHAVIOUR_REACTION_NORM_GATE_V1.json
+      - prospective/screen_gull_wind_behaviour_support.py
+      - prospective/test_screen_gull_wind_behaviour_support.py
+      - .github/workflows/prospective-gull-wind-support.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy pyproj pytest
+      - name: Validate source-independent wind-day gating without opening altitude
+        run: python -m pytest -q prospective/test_screen_gull_wind_behaviour_support.py
+  source-screen:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy pyproj
+      - name: Download pinned public 2015-17 annotated GPS only once
+        run: |
+          set -euo pipefail
+          mkdir -p build/gullwind
+          cd build/gullwind
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 5 --max-time 1000 \
+            'https://zenodo.org/records/5000857/files/Data_table_per_GPS_points.csv?download=1' \
+            -o Data_table_per_GPS_points.csv
+          echo 'e321f09953b8ce80ed878a4810be3dee  Data_table_per_GPS_points.csv' | md5sum --check
+      - name: Inspect bird×year wind quantiles and shared-cell support without reading heights
+        run: |
+          set -euo pipefail
+          python -m prospective.screen_gull_wind_behaviour_support \
+            --csv build/gullwind/Data_table_per_GPS_points.csv \
+            --out build/gullwind/OUTCOME_BLIND_WIND_SUPPORT_V1.json
+      - name: Respect eligibility conclusion and preserve negative gates
+        run: |
+          python - <<'PY'
+          import json
+          p='build/gullwind/OUTCOME_BLIND_WIND_SUPPORT_V1.json'
+          d=json.load(open(p))
+          assert d['phase']=='PRE_OUTCOME_XY_WIND_AND_BEHAVIOR_ONLY'
+          assert d['height_or_shape_values_read'] is False
+          assert d['source_md5']=='e321f09953b8ce80ed878a4810be3dee'
+          assert d['source_schema_has_height_fields']['altitude_adl']
+          for project,panel in d['projects'].items():
+              print(project,'year wind quantiles',panel['wind_quartiles_by_year'],
+                    'mode support',{k:v['candidate_birds'] for k,v in panel['flight_modes'].items()})
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gullwind-behaviour-outcome-blind-support-v1
+          path: build/gullwind/OUTCOME_BLIND_WIND_SUPPORT_V1.json
+          if-no-files-found: warn
