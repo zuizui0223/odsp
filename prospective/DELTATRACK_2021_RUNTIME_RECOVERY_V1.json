@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-20",
+  "plan_commit": "abd6416013cf8aedf0acff9b91782964ce947228",
+  "first_run": 39374955129,
+  "first_execution_commit": "e88dce42b6ec1f08e538054df468db635a4b0aea",
+  "first_evidence_artifact": 12243112579,
+  "first_evidence_zip_sha256": "bdeaed4e3bf5d8068adc95f34d557f772463caf158908740f8d7bf79548c76fe",
+  "failure": "Numba cache produced by tests importing medgull_sensitivity at top level could not be unpickled by the package-qualified production import prospective.medgull_sensitivity.",
+  "failure_stage": "first support-kernel compilation/cache load after native source parsing and packing",
+  "height_data_parsed": true,
+  "observed_identity_statistic_emitted": false,
+  "permutation_results_emitted": false,
+  "local_reproduction": "After running the existing top-level-import tests, the package-qualified synthetic support call raised ModuleNotFoundError: No module named medgull_sensitivity. With a distinct NUMBA_CACHE_DIR the identical call succeeded and support/scoring masks matched.",
+  "local_module_regressions": {"passed":15,"skipped":1,"reason_skipped":"optional pinned MEDGULL source integration file not locally present"},
+  "fix_commit": "089194d368ca43554d3ea681d008d01e5ce51008",
+  "fix": "Set a fresh production-only NUMBA_CACHE_DIR. The already launched default repository test suite is not duplicated on the recovery run.",
+  "scientific_adapter_changed": false,
+  "kernel_changed": false,
+  "source_year_thresholds_bins_seed_or_estimand_changed": false,
+  "kernel_sha256": "7d5f552e6b5b28d3981f00f37c5ec64fa9d8daa747e5973ab6f5c87a4b91396e",
+  "adapter_sha256": "7b8b661fc1382c1d8be646dc736365886c18b4e9375a67709234951be5274a19",
+  "permitted_recovery": "Re-execute the identical planned test on the same checksum-pinned 2021 source; no alternative species/year or numerical setting."
+}
