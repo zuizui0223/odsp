@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-20",
+  "analysis": "DELTATRACK_2021_STATIONARY_NEGATIVE_CONTROL_V1",
+  "status": "COMPLETE_POST_OUTCOME_DIAGNOSTIC",
+  "source": {
+    "archive": "https://zenodo.org/records/22102508",
+    "file": "DELTATRACK-gps-2021.csv.gz",
+    "md5": "1a3145234cccd1a48b280b0fb485d679",
+    "sha256": "52f478ac5efd472835d30b0387f9f4982e4991c12a8f85bdd4cb6da29cbdbf00"
+  },
+  "plan": "prospective/DELTATRACK_2021_STATIONARY_SHAPE_DIAGNOSTIC_PLAN_V1.json",
+  "workflow": {
+    "run_id": 39380619623,
+    "artifact_id": 12245442382,
+    "artifact_zip_sha256": "9e0b1dff8eac46edf4364fdf3d0bb8bc6f8b2f521cce89c8f0de8b020ed7b639",
+    "synthetic_tests": "5 passed",
+    "immutable_data_job": "success"
+  },
+  "unchanged_numerical_kernel_sha256": "7d5f552e6b5b28d3981f00f37c5ec64fa9d8daa747e5973ab6f5c87a4b91396e",
+  "preprocessing": {
+    "source_year": 2021,
+    "months_utc": [
+      5,
+      6,
+      7
+    ],
+    "stationary_speed_range_ms": [
+      0,
+      0.5
+    ],
+    "horizontal_grid_m": 100,
+    "bin_edges_m": [
+      "-inf",
+      -200,
+      -100,
+      -50,
+      -25,
+      0,
+      25,
+      50,
+      100,
+      200,
+      "inf"
+    ],
+    "quality_height_m": [
+      -300,
+      3000
+    ],
+    "days_donor_min_selected_valid": 20,
+    "scored_day_min": 50,
+    "own_other_day_cell_min": 10,
+    "other_individual_other_date_cell_min": 10,
+    "minimum_birds": 10,
+    "null_permutations": 999,
+    "null_seed": 20261022,
+    "statistic": "cross-day same-ID vs other-ID session-centered GPS altitude histograms; equal bird/day weight; exact-date whole session permutation"
+  },
+  "species": {
+    "Larus fuscus": {
+      "terminal": "stationary_identity_present",
+      "source_stationary_five_minute_bins": 562195,
+      "source_days_20plus_in_dominant_100m_cell": 3201,
+      "eligible_birds": 46,
+      "eligible_bird_days": 590,
+      "eligible_scored_fix_bins": 51960,
+      "observed_gain_nats_per_record": 0.008155087267786831,
+      "null_mean": -0.025646330209622276,
+      "calibrated_excess": 0.033801417477409106,
+      "permutations_valid": 999,
+      "permutations_invalid": 0,
+      "permutations_tail_ge_observed": 0,
+      "one_sided_p_upper": 0.001,
+      "holm_two_species_p_upper": 0.002,
+      "null_eligible_birds_range": [
+        58,
+        63
+      ],
+      "positive_individual_point_scores": 26,
+      "point_score_denominator": 46
+    },
+    "Larus argentatus": {
+      "terminal": "unavailable",
+      "cause": "only 8 individuals meet >=50 scored day and >=2 days despite 12 in a lower >=20-bin horizontal preflight",
+      "source_stationary_five_minute_bins": 208214,
+      "eligible_birds": 8,
+      "eligible_bird_days": 231,
+      "eligible_scored_fix_bins": 17307,
+      "descriptive_gain": 0.017902567626212958,
+      "null_permutations_run": 0,
+      "biological_p_value": null,
+      "multiplicity_placeholder_p": 1
+    }
+  },
+  "interpretation": {
+    "supported": [
+      "In the DELTATRACK 2021 L. fuscus panel, same-individual/tag centered GPS-altitude shape persists in low-speed records in overlapping 100m cells, under a date-permutation null.",
+      "The flight-associated centered-shape identity is not uniquely confined to records classified as flying by speed proxy.",
+      "2021 tags and birds are one-to-one; the barometric-height channel is constant zero; the observational mechanism remains unresolved."
+    ],
+    "not_supported": [
+      "The original flight identity signal is entirely GPS tag noise.",
+      "This stationary control measures a fixed physical ground level or calibrated tag error.",
+      "The stationary and flight null-calibrated score magnitudes are directly comparable as biological effect sizes.",
+      "The 8-bird L. argentatus descriptive score is inferentially positive or negative.",
+      "Individual behavioral strategy, resource partitioning, or central-place causation is proven."
+    ]
+  },
+  "next_boundary": "A truly independent altitude channel, cross-tag same-individual measurements, or validated matched micro-perch physical elevation is needed to distinguish tag error from individual site fidelity. A speed/behaviour-matched flight contrast can test an additional ecological alternative but cannot solve tag-bird aliasing alone."
+}
