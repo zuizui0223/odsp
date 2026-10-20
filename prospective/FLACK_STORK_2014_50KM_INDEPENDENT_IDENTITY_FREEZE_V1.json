@@ -1,0 +1,83 @@
+{
+  "analysis": "FLACK_STORK_2014_INDEPENDENT_50KM_VERTICAL_IDENTITY_V1",
+  "frozen_date": "2026-10-20",
+  "phase": "BEFORE_READING_2014_VERTICAL_VALUES",
+  "independent_parent": {
+    "doi": "10.5441/001/1.bj96m274",
+    "title": "Wind estimation based on thermal soaring of birds",
+    "MovebankStudy": 332044860,
+    "gps_archive": "Fall migration of white storks in 2014-gps.csv.zip",
+    "gps_md5": "c1fa0c4ca28d3fce5d61caaac36e87d2",
+    "reference": "Fall migration of white storks in 2014-reference-data.csv",
+    "reference_md5": "116a3d82cd11e1bb4e16b32532725359",
+    "prior_2013_comparator": "Rotics et al., DOI 10.5441/001/1.hn1bd23k, 2013 GPS; separate Movebank parent."
+  },
+  "frozen_source_receipt": {
+    "run": 39415189033,
+    "artifact_id": 12260832449,
+    "sha256_zip": "c681bfb0fdc5263407f812d8f495e1a67dc9f963cf737154a612e9a28a371eb0",
+    "archive_birds": 60,
+    "source_reference_stage": "nestling for 60/60 deployments",
+    "selected_flight_2014_birds": 59,
+    "selected_flight_events_5min": 58971,
+    "5km_birds": 0,
+    "50km_birds": 11,
+    "50km_bird_days": 33,
+    "50km_scored_fixes": 2040,
+    "100km_birds": 33,
+    "immutable_50km_individual_roster_fingerprint": "a741d2e1bc13d91a49f30ddb2cd13af97db855fd8be3d6c407b75ce827d1ec7d",
+    "note": "Altitude values have not been opened in original preregistered 2014 source-screen."
+  },
+  "scientific_question": "Does a separately deployed tracked white-stork cohort retain within-bird day-centred GPS altitude shape information at the 50km migration-relevant shared-cell grain, above its date-matched individual-label null?",
+  "native_analysis": {
+    "fixed_year": 2014,
+    "months_UTC": [
+      8,
+      9,
+      10,
+      11
+    ],
+    "taxon": "Ciconia ciconia",
+    "filters": "Visible!=false, provider outliers excluded; GPS speed 5-55m/s and valid x/y; earliest fix per bird×day×UTC 5min bin before inspecting height.",
+    "projection": "EPSG:6933",
+    "spatial_cell_m": 50000,
+    "height_field": "height-above-ellipsoid (meters), not height above terrain",
+    "height_qc": [
+      -500,
+      6000
+    ],
+    "minimum_valid_height_fraction": 0.8,
+    "centering": "Subtract median altitude of each target bird-day across accepted flying observations.",
+    "fixed_bin_edges_m": [
+      "-inf",
+      -200,
+      -100,
+      -50,
+      -25,
+      0,
+      25,
+      50,
+      100,
+      200,
+      "inf"
+    ],
+    "numerical_kernel": "Exact unchanged medgull_sensitivity.py D1_balanced shape score and support; equal bird weights and bird-day means, Jeffreys 0.5 category pseudocount.",
+    "donor_min": "One height-valid observation enters donor pool; each cell needs at least 10 own other-day and 10 other bird other-date event counts",
+    "scored_day_min_events": 50,
+    "min_independent_bird_days": 2,
+    "min_birds": 10,
+    "source_stage": "All birds source-labelled nestling; preserve exact date and stage in permutations.",
+    "null": "999 exact UTC calendar-day, same archived stage, whole-session bird-label permutations. Never permute GPS fixes; recompute eligibility in every null draw.",
+    "seed": 20261020,
+    "min_valid_null": 950,
+    "inferential_support": "Observed >=10 birds, >=950 valid null, positive observed-minus-valid null mean, conservative p_upper=(1+null>=observed+unavailable)/(1000)<0.05",
+    "no_rescue": "If height quality, n birds or null gate fails, report unavailable; no 100km substitution or source year/height bin retuning."
+  },
+  "claim_limits": [
+    "Separate Movebank study, but may share overarching research team; use exact archived ID crosswalk before claiming individual nonoverlap.",
+    "All source birds nestlings; cannot infer adult flight identities.",
+    "Ellipsoid height + 50km cell mixes topography, bird states and device error, not intrinsic altitude strategy.",
+    "Not a wind-context test; no causal wind effect is inferred.",
+    "The 2013 and 2014 studies are two study-level sources, not two independent bird orders or taxonomic units."
+  ]
+}
