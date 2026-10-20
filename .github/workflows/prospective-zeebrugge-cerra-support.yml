@@ -1,0 +1,82 @@
+name: prospective Zeebrugge 2016 CERRA wind and GPS support gate
+
+on:
+  push:
+    branches: [prospective/gull-wind-behaviour-context-20261020]
+    paths:
+      - prospective/ZEEBRUGGE_CERRA_2016_WIND_SUPPORT_GATE_V1.json
+      - prospective/screen_zeebrugge_cerra_2016.py
+      - prospective/test_screen_zeebrugge_cerra_2016.py
+      - .github/workflows/prospective-zeebrugge-cerra-support.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest pyproj numpy
+      - name: Verify exact crosswalk and same-cell wind state support without altitudes
+        run: python -m pytest -q prospective/test_screen_zeebrugge_cerra_2016.py
+  source-screen:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pyproj numpy
+      - name: Fetch year frozen raw bird GPS & deployment reference only
+        run: |
+          set -euo pipefail
+          mkdir -p build/zeebrugge2016
+          cd build/zeebrugge2016
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 5 --max-time 900 \
+            'https://zenodo.org/records/22273603/files/LBBG_ZEEBRUGGE-gps-2016.csv.gz?download=1' \
+            -o LBBG_ZEEBRUGGE-gps-2016.csv.gz
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 5 --max-time 120 \
+            'https://zenodo.org/records/22273603/files/LBBG_ZEEBRUGGE-reference-data.csv?download=1' \
+            -o LBBG_ZEEBRUGGE-reference-data.csv
+          printf '%s\n' \
+            '8789e188f1b33af9d4d8c810cded005a  LBBG_ZEEBRUGGE-gps-2016.csv.gz' \
+            '76c5b0c8a3a17f7bdd7f589b3d87014c  LBBG_ZEEBRUGGE-reference-data.csv' | md5sum --check
+      - name: Independent 5-km CERRA wind @ colony centers and GPS support
+        run: |
+          set -euo pipefail
+          python -m prospective.screen_zeebrugge_cerra_2016 \
+            --gps build/zeebrugge2016/LBBG_ZEEBRUGGE-gps-2016.csv.gz \
+            --reference build/zeebrugge2016/LBBG_ZEEBRUGGE-reference-data.csv \
+            --out build/zeebrugge2016/ZEEBRUGGE_2016_CERRA_WIND_SUPPORT_V1.json
+      - name: Prove outcome and source boundaries
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('build/zeebrugge2016/ZEEBRUGGE_2016_CERRA_WIND_SUPPORT_V1.json'))
+          assert d['height_or_biological_effect_opened'] is False
+          assert d['source_reference_md5']=='76c5b0c8a3a17f7bdd7f589b3d87014c'
+          assert d['source_gps_md5']=='8789e188f1b33af9d4d8c810cded005a'
+          assert d['source_has_altitude_column']
+          assert d['reference']['unique_reference_animals']==162
+          print(json.dumps({
+              'observed_birds_with_GPS':d['bird_to_site_mapping']['observed_distinct_birds'],
+              'reference_join':d['bird_to_site_mapping']['accepted'],
+              'shared_cell_birds':d['structural']['baseline_shared_cell_birds'],
+              'low_high_wind_birds':d['structural']['wind_both_regimes_birds'],
+              'wind_gate_admitted':d['structural']['wind_gate_admitted']
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zeebrugge-2016-cerra-weather-outcome-blind-gate
+          path: build/zeebrugge2016/ZEEBRUGGE_2016_CERRA_WIND_SUPPORT_V1.json
+          if-no-files-found: warn
