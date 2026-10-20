@@ -1,0 +1,96 @@
+name: white stork 2013 age-safe 50km migrant vertical identity
+
+on:
+  push:
+    branches: [prospective/stork2013-50km-vertical-identity-20261020]
+    paths:
+      - prospective/WHITE_STORK_2013_50KM_VERTICAL_IDENTITY_TEST_FREEZE_V1.json
+      - prospective/stork_2013_migrant_altitude_shape.py
+      - prospective/test_stork_2013_migrant_altitude_shape.py
+      - .github/workflows/stork-2013-migrant-50km-identity.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest numpy numba pyproj
+      - name: Run frozen age-stratified session/exchangeability tests
+        env:
+          NUMBA_CACHE_DIR: /tmp/stork2013-test-numba
+        run: |
+          python -m pytest -q \
+            prospective/test_stork_2013_migrant_altitude_shape.py \
+            prospective/test_stork_2013_xytime_admission.py
+  immutable-data:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy numba pyproj
+      - name: Retrieve original source with published MD5
+        run: |
+          set -euo pipefail
+          mkdir -p build/stork2013_height
+          cd build/stork2013_height
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 4 --max-time 500 \
+            'https://datarepository.movebank.org/server/api/core/bitstreams/ef95f900-1cde-417e-be8a-c6e64e576bea/content' \
+            -o 'Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip'
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 4 --max-time 120 \
+            'https://datarepository.movebank.org/server/api/core/bitstreams/f5bfa548-4c4b-47c2-a842-3a6ae2e70cda/content' \
+            -o 'Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv'
+          printf '%s\n' \
+            '2ec22217c0f566650d245ae2da4694bf  Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip' \
+            'b38407ed744cf2bd4806afce929f604a  Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv' | md5sum --check
+      - name: Execute independently predeclared 2013 age-safe migrant endpoint
+        env:
+          NUMBA_CACHE_DIR: /tmp/stork2013-main-numba
+        run: |
+          python -m prospective.stork_2013_migrant_altitude_shape \
+            --gps-zip 'build/stork2013_height/Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip' \
+            --reference 'build/stork2013_height/Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv' \
+            --out build/stork2013_height/result
+      - name: Validate biological evidence boundaries and terminal classification
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/stork2013_height/result/WHITE_STORK_2013_MIGRATION_ALTITUDE_SHAPE_RESULT_V1.json'))
+          assert x['separate_migrant_scale_estimator']
+          assert x['source_year']==2013
+          assert x['preheight_5km_birds']==0
+          assert x['preheight_50km_birds']==25
+          assert x['source_gps_md5']=='2ec22217c0f566650d245ae2da4694bf'
+          assert x['terminal'] in ('unavailable','supported_50km_individual_height_shape','not_supported_50km_individual_height_shape')
+          if x['terminal']!='unavailable':
+              assert x['calibration']['requested']==999
+              assert x['calibration']['valid']>=950
+              assert x['observed']['eligible_birds']>=10
+          print(json.dumps({
+              'terminal':x['terminal'],'reason':x.get('reason'),
+              'bird_count':x.get('observed',{}).get('eligible_birds'),
+              'bird_days':x.get('observed',{}).get('eligible_days'),
+              'age_groups':x.get('eligible_by_age'),
+              'gain':x.get('observed',{}).get('mean_gain'),
+              'p_upper':x.get('calibration',{}).get('p_upper'),
+              'null_valid':x.get('calibration',{}).get('valid'),
+              'null_excess':x.get('calibration',{}).get('observed_minus_valid_null_mean')
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stork-2013-50km-vertical-identity-age-null-v1
+          path: build/stork2013_height/result/*
+          if-no-files-found: warn
