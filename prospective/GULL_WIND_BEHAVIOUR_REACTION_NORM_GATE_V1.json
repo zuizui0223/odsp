@@ -1,0 +1,96 @@
+{
+  "name": "GULL_WIND_BEHAVIOR_VERTICAL_REACTION_NORM_PREOUTCOME_V1",
+  "created_at": "2026-10-20",
+  "phase": "OUTCOME_BLIND_SUPPORT_CHECK",
+  "source": {
+    "archive": "https://zenodo.org/records/5000857",
+    "doi": "10.5061/dryad.pv229q5",
+    "file": "Data_table_per_GPS_points.csv",
+    "md5": "e321f09953b8ce80ed878a4810be3dee",
+    "native_study": "Sage et al. 2019, Texel, 2015-2017, 21 herring gull/9 lesser black-backed gull tagged; 29 birds with qualified archived trips",
+    "data_origin": "Pre-processed subset of trips largely terrestrial, already annotated weather/orographic lift and accelerometer-derived class; cannot infer global population-wide flight behavior.",
+    "duplicate_boundary": "This source may overlap later HG_TEXEL and LBBG_TEXEL Movebank/Zenodo exports: never count same original tracks as independent replicate."
+  },
+  "ecological_question": "After matching same individual, coarse location and accelerometer-derived flight mode, does the wind regime provide transferable information about within-day centered vertical use on independent days?",
+  "novelty_vs_original_paper": "This is a new individual-specific vertical probability distribution and held-out transfer question, NOT rerunning Sage et al's orographic route selection or soaring probability result.",
+  "preoutcome_selection": {
+    "species_labels": "Group by native project code without remapping until metadata confirms species designation; no pooling different native projects",
+    "source_years": [
+      2015,
+      2016,
+      2017
+    ],
+    "validate_fields": [
+      "ID",
+      "device_info_serial",
+      "date_time",
+      "project",
+      "longitude",
+      "latitude",
+      "speed_2d",
+      "class_name",
+      "wspeed",
+      "oroglift_max",
+      "altitude",
+      "altitude_adl"
+    ],
+    "outcome_fields_not_accessed": [
+      "altitude",
+      "altitude_adl",
+      "altitude_agl"
+    ],
+    "flight_classes": [
+      "flap",
+      "soar"
+    ],
+    "speed_m_s_min_max": [
+      5,
+      55
+    ],
+    "gps_thinning": "first (earliest UTC timestamp) qualifying flight-speed+class source event in each unique device×UTC day×5-minute bin; wind missing does not change selected event",
+    "no_missing_xy_or_class": true,
+    "projection": "EPSG:32631",
+    "primary_horizontal_cell_m": 5000,
+    "wind_regime": "Within native project × calendar year, calculate 25th and 75th percentile of equal-weighted BIRD-DAY median wspeed (m/s), after fixed GPS thinning; label each bird-day low if <= Q25 and high if >=Q75, middle excluded.",
+    "wind_values": "Only finite wspeed>=0; if missing selected record contributes to flight counts but not bird-day wind median, and cannot contribute to conditional cells",
+    "per_bird_day_min_flight_events_before_wind_assignment": 20,
+    "target_flight_day_mode_min_scorable_5min_events": 20,
+    "own_bird_other_day_min_per_cell_mode_wind_regime": 10,
+    "own_bird_other_day_min_per_cell_mode_all_winds": 10,
+    "per_bird_min_scorable_days_each_wind_regime": 2,
+    "min_independent_birds_for_species_mode_test": 10,
+    "preflight_no_altitude_values_accessed": true
+  },
+  "eventual_endpoint_if_gate_passes": {
+    "reference": "same individual other day +same 5km cell+same flight mode, wind-pooled distribution of centered altitude bins",
+    "contextual": "same individual other day +same 5km cell+same flight mode+same wind regime, alt bins",
+    "target": "day-median centered altitude_adl above digital terrain; each day median estimated from heldout day, only session-shape matching, not absolute altitude prediction",
+    "bins_m": [
+      "-inf",
+      -200,
+      -100,
+      -50,
+      -25,
+      0,
+      25,
+      50,
+      100,
+      200,
+      "inf"
+    ],
+    "natural_units": "daily within flight AGL; source-derived altitude_adl native metres with [-300,3000] gate",
+    "no_tuning": "No change to support, grid, bins or wind bins after altitude opened.",
+    "primary_metric": "heldout session mean log P(z|wind,mode,bird,cell)/P(z|mode,bird,cell), equally aggregate days per bird, then birds; both models use identical target events and 0.5 counts per bin.",
+    "evidence_criteria": "Positive mean held-out gain beyond a day-level wind-block null and >=10 eligible birds, separately for flap and soar with two-test Holm; unavailable mode counts as placeholder p=1",
+    "causal_boundary": "Wind annotations and device-specific errors are observational; wind reaction norms are associations, not causal ecological mechanisms. Soar/flap classes are predicted from accelerometer and may be misclassified."
+  },
+  "alternative_confirmation": {
+    "archive": "https://zenodo.org/records/22273603",
+    "native_study": "LBBG_ZEEBRUGGE",
+    "unique_bird_metadata": 162,
+    "file": "LBBG_ZEEBRUGGE-reference-data.csv",
+    "md5": "76c5b0c8a3a17f7bdd7f589b3d87014c",
+    "note": "Independent Movebank study from Zeebrugge; raw GPS+accelerometer 2013–2022, wind not yet joined. Do not treat as existing environmental analysis; source metadata only."
+  },
+  "next": "Run outcome-blind source-support and report exact project/year, year-specific wind thresholds, eligible birds for each class. Only then freeze and open altitude outcomes. If no class >=10 birds, stop this endpoint without rescue."
+}
