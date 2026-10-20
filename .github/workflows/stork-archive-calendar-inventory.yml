@@ -1,0 +1,76 @@
+name: white stork archive year calendar before any altitude outcomes
+
+on:
+  push:
+    branches: [prospective/stork-archive-calendar-2011-2013-20261020]
+    paths:
+      - prospective/stork_archive_calendar_inventory.py
+      - prospective/test_stork_archive_calendar_inventory.py
+      - .github/workflows/stork-archive-calendar-inventory.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest pyproj
+      - run: python -m pytest -q prospective/test_stork_archive_calendar_inventory.py
+  archive-calendar:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pyproj
+      - name: Fetch CC0 canonical Movebank binary contents
+        run: |
+          set -euo pipefail
+          mkdir -p build/stork_calendar
+          cd build/stork_calendar
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 4 --max-time 300 \
+            'https://datarepository.movebank.org/server/api/core/bitstreams/ef95f900-1cde-417e-be8a-c6e64e576bea/content' \
+            -o 'Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip'
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 4 --max-time 120 \
+            'https://datarepository.movebank.org/server/api/core/bitstreams/f5bfa548-4c4b-47c2-a842-3a6ae2e70cda/content' \
+            -o 'Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv'
+          printf '%s\n' \
+            '2ec22217c0f566650d245ae2da4694bf  Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip' \
+            'b38407ed744cf2bd4806afce929f604a  Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv' | md5sum --check
+      - name: Count source GPS years and flight birds with no height values
+        run: |
+          python -m prospective.stork_archive_calendar_inventory \
+            --gps-zip 'build/stork_calendar/Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip' \
+            --reference 'build/stork_calendar/Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv' \
+            --output build/stork_calendar/STORK_ARCHIVE_CALENDAR_V1.json
+      - name: Preserve outcome blindness and source audit
+        run: |
+          python - <<'PY'
+          import json
+          o=json.load(open('build/stork_calendar/STORK_ARCHIVE_CALENDAR_V1.json'))
+          assert o['GPS_height_values_read'] is False
+          assert o['ecological_outcome_tested'] is False
+          assert o['raw_total_rows']==1471140
+          assert o['reference']['unique_birds']==122
+          print(json.dumps({
+              'next_source_year':o['preoutcome_latest_year_10plus_birds'],
+              'year_birds':{year:y['distinct_birds_with_flight_speed_GPS'] for year,y in o['year_counts'].items()},
+              'altitude_opened':False
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stork-source-year-calendar-no-height-v1
+          path: build/stork_calendar/STORK_ARCHIVE_CALENDAR_V1.json
+          if-no-files-found: warn
