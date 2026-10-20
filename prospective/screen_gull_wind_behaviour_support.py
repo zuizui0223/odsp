@@ -108,7 +108,7 @@ def source_metadata_gate(rows)->dict:
             else:labelled[key]="middle"
         counted=Counter()
         date_cells=Counter()
-        by_bird=defaultdict(Counter)
+        by_bird=Counter()
         days_per_state=Counter()
         for key,events in panel_days.items():
             state=labelled.get(key)
