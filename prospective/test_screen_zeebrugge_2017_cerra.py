@@ -30,7 +30,7 @@ def test_year_fixed_and_height_not_accessed():
        row(height="NOT-A-NUMBER"),
        row(day="2016-05-01"),
        row(day="2018-05-01"),
-       row(i=1,height="A-DIFFERENT-NONNUMBER"),
+       dict(row(i=0,height="A-DIFFERENT-NONNUMBER"), timestamp="2017-05-01 08:01:00.000"),
     ]
     first,animal,stats=find_2017_events(q)
     assert len(first)==1
