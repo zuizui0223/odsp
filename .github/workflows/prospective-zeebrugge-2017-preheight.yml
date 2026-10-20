@@ -1,0 +1,92 @@
+name: prospective Zeebrugge 2017 temporal wind support (no altitude)
+
+on:
+  push:
+    branches: [prospective/zeebrugge-2017-temporal-wind-test-20261020]
+    paths:
+      - prospective/ZEEBRUGGE_2017_TEMPORAL_WIND_PREHEIGHT_PLAN_V1.json
+      - prospective/screen_zeebrugge_2017_cerra.py
+      - prospective/test_screen_zeebrugge_2017_cerra.py
+      - .github/workflows/prospective-zeebrugge-2017-preheight.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest numpy pyproj
+      - run: python -m pytest -q prospective/test_screen_zeebrugge_2017_cerra.py
+  structural:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy pyproj
+      - name: Fetch original 2016 four-site anchor
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/zeebrugge2017
+          curl --silent --show-error --fail --location --retry 3 --max-time 180 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12250561258/zip' \
+            -o build/zeebrugge2017/anchor.zip
+          echo '7e5d350fca89e8ee9a2486795460cac843d51c43cf6391f1d094d2456f572e7b  build/zeebrugge2017/anchor.zip' | sha256sum --check
+          unzip -p build/zeebrugge2017/anchor.zip ZEEBRUGGE_2016_CERRA_WIND_SUPPORT_V1.json \
+            > build/zeebrugge2017/anchor2016.json
+      - name: Fetch 2017 year before opening any vertical height data
+        run: |
+          set -euo pipefail
+          cd build/zeebrugge2017
+          curl --fail --silent --show-error --location --retry 4 --retry-delay 5 --max-time 1000 \
+            'https://zenodo.org/records/22273603/files/LBBG_ZEEBRUGGE-gps-2017.csv.gz?download=1' \
+            -o LBBG_ZEEBRUGGE-gps-2017.csv.gz
+          curl --fail --silent --show-error --location --retry 4 --retry-delay 5 --max-time 120 \
+            'https://zenodo.org/records/22273603/files/LBBG_ZEEBRUGGE-reference-data.csv?download=1' \
+            -o LBBG_ZEEBRUGGE-reference-data.csv
+          printf '%s\n' \
+            '8724b5de0d4ff0117af328d1dde15a0e  LBBG_ZEEBRUGGE-gps-2017.csv.gz' \
+            '76c5b0c8a3a17f7bdd7f589b3d87014c  LBBG_ZEEBRUGGE-reference-data.csv' | md5sum --check
+      - name: Screen GPS/time/site/CERRA supports without reading altitude
+        run: |
+          python -m prospective.screen_zeebrugge_2017_cerra \
+            --gps build/zeebrugge2017/LBBG_ZEEBRUGGE-gps-2017.csv.gz \
+            --reference build/zeebrugge2017/LBBG_ZEEBRUGGE-reference-data.csv \
+            --anchor-receipt build/zeebrugge2017/anchor2016.json \
+            --output build/zeebrugge2017/ZEEBRUGGE_2017_CERRA_PREHEIGHT_RECEIPT_V1.json
+      - name: Validate safe-source admission decision
+        run: |
+          python - <<'PY'
+          import json
+          o=json.load(open('build/zeebrugge2017/ZEEBRUGGE_2017_CERRA_PREHEIGHT_RECEIPT_V1.json'))
+          assert o['2017_native_altitude_opened'] is False
+          assert o['GPS_md5']=='8724b5de0d4ff0117af328d1dde15a0e'
+          assert o['source_has_height_field']
+          print(json.dumps({
+            'birds_with_flight':o['support']['source_birds_with_any_flight_bin'],
+            'shared_cell_birds':o['support']['baseline_shared_cell_birds'],
+            'both_wind_birds':o['support']['wind_both_regimes_birds'],
+            'wind_gate_admitted':o['support']['wind_gate_admitted'],
+            'id_map_accepted':o['crosswalk']['accepted']
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zeebrugge-2017-wind-preheight-support-v1
+          path: build/zeebrugge2017/ZEEBRUGGE_2017_CERRA_PREHEIGHT_RECEIPT_V1.json
+          if-no-files-found: warn
