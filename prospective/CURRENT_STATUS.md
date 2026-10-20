@@ -1,5 +1,25 @@
 # Cross-taxon biological generality — current state
 
+## Latest completed next-step: matched flight–stationary individual comparison
+
+A further **post-outcome exploratory** test has now linked the exact same birds' frozen flight (5-km) and low-speed 100-m individual ID score gains. It did **not** alter either original endpoint or re-run a new independent taxon replication.
+
+- [Matched context workflow 39383667556](https://github.com/zuizui0223/odsp/actions/runs/39383667556): completed successfully; archived evidence artifact 12247305470 (ZIP SHA256 8f304f4709f9ae27ae49af5dbfbbc2c917a914efd7db622b9fee6780d76381bf).
+- **33 birds** overlap the originally eligible flight (40) and stationary (46) sets. In these 33, flight raw bird scores are positive for 30 and stationary raw bird scores for 20.
+- Rank concordance of bird-level raw gains across contexts is **weak**: Spearman rho **+0.10227**; 9,999 matched-bird random permutations, two-sided p **0.5672**; bird-level bootstrap 95% interval **−0.2641 to +0.4256**. An independent scipy calculation agrees (rho=0.10227).
+- Original stationary 46 birds/590 bird-days/51,960 fixes/mean score +0.008155 was reproduced to machine precision; original flight numerical model/results were imported by pinned SHA256 without refitting. New synthetic tests passed.
+- Raw gain levels are **not directly biologically comparable across 5-km flight and 100-m slow-motion contexts**. The two contexts' effects have descriptive associations with their own number of scored bird days (flight rho≈0.331, stationary rho≈0.433), so effort-related heterogeneity remains.
+- **Interpretation:** a single shared bird/tag-related *ranked* propensity across both contexts has no positive empirical support here, but the broad confidence interval and context-dependent measurement errors prohibit claiming that the flight signal is free of instrument error. Both contexts separately retain ID-associated distributions; the 2021 bird-to-tag aliasing is still perfect.
+- Cross-context correlation is exploratory and cannot identify the biological or instrumental fraction; not a second external replication, not a universal flying-animal law, and not directly comparable to MINA's penguin breeding-site concentration.
+
+Durable report: [Flight–stationary matched synthesis](https://github.com/zuizui0223/odsp/blob/diagnostic/delta2021-matched-context-20261020/prospective/DELTATRACK_2021_FLIGHT_STATIONARY_SYNTHESIS_V1.md).
+
+Machine-readable receipt: [33-bird result ledger](https://github.com/zuizui0223/odsp/blob/diagnostic/delta2021-matched-context-20261020/prospective/DELTATRACK_2021_MATCHED_CONTEXT_RESULT_RECEIPT_V1.json).
+
+**Next scientific boundary:** An independent, non-constant vertical instrument or actual within-bird tag switch (or validated behavioural states/known perch microtopography) is required. Repeatedly reshaping this already opened source would not solve the causal identity problem.
+
+---
+
 Updated 2026-10-20. Latest completed step: a prospectively fixed external tracking-study test in DELTATRACK 2021. Prior MEDGULL exploratory results and unavailable original endpoints remain unchanged.
 
 ## Latest external-study result
