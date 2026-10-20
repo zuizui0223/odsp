@@ -1,0 +1,128 @@
+name: independent Flack 2014 white stork 50km altitude-shape identity
+
+on:
+  push:
+    branches: [prospective/stork2014-independent-cohort-20261020]
+    paths:
+      - prospective/FLACK_STORK_2014_50KM_INDEPENDENT_IDENTITY_FREEZE_V1.json
+      - prospective/flack_stork_2014_altitude_shape.py
+      - prospective/test_flack_stork_2014_altitude_shape.py
+      - .github/workflows/flack-stork-2014-50km-height-shape.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  preheight-synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy numba pyproj pytest
+      - name: Verify no age-null drift or minimum-bird rescue
+        env:
+          NUMBA_CACHE_DIR: /tmp/flack2014-synth-numba
+        run: |
+          python -m pytest -q prospective/test_flack_stork_2014_altitude_shape.py
+          python - <<'PY'
+          import json
+          c=json.load(open('prospective/FLACK_STORK_2014_50KM_INDEPENDENT_IDENTITY_FREEZE_V1.json'))
+          assert c['phase']=='BEFORE_READING_2014_VERTICAL_VALUES'
+          assert c['frozen_source_receipt']['50km_birds']==11
+          assert c['native_analysis']['min_birds']==10
+          assert c['native_analysis']['spatial_cell_m']==50000
+          print('Original frozen 2014 study sample rules verified')
+          PY
+  real-immutable-cohort:
+    needs: preheight-synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy numba pyproj
+      - name: Verify the separate original outcome-blind source-support artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/flack2014_identity
+          curl --fail --silent --show-error --location --retry 3 --max-time 180 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12260832449/zip' \
+            -o build/flack2014_identity/preheight.zip
+          echo 'c681bfb0fdc5263407f812d8f495e1a67dc9f963cf737154a612e9a28a371eb0  build/flack2014_identity/preheight.zip' | sha256sum --check
+          unzip -p build/flack2014_identity/preheight.zip FLACK_STORK_2014_XYTIME_SOURCE_RESULT_V1.json \
+            > build/flack2014_identity/preheight.json
+          python - <<'PY'
+          import json
+          r=json.load(open('build/flack2014_identity/preheight.json'))
+          assert r['year_2014_biological_height_opened'] is False
+          assert r['frozen_primary_50km']['admitted'] is True
+          assert r['frozen_primary_50km']['birds_with_2_scorable_shared_cell_days']==11
+          assert r['frozen_primary_50km']['eligible_bird_id_fingerprint_sha256']=='a741d2e1bc13d91a49f30ddb2cd13af97db855fd8be3d6c407b75ce827d1ec7d'
+          assert r['source_file_age']['stage_counts']=={'nestling':60}
+          print('Frozen 50-km 11-bird source cohort and one-age-group metadata verified')
+          PY
+      - name: Download exact original 2014 high-frequency GPS and reference source
+        run: |
+          set -euo pipefail
+          cd build/flack2014_identity
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 5 --max-time 1200 \
+            'https://datarepository.movebank.org/server/api/core/bitstreams/b4178d75-0023-4611-9394-c65cd74458ae/content' \
+            -o 'Fall migration of white storks in 2014-gps.csv.zip'
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 5 --max-time 120 \
+            'https://datarepository.movebank.org/server/api/core/bitstreams/ed6e24c7-0c51-49b8-b54e-e96f4cae6212/content' \
+            -o 'Fall migration of white storks in 2014-reference-data.csv'
+          printf '%s\n' \
+            'c1fa0c4ca28d3fce5d61caaac36e87d2  Fall migration of white storks in 2014-gps.csv.zip' \
+            '116a3d82cd11e1bb4e16b32532725359  Fall migration of white storks in 2014-reference-data.csv' | md5sum --check
+      - name: Run one-shot 50km nestling date-stratified GPS altitude shape identity
+        env:
+          NUMBA_CACHE_DIR: /tmp/flack2014-identity-numba
+        run: |
+          set -euo pipefail
+          python -m prospective.flack_stork_2014_altitude_shape \
+            --gps-zip 'build/flack2014_identity/Fall migration of white storks in 2014-gps.csv.zip' \
+            --reference 'build/flack2014_identity/Fall migration of white storks in 2014-reference-data.csv' \
+            --out build/flack2014_identity/result
+      - name: Validate categorical claim boundary
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('build/flack2014_identity/result/FLACK_STORK_2014_ALTITUDE_SHAPE_RESULT_V1.json'))
+          assert d['analysis']=='FLACK_STORK_2014_INDEPENDENT_50KM_VERTICAL_IDENTITY_V1'
+          assert d['source_year']==2014
+          assert d['preheight_5km_birds']==0
+          assert d['preheight_50km_birds']==11
+          assert d['preheight_fingerprint_verified']=='a741d2e1bc13d91a49f30ddb2cd13af97db855fd8be3d6c407b75ce827d1ec7d'
+          assert d['source_gps_md5']=='c1fa0c4ca28d3fce5d61caaac36e87d2'
+          assert d['terminal'] in ['unavailable','not_supported_50km_individual_height_shape','supported_50km_individual_height_shape']
+          if d['terminal']!='unavailable':
+              assert d['observed']['eligible_birds']>=10
+              assert d['calibration']['requested']==999
+              assert d['calibration']['valid']>=950
+          print(json.dumps({'terminal':d['terminal'],'reason':d.get('reason'),
+              'valid_height_fraction':d['quality']['altitude_valid_fraction'],
+              'birds':d.get('observed',{}).get('eligible_birds'),
+              'days':d.get('observed',{}).get('eligible_days'),
+              'fixes':d.get('observed',{}).get('eligible_bins'),
+              'gain':d.get('observed',{}).get('mean_gain'),
+              'null_valid':d.get('calibration',{}).get('valid'),
+              'p_upper':d.get('calibration',{}).get('p_upper'),
+              'excess':d.get('calibration',{}).get('observed_minus_valid_null_mean')
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: flack2014-independent-white-stork-50km-height-shape-v1
+          path: build/flack2014_identity/result/*
+          if-no-files-found: warn
