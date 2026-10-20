@@ -1,0 +1,117 @@
+name: Zeebrugge 2017 holdout CERRA wind-height shape test
+
+on:
+  push:
+    branches: [prospective/zeebrugge-2017-temporal-wind-test-20261020]
+    paths:
+      - prospective/ZEEBRUGGE_2017_TEMPORAL_WIND_PREHEIGHT_PLAN_V1.json
+      - prospective/run_zeebrugge_2017_temporal_wind.py
+      - prospective/test_run_zeebrugge_2017_temporal_wind.py
+      - .github/workflows/prospective-zeebrugge-2017-wind-shape.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy numba pyproj pytest
+      - name: Verify archived source and unchanged numerical-kernel test suite
+        env:
+          NUMBA_CACHE_DIR: /tmp/zeebrugge2017-synthetic-numba
+        run: |
+          python -m pytest -q \
+            prospective/test_run_zeebrugge_2017_temporal_wind.py \
+            prospective/test_screen_zeebrugge_2017_cerra.py \
+            prospective/test_zeebrugge_cerra_2016_wind_shape.py
+  temporal-holdout:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy numba pyproj
+      - name: Verify exact external preheight source receipt and 2017 gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/year2017
+          curl --fail --silent --show-error --location --retry 3 --max-time 180 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12256617550/zip' \
+            -o build/year2017/preheight.zip
+          echo '6b0c1f11c821d21bd7c15ddc8863f55645b06eab0107cee115b7348654b742ec  build/year2017/preheight.zip' | sha256sum --check
+          unzip -p build/year2017/preheight.zip ZEEBRUGGE_2017_CERRA_PREHEIGHT_RECEIPT_V1.json \
+            > build/year2017/preheight.json
+          python - <<'PY'
+          import json
+          a=json.load(open('build/year2017/preheight.json'))
+          assert a['2017_native_altitude_opened'] is False
+          assert a['GPS_md5']=='8724b5de0d4ff0117af328d1dde15a0e'
+          assert a['support']['wind_gate_admitted'] is True
+          assert a['support']['wind_both_regimes_birds']==25
+          print('2017 frozen 25-bird pre-altitude structural population verified')
+          PY
+      - name: Fetch source-pinned 2017 native GPS
+        run: |
+          set -euo pipefail
+          cd build/year2017
+          curl --fail --silent --show-error --location --retry 4 --retry-delay 5 --max-time 1100 \
+            'https://zenodo.org/records/22273603/files/LBBG_ZEEBRUGGE-gps-2017.csv.gz?download=1' \
+            -o LBBG_ZEEBRUGGE-gps-2017.csv.gz
+          curl --fail --silent --show-error --location --retry 4 --retry-delay 5 --max-time 120 \
+            'https://zenodo.org/records/22273603/files/LBBG_ZEEBRUGGE-reference-data.csv?download=1' \
+            -o LBBG_ZEEBRUGGE-reference-data.csv
+          printf '%s\n' \
+            '8724b5de0d4ff0117af328d1dde15a0e  LBBG_ZEEBRUGGE-gps-2017.csv.gz' \
+            '76c5b0c8a3a17f7bdd7f589b3d87014c  LBBG_ZEEBRUGGE-reference-data.csv' | md5sum --check
+      - name: Execute untouched 2016 wind shape kernel on new 2017 holdout
+        env:
+          NUMBA_CACHE_DIR: /tmp/zeebrugge2017-prod-numba
+        run: |
+          python -m prospective.run_zeebrugge_2017_temporal_wind \
+            --gps build/year2017/LBBG_ZEEBRUGGE-gps-2017.csv.gz \
+            --reference build/year2017/LBBG_ZEEBRUGGE-reference-data.csv \
+            --preheight-receipt build/year2017/preheight.json \
+            --output build/year2017/results
+      - name: Validate classification without changing sample rules
+        run: |
+          python - <<'PY'
+          import json
+          a=json.load(open('build/year2017/results/ZEEBRUGGE_2017_CERRA_WIND_SHAPE_RESULT_V1.json'))
+          assert a['year']==2017
+          assert a['gps_md5']=='8724b5de0d4ff0117af328d1dde15a0e'
+          assert a['preheight_wind_birds']==25
+          assert a['terminal'] in {'unavailable','supported_wind_context_transfer','wind_context_transfer_not_supported'}
+          if a['terminal']!='unavailable':
+              assert a['observed']['eligible_birds']>=10
+              assert a['calibration']['requested']==999
+              assert a['calibration']['valid']>=950
+          print(json.dumps({
+              'terminal':a['terminal'],'reason':a.get('reason'),
+              'birds':a.get('observed',{}).get('eligible_birds'),
+              'days':a.get('observed',{}).get('eligible_bird_days'),
+              'gain':a.get('observed',{}).get('mean_gain'),
+              'null_valid':a.get('calibration',{}).get('valid'),
+              'p_upper':a.get('calibration',{}).get('p_upper'),
+              'excess':a.get('calibration',{}).get('observed_minus_null_mean')
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zeebrugge-2017-temporal-cERRA-wind-shape-v1
+          path: build/year2017/results/*
+          if-no-files-found: warn
