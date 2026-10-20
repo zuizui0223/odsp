@@ -1,0 +1,41 @@
+{
+  "analysis": "WHITE_STORK_2013_XYTIME_ADMISSION_V1",
+  "date": "2026-10-20",
+  "stage": "prospective_altitude_blind",
+  "source_doi": "10.5441/001/1.hn1bd23k",
+  "gps_md5": "2ec22217c0f566650d245ae2da4694bf",
+  "reference_md5": "b38407ed744cf2bd4806afce929f604a",
+  "basis_run": 39407501404,
+  "selected_source_year": 2013,
+  "selected_by": "latest archived year with 10 or more flight-speed tracked individuals",
+  "previous_2014_result": "unavailable, no 2014 GPS in archived source; do not alter",
+  "previous_year_flight_ids": {
+    "2011": 10,
+    "2012": 46,
+    "2013": 74
+  },
+  "age_2013_flight_ids": {
+    "adult": 37,
+    "juv": 37
+  },
+  "time_months_utc": [
+    8,
+    9,
+    10,
+    11
+  ],
+  "native_filter": "source outliers excluded, speed 5 to 55 m/s, earliest GPS fix per bird per UTC five-minute bin before altitude",
+  "geometry": {
+    "projection": "EPSG:6933",
+    "primary_cell_m": 5000,
+    "descriptive_cell_m": [
+      50000,
+      100000
+    ]
+  },
+  "training": "At least 10 same-bird other-day and 10 other-bird other-date events in same cell",
+  "evaluation": "At least 50 scored fixes per day on 2 days per bird, and at least 10 birds for main endpoint",
+  "altitude_outcomes_read": false,
+  "claim_boundary": "Failure of same-cell repeat is a migration/central-place difference in observation support, not lack of ecological individuality.",
+  "next": "Run this gate before writing or opening any 2013 altitude outcome."
+}
