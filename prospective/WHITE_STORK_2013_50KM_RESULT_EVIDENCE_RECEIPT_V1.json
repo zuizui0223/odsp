@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-20",
+  "status": "VERIFIED_50KM_MIGRATION_STORK_IDENTITY",
+  "archived_source": {
+    "doi": "10.5441/001/1.hn1bd23k",
+    "year": 2013,
+    "taxon": "Ciconia ciconia",
+    "gps_md5": "2ec22217c0f566650d245ae2da4694bf",
+    "reference_md5": "b38407ed744cf2bd4806afce929f604a"
+  },
+  "preheight": {
+    "year_inventory_run": 39407501404,
+    "source_geometry_run": 39408015638,
+    "preheight_5km_birds": 0,
+    "preheight_50km_birds": 25,
+    "preheight_100km_birds": 55,
+    "fingerprint_50km": "901b92d50bfeb763feed6abcdd0b59e27a69b2b0825149b1343769ea2edb69df"
+  },
+  "original": {
+    "run": 39409175819,
+    "artifact_id": 12258059200,
+    "terminal": "supported_50km_individual_height_shape",
+    "eligible_birds": 25,
+    "adult_birds": 10,
+    "juvenile_birds": 15,
+    "bird_days": 111,
+    "scored_fixes": 6951,
+    "height_valid": 147750,
+    "height_selected": 147773,
+    "raw_mean_gain_nats": 0.01648335374581346,
+    "null_mean": -0.17836696449586892,
+    "observed_minus_null_mean": 0.19485031824168236,
+    "null_draws_valid": 999,
+    "null_draws_total": 999,
+    "null_tail_at_least_observed": 0,
+    "p_upper": 0.001,
+    "null_eligible_birds_range": [
+      36,
+      53
+    ],
+    "null_mean_label_change_fraction": 0.9567403561753842
+  },
+  "bird_level_descriptive": {
+    "raw_gain_positive": 13,
+    "denominator": 25,
+    "adult_raw_positive": 5,
+    "adult_n": 10,
+    "adult_mean_raw_gain": -0.030824405752652266,
+    "juvenile_raw_positive": 8,
+    "juvenile_n": 15,
+    "juvenile_mean_raw_gain": 0.048021860078123944,
+    "age_differences_not_tested": true
+  },
+  "reproducibility": {
+    "rerun": 39413456822,
+    "all_three_artifact_members_byte_identical": true,
+    "source_reused_not_new_biological_replication": true,
+    "sha256": {
+      "result_json": "0b42eb7d55aa9b37245ab9dc8671cb2b8dc37ef5700996be19a0b9c4e883f751",
+      "null_csv": "71bb83ef9dc4d6abaf7016b7757dbb60ed70d1246c492792c0b424018e0de2d8",
+      "per_bird_csv": "9240aa2c2498f2a9b8ce27e659e24ed06fa04e2b19a9575d754d44de33b8b4d2"
+    }
+  },
+  "interpretation": {
+    "support": "Age/date-stratified null-referenced vertical GPS altitude-shape identity at 50km among migrating storks.",
+    "limits": [
+      "Only 13/25 birds have positive raw bird-level gains; the null mean is strongly negative.",
+      "Permutations alter eligible birds 25 observed vs 36-53 in null; exchangeability/support uncertainty remains.",
+      "Height above ellipsoid is not above ground; within 50km topography and tag error are unresolved.",
+      "This 50km endpoint cannot be compared numerically to gull wind-context gain or 5km bat/gull identity endpoint.",
+      "Not wind-associated environmental plasticity, causal specialization, or generalization to penguin breeding components."
+    ]
+  }
+}
