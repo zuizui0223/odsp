@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-20",
+  "status": "PRESPECIFIED_2014_COHORT_COMPLETED_NOT_SUPPORTED",
+  "scientific_question": "Does independently GPS-tracked nestling white-stork 2014 migration cohort retain within-day-centered ellipsoid-altitude individual identity at same 50km migration grain and fixed date/age null as Rotics 2013?",
+  "provenance": {
+    "source_doi": "10.5441/001/1.bj96m274",
+    "Movebank_study_id": 332044860,
+    "gps_archive_md5": "c1fa0c4ca28d3fce5d61caaac36e87d2",
+    "reference_md5": "116a3d82cd11e1bb4e16b32532725359",
+    "preheight_source_audit_run": 39415189033,
+    "preheight_artifact": 12260832449,
+    "preheight_eligible_birds": 11,
+    "preheight_bird_days": 33,
+    "preheight_fixes": 2040,
+    "preheight_50km_roster_hash": "a741d2e1bc13d91a49f30ddb2cd13af97db855fd8be3d6c407b75ce827d1ec7d",
+    "test_run": 39416255916,
+    "output_artifact": 12261233419,
+    "output_artifact_sha256": "ce3d0f0d7df48cfa2e1cfa60b0c1693b60f7bb5d4dfea3c252753ceab7fccfb0",
+    "primary_frozen_before_height_access": true,
+    "native_altitude_field": "height-above-ellipsoid",
+    "unit": "meters"
+  },
+  "result": {
+    "terminal": "not_supported_50km_individual_height_shape",
+    "source_reference_animals": 60,
+    "source_stage": "nestling",
+    "GPS_flight_birds": 59,
+    "selected_five_minute_fixes": 58971,
+    "valid_five_minute_heights": 58959,
+    "valid_height_fraction": 0.9997965101490563,
+    "native_height_out_of_fixed_range": 12,
+    "eligible_birds": 11,
+    "eligible_bird_days": 33,
+    "eligible_scored_fixes": 2039,
+    "observed_balanced_same_bird_minus_other_bird_log_gain_nats": -0.26989281362127343,
+    "null_mean": -0.13523669190297447,
+    "observed_minus_null_mean": -0.13465612171829897,
+    "valid_null_permutations": 999,
+    "total_null_permutations": 999,
+    "null_greater_equal_observed": 997,
+    "conservative_one_sided_p_upper": 0.998,
+    "null_eligible_birds_range": [
+      13,
+      28
+    ],
+    "mean_fraction_labels_changed": 0.9757039050047691,
+    "observed_raw_gain_positive_birds": 2,
+    "observed_raw_gain_nonpositive_birds": 9,
+    "per_bird_days_distribution": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      5,
+      5,
+      7
+    ],
+    "age_groups": {
+      "nestling": 11
+    },
+    "scientific_effect_size_identification": "A negative null-relative effect in this cohort, not a 95% equivalence or proof no biological identity."
+  },
+  "source_independence": {
+    "Rotics2013_Movebank_study_id": 150450794,
+    "Flack2014_Movebank_study_id": 332044860,
+    "Rotics2013_original_reference_animal_ids": 122,
+    "Flack2014_reference_animal_ids": 60,
+    "shared_exact_reference_animal_ids": 0,
+    "shared_exact_reference_tag_ids": 1,
+    "shared_tag_id": "2750",
+    "shared_device_deployment_context": "One tag appears on distinct animals across 2013 and 2014 source databases. The 2014 focal 11 birds do not include the tag-2750 bird, based on their archived IDs. Thus distinct bird identities are confirmed at the literal ID level but study ecosystems are not automatically independent.",
+    "caveat": "One tag reuse in the full source references is not a within-individual cross-tag calibration or an independent instrument experiment."
+  },
+  "computational_verification": {
+    "output_file_hashes": {
+      "primary_json": "1fb20cec34c85351b8fd1d3232b0af17b0e9d27dbd21fdcd18f011557f640cb2",
+      "null_csv": "6eca8cfaedc45863fb701c62918660e6095a2ac035c70285f9b3605e4a1c6f6f",
+      "per_bird_csv": "532d0b7b10f3103f098adef20f23963b475f49f7f410"
+    },
+    "independent_recalculation_from_archived_null_csv": {
+      "null_mean": -0.13523669190297444,
+      "tail_ge_observed": 997,
+      "p_upper": 0.998,
+      "positive_bird_scores": 2,
+      "total_bird_scores": 11
+    }
+  },
+  "interpretation": {
+    "supported": [
+      "The fixed 50km daily-centered individual-identity statistic fails the one-sided positive null-reference test in this separately tracked, nestling-only white stork sample.",
+      "The original 2013 Rotics positive does not reproduce uniformly across white-stork sources with different cohort structure.",
+      "Despite 5km shared-cell support 0 in both sources, 50km gives nominally analyzable cohorts in both; movement geometry and tag sampling differ across cohorts."
+    ],
+    "not_supported": [
+      "There is no individual altitude individuality in nestling storks: non-support is not an equivalence test and n=11/33 bird-days is limited.",
+      "A stage-specific biological mechanism causing the difference between 2013 and 2014 cohorts.",
+      "A significant 2013-vs-2014 interaction was statistically tested.",
+      "Tag/error/topography differences were controlled causally; tag/bird identity is one-to-one within 2014 study.",
+      "A universal across-taxon individual specialization law, independent of age, migration corridor, weather or measurement.",
+      "This 2014 result directly addresses 2016–2017 gull wind-dependent vertical use; that is a distinct estimand."
+    ],
+    "final_note": "Do not retune the predeclared 50km to descriptive 100km, don't drop 2014 from comparative sample, and don't repeat test with several source years to search for positive result."
+  }
+}
