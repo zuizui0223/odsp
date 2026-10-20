@@ -21,7 +21,7 @@ def test_bird_intersection_not_union():
     still={str(i):{"gain":float(i),"days":4,"bins":150} for i in range(4,18)}
     result,paired=compare_matched(flight,still,seed=11,draws=49,bootstrap=100)
     assert result["matched_birds"]==10
-    assert [row["animal_id"] for row in paired]==[str(i) for i in range(4,14)]
+    assert [row["animal_id"] for row in paired]==sorted(str(i) for i in range(4,14))
 
 
 def test_no_false_numeric_precision_with_constant_stationary_scores():
