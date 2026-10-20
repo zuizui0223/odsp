@@ -86,7 +86,7 @@ def main():
     with a.reference.open("r",newline="",encoding="utf-8-sig") as f:
         stages,meta=read_reference(csv.DictReader(f))
     with zipfile.ZipFile(a.gps_zip) as z:
-        members=[m for m in z.namelist() if m.lower().endswith(".csv")]
+        members=[m for m in z.namelist() if m.lower().endswith(".csv") and not m.startswith("__MACOSX")]
         if len(members)!=1:raise ValueError("Unexpected archive structure")
         with z.open(members[0]) as inner,io.TextIOWrapper(inner,encoding="utf-8-sig",newline="") as text:
             result=inspect_calendar(csv.DictReader(text),stages)
