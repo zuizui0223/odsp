@@ -1,0 +1,86 @@
+name: independent Flack 2014 white stork migration source gate (height unopened)
+
+on:
+  push:
+    branches: [prospective/stork2014-independent-cohort-20261020]
+    paths:
+      - prospective/FLACK_STORK_2014_INDEPENDENT_COHORT_GATE_V1.json
+      - prospective/flack_stork_2014_xytime_preflight.py
+      - prospective/test_flack_stork_2014_xytime_preflight.py
+      - .github/workflows/flack-stork-2014-xytime.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest pyproj
+      - name: Test no-height event admission on clean synthetic stork tracks
+        run: python -m pytest -q prospective/test_flack_stork_2014_xytime_preflight.py
+
+  source-evidence:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pyproj
+      - name: Acquire original archived 2014 233MB stork GPS and reference metadata
+        run: |
+          set -euo pipefail
+          mkdir -p build/flack2014
+          cd build/flack2014
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 5 --max-time 1200 \
+            'https://datarepository.movebank.org/server/api/core/bitstreams/b4178d75-0023-4611-9394-c65cd74458ae/content' \
+            -o 'Fall migration of white storks in 2014-gps.csv.zip'
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 5 --max-time 120 \
+            'https://datarepository.movebank.org/server/api/core/bitstreams/ed6e24c7-0c51-49b8-b54e-e96f4cae6212/content' \
+            -o 'Fall migration of white storks in 2014-reference-data.csv'
+          printf '%s\n' \
+            'c1fa0c4ca28d3fce5d61caaac36e87d2  Fall migration of white storks in 2014-gps.csv.zip' \
+            '116a3d82cd11e1bb4e16b32532725359  Fall migration of white storks in 2014-reference-data.csv' | md5sum --check
+      - name: Check 2014 individual/day and 50km movement support without opening GPS height
+        run: |
+          set -euo pipefail
+          python -m prospective.flack_stork_2014_xytime_preflight \
+            --gps-zip 'build/flack2014/Fall migration of white storks in 2014-gps.csv.zip' \
+            --reference 'build/flack2014/Fall migration of white storks in 2014-reference-data.csv' \
+            --out build/flack2014/FLACK_STORK_2014_XYTIME_SOURCE_RESULT_V1.json
+      - name: Enforce original study and biologically scoped admission
+        run: |
+          python - <<'PY'
+          import json
+          p='build/flack2014/FLACK_STORK_2014_XYTIME_SOURCE_RESULT_V1.json'
+          d=json.load(open(p))
+          assert d['analysis']=='FLACK_WHITE_STORK_2014_DISTINCT_COHORT_XYTIME_GATE_V1'
+          assert not d['year_2014_biological_height_opened']
+          assert d['source_zip_md5']=='c1fa0c4ca28d3fce5d61caaac36e87d2'
+          assert d['source_reference_md5']=='116a3d82cd11e1bb4e16b32532725359'
+          print(json.dumps({
+            'reference_unique_birds':d['source_file_age']['unique_birds'],
+            '2014_first_5min_flight_birds':d['source_event_metadata']['birds_with_thinned_flight'],
+            '5km_eligible':d['descriptive_5km']['birds_with_2_scorable_shared_cell_days'],
+            '50km_eligible':d['frozen_primary_50km']['birds_with_2_scorable_shared_cell_days'],
+            '100km_eligible':d['descriptive_100km']['birds_with_2_scorable_shared_cell_days'],
+            'primary_50km_admitted':d['frozen_primary_50km']['admitted'],
+            'native_ellipsoid_height_field_exists':d['native_ellipsoid_height_column_exists'],
+            'original_vertical_outcomes_accessed':False
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: flack-2014-independent-stork-50km-preheight-gate-v1
+          path: build/flack2014/FLACK_STORK_2014_XYTIME_SOURCE_RESULT_V1.json
+          if-no-files-found: warn
