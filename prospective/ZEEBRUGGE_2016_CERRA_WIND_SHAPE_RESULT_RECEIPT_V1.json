@@ -1,0 +1,118 @@
+{
+  "analysis": "ZEEBRUGGE_2016_CERRA_WIND_VERTICAL_SHAPE_V1",
+  "verified_date": "2026-10-20",
+  "status": "PREDECLARED_PRIMARY_COMPLETE_SUPPORTED",
+  "audit_stage": "Frozen 2016 bird GPS source and a pre-outcome 2016 CERRA site-weather/x-y support manifest; no source/year/grid/regime/minima modified after reading heights.",
+  "source": {
+    "archive": "https://zenodo.org/records/22273603",
+    "species": "Larus fuscus",
+    "year": 2016,
+    "GPS": "LBBG_ZEEBRUGGE-gps-2016.csv.gz",
+    "GPS_md5": "8789e188f1b33af9d4d8c810cded005a",
+    "reference_md5": "76c5b0c8a3a17f7bdd7f589b3d87014c",
+    "preheight_run": 39391834277,
+    "preheight_eligible_wind_birds": 41,
+    "preheight_outcome_opened": false,
+    "independent_weather": "Open-Meteo ECMWF CERRA ~5km wind_speed_100m at 4 source-defined colony centroids; each UTC day mean wind classified within site×month lower/upper quartile",
+    "preheight_artifact": 12250561258,
+    "preheight_artifact_SHA256": "7e5d350fca89e8ee9a2486795460cac843d51c43cf6391f1d094d2456f572e7b"
+  },
+  "execution": {
+    "workflow_run": 39401802547,
+    "workflow_job_success": true,
+    "artifact_id": 12254869992,
+    "artifact_zip_SHA256": "cac7cce9b226f512ba03b3baa459956cd5b085523977f7287402b9c01a993737",
+    "result_file": "ZEEBRUGGE_2016_CERRA_WIND_SHAPE_RESULT_V1.json",
+    "result_SHA256": "b3963bbbb709996d49cac74837c9b70540455681be1a252b85e00e430ab50c7b",
+    "per_bird_filename": "per_bird_wind_shape.csv",
+    "per_bird_SHA256": "d0aa8791bdeead31364f45f5d3e8f1ee2743a4039ae627757b22c2a58a469340",
+    "null_filename": "wind_context_null_draws.csv",
+    "null_SHA256": "1f647a724233a31eb5f5c46a5bba2e7e65e6eea1a91449188ff35793529ff6a7"
+  },
+  "quality": {
+    "preselected_flight_GPS_5minute_bins": 133693,
+    "valid_height": 133497,
+    "missing_or_nonfinite_height": 0,
+    "out_of_preregistered_range_height": 196,
+    "height_valid_fraction": 0.9985339546573119,
+    "bird_day_sessions_with_height": 4513,
+    "GPS_native_altitude": "height-above-msl",
+    "native_height_valid_bounds_m": [
+      -300,
+      3000
+    ]
+  },
+  "primary": {
+    "n_birds": 39,
+    "n_scored_bird_days": 744,
+    "n_scored_GPS_fixes": 31002,
+    "observed_day_bird_equal_weighted_log_gain_nats_per_fix": 0.011037524282851726,
+    "permutation_valid": 999,
+    "permutation_total": 999,
+    "permutation_score_mean": -0.023481195461223344,
+    "permutation_025_median_975": [
+      -0.04053955209791805,
+      -0.02292061147284307,
+      -0.00941203087001795
+    ],
+    "observed_minus_permutation_mean_nats_per_fix": 0.03451871974407507,
+    "permutations_at_least_observed": 0,
+    "p_upper_one_sided": 0.001,
+    "p_discrete_resolution": "(0+1)/(999+1)=0.001. Monte-Carlo significance for predeclared one-sided wind-informative prediction; not strict exact population probability.",
+    "null_eligible_birds_range": [
+      35,
+      44
+    ],
+    "raw_gain_positive_birds": 27,
+    "positive_denominator_birds": 39,
+    "individual_raw_gain_summary": {
+      "minimum": -0.07044668827945672,
+      "median": 0.013259694691754847,
+      "maximum": 0.11699697165549526,
+      "mean": 0.011037524282851726,
+      "standard_deviation": 0.03544143127579288
+    }
+  },
+  "posthoc_descriptive_site_check": {
+    "role": "Not an independent site-stratified significance test and not a second biological dataset.",
+    "source": "Published archived individual-id -> study-site metadata (2016 target source)",
+    "approximated_site_means_due_to_display_rounding": true,
+    "groups": {
+      "OOST_MIJN": {
+        "birds": 3,
+        "positive_bird_raw_gains": 2,
+        "mean_raw_gain_approx": 0.0098
+      },
+      "VLIS_EPZ": {
+        "birds": 8,
+        "positive_bird_raw_gains": 6,
+        "mean_raw_gain_approx": 0.01525
+      },
+      "VLIS_THER": {
+        "birds": 7,
+        "positive_bird_raw_gains": 4,
+        "mean_raw_gain_approx": 0.00796
+      },
+      "ZEEB_KLVL": {
+        "birds": 21,
+        "positive_bird_raw_gains": 15,
+        "mean_raw_gain_approx": 0.01064
+      }
+    }
+  },
+  "interpretation": {
+    "supported": [
+      "Within this tracked Larus fuscus study, calendar-day broad wind regime is associated with repeatable variation in the shape of individually centred vertical flight-use distributions, conditional on the same 5km horizontal cell.",
+      "Conditioned vs wind-pooled models predict exactly the same day-heldout GPS fixes for each individual; the observed gain exceeds 999 site-grid/month-block wind-date randomizations.",
+      "The effect is not merely a fixed altitude offset of birds; within-bird daily median subtraction removes fixed offsets."
+    ],
+    "not_supported": [
+      "Causal wind forcing was identified (unmeasured date conditions or tag errors could generate associations).",
+      "CERRA at the colony measures physical winds actually experienced by each bird at every flight point.",
+      "Flight mode (flapping/soaring) was measured in this Zeebrugge test; selection was a 5-55 m/s ground-speed proxy.",
+      "The 4 colony groups constitute 4 independent study replications.",
+      "A universal animal law or convergence with penguin breeding-site concentration was tested."
+    ],
+    "next": "Independent year/site/cross-taxon test with prespecified device/behavior diagnostics, before generalizing context-dependent vertical shape beyond this species."
+  }
+}
