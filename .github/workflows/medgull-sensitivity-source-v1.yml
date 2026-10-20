@@ -1,0 +1,26 @@
+name: MEDGULL sensitivity pinned source handoff
+on:
+  push:
+    branches: [sensitivity/medgull-donor-days-20261020]
+    paths: [.github/workflows/medgull-sensitivity-source-v1.yml]
+permissions:
+  contents: read
+jobs:
+  source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Download immutable source without ecological processing
+        run: |
+          set -euo pipefail
+          mkdir -p handoff
+          cd handoff
+          curl --fail --location --silent --show-error --retry 3 --max-time 240 'https://zenodo.org/records/15685037/files/MEDGULL_ANTWERPEN-gps-2022.csv.gz?download=1' -o MEDGULL_ANTWERPEN-gps-2022.csv.gz
+          echo 'aea4ac8900f553e105e797e0553d84e7  MEDGULL_ANTWERPEN-gps-2022.csv.gz' | md5sum --check
+          sha256sum MEDGULL_ANTWERPEN-gps-2022.csv.gz > source.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: medgull-2022-pinned-source
+          path: handoff/
+          compression-level: 0
+          retention-days: 7
