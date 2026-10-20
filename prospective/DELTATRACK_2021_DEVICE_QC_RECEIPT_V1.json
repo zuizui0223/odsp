@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-20",
+  "source": "DELTATRACK corrected v5",
+  "doi": "10.5281/zenodo.22102508",
+  "year": 2021,
+  "audit_type": "post_outcome_device_and_measurement_quality_only",
+  "study_identity_result_preserved": {
+    "source_run": 39375585874,
+    "taxon": "Larus fuscus",
+    "calibrated_excess_nats": 0.07356020252778414,
+    "holm_p": 0.002
+  },
+  "audit_workflow_run": 39378994216,
+  "audit_artifact": 12244179589,
+  "archive_md5": "1a3145234cccd1a48b280b0fb485d679",
+  "reference_md5": "f1dd2f8966b3748a24165b989c10095d",
+  "regression_tests": "7 passed",
+  "primary_facts": {
+    "Larus fuscus": {
+      "flight_unique_birds": 64,
+      "flight_unique_tags": 64,
+      "flight_gps_height_valid": 189598,
+      "in_year_birds_observed_on_two_tags": 0,
+      "tag_used_by_two_birds": 0,
+      "barometer_paired_finite": 189598,
+      "barometer_nonzero": 0,
+      "barometer_distinct": 1,
+      "barometer_constant_zero": true,
+      "gps_hdop_finite_fraction": 1,
+      "gps_hdop_p50": 1.2,
+      "gps_satellite_count_p50": 7,
+      "stationary_five_minute_bins": 562195,
+      "stationary_bird_days_20plus_bins": 4058,
+      "stationary_birds_two_days_20plus": 65
+    },
+    "Larus argentatus": {
+      "flight_unique_birds": 14,
+      "flight_unique_tags": 14,
+      "flight_gps_height_valid": 26809,
+      "in_year_birds_observed_on_two_tags": 0,
+      "tag_used_by_two_birds": 0,
+      "barometer_paired_finite": 26809,
+      "barometer_nonzero": 0,
+      "barometer_distinct": 1,
+      "barometer_constant_zero": true,
+      "gps_hdop_finite_fraction": 1,
+      "gps_hdop_p50": 1.2,
+      "gps_satellite_count_p50": 7,
+      "stationary_five_minute_bins": 208214,
+      "stationary_bird_days_20plus_bins": 1246,
+      "stationary_birds_two_days_20plus": 14
+    }
+  },
+  "interpretation": {
+    "supported": [
+      "Within studied 2021 GPS flight events, bird identity and tag identity match one-to-one for each taxon; direct same-bird different-tag identification is unavailable.",
+      "The native barometric-height channel is a constant zero in every GPS-valid flying event, so it cannot independently corroborate GPS altitude shape.",
+      "Horizontal GPS quality proxies are complete but are not direct estimates of altitude error.",
+      "Slow-moving records are abundant; spatially fixed stationary analogues must be checked before treating them as an instrument-noise baseline."
+    ],
+    "unsupported": [
+      "tag noise causes the positive flight identity signal",
+      "biological individuality is proven independent of tag noise",
+      "stationary low speed equals a fixed ground-level calibration point",
+      "barometer measurements independently confirm biological vertical structure"
+    ]
+  },
+  "next_stage": "Outcome-blind stationary within-cell overlap screen (100m primary/500m sensitivity); if structurally estimable, post-outcome altitude shape negative-control can be designed separately."
+}
