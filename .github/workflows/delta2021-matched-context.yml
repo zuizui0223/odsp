@@ -1,0 +1,91 @@
+name: DELTATRACK 2021 matched flight stationary effects (exploratory)
+
+on:
+  push:
+    branches: [diagnostic/delta2021-matched-context-20261020]
+    paths:
+      - prospective/DELTATRACK_2021_MATCHED_FLIGHT_STATIONARY_V1.json
+      - prospective/test_delta2021_matched_context.py
+      - prospective/delta2021_matched_context.py
+      - .github/workflows/delta2021-matched-context.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest numpy scipy pyproj numba
+      - name: Verify paired statistical kernel and fixed context rules
+        run: python -m pytest -q prospective/test_delta2021_matched_context.py
+  archived-source:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy scipy pyproj numba
+      - name: Fetch fixed flight evidence artifact with checksum
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/matched
+          curl --fail --location --silent --show-error --retry 3 --max-time 180 \
+            -H 'Accept: application/vnd.github+json' \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12242743398/zip' \
+            -o build/matched/frozen-flight.zip
+          echo 'f3b762919e2bb7648b788ca15ded9c50a8dc531bca4c612eceb82d7214681e79  build/matched/frozen-flight.zip' | sha256sum --check
+          unzip -p build/matched/frozen-flight.zip DELTATRACK_2021_IDENTITY_RESULT_V1.json > build/matched/flight.json
+          echo '5e49a9645c1cc54a920639774097bb7a0607fc546b9156e62cdd0a33ccefccf3  build/matched/flight.json' | sha256sum --check
+      - name: Fetch immutable 2021 GPS
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 5 --max-time 900 \
+            'https://zenodo.org/records/22102508/files/DELTATRACK-gps-2021.csv.gz?download=1' \
+            -o build/matched/DELTATRACK-gps-2021.csv.gz
+          echo '1a3145234cccd1a48b280b0fb485d679  build/matched/DELTATRACK-gps-2021.csv.gz' | md5sum --check
+      - name: Reproduce frozen stationary aggregate and analyze paired birds
+        env:
+          NUMBA_CACHE_DIR: ${{ runner.temp }}/numba-matched-production
+        run: |
+          python -m prospective.delta2021_matched_context \
+            --gps build/matched/DELTATRACK-gps-2021.csv.gz \
+            --flight-json build/matched/flight.json \
+            --output build/matched/results
+      - name: Confirm no rerun of flight identity
+        run: |
+          python - <<'PY'
+          import json
+          p='build/matched/results/MATCHED_CONTEXT_RESULT_V1.json'
+          data=json.load(open(p))
+          assert data['original_flight_run']==39375585874
+          assert data['estimated_stationary_score_reproduced'] is True
+          assert data['not_independent_biological_replication'] is True
+          assert data['comparison']['matched_birds']==33
+          assert data['comparison']['permutation_requested']==9999
+          print(json.dumps({
+              'matched_birds':data['comparison']['matched_birds'],
+              'rho':data['comparison']['rho'],
+              'permutation_p':data['comparison']['two_sided_permutation_p'],
+              'confidence_interval':data['comparison']['rho_bootstrap_percentile_95']
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: delta2021-matched-flight-stationary-v1
+          path: build/matched/results/*
+          if-no-files-found: warn
