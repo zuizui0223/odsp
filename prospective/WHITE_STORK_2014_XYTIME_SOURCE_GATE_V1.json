@@ -1,0 +1,62 @@
+{
+  "analysis": "WHITE_STORK_2014_CROSS_ORDER_VERTICAL_CONTEXT_FEASIBILITY_V1",
+  "freeze_date": "2026-10-20",
+  "phase": "SOURCE_AND_XYTIME_METADATA_ONLY",
+  "question": "Does wind-conditioned recurrence of individual-level vertical flight-use distribution occur beyond colony-attached gulls in a migratory soaring bird (Ciconia ciconia)?",
+  "archive": {
+    "provider": "Movebank Data Repository",
+    "doi": "10.5441/001/1.hn1bd23k",
+    "study": "Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)",
+    "study_movebank_id": "150450794",
+    "taxon": "Ciconia ciconia",
+    "source_url": "https://datarepository.movebank.org/bitstreams/ef95f900-1cde-417e-be8a-c6e64e576bea/download",
+    "filename": "Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip",
+    "md5": "2ec22217c0f566650d245ae2da4694bf",
+    "archive_size_bytes": 33335243,
+    "reference_url": "https://datarepository.movebank.org/bitstreams/f5bfa548-4c4b-47c2-a842-3a6ae2e70cda/download",
+    "reference_filename": "Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv",
+    "reference_md5": "b38407ed744cf2bd4806afce929f604a",
+    "license": "CC0 public domain dedication; research citations required",
+    "stage": "Autumn migration, adults and juveniles. No biological altitude outcomes opened in this prospective extension."
+  },
+  "constraints": {
+    "biological_species": "One independent order Ciconiiformes, NOT the same species, site, or movement strategy as gulls",
+    "fixed_year": 2014,
+    "months_UTC": [
+      8,
+      9,
+      10,
+      11
+    ],
+    "speed_range_m_per_s": [
+      5,
+      55
+    ],
+    "select_first_eligible_UTC_5min_fix": true,
+    "exclude_visible_false_if_present": true,
+    "no_admission_based_on_altitude": true,
+    "use_x_y_coordinate_system": "EPSG:6933 WGS84 EASE-Grid 2.0 global cylindrical equal-area",
+    "horizontal_scales_m": [
+      5000,
+      50000,
+      100000
+    ],
+    "primary_scale_m": 5000,
+    "reference_training_rules": "same bird other UTC days >=10 fixes in matched cell AND other conspecific different UTC dates >=10 in same cell",
+    "qualifying_target_day_min_5minute_fixes": 50,
+    "qualifying_bird_min_days": 2,
+    "min_birds_for_primary": 10,
+    "secondary_scales": "50 and 100km are only prospective description of whether a migrating taxon supports shared horizontal cells. They cannot replace a failing 5km primary as if pre-confirmatory equivalent.",
+    "session_statistics": "Count independent animals and bird-days, not serial GPS events.",
+    "measurement": "Native height-above-ellipsoid if present; do not open until source and structural support are frozen; terrain and geoid differences must be audited before any ecological shape interpretation.",
+    "age": "Use published reference-data animal-life-stage with exact same animal IDs; do not guess stage if missing.",
+    "no_data_overlap": "Archive may overlap other MPI white stork datasets on Movebank. Treat as one dataset/parent, never multiple independent replications."
+  },
+  "distinct_ecology": "This is a nomadic migration corridor, not central-place breeding flight. If 5km same-cell repeat is unavailable, conclude transport of the gull fixed-site estimand fails structurally, not that migratory birds lack individuality. Candidate alternative estimand must be stated separately before opening any 2014 altitude outcomes.",
+  "result_guard": "Do not auto-run altitude significance on this source. Preflight records stage-specific counts, data schema, sampling regime and day-level horizontal overlap only.",
+  "cited_sources": [
+    "https://doi.org/10.5441/001/1.hn1bd23k",
+    "https://doi.org/10.1111/1365-2656.12525",
+    "https://datarepository.movebank.org/entities/datapackage/3754d5ea-3bc5-46af-afdb-6fad413dfba3"
+  ]
+}
