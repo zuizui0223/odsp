@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-20",
+  "status": "POST_OUTCOME_DIAGNOSTIC_FROZEN_BEFORE_QC_PROFILING",
+  "scientific_target": "Distinguish bird identity from tag identity and evaluate whether independent barometric and GPS-quality channels can diagnose instrument artifacts underlying the opened DELTATRACK 2021 altitude shape signal.",
+  "parent_external_result": {
+    "workflow_run": 39375585874,
+    "source_record": "https://zenodo.org/records/22102508",
+    "source_file": "DELTATRACK-gps-2021.csv.gz",
+    "source_md5": "1a3145234cccd1a48b280b0fb485d679",
+    "positive_species": "Larus fuscus",
+    "baseline": "40 birds, 899 bird-days, centered shape calibrated excess +0.073560 nats/event, Holm p=0.002",
+    "bird_versus_tag_identified": false
+  },
+  "reference_source": {
+    "file": "DELTATRACK-reference-data.csv",
+    "md5": "f1dd2f8966b3748a24165b989c10095d",
+    "prior_outcome_blind_metadata": "99 unique birds in 100 deployments; only one L. fuscus bird received different tags in 2020 and 2021, no two tags deployed within 2021 for that one bird."
+  },
+  "policies": {
+    "reuse_exact_source": "2021 GPS archive, no new year outcomes",
+    "no_identity_scoring_or_permutations": true,
+    "species": [
+      "Larus fuscus",
+      "Larus argentatus"
+    ],
+    "audited_fields": [
+      "individual-local-identifier",
+      "tag-local-identifier",
+      "individual-taxon-canonical-name",
+      "bar:barometric-height",
+      "gps:hdop",
+      "gps:satellite-count",
+      "gps-time-to-fix",
+      "timestamp",
+      "location-long",
+      "location-lat",
+      "ground-speed",
+      "height-above-msl"
+    ],
+    "frozen_preprocessing": "Same May-July UTC, valid horizontal coordinates, speed 5-55m/s, provider-marked outliers excluded, first eligible GPS event per individual UTC five-minute bin before altitude QC",
+    "altitude_m_valid_range": [
+      -300,
+      3000
+    ],
+    "barometric_gate": "At least 80% of native valid GPS altitude bins have finite paired barometric height and 10 birds each have >=2 UTC days with >=50 paired bins. Count nonzero and distinct barometric values separately; fail if constant placeholders are detected.",
+    "tag_switch_gate": "Report per-species IDs per tag and tags per animal within 2021. A cross-tag within-bird comparison needs >=2 independent tags for the same bird, each recorded on >=2 distinct days. Otherwise identity and instrument are inseparable from tag switch data.",
+    "gps_metadata": "Report missingness and quantiles of HDOP, satellite count, time-to-fix, and between-tag quality completeness; no outcome-dependent filtering.",
+    "stationary_availability": "For speed<=0.5m/s, report number of birds and bird-days with >=20 thinned fixes within May-July, using source-marked outlier rule. No spatial/elevation inference from stationary data at this gate.",
+    "scientific_boundary": "This is post-outcome measurement adequacy; it does not independently replicate biological identity, establish a causal mechanism, or rescue unavailable species."
+  }
+}
