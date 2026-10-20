@@ -65,3 +65,25 @@ DELTATRACK 2020 stays below its original minimum-10 rule: L. argentatus 6, L. fu
 New and reused module tests: 15 passed, 1 optional source integration test skipped. Independent dictionary reference agrees in 96 irregular synthetic cases; max score difference 6.67e-16. Saved real-data individual aggregates, full null means/tail counts/p values and Holm adjustment rechecked independently; artifact file hashes verified.
 
 Full default repository suite rerun in 39374955129: 1,514 passed, 2 failed, 1 skipped, 0 errors. The two unresolved historical failures are test_final_receipt_rebuilds_manuscript_and_anonymous_bundle and test_closed_empirical_workflows_are_path_filtered. They had previously been reproduced on the unchanged parent. Scientific job success does not mean the entire repository suite is green.
+
+
+## 2026-10-20 measurement attribution and low-speed negative control (new)
+
+Post-outcome diagnostic branch: [diagnostic/delta2021-device-context-20261020](https://github.com/zuizui0223/odsp/tree/diagnostic/delta2021-device-context-20261020). **The frozen DELTATRACK 2021 flying-height primary test remains unchanged.**
+
+On the exact same 2021 GPS source, the 2021 flight panels have 64 L. fuscus birds/64 unique tags and 14 L. argentatus birds/14 tags, with zero within-year same-bird cross-tag replication. All paired `bar:barometric-height` values are constant zero (189,598 GPS-valid L. fuscus events; 26,809 L. argentatus), preventing an independent altitude-channel check. GPS HDOP is completely reported, median 1.2, but measures horizontal precision and cannot remove tag-specific vertical-error differences. Device-vs-animal causation is thus structurally unidentified.
+
+A stationary/very-low-speed (0–0.5 m/s) GPS negative control was frozen after the flying outcome, with x-y modal 100 m cells, identical centered-altitude bins, unchanged balanced donor kernel and 999 date-matched session-label permutations. [Run 39380619623](https://github.com/zuizui0223/odsp/actions/runs/39380619623) completed.
+
+- **Larus fuscus:** 46 eligible birds, 590 bird-days, 51,960 scored GPS events. Observed matched-vs-other centered shape score +0.008155; null mean -0.025646; excess **+0.033801 nats/record**; 999/999 valid draws, 0 exceedances, Holm p=0.002 across the two species.
+- **Larus argentatus:** 8 eligible birds at final >=50 scored-bin/day criterion, below min 10. Remains **unavailable**, no null p. Descriptive score +0.01790 is not inferential.
+- 63/12 birds had met an earlier less demanding 20-bin/day structural same-cell screen; this does not override the later 50-bin evaluation-day criterion.
+
+**Biological implication:** The individually associated GPS-height distribution shape signal is detectable in low-speed records as well as flying records. Therefore, the positive flying result alone cannot be interpreted as a *flight-specific* individual strategy. Near-stationary signals could arise from tag-dependent error, bird-specific perches/nest microtopography, or both. The negative control **does not prove tag artifact**; the two context effect magnitudes are not directly comparable because sampling, states and conditioning differ. No new bat or penguin claim follows.
+
+Durable receipts:
+- [Device QC](https://github.com/zuizui0223/odsp/blob/diagnostic/delta2021-device-context-20261020/prospective/DELTATRACK_2021_DEVICE_QC_RECEIPT_V1.json)
+- [Stationary control](https://github.com/zuizui0223/odsp/blob/diagnostic/delta2021-device-context-20261020/prospective/DELTATRACK_2021_STATIONARY_NEGATIVE_CONTROL_RECEIPT_V1.json)
+- [Cross-project ecological generality boundary](https://github.com/zuizui0223/odsp/blob/diagnostic/delta2021-device-context-20261020/prospective/ODSP_DESCENDANTS_BIOLOGICAL_GENERALITY_BOUNDARY_V1.md)
+
+Next unique identification axis: same-bird different-device tracking or an actually variable independent altitude sensor, plus properly controlled within-bird movement-state/micro-perch data. Repeated mining of the same bird-tag observations cannot by itself estimate the biological versus device-origin fractions.
