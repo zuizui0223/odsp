@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-20",
+  "analysis": "DELTATRACK_2021_FLYING_LOW_SPEED_ELIGIBILITY_OVERLAP_V1",
+  "method": "Exact intersection of previously saved per-bird eligible IDs. No GPS values re-opened, no new model or permutation, no new individual-stationary scores.",
+  "input_receipts": {
+    "flight": {
+      "artifact": 12242743398,
+      "file": "DELTATRACK_2021_IDENTITY_RESULT_V1.json",
+      "sha256": "5e49a9645c1cc54a920639774097bb7a0607fc546b9156e62cdd0a33ccefccf3"
+    },
+    "stationary": {
+      "artifact": 12245442382,
+      "file": "STATIONARY_NEGATIVE_CONTROL_RESULT_V1.json",
+      "sha256": "2d4878aee9787fbbaa8b1c93cc41eb1a240b137e019f5224fb9abf505b50a32c"
+    }
+  },
+  "results": {
+    "Larus fuscus": {
+      "flight_eligible_birds": 40,
+      "stationary_eligible_birds": 46,
+      "birds_eligible_in_both": 33,
+      "flight_only": 7,
+      "stationary_only": 13,
+      "fraction_flight_also_stationary": 0.825,
+      "flight_positive_point_scores_among_overlap": 30,
+      "positive_scores_overlap_denominator": 33
+    },
+    "Larus argentatus": {
+      "flight_eligible_birds": 1,
+      "stationary_eligible_birds": 8,
+      "birds_eligible_in_both": 0
+    }
+  },
+  "scientific_boundary": {
+    "justified": "33 L. fuscus individuals (and hence their 2021 tags) enter both separately analyzed flying and low-speed panels. Within this intersecting group, 30 have positive flight point-score signs.",
+    "not_justified": "The same 30 birds have significant stationary signals or the magnitude of flight and stationary shape information is correlated at the individual level. Per-bird stationary gains were not saved in the stationary receipt; joint cross-context effect correlations are untested.",
+    "inference": "Both context-level results concern largely overlapping individuals/tags, strengthening relevance of instrument and micro-perch alternatives without causally separating them."
+  }
+}
