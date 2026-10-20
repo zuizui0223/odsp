@@ -1,0 +1,82 @@
+{
+  "analysis": "WHITE_STORK_2013_MIGRATORY_50KM_VERTICAL_IDENTITY_V1",
+  "date": "2026-10-20",
+  "phase": "PRE_NATIVE_ALTITUDE_FROZEN",
+  "archive": {
+    "doi": "10.5441/001/1.hn1bd23k",
+    "gps_archive_md5": "2ec22217c0f566650d245ae2da4694bf",
+    "reference_md5": "b38407ed744cf2bd4806afce929f604a",
+    "taxon": "Ciconia ciconia",
+    "date_window": "2013 Aug-Nov UTC"
+  },
+  "source_screen": {
+    "run": 39408015638,
+    "artifact": 12257179594,
+    "artifact_zip_sha256": "202c796bb3899bf042374511c057e1dbe6a5a875475f59e1cecb2df043bd8a43",
+    "earlier_2014_source_outcome": "No GPS events 2014, terminal unavailable, never rescued",
+    "selected_year": "2013 latest GPS archive year with >=10 speed-qualified tracked birds (74), selected from immutable calendar run 39407501404",
+    "motion": "74 birds (37 adults/37 juveniles), 147,773 flight-speed 5min GPS fixes",
+    "scales_preopening_altitude": {
+      "5000": {
+        "birds": 0
+      },
+      "50000": {
+        "birds": 25,
+        "bird_days": 111,
+        "fixes": 6951
+      },
+      "100000": {
+        "birds": 55,
+        "bird_days": 355,
+        "fixes": 22772
+      }
+    },
+    "selection_of_new_50km_endpoint": "50km is the smallest among the already inspected 5/50/100km migration scales clearing >=10 birds; chosen on pure x-y/time support, before inspecting any 2013 altitudes. This is a NEW migration-specific design, not posthoc proof at the original gull 5km scale.",
+    "fingerprint_50km": "901b92d50bfeb763feed6abcdd0b59e27a69b2b0825149b1343769ea2edb69df"
+  },
+  "scientific_question": "Can long-distance migrating storks preserve between-day individual-label-associated shape in vertical flight-altitude distributions at a macro corridor-relevant geographic grain while bird identity is nested within age class?",
+  "observation": {
+    "native_vertical_field": "height-above-ellipsoid in meters",
+    "not_height_above_ground": true,
+    "altitude_quality_gate": ">=80% of frozen selected flight 5minute bins have finite native heights within [-500,6000] m. Never replace earliest missing height by later fix.",
+    "shape_center": "subtract each observed UTC bird-day median height from each selected GPS observation before categorical scoring. Offline held-out shape, not next-fix absolute altitude prediction.",
+    "fixed_bins_m": [
+      "-inf",
+      -200,
+      -100,
+      -50,
+      -25,
+      0,
+      25,
+      50,
+      100,
+      200,
+      "inf"
+    ],
+    "source_filter": "Year 2013 months 8-11 UTC, ground speed 5-55m/s, visible=false and provider outliers excluded, first valid x-y/speed fix per bird per UTC5-min bin before height",
+    "projection": "EPSG:6933, 50km grid",
+    "own_other_day_min_5min_fixes_same_cell": 10,
+    "other_conspecific_other_UTC_day_min_same_cell": 10,
+    "min_scored_fix_per_day": 50,
+    "min_scorable_days_per_individual": 2,
+    "min_birds": 10,
+    "source_age": "exact published animal-id to animal-life-stage source crosswalk, require >=95% of qualifying biological birds to have unambiguous 'adult' or 'juv' label, otherwise age-conditioned null unavailable",
+    "scoring": "Reuse unchanged prospectively executed D1 balanced day-equal/conspecific bird-equal kernel from MEDGULL 2022 and DELTATRACK 2021; same ten categorical height bins, Jeffreys 0.5 per bin, same 50/10 fixed minimum. Apply at 50km to this newly defined migratory comparison.",
+    "null": "999 whole-bird-day identity-label permutations within EXACT UTC calendar date AND published age group. This preserves broad juvenile/adult stage under the null and day-level migration climate. Recalculate eligibility in each null draw; do not exchange individual GPS fixes.",
+    "null_seed": 20261020,
+    "null_min_valid": 950,
+    "p_upper": "(1+#valid_null>=observed+#unavailable_null)/1000",
+    "support_condition": "At least10 observed eligible birds after height QC and >=950 valid null permutations, positive observed-minus-valid-null-mean and conservative p_upper <0.05. Otherwise unavailable or not_supported. Do not adjust 50km, thresholds, year or altitude bins.",
+    "raw_signed_gain": "Observed D1 balanced score can be positive or negative; meaningful evidence comes from prior-frozen permutation null.",
+    "secondary": "Age-stratified bird counts and score directions descriptive; do not claim biological age interaction unless powered and separately predeclared. 100km remains structural-only, no confirmatory altitude outcome."
+  },
+  "limitations": [
+    "This source contains true migratory movement without recurrent 5km same-cell usage. A significant 50km result does not show the gull 5km estimator transfers unchanged.",
+    "Daily centred height above ellipsoid is not altitude above terrain. Within-day topographic route differences and changing geoid remain possible.",
+    "Adult/juvenile phenotypic differences can leak into raw identity differences, so exact-date/age label randomization is essential.",
+    "Individual and attached GPS tag may remain aliased; tag non-additive error not eliminated by daily centering.",
+    "Same-year repeated days among migration flock may not be exchangeable once migration corridor/path structure is conditioned only on 50km cells.",
+    "This tests individual vertical identity across movement modes; it is NOT a direct new wind-context test, and no environmental climate correlation is inferred.",
+    "Previously existing Movebank-stork analyses of life-stage flight costs do not constitute independent validation of this new identity-specific probabilistic endpoint."
+  ]
+}
