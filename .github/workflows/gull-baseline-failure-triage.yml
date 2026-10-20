@@ -1,0 +1,47 @@
+name: Gull diagnostic baseline-failure attribution
+on:
+  push:
+    branches: [diagnostic/gull-support-20261020]
+    paths: [.github/workflows/gull-baseline-failure-triage.yml]
+permissions:
+  contents: read
+jobs:
+  unchanged-parent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 199501251d2c49b73569f491816a45bc98f380c7
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -e '.[dev,predict]'
+      - name: Reproduce only the two baseline failures on the original parent
+        run: |
+          mkdir -p build
+          python - <<'PY'
+          import subprocess, sys, json
+          from pathlib import Path
+          tests = [
+            'tests/test_n2_mee_state_prediction_v4_final_readiness_receipt.py::test_final_receipt_rebuilds_manuscript_and_anonymous_bundle',
+            'tests/test_n2_mee_state_prediction_v4_final_readiness_receipt.py::test_closed_empirical_workflows_are_path_filtered'
+          ]
+          p = subprocess.run([sys.executable, '-m', 'pytest', '-q', *tests], text=True, capture_output=True)
+          log = p.stdout + p.stderr
+          Path('build/parent-test-failures.txt').write_text(log)
+          reproduced = p.returncode == 1 and all('FAILED ' + name in log for name in tests)
+          result = {'parent_sha':'199501251d2c49b73569f491816a45bc98f380c7', 'pytest_returncode':p.returncode, 'same_two_failures_reproduced':reproduced, 'tests':tests, 'empirical_endpoints_rerun':False}
+          Path('build/parent-failure-attribution.json').write_text(json.dumps(result,indent=2)+'\n')
+          print(log)
+          print(json.dumps(result))
+          if not reproduced:
+              raise SystemExit('Parent did not reproduce both failures; attribution unresolved')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gull-diagnostic-parent-failure-attribution
+          path: |
+            build/parent-test-failures.txt
+            build/parent-failure-attribution.json
