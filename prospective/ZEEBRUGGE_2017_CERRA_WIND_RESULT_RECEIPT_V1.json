@@ -1,0 +1,108 @@
+{
+  "analysis": "ZEEBRUGGE_2017_TEMPORAL_CERRA_WIND_SHAPE_V1",
+  "date": "2026-10-20",
+  "status": "SUCCESSFUL_NEXT_YEAR_TEMPORAL_REPLICATION",
+  "setup": {
+    "source_archive": "https://zenodo.org/records/22273603",
+    "underlying_tracking_study": "985143423",
+    "taxon": "Larus fuscus",
+    "selected_year": 2017,
+    "selection_rationale": "Immediate following calendar year after opened 2016 positive, chosen and frozen before reading 2017 heights",
+    "source_file": "LBBG_ZEEBRUGGE-gps-2017.csv.gz",
+    "source_md5": "8724b5de0d4ff0117af328d1dde15a0e",
+    "source_reference_md5": "76c5b0c8a3a17f7bdd7f589b3d87014c",
+    "primary_test": "same individual/5km cell, own other-day wind-regime-conditional probability distribution of session-median-centred native GPS altitudes versus own other-day wind-pooled",
+    "wind_data": "CERRA via Open-Meteo at four 2016-frozen colony centroid coordinates, site-month calendar wind_speed_100m quartiles, 2017 May-Jul",
+    "reused_kernel": "prospective/zeebrugge_cerra_2016_wind_shape.py",
+    "new_randomization_seed": 20261021,
+    "single_prespecified_year": true,
+    "no_2017_height_before_admission": true
+  },
+  "source_preflight": {
+    "run": 39403638754,
+    "artifact_id": 12256617550,
+    "artifact_zip_sha256": "6b0c1f11c821d21bd7c15ddc8863f55645b06eab0107cee115b7348654b742ec",
+    "birds_with_flight_GPS": 64,
+    "birds_xy_overlap": 31,
+    "birds_both_wind_regime_support": 25,
+    "wind_label_source_roster_sha256": "7388f38f45bb54a02a3782ba244927d143965b6888b41ba86edee7f16172010d",
+    "bird_metadata_mapping_valid": true
+  },
+  "execution": {
+    "workflow_run": 39404195393,
+    "successful": true,
+    "artifact_id": 12256098858,
+    "artifact_zip_sha256": "798f748e06fa8ecac5ae37798ae2c0561dd2e40b5a7b4842c630b054f2203015",
+    "result_sha256": "ed4ad75363fee6f658c5afe3cce29dc0fd8bb1e4fe09f049daea0d0d718e4758",
+    "null_csv_sha256": "a2c9c13df29001b8573ca2e2e1944dd07c8d727b6ebfb8b6a95d190dc94fb438",
+    "per_bird_csv_sha256": "d3b5042ecbb6b081bb6b39d3ff23182f7942b79c69db4454a19e9b00141d0f50",
+    "regression": "synthetic and immutable source GitHub Actions jobs both succeeded"
+  },
+  "height_quality": {
+    "source_first_flight_GPS_bins": 102738,
+    "valid_native_height": 102603,
+    "invalid_out_of_bound": 135,
+    "missing_nonfinite": 0,
+    "valid_fraction": 0.9986859779244291,
+    "source_days_with_valid_heights": 4619
+  },
+  "result": {
+    "eligible_birds": 24,
+    "scored_bird_days": 422,
+    "scored_fixes": 18348,
+    "observed_mean_gain_nats_per_record": 0.021718472105476085,
+    "valid_null_permutations": 999,
+    "requested_null_permutations": 999,
+    "null_mean": -0.021089739676569224,
+    "null_025_50_975": [
+      -0.034674319424419425,
+      -0.021259716293926072,
+      -0.007602414731895798
+    ],
+    "observed_minus_null_mean": 0.04280821178204531,
+    "null_tail_ge_observed": 0,
+    "p_upper_one_sided": 0.001,
+    "eligible_birds_null_range": [
+      20,
+      31
+    ],
+    "positive_raw_gain_birds": 18
+  },
+  "across_2016_2017": {
+    "year_2016": {
+      "eligible_birds": 39,
+      "bird_days": 744,
+      "scored_fixes": 31002,
+      "observed_gain": 0.011037524282851726,
+      "excess": 0.03451871974407507,
+      "p_one_sided": 0.001,
+      "positive_raw_gain_birds": 27
+    },
+    "year_2017": {
+      "eligible_birds": 24,
+      "bird_days": 422,
+      "scored_fixes": 18348,
+      "observed_gain": 0.021718472105476085,
+      "excess": 0.04280821178204531,
+      "p_one_sided": 0.001,
+      "positive_raw_gain_birds": 18
+    },
+    "shared_biological_animal_IDs": 11,
+    "total_distinct_biological_animal_IDs_across_both_years": 52,
+    "shared_IDs_positive_raw_gain_2016": 9,
+    "shared_IDs_positive_raw_gain_2017": 9,
+    "shared_IDs_positive_gain_in_both": 7,
+    "simple_descriptive_shared_ID_pearson_gain_correlation": -0.1267724442402552,
+    "independence_warning": "Same Movebank archive, same colony environment, 11 repeated bird IDs, and possibly shared devices. The two year p-values are NOT independent study replications to combine by Fisher meta-analysis."
+  },
+  "valid_claim": "Among individually GPS-tracked Larus fuscus in two consecutive breeding seasons, colony-scale wind regime provides repeatable held-out-day information about the shape of the within-day-centred vertical flight-use distribution beyond a wind-pooled individual baseline. This is an observational prediction pattern.",
+  "invalid_claims": [
+    "Causal wind control or adaptive mechanism proven",
+    "Bird-level wind reaction strengths personally stable across years",
+    "Local winds at each GPS flight fix accurately measured",
+    "Confirmed soaring versus flapping-state switching",
+    "Independent taxonomic replication in two species",
+    "An axis-general ecological law proven for the MINA penguin breeding concentration"
+  ],
+  "evidence_source": "2017 primary run 39404195393 and outcome-blind run 39403638754; 2016 run 39401802547"
+}
