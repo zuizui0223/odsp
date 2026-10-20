@@ -1,0 +1,73 @@
+{
+  "analysis": "ZEEBRUGGE_2016_CERRA_WIND_VERTICAL_SHAPE_V1",
+  "date": "2026-10-20",
+  "status": "PREHEIGHT_FROZEN",
+  "origin": "Outcome-blind source+wind admission run 39391834277, source GPS MD5 8789e188f1b33af9d4d8c810cded005a; weather/site support 41 candidate birds (separate from 40 other-bird shared-cell candidates).",
+  "source": {
+    "gps_file": "LBBG_ZEEBRUGGE-gps-2016.csv.gz",
+    "gps_md5": "8789e188f1b33af9d4d8c810cded005a",
+    "reference_md5": "76c5b0c8a3a17f7bdd7f589b3d87014c",
+    "archive": "https://zenodo.org/records/22273603"
+  },
+  "meteorology": {
+    "provider": "Open-Meteo CERRA ~5km",
+    "time": "2016 May-July, UTC",
+    "sites": "four site centroids from ref tags deployed in 2016",
+    "primary_var": "wind_speed_100m m/s, site-centred; not GPS point meteorology",
+    "regime": "per site-month calendar-day means Q25/Q75, middle excluded",
+    "same_grid_month_permutation": "sites mapping to the exact same gridded wind coordinate share a permutation schedule; same calendar date labels shuffled between dates within grid×month to preserve mesoscale correlation",
+    "structure_fingerprint": "110e3db80e869f758b0660ca7ae6d059362074879bfd418b86bbea469f191379",
+    "source_support_run": 39391834277,
+    "source_support_artifact": 12250561258,
+    "weather_frozen_verification": "Recompute original source run's site/month Q25/Q75, qualifying dates, and CERRA response grid coordinates exactly; stop if weather data has drifted, do not redefine quartiles."
+  },
+  "selection": {
+    "source_time": "2016 May 1-Jul 31 UTC",
+    "speed_m_s": [
+      5,
+      55
+    ],
+    "outlier_rule": "exclude provider marked outliers",
+    "one_per_bin": "first eligible x-y/time/speed GPS per bird/date/5-min bin before altitude availability",
+    "projection": "EPSG:32631",
+    "cell_width_m": 5000,
+    "quality": "finite raw height-above-msl in [-300,3000]m; overall >=0.8 of preselected 5-min flight bins; missing earliest height never replace with later GPS",
+    "day_shape": "subtract median native height across all selected valid flight GPS fixes within each bird-calendar date. Estimand is post-session shape, not live prediction of absolute height.",
+    "vertical_bins": [
+      "-inf",
+      -200,
+      -100,
+      -50,
+      -25,
+      0,
+      25,
+      50,
+      100,
+      200,
+      "inf"
+    ],
+    "training": "for each individual and 5km cell, all nonempty other UTC days, wind-pooled versus same wind regime; return no estimate without >=10 independent donor events in SAME wind state and >=10 in OPPOSITE wind state after excluding target day",
+    "heldout": "test identical events for both models. Scored bird-day >=20 fixes. Bird needs >=2 separately scored dates in each wind regime. >=10 birds overall for inferential reporting.",
+    "weighted_score": "For each scored day mean per-record log P(z_center|own bird,cell,wind)/P(z_center|own bird,cell). Within bird mean of low-day scores and high-day scores, weight low and high equally. Mean across birds; per-bin Jeffreys pseudocount 0.5.",
+    "independent_units": "Bird primary, bird-day intermediate. GPS fixes never independent scientific replicates."
+  },
+  "calibration": {
+    "seed": 20261020,
+    "permutations": 999,
+    "block": "shuffle full site-level day wind regime labels among calendar dates within exact CERRA grid-cell×year-month, preserving CERRA-shared dates across overlapping site grid cells. Recompute training support and bird eligibility every draw.",
+    "null_gate": "valid randomization if >=10 bird-level scores and finite; at least 950 of 999 valid null draws. Retain all unavailable draws, p_lower=(1+b)/(1000), p_upper=(1+b+unavailable)/(1000), observed >valid-null-mean AND conservative p_upper<0.05 required for support.",
+    "one_primary_test": "CERRA wind explanatory context for within-bird day-centred height shape, no posthoc grid/regime/mode optimization."
+  },
+  "descriptive": {
+    "per_wind_day_tail_fraction": "mean per bird per wind of |altitude-median(day)|>50m, equal birds; purely descriptive, not separate inferential success",
+    "stationary_negative_control": "Original DELTATRACK result at different site/tag context is not a same-study negative control. Do not pool or subtract its magnitude."
+  },
+  "limitations": [
+    "Observational regional colony wind does not measure local orographic lift or wind encountered at each bird's actual 3D position.",
+    "Wind and tag measurement quality/weather are not causally distinguishable with GPS alone.",
+    "Speed threshold is a flight proxy, not verified wingbeat/soaring behavior.",
+    "Within-year day exchangeability assumes no unmeasured date drift beyond site-month/weather.",
+    "Only one species, different breeding sites, original source not 162 birds simultaneously observed."
+  ],
+  "no_rescue": "Fail quality/bird/null gates as unavailable; do not relax 5km,10/20,regime quantiles or alter year following inspected heights."
+}
