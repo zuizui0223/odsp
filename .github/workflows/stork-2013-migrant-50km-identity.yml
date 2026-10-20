@@ -23,6 +23,9 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m pip install pytest numpy numba pyproj
+      - name: Audit unchanged previously verified balanced numerical kernel
+        run: |
+          echo '7d5f552e6b5b28d3981f00f37c5ec64fa9d8daa747e5973ab6f5c87a4b91396e  prospective/medgull_sensitivity.py' | sha256sum --check
       - name: Run frozen age-stratified session/exchangeability tests
         env:
           NUMBA_CACHE_DIR: /tmp/stork2013-test-numba
