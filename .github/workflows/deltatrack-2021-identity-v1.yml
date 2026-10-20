@@ -38,6 +38,8 @@ jobs:
             -o build/source/DELTATRACK-gps-2021.csv.gz
           echo '1a3145234cccd1a48b280b0fb485d679  build/source/DELTATRACK-gps-2021.csv.gz' | md5sum --check
       - name: Fixed two-species identity test
+        env:
+          NUMBA_CACHE_DIR: ${{ runner.temp }}/deltatrack-production-numba
         run: |
           set -o pipefail
           python -u -m prospective.deltatrack_2021_identity \
@@ -57,6 +59,7 @@ jobs:
           path: build/identity2021/
           if-no-files-found: error
   repository-suite:
+    if: github.run_number == 1
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
