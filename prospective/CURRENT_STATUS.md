@@ -1,5 +1,27 @@
 # Cross-taxon biological generality — current state
 
+## Latest boundary: independent stork cohorts do not show uniform vertical-shape individuality
+
+The original Rotics 2013 migration-specific 50km test (Movebank study 150450794) showed an age/date-block null-relative gain +0.194850 nats/event (25 birds, 111 bird-days, 6,951 scored fixes, p_upper=0.001; archived run 39409175819). A deterministic rerun (39413456822) exactly reproduced all original JSON and CSV evidence members byte-for-byte.
+
+A **different 2014 white-stork study** (Flack / Weinzierl, Movebank study 332044860, DOI 10.5441/001/1.bj96m274) was admitted before opening heights: 60 source reference birds (all labelled nestling), 59 birds with selected flight-speed GPS records, 50km comparable source roster **11 birds / 33 bird-days / 2,040 bins**, while 5km has **zero**; source preheight run [39415189033](https://github.com/zuizui0223/odsp/actions/runs/39415189033).
+
+Its numerically identical, separately preregistered 50km D1-balanced centered-height-shape / 999 exact-date-stage session exchangeability test returned **NOT SUPPORTED** [run 39416255916](https://github.com/zuizui0223/odsp/actions/runs/39416255916): 11 birds, 33 bird-days, 2,039 scored GPS fixes, observed gain **−0.26989281**, null mean **−0.13523669**, observed-minus-null **−0.13465612**, all 999 null valid, one-sided p_upper **0.998**. Only **2 of 11** individual raw scores were positive. Native altitude completeness 58,959/58,971 = 99.980%.
+
+Source reference animal IDs: 2013 122 and 2014 60 with **zero exact animal-ID overlap**. One GPS tag ID occurs in both full source reference archives, used on distinct birds in 2013/14, and is not among the 2014 final 11 birds. The two source populations are independently tagged at the literal tracked-bird ID level, but this is not a controlled experiment of cohort biology.
+
+**Interpretation:** The original positive evidence in a mixed-age eastern-Germany migration cohort is not uniformly reproduced in an independent all-nestling southwestern-Germany tracking cohort under the same 50km test. Positive p=.001 vs p=.998 is not a formal significant cohort-by-context interaction. The latter is an unsupported positive hypothesis, **not proof of biological zero**: n=11 and 33 observed sessions, cohort/stage/site/tag differences, unadjusted topography and identification-via-tag limitations remain. Both null randomizations change the eligible-bird denominator (2013 observed25 vs null36–53, 2014 observed11 vs null13–28), limiting exchangeability interpretation.
+
+**Ecological question newly sharpened:** What ecological conditions make individual vertical-use shape recur across days? Stable vs changing flight opportunities, wind and thermal uplift, juvenile experience, behavioural mode and geographic migration stage are candidates, not supported causal explanations. Gull 2016/2017 provides independent *regional wind predictive context* but does not prove individual-specific wind response. Do not reopen either stork archive with outcome-tuned alternative spatial grains to rescue the 2014 result.
+
+Durable evidence:
+- [Two-cohort biological synthesis](https://github.com/zuizui0223/odsp/blob/prospective/stork2014-independent-cohort-20261020/prospective/WHITE_STORK_2013_2014_CROSS_COHORT_BIOLOGICAL_SYNTHESIS_V1.md)
+- [2013 source result receipt](https://github.com/zuizui0223/odsp/blob/prospective/stork2013-50km-vertical-identity-20261020/prospective/WHITE_STORK_2013_50KM_RESULT_EVIDENCE_RECEIPT_V1.json)
+- [2014 source result receipt](https://github.com/zuizui0223/odsp/blob/prospective/stork2014-independent-cohort-20261020/prospective/FLACK_STORK_2014_50KM_RESULT_EVIDENCE_RECEIPT_V1.json)
+- [Cross-guild claim map](https://github.com/zuizui0223/odsp/blob/prospective/biological-generality-20261019/prospective/CROSS_GUILD_VERTICAL_PROBABILITY_SYNTHESIS_V1.md)
+
+---
+
 ## Latest evidence: wind-conditioned vertical shape recurs in two breeding years
 
 The cross-taxon biological-generalization lane advanced from the previous 2021 DELTATRACK individual identity experiment to **two fixed yearly tests of environmental context**, in the distinct `LBBG_ZEEBRUGGE` Movebank tracking study (one species, `Larus fuscus`). Source 2016 and 2017 native GPS, CERRA regional 100m winds at four archival colony centers, exact-identifier site join, and all altitude-blind support screens were independently anchored before opening each year's height outcomes.
