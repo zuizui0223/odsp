@@ -1,5 +1,25 @@
 # Cross-taxon biological generality — current state
 
+## New independent ecological context result: 2016 regional wind and height shape
+
+A new, separately checksum-pinned `LBBG_ZEEBRUGGE` GPS source (2016) was joined to independently obtained 100m CERRA wind at four source-defined colony centers **before inspecting GPS heights**. Outcome-blind screening run 39391834277 passed 41 candidate birds. The frozen within-bird, same-5km-cell, held-out-day wind-context analysis run [39401802547](https://github.com/zuizui0223/odsp/actions/runs/39401802547) completed successfully.
+
+- **Larus fuscus: 39 qualifying individuals, 744 bird-days, 31,002 target flight-height fixes.** Altitude quality 133,497/133,693 = 99.853%.
+- Conditional same-individual/same-cell wind-regime shape vs that individual's wind-pooled profile: observed gain +0.01103752 nats/fix.
+- Wind-regime date permutations within CERRA grid and month (999/999 valid): null mean −0.02348120, **observed minus null +0.03451872**, one-sided Monte Carlo **p=0.001**.
+- Bird-level raw gain is positive in 27/39 birds. A **post-outcome descriptive** site join finds mean gain positive in all four colony groups (n=3, 8, 7, 21), but site-specific effects are not separate independent tests.
+- Core ecological contribution: **A particular individual's vertical-use probability shape carries additional environmental context**; it need not be a single invariant shape. The wind regimen used here is regional colony-site weather, not personally experienced flight air-flow.
+- Limits: observational association, no causal wind attribution, same-bird device error, within-cell micro-paths, accelerometer-defined flight mode missing for this archive, site-month/date exchangeability assumption. This is a new individual shape estimand, distinct from published studies of wind-linked habitat selection or flapping/soaring rates.
+
+Auditable result and biological interpretation:
+- [Wind-height outcome report](https://github.com/zuizui0223/odsp/blob/prospective/gull-wind-behaviour-context-20261020/prospective/ZEEBRUGGE_2016_CERRA_WIND_SHAPE_BIOLOGICAL_RESULT_V1.md).
+- [Machine-readable result receipt](https://github.com/zuizui0223/odsp/blob/prospective/gull-wind-behaviour-context-20261020/prospective/ZEEBRUGGE_2016_CERRA_WIND_SHAPE_RESULT_RECEIPT_V1.json).
+- [Frozen model](https://github.com/zuizui0223/odsp/blob/prospective/gull-wind-behaviour-context-20261020/prospective/ZEEBRUGGE_2016_CERRA_WIND_SHAPE_TEST_FREEZE_V1.json).
+
+**Next independent-horizon question:** does this wind-context shape information transfer to the next consecutive archive year (2017) under a new year-level freeze, while explicitly accounting for shared individual tags and site/weather correlation? Do not try to improve 2016 p values by searching alternative weather grids, bin cutoffs or seasons.
+
+---
+
 ## Latest completed next-step: matched flight–stationary individual comparison
 
 A further **post-outcome exploratory** test has now linked the exact same birds' frozen flight (5-km) and low-speed 100-m individual ID score gains. It did **not** alter either original endpoint or re-run a new independent taxon replication.
