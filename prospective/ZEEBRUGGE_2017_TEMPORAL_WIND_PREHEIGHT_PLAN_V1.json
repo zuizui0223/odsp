@@ -1,0 +1,70 @@
+{
+  "analysis": "ZEEBRUGGE_2017_CERRA_WIND_TEMPORAL_VALIDATION",
+  "created_at": "2026-10-20",
+  "phase": "PREHEIGHT_YEAR_2017_FROZEN",
+  "source": {
+    "archive": "https://zenodo.org/records/22273603",
+    "movebank_parent": "985143423",
+    "GPS": "LBBG_ZEEBRUGGE-gps-2017.csv.gz",
+    "GPS_md5": "8724b5de0d4ff0117af328d1dde15a0e",
+    "reference": "LBBG_ZEEBRUGGE-reference-data.csv",
+    "reference_md5": "76c5b0c8a3a17f7bdd7f589b3d87014c",
+    "select_year": "The immediate next calendar year 2017 after the opened 2016 positive; chosen before opening any 2017 GPS height values. No multiple-year outcome search."
+  },
+  "climate": {
+    "provider": "Open-Meteo CERRA ~5km archive model cerra; hourly wind_speed_100m, units m/s, UTC",
+    "sites": "Exactly 4 2016 reference colony centroids (2016-deployment median, not reselected from 2017 bird outcome support); original 2016 source receipt artifact 12250561258.",
+    "dates": "2017-05-01 to 2017-07-31",
+    "class": "lower 25%, upper 25% of valid calendar-day mean wind WITHIN site×month; middle excluded.",
+    "grid_randomization": "Shared exact gridded-site wind label shuffles within month; independent per-grid, 999 draws, new seed 20261021."
+  },
+  "preprocessing": {
+    "bird_ID": "archival study reference exact ID crosswalk required ≥95%, no fuzzy alias; keep only original four colony sites",
+    "May_July": true,
+    "speed_ms": [
+      5,
+      55
+    ],
+    "outliers": "source flags",
+    "UTC_day_thinning": "earliest non-outlier, speed+valid-xy GPS per bird×5-minute-bin BEFORE altitude QC",
+    "horizontal": "EPSG32631, 5km",
+    "native_height": "height-above-msl, finite [-300,3000]m; ≥80% of preselected flight fixes",
+    "relative_height": "subtract each target bird-UTC-day median (post-session shape estimation)",
+    "height_edges_m": [
+      "-inf",
+      -200,
+      -100,
+      -50,
+      -25,
+      0,
+      25,
+      50,
+      100,
+      200,
+      "inf"
+    ],
+    "comparison": "same bird other day at same 5km cell: same wind vs all winds, each day equal within donor, Jeffreys 0.5/category",
+    "require_donors": "≥10 own-other-day 5min records in the SAME wind state AND ≥10 in OPPOSITE wind state in each scored cell",
+    "scoring": "evaluation bird-day ≥20 fixes; individual at least2 separately scored LOW days and2 HIGH days; equal LOW-HIGH bird scores then equal birds",
+    "min_biological_individuals": 10
+  },
+  "calibration": {
+    "permutations": 999,
+    "seed": 20261021,
+    "valid_min": 950,
+    "p_value": "upper bound accounting for invalid randomizations, p=(1+null>=observed+unavailable)/1000",
+    "direction": "observed context gain>valid null mean; p_upper<.05"
+  },
+  "output_classes": [
+    "supported_wind_context_transfer",
+    "wind_context_transfer_not_supported",
+    "unavailable"
+  ],
+  "rules": [
+    "Do not use any 2017 altitude or vertical response in admission/choice of weather grid, source year, or cutoffs.",
+    "Same Movebank study and many possibly shared individual tags across years: temporal replication only, NOT independent study/taxon proof.",
+    "A negative or underpowered result is retained, with no switch to 2018 to rescue.",
+    "Retain observational regional wind measurement limitation and date/month confounding; no causal wind flight mechanism identified."
+  ],
+  "first_step": "Run outcome-blind x-y+wind feasibility and verify 2016 site's exact weather grid data are accessible in 2017; only then open year 2017 heights."
+}
