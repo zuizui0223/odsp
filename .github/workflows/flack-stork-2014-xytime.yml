@@ -6,6 +6,7 @@ on:
     paths:
       - prospective/FLACK_STORK_2014_INDEPENDENT_COHORT_GATE_V1.json
       - prospective/flack_stork_2014_xytime_preflight.py
+      - prospective/stork_2014_xytime_source_screen.py
       - prospective/test_flack_stork_2014_xytime_preflight.py
       - .github/workflows/flack-stork-2014-xytime.yml
   workflow_dispatch:
