@@ -61,7 +61,7 @@ jobs:
             'BiologgingData/FinalDf_perPoint_VedbaGs_flappingProbs_ENV.rds' \
             > build/scacco-point/pointwise.rds
           test "$(stat -c %s build/scacco-point/pointwise.rds)" -eq 377316111
-      - name: RDS nonheight table extraction: bird-ID, date, XY, Wstar, wind, orographic, flapping
+      - name: 'RDS nonheight table extraction: bird-ID, date, XY, Wstar, wind, orographic, flapping'
         run: |
           set -euo pipefail
           Rscript prospective/scacco_extract_nonvertical_columns.R \
