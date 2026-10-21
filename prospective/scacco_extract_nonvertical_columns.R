@@ -28,7 +28,7 @@ if (length(missing)>0) stop(paste("Required non-height fields unavailable:",
 # Frozen plan permits native height fields to exist, but does not permit
 # testing any of their values for admissibility or group assignment.
 height_fields <- grep("height|altitude",native,value=TRUE,ignore.case=TRUE)
-f <- x[required]
+f <- as.data.frame(x)[,required,drop=FALSE]
 names(f) <- c("study_id","study_name","species","animal_id","timestamp",
               "lon","lat","segment_id","data_source","flap_probability",
               "vedba","wind_speed_1000m","orographic_uplift",
