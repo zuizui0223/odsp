@@ -1,5 +1,28 @@
 # Cross-taxon biological generality — current state
 
+## 2026-10-21 mechanism diagnostic: shared species thermal response versus bird-specific Wstar conditioning
+
+The earlier 38-taxon source screen still contains just **four source-specific Gyps study×species panels**, 2 positive source panels of **the same species Gyps fulvus**, one non-supported species panel and one unavailable panel. This does **not** establish three-taxon thermal reaction universality.
+
+A **POST-OUTCOME exploratory mechanistic comparison**, explicitly excluded from confirmatory replication, was frozen as [contract](https://github.com/zuizui0223/odsp/blob/diagnostic/gyps-common-vs-individual-thermal-20261021/prospective/GYPS_SHARED_VS_INDIVIDUAL_WSTAR_MECHANISM_PLAN_V1.json) and fully run as [GitHub Actions 39598530973](https://github.com/zuizui0223/odsp/actions/runs/39598530973). It compared (A) each bird's own Wstar-conditioned centered altitude distribution, versus (B) its own Wstar-pooled shape *adjusted by species-wide thermal-response odds learned from other birds at the same original 50-km cell and YYYY-MM*, leaving out the whole target UTC day and focal bird. Same original study-species IDs, GPS source, category edges, Wstar thresholds, source-quality support and 999 bird×month whole-session shuffles. Original four-panel tests and their supported/non-supported/unavailable conclusions **unchanged**.
+
+| Original study / species | Same GPS target birds in common-response diagnostic | Days | Additional bird-specific vs shared Wstar raw gain | Observed−null mean | Valid null | Exploratory Holm p | Boundary |
+|---|---:|---:|---:|---:|---:|---:|---|
+| 122120597 / *Gyps fulvus* | 24 | 688 | +0.000035 | **−0.014031** | 999/999 | 1.000 | No extra bird-specific gain supported |
+| 44080734 / *Gyps fulvus* | 24 | 1194 | +0.028133 | +0.007626 | 999/999 | 0.268 | Positive raw direction, not supported after exchange/multiplicity |
+| 352166254 / *Gyps africanus* | 0 | 0 | unavailable | unavailable | not run | 1 placeholder | Too few OTHER birds from both Wstar states in same month-cell |
+| 972560688 / *Gyps coprotheres* | 8 | 144 | +0.01024 descriptive | unavailable | not run | 1 placeholder | Below fixed 10-bird matching gate |
+
+**New cautious biological conclusion:** Current source data support *environment-dependent prediction of individual vertical-use shape* in *G. fulvus* in two source studies; they do **not** demonstrate that Wstar reaction norms are inherently different for each bird beyond a shared species thermal response. Source 122120597 observed eligible birds 24 vs null 14–23 — permutation eligibility changes, so nominal negative p cannot prove ecological absence. A truly independently recorded animal×thermal×flight-state source with known height calibration is required.
+
+- [Post-outcome ecological and mathematical synthesis](https://github.com/zuizui0223/odsp/blob/diagnostic/gyps-common-vs-individual-thermal-20261021/prospective/GYPS_SHARED_VS_INDIVIDUAL_WSTAR_BIOLOGICAL_SYNTHESIS_V1.md)
+- [Full exact result evidence receipt](https://github.com/zuizui0223/odsp/blob/diagnostic/gyps-common-vs-individual-thermal-20261021/prospective/GYPS_SHARED_VS_INDIVIDUAL_WSTAR_DIAGNOSTIC_RESULT_RECEIPT_V1.json)
+- [New external source access and nonduplication audit](https://github.com/zuizui0223/odsp/blob/diagnostic/gyps-common-vs-individual-thermal-20261021/prospective/INDEPENDENT_CROSS_TAXON_SOURCE_ACCESS_GATE_20261021.md) — Dryad crane GPS requires OAuth in current access, other publicly archived Gyps candidate has only 2 and 3 tracked birds per species.
+
+**Next prospective ecology:** replicate in untouched flight source, with population-shared environmental context as baseline and independently identified behaviour/terrain/calibrated altitude as negative controls. Do not change the original 4-study evidence ledger or treat diagnostic p as a new biological replication.
+
+---
+
 ## 2026-10-21 newest: thermal-updraft context and individual height-shape prediction across a 38-taxon source database
 
 The new, version-locked source is [Scacco et al. 2026, Zenodo 10.5281/zenodo.21915776](https://zenodo.org/records/21915776) (CC BY 4.0; Data.zip MD5 e1f116e6576cf20e54dad16d2c91a26d). It contains 38 bird/bat taxa and 853 tracked animals, but these are **source-universe counts**, not 38 positive independent species. The source already contains author-derived flapping, transport-cost, ERA5 wind/uplift annotations; our NEW endpoint is held-out daily-median-centered *GPS altitude distribution shape*, distinct from the original paper's cost-of-transport analyses.
