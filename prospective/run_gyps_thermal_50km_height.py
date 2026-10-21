@@ -78,7 +78,7 @@ def wind_states_from_selected(meta,preheight):
     # EXACT SAME source state definition as the saved point-wise no-height
     # analyzer: median source point-wise Wstar per bird-day; Q25/Q75 within
     # native study × species × year-month across days with >=20 finite Wstar.
-    by_panel_day=defaultdict(list)
+    by_panel_day=defaultdict(lambda:defaultdict(list))
     for (source,study,species,bird,day,bin5),info in meta.items():
         w=info[3]
         if w is not None and w>=0:
