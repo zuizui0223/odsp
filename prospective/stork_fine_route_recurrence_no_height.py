@@ -137,12 +137,14 @@ def geometry(finecounts):
     date_fine = Counter()
     all_fine = Counter()
     bird_coarse_dates = defaultdict(set)
+    birds_by_coarse = defaultdict(set)
     for (bird, day, c, f), n in finecounts.items():
         coarse_count[bird, day, c] += n
         bird_fine[bird, c, f] += n
         date_fine[day, c, f] += n
         all_fine[c, f] += n
         bird_coarse_dates[bird, c].add(day)
+        birds_by_coarse[c].add(bird)
 
     historical = base.eligible_support(coarse_count)
     own_coarse = Counter()
@@ -186,8 +188,24 @@ def geometry(finecounts):
         )
         if own_other_fine < 0 or other_otherdate_fine < 0:
             raise AssertionError("Bad exact-date individual fine-scale count algebra")
+        # Equal-other-BIRD reference: compare with one uniformly chosen other
+        # biological bird, not an inflated pooled union over all other birds.
+        eligible_others = [
+            other for other in birds_by_coarse[coarse]
+            if other != bird and
+            own_coarse[other, coarse] - coarse_count[other, day, coarse] > 0
+        ]
+        if not eligible_others:
+            raise AssertionError("Original source reference requires another bird")
+        matching_other_birds = sum(
+            bird_fine[other, coarse, fine]
+            - finecounts[other, day, coarse, fine] > 0
+            for other in eligible_others
+        )
+        equal_other_revisit = matching_other_birds / len(eligible_others)
         key = (bird, day)
         details[key]["target"] += n
+        details[key]["equal_other_revisit_fraction_times_fixes"] += n * equal_other_revisit
         if own_other_fine > 0:
             details[key]["self_fine_revisited"] += n
         if other_otherdate_fine > 0:
@@ -211,6 +229,13 @@ def geometry(finecounts):
             "fixes": total,
             "self_fine_fraction": row["self_fine_revisited"]/total,
             "other_fine_fraction": row["other_fine_revisited"]/total,
+            "other_equal_bird_fine_fraction": (
+                row["equal_other_revisit_fraction_times_fixes"]/total
+            ),
+            "fine_self_minus_equal_bird_other": (
+                row["self_fine_revisited"]
+                - row["equal_other_revisit_fraction_times_fixes"]
+            )/total,
             "both_fine_fraction": row["both_fine_revisited"]/total,
             "fine_self_minus_other": (
                 row["self_fine_revisited"]-row["other_fine_revisited"]
@@ -229,6 +254,7 @@ def geometry(finecounts):
             "days": len(ds), "scored_fixes": sum(d["fixes"] for d in ds),
             **{k: statistics.mean(d[k] for d in ds) for k in (
                 "self_fine_fraction", "other_fine_fraction",
+                "other_equal_bird_fine_fraction", "fine_self_minus_equal_bird_other",
                 "both_fine_fraction", "fine_self_minus_other",
                 "own_coarse_revisit_gap_days", "nested_fine_subcells_per_day"
             )}
@@ -254,6 +280,7 @@ def geometry(finecounts):
                 "maximum": max(d[key] for d in birds.values()) if birds else None,
             }
             for key in ("self_fine_fraction", "other_fine_fraction",
+                        "other_equal_bird_fine_fraction", "fine_self_minus_equal_bird_other",
                         "both_fine_fraction", "fine_self_minus_other",
                         "own_coarse_revisit_gap_days",
                         "nested_fine_subcells_per_day")
@@ -319,6 +346,8 @@ def main():
         "scored_fixes":result["geometry"]["scored_fixes"],
         "self5_mean":result["geometry"]["equal_bird_summary"]["self_fine_fraction"]["mean"],
         "other5_mean":result["geometry"]["equal_bird_summary"]["other_fine_fraction"]["mean"],
+        "equal_other_bird5_mean":result["geometry"]["equal_bird_summary"]["other_equal_bird_fine_fraction"]["mean"],
+        "self_minus_equal_bird5_mean":result["geometry"]["equal_bird_summary"]["fine_self_minus_equal_bird_other"]["mean"],
         "self_minus_other5_mean":result["geometry"]["equal_bird_summary"]["fine_self_minus_other"]["mean"],
         "own_cell_revisit_gap_days_mean":result["geometry"]["equal_bird_summary"]["own_coarse_revisit_gap_days"]["mean"],
         "GPS_height_opened":False,
