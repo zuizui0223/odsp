@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-21",
+  "version": 1,
+  "stage": "POST_OUTCOME_FAIR_REFERENCE_DIAGNOSTIC_NOT_NEW_HEIGHT_CONFIRMATION",
+  "origin": "Original 2013/2014 source geometry and frozen per-bird height identity scores already compared in run 39529305132.",
+  "problem": "Previous fine_other_fraction is an ANY-OTHER-BIRD pooled union across many birds, while self_fine_fraction covers exactly one bird; pooled union is more likely to register a match solely because many individuals contribute.",
+  "rule": "Keep original fixed source rosters, event/date/cell/altitude-blind filters, coarse 50km/fine 5km grids. For every evaluated target fix and coarse cell, enumerate OTHER individual birds with >=1 qualifying GPS event on another UTC day in that same coarse cell. Compute the fraction of those other birds individually appearing at target fix's fine 5km subcell on another UTC date. Weight evaluated fixes within bird-day then bird-days within individual then individuals within cohort equally. Contrast this single-bird-equal probability to 0/1 focal bird any-other-day fine-cell recurrence.",
+  "cohort_birds_frozen": {
+    "rotics2013": 25,
+    "flack2014": 11
+  },
+  "fixed_dates": "2013 Aug-Nov and 2014 Aug-Nov",
+  "unit": "bird, not GPS fix",
+  "admission": "Exactly originally 25/11 eligible birds, 111/33 bird-days and 6951/2040 source pre-height fixes",
+  "estimator_name": "self_fine_fraction_minus_equal_other_bird_fine_fraction",
+  "existing_pooled_any_metric": "Retain as a historically documented but asymmetric diagnostic. Do not silently replace its previous source-run receipt.",
+  "dependence_warning": "Different birds can still have unequal numbers of tracking fixes and available days; single-bird-equal reference does not fully match time-at-risk, geographic topography, GPS device errors, or flight state.",
+  "no_height_use": "Source geometry program must not parse any altitude field; paired original per-bird altitude gains only imported from archived hashes after geometry source checks.",
+  "noncausal": "A positive source-level difference or a gain correlation is not proof of competitive niche partitioning. These are post-outcome exploratory results.",
+  "next": "If sample-level difference and altitude correlation survive single-bird-equal reference, file an ecological mechanism hypothesis requiring independent exact-fine-horizontal-context tracking; otherwise correct interpretation and close this diagnostic."
+}
