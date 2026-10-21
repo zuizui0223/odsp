@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "created_date": "2026-10-21",
+  "stage": "PROSPECTIVE_ARCHIVE_CATALOG_AND_HETERO_TAXON_SOURCE_GATE",
+  "project": "ODSP individual vertical organization in an environmentally variable flight state-space",
+  "motivation": {
+    "supported": [
+      "BATTER bat per-individual vertical profile repeatability is heterogeneous across bat panels.",
+      "DELTATRACK gull has individual-ID altitude shape signal but tag/day and low-speed controls complicate mechanisms.",
+      "Zeebrugge Larus fuscus GPS profile transfer gains improve under site-scale CERRA wind regimes in 2016 and 2017, one species/network.",
+      "Two separately tagged Ciconia ciconia cohorts differed at identical newly established 50km identity endpoint: 2013 positive, 2014 not supported.",
+      "Finer horizontal route fidelity in both stork cohorts is stronger than the equal-bird other reference but not sufficient to guarantee repeatable vertical profile shape."
+    ],
+    "untested_primary_hypothesis": "Across independent flight species and studies, within-day vertical probability-profile identity will transfer across days mainly where individuals encounter recurrent atmospheric/behavioral contexts, even after fine horizontal route and age/study structure are accounted for.",
+    "caution": "Individuality != adaptation and atmospheric covariates != causal thermal lift experienced."
+  },
+  "independent_source": {
+    "archive": "https://zenodo.org/records/21915776",
+    "doi": "10.5281/zenodo.21915776",
+    "source_paper": "Airflows redefine the cost of aerial transport in the wild (Scacco et al.)",
+    "source_code": "https://github.com/mscacco/COT_publ",
+    "source_readme": "https://zenodo.org/records/21915776/files/Readme_Metadata.txt",
+    "source_record_id": 21915776,
+    "source_data_archive": "Data.zip",
+    "source_reported_taxa": 38,
+    "source_reported_tracked_animals": 853,
+    "source_reported_annotated_GPS_rows": 1524040,
+    "source_reported_flight_segments": 195715,
+    "source_years": "2007-2024",
+    "source_data_folder": "BiologgingData",
+    "point_file": "FinalDf_perPoint_VedbaGs_flappingProbs_ENV.rds",
+    "source_flight_definition": "Only commuting flight segments preclassified by the data producers; segment extraction itself must not be represented as entire free-ranging space use",
+    "other_format": "BiologgingData/allStudies_allTags_allFlightSegments_binded_birdsBats_thresholdClass_transfGs_March2024_noDupl.rds",
+    "segment_file": "ModelData/BIOLOGGING_finalSummaryDataset_perSegment_fromFix+COTvariables_Feb2025.csv",
+    "related_existing_analysis": "Source authors' S10 repeatability analysis tested proportion flapping and effective transport cost, NOT the same GPS altitude probability-shape held-out estimand. Avoid presenting reanalysis of transport cost as novel."
+  },
+  "source_independence_rules": {
+    "unit": "Study × species × tagged biological individual, with biologically independent UTC days as within-animal replication.",
+    "duplicates": "Preserve original Movebank study.id and tag.local.identifier, study names, exact individual ID, timestamp and segment ID. Never count re-exports (including BATTER/ODSP candidate Movebank sources) as independent study replications; blacklist duplicate parent study and duplicate tag/time pairs against prior sources before outcome test.",
+    "source_legal": "Check Zenodo record metadata for published license, rights and download restrictions; source authors encourage contacting each data owner for biological context, even for technically accessible archive.",
+    "specimen_handling": "No personal human data are used; GPS location is animal-borne metadata. Respect dataset attribution and source usage terms."
+  },
+  "phase_1_preoutcome_catalog": {
+    "use": [
+      "Verify immutable archive file keys, byte size, checksums, publication date and license directly from Zenodo official API. Do not infer from file title.",
+      "Inspect ZIP central directory and RDS column names/types without computing altitude summaries or altitude missingness.",
+      "Count data quality for individual ID, study ID, species, UTC dates, GPS lon/lat, flight segment and ERA5 wind / thermal uplift, flapping probability or VeDBA.",
+      "Summarize # animals with >=2 different UTC dates and >=2 independent flight segments/date, and horizontal 5/50km shared support ONLY from x/y and time."
+    ],
+    "latitude_range": [
+      -85,
+      85
+    ],
+    "primary_resolution_m": 5000,
+    "migration_alternative_resolution_m": 50000,
+    "predeclared_candidate_thresholds": {
+      "min_species_individuals": 10,
+      "min_distinct_bird_days_per_individual": 2,
+      "min_gps_fixes_per_day": 20,
+      "min_same_cell_own_other_day_fixes": 10,
+      "min_same_cell_other_individual_other_date_fixes": 10,
+      "min_independent_study_units": 4,
+      "min_taxa_with_admitted_source": 3
+    },
+    "no_prescreen_on_altitude_values": true,
+    "no_rescue": "A species-study or spatial resolution failing its fixed candidate gate is structurally unavailable, not a biological non-specialist or a negative outcome."
+  },
+  "phase_2_conditional_vertical_model_if_pass": {
+    "native_height": "Source harmonized height_gener has both height-above-ellipsoid and height-above-MSL origin across studies. Never directly pool absolute elevation across source devices or baselines. Store per-row native height provenance; use within-bird-day center in shape profiles, audit tag heteroscedastic errors.",
+    "primary_predictor": "Source's ERA5 point-wise thermal uplift potential (Wstar), if field is genuinely available, plus independently classified flapping/soaring probability; windSpeed_1000m and Orographic_uplift_potential as planned independent covariates, not outcome-selected.",
+    "hierarchical_references": [
+      "Population/study-specific contextual model P(z_center | 5km cell, ERA5 thermal/wind regime, movement class, season)",
+      "Within-individual contextual model P(z_center | identity, same cell, same environment, class, season)",
+      "Individual-specific wind/thermal reaction norm; incremental held-out gain beyond common species-wide environmental response"
+    ],
+    "split": "Whole bird days held out with donor days of same source, and independent entire study/species holdouts for meta generality. Never split fixes from same day/segment across training and test.",
+    "null": "Whole-session within source and matched month/age/movement-context permutations; quantify effect null-relative without comparing raw nats across mismatched geometry or predictor families.",
+    "hierarchical_meta": "Estimate proportion of eligible study-species cells with positive study-scale effect using study-cluster resampling; don't count individual GPS fixes as replicates, and don't claim universal biological effect from a selected subset."
+  },
+  "limitations": [
+    "38 species and 853 individuals are SOURCE UNIVERSE, not 38 admitted independent biological results.",
+    "Source paper already reported flapping probability and effective COT; this program tests conditional vertical distribution shape, different endpoint.",
+    "GPS-derived environment annotations and preselected commuting flights may be correlated with altitude and selective availability, requiring source instrument/site auditing.",
+    "Age/breeding central-place vs migration ecological status must be source-specific, not guessed from species alone.",
+    "Observational horizontal/vertical co-use and regional wind associations do not identify adaptation, niche partitioning, genetic temperament, or causal flight control."
+  ],
+  "next_stage": "Archive API + ZIP metadata, then outcome-blind study/species/day/source-support ledger; only open native GPS altitude outcomes after freezing all admissible panels."
+}
