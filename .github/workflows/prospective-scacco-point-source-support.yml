@@ -1,0 +1,107 @@
+name: Scacco 2026 38 taxa pointwise x-y Wstar uplift context feasibility (no native height)
+
+on:
+  push:
+    branches: [prospective/multitaxon-airflow-20261021]
+    paths:
+      - prospective/SCACCO_MULTITAXON_POINT_XY_ENV_GATE_V1.json
+      - prospective/scacco_extract_nonvertical_columns.R
+      - prospective/scacco_point_xy_thermal_support.py
+      - prospective/test_scacco_point_xy_thermal_support.py
+      - .github/workflows/prospective-scacco-point-source-support.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test 5km source-specific individual/day context support and previous-source exclusions
+        run: |
+          python -m pip install pytest numpy pyproj
+          python -m pytest -q prospective/test_scacco_point_xy_thermal_support.py
+
+  pointwise-macro-source:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+      - name: Install Python non-height projection dependencies
+        run: python -m pip install numpy pyproj
+      - name: Download 551MB source already MD5-fixed before data entry
+        run: |
+          set -euo pipefail
+          mkdir -p build/scacco-point
+          cd build/scacco-point
+          curl --fail --location --silent --show-error \
+            --retry 4 --retry-delay 10 --connect-timeout 40 --max-time 1500 \
+            'https://zenodo.org/records/21915776/files/Data.zip?download=1' \
+            -o Data.zip
+          echo 'e1f116e6576cf20e54dad16d2c91a26d  Data.zip' | md5sum --check
+          test "$(stat -c %s Data.zip)" -eq 551470630
+      - name: Extract only pointwise source RDS, do not sample height for admission
+        run: |
+          set -euo pipefail
+          unzip -p build/scacco-point/Data.zip \
+            'BiologgingData/FinalDf_perPoint_VedbaGs_flappingProbs_ENV.rds' \
+            > build/scacco-point/pointwise.rds
+          test "$(stat -c %s build/scacco-point/pointwise.rds)" -eq 377316111
+      - name: RDS nonheight table extraction: bird-ID, date, XY, Wstar, wind, orographic, flapping
+        run: |
+          set -euo pipefail
+          Rscript prospective/scacco_extract_nonvertical_columns.R \
+            build/scacco-point/pointwise.rds \
+            build/scacco-point/nonheight_gps_environment.tsv.gz \
+            build/scacco-point/RDS_SOURCE_COLUMN_SCHEMA.dput
+      - name: Compute fixed 5km and independent migrant-50km site/day environmental support only
+        run: |
+          set -euo pipefail
+          python -m prospective.scacco_point_xy_thermal_support \
+            --nonvertical-tsv-gz build/scacco-point/nonheight_gps_environment.tsv.gz \
+            --out build/scacco-point/SCACCO_PERPOINT_STUDY_XY_WSTAR_SUPPORT_V1.json
+      - name: Guard no native height outcome and cross-study independence
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open('build/scacco-point/SCACCO_PERPOINT_STUDY_XY_WSTAR_SUPPORT_V1.json'))
+          assert r['numerical_altitude_values_accessed_for_screen'] is False
+          assert r['altitude_completeness_or_shape_computed'] is False
+          assert r['biological_outcomes_computed'] is False
+          assert r['source_species']>0
+          assert r['source_study_species_panels']>0
+          for p in r['catalog_panels']:
+              assert not(p['previous_source_overlap'] and p['independent_new_parent_candidate'])
+              assert 0 <= p['horizontal_5000']['scorable_birds'] <= p['source_distinct_birds_with_5min_points']
+              assert 0 <= p['thermal_5000']['birds_with_two_qualifying_low_and_high_days'] <= p['source_distinct_birds_with_5min_points']
+          print(json.dumps({
+            'total_study_species_panels':r['source_study_species_panels'],
+            'taxa':r['source_species'],
+            '5km_identity_candidate_panels':r['studies_with_at_least_10_birds_same_5km_cell'],
+            '5km_thermal_context_candidate_panels':r['study_species_panels_with_5km_uplift_context'],
+            'migrant_50km_identity_candidates':r['studies_with_at_least_10_birds_same_50km_cell'],
+            'novel_context_panels_after_parent_exclusions':r['panels_new_independent_5km_thermal_eligible'],
+            'novel_species':r['candidate_new_independent_species'],
+            'no_vertical_values_computed':True
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scacco-2026-study-species-pointwise-xy-thermal-noheight-v1
+          path: build/scacco-point/SCACCO_PERPOINT_STUDY_XY_WSTAR_SUPPORT_V1.json
+          if-no-files-found: warn
