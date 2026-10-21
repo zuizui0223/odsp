@@ -1,0 +1,94 @@
+{
+  "analysis": "GYPS_COMMON_VS_INDIVIDUAL_WSTAR_REACTION_EXPLORATORY_V1",
+  "date": "2026-10-21",
+  "type": "POST_OUTCOME_MECHANISM_DIAGNOSTIC_NOT_NEW_CONFIRMATORY_REPLICATION",
+  "origin_frozen": {
+    "source": "Scacco et al. 2026, Zenodo 10.5281/zenodo.21915776, Data.zip MD5 e1f116e6576cf20e54dad16d2c91a26d",
+    "original_bird_day_Wstar_test": "prospective/GYPS_50KM_WSTAR_CONTEXT_TEST_FREEZE_V1.json",
+    "complete_preheight_support_run": 39545718549,
+    "original_4_panel_outcome_run": 39594223949,
+    "study_species_pairs": [
+      [
+        "122120597",
+        "Gyps fulvus"
+      ],
+      [
+        "352166254",
+        "Gyps africanus"
+      ],
+      [
+        "44080734",
+        "Gyps fulvus"
+      ],
+      [
+        "972560688",
+        "Gyps coprotheres"
+      ]
+    ],
+    "original_Wstar_birds": [
+      25,
+      11,
+      26,
+      14
+    ],
+    "historical_frozen_altitude_bins_m": [
+      "-inf",
+      -200,
+      -100,
+      -50,
+      -25,
+      0,
+      25,
+      50,
+      100,
+      200,
+      "inf"
+    ],
+    "historical_spatial_grid_m": 50000,
+    "prior_terminal_categories": [
+      "supported",
+      "unavailable",
+      "supported",
+      "not_supported"
+    ]
+  },
+  "question": "Does a focal bird's unique thermal-state-conditioned altitude shape improve held-out predictability beyond a population-wide SAME-SPECIES Wstar shape change applied to that bird's own pooled altitude profile?",
+  "model_comparison": {
+    "unit": "Biological bird within original source study×species; whole independent UTC day held out.",
+    "grain": "50km EPSG6933 cells; each day's profile median-centered and smoothed into unchanged ten bins.",
+    "target": "same native GPS height fixes scored in both predictions, source birds fixed before altitude quality.",
+    "individual_wstar": "P(z_center | bird,50km cell,Wstar low/high) trained on focal other UTC days, Jeffreys .5 per height category, average donor daily smoothed probability vectors equally.",
+    "shared_response": {
+      "bird_baseline": "P(z_center | focal bird,50km cell) trained on focal other UTC days, wind pooled.",
+      "other_bird_wstar": "P(z_center | OTHER biological birds, study×species,50km cell,same YYYY-MM, Wstar state), ALL other birds and ALL other UTC dates, excluding target day's entire flock.",
+      "other_bird_pooled": "P(z_center | OTHER biological birds, same cell and month, ALL Wstar regimes), excluding target day's entire flock.",
+      "prediction_formula": "q_shared(z) proportional to p_focal_pooled(z) × p_other_birds_wstar(z) / p_other_birds_pooled(z); renormalize across ten categories.",
+      "weighting": "Each other bird equally weighted within Wstar-state and pooled group, each eligible donor UTC day equally weighted within that bird.",
+      "exclusion": "Leave out the focal bird entirely and every other bird's observations on the target date to prevent contemporaneous shared weather/route leakage.",
+      "smoothing": "Same Jeffreys 0.5/bin day-level distribution as focal model; ratio bounded only by strictly positive smoothed probabilities, no data-specific clipping."
+    },
+    "sufficient_population_response_gate": "At least 2 distinct other biological birds and 10 native valid selected events in BOTH low and high Wstar contexts among OTHER dates and same calendar YYYY-MM of target; the pooled population reference uses the same donor restrictions. Do not switch months or spatial grids to rescue.",
+    "focal_donor_gate": "At least10 focal own other-day fix events in target state, >=10 focal other-day opposite-state fixes in cell, and ≥10 other bird other-date fixes in cell.",
+    "day_gate": "For a target bird-UTC-day, ≥20 selected 5-min events must score under BOTH models. At least 2 separate low and 2 separate high target days per biological bird; ≥10 birds per source panel.",
+    "score": "Per matched target fix log P_individualWstar(z) minus log Q_sharedWstar(z); equal day weights within low/high, equal wind states per bird, equal birds.",
+    "interpretation": "Positive held-out gain is an additional individual×Wstar predictive pattern conditional on assumed multiplicative common response; not an identified behavioral reaction or causal wind mechanism."
+  },
+  "calibration": {
+    "status": "post-outcome exploratory only",
+    "null": "999 permutations of entire low/middle/high bird-day Wstar state labels independently WITHIN each individual×YYYY-MM. Each permutation updates BOTH individual-wstar and shared species Wstar donor distributions and admissible bird support.",
+    "seed": 20261021,
+    "valid_permutations_required": 950,
+    "minimum_independent_birds": 10,
+    "one_sided_p_upper": "(1 + valid_null_stats>=observed + unavailable_permutation_stats)/1000",
+    "holm": "All 4 fixed original study×species panels; unavailable panels always contribute p=1. Even significant exploratory p after Holm is NONCONFIRMATORY because new model was invented after observing 4-panel outcomes.",
+    "stop": "If source/score/new common-response donor coverage lacks support, report unavailable and stop. Do not relax minimum birds, same-month, same-grid, thermal thresholds, selected species or height bins.",
+    "diagnostic": "Report source 2016/17, original 4-panel supported/unavailable categories unchanged. No new generality claims without independent target."
+  },
+  "causal_and_data_limits": [
+    "One source includes original 38-taxon GPS and derived flapping/cost of transport; this new diagnostic is NOT a new species/source replication.",
+    "Other-bird shared response at 50km and month may contain different fine 5km topographic routes, GPS instrumentation, and social flock effects.",
+    "Pointwise ERA5 Wstar depends on locations selected by animals and cannot establish thermals encountered or adaptation.",
+    "Temporal autocorrelation and tag-associated GPS altitude errors remain; day median removes additive bias, not conditional error.",
+    "The Gyps africanus parent study failed 950/999 valid null earlier; do not reclassify original as supported based on exploratory diagnostic."
+  ]
+}
