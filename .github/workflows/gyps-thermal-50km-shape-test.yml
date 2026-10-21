@@ -1,0 +1,154 @@
+name: Gyps 3-species 4-source 50km Wstar-conditioned altitude shape frozen test
+
+on:
+  push:
+    branches: [prospective/gyps-thermal-50km-20261021]
+    paths:
+      - prospective/GYPS_50KM_WSTAR_CONTEXT_TEST_FREEZE_V1.json
+      - prospective/gyps_extract_after_preheight_freeze.R
+      - prospective/gyps_thermal_height_kernel.py
+      - prospective/run_gyps_thermal_50km_height.py
+      - prospective/test_gyps_thermal_height_kernel.py
+      - prospective/test_run_gyps_thermal_50km_height.py
+      - .github/workflows/gyps-thermal-50km-shape-test.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run frozen ecological model synthetic controls
+        env:
+          NUMBA_CACHE_DIR: /tmp/gyps-source-kernel-synthetic-numba
+        run: |
+          python -m pip install pytest numpy numba pyproj
+          python -m pytest -q \
+            prospective/test_gyps_thermal_height_kernel.py \
+            prospective/test_run_gyps_thermal_50km_height.py
+
+  original-scacco-source:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+      - run: python -m pip install numpy numba pyproj
+      - name: Verify original source experiment's outcome-blind 76-bird four-study eligibility
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/gyps2026
+          curl --silent --show-error --fail --location --retry 4 --retry-delay 5 --max-time 180 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12321119705/zip' \
+            -o build/gyps2026/preheight.zip
+          echo 'a30e80fe8076a572166f5393846ab78877314d2c42d794e48a4faf1691feed91  build/gyps2026/preheight.zip' | sha256sum --check
+          unzip -p build/gyps2026/preheight.zip SCACCO_PERPOINT_STUDY_XY_WSTAR_SUPPORT_V1.json \
+            > build/gyps2026/preheight.json
+          python - <<'PY'
+          import json
+          p=json.load(open('build/gyps2026/preheight.json'))
+          assert p['numerical_altitude_values_accessed_for_screen'] is False
+          assert p['source_species']==38
+          assert p['source_study_species_panels']==72
+          s=[
+            ('122120597','Gyps fulvus',25,'641e9c766867a641c70c7210d37a3a514c35b79d1e57d592d5c4a40b512b8cc2'),
+            ('352166254','Gyps africanus',11,'a77803e14681c30d8094c603b832d7d24801d6eb31bf5abfa6be40d079b3ba36'),
+            ('44080734','Gyps fulvus',26,'9402923502706e60aa5a207d5df28840a97fc3b98975d2b9af95e64306264001'),
+            ('972560688','Gyps coprotheres',14,'5148de3f1d25aef1fc5cadcb2bf1fe776cd4c9c54fa8239864a1a69b67373559')
+          ]
+          for study,taxon,n,sha in s:
+              x=next(z for z in p['catalog_panels'] if z['study_id']==study and z['species']==taxon)
+              assert x['thermal_50000']['birds_with_two_qualifying_low_and_high_days']==n
+              assert x['thermal_50000']['bird_id_fingerprint']==sha
+              assert x['environment_completeness']['thermal_uplift']==1.0
+              assert x['environment_completeness']['flap_probability']==1.0
+          print("All four native data-source 50km Wstar rosters frozen before altitude")
+          PY
+      - name: Download exact CC-BY 4.0 2026 public source archive
+        run: |
+          set -euo pipefail
+          cd build/gyps2026
+          curl --silent --show-error --fail --location --retry 4 --retry-delay 10 --max-time 1800 \
+            'https://zenodo.org/records/21915776/files/Data.zip?download=1' -o Data.zip
+          echo 'e1f116e6576cf20e54dad16d2c91a26d  Data.zip' | md5sum --check
+          test "$(stat -c %s Data.zip)" -eq 551470630
+      - name: Extract only pointwise native RDS from archived source
+        run: |
+          set -euo pipefail
+          unzip -p build/gyps2026/Data.zip \
+            'BiologgingData/FinalDf_perPoint_VedbaGs_flappingProbs_ENV.rds' \
+            > build/gyps2026/source_pointwise.rds
+          test "$(stat -c %s build/gyps2026/source_pointwise.rds)" -eq 377316111
+      - name: Export exactly four predeclared native study rows with altitude AFTER source freeze
+        run: |
+          set -euo pipefail
+          Rscript prospective/gyps_extract_after_preheight_freeze.R \
+            build/gyps2026/source_pointwise.rds \
+            build/gyps2026/four_Gyps_native.tsv.gz \
+            build/gyps2026/native_column_schema.dput
+      - name: Execute frozen 50km four-source thermal-conditioned heldout profile outcome
+        env:
+          NUMBA_CACHE_DIR: /tmp/gyps-thermal-50km-prod-numba
+        run: |
+          set -euo pipefail
+          python -m prospective.run_gyps_thermal_50km_height \
+            --full-extract build/gyps2026/four_Gyps_native.tsv.gz \
+            --preheight-result build/gyps2026/preheight.json \
+            --out build/gyps2026/results
+      - name: Enforce source, Holm family, and categorical claim boundaries
+        run: |
+          python - <<'PY'
+          import json
+          p='build/gyps2026/results/GYPS_50KM_WSTAR_VERTICAL_SHAPE_RESULT_V1.json'
+          d=json.load(open(p))
+          assert d['analysis']=='GYPS_3SPECIES_4STUDIES_50KM_THERMAL_CONTEXT_V1'
+          assert d['source_archive_md5']=='e1f116e6576cf20e54dad16d2c91a26d'
+          assert d['preheight_run']==39545718549
+          assert len(d['panels'])==4
+          for name,z in d['panels'].items():
+              assert z['preheight_roster_hash']
+              assert z['source_height_quality']['source_first_five_minute_bins']>0
+              assert z['terminal'] in {
+                 'unavailable','supported_50km_thermal_height_shape',
+                 'not_supported_50km_thermal_height_shape'}
+              if z['terminal']!='unavailable':
+                  assert z['observed']['eligible_birds']>=10
+                  assert z['calibration']['requested']==999
+                  assert z['calibration']['valid']>=950
+                  assert z['holm_p_upper']>=z['calibration']['p_upper']
+          print(json.dumps({
+              "studies":{study:{
+                  "status":r["terminal"],
+                  "birds":r.get("observed",{}).get("eligible_birds"),
+                  "days":r.get("observed",{}).get("eligible_bird_days"),
+                  "gain":r.get("observed",{}).get("mean_gain"),
+                  "null_excess":r.get("calibration",{}).get("observed_minus_null_mean"),
+                  "holm_p_upper":r.get("holm_p_upper")}
+                  for study,r in d["panels"].items()},
+              "species_supported":d["source_species_supported"]
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Gyps-2026-4studies-50km-Wstar-native-height-results-v1
+          path: build/gyps2026/results/*
+          if-no-files-found: warn
