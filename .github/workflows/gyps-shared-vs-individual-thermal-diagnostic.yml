@@ -1,0 +1,151 @@
+name: Gyps post-outcome bird-specific versus shared Wstar response diagnostic
+
+on:
+  push:
+    branches: [diagnostic/gyps-common-vs-individual-thermal-20261021]
+    paths:
+      - prospective/GYPS_SHARED_VS_INDIVIDUAL_WSTAR_MECHANISM_PLAN_V1.json
+      - prospective/gyps_species_shared_wstar_kernel.py
+      - prospective/run_gyps_shared_species_vs_bird_wstar.py
+      - prospective/test_gyps_species_shared_wstar_kernel.py
+      - prospective/test_run_gyps_shared_species_vs_bird_wstar.py
+      - .github/workflows/gyps-shared-vs-individual-thermal-diagnostic.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest numpy numba pyproj
+      - name: Test idiosyncratic Wstar response against shared species-only thermal reaction
+        env:
+          NUMBA_CACHE_DIR: /tmp/gyps-shared-wstar-synthetic-numba
+        run: |
+          python -m pytest -q \
+            prospective/test_gyps_species_shared_wstar_kernel.py \
+            prospective/test_run_gyps_shared_species_vs_bird_wstar.py
+
+  diagnostic-original-source:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+      - run: python -m pip install numpy numba pyproj
+      - name: Verify fixed original study×species outcomes and outcome-blind 76-bird source roster
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/gyps_shared_diagnostic
+          curl --silent --show-error --fail --location --retry 4 --max-time 180 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12321119705/zip' \
+            -o build/gyps_shared_diagnostic/preheight.zip
+          echo 'a30e80fe8076a572166f5393846ab78877314d2c42d794e48a4faf1691feed91  build/gyps_shared_diagnostic/preheight.zip' | sha256sum --check
+          unzip -p build/gyps_shared_diagnostic/preheight.zip SCACCO_PERPOINT_STUDY_XY_WSTAR_SUPPORT_V1.json \
+            > build/gyps_shared_diagnostic/preheight.json
+          curl --silent --show-error --fail --location --retry 4 --max-time 180 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12343146957/zip' \
+            -o build/gyps_shared_diagnostic/primary.zip
+          echo 'e54a722ea28cb936217699885853b3fa87ccd5b3341bb9e865acd68ba6bef29c  build/gyps_shared_diagnostic/primary.zip' | sha256sum --check
+          unzip -p build/gyps_shared_diagnostic/primary.zip GYPS_50KM_WSTAR_VERTICAL_SHAPE_RESULT_V1.json \
+            > build/gyps_shared_diagnostic/primary.json
+          python - <<'PY'
+          import json
+          a=json.load(open('build/gyps_shared_diagnostic/preheight.json'))
+          b=json.load(open('build/gyps_shared_diagnostic/primary.json'))
+          assert a['numerical_altitude_values_accessed_for_screen'] is False
+          assert len(b['panels'])==4
+          expected={
+            '122120597/Gyps fulvus':'supported_50km_thermal_height_shape',
+            '352166254/Gyps africanus':'unavailable',
+            '44080734/Gyps fulvus':'supported_50km_thermal_height_shape',
+            '972560688/Gyps coprotheres':'not_supported_50km_thermal_height_shape'
+          }
+          assert {k:r['terminal'] for k,r in b['panels'].items()}==expected
+          print('Original four-source ecological outcomes and exact preheight study rosters fixed')
+          PY
+      - name: Retrieve same original 551MB CC-BY flight/environment/height data
+        run: |
+          set -euo pipefail
+          cd build/gyps_shared_diagnostic
+          curl --fail --silent --show-error --location --retry 4 --retry-delay 10 --max-time 1800 \
+            'https://zenodo.org/records/21915776/files/Data.zip?download=1' -o Data.zip
+          echo 'e1f116e6576cf20e54dad16d2c91a26d  Data.zip' | md5sum --check
+          test "$(stat -c %s Data.zip)" -eq 551470630
+          unzip -p Data.zip 'BiologgingData/FinalDf_perPoint_VedbaGs_flappingProbs_ENV.rds' \
+            > pointwise.rds
+          test "$(stat -c %s pointwise.rds)" -eq 377316111
+      - name: Extract only four existing study×Gyps species panels; no additional source search
+        run: |
+          Rscript prospective/gyps_extract_after_preheight_freeze.R \
+            build/gyps_shared_diagnostic/pointwise.rds \
+            build/gyps_shared_diagnostic/four_Gyps_native.tsv.gz \
+            build/gyps_shared_diagnostic/source_schema.dput
+      - name: Fit species-shared Wstar odds model and test bird-specific surplus on heldout GPS days
+        env:
+          NUMBA_CACHE_DIR: /tmp/gyps-shared-wstar-full-null-numba
+        run: |
+          set -euo pipefail
+          python -m prospective.run_gyps_shared_species_vs_bird_wstar \
+            --full-extract build/gyps_shared_diagnostic/four_Gyps_native.tsv.gz \
+            --preheight-result build/gyps_shared_diagnostic/preheight.json \
+            --original-primary-result build/gyps_shared_diagnostic/primary.json \
+            --out build/gyps_shared_diagnostic/results
+      - name: Enforce non-confirmatory interpretation and unchanged original categories
+        run: |
+          python - <<'PY'
+          import json
+          p='build/gyps_shared_diagnostic/results/GYPS_SPECIES_SHARED_VS_INDIVIDUAL_WSTAR_POSTHOC_RESULT_V1.json'
+          x=json.load(open(p))
+          assert x['mode']=='post_outcome_noncausal_mechanism_diagnostic'
+          assert x['original_four_study_test_result_not_modified'] is True
+          assert x['new_significance_is_exploratory_only'] is True
+          assert len(x['panel_results'])==4
+          assert x['source_data_zip_md5']=='e1f116e6576cf20e54dad16d2c91a26d'
+          for k,r in x['panel_results'].items():
+              assert r['exploratory_not_confirmatory'] is True
+              assert r['terminal'] in ('unavailable','exploratory_tested')
+              assert r['holm_family_input_p']==(1.0 if r['terminal']=='unavailable' else r['calibration']['p_upper'])
+              if r['terminal']=='exploratory_tested':
+                  assert r['observed']['eligible_birds']>=10
+                  assert r['calibration']['valid']>=950
+          print(json.dumps({
+            'original_test_unchanged':True,
+            'exploratory_panels':{
+              study:{
+                'status':r['terminal'],
+                'n_birds':r.get('observed',{}).get('eligible_birds'),
+                'n_days':r.get('observed',{}).get('eligible_bird_days'),
+                'raw_bird_specific_over_shared_gain':r.get('observed',{}).get('mean_gain'),
+                'null_valid':r.get('calibration',{}).get('valid'),
+                'null_excess':r.get('calibration',{}).get('observed_minus_null_mean'),
+                'holm_upper_p':r.get('exploratory_holm_p_upper')
+              } for study,r in x['panel_results'].items()
+            }
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gyps-posthoc-shared-species-versus-bird-Wstar-v1
+          path: build/gyps_shared_diagnostic/results/*
+          if-no-files-found: warn
