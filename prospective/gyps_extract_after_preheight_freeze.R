@@ -16,7 +16,15 @@ required<-c("study.id","study.name","species","individual.local.identifier",
 missing<-setdiff(required,names(x))
 if(length(missing)>0)stop(paste("Missing native columns",paste(missing,collapse=",")))
 study<-as.character(x[["study.id"]])
-sel<-which(study %in% target)
+sp<-as.character(x[["species"]])
+sel<-which(
+  (study=="122120597" & sp=="Gyps fulvus") |
+  (study=="352166254" & sp=="Gyps africanus") |
+  (study=="44080734" & sp=="Gyps fulvus") |
+  (study=="972560688" & sp=="Gyps coprotheres")
+)
+# Study 352166254 also hosts Trigonoceps occipitalis; it is explicitly
+# excluded by the taxon-specific outcome-blind source selection contract.
 if(length(sel)<1000)stop("Selected source GPS study IDs appear unavailable")
 optional<-intersect(c("height.above.ellipsoid","height.above.msl",
                       "dem","flapping_bin","meanVedba_Gs"),names(x))
