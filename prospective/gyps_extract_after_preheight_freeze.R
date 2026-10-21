@@ -28,6 +28,7 @@ names(data)[match(required,names(data))]<-c(
  "wind_speed_1000m","orographic_uplift","thermal_uplift",
  "flap_probability"
 )
+names(data)[names(data)=="meanVedba_Gs"]<-"vedba"
 for (i in seq_along(data)) {
   if (inherits(data[[i]],"POSIXt")) {
     data[[i]]<-format(data[[i]],"%Y-%m-%d %H:%M:%S",tz="UTC")
