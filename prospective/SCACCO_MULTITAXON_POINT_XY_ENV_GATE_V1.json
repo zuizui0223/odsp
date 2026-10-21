@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-21",
+  "status": "FROZEN_BEFORE_NEW_PERPOINT_HEIGHT_OUTCOME",
+  "parent_source": "10.5281/zenodo.21915776",
+  "source_archive_md5": "e1f116e6576cf20e54dad16d2c91a26d",
+  "prior_study_species_screen": {
+    "run": 39544432716,
+    "artifact": 12321251422,
+    "source_taxa": 38,
+    "source_studies": 58,
+    "panels": 72,
+    "candidate_panels": 16,
+    "candidate_species": 11,
+    "study_unit": "studyID×species where >=10 individuals have >=2 UTC days each with >=20 segment-derived fixes",
+    "source_caution": "The 16 candidates include 2 External/NA study-id panels and possible parent study overlaps; these are NOT 16 independent ecological tests."
+  },
+  "external_context_fields": {
+    "GPS_positions": [
+      "location.long",
+      "location.lat"
+    ],
+    "time": "timestamp",
+    "bird": "individual.local.identifier",
+    "study": "study.id",
+    "study_name": "study.name",
+    "source_species": "species",
+    "flight_definition": "preclassified commuting flight segments; no additional speed threshold",
+    "wstar": "w_star_Thermal_uplift_potential_(W*)",
+    "orographic": "Orographic_uplift_potential",
+    "wind": "windSpeed_1000m",
+    "flight_mode_proxy": "flapping_prob",
+    "extraction_rule": "Read RDS container and export only these source metadata columns to gzip TSV; do not inspect any numeric height values at this stage."
+  },
+  "fixed_source_preprocessing": {
+    "date_utc": "parse source timestamp in UTC, yyyy-mm-dd, year 2007-2024",
+    "coords": "WGS84 degrees valid finite lat<=85 in absolute value",
+    "project": "EPSG6933 WGS84 NSIDC equal-area for all taxa",
+    "time_thinning": "earliest GPS fix per source study/species/animal/UTC calendar day/5-minute bin; no native altitude availability involved",
+    "source_quality": "only source commuting-flight points present in this RDS; no interpolated or invented flight observations",
+    "source_inclusion": "individual ID, source species, study ID/name, date, lon, lat, segment ID all required; null/NA source study ID uses source study name but flagged unresolved.",
+    "horizontal_grid_primary_m": 5000,
+    "horizontal_grid_secondary_m": 50000,
+    "minimum_own_other_day_fixes_same_cell": 10,
+    "minimum_other_bird_other_UTC_day_same_cell_fixes": 10,
+    "minimum_scorable_5min_fixes_per_bird_day": 20,
+    "minimum_scorable_days_per_bird": 2,
+    "minimum_evaluable_birds_per_source_study_species": 10,
+    "minimum_flight_point_climate_completeness": 0.8,
+    "no_native_height_QC": true,
+    "no_biological_identity_scoring": true
+  },
+  "climate_opportunity_feasibility": {
+    "environment": "thermal_uplift and orographic_uplift are independent ERA5/topography annotations, not bird GPS vertical position measurements",
+    "native_classification": "Compute each bird-day median thermal_uplift from selected GPS fixes, then rank by calendar month within study×species among all bird-days with >=20 fixes. Low/high group boundaries are 25th and 75th percentiles. Track IDs are not dropped based on height.",
+    "requirements": "For primary environmental contrast, >=10 biological individuals each with at least 2 low and 2 high thermal-uplift bird-days that satisfy shared horizontal cell own-other-date >=10 fixes and enough other-bird reference; this is a stricter condition than the basic 2-day identity feasibility and is separately reported.",
+    "sensor_limit": "Point-wise ERA5 thermal uplift depends on location selected by bird and does not prove thermal utilized; conditional environment patterns are observational."
+  },
+  "prior_parent_studies_to_deduplicate": {
+    "21231406": "Broader LifeTrack white stork SWGermany 2014-2017 study, likely overlaps Flack 2014",
+    "150450794": "Rotics 2013 Ciconia source",
+    "332044860": "Flack 2014 white stork source",
+    "404939825": "BATTER Eidolon helvum original parent",
+    "985143423": "LBBG_ZEEBRUGGE original wind-context source",
+    "manual_rule": "Any such parent (if present) must be flagged as already examined/not independent, never counted as new species-study replication. Also check likely reexports from original other study IDs and duplicate tag/time identities after full source crosswalk."
+  },
+  "target_decision": {
+    "admit_for_new_numeric_height_analysis": "Only after point x-y time and environmental availability are reported and source-level prior-overlap exclusion is fixed.",
+    "species_universe": "38 taxa is source universe; bats not guaranteed eligible. All structurally unavailable taxa remain denominator.",
+    "known_source_original_analysis": "Authors modeled flight flapping and cost of transport, including individual repeatability of flap/eCOT, not conditional altitude distribution identity.",
+    "do_not_infer": "No causal wind response, adaptive foraging niche, vertical segregation, central-place mechanism, or cross-taxon law from structural eligibility."
+  }
+}
