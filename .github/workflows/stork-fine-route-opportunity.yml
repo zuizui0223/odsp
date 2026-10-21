@@ -2,9 +2,10 @@ name: stork 2013 vs 2014 repeatable migration micro-corridors (altitude blind)
 
 on:
   push:
-    branches: [diagnostic/stork-opportunity-repeat-20261021]
+    branches: [diagnostic/stork-opportunity-repeat-20261021, diagnostic/stork-fine-route-equal-bird-20261021]
     paths:
       - prospective/STORK_FINE_ROUTE_OPPORTUNITY_DIAGNOSTIC_FREEZE_V1.json
+      - prospective/STORK_FINE_ROUTE_EQUAL_BIRD_REFERENCE_PLAN_V1.json
       - prospective/stork_fine_route_recurrence_no_height.py
       - prospective/stork_postoutcome_route_gain_join.py
       - prospective/test_stork_fine_route_recurrence_no_height.py
