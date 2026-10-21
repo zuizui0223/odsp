@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-21",
+  "analysis": "STORK_2013_2014_FINE_ROUTE_OPPORTUNITY_VS_FROZEN_HEIGHT_GAIN_V1",
+  "type": "POST_OUTCOME_EXPLORATORY_GEOMETRIC_CONFOUND_DIAGNOSTIC",
+  "code_repository": "zuizui0223/odsp",
+  "source_run": 39529305132,
+  "run_status": "success",
+  "artifacts": {
+    "rotics2013": {
+      "id": 12315305935,
+      "sha256": "5e0a729aadf2bf3dad608b6b2142bef25667ae478f309ffa70034343b0b67133"
+    },
+    "flack2014": {
+      "id": 12314352351,
+      "sha256": "f53668b8f642f9e77b69869feaaf306d00e2e809459ecebb7a4a57a76166afe2"
+    },
+    "pair_result": {
+      "id": 12314916817,
+      "sha256": "9bf748292fd64dd864db9ca52179aaeb4bf8b8178c383e9155e342909f8dea09"
+    }
+  },
+  "archive_reuse": "Exact original source zip MD5, bird rosters and 50km source 5min session support. Does not recalculate any native height value or previous altitude-label null test.",
+  "metric_definition": {
+    "own_revisit": "For evaluated fixes (qualified within original 50km bird-day) fraction whose nested 5km projected subcell was visited by the same bird on another UTC date",
+    "other_revisit": "On identical fixes, fraction whose fine 5km subcell was visited by another bird on another UTC date",
+    "own_minus_other": "Bird-equal average of own revisit minus other revisit, after equal weighting of each qualified bird-day",
+    "lag": "Mean absolute number of days to nearest other visit by the same bird to the 50km coarse cell",
+    "unit": "biological bird; bird-day intermediary. GPS event is not an independent bird replicate"
+  },
+  "cohorts": {
+    "rotics2013": {
+      "original_height_identity": {
+        "birds": 25,
+        "days": 111,
+        "fixes": 6951,
+        "observed_gain": 0.01648335374581346,
+        "calibrated_excess": 0.19485031824168236,
+        "p_upper": 0.001
+      },
+      "fine_route": {
+        "same_bird_revisit_mean": 0.5488190039904983,
+        "other_bird_revisit_mean": 0.7080355062635468,
+        "own_minus_other_mean": -0.15921650227304845,
+        "nearest_coarse_revisit_days_mean": 1.4428733657753214,
+        "subcells_per_day_mean": 23.084666666666667
+      },
+      "bird_level_association_with_original_height_gain": {
+        "spearman_own_minus_other": 0.49846153846153846,
+        "bootstrap_95": [
+          0.1111778978846007,
+          0.782187818426107
+        ],
+        "age_stratified_label_exchange_two_sided_p_posthoc": 0.0112,
+        "jackknife_rho_min_max": [
+          0.44260869565217387,
+          0.5913043478260869
+        ],
+        "residual_rank_corr_adjust_log_days_log_fixes_and_age": 0.4520121333643226,
+        "rho_self_revisit_only": 0.1323076923076923,
+        "rho_other_revisit_only": -0.34384615384615386,
+        "descriptive_within_age_rho": {
+          "adult": {
+            "n": 10,
+            "rho": 0.5272727272727272
+          },
+          "juv": {
+            "n": 15,
+            "rho": 0.3857142857142856
+          }
+        },
+        "effort_related_rho_height_gain_log_fixes": 0.17929974393766376
+      }
+    },
+    "flack2014": {
+      "original_height_identity": {
+        "birds": 11,
+        "days": 33,
+        "fixes": 2039,
+        "observed_gain": -0.26989281362127343,
+        "calibrated_excess": -0.13465612171829897,
+        "p_upper": 0.998
+      },
+      "fine_route": {
+        "same_bird_revisit_mean": 0.47091417004200514,
+        "other_bird_revisit_mean": 0.7501082103997647,
+        "own_minus_other_mean": -0.27919404035775963,
+        "nearest_coarse_revisit_days_mean": 1.0180316680316681,
+        "subcells_per_day_mean": 19.52077922077922
+      },
+      "bird_level_association_with_original_height_gain": {
+        "spearman_own_minus_other": 0.7636363636363637,
+        "bootstrap_95": [
+          0.22219551282051284,
+          0.971830985915493
+        ],
+        "age_stratified_label_exchange_two_sided_p_posthoc": 0.009,
+        "jackknife_rho_min_max": [
+          0.6848484848484848,
+          0.8303030303030302
+        ],
+        "residual_rank_corr_adjust_log_days_log_fixes_and_age": 0.8076766430187639,
+        "rho_self_revisit_only": 0.6818181818181819,
+        "rho_other_revisit_only": -0.29090909090909095,
+        "descriptive_within_age_rho": {
+          "nestling": {
+            "n": 11,
+            "rho": 0.7636363636363637
+          }
+        },
+        "effort_related_rho_height_gain_log_fixes": 0.6378148666094873
+      }
+    }
+  },
+  "between_cohort_descriptive": {
+    "mean_same_bird_5km_revisit_difference_2013_minus_2014": 0.07790483394849318,
+    "bird_bootstrap95": [
+      -0.05844147373761785,
+      0.2054269121520682
+    ],
+    "own_minus_other_difference_2013_minus_2014": 0.11997753808471118,
+    "own_minus_other_bird_bootstrap95": [
+      -0.012165746053689879,
+      0.2568082389486305
+    ],
+    "source_year_age_site_and_tag_confounding": true,
+    "significant_between_cohort_interaction_test_performed": false
+  },
+  "claim": {
+    "supported": "Among already qualified migrating white storks, greater relative reuse of fine 5km horizontal locations by the focal bird (versus other birds on another date) is associated descriptively with stronger previously archived individual-ID height-shape scores within both independent source cohorts.",
+    "negative_boundary": "2013 on average others re-use the fine route more than the same bird; cannot depict robust exclusive personal flight corridors as a general observation.",
+    "not_supported": [
+      "Relative fine horizontal route reuse directly causes repeatable vertical strategies.",
+      "Fine-route recurrence quantitatively explains the 2013 vs 2014 ecological contrast; bootstrap CIs for cohort differences include zero.",
+      "GPS altitude identity persists after exact fine 5km micro-route adjustment (zero birds admitted at prior 5km support gate).",
+      "Individual identity is independent of GPS tag error, terrain, or age/effort composition.",
+      "Post-outcome correlation/bootstrap/permutation is an independent confirmatory ecological replication.",
+      "A law linking ODSP bat individuality and MINA penguin breeding-space concentration is proven."
+    ]
+  },
+  "next": "Freeze a NEW independent flight source with sufficient fine-scale path overlap and time-conditioned atmospheric/terrain/behaviour variables BEFORE native altitude outcome inspection, to test whether within-cell bird identity persists after exact micro-route matching."
+}
