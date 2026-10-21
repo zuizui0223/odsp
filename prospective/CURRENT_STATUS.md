@@ -1,5 +1,30 @@
 # Cross-taxon biological generality — current state
 
+## 2026-10-21 outcome: repeated fine horizontal flight corridors versus repeated vertical shapes
+
+A new post-outcome exploratory reanalysis compared the **same 25 Rotics 2013 storks and 11 Flack 2014 storks** as the archived 50-km height studies, reading only source GPS x-y/time/identity/speed, without opening altitude values. Source-eligible biological bird lists and 50km bird-day counts were byte-fingerprint checked before any link to frozen per-bird height scores.
+
+**Reference correction was essential.** The initial raw x-y diagnostic compared one focal bird's 5km subcell revisit to an *ANY-of-many OTHER birds* union; its other-fix matches (~70.8%, ~75.0%) were inflated by the number of birds. The corrected metric uses one uniformly weighted, eligible OTHER bird observed in the same 50-km coarse cell on another date.
+
+| Fine 5-km revisit INSIDE qualified 50-km cells | Rotics 2013 | Flack 2014 |
+|---|---:|---:|
+| Focal bird repeats fine subcell on another UTC day | 54.88% | 47.09% |
+| One equally weighted other bird does so | 24.93% | 29.18% |
+| **Focal − single other bird** | **+29.96 pp** | **+17.91 pp** |
+| Previously frozen centered-height bird-identity signal | positive, p=.001 | unsupported, p=.998 |
+
+The 2013 minus 2014 bird-equal fine-route advantage difference is about **12.04 pp**, but an exploratory 5000 bird-bootstrap 95% interval **−1.07 to +25.32 pp includes 0**. Do not claim a significant between-cohort ecological effect.
+
+The equal-other reference's bird-level geographic advantage is positively rank-associated with previously fixed bird height ID scores in the 2013 cohort (Spearman **rho +0.398**, bird bootstrap95 **+0.065 to +0.626**, exploratory age-block label p **0.0426**). The 2014 cohort gives rho **+0.527** but bird bootstrap95 **−0.256 to +1.0** and exploratory label p **0.0953** (11 birds), so there is **no replicated statistically secure rank association**. Both effects are POST-OUTCOME exploratory; do not promote p values as prespecified mechanism evidence. Other bird tracks may have differing GPS effort, so reference correction is not perfect donor-matched calibration.
+
+**Key biological boundary:** Cross-day fine horizontal route reuse is present in both migration studies, yet fixed individual vertical shape identity is supported in only one. Thus route recurrence alone does not guarantee temporal recurrence of the altitude distribution; atmospheric opportunity, travel stage, nestling experience, terrain, sampling support and tag errors remain competing, **untested causal** mechanisms.
+
+[Corrected mechanistic synthesis](https://github.com/zuizui0223/odsp/blob/diagnostic/stork-fine-route-equal-bird-20261021/prospective/STORK_ROUTE_VS_VERTICAL_INDIVIDUALITY_BIOLOGICAL_SYNTHESIS_V1.md) · [machine-readable result and source audit](https://github.com/zuizui0223/odsp/blob/diagnostic/stork-fine-route-equal-bird-20261021/prospective/STORK_EQUAL_OTHER_BIRD_CORRECTION_RESULT_RECEIPT_V1.json) · [source run](https://github.com/zuizui0223/odsp/actions/runs/39530359254).
+
+**Next legitimate scientific test:** In a new independent tracking source, compare date-heldout `P(relative altitude | fine GPS location, date/airmass wind & uplift, flight behavior)` with the addition of animal ID and then animal×weather interaction. Freeze matching/quality/thresholds before opening that source's height values. Do not re-mine the opened 2013/2014 height data in search of a preferred conclusion.
+
+---
+
 ## Latest boundary: independent stork cohorts do not show uniform vertical-shape individuality
 
 The original Rotics 2013 migration-specific 50km test (Movebank study 150450794) showed an age/date-block null-relative gain +0.194850 nats/event (25 birds, 111 bird-days, 6,951 scored fixes, p_upper=0.001; archived run 39409175819). A deterministic rerun (39413456822) exactly reproduced all original JSON and CSV evidence members byte-for-byte.
