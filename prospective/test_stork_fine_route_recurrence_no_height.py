@@ -71,3 +71,29 @@ def test_different_50km_cells_never_create_fake_fine_overlap():
             counts[b,d,c,(1,1)]=60
     r=geometry(counts)
     assert r["coarse_support"]["birds_with_2_scorable_shared_cell_days"]==0
+
+
+def test_single_uniform_other_bird_prevents_pooled_many_to_one_inflation():
+    # A and B reuse one nested cell, C reuses another; for A:
+    # pooled ANY other matches (via B), but a uniformly chosen other
+    # bird matches only 1 of 2 candidates.
+    counts=Counter()
+    for bird,fine in (("A",(1,1)),("B",(1,1)),("C",(2,2))):
+        for day in ("2013-08-10","2013-08-11"):
+            counts[bird,day,(0,0),fine]=60
+    x=geometry(counts)
+    assert x["birds"]["A"]["self_fine_fraction"]==1
+    assert x["birds"]["A"]["other_fine_fraction"]==1
+    assert x["birds"]["A"]["other_equal_bird_fine_fraction"]==0.5
+    assert x["birds"]["A"]["fine_self_minus_equal_bird_other"]==0.5
+
+
+def test_fair_reference_is_one_bird_when_only_two_birds_available():
+    counts=Counter()
+    for bird,fine in (("A",(1,1)),("B",(2,2))):
+        for day in ("2013-08-10","2013-08-11"):
+            counts[bird,day,(0,0),fine]=60
+    x=geometry(counts)
+    for b in x["birds"].values():
+        assert b["other_equal_bird_fine_fraction"]==0
+        assert b["fine_self_minus_equal_bird_other"]==1
