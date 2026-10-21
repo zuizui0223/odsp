@@ -74,6 +74,8 @@ def test_holm_includes_unavailable_source_studies():
     assert rows[keys[0]]["terminal"]=="supported_50km_thermal_height_shape"
     assert rows[keys[1]]["terminal"]=="not_supported_50km_thermal_height_shape"
     assert rows[keys[-1]]["terminal"]=="unavailable"
+    assert rows[keys[-1]]["multiplicity_placeholder_p"]==1.0
+    assert rows[keys[-1]]["holm_p_upper"]==1.0
 
 
 def test_earliest_fix_selected_before_height_available(tmp_path):
