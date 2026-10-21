@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "created_date": "2026-10-21",
+  "analysis": "GYPS_3SPECIES_4STUDIES_50KM_THERMAL_CONTEXT_V1",
+  "status": "PRE_NATIVE_HEIGHT_OUTCOME_FROZEN",
+  "scientific_question": "Across three Gyps soaring-vulture species from four independently source-identified Movebank studies, does high/low ERA5 thermal-uplift availability predict the within-day-centered GPS flight-altitude shape of a given bird on held-out independent dates better than that bird's thermal-pooled profile?",
+  "source": {
+    "archive": "https://zenodo.org/records/21915776",
+    "doi": "10.5281/zenodo.21915776",
+    "Data_zip_md5": "e1f116e6576cf20e54dad16d2c91a26d",
+    "source_license": "cc-by-4.0",
+    "data_product": "BiologgingData/FinalDf_perPoint_VedbaGs_flappingProbs_ENV.rds",
+    "source_reported_GPS_flight_rows": 1524040,
+    "source_window": "2007-2024, source-preselected commuting flight segments",
+    "original_source_paper_question": "Effective energy cost of airflows in birds and bats, NOT this new heldout vertical distribution shape test",
+    "prior_study_overlap_blacklist": [
+      "150450794",
+      "332044860",
+      "21231406",
+      "985143423",
+      "404939825"
+    ],
+    "source_independence": "Treat study IDs separately, preserve source tag IDs and individual dates; the original source authors report removal of duplicate tracked individuals across studies but independent biological animals and devices must still be audited. Do not assume four study IDs equal four independent phylogenetic units."
+  },
+  "independent_metadata_source_gate": {
+    "segment_level_run": 39544432716,
+    "pointwise_outcome_blind_run": 39545718549,
+    "pointwise_artifact_id": 12321119705,
+    "pointwise_artifact_zip_sha256": "a30e80fe8076a572166f5393846ab78877314d2c42d794e48a4faf1691feed91",
+    "raw_source_taxa": 38,
+    "metadata_candidate_study_species": 16,
+    "metadata_candidate_species": 11,
+    "five_km_individual_eligible_panels": 2,
+    "five_km_thermal_context_eligible_panels": 0,
+    "new_50km_thermal_context_eligible_studies": [
+      {
+        "study_id": "122120597",
+        "species": "Gyps fulvus",
+        "source_points": 220988,
+        "selected_birds_thermal": 25,
+        "eligible_ids_sha256": "641e9c766867a641c70c7210d37a3a514c35b79d1e57d592d5c4a40b512b8cc2"
+      },
+      {
+        "study_id": "352166254",
+        "species": "Gyps africanus",
+        "source_points": 126543,
+        "selected_birds_thermal": 11,
+        "eligible_ids_sha256": "a77803e14681c30d8094c603b832d7d24801d6eb31bf5abfa6be40d079b3ba36"
+      },
+      {
+        "study_id": "44080734",
+        "species": "Gyps fulvus",
+        "source_points": 295889,
+        "selected_birds_thermal": 26,
+        "eligible_ids_sha256": "9402923502706e60aa5a207d5df28840a97fc3b98975d2b9af95e64306264001"
+      },
+      {
+        "study_id": "972560688",
+        "species": "Gyps coprotheres",
+        "source_points": 164126,
+        "selected_birds_thermal": 14,
+        "eligible_ids_sha256": "5148de3f1d25aef1fc5cadcb2bf1fe776cd4c9c54fa8239864a1a69b67373559"
+      }
+    ],
+    "no_native_numeric_height_values_accessed_during_selection": true,
+    "note": "Selection is 50km scale-specific; the original 5km outcome remains NOT ELIGIBLE for thermal comparison and cannot be rescued. These source-study species groups are NEW candidate panels, 4 across 3 Gyps taxa."
+  },
+  "native_source_to_height_conversion": {
+    "source_field": "height_gener",
+    "native_sources": "height.above.ellipsoid and height.above.msl may differ across study; retain per-panel provenance when available",
+    "DEM_context": "dem provided with source data; optional independent terrain-reference analysis, not primary",
+    "required_fields": [
+      "study.id",
+      "study.name",
+      "species",
+      "individual.local.identifier",
+      "tag.local.identifier",
+      "timestamp",
+      "location.long",
+      "location.lat",
+      "track_flight_id",
+      "flapping_prob",
+      "windSpeed_1000m",
+      "Orographic_uplift_potential",
+      "w_star_Thermal_uplift_potential_(W*)",
+      "height_gener"
+    ],
+    "choose_four_studies_only": "Select study IDs solely from stored preheight pointwise X-Y/environmental gate, independent of height.",
+    "time_filter": "Source commuting GPS points, earliest UTC five-minute bin per scoped study×species×bird×date selected prior to numeric height quality",
+    "height_valid_bounds_m": [
+      -500,
+      7000
+    ],
+    "quality": "For each source-panel separately, at least 80% of original selected flight 5min bins must contain finite heights within fixed bounds; missing earliest event never replaced.",
+    "vertical_transform": "Subtract within-calendar bird-day median over all valid selected commuting GPS points; 10 centered height bins [-inf,-200,-100,-50,-25,0,25,50,100,200,inf] meters. This is an offline session-shape endpoint and not online prediction.",
+    "daily_reference": "Within each individual and 50km source projection EPSG6933 cell, donor bird-day height distributions estimated on other UTC days with Jeffreys 0.5 per of 10 bins."
+  },
+  "predictor_and_model": {
+    "primary_opportunity": "source ERA5-derived pointwise thermal uplift potential w_star_Thermal_uplift_potential_(W*), not observed upward air speed experienced by bird",
+    "daily_regime": "For each study×species×year-month, median selected GPS-point Wstar within bird-UTC-day; assign low<=Q25 and high>=Q75 across all bird-days with >=20 finite Wstar points; middle excluded",
+    "horizontal_m": 50000,
+    "target": "same native GPS height event scored by both models, no unequal support",
+    "baseline": "P(centered height bin | individual,50km cell) trained on all other eligible bird-days, wind-pooled",
+    "context_model": "P(centered height bin | individual,50km cell, low/high Wstar state) trained on other qualifying bird-days of the SAME state",
+    "donor_gate": "At each scored cell, >=10 same-bird other-day events in target state, >=10 same-bird other-day events in opposite state, >=10 other-conspecific other-date events in cell",
+    "day_gate": "20 scored target height fixes per bird-day within low/high state",
+    "individual_gate": "At least 2 scorable low and 2 scorable high UTC dates, same study; >=10 birds for primary",
+    "aggregation": "Equal weight per scored bird-day within high/low state; equal low/high state weight per bird; equal individual weight within source study×species. Segments and individual GPS fixes are NOT inferential replicates.",
+    "primary_statistic": "Held-out log P_sameBirdSameWstar(z_center|cell) - log P_sameBirdPooledWstar(z_center|cell), nats per scored point; report observed raw, null mean and difference. Do not compare absolute gain magnitudes across different studies/altitude instruments as biological effect sizes.",
+    "randomization": "999 permutations of complete bird-day low/high/middle labels WITHIN individual × study × year-month, preserving the count of regimes and bird-day GPS profiles per bird-month; recompute donor support and eligibility every time.",
+    "seed": 20261021,
+    "valid_null_min": 950,
+    "tail_p_upper": "(1 + null>=observed + invalid_null)/(999+1)",
+    "positive_if": "Observed >=10 eligible birds, >=950 valid null replicates, null-calibrated excess >0, and Holm-corrected conservative p<0.05 across all 4 source-study panels (unavailable panels assigned p=1).",
+    "family_claim": "Do not call taxonomic replication unless >=2 of the 3 Gyps species have supported independent source-level tests. Two positive Gyps fulvus studies alone constitute source-level, not species-level universality."
+  },
+  "diagnostic_not_primary": [
+    "Per-study percentage of records with finite native ellipsoid/MSL heights, tag-ID aliasing and terrain DEM completeness; no outcomes selected by this quality.",
+    "Mean flapping probability by study and wind regime for ecological context, not evidence wind-dependent height effect is mediated by flight mode.",
+    "Potential terrain-relative day-centered heights (height_gener-dem) only as explicitly post-outcome exploratory sensitivity; never substitute into primary if it fails.",
+    "Each preheight environment eligibility roster fingerprint must be validated exactly against source's saved manifest before opening numeric heights."
+  ],
+  "causal_claim_boundary": [
+    "Wind/thermal annotations derived from reanalysis and animal-chosen flight locations are observational contextual predictors, not directly measured uplift exposure. GPS route choice may affect annotations.",
+    "ERA5 thermal state can capture shared source-wide weather responses, so positive within-bird model gain does not prove individual-specific differences in reaction norms. Separate future group-shared thermal baseline is essential.",
+    "Native GPS ellipsoid/MSL height and source-specific tag errors may differ; day-median subtracts additive offset only.",
+    "All 4 study panels are soaring vulture genus Gyps, not broad flying-animal law across birds and bats.",
+    "The same data were used by source paper for flapping/cost-of-transport outcomes; this new conditional altitude-shape endpoint must be distinguished and cited.",
+    "Never reinterpret 5km no thermal support as an ecological negative, or 50km test as successful 5km replication."
+  ],
+  "no_rescue": "Freeze exact four studies, fixed 50km grain, Wstar thresholds, height bin edges, day/bird donor minima, 999 permutations, Holm multiplicity. Fail/unsupported/unavailable studies remain in evidence denominator."
+}
