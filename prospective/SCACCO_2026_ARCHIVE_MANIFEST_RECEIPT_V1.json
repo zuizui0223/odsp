@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "verified_on": "2026-10-21",
+  "source": "official Zenodo API",
+  "source_record": 21915776,
+  "doi": "10.5281/zenodo.21915776",
+  "uri": "https://zenodo.org/records/21915776",
+  "license": "cc-by-4.0",
+  "artifact_workflow": 39543940270,
+  "artifact_id": 12320473372,
+  "files": {
+    "Data.zip": {
+      "bytes": 551470630,
+      "md5": "e1f116e6576cf20e54dad16d2c91a26d"
+    },
+    "Readme_Metadata.txt": {
+      "bytes": 5971,
+      "md5": "2e1aadd6899366988130535706ad3e3f"
+    },
+    "Table_allDatasets_contacts_permits.pdf": {
+      "bytes": 92051,
+      "md5": "cf84692bd2d5159ce8c4b61b7e6f9970"
+    }
+  },
+  "declared_universe": {
+    "taxa": 38,
+    "animals": 853,
+    "commuting_segments": 195715,
+    "pointwise_rows_after_annotations": 1524040
+  },
+  "archive_stage": "file_manifest_verified_pre_outcome",
+  "height_values_read": false,
+  "source_selection_note": "Study-specific segments only; GPS timestamps, species/study/animal and environmental annotation availability must be audited, and original Movebank overlap tested. 38 is universe, not eligible taxon count."
+}
