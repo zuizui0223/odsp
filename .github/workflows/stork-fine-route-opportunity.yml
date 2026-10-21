@@ -1,0 +1,177 @@
+name: stork 2013 vs 2014 repeatable migration micro-corridors (altitude blind)
+
+on:
+  push:
+    branches: [diagnostic/stork-opportunity-repeat-20261021]
+    paths:
+      - prospective/STORK_FINE_ROUTE_OPPORTUNITY_DIAGNOSTIC_FREEZE_V1.json
+      - prospective/stork_fine_route_recurrence_no_height.py
+      - prospective/stork_postoutcome_route_gain_join.py
+      - prospective/test_stork_fine_route_recurrence_no_height.py
+      - prospective/test_stork_postoutcome_route_gain_join.py
+      - .github/workflows/stork-fine-route-opportunity.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  test-code:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest pyproj
+      - run: python -m pytest -q prospective/test_stork_fine_route_recurrence_no_height.py prospective/test_stork_postoutcome_route_gain_join.py
+
+  source-geometry:
+    needs: test-code
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - source: rotics2013
+            GPS: 'Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip'
+            REF: 'Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-reference-data.csv'
+            GPS_MD5: '2ec22217c0f566650d245ae2da4694bf'
+            REF_MD5: 'b38407ed744cf2bd4806afce929f604a'
+            GPS_URL: 'https://datarepository.movebank.org/server/api/core/bitstreams/ef95f900-1cde-417e-be8a-c6e64e576bea/content'
+            REF_URL: 'https://datarepository.movebank.org/server/api/core/bitstreams/f5bfa548-4c4b-47c2-a842-3a6ae2e70cda/content'
+          - source: flack2014
+            GPS: 'Fall migration of white storks in 2014-gps.csv.zip'
+            REF: 'Fall migration of white storks in 2014-reference-data.csv'
+            GPS_MD5: 'c1fa0c4ca28d3fce5d61caaac36e87d2'
+            REF_MD5: '116a3d82cd11e1bb4e16b32532725359'
+            GPS_URL: 'https://datarepository.movebank.org/server/api/core/bitstreams/b4178d75-0023-4611-9394-c65cd74458ae/content'
+            REF_URL: 'https://datarepository.movebank.org/server/api/core/bitstreams/ed6e24c7-0c51-49b8-b54e-e96f4cae6212/content'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pyproj
+      - name: Fetch checksum-pinned prior archived GPS without opening height columns
+        env:
+          SOURCE: ${{ matrix.source }}
+          GPS: ${{ matrix.GPS }}
+          REF: ${{ matrix.REF }}
+          GPS_MD5: ${{ matrix.GPS_MD5 }}
+          REF_MD5: ${{ matrix.REF_MD5 }}
+          GPS_URL: ${{ matrix.GPS_URL }}
+          REF_URL: ${{ matrix.REF_URL }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/geometry/"$SOURCE"
+          cd build/geometry/"$SOURCE"
+          curl --fail --silent --show-error --location --retry 4 --retry-delay 5 --max-time 900 "$GPS_URL" -o "$GPS"
+          curl --fail --silent --show-error --location --retry 4 --retry-delay 5 --max-time 120 "$REF_URL" -o "$REF"
+          printf '%s\n' "$GPS_MD5  $GPS" "$REF_MD5  $REF" | md5sum --check
+      - name: Calculate micro-route revisit and time-gap on exactly frozen bird roster
+        env:
+          SOURCE: ${{ matrix.source }}
+          GPS: ${{ matrix.GPS }}
+          REF: ${{ matrix.REF }}
+        run: |
+          set -euo pipefail
+          python -m prospective.stork_fine_route_recurrence_no_height --source "$SOURCE" \
+            --gps-zip "build/geometry/$SOURCE/$GPS" \
+            --reference "build/geometry/$SOURCE/$REF" \
+            --out "build/geometry/$SOURCE/geometry.json"
+      - name: Validate biological and outcome-blind provenance
+        env:
+          SOURCE: ${{ matrix.source }}
+        run: |
+          python - <<'PY'
+          import json,os
+          s=os.environ['SOURCE']
+          d=json.load(open(f'build/geometry/{s}/geometry.json'))
+          expected={
+            'rotics2013':(25,111,6951,'901b92d50bfeb763feed6abcdd0b59e27a69b2b0825149b1343769ea2edb69df'),
+            'flack2014':(11,33,2040,'a741d2e1bc13d91a49f30ddb2cd13af97db855fd8be3d6c407b75ce827d1ec7d')
+          }[s]
+          g=d['geometry']
+          assert not d['altitude_values_read']
+          assert not d['altitude_missingness_used_for_selection']
+          assert (len(g['birds']),g['bird_day_count'],g['scored_fixes'],g['eligible_roster_hash'])==expected
+          for bird,b in g['birds'].items():
+              assert 0<=b['self_fine_fraction']<=1 and 0<=b['other_fine_fraction']<=1
+              assert -1<=b['fine_self_minus_other']<=1
+          print(s,{k:g['equal_bird_summary'][k]['mean'] for k in ('self_fine_fraction','other_fine_fraction','fine_self_minus_other','own_coarse_revisit_gap_days')})
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stork-fine-route-${{ matrix.source }}
+          path: build/geometry/${{ matrix.source }}/geometry.json
+          if-no-files-found: warn
+
+  compare-with-frozen-scores:
+    needs: source-geometry
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          name: stork-fine-route-rotics2013
+          path: build/merged/rotics2013
+      - uses: actions/download-artifact@v4
+        with:
+          name: stork-fine-route-flack2014
+          path: build/merged/flack2014
+      - name: Fetch original altitude ID scores, no recalculation of biological effects
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          cd build/merged
+          curl --fail --location --silent --show-error --retry 3 --max-time 120 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12259903264/zip' \
+            -o original2013.zip
+          curl --fail --location --silent --show-error --retry 3 --max-time 120 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12261233419/zip' \
+            -o original2014.zip
+          echo 'fb07d99a10f8ffe7fba7059fe7ca73ecf84a719dff4f756514949c91b3d395dd  original2013.zip' | sha256sum --check
+          echo 'ce3d0f0d7df48cfa2e1cfa60b0c1693b60f7bb5d4dfea3c252753ceab7fccfb0  original2014.zip' | sha256sum --check
+          unzip -p original2013.zip stork_2013_per_bird_scores.csv > rotics2013_scores.csv
+          unzip -p original2014.zip flack_stork_2014_per_bird_scores.csv > flack2014_scores.csv
+          echo '9240aa2c2498f2a9b8ce27e659e24ed06fa04e2b19a9575d754d44de33b8b4d2  rotics2013_scores.csv' | sha256sum --check
+          echo '532d0b7b10f3103f098adef20f23963b6c59d99c96170d5a738c475f49f7f410  flack2014_scores.csv' | sha256sum --check
+      - name: Compare geometric opportunity recurrence and already-fixed identity gains
+        run: |
+          python -m prospective.stork_postoutcome_route_gain_join \
+            --geometry-2013 build/merged/rotics2013/geometry.json \
+            --geometry-2014 build/merged/flack2014/geometry.json \
+            --original-birds-2013 build/merged/rotics2013_scores.csv \
+            --original-birds-2014 build/merged/flack2014_scores.csv \
+            --output build/merged/STORK_MICRO_ROUTE_CONTRAST_RESULT_V1.json
+      - name: Verify no circular source/outcome reuse in cohort alignment
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/merged/STORK_MICRO_ROUTE_CONTRAST_RESULT_V1.json'))
+          assert x['sources']['rotics2013']['birds']==25
+          assert x['sources']['flack2014']['birds']==11
+          assert x['sources']['rotics2013']['original_positive_bird_scores']==13
+          assert x['sources']['flack2014']['original_positive_bird_scores']==2
+          assert x['n_bootstrap']==5000
+          assert x['cross_cohort']['self_fine_fraction']['causal_or_confirmatory'] is False
+          print('Post-outcome exploratory result verified and frozen',x['cross_cohort']['self_fine_fraction'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stork-opportunity-recurrence-vs-altitude-identity-v1
+          path: build/merged/STORK_MICRO_ROUTE_CONTRAST_RESULT_V1.json
+          if-no-files-found: warn
