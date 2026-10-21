@@ -57,4 +57,6 @@
 - [152万GPSのx-y・上昇流条件・鳥の識別可能性の事前検査](https://github.com/zuizui0223/odsp/actions/runs/39545718549)
 - [4研究の高度を開く前の固定検定契約](https://github.com/zuizui0223/odsp/blob/prospective/gyps-thermal-50km-20261021/prospective/GYPS_50KM_WSTAR_CONTEXT_TEST_FREEZE_V1.json)
 - [GPS原本と999帰無検定を実行し全科学解析ジョブが成功した原run](https://github.com/zuizui0223/odsp/actions/runs/39593226775)。結果アーティファクトID `12343860022`。
-- 検定家族の判定不能パネルをp=1にするHolm補正は、元の数値モデルや標本数を変えない**多重性表示の修正**である。原数値の再実行が必要なら固定原本を再使用する。
+- **Holm補正を契約どおりに修正し、原本から全4研究を再実行して成功**：[最終run 39594223949](https://github.com/zuizui0223/odsp/actions/runs/39594223949)。アーティファクトID `12343146957`、ZIP SHA256 `e54a722ea28cb936217699885853b3fa87ccd5b3341bb9e865acd68ba6bef29c`。
+- 元runと最終runの**全4研究の帰無分布CSVはバイト単位で一致**し、各研究の元スコアと帰無較正値も完全一致。唯一の訂正は、帰無有効845/999の判定不能 *G. africanus* について**多重検定の占位p値を1**にした表示であり、両 *G. fulvus* のHolm p=.004、*G. coprotheres* p=.146と4研究の科学的判定は変わらない。
+- [機械可読の最終証拠レシート](https://github.com/zuizui0223/odsp/blob/prospective/gyps-thermal-50km-20261021/prospective/GYPS_50KM_WSTAR_4STUDIES_RESULT_EVIDENCE_RECEIPT_V1.json)。
