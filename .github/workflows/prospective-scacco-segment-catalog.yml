@@ -1,0 +1,83 @@
+name: 38-species airflow archive point/segment source eligibility (no altitude)
+
+on:
+  push:
+    branches: [prospective/multitaxon-airflow-20261021]
+    paths:
+      - prospective/scacco_segment_source_catalog.py
+      - prospective/test_scacco_segment_source_catalog.py
+      - prospective/SCACCO_2026_ARCHIVE_MANIFEST_RECEIPT_V1.json
+      - .github/workflows/prospective-scacco-segment-catalog.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test source-level and study/species independent eligibility
+        run: |
+          python -m pip install pytest
+          python -m pytest -q prospective/test_scacco_segment_source_catalog.py
+
+  catalog:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Download and verify official 551MB source archive
+        run: |
+          set -euo pipefail
+          mkdir -p build/scacco-2026
+          cd build/scacco-2026
+          curl --fail --location --silent --show-error \
+            --retry 4 --retry-delay 10 --connect-timeout 40 --max-time 1500 \
+            'https://zenodo.org/records/21915776/files/Data.zip?download=1' \
+            -o Data.zip
+          echo 'e1f116e6576cf20e54dad16d2c91a26d  Data.zip' | md5sum --check
+          test "$(stat -c %s Data.zip)" -eq 551470630
+      - name: Inspect ZIP central directory and 194k segment metadata only
+        run: |
+          set -euo pipefail
+          python -m prospective.scacco_segment_source_catalog \
+            --zip build/scacco-2026/Data.zip \
+            --out build/scacco-2026/SCACCO_STUDY_SPECIES_SEGMENT_SUPPORT_V1.json
+      - name: Enforce no biological outcome access
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/scacco-2026/SCACCO_STUDY_SPECIES_SEGMENT_SUPPORT_V1.json'))
+          assert x['stage']=='SEGMENT_METADATA_ONLY_BEFORE_VERTICAL_RESPONSE'
+          assert x['source_zip_md5']=='e1f116e6576cf20e54dad16d2c91a26d'
+          assert x['per_point_RDS_opened'] is False
+          assert x['native_altitude_read'] is False
+          assert x['ecological_outcomes_computed'] is False
+          assert x['source_segment_rows']>0
+          assert x['source_taxa']>=1
+          print(json.dumps({
+            'candidate_species':x['candidate_taxa_ge10_birds'],
+            'candidate_panels':x['candidate_panels_ge10_birds'],
+            'raw_source_taxa':x['source_taxa'],
+            'study_species_units':x['source_study_species_panels'],
+            'study_units':x['source_studies'],
+            'RDS_point_MB':round(x['source_point_RDS_uncompressed_bytes']/1000000,2),
+            'unopened_height':True
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scacco-2026-study-species-day-climate-source-catalog-v1
+          path: build/scacco-2026/SCACCO_STUDY_SPECIES_SEGMENT_SUPPORT_V1.json
+          if-no-files-found: warn
