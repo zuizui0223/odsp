@@ -24,8 +24,8 @@ def test_holm_uses_original_family_members_including_unavailable():
     assert rows["a"]["exploratory_holm_p_upper"]==0.004
     assert rows["b"]["holm_family_input_p"]==1
     assert rows["b"]["exploratory_holm_p_upper"]==1
-    assert rows["c"]["exploratory_holm_p_upper"]==0.075
-    assert rows["d"]["exploratory_holm_p_upper"]==0.16
+    assert abs(rows["c"]["exploratory_holm_p_upper"]-0.075)<1e-12
+    assert abs(rows["d"]["exploratory_holm_p_upper"]-0.16)<1e-12
 
 
 def test_no_favoring_original_two_supported_studies_at_stage_one():
