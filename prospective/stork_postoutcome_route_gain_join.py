@@ -62,6 +62,7 @@ def join(geometry_2013,geometry_2014,score_2013,score_2014,nboot=5000,seed=20261
       "flack2014":(geometry_2014,score_2014,11,33,2040),
     }
     metric_names=["self_fine_fraction","other_fine_fraction",
+      "other_equal_bird_fine_fraction", "fine_self_minus_equal_bird_other",
       "fine_self_minus_other","own_coarse_revisit_gap_days",
       "nested_fine_subcells_per_day"]
     report={
@@ -72,7 +73,9 @@ def join(geometry_2013,geometry_2014,score_2013,score_2014,nboot=5000,seed=20261
         "metric_definitions":{
            "self_fine_fraction":"Fraction target 5min x-y fixes in fine 5km cells that focal bird visited on another UTC date within same 50km coarse cell",
            "other_fine_fraction":"Fraction target 5min x-y fixes in fine 5km cells other birds visited on OTHER UTC dates within same 50km coarse cell",
-           "fine_self_minus_other":"Bird-day equal difference of above fractions, then bird-equal",
+           "fine_self_minus_other":"Historical asymmetric focal-vs-pooled-ANY-other-bird reference, retained for audit only",
+           "other_equal_bird_fine_fraction":"Probability of matching one uniformly chosen other bird that has source records on another date in same 50km cell, rather than any bird in an inflated pooled union",
+           "fine_self_minus_equal_bird_other":"Corrected bird-day equal focal minus equally weighted other biological bird nested fine-cell re-use",
            "own_coarse_revisit_gap_days":"For matched bird-day/coarse cells, nearest earlier or later different UTC day this bird used same 50km coarse cell",
         },
         "sources":{},
@@ -128,6 +131,7 @@ def join(geometry_2013,geometry_2014,score_2013,score_2014,nboot=5000,seed=20261
         }
     report["claim_limits"]=[
       "Fine 5km within 50km x-y recurrence approximates repeated geometric corridor use, not actual wind, uplift, resource type or behavioural mode.",
+      "The initial any-other-bird pooled union artificially increased the comparison opportunity. Prefer the equal-other-bird probabilities; even those are not matched on GPS fixes or duration.",
       "Already-opened 2013 positive vs 2014 non-supported vertical identities made this a post-outcome mechanism exploratory analysis.",
       "Different source year, age stage, time coverage, terrain, GPS tags and 25 vs 11 eligible birds confound source contrasts.",
       "Correlations with original altitude identity score are not a cross-taxon causal test or new calibration of its fixed null.",
@@ -157,8 +161,12 @@ def main():
       "route_self_difference_bootstrap":result["cross_cohort"]["self_fine_fraction"]["bird_bootstrap_95pct_exploratory"],
       "route_self_minus_other_2013":result["sources"]["rotics2013"]["route_metrics"]["fine_self_minus_other"]["mean"],
       "route_self_minus_other_2014":result["sources"]["flack2014"]["route_metrics"]["fine_self_minus_other"]["mean"],
-      "gain_vs_route_recurrence_2013":result["sources"]["rotics2013"]["spearman_route_vs_original_altitude_gain_descriptive"]["fine_self_minus_other"],
-      "gain_vs_route_recurrence_2014":result["sources"]["flack2014"]["spearman_route_vs_original_altitude_gain_descriptive"]["fine_self_minus_other"],
+      "equal_other_bird_2013":result["sources"]["rotics2013"]["route_metrics"]["other_equal_bird_fine_fraction"]["mean"],
+      "equal_other_bird_2014":result["sources"]["flack2014"]["route_metrics"]["other_equal_bird_fine_fraction"]["mean"],
+      "self_minus_equal_other_2013":result["sources"]["rotics2013"]["route_metrics"]["fine_self_minus_equal_bird_other"]["mean"],
+      "self_minus_equal_other_2014":result["sources"]["flack2014"]["route_metrics"]["fine_self_minus_equal_bird_other"]["mean"],
+      "gain_vs_route_recurrence_2013":result["sources"]["rotics2013"]["spearman_route_vs_original_altitude_gain_descriptive"]["fine_self_minus_equal_bird_other"],
+      "gain_vs_route_recurrence_2014":result["sources"]["flack2014"]["spearman_route_vs_original_altitude_gain_descriptive"]["fine_self_minus_equal_bird_other"],
     },sort_keys=True))
 
 
