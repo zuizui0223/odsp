@@ -2,6 +2,28 @@
 
 *evidence ledger / updated 2026-10-21 — observed claims only; not a merged manuscript.*
 
+## 2026-10-21 新規・環境文脈の公開マクロ解析（*Gyps* 3種4研究）
+
+公開ソース [Scacco et al. 2026](https://zenodo.org/records/21915776) の38種853個体・約152万GPSから、結果を見る前に、研究ID×種、別日の個体・水平空間共通支持、環境列の存在を選別。**元の5 km比較に熱上昇流の両条件を満たす研究は0**。独立した50 kmの上昇流条件付き分布問題として、*Gyps* 3種4研究（元GPS高度未開封時点の候補25/11/26/14羽）を固定した。
+
+| 分類群・研究 | 評価個体 | 上昇流条件による帰無超過予測利得（nats/記録） | 固定4検定Holm | 結論 |
+|---|---:|---:|---:|---|
+| *Gyps fulvus* / 122120597 | 25 | +0.01554 | .004 | **支持** |
+| *G. fulvus* / 44080734 | 26 | +0.01718 | .004 | **支持** |
+| *G. africanus* / 352166254 | 11 | +0.01238（記述） | p=1占位 | **帰無950回基準未達、判定不能** |
+| *G. coprotheres* / 972560688 | 14 | +0.01480 | .146 | **支持なし** |
+
+999回の鳥×年月内の上昇流日付ラベル交換、鳥日→低高等重み→鳥等重みの計算。*G. fulvus* 2研究は有効999/999帰無、支持。**他2種について一般化しない。** 判定不能 *G. africanus* は845/999しか有効ではないため、その不完全な帰無のp上限は推論用ではなく、Holm family では事前どおりp=1にした。最終実測検定[run 39594223949](https://github.com/zuizui0223/odsp/actions/runs/39594223949)は原[39593226775](https://github.com/zuizui0223/odsp/actions/runs/39593226775)と4本の帰無CSVがバイト一致。生態的分類は変わらない。
+
+**元のコウノトリ比較との接続**：50 km内の細経路反復だけでは鉛直形状の反復を保証しなかった。今回の*G. fulvus* では風・熱上昇流という**文脈の追加予測情報**が複数研究で支持された。これらは同一個体の生態的な形の説明候補を増やすが、「熱上昇流が原因」「各個体ごとの固有の風反応」「生態的ニッチ分割」はまだ証明していない。全個体に共有の上昇流応答でも、本来の個体条件付きモデルが予測力を持ちうるからである。
+
+比較生態学上の次の一手は、**位置・飛行状態を揃え、種内共通の環境反応モデルを超える個体×環境交互作用が、新しいデータの別日に転移するか**を予め定義して検証すること。*mina* のペンギン個体群の繁殖区画集中はなお別階層の応答とする。
+
+- [*Gyps* 4研究の生物学的総括](https://github.com/zuizui0223/odsp/blob/prospective/gyps-thermal-50km-20261021/prospective/GYPS_4_STUDIES_WSTAR_VERTICAL_BIOLOGICAL_SYNTHESIS_V1.md)
+- [原結果と多重検定修正・帰無レシート](https://github.com/zuizui0223/odsp/blob/prospective/gyps-thermal-50km-20261021/prospective/GYPS_50KM_WSTAR_4STUDIES_RESULT_EVIDENCE_RECEIPT_V1.json)
+
+---
+
 ## 2026-10-21 outcome: repeated fine horizontal flight corridors versus repeated vertical shapes
 
 A new post-outcome exploratory reanalysis compared the **same 25 Rotics 2013 storks and 11 Flack 2014 storks** as the archived 50-km height studies, reading only source GPS x-y/time/identity/speed, without opening altitude values. Source-eligible biological bird lists and 50km bird-day counts were byte-fingerprint checked before any link to frozen per-bird height scores.
