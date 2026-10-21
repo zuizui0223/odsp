@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-21",
+  "analysis": "GYPS_SHARED_SPECIES_WSTAR_VS_BIRD_WSTAR_POSTHOC_V1",
+  "status": "EXPLORATORY_MECHANISM_DIAGNOSTIC_COMPLETED_NO_INDEPENDENT_CONFIRMATION_OF_BIRD_SPECIFIC_THERMAL_REACTION",
+  "source": {
+    "source_doi": "10.5281/zenodo.21915776",
+    "source_Data_zip_md5": "e1f116e6576cf20e54dad16d2c91a26d",
+    "previous_4_study_preheight_gate_run": 39545718549,
+    "previous_original_4_panel_run": 39594223949,
+    "all_original_4_source_terminal_categories_unchanged": true
+  },
+  "new_diagnostic": {
+    "workflow_run": 39598530973,
+    "conclusion": "success",
+    "artifact_id": 12345941340,
+    "artifact_zip_sha256": "153a9ae99a8b8d3ead011859741157c2e8deacd9513b11155a0cd34383f2dfde",
+    "result_JSON_sha256": "4f462fa593711d20e477fb45992df654326dbb308846c4068ce7ba5730c5da5d",
+    "null_CSV_sha256_by_source": {
+      "122120597/Gyps fulvus": "e32f0efe7aab5598ce1dfffd4c4ad170b82e98891b7669569e960620b0d5cd7f",
+      "44080734/Gyps fulvus": "74f6969ded89661cb05292da9ad828f3c649d1a4ac0a88e6e29fc10b64f6c608"
+    },
+    "independent_null_recalculation_checked": true,
+    "comparison": "Predict same target GPS altitude bins from own bird×Wstar distribution against own pooled distribution × population-common Wstar odds estimated from at least two OTHER biological birds, same study/species, 50km cell and same YYYY-MM; exclude focal bird and the entire target date, equal donor days/birds.",
+    "archive_opened_before_new_model": true,
+    "result_ever_confirmatory": false,
+    "predeclared_remaining_fixed_attributes": "4 frozen study-species panels, Wstar day states, 50km, day median centered ten bins, 20 scored fixes/day, >=2 low and >=2 high days, >=10 birds, 999 within bird×month Wstar label exchange, >=950 valid draws, four-study Holm including unavailable p=1",
+    "inferential_scope": "Post-outcome exploratory model comparison; nominal exchangeability further weakened when permutation changes eligible individual count."
+  },
+  "panels": [
+    {
+      "study_id": "122120597",
+      "species": "Gyps fulvus",
+      "original_terminal": "supported_50km_thermal_height_shape",
+      "eligible_birds": 24,
+      "bird_days": 688,
+      "scored_fixes": 20518,
+      "raw_bird_model_minus_shared_model_gain": 0.00003476335120591368,
+      "positive_bird_raw_gains": 15,
+      "valid_null_permutations": 999,
+      "requested": 999,
+      "mean_null_gain": 0.01406580705921548,
+      "observed_minus_null_mean": -0.014031043708009566,
+      "null_tail_ge_observed": 975,
+      "p_one_sided_nominal": 0.976,
+      "holm_nominal": 1,
+      "null_eligible_birds_range": [
+        14,
+        23
+      ],
+      "observation_eligible_birds_exceeds_any_null": true,
+      "terminal": "exploratory_tested_not_supported"
+    },
+    {
+      "study_id": "352166254",
+      "species": "Gyps africanus",
+      "original_terminal": "unavailable",
+      "eligible_birds": 0,
+      "bird_days": 0,
+      "scored_fixes": 0,
+      "terminal": "unavailable",
+      "reason": "not_enough_other_birds_in_both_wstar_regimes_at_same_50km_cell_and_calendar_month",
+      "null_draws_run": 0,
+      "holm_placeholder_p": 1
+    },
+    {
+      "study_id": "44080734",
+      "species": "Gyps fulvus",
+      "original_terminal": "supported_50km_thermal_height_shape",
+      "eligible_birds": 24,
+      "bird_days": 1194,
+      "scored_fixes": 42382,
+      "raw_bird_model_minus_shared_model_gain": 0.02813266429220264,
+      "positive_bird_raw_gains": 21,
+      "valid_null_permutations": 999,
+      "requested": 999,
+      "mean_null_gain": 0.020506461744826406,
+      "observed_minus_null_mean": 0.007626202547376233,
+      "null_tail_ge_observed": 66,
+      "p_one_sided_nominal": 0.067,
+      "holm_nominal": 0.268,
+      "null_eligible_birds_range": [
+        21,
+        25
+      ],
+      "terminal": "exploratory_tested_not_supported_after_multiplicity"
+    },
+    {
+      "study_id": "972560688",
+      "species": "Gyps coprotheres",
+      "original_terminal": "not_supported_50km_thermal_height_shape",
+      "eligible_birds": 8,
+      "bird_days": 144,
+      "scored_fixes": 3679,
+      "raw_bird_model_minus_shared_model_gain": 0.010240282161750507,
+      "positive_bird_raw_gains": 7,
+      "terminal": "unavailable",
+      "reason": "matched_source_common_response_only_8_birds_below_fixed_10",
+      "null_draws_run": 0,
+      "holm_placeholder_p": 1
+    }
+  ],
+  "scientific_reading": {
+    "direct": "Both original G. fulvus source panels retain primary thermal-conditioned altitude-shape predictability, but when prediction is compared against a species-shared thermal-response model, neither provides independent confirmation of a bird-specific thermal reaction. In one study the raw extra gain is almost zero and below shuffled reference; in the other +0.02813 raw but its null-excess +0.00763 has exploratory Holm p=0.268.",
+    "keep_uncertainty": [
+      "Lack of supported incremental individual-specific reaction does not establish common shared thermal response as uniquely causal; a model comparison's unsupported contrast is not an equivalence test.",
+      "Same environmental sources are all post-outcome, not new animals/studies, so even exploratory nominal p below 0.05 would not prove a generalized individual×wind rule.",
+      "Strict other-animal, same-month, other-date source comparison produces 0 and 8 birds in G. africanus and G. coprotheres; these are structurally unavailable, not biologically zero.",
+      "Null shuffles alter eligible-bird support, especially study 122120597 observed24 versus null14–23, so permutation exchangeability and its p-value need caution.",
+      "Shared species response model is one multiplicative adjustment with Jeffreys smoothing; source GPS height may contain terrain and nonadditive tag errors and flight-mode mixtures."
+    ],
+    "new_hypothesis": "Predictive wind context may be largely shared among species members, while stable individual reaction norms require stronger evidence from independent same-cell same-state repeated birds and physical air/flight mode measurements.",
+    "future_primary": "Pre-freeze and test in independent ≥10-bird per-species study with GPS heights, independent Wstar/airflow, verified behavior labels, device-quality, full bird×date overlap, and an explicitly shared-species environment baseline."
+  }
+}
