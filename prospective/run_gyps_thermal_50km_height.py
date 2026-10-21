@@ -205,11 +205,19 @@ def make_study_profiles(panel,meta,height,labels,tags,provenance):
 
 def fixed_four_panel_holm(result):
     members=sorted(PANEL_SPECS)
-    order=sorted(members,key=lambda key:result[key].get("p_upper",1.))
+    # Prior contract: unavailable source studies belong to the four-test
+    # family with the neutral hypothesis placeholder p=1. Its descriptive
+    # incomplete-null p_upper cannot be treated as an inferential p-value.
+    p_for_family=lambda key: (
+        result[key].get("p_upper",1.)
+        if result[key].get("terminal")!="unavailable" else 1.0
+    )
+    order=sorted(members,key=p_for_family)
     running=0.
     for idx,panel in enumerate(order):
         row=result[panel]
-        p=row.get("p_upper",1.)
+        p=p_for_family(panel)
+        row["multiplicity_placeholder_p"]=p
         running=max(running,min(1.,p*(len(members)-idx)))
         row["holm_p_upper"]=running
         if row["terminal"]!="unavailable":
