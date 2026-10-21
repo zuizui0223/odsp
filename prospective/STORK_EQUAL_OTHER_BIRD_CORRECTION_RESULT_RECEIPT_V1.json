@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-21",
+  "analysis": "STORK_EQUIVALENT_OTHER_BIRD_FINE_PATH_REUSE_V1",
+  "mode": "POST_OUTCOME_EXPLORATORY_CORRECTION_OF_REFERENCE_ASYMMETRY",
+  "source_workflow_run": 39530359254,
+  "source_workflow_status": "success",
+  "scientific_sources": {
+    "rotics2013": {
+      "n": 25,
+      "bird_days": 111,
+      "fixes": 6951,
+      "doi": "10.5441/001/1.hn1bd23k"
+    },
+    "flack2014": {
+      "n": 11,
+      "bird_days": 33,
+      "fixes": 2040,
+      "doi": "10.5441/001/1.bj96m274"
+    }
+  },
+  "output_artifacts": {
+    "2013": {
+      "id": 12314104410,
+      "zip_sha256": "58d9d884f18992f9409b1be6f63862615050b2dc69d07c2e62890506f098e9cc"
+    },
+    "2014": {
+      "id": 12314927802,
+      "zip_sha256": "c7bbaa112ef1ebb89829c6e81687840eb72f1ff4cd3fb0e1bd348baedfd67ed4"
+    },
+    "joint": {
+      "id": 12314524264,
+      "zip_sha256": "6e28560f8f127199ba9b25a3dc296a0777d3bc25f8a269265a2301fad0bce92b"
+    }
+  },
+  "correction_reason": "The previous other_fine_fraction pooled ANY of many different birds, while own_fine_fraction used one focal bird. The revised metric compares focal repeated fine subcell occupancy to one other individual sampled uniformly from eligible birds with non-target-date coarse-cell observations.",
+  "revision_of_previous_interpretation": "DO NOT compare focal 54.9/47.1% to pooled-any 70.8/75.0% and infer focal routes are less recurrent. Those denominators differ. Equal-bird other rates are 24.9/29.2%.",
+  "method": "Only x-y, speed, date, bird ID and archived source quality flags; 50km fixed coarse and 5km nested subcells, all original stage rosters frozen, no GPS altitude field opened. Each bird-day and bird weighted equally. A candidate other bird needs at least one non-target-date observation in same coarse cell.",
+  "cohort_results": {
+    "2013": {
+      "same_bird_fine_revisit": 0.5488190039904983,
+      "pooled_any_other_revisit_provenance_only": 0.7080355062635468,
+      "equal_weighted_other_bird_fine_revisit": 0.24925985584110982,
+      "focal_minus_equal_other_fine_revisit": 0.29955914814938855,
+      "original_altitude_individuality_supported": true,
+      "original_altitude_null_p_upper": 0.001,
+      "exploratory_spearman_fine_route_advantage_vs_original_bird_height_gain": 0.3984615384615384,
+      "bootstrap95_rho": [
+        0.06453667874797916,
+        0.6256020546398732
+      ],
+      "exploratory_age_stratified_permutation_p_two_sided": 0.0426,
+      "jackknife_rho_range": [
+        0.3530434782608695,
+        0.4660869565217391
+      ],
+      "descriptive_partial_rank_after_effort_and_age_controls": 0.4168579307746154
+    },
+    "2014": {
+      "same_bird_fine_revisit": 0.47091417004200514,
+      "pooled_any_other_revisit_provenance_only": 0.7501082103997647,
+      "equal_weighted_other_bird_fine_revisit": 0.29177492066427185,
+      "focal_minus_equal_other_fine_revisit": 0.17913924937773326,
+      "original_altitude_individuality_supported": false,
+      "original_altitude_null_p_upper": 0.998,
+      "exploratory_spearman_fine_route_advantage_vs_original_bird_height_gain": 0.5272727272727273,
+      "bootstrap95_rho": [
+        -0.2562814070351759,
+        1
+      ],
+      "exploratory_age_stratified_permutation_p_two_sided": 0.0953,
+      "jackknife_rho_range": [
+        0.3696969696969697,
+        0.9151515151515152
+      ],
+      "descriptive_partial_rank_after_effort_and_age_controls": 0.7935907422880799
+    }
+  },
+  "between_cohort": {
+    "focal_minus_equal_other_difference_2013_minus_2014": 0.12041989877165526,
+    "exploratory_5000_bird_bootstrap95": [
+      -0.010725096065327802,
+      0.25315811306887037
+    ],
+    "conclude_cohort_difference_significant": false,
+    "source_year_age_gps_and_terrain_confounding": true
+  },
+  "interpretation": {
+    "supported": [
+      "Focal migratory storks in both cohorts re-use the same 5km fine subcell within the eligible 50km corridor across days more often than a uniformly weighted eligible other bird, conditional on original source visitation/sampling.",
+      "Only 2013 had a precommitted positive centered height-shape identity test; 2014 did not, despite positive relative fine-route recurrence. Fine horizontal recurrence alone is insufficient to guarantee altitude-identity gain.",
+      "In 2013, relative fine route recurrence and previously fixed per-bird raw altitude identity gain are positively associated in post-outcome diagnostics; 2014 association is directionally positive but small-n inference weak."
+    ],
+    "unsupported": [
+      "Fine route fidelity causes high altitude shape individuality.",
+      "Source-level magnitude 30.0 vs 17.9 points differs significantly; interval includes zero.",
+      "2014 significant route-gain association: bird-bootstrap95 includes zero and posthoc age-group p=0.0953.",
+      "The 2013 posthoc p=0.0426 is an independent prespecified confirmatory test; multiple exploratory metrics and result-aware question invalidate such interpretation.",
+      "Other-bird equalization solves all effort bias: other birds still have different number of fixes/days and tracking quality.",
+      "Fine route recurrence measures actual repeated atmospheric uplift, food or competitor availability.",
+      "2013 and 2014 independently establish identical individual-specific wind responses."
+    ]
+  },
+  "new_biological_question": "Which landscape/atmospheric and behavioural conditions allow repeatable horizontal routes to become repeatable VERTICAL distributions? Test in a new source after matching true micro-location, available uplift and device errors."
+}
