@@ -1,5 +1,33 @@
 # Cross-taxon biological generality — current state
 
+## 2026-10-21 newest: thermal-updraft context and individual height-shape prediction across a 38-taxon source database
+
+The new, version-locked source is [Scacco et al. 2026, Zenodo 10.5281/zenodo.21915776](https://zenodo.org/records/21915776) (CC BY 4.0; Data.zip MD5 e1f116e6576cf20e54dad16d2c91a26d). It contains 38 bird/bat taxa and 853 tracked animals, but these are **source-universe counts**, not 38 positive independent species. The source already contains author-derived flapping, transport-cost, ERA5 wind/uplift annotations; our NEW endpoint is held-out daily-median-centered *GPS altitude distribution shape*, distinct from the original paper's cost-of-transport analyses.
+
+**Prospective sample pathway:** source archive manifest [39543940270](https://github.com/zuizui0223/odsp/actions/runs/39543940270); 72 study×species metadata panels ->16 first-stage panels across 11 species [39544432716](https://github.com/zuizui0223/odsp/actions/runs/39544432716); 1.524 million per-point GPS x-y/Wstar/flapping records outcome-blind scanned [39545718549](https://github.com/zuizui0223/odsp/actions/runs/39545718549): **2 studies** with ordinary 5-km individual-ID support, **zero** with strong/weak Wstar contextual support at 5km, and **four Gyps study×species panels across three species** eligible at the separately frozen 50-km grain. Frozen before opening native GPS heights were source study IDs 122120597, 352166254, 44080734, 972560688; 50-km regime-eligible birds **25/11/26/14**.
+
+**Predeclared 4-study native-height test** used one biological bird as the unit, the same study/bird/cell with other-day low/high Wstar donor profiles, 999 whole bird-day Wstar label shuffles WITHIN bird×year-month, and Holm across all four studies including unavailable placeholders p=1. The original run [39593226775](https://github.com/zuizui0223/odsp/actions/runs/39593226775) and Holm-display-corrected FULL source rerun [39594223949](https://github.com/zuizui0223/odsp/actions/runs/39594223949) reproduced all four source Wstar-null CSVs BYTE-IDENTICALLY; corrected artifact 12343146957 / ZIP SHA256 e54a722ea28cb936217699885853b3fa87ccd5b3341bb9e865acd68ba6bef29c.
+
+| Taxon / study | Birds | Bird-days | GPS fixes | Raw contextual gain (nats/fix) | Observed − null mean | Permutation draws valid | Final Holm p | Decision |
+|---|---:|---:|---:|---:|---:|---:|---:|---|
+| *Gyps fulvus* / 122120597 | 25 | 1610 | 50,981 | +0.005871 | **+0.015539** | 999/999 | **0.004** | **SUPPORTED** |
+| *Gyps fulvus* / 44080734 | 26 | 2621 | 97,740 | +0.015439 | **+0.017185** | 999/999 | **0.004** | **SUPPORTED** |
+| *Gyps africanus* / 352166254 | 11 | 960 | 26,385 | −0.012436 | +0.012378 (descriptive) | 845/999 | **1.000 placeholder** | **UNAVAILABLE, not negative** |
+| *Gyps coprotheres* / 972560688 | 14 | 882 | 25,130 | −0.032347 | +0.014800 | 990/999 | 0.146 | **NOT SUPPORTED** |
+
+Native GPS altitude quality exceeded 99.97% in all four, and all archived source height entries in the four study panels are ellipsoid heights, not terrain-relative AGL. The unavailable *G. africanus* panel failed the planned minimum 950 valid null shuffles (only 845), not the original native height QC. The observed 4-panel sample is 76 birds, 6,073 bird-days and 200,236 GPS records; don't treat individual fixes as independent tests.
+
+**Biological interpretation:** Under broad ERA5 updraft context, individual GPS vertical shape shows extra day-heldout predictability in **two tracking studies of *G. fulvus***. It is not supported as a universal property of three vulture species, all soaring birds, or bats. More importantly, this **does not identify individual-specific wind reaction norms**: a response shared by all birds can make per-bird Wstar-conditioned profiles predictive. Route/terrain, behavioural flapping mixture, source tag-altitude errors and day-shared weather remain possible mechanisms. Historical *mina* penguin monitored breeding-area concentration is a DISTINCT population-level endpoint, not part of this bird flight effect.
+
+**Durable documents:**
+- [Full 4-study ecological interpretation](https://github.com/zuizui0223/odsp/blob/prospective/gyps-thermal-50km-20261021/prospective/GYPS_4_STUDIES_WSTAR_VERTICAL_BIOLOGICAL_SYNTHESIS_V1.md)
+- [Complete evidence and source-bounded numeric receipt](https://github.com/zuizui0223/odsp/blob/prospective/gyps-thermal-50km-20261021/prospective/GYPS_50KM_WSTAR_4STUDIES_RESULT_EVIDENCE_RECEIPT_V1.json)
+- [Source-bounded preheight contract](https://github.com/zuizui0223/odsp/blob/prospective/gyps-thermal-50km-20261021/prospective/GYPS_50KM_WSTAR_CONTEXT_TEST_FREEZE_V1.json)
+
+**Next honest test:** shared-species-wide thermal response against bird-specific thermal reaction, holding fine horizontal location and independently classified flight state constant in NEW prospective independent studies. Do not reopen these 4 outcomes and tune Wstar bins/grain to rescue unsupported species.
+
+---
+
 ## 2026-10-21 outcome: repeated fine horizontal flight corridors versus repeated vertical shapes
 
 A new post-outcome exploratory reanalysis compared the **same 25 Rotics 2013 storks and 11 Flack 2014 storks** as the archived 50-km height studies, reading only source GPS x-y/time/identity/speed, without opening altitude values. Source-eligible biological bird lists and 50km bird-day counts were byte-fingerprint checked before any link to frozen per-bird height scores.
