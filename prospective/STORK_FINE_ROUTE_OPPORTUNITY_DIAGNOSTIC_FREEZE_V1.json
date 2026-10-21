@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-21",
+  "phase": "POST_OUTCOME_EXPLORATORY_GEOMETRY_DIAGNOSTIC",
+  "parent_branch": "prospective/stork2014-independent-cohort-20261020",
+  "scientific_question": "Are cross-day opportunities to use the same fine-scale flight corridor, within the already qualifying 50km migration cells, more recurrent in the 2013 positive stork cohort than in the 2014 non-supported cohort?",
+  "outcome_history": {
+    "Rotics2013": {
+      "doi": "10.5441/001/1.hn1bd23k",
+      "source_file": "Fall migrations of juvenile vs. adult white storks (data from Rotics et al. 2016)-gps.csv.zip",
+      "md5": "2ec22217c0f566650d245ae2da4694bf",
+      "source_year": 2013,
+      "eligible_birds_50km": 25,
+      "eligible_bird_days": 111,
+      "scored_fixes_preheight": 6951,
+      "eligible_ids_fingerprint": "901b92d50bfeb763feed6abcdd0b59e27a69b2b0825149b1343769ea2edb69df",
+      "source_run": 39408015638,
+      "vertical_gain": 0.01648335374581346,
+      "vertical_null_excess": 0.19485031824168236,
+      "p_upper": 0.001
+    },
+    "Flack2014": {
+      "doi": "10.5441/001/1.bj96m274",
+      "source_file": "Fall migration of white storks in 2014-gps.csv.zip",
+      "md5": "c1fa0c4ca28d3fce5d61caaac36e87d2",
+      "source_year": 2014,
+      "eligible_birds_50km": 11,
+      "eligible_bird_days": 33,
+      "scored_fixes_preheight": 2040,
+      "eligible_ids_fingerprint": "a741d2e1bc13d91a49f30ddb2cd13af97db855fd8be3d6c407b75ce827d1ec7d",
+      "source_run": 39415189033,
+      "vertical_gain": -0.26989281362127343,
+      "vertical_null_excess": -0.13465612171829897,
+      "p_upper": 0.998
+    }
+  },
+  "pre_outcome_height_bypass": true,
+  "observational_definition": {
+    "historical_source_windows": {
+      "Rotics2013": "2013 Aug-Nov UTC",
+      "Flack2014": "2014 Aug-Nov UTC"
+    },
+    "filtering": "use exact stork_2014_xytime_source_screen.audit filters: visible=false/provider outlier drop, GPS speed 5-55m/s, valid x-y, earliest qualifying source fix per bird UTC 5min bin. Never read height column.",
+    "projection": "EPSG6933 equal-area",
+    "coarse_cell_m": 50000,
+    "fine_cell_m": 5000,
+    "candidate_set": "ONLY biological bird IDs and bird-days that satisfy the fixed source's own-other-day and other-bird other-date 50km supporting cells: >=10 donor events each, >=50 scored heldout events/day, >=2 scored days/bird. Freeze to fingerprint of first source gate.",
+    "fine_recurrence": "For each 5-minute evaluated GPS fix, binary indicator that its 5km fine subcell (inside same 50km cell) is recorded by its same bird on at least 1 DIFFERENT UTC day. Average within scored bird-day, then bird, then cohort.",
+    "fine_other_recurrence": "The same indicator that at least one OTHER bird visited the same fine subcell on a DIFFERENT date. Compute on same target fixes, same 50km qualifying cells. Do not use same-date flock co-travel as other-day reference.",
+    "opportunity_contrast": "per bird fine self-other-day revisit fraction minus other-bird other-date fraction; optionally positive if unique fine trajectory recurs within bird. It is a coarse proxy for repeated path opportunity, NOT measured uplift/resource availability.",
+    "temporal_gap": "For target bird-day-coarse cell, nearest other date the focal bird has GPS in the same 50km cell. Calculate days between observations; summarize event-weighted within bird-day then equally across birds.",
+    "all_fix_day_fields": "Compute median number of distinct 50km and 5km cells visited per bird-day; report movement-coverage differences.",
+    "primary_descriptive": "Equal-bird mean of fine self-other-day revisit fraction, 2013 and 2014. Also report other-bird revisit and self-minus-other fractions.",
+    "sample_uncertainty": "5000 simple bird-level bootstrap resamples separately within each cohort for descriptive 95% percentile interval of difference (2013 mean minus 2014 mean), seed 20261021; this is exploratory, not a pre-registered causal significance test.",
+    "vertical_correlation": "Only after source independent geometry receipt, join frozen exact per-bird altitude gain CSVs to bird IDs and calculate descriptive Spearman rho within each cohort between route fine self-minus-other and altitude ID score. No new altitude score calculation or original null rerun.",
+    "source_archive_dedup": "Rotics 2013 and Flack 2014 archival source studies are not unambiguously environmentally independent, but animal IDs do not exactly overlap.",
+    "no_rescue": "Do not change historical 2013 positive/2014 unsupported outcomes, do not switch to 100km, alter fine grid based on result, restrict selected birds based on geometry gain, or infer causal wind effects."
+  },
+  "hypotheses": {
+    "pattern_a": "2013 cohort may show higher fine-scale route recurrence than 2014, accounting for greater transferability of apparent altitude shapes. This is a candidate explanation; not assumed true.",
+    "pattern_b": "If 2014 fine-route recurrence is similar or higher, route recurrence alone cannot explain non-support, focusing attention on flight conditions, age, terrain or device noise.",
+    "neither": "Post-outcome observational between-cohort differences cannot identify a biological mechanism; low event counts or width of bird bootstrap distribution may preclude a useful discrimination."
+  }
+}
