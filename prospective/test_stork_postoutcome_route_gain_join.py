@@ -54,7 +54,9 @@ def test_join_rejects_outcome_based_change_of_observed_bird_roster():
         return {"source":source,"altitude_values_read":False,
            "geometry":{
              "birds":{f"b{i}":{"self_fine_fraction":i/(n+1),
-                 "other_fine_fraction":.1,"fine_self_minus_other":i/(n+1)-.1,
+                 "other_fine_fraction":.1,"other_equal_bird_fine_fraction":.05,
+                 "fine_self_minus_equal_bird_other":i/(n+1)-.05,
+                 "fine_self_minus_other":i/(n+1)-.1,
                  "own_coarse_revisit_gap_days":2,"nested_fine_subcells_per_day":1,
                  "days":2,"scored_fixes":50} for i in range(n)},
              "bird_day_count":days,"scored_fixes":fixes,"eligible_roster_hash":"synthetic",
