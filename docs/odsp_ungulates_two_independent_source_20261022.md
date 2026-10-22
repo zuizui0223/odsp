@@ -35,8 +35,8 @@ The next biological priority is to ask whether the positive *mule-deer* individu
 
 ## Complete reusable source-derived database
 
-- [Source and ecological summary CSV](two_source_mule_bighorn_diel_solar_comparison.csv) (all four source×taxon combinations, including individual-bootstrap intervals).
-- [Wyoming original run aggregate JSON](wyoming_original_result.json), including both original source taxa and the **zero shared grid×month** finding.
-- [Reproducible source contract](../MOVEBANK_WYOMING_TWO_UNGULATES_SOURCE_V0_20261022.json), [Python pipeline](../../scripts/movebank_wyoming_two_ungulates_20261022.py), [synthetic tests](../../tests/test_movebank_wyoming_two_ungulates_20261022.py).
+- [Source and ecological summary CSV](../research/wyoming_two_ungulates_20261022/two_source_mule_bighorn_diel_solar_comparison.csv) (all four source×taxon combinations, including individual-bootstrap intervals).
+- [Wyoming original run aggregate JSON](../research/wyoming_two_ungulates_20261022/wyoming_original_result.json), including both original source taxa and the **zero shared grid×month** finding.
+- [Reproducible source contract](../research/MOVEBANK_WYOMING_TWO_UNGULATES_SOURCE_V0_20261022.json), [Python pipeline](../scripts/movebank_wyoming_two_ungulates_20261022.py), [synthetic tests](../tests/test_movebank_wyoming_two_ungulates_20261022.py).
 
 These research outputs expose no GPS coordinates, individual IDs, raw event timestamps, or source telemetry files. The original Wyoming provider source carries **CC BY-NC 4.0** metadata and must retain source attribution and noncommercial-use restrictions for source material; Utah source metadata declares CC0. The observations are not a random sample of global ungulates, and the two studies do not independently establish a general species-level environmental mechanism.
