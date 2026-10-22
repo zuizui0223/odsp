@@ -7,7 +7,7 @@ on:
       - prospective/FRANCE_GYPS_ERA5_5KM_OWN_VS_SHARED_WIND_HEIGHT_TEST_FREEZE_V1.json
       - prospective/run_france_gyps_era5_2019_5km_bird_vs_shared.py
       - prospective/test_run_france_gyps_era5_2019_5km_bird_vs_shared.py
-      - .github/workflows/france-gyps-2019-ERA5-bird-vs-species-wind.yml
+      - .github/workflows/france-gyps-ERA5-5km-own-vs-shared-wind.yml
   workflow_dispatch:
 
 permissions:
