@@ -15,10 +15,10 @@ class Tests(unittest.TestCase):
     def test_separate_same_animal_id_in_two_species(self):
         with TemporaryDirectory() as td:
             p=Path(td)/"s.csv"
-            p.write_text("timestamp,location-long,location-lat,individual-local-identifier,individual-taxon-canonical-name\\n"+
-                "2020-04-01 12:10:00,-110,40,same,Odocoileus hemionus\\n"+
-                "2020-04-01 12:15:00,-110,41,same,Ovis canadensis\\n"+
-                "2020-04-01 12:02:00,-110,42,same,Ovis canadensis\\n")
+            p.write_text("timestamp,location-long,location-lat,individual-local-identifier,individual-taxon-canonical-name\n"+
+                "2020-04-01 12:10:00,-110,40,same,Odocoileus hemionus\n"+
+                "2020-04-01 12:15:00,-110,41,same,Ovis canadensis\n"+
+                "2020-04-01 12:02:00,-110,42,same,Ovis canadensis\n")
             x,n,other=streaming_time_selected_csv(p,["Odocoileus hemionus","Ovis canadensis"])
             self.assertEqual(other,0)
             self.assertEqual(len(x["Odocoileus hemionus"]["same"]),1)
@@ -27,8 +27,8 @@ class Tests(unittest.TestCase):
     def test_unknown_source_taxa_not_rescued(self):
         with TemporaryDirectory() as td:
             p=Path(td)/"s.csv"
-            p.write_text("timestamp,location-long,location-lat,individual-local-identifier,individual-taxon-canonical-name\\n"+
-                "2020-04-01 12:10:00,-110,40,animal,UNKNOWN\\n")
+            p.write_text("timestamp,location-long,location-lat,individual-local-identifier,individual-taxon-canonical-name\n"+
+                "2020-04-01 12:10:00,-110,40,animal,UNKNOWN\n")
             x,n,other=streaming_time_selected_csv(p,["Odocoileus hemionus","Ovis canadensis"])
             self.assertEqual(other,1)
             self.assertEqual(sum(len(k) for k in x.values()),0)
