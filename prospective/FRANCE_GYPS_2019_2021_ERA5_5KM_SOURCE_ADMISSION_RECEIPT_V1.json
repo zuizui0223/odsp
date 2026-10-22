@@ -67,7 +67,7 @@
       "low_bird_days": 899,
       "high_bird_days": 945,
       "admitted_for_new_bird_specific_vs_species_shared_regional_wind_diagnostic": true,
-      "exact_bird_ID_SHA256": "FETCH_FROM_ARCHIVED_JSON_AT_NEXT_CHECK"
+      "exact_bird_ID_SHA256": "0528f4c8cff551ccc43a65d97f661b0f01a2529b9f355012770057e227e5d6f0"
     }
   },
   "workflow_display": {
