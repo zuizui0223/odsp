@@ -1,0 +1,86 @@
+{
+  "analysis": "FRENCH_GYPS_2019_2021_ERA5_5KM_OWN_VS_SPECIES_WIND_SHAPE_EXPLORATORY_V1",
+  "created_at": "2026-10-22",
+  "mode": "POST_PRIOR_HEIGHT_OUTCOME_EXPLORATORY_BUT_PRE_NEW_WIND_RESPONSE_AND_FIXED_SOURCE_POPULATION",
+  "population": {
+    "source": "Sassi et al 2024 Dataverse DOI 10.48579/PRO/IOSZNM, public original MD5 b18cc8004d311d19ff24060f655178bf",
+    "source_original_GPS_years": [
+      2019,
+      2020,
+      2021
+    ],
+    "original_GPS_barometric_individual_identity_result_already_opened": "original run 39716885648 (27 birds, each native sensor Holm p=.002; NOT clean alias-exclusion sensitivity)",
+    "prior_nonaltiude_ORIGINAL_run": "39720327589 after geodesy test removal",
+    "prior_ERA5_SOURCE_gate_run": "39723205971 (JSON source stage completed; audit key-name mismatch followed calculation)",
+    "prior_ERA5_SOURCE_artifact_id": 12402530353,
+    "prior_artifact_zip_sha256": "d4e93d61db86559c4a7f5a62ac351de053e3d97e7c6859f60098ffe6a5d2b0b2",
+    "original_source_wild_bird_IDs": 29,
+    "original_5km_wild_bird_roster_hash": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "tag_conflict": "Test geodesy instrument ID and both birds under same tag local identifier 182208 excluded without examining heights",
+    "donors_after_source_tag_quarantine": 27,
+    "ERA5_wind_samecell_personal_donor_candidate_birds": 26,
+    "ERA5_same_cell_month_species_shared_wind_candidate_birds": 25,
+    "STRICT_target_bird_IDs_hash": "0528f4c8cff551ccc43a65d97f661b0f01a2529b9f355012770057e227e5d6f0",
+    "STRICT_target_bird_days": 1844,
+    "STRICT_target_GPS_fix_support": 59616,
+    "source_0_1_wind_calendar_label_SHA256": "fd1cc44366f25429184eb7560097b90c8f44024b91d3beb3e4244dd79123cf74",
+    "source_site": "44.20N,3.25E colony independent of GPS traces",
+    "earlier_frozen_CERRA_contrast": "CERRA 2021 Jul-Dec entire 184 days missing; original gate remains unavailable, ERA5 is a newly versioned coarser climate source."
+  },
+  "current_source": {
+    "climate": "Open-Meteo ECMWF ERA5 100m wind_speed_100m m/s, site-sampled, native ERA5 coarse grid (44.25N,3.25E)",
+    "complete_calendar_days_2019_2021": 1096,
+    "exposure_groups": "Within YYYY-MM all-calendar daily 24h wind mean Q25/Q75, low/high/middle",
+    "climate_causal_warning": "Only site-level weather, independent of heights but not actual uplift at GPS flight location.",
+    "track_source": "Original 9 seasons, 5min earliest nonheight eligible GPS speed 5-55m/s and source QA; same 5km EPSG6933 cells. No source change after outcome."
+  },
+  "numeric_height_check": {
+    "source_colums": [
+      "height-above-msl",
+      "bar:barometric-height"
+    ],
+    "require_joint_finite_GPS_and_barometric_source_event": true,
+    "height_range_m": [
+      -500,
+      7000
+    ],
+    "source_joint_quality_fraction_min": 0.8,
+    "source_per_bird_day_joint_fraction_min": 0.5,
+    "source_bird_day_joint_5min_GPS_fixes_min": 20,
+    "vertical_bins_edges_m": [
+      "-inf",
+      -200,
+      -100,
+      -50,
+      -25,
+      0,
+      25,
+      50,
+      100,
+      200,
+      "inf"
+    ],
+    "center_each_bird_day_height_by_sensor_separately": true,
+    "no_AGL_claim": true,
+    "target_same_fixes_both_sensor_models": true
+  },
+  "test": {
+    "B_species_shared_context": "For focal bird i, the common source population response to wind in same 5km cell + calendar YYYY-MM, estimated from ≥2 other birds each with >=10 low and >=10 high donor events, each bird equal with its own days equal; REMOVE full same UTC date and focal bird from other birds.",
+    "A_individual_own_context": "For same focal bird i, same cell and wind regime train from own other dates, donor day equally weighted (Jeffreys 0.5 bin pseudocount).",
+    "contrast": "Matched held-out target GPS events log P_A/P_B, each target day equal, low/high regime equal per bird, birds equal.",
+    "donor_support": "Require original source gate ≥10 own same-state other-day and ≥10 own opposite-state other-day fixes at cell, and same 5km cell/year-month ≥2 other birds each with both wind-state donor fixes >=10 excluding target UTC date; measured again on joint GPS/baro-valid events.",
+    "primary_sensor": "GPS height-above-msl",
+    "companion_sensor": "bar:barometric-height paired same source fixes; not an independent sample/sensor unless independent calibration verified.",
+    "min_primary_eligible_birds_after_height_QC": 10,
+    "source_population_selection": "Limit biological TARGETS to 25 source-preheight ERA5 eligible bird IDs. Retain all 27 tag-clean native birds as OTHER-bird donor distribution, but never score donors as target if outside frozen 25.",
+    "randomization": "999 shared-whole-CALENDAR-day wind state exchanges within each YYYY-MM across all 2019-21 calendar days, SYNCHRONIZED for all birds (never permute regional wind separately bird-by-bird). Recompute model source and n birds per exchange.",
+    "random_seed": 20261022,
+    "min_valid_randomizations": 950,
+    "conservative_one_sided_p_upper": "(1 + valid_null>=observed + unavailable_draws)/1000",
+    "sensor_multiplicity": "Holm across two paired sensor comparisons; include unavailable as p=1, and require positive observed minus null baseline for any exploratory support.",
+    "no_other_taxa_scanned": true,
+    "no_rescue": "If n<10 or null<950, declare unavailable. Do not change calendar bins, source weather provider, location, source cohorts, tag quarantine, 5km cells, GPS/barometric joint quality or min donor days."
+  },
+  "interpretation": "Exploratory ecological case study because this exact native source's altitude identity is already in earlier frozen results. A positive individual-vs-shared wind prediction cannot imply a genetic or adaptive flight rule. Negative or unsupported is not proof all birds have identical environmental response.",
+  "source_overlap": "Previous positive Gyps fulvus Scacco source parents are Bardenas Reales and Scavengers and wild ungulates; France Grands Causses has distinct source study names and zero exact animal-ID overlaps, physical device aliases still uncertain."
+}
