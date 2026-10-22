@@ -1,0 +1,41 @@
+name: Dataverse official published 1.09GB file byte-range protocol audit
+
+on:
+  push:
+    branches: [prospective/france-griffon-5km-regionalwind-20261022]
+    paths:
+      - .github/workflows/france-gyps-download-range-diagnostic.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  byte-range:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Probe EXACT 1-byte HTTP Range on public source; do not retrieve entire GPS archive
+        run: |
+          set -euo pipefail
+          mkdir -p build/range
+          cd build/range
+          set +e
+          curl --http1.1 --fail --location --silent --show-error \
+            --connect-timeout 20 --max-time 20 --max-filesize 1024 \
+            -H 'Range: bytes=0-0' \
+            --dump-header header.txt \
+            --output onebyte.bin \
+            -w 'response_http=%{http_code}; downloaded_bytes=%{size_download}\n' \
+            'https://data.indores.fr/api/access/datafile/5114'
+          status=$?
+          set -e
+          echo "curl_exit=$status"
+          grep -iE '^(HTTP/|content-range:|accept-ranges:|content-length:|transfer-encoding:)' header.txt || true
+          if test "$status" -eq 0 && test "$(stat -c %s onebyte.bin)" -eq 1 \
+             && grep -qiE '^HTTP/[[:digit:].]+ 206' header.txt; then
+            echo 'RANGE_SUPPORT=YES'
+          else
+            echo 'RANGE_SUPPORT=NO_OR_INCONCLUSIVE'
+          fi
