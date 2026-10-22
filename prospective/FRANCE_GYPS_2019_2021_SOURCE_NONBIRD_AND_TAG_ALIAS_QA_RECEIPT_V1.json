@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "created_on": "2026-10-22",
+  "analysis": "FRANCE_GYPS_SOURCE_CALIBRATION_TAG_ALIAS_POST_FROZEN_CORRECTION_V1",
+  "analysis_scope": "Nonvertical source sample QA and impact audit; do not silently rewrite old frozen native height outcomes.",
+  "source": "Sassi et al. 2024, 10.48579/PRO/IOSZNM, 2019-2021, 9 GPS seasonal tables, zip MD5 b18cc8004d311d19ff24060f655178bf",
+  "prior_report": {
+    "run": 39714803696,
+    "source_native_individual_IDs_including_calibration_test": 30,
+    "original_first_5minute_records": 742423,
+    "original_total_bird_days": 25057,
+    "original_same5km_qualified_birds": 28,
+    "original_same5km_qualified_bird_days": 12360,
+    "original_same5km_qualified_fixes": 608202,
+    "original_50km_qualified_birds": 29,
+    "original_50km_roster_contained_nonbird_test_ID": true
+  },
+  "corrected_without_height": {
+    "run": 39720327589,
+    "native_source_test_label": "Test géodésie ornitela",
+    "source_rows_removed_as_nonbiological_test": 5775,
+    "first_5minute_records_in_test_group_removed": 345,
+    "wild_animals": 29,
+    "selected_first_5min_fixes": 742078,
+    "wild_animal_days": 25041,
+    "same5km_qualified_birds": 28,
+    "same5km_qualified_bird_roster_hash": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "same5km_qualified_bird_days": 12357,
+    "same5km_qualified_fix_records": 608109,
+    "same50km_qualified_birds": 28,
+    "same50km_qualified_fix_records": 649575,
+    "study_name": "Eurasian griffon vulture in France (Grands Causses 2018) ID_PROG 961",
+    "source_GPS_HDOP_and_satellite_completeness": "100% finite among selected source fixes in each 2019, 2020, 2021 year",
+    "no_numeric_height_ever_consulted_for_QA": true
+  },
+  "native_tag_identity_caveat": {
+    "repeated_tag_local_identifier": "182208",
+    "mapped_to_two_bird_IDs": [
+      "2018-Causses-Ad-Peycare-HTK-182208",
+      "2019-Causses-Ad-Mostuejouls-IIE-182008"
+    ],
+    "one_native_tag_used_by_multiple_literal_bird_IDs": true,
+    "native_device_redeployment_vs_ID_error": "unknown",
+    "corresponding_tagless_birds": 0,
+    "invalid_source_structural_independence_without_extra_QA": true,
+    "new_wind_reaction_eligibility": "Both bird IDs carrying conflicting tag-local-identifier 182208 are excluded before checking CERRA and altitude, irrespective of prior result, to avoid pseudo independent source/detector reuse."
+  },
+  "effect_on_previous_frozen_GPS_vs_barometric_identity": {
+    "original_workflow": 39716885648,
+    "original_original_bird_ROSTER_scorable": 27,
+    "original_GPS_Holm_p": 0.002,
+    "original_BAROMETRIC_Holm_p": 0.002,
+    "original_observed_gain_GPS": 0.04071337079575615,
+    "original_observed_gain_BAROMETRIC": 0.0414526382434786,
+    "cohort_included_the_label": "2019-Causses-Ad-Mostuejouls-IIE-182008",
+    "cohort_did_not_include": "2018-Causses-Ad-Peycare-HTK-182208",
+    "original_native_Sensors_not_proven_independent": true,
+    "effect_of_excluding_ambiguous_tag_and_native_calibration_test": "NOT YET RECOMPUTED; prior numerical run and p-values must not be silently represented as the clean-cohort 26-bird result.",
+    "no_adaptive_tuning": "Do not use this QA correction to search for improved p values; if paired sensor robustness is rechecked, label as post-outcome QA sensitivity."
+  },
+  "biological_claim_boundary": "The original positive D1 altitude identity signal was in 27 originally admitted birds. New ecological wind-reaction analyses must use the stricter alias-quarantined population and cannot count this same underlying source as a new independent GPS dataset.",
+  "next": "Run independently observed CERRA regional wind state × 5km source overlap gate before any new wind-context ecological score. Earlier D1 dual-sensor inference is retained with QA caveats."
+}
