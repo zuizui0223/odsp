@@ -42,8 +42,8 @@ jobs:
           set -euo pipefail
           mkdir -p build/france_gyps_xy
           cd build/france_gyps_xy
-          curl --fail --location --silent --show-error \
-            --retry 3 --retry-delay 8 --max-time 1800 \
+          curl --http1.1 --fail --location --silent --show-error \
+            --retry 6 --retry-all-errors --retry-delay 8 --max-time 1800 \
             'https://data.indores.fr/api/access/datafile/5114' \
             -o windTurbineAvoidance.zip
           printf '%s\n' 'b18cc8004d311d19ff24060f655178bf  windTurbineAvoidance.zip' | md5sum --check
