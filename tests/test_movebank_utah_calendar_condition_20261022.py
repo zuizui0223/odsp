@@ -10,7 +10,8 @@ class Tests(unittest.TestCase):
         self.assertEqual(len(c["all_six_frozen_previous_results"]),6)
     def test_daylight_removes_artificial_temperature_effect(self):
         # Y varies ONLY with astronomical solar daylight L; T correlated L.
-        rows=[(5+2*i,0.5*i,9+i,3*(9+i),2019,i+1) for i in range(10)]
+        # Retain temperature deviations independent of L; Y has only sunlight effect.
+        rows=[(5+2*i+(i%3-1)*1.2,0.5*i,9+i,3*(9+i),2019,i+1) for i in range(10)]
         self.assertAlmostEqual(partial_slope(rows,0,[2]),0,places=10)
     def test_predictor_survives_solar_adjustment_if_independent(self):
         # temperature deviations have independent pattern, true slope 2.
