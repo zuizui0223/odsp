@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-22",
+  "phase": "FRENCH_GYPS_2019_2021_ARCHIVED_SOURCE_XYTIME_FEASIBILITY_BEFORE_HEIGHT",
+  "source": {
+    "DOI": "10.48579/PRO/IOSZNM",
+    "repository": "data.InDoRES / CEFE Dataverse",
+    "title": "Tracking data and scripts of analysis to investigate griffon vulture avoidance in Grands Causses, France",
+    "author": "Yohan Sassi",
+    "publication_date": "2024-05-13",
+    "native_taxon": "Gyps fulvus",
+    "licensed_as": "CC BY 4.0",
+    "file_open_permission": true,
+    "dataset_id": 5113,
+    "version_id": 206,
+    "data_file_id": 5114,
+    "filename": "windTurbineAvoidance.zip",
+    "published_file_bytes": 1093170227,
+    "published_file_md5": "b18cc8004d311d19ff24060f655178bf",
+    "exact_data_access_url": "https://data.indores.fr/api/access/datafile/5114",
+    "source_observation_years": [
+      2019,
+      2020,
+      2021
+    ],
+    "source_tracking_movebank_name": "Eurasian griffon vulture in France ID_PROG 961",
+    "native_study_id": "UNCONFIRMED (name only); not known to equal previously opened Scacco study IDs",
+    "original_paper": "Empirical and simulation data reveal a lack of avoidance of wind turbines by Gyps fulvus (Griffon Vulture)",
+    "native_zip_file_structure_unopened": true,
+    "data_overlap_warning": "Don't count as a new independent study until source parent, tag-ID and deployment source are cross-checked with Scacco 2026 original Gyps panels 122120597 and 44080734."
+  },
+  "source_preoutcome_screen": {
+    "stages": [
+      "Verify Dataverse exact version, published bytes and MD5 via official REST metadata",
+      "Retrieve original published public 1.09GB ZIP once (or first use range ZIP directory if byte-range support allows), SHA/bytes verify",
+      "List ZIP member paths/sizes and inspect CSV column names only; NEVER parse altitude values or missingness in this gate",
+      "Identify bird ID, tag ID, UTC timestamp, longitude/latitude, original movement state/source GPS velocity and target source years.",
+      "Only if raw source is truly per-event GPS, inspect ID/time/XY and date support at 5km, preserve all 2019–2021 source years before opening heights."
+    ],
+    "original_data_collection_coverage_years": [
+      2019,
+      2020,
+      2021
+    ],
+    "spatial_grain_m": 5000,
+    "alternative_migration_grain_m": 50000,
+    "minimum_independent_birds": 10,
+    "minimum_distinct_days_per_bird": 2,
+    "minimum_5min_xy_records_per_day": 20,
+    "self_other_UTC_date_same_cell_min": 10,
+    "other_bird_other_UTC_date_same_cell_min": 10,
+    "source_event_filter": "Use archived GPS speed if present 5–55m/s; if absent inspect native schema and do not infer flight behavior from weather or heights. No invented flight proxy.",
+    "time_thinning": "First valid native timestamp+coordinate event per bird UTC day×5-minute bin BEFORE opening numeric GPS altitude.",
+    "tags": "Map individual ID to tag/deployment IDs and source study years; flag aliases/confounded stable sensor identity."
+  },
+  "prospective_biology_only_if_source_passes": {
+    "question": "Does within-bird, within-fine-horizontal-site vertical profile response transfer better across days under similar independently reconstructed thermal/wind and verified behavior states than by a shared-species weather reaction alone?",
+    "shared_model": "species-wide same-site, same-month meteorological response, trained leaving out focal bird and target day; compare to bird-specific response on matched target GPS points",
+    "vertical_variable": "Source native GPS height above ellipsoid/MSL or barometric pressure; must confirm source meaning and device precision before selection, use DEM where possible; if absent source is structurally unavailable.",
+    "null": "999 matched whole-bird-day Wstar label randomizations within source month/environment blocking, 950 valid minimum, no split of same day's fix across train/test",
+    "source_independence": "Require distinct animal tracking parent from Scacco *Gyps fulvus* 2016–2024 and from other published Sassi reexports; if overlap, mark as source-dependent and do not count as independent support."
+  },
+  "boundary": "This branch is source structural feasibility only; positive/negative height individuality outcome unknown and not tested. CC-BY public source does not guarantee same GPS height or mode fields."
+}
