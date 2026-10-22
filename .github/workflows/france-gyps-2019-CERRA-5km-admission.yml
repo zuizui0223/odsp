@@ -42,10 +42,23 @@ jobs:
           set -euo pipefail
           mkdir -p build/francegyps_CERRA
           cd build/francegyps_CERRA
-          curl --http1.1 --fail --location --silent --show-error \
-            --retry 6 --retry-all-errors --retry-delay 8 --max-time 1800 \
-            'https://data.indores.fr/api/access/datafile/5114' \
-            -o windTurbineAvoidance.zip
+          # Proven official HTTP/1.1 Range: 206 bytes 0-0/1093170227,
+          # accept-ranges: bytes. Keep file bytes between attempts; resume at
+          # the exact byte already saved after unexpected server truncation.
+          success=0
+          for attempt in 1 2 3 4 5 6; do
+            echo "Dataverse source download/resume attempt $attempt"
+            if curl --http1.1 --fail --location --silent --show-error \
+                --connect-timeout 35 --max-time 1800 --continue-at - \
+                'https://data.indores.fr/api/access/datafile/5114' \
+                -o windTurbineAvoidance.zip; then
+              success=1
+              break
+            fi
+            echo "Partial source bytes retained: $(stat -c %s windTurbineAvoidance.zip 2>/dev/null || echo 0)"
+            sleep 4
+          done
+          test "$success" -eq 1
           echo 'b18cc8004d311d19ff24060f655178bf  windTurbineAvoidance.zip' | md5sum --check
           test "$(stat -c %s windTurbineAvoidance.zip)" -eq 1093170227
       - name: Join archive-independent site CERRA 2019-21 whole-calendar monthly wind regimes with nonheight 5km source time/XY
