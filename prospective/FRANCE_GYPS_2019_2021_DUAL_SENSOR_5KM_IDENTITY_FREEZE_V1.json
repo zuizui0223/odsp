@@ -58,9 +58,11 @@
     "reference": "MEDGULL D1-balanced day and bird equal own-vs-other native GPS log scores; Jeffreys 0.5 each height bin; same target GPS events for both sensors",
     "own_other_day_same_cell_min": 10,
     "different_bird_other_date_same_cell_min": 10,
-    "target_day_scored_events_min": 20,
+    "target_day_scored_events_min": 50,
     "bird_min_scored_days": 2,
-    "study_min_scored_birds": 10
+    "study_min_scored_birds": 10,
+    "note": "Original source preheight gate used >=20 events/day; this BEFORE-height dual-sensor analytic endpoint uses the validated existing MEDGULL D1-balanced kernel >=50 evaluation events/day, unlike its >=20 source prescreen. After 50-day admission, if <10 eligible birds, report unavailable; no rescue.",
+    "kernel": "Pinned unmodified existing MEDGULL D1-balanced equal bird/day reference kernel: donor minima 1 day-entry, own-other and other-bird other-date events 10, test scored per bird-day >=50; per-bird >=2 scored days."
   },
   "null": {
     "method": "999 whole bird-day identity label permutations within exact UTC date, recompute eligibility for both sensors, do not shuffle native GPS fixes",
