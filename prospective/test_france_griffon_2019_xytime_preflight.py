@@ -75,3 +75,37 @@ def test_two_source_years_in_same_file_never_rescued():
                      record("bird1","2019-05-11",0)],2019)
     assert len(first)==1
     assert c["unexpected_year_or_time"]==1
+
+
+def test_exact_geodesy_instrument_test_id_is_quarantined_before_source_population():
+    rows=[
+       record("Test géodésie ornitela","2019-06-11",i)
+       for i in range(30)
+    ]
+    rows += [
+       record(f"bird{i}",day,k)
+       for i in range(10)
+       for day in ("2019-06-11","2019-06-12")
+       for k in range(30)
+    ]
+    first,c,t,n=run(rows,2019)
+    report=analyze(first,c,t,n)
+    assert report["selected_biological_animals"]==10
+    assert c["nonbiological_instrument_test_rows_quarantined"]==30
+    assert "Test géodésie ornitela" not in report["selected_animal_IDs"]
+    assert report["horizontal_day_eligibility_by_cell_m"]["5000"]["n_unique_birds_with_qualifying_day_events"]==10
+
+
+def test_tag_shared_by_two_birds_is_reported_as_ambiguity_not_new_individual():
+    rows=[
+       record(bird,day,i,tag="SAME_NATIVE_TAG")
+       for bird in ("b0","b1") for day in ("2019-06-11","2019-06-12")
+       for i in range(30)
+    ]
+    first,c,t,n=run(rows,2019)
+    q=analyze(first,c,t,n)
+    assert q["selected_biological_animals"]==2
+    assert q["n_distinct_tag_IDs"]==1
+    assert q["tags_aliased_to_multiple_biological_bird_IDs"]=={
+        "SAME_NATIVE_TAG":["b0","b1"]
+    }
