@@ -1,0 +1,80 @@
+{
+  "analysis": "FRENCH_GYPS_2019_2021_DUAL_SENSOR_CENTERED_HEIGHT_TEST_PREOUTCOME",
+  "created_at": "2026-10-22",
+  "phase": "FROZEN_BEFORE_NUMERIC_NATIVE_GPS_OR_BAROMETRIC_HEIGHT",
+  "source": {
+    "archive": "Sassi et al. (2024) data.InDoRES doi:10.48579/PRO/IOSZNM",
+    "original_zip_md5": "b18cc8004d311d19ff24060f655178bf",
+    "source_years": [
+      2019,
+      2020,
+      2021
+    ],
+    "source_first5min_flight_records": 742423,
+    "source_unique_animals": 30,
+    "eligible5km_birds": 28,
+    "eligible5km_roster_sha256": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "metadata_gate_run": 39714803696,
+    "source_independence": "Separate source-parent crosswalk must pass before counting an external study replication"
+  },
+  "hypothesis": "Day-centered same-bird distinct-day altitude distribution shape identity should align across BOTH native GPS and barometric height series on precisely matched GPS events if it is robust to sensor type and not simply a sensor-specific time-constant additive bias.",
+  "fields": {
+    "GPS_height": "height-above-msl",
+    "barometric_height": "bar:barometric-height",
+    "nonheight_quality": [
+      "gps:hdop",
+      "gps:satellite-count"
+    ]
+  },
+  "sensor_caveat": "Pressure/barometric height may itself be calibrated using GPS or ambient pressure models; two columns are NOT proven sensor independent without manufacturer metadata. Matched dual height congruence is a robustness diagnostic, not causal identification.",
+  "source_selection": "Reuse exact previous source-first eligible XY/UTC/speed 5–55m/s/outlier first per bird×UTC day×5min; never replace missing altitude earliest fix with a later fix.",
+  "source_population": "All 2019-2021 source years, same 28 eligible birds and same frozen 5km cells. Do not select positive height birds afterwards.",
+  "dual_quality": {
+    "both_altitude_columns_finite_range_m": [
+      -500,
+      7000
+    ],
+    "require_both_heights_same_event": true,
+    "minimum_both_sensor_valid_fraction_source": 0.8,
+    "min_fraction_joint_complete_within_bird_day": 0.5,
+    "no_posthoc_salvage": true
+  },
+  "vertical_profile": {
+    "spatial_projection": "EPSG6933 5000m",
+    "centering": "Each native sensor's daily median from identical jointly-complete first-selected flying GPS events in each bird UTC day (across all locations), offline shape, not absolute height prediction",
+    "bins_m": [
+      "-inf",
+      -200,
+      -100,
+      -50,
+      -25,
+      0,
+      25,
+      50,
+      100,
+      200,
+      "inf"
+    ],
+    "reference": "MEDGULL D1-balanced day and bird equal own-vs-other native GPS log scores; Jeffreys 0.5 each height bin; same target GPS events for both sensors",
+    "own_other_day_same_cell_min": 10,
+    "different_bird_other_date_same_cell_min": 10,
+    "target_day_scored_events_min": 20,
+    "bird_min_scored_days": 2,
+    "study_min_scored_birds": 10
+  },
+  "null": {
+    "method": "999 whole bird-day identity label permutations within exact UTC date, recompute eligibility for both sensors, do not shuffle native GPS fixes",
+    "random_seed": 20261022,
+    "valid_min": 950,
+    "p_upper": "(1+#valid_null_ge_observed+#invalid_null)/1000",
+    "inference": "Holm across exactly two sensor outcomes; both supported required for a cross-sensor robustness description on identical fixes.",
+    "existing_tag_identity_caveat": "Same biological animal and tag can remain aliased; two height fields may share calibration error."
+  },
+  "descriptive_sensor_diagnostic": {
+    "metrics": "Per bird-day Pearson correlation, robust centered absolute differences (meters), HDOP versus |GPS−baro|; descriptive only, no new quality cutoffs.",
+    "missingness": "Report source total first-selected 5minute GPS denominator and valid heights separately by sensor and paired.",
+    "caution": "Mixed pressure-reference height may have varying meteorological offset; no correction after seeing results."
+  },
+  "boundary": "The question is dual height sensor agreement of individual altitude shape in a new tracking study. Not a Wstar causal effect, not individual-specific wind reaction, and not a taxon-universal law.",
+  "no_rescue": "No shifting the spatial grain or years, age/source subset, sensor completeness rule, fixed bins, or null comparisons after native height opened."
+}
