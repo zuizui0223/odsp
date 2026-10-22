@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-22",
+  "stage": "PREOUTCOME_INDEPENDENT_TAXON_SOURCE_ACCESS_AND_SPATIAL_FEASIBILITY",
+  "scientific_question": "In a separate migratory *Grus grus* source, can repeated days with flight-state, terrain-relative altitude and independently annotated atmosphere distinguish stable individual vertical-use strategies from a shared weather/flight-mode response?",
+  "independent_source": {
+    "title": "Cranes soar on thermal updrafts behind cold fronts as they migrate across the sea",
+    "taxon": "Grus grus",
+    "DOI": "10.5061/dryad.t76hdr871",
+    "official_record": "https://datadryad.org/dataset/doi:10.5061/dryad.t76hdr871",
+    "version": 4,
+    "version_id": 277770,
+    "published": "2024-02-08",
+    "license": "CC0-1.0",
+    "source_paper": "Pekarsky et al. 2024 Proc. Royal Society B, 10.1098/rspb.2023.1243",
+    "data_reported_animals": 44,
+    "data_reported_years": 4,
+    "note": "44 birds are source-publication coverage, not a claim that all have complete independently usable raw GPS/altitude data. File table API lists 37 objects, including multiple individual raw GPS+ACC CSV files and summary files.",
+    "official_manifest_api": "https://datadryad.org/api/v2/versions/277770/files?page=1&per_page=50",
+    "raw_single_bird_GPS_file_pattern": "*_1HzGPS_and_ACC_annotated.csv",
+    "README_file_id": 2905498,
+    "README_SHA256": "dd3db1998b00a4e7a601bfd49586c7c2d213d4b14be7bc69f21f5d90dbe5ab83",
+    "small_pilot_bird_file": "16113_1HzGPS_and_ACC_annotated.csv",
+    "small_pilot_file_id": 2905456,
+    "small_pilot_sha256": "543ddd5b9233c40d982ef109574c9f9c9294471baa6d42f5cfb2ec5e4af8e1a7",
+    "small_pilot_bytes": 2706910,
+    "source_fields_confirmed_in_public_README": [
+      "Tag",
+      "TimeCont",
+      "Latitude",
+      "Longitude",
+      "Altitude_m",
+      "AleAboveTerrain",
+      "TerrainHeight",
+      "OverSeaOrLand",
+      "running_Flap_rate",
+      "blh",
+      "sstDiff",
+      "windSpeed850",
+      "windSpeed925",
+      "msshf"
+    ],
+    "strict_reuse": "Source includes behavior/sea-thermal studies; new endpoint is within-bird day-heldout vertical probability response, not reanalysis of published sea-soaring incidence, thermal climb or airspeed."
+  },
+  "nonduplication": {
+    "previously_opened_mixed_public_macro_archive": "Scacco et al 2026 10.5281/zenodo.21915776",
+    "Scacco_species": "Grus nigricollis present, Grus grus NOT represented among 38 observed taxa in the source catalog",
+    "conclusion": "Candidate is taxonomically different from the previous Gyps, gull, bat and Ciconia height studies and a different Dryad parent, but independent device/study source still must be checked from raw IDs.",
+    "taxonomic_independence_not_biological_effect": "Being a new species/study does not ensure observations support both wind/flight states or repeated spatial matching."
+  },
+  "source_access_gate": {
+    "first": "Official public Dryad v4 API manifest; verify n=37 files, SHA256 values and metadata rights WITHOUT downloading raw GPS height values.",
+    "second": "Attempt official file download API GET for README and one 2.7MB GPS bird sample, no web proxy or login bypass. Respect HTTP 401/403 by saving ACCESS_UNAVAILABLE receipt and stopping; do not pretend parsed 2.1GB data.",
+    "on_success": "Validate downloaded byte SHA256 for both pilot files, then inspect source CSV header plus ONLY timestamp, bird ID, longitude/latitude, flight state and atmospheric nonvertical values. Do not parse numeric Altitude_m, AleAboveTerrain or TerrainHeight.",
+    "after_success": "Only if pilot source columns match, open source pilot distinct tracking days, 1Hz cadence, wind/flight availability. Then extend to multiple bird files for source x-y gate; no altitude effect until enough distinct birds.",
+    "source_approval": "CC0 is publicly dedicated, but API 401/403 is an access boundary, not justification for guessing/unverified download URLs."
+  },
+  "future_preheight_thresholds": {
+    "target_year_selection": "No outcome-guided year choice: pilot source file IDs fixed; for full cohort include all published per-bird files and calendar years, stratify by year as source factor.",
+    "behavioral_states": "Use externally annotated `running_Flap_rate` as a continuous predictor or preregistered source-defined soaring/gliding classifications; do not fabricate binary state thresholds from results.",
+    "atmosphere": "Test weather against source independently annotated `blh`, `sstDiff`, `msshf` and 850/925 hPa wind; these are atmospheric proxies, not direct uplift at GPS bird location.",
+    "vertical_next_stage": "Use source `AleAboveTerrain` (AGL proxy) with native terrain/depth metadata audit; source `Altitude_m` is raw measured altitude with potentially tag noise; never choose height source after outcomes.",
+    "horizontal_cells_m": [
+      5000,
+      50000
+    ],
+    "min_individuals_same_study": 10,
+    "min_independent_UTC_days_per_bird": 2,
+    "min_points_per_day_after_5min_thinning": 20,
+    "min_other_date_own_cell_points": 10,
+    "min_other_bird_other_date_cell_points": 10,
+    "minimum_3_flight_and_weather_repeat_days": "Needs at least 2 days in both low/high independently-defined atmosphere conditions in each bird to evaluate shared vs bird-specific reaction.",
+    "forbid_5km_to_50km_rescue": "If 5km primary fails, the 50km migratory grain is a predeclared separate ecological scale with separate estimand and claims. Do not reinterpret 50km as 5km."
+  },
+  "biological_null_model_future": {
+    "shared_weather": "P(z_AGL centered | source study/year, flight-state, month, geographic cell, atmospheric conditions) with focal bird excluded",
+    "bird_specific": "P(z_AGL centered | same context, bird-specific atmospheric slope/reaction) using only source days other than heldout date.",
+    "test": "Incremental heldout bird-day log score over shared reaction baseline with bird-clustered uncertainty and 999 matched whole-bird-day weather permutations preserving date/weather shared correlation.",
+    "confirmatory_gate": "Freeze full source/bird roster and estimator before any numeric GPS altitude opening; allocate at least 10 individually repeated birds and a source-level 950/999 valid-null floor",
+    "interpretation": "An unsupported difference cannot prove reaction equivalence. Positive means better prediction conditional on model and source, not direct causal winds/adaptation."
+  },
+  "no_current_biological_outcome": true
+}
