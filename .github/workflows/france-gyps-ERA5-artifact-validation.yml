@@ -1,0 +1,77 @@
+name: Verify archived France Gyps ERA5 25-bird 5km source-only outcome-blind receipt
+
+on:
+  push:
+    branches: [prospective/france-griffon-5km-era5-20261022]
+    paths:
+      - .github/workflows/france-gyps-ERA5-artifact-validation.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reuse previously computed frozen archive without re-downloading 1.09GB raw GPS
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/france_era5_receipt
+          curl --fail --silent --show-error --location --retry 3 --max-time 120 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12402530353/zip' \
+            -o build/france_era5_receipt/preheight.zip
+          echo 'd4e93d61db86559c4a7f5a62ac351de053e3d97e7c6859f60098ffe6a5d2b0b2  build/france_era5_receipt/preheight.zip' | sha256sum --check
+          unzip -p build/france_era5_receipt/preheight.zip FRANCE_GYPS_ERA5_5KM_WIND_CONTEXT_SOURCE_GATE_V1.json > build/france_era5_receipt/source.json
+      - name: Verify literal study-year, source alias QA, weather and heldout other-bird eligibility
+        run: |
+          python - <<'PY'
+          import json
+          p=json.load(open('build/france_era5_receipt/source.json'))
+          assert p['analysis']=='FRANCE_GYPS_2019_2021_ERA5_WIND_5KM_SOURCE_ADMISSION_V1'
+          assert p['source_zip_md5']=='b18cc8004d311d19ff24060f655178bf'
+          assert p['stage']=='POST_PRIOR_HEIGHT_BUT_CURRENT_WIND_OUTCOME_BLIND_SOURCE_GATE'
+          assert p['no_altitude_values_accessed_this_analysis'] is True
+          assert p['original_GPS_baro_5km_identity_effect_changed'] is False
+          q=p['source_preheight_reinspection']
+          assert q['prior_GPS_first5min_fix_count']==742078
+          assert q['excluded_bird_count']==2
+          assert q['distinct_biological_bird_ids_after_quarantine']==27
+          assert q['prior_preheight_5km_bird_sha']=='031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928'
+          assert q['source_first5min_after_tag_quarantine']==726993
+          weather=p['independent_ERA5_regional_wind']
+          assert weather['n_calendar_days']==1096
+          assert weather['per_calendar_day_state_sha256']=='fd1cc44366f25429184eb7560097b90c8f44024b91d3beb3e4244dd79123cf74'
+          x=p['population']
+          assert x['ordinary_5km_bird_identity_support']['birds']==27
+          assert x['5km_own_low_high_regional_wind_support']['birds']==26
+          y=x['5km_shared_species_wind_reference_support']
+          assert y['birds']==25
+          assert y['bird_days']==1844
+          assert y['selected_GPS_fixes']==59616
+          assert y['bird_IDs_sha256']=='0528f4c8cff551ccc43a65d97f661b0f01a2529b9f355012770057e227e5d6f0'
+          assert y['admitted'] is True
+          print(json.dumps({
+            'source_test_and_tag_collisions_removed':True,
+            'CERRA_original_coverage_gate_remains_unavailable':True,
+            'weather_model':'ERA5',
+            'complete_ERA5_calendar_days':1096,
+            'coarse_climate_at_colony_not_5km_micro_uplift':True,
+            'candidate_birds':25,
+            'candidate_bird_days':1844,
+            'candidate_5min_GPS_events':59616,
+            'no_altitude_used_in_this_source_gate':True,
+            'ready_for_new_exploratory_individual_vs_shared_wind_comparison':True
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: france-gyps-2019-21-ERA5-25birds-source-admitted-validated-v1
+          path: build/france_era5_receipt/source.json
+          if-no-files-found: error
