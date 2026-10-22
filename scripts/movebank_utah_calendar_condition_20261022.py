@@ -86,7 +86,9 @@ def block_results(sources_a,sources_b,weather):
         for group in blocks.values():
             s=partial_slope(group,predictor,controls,minimum_n=needed,residual_sd=sd)
             if s is not None:
-                vals.append(s*100 if predictor==1 else s)
+                # Predictor 1 already uses (P−ET0)/100, so its slope is already per 100 mm.
+                # Multiplying again by 100 would invent an erroneous scaling.
+                vals.append(s)
         outputs[name]={
            "geographic_blocks_with_estimable_slope":len(vals),
            "mean_equal_geographic_block_slope":mean(vals) if vals else None,
