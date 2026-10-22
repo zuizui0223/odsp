@@ -1,0 +1,28 @@
+{
+  "version": "wyoming-two-ungulate-independent-source-diel-ecology-v0",
+  "frozen_date": "2026-10-22",
+  "frame": "Original published Movebank Data Repository full 437-package census, not paper-level ecological effect harvesting. This Wyoming source was chosen for having BOTH mule deer and bighorn sheep in ONE source and independent field region from the prior Utah study, BEFORE viewing the new source's day/night GPS displacement outcomes.",
+  "biological_question": "Does the source-recorded mule deer vs bighorn sheep relative night-minus-day GPS displacement differ in the SAME direction in independent Utah and Wyoming field-source cohorts, and how does each taxon respond to astronomical daylength within individual years? Keep common-gridmonth overlap if both species have sufficient observation support.",
+  "source": {
+    "package_uuid": "9c588e12-a0e6-40bf-8dd7-d7ad57dfbf22",
+    "original_handle": "10255/move.3598",
+    "title": "Bighorn sheep and mule deer in Wyoming (2019-2020)",
+    "doi": "10.5441/001/1.703",
+    "published_species": [
+      "Odocoileus hemionus",
+      "Ovis canadensis"
+    ],
+    "original_bitstream_uuid": "fed70edc-1319-4633-be6f-0a9abff53a1d",
+    "original_md5": "bd1c02734b6de3ddc9207fc1251edd66",
+    "original_bytes": 98724772,
+    "original_filename": "Bighorn sheep and mule deer in Wyoming (2019-2020).csv",
+    "license": "CC BY-NC 4.0; derived group analyses preserve source DOI/attribution, no original tracked individual/locations released"
+  },
+  "exact_previous_criterion": "Use identical source-locked Utah four-taxon source script observational windows: exact original source taxon canonical names; source individual ID separate by taxon; one original GPS fix per UTC clock-hour selected by timestamp closest to start; accepted successive intervals 0.5–2h, <=60km/h, solar day/night endpoints+midpoint same date/part, >=3 DAY and NIGHT valid steps per individual local-solar-day; >=10 such individual-days per individual-year; equal years within animal, animals within species. q=log1p(median night km/h)-log1p(median day km/h).",
+  "solar_model": "Within individual-year estimate slope of q against modeled astronomical daylength (hours), require >=10 admitted days and >=0.5h daylength span. Each species source individual-cluster fixed-seed 2000 bootstrap percentile intervals only if >=5 qualified animals.",
+  "grid_pair": "Original 1-degree lat/lon cell by calendar year-month; each species admitted if >=3 individual animals each >=3 source-qualified days in cell-month; publish descriptive same-cell/month q difference only if >=3 shared cells-month. For distinct geographic block bootstrap require >=5 coarse 1-degree cells; never claim these are independent physical ecosystems.",
+  "utah_comparator": "Already observed, not a preregistered directional prior: Utah q mule deer -0.02184895488685285 (1723 animals), bighorn -0.06576087192631512 (343); common 1degree spatial-block q mule−bighorn +0.03634853424423471 on 13 blocks, source CI +0.01771985308238353 to +0.05296021050271189. These are Utah-only context; do not tweak Wyoming eligibility based on their signs.",
+  "source_scope": "Source is independent of Utah (different provider field study/region). It may overlap other Wyoming tracking archives and is NOT assumed independent from those; cohort overlap requires individual provenance assessment before further Wyoming meta-analysis.",
+  "status_policy": "If original source schema, provider-MD5, temporal day/night support or overlapping same-1degree-month grid is insufficient, report all original two taxa and hold/undefined; do not salvage by source, GPS interval, calendar matching or geographic threshold changes.",
+  "limits": "GPS straight-line step displacement (not latent activity duration), source-specific study sampling, field taxon/sex/age/habitat and study-period contrasts observational, possible overlap with previously queried Wyoming sources. No vegetation or causal weather measure in this first external-source replication."
+}
