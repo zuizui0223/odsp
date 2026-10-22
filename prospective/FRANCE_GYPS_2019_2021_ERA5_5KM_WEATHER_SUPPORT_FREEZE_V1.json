@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-22",
+  "analysis": "FRANCE_GYPS_2019_2021_ERA5_5KM_REGIONAL_WIND_SOURCE_ADMISSION_V1",
+  "scientific_question": "Is there sufficient source bird-day support within the same French wild Gyps fulvus 5km space and calendar month for a bird-specific regional wind response to improve on the independently estimated population-shared wind reaction?",
+  "previous_SOURCE_CERRA_TERMINAL": "source_unavailable_weather_calendar_incomplete",
+  "earlier_CERRA_workflow_run": 39722528384,
+  "earlier_CERRA_observed_complete_days": 912,
+  "earlier_CERRA_missing": "All Jul-Dec 2021 CERRA 100m wind hourly values null; original 1050 calendar day floor fails. This result remains separate and will not be revised.",
+  "new_independent_weather": {
+    "public_API": "https://archive-api.open-meteo.com/v1/archive",
+    "provider_model": "era5",
+    "native_grid": "Global ERA5 ~25km coarse regional winds",
+    "named_variable": "wind_speed_100m",
+    "units": "m/s",
+    "timezone": "UTC",
+    "source_colony_location": "Published Grands Causses Cassagne colony/feeding-station 44d12N 3d15E independent of tracked bird GPS",
+    "site_latitude": 44.2,
+    "site_longitude": 3.25,
+    "returned_model_grid": [
+      44.25,
+      3.25
+    ],
+    "full_calendar_window": "2019-01-01 to 2021-12-31",
+    "hourly_source_coverage_verified_before_altitude_results": {
+      "2019": 365,
+      "2020": 366,
+      "2021": 365
+    },
+    "total_wind_calendar_days": 1096,
+    "expected_floor_valid_20_hour_days": 1050,
+    "wind_regimes": "Each YYYY-MM among all calendar days, classify full 24-hour daily mean of site-wide ERA5 100m wind <= monthly Q25 as low and >= monthly Q75 as high; no biological outcomes used.",
+    "spatial_caveat": "At ~25km the climate variable is a regional site-level weather indicator, not flight-experienced airflow, actual thermals, wind shear or local orographic uplift. Do not call this a 5km meteorology exposure simply because movement 5km cells are compared."
+  },
+  "source_and_sample": {
+    "study": "Sassi et al. 2024 data.InDoRES, DOI 10.48579/PRO/IOSZNM",
+    "original_1p09GB_ZIP_MD5": "b18cc8004d311d19ff24060f655178bf",
+    "original_source_years": [
+      2019,
+      2020,
+      2021
+    ],
+    "native_event_proxy": "GPS speed 5-55m/s, valid time, XY and native source visible/outlier flags; first valid source GPS per biological bird-day UTC 5min bin before altitude",
+    "original_nonbiological_calibration_ID": "Test géodésie ornitela (source stream excludes)",
+    "original_tag_alias_182208": "Two native bird IDs share a tag; BOTH excluded before new wind response source selection.",
+    "original_29_wild_source_IDs_after_calibration_exclusion": 29,
+    "original_742078_first5min_flight_events_after_source_QA": true,
+    "original_28_5km_source_bird_roster_sha256": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "original_28_5km_original_bird_days": 12357,
+    "minimum_admitted_new_wind_birds": 10,
+    "minimum_bird_days_in_each_low_and_high_regime": 2,
+    "minimum_scored_5min_events_per_target_day": 20,
+    "minimum_own_bird_other_day_same_state_5min_events_per_cell": 10,
+    "minimum_own_bird_other_day_opposite_state_5min_events_per_cell": 10,
+    "minimum_other_bird_other_date_5min_events_per_cell": 10,
+    "shared_population_same_cell_month": "At least two OTHER biological birds each with >=10 same-5km-cell first-5min GPS events in BOTH low and high site-wide wind states, excluding target day, within YYYY-MM",
+    "projection": "EPSG6933",
+    "matched_horizontal_cell_m": 5000,
+    "QA_nonheight_only": true
+  },
+  "original_biological_evidence_boundary": {
+    "previous_frozen_French_D1_dualGPS_barometric_run": 39716885648,
+    "previous_Holm_p_each_sensor": 0.002,
+    "previous_scored_birds": 27,
+    "previous_model_was_not_test_of_wind_or_individual_specific_reaction": true,
+    "previous_27_included_one_native_tag_alias_bird": true,
+    "new_ERA5_weather_model_predefined_AFTER_previous_altitude_ID_analysis": true,
+    "eligible_new_source_birds_are_only_potential": "No new response calculated until ERA5 and exact same-cell month source donor support passes.",
+    "result_status": "PROSPECTIVE_WEATHER_SUPPORT_ONLY, biologically exploratory extension of height dataset already seen."
+  },
+  "future_model_if_source_passes": {
+    "H0": "Species-population-shared wind reaction applied to each bird's wind-pooled daily-centered vertical shape accounts for regional wind-related changes.",
+    "H1": "The individual's same-cell wind-conditioned daily-centered vertical distribution predicts separate-date GPS altitude events better than shared species wind response, beyond environmental regional wind as a common effect.",
+    "heldout": "one entire UTC bird-day per target; exclude target bird and target date when estimating species shared response, target other-dates only for own bird.",
+    "comparison": "Matched exact selected GPS events in each model; 10 native altitude bins, each day centered to native height day-median; measure average log P_bird_wind / P_species_wind and equal bird-day, state, biological bird weighting.",
+    "calibration": "999 swaps of WHOLE calendar-day low/middle/high ERA5 regional wind labels within same YYYY-MM, synchronously across all birds to respect common weather, source eligibility recalculated per null, min 950 valid nulls, conservative p upper.",
+    "native_height": "Paired GPS+barometric height from original source available only once source is admitted; source native tag alias excluded before target endpoints.",
+    "cannot_claim": "Only association of shared regional wind with individual vertical shape, not causal uplift or evolutionary adaptation; animal-specific reaction inference is exploratory in reused French source."
+  },
+  "no_rescue": "Do not silently modify CERRA 912-day gate or report ERA5 as 5km CERRA. If ERA5 strict 5km SAME-MONTH other-bird winds fail, keep unavailable, do not broaden to 50km or relax donor days after outcome."
+}
