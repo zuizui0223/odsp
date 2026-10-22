@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-22",
+  "analysis": "FRANCE_GYPS_2019_2021_ERA5_5KM_SOURCE_ADMISSION_VERIFIED_V1",
+  "source": {
+    "DOI": "10.48579/PRO/IOSZNM",
+    "ZIP_md5": "b18cc8004d311d19ff24060f655178bf",
+    "source_nonheight_QA_run": 39720327589,
+    "weather_source_run": 39723205971,
+    "GitHub_artifact_id": 12402530353,
+    "GitHub_artifact_zip_sha256": "d4e93d61db86559c4a7f5a62ac351de053e3d97e7c6859f60098ffe6a5d2b0b2",
+    "weather_source_script": "prospective/france_gyps_era5_2019_5km_preheight_gate.py",
+    "source_original_GPS_5min_fixes_29wild_birds": 742078,
+    "prior5km_preheight_roster": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "source_nonbird_id_excluded": "Test géodésie ornitela",
+    "quarantine_native_tag": "182208",
+    "ambiguous_bird_IDs_excluded": [
+      "2018-Causses-Ad-Peycare-HTK-182208",
+      "2019-Causses-Ad-Mostuejouls-IIE-182008"
+    ],
+    "birds_after_quarantine": 27,
+    "first5min_GPS_after_quarantine": 726993,
+    "original_barometric_GPS_shape_positive_run": 39716885648,
+    "source_prior_native_height_already_opened_elsewhere": true,
+    "no_new_height_values_accessed_in_ERA5_source_gate": true
+  },
+  "ERA5": {
+    "provider": "Open-Meteo archive historical ECMWF ERA5",
+    "variable": "wind_speed_100m",
+    "site_coordinates": [
+      44.2,
+      3.25
+    ],
+    "returned_ERA5_grid_coordinates": [
+      44.25,
+      3.25
+    ],
+    "unit": "m/s",
+    "timezone": "UTC",
+    "complete_calendar_days": 1096,
+    "year_coverage_2019_2020_2021": [
+      365,
+      366,
+      365
+    ],
+    "wind_day_state_SHA256": "fd1cc44366f25429184eb7560097b90c8f44024b91d3beb3e4244dd79123cf74",
+    "fixed_exposure": "Year-month 25th/75th percentile of all calendar-day 24h mean 100m wind (not selected bird-day wind).",
+    "original_CERRA_coverage_issue": "2019 365 + 2020 366 + 2021 first181 = 912 valid of 1096, original source declared unavailable; ERA5 is separate coarser new data source."
+  },
+  "admitted_population": {
+    "ordinary_5km_same_cell_other_day": {
+      "birds": 27,
+      "bird_days": 12120,
+      "GPS_events": 595550
+    },
+    "own_bird_low_high_same_month_other_days": {
+      "birds": 26,
+      "bird_days": 2879,
+      "GPS_events": 103138,
+      "low_bird_days": 1409,
+      "high_bird_days": 1470
+    },
+    "species_shared_response_other_bird_same_cell_same_month_both_regimes": {
+      "birds": 25,
+      "bird_days": 1844,
+      "GPS_events": 59616,
+      "low_bird_days": 899,
+      "high_bird_days": 945,
+      "admitted_for_new_bird_specific_vs_species_shared_regional_wind_diagnostic": true,
+      "exact_bird_ID_SHA256": "FETCH_FROM_ARCHIVED_JSON_AT_NEXT_CHECK"
+    }
+  },
+  "workflow_display": {
+    "source_main_computation_success": true,
+    "source_JSON_artifact_present": true,
+    "original_run_green": false,
+    "trivial_validation_bug": "Final audit step accessed source_preheight_reinspection['quarantined_bird_count'] but calculation and saved JSON use key 'excluded_bird_count'.",
+    "fix": "Run lightweight artifact-only revalidation with correct key, no repeat 1.09GB downloads or GPS processing; leave source outputs untouched."
+  },
+  "inference_limits": [
+    "This is a weather+horizontal space eligibility test, NOT a GPS-height response result.",
+    "ERA5 regional model is ~25km spatial resolution, not 5km local uplift; 5km refers solely to GPS occupancy cells.",
+    "The earlier original French 27-bird native-height p values were not re-estimated after source test-tag correction.",
+    "All 25 supported bird IDs are candidates for a new model; 25 birds and 1,844 bird-days are source support, not altitude-qualified final sample.",
+    "Any later bird-specific wind response test is exploratory within a source whose altitude identity was already opened in an earlier, independent endpoint."
+  ]
+}
