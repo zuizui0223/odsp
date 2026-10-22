@@ -1,0 +1,92 @@
+{
+  "analysis": "FRANCE_GYPS_2019_2021_FROZEN_XYTIME_AND_INSTRUMENT_SUPPORT_V1",
+  "frozen_date": "2026-10-22",
+  "stage": "PRE_NATIVE_HEIGHT_OR_BIOLOGICAL_EFFECT",
+  "original_open_archive": {
+    "study_name": "Eurasian griffon vulture in France ID_PROG 961",
+    "DOI": "10.48579/PRO/IOSZNM",
+    "archive": "https://data.indores.fr/api/access/datafile/5114",
+    "file": "windTurbineAvoidance.zip",
+    "bytes": 1093170227,
+    "md5": "b18cc8004d311d19ff24060f655178bf",
+    "source_header_manifest_run": 39713936597,
+    "source_header_artifact": 12397837429,
+    "source_header_artifact_zip_sha256": "a337e60b42592194ae61d1c03264bc5dff6f93d36fa543c00cffc83a634dfc57",
+    "all_csv_file_count": 9,
+    "source_uncompressed_GPS_file_bytes_approx": 7584575129,
+    "source_years": [
+      2019,
+      2020,
+      2021
+    ],
+    "native_columns": {
+      "animal": "individual-local-identifier",
+      "tag": "tag-local-identifier",
+      "taxon": "individual-taxon-canonical-name",
+      "timestamp": "timestamp",
+      "x": "location-long",
+      "y": "location-lat",
+      "speed": "ground-speed",
+      "GPS_height": "height-above-msl",
+      "barometric_height": "bar:barometric-height",
+      "gps_Hdop": "gps:hdop",
+      "satellites": "gps:satellite-count",
+      "temperature": "external-temperature",
+      "acc_xyz": [
+        "acceleration-raw-x",
+        "acceleration-raw-y",
+        "acceleration-raw-z"
+      ]
+    }
+  },
+  "preheight_population": {
+    "taxon": "Gyps fulvus",
+    "study_native_label": "Eurasian griffon vulture in France ID_PROG 961",
+    "year_window": [
+      2019,
+      2020,
+      2021
+    ],
+    "all_seasons": true,
+    "source_GPS_rows": "Only rows with native taxon Gyps fulvus, valid individual ID/date/XY, ground speed 5–55m/s, visible!=false, import-marked-outlier!=true",
+    "selection": "EARLIEST eligible GPS row (GPS altitude unseen) per individual×UTC date×5min timestamp bucket across all 9 seasonal source files.",
+    "speed_units": "Movebank ground-speed, m/s; no inference of flapping/soaring from speed alone.",
+    "xy_projection": "EPSG:6933 WGS84 equal-area for comparable 5/50km units",
+    "primary_grain_m": 5000,
+    "separate_migratory_grain_m": 50000,
+    "own_other_date_fixes_per_cell_min": 10,
+    "other_bird_other_date_fixes_per_cell_min": 10,
+    "scored_5min_events_per_bird_day_min": 20,
+    "scored_days_per_bird_min": 2,
+    "independent_birds_min": 10,
+    "preserve_native_bad_source_rows_count": true,
+    "tag_alias_guard": "Compute exact biological bird ID -> unique original tag IDs and GPS quality coverage per panel/year. Do not treat a biological bird with two tags as two individuals.",
+    "no_native_height_numeric_use": true,
+    "no_height_completeness_source_screen": true,
+    "no_outcome_selection": true
+  },
+  "independence_guard": {
+    "original_Gyps_primary_studies": [
+      "122120597/Gyps fulvus",
+      "44080734/Gyps fulvus"
+    ],
+    "original_Gyps_tracking_source": "Scacco et al 2026 10.5281/zenodo.21915776; previously evaluated 4 panels",
+    "declared_parent_France": "Eurasian griffon vulture in France ID_PROG 961",
+    "require": "Verify this France dataset's Movebank parent study ID against old Scacco two IDs and compare literal biological bird, tag and deployment identifiers with original Gyps output before claiming a new independent replication. Source author involvement alone does not guarantee biological overlap/nonoverlap.",
+    "if_unresolved": "Label independent origin UNVERIFIED and stop before categorizing new significant ecological replication.",
+    "data_license": "CC BY 4.0; cite Sassi (2024), underlying tracking owners and relevant 2024 Ornithological Applications publication."
+  },
+  "instrument_opportunity": {
+    "nonheight_HDOP_completeness": "fraction of time-selected fixes with finite native GPS HDOP; no QC dropping based on value at this gate",
+    "nonheight_satellite_count_completeness": "fraction with finite satellite count and numeric range; do not drop rows",
+    "barometric_pressure_height": "COLUMN EXISTS, but never inspect its numeric values or missingness until after x-y and source overlap support frozen",
+    "GPS_height": "COLUMN EXISTS, but never inspect its numeric values or missingness until after x-y and source overlap support frozen",
+    "uncertain_sensor_behavior": "Accel XYZ fields may not be recorded at native GPS fix cadence; do not infer flight mode without validating their source units and completeness AFTER population freeze."
+  },
+  "next_if_gate_passes": {
+    "environment": "Externally acquired CERRA/ERA5 site/day wind and solar or boundary-layer covariates; repeat exact 5km cell and flight mode where feasible",
+    "primary_biology": "On new independent source, compare bird-specific wind response against the source species-shared environmental response using same fixed GPS height target events. GPS sensor errors should be independently calibrated using the source's HDOP, satellite and dual GPS/barometric recording.",
+    "preanalysis_work": "Freeze all source year/cell/individual/source-device IDs and choose weather label bins before opening numerical GPS height",
+    "no_rescue": "If 5km cannot be evaluated, 50km remains a separate migration habitat estimand and must be frozen before native altitude outcome inspection; don't open and tune"
+  }
+}
