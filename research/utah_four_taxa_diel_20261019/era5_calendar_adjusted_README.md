@@ -41,7 +41,7 @@ The original, distinct **spring versus autumn same-daylength** Utah branch was s
 
 ## Source and workflow provenance
 
-- Full public discovery frame: [Movebank 437-package registry](../README.md).
+- Full public discovery frame: [Movebank 437-package registry](../seasonal_database_catalog/README.md).
 - Observed Utah 4-taxon source and diel evidence: [39216810610](https://github.com/zuizui0223/odsp/actions/runs/39216810610).
 - Six original location/month species comparisons and night/day components: [39218494366](https://github.com/zuizui0223/odsp/actions/runs/39218494366).
 - Original 19-grid ERA5 marginal associations: [39220101404](https://github.com/zuizui0223/odsp/actions/runs/39220101404).
