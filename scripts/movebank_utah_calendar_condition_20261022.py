@@ -117,7 +117,8 @@ def block_results(sources_a,sources_b,weather):
             den=sum(a*a for a in xc)
             if den<=1e-12:continue
             slope=sum(a*b for a,b in zip(xc,yc))/den
-            vals.append(slope*100 if ix==1 else slope)
+            # Water index was pre-scaled to 100 mm units when records were formed.
+            vals.append(slope)
         diffs[name]={
             "blocks_with_estimable_slope":len(vals),
             "equal_geographic_block_mean_slope":mean(vals) if vals else None,
