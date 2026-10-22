@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-22",
+  "analysis": "FRANCE_GYPS_2019_2021_CERRA_WIND_5KM_IDIOSYNCRATIC_RESPONSE_PREHEIGHT_V1",
+  "scientific_goal": "Test whether a Gyps fulvus individual's session-centered flight altitude distribution profits from a bird-specific regional wind reaction beyond the same-species response estimated independently from other tagged birds and other dates.",
+  "phase": "PRE_WINDS_AND_PRE_NEW_OUTCOME_FROZEN",
+  "provenance": {
+    "source": "Sassi 2024, DOI 10.48579/PRO/IOSZNM, 2019-2021 wild Gyps fulvus, public CC BY4.0",
+    "source_zip_md5": "b18cc8004d311d19ff24060f655178bf",
+    "original_preheight_run": 39714803696,
+    "original_cleaned_QA_run": 39720327589,
+    "original_all_30_source_IDs": 30,
+    "original_nonbiological_test_ID": "Test géodésie ornitela",
+    "cleaned_native_animal_IDs": 29,
+    "cleaned_5km_birds": 28,
+    "cleaned_5km_roster_sha256": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "cleaned_source_5min_fixes": 742078,
+    "cleaned_source_5km_scorable_days": 12357,
+    "cleaned_source_5km_scorable_fixes": 608109,
+    "cleaned_50km_scorable_birds": 28,
+    "source_tag_alias": "Native tag ID 182208 occurs under two different biological bird IDs; quarantine BOTH of those bird IDs from prospective wind reaction models until identity/device crosswalk resolved.",
+    "source_id_crosswalk_run": 39715960239,
+    "source_id_crosswalk": "Scacco prior Gyps study 122120597 was Bardenas Reales, 44080734 was Scavengers and wild ungulates, not France Grands Causses; zero exact bird-ID overlap; original tag/device physical nonoverlap remains uncertain.",
+    "previously_opened_native_heights_run": 39716885648,
+    "previously_opened_original_endpoint": "GPS and barometric D1 5km individual vertical-shape identity supported in 27 birds, both Holm=.002; this endpoint remains frozen and isn't counted again as independent replication.",
+    "data_reuse_disclosure": "The source altitude values have already been opened in another previously frozen test. This NEW regional-wind and bird-specific-vs-common estimand is a post-outcome *prospective protocol* with exposure-dependent eligibility, not a clean untouched-height outcome. Interpret as exploratory within-source biological extension."
+  },
+  "exposure": {
+    "provider": "Open-Meteo Historical Weather API, ECMWF CERRA Europe ~5km native historical reanalysis",
+    "url": "https://archive-api.open-meteo.com/v1/archive",
+    "model": "cerra",
+    "variable": "wind_speed_100m",
+    "unit": "m/s",
+    "original_bird_colony_reference": "Grands Causses Cassagne feeding station in published Sassi et al. 2024 methods, GPS-INDEPENDENT 44°12′N, 3°15′E",
+    "site_latitude": 44.2,
+    "site_longitude": 3.25,
+    "years": [
+      2019,
+      2020,
+      2021
+    ],
+    "UTC_timezone": true,
+    "regional_proxy": "One colony-centred wind series shared by all birds, not pointwise wind actually encountered at 3D flight locations.",
+    "daily_statistic": "Mean of 24 hourly CERRA wind_speed_100m values if ≥20 hours finite; all calendar days included, regardless of bird tracking.",
+    "wind_state": "Within each UTC year-month, calendar-day regional-wind Q25/Q75, <=Q25 low, >=Q75 high, middle other; these bins do not depend on bird GPS heights, selected days or source outcome.",
+    "permutation_null": "Shuffle entire wind-day state labels among calendar dates within the SAME UTC year-month, synchronously for all tracked birds (not per bird). Per-draw training source support recalculated."
+  },
+  "height_independent_population": {
+    "source_years": [
+      2019,
+      2020,
+      2021
+    ],
+    "source_filter": "Same original nonheight earliest fixed GPS 5min source flags, GPS speed 5–55m/s, valid GPS XY/time. Exclude exact source calibration test ID.",
+    "tag_collision_exclusion": "Exclude BOTH all bird IDs carrying tag 182208 from candidate biological identity reaction results, even though one is below the initial source eligibility threshold. Do not change this based on height outcomes.",
+    "projection": "EPSG:6933",
+    "spatial_grain_primary_m": 5000,
+    "source_bird_days_min_fixes": 20,
+    "original_self_other_day_cell_min": 10,
+    "original_other_individual_other_day_cell_min": 10,
+    "context_same_bird_same_state_other_day_min": 10,
+    "context_same_bird_opposite_state_other_day_min": 10,
+    "context_other_birds_populations": "At least TWO distinct other biological birds (not tags) each with ≥10 selected fixes on other UTC dates under both low and high regional-wind states in SAME 5km cell and year-month. Exclude focal bird and ALL observations from the target date, including flockmates.",
+    "scored_target_bird_day_min_fixes": 20,
+    "scored_target_bird_each_wind_regime_days_min": 2,
+    "min_eligible_birds_for_context": 10,
+    "min_eligible_birds_for_bird_specific_over_shared": 10,
+    "original_spatial_preheight_roster_MUST_MATCH": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "no_altitude_used_to_choose_population": true,
+    "source_barometric_GPS_height_quality": "Already independently measured in earlier confirmed D1 test. Do not use this historical outcome to tune any source selection or wind regime here."
+  },
+  "biological_analysis_if_admitted": {
+    "model_B": "P(z_center | bird, same 5km cell) × P_{other birds}(z_center| same cell, month, wind state)/P_{other birds}(z_center |same cell, month). Other-bird donor days and birds equal-weighted; leave out target date and focal bird.",
+    "model_A": "P(z_center | bird, same 5km cell, wind state) trained on other days (focal bird only).",
+    "endpoint": "Mean matched-target-fix log P_A/P_B, per-day and low/high state then biological bird equally weighted. Both model target days and native height bins exactly matched.",
+    "vertical_bins": "Reuse original [-inf,-200,-100,-50,-25,0,25,50,100,200,inf] meters daily-median-centered from GPS height-above-msl; barometric column as source-robustness SECONDARY not duplicate independent evidence.",
+    "negative_controls": "Report stable native HDOP/satellite and GPS-vs-baro agreement by wind state on matched GPS fixes; source metadata independent calibration uncertain.",
+    "calibration": "999 shared-calendar-day within year-month whole-wind-label permutations, >=950 valid draws; conservative upper p=(1+#valid>=observed+#unavailable)/1000; signed gain >null mean required for a directional positive.",
+    "decisions": "If less than 10 birds survive STRICT preheight shared-population wind-state support, do not open a new biological wind result, retain source structural failure; do not relax same-cell, dates, weather source or referent.",
+    "nonconfirmation": "This new test comes after previous Gyps studies' and this source's individual height identity outcomes, so results are exploratory, not independent preregistration of a never-opened biological dataset."
+  },
+  "no_rescue": "Do not tune year/site/weather variable, wind quartiles, GPS speed, 5km cell, test bird/tag exclusions or donor minima after inspecting source wind support or numeric height outputs."
+}
