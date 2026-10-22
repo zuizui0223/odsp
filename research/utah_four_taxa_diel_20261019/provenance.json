@@ -18,7 +18,9 @@
     "provenance.json",
     "spatial_block_day_night_components.csv",
     "era5_marginal_climate_associations.csv",
-    "era5_marginal_ecology_README.md"
+    "era5_marginal_ecology_README.md",
+    "era5_calendar_adjusted_associations.csv",
+    "era5_calendar_adjusted_README.md"
   ],
   "privacy": "Only source-group aggregate values. No animal IDs, precise GPS, or event timestamps.",
   "spatial_block_source_replay_run": "https://github.com/zuizui0223/odsp/actions/runs/39218494366",
@@ -28,5 +30,10 @@
   "era5_first_marginal_link_run": "https://github.com/zuizui0223/odsp/actions/runs/39220101404",
   "era5_distinct_coarse_source_grids": 19,
   "era5_source_grid_holds": 0,
-  "era5_complete_taxon_pairs": 6
+  "era5_complete_taxon_pairs": 6,
+  "era5_daylength_calendar_run": "https://github.com/zuizui0223/odsp/actions/runs/39722195796",
+  "era5_calendar_previous_original_GPS_replayed": true,
+  "era5_calendar_previous_ERA5_marginal_slopes_replayed": true,
+  "era5_calendar_six_taxon_pairs": 6,
+  "era5_calendar_weather_grid_holds": 0
 }
