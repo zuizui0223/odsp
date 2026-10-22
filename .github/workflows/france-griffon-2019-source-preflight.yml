@@ -1,0 +1,102 @@
+name: French wild Gyps 2019-2021 independent-source ZIP/GPS header preflight
+
+on:
+  push:
+    branches: [prospective/france-griffon-2019-2021-20261022]
+    paths:
+      - prospective/FRANCE_GRIFFON_2019_2021_DATAVERSE_PREHEIGHT_GATE_V1.json
+      - prospective/france_griffon_public_zip_headers.py
+      - prospective/test_france_griffon_public_zip_headers.py
+      - .github/workflows/france-griffon-2019-source-preflight.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest
+      - name: Prove no altitude field is accidentally treated as biological result
+        run: python -m pytest -q prospective/test_france_griffon_public_zip_headers.py
+
+  official-source:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify official Dataverse DOI, public access and 1.09GB fixed ZIP checksum
+        run: |
+          set -euo pipefail
+          mkdir -p build/france_gyps_2019
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 4 --max-time 120 \
+            'https://data.indores.fr/api/datasets/:persistentId/?persistentId=doi%3A10.48579%2FPRO%2FIOSZNM' \
+            -o build/france_gyps_2019/dataverse_public_manifest.json
+          python - <<'PY'
+          import json
+          p=json.load(open('build/france_gyps_2019/dataverse_public_manifest.json'))
+          assert p['status']=='OK'
+          d=p['data']
+          assert d['id']==5113
+          assert d['publicationDate']=='2024-05-13'
+          f=d['latestVersion']['files']
+          assert len(f)==1
+          v=f[0]['dataFile']
+          assert v['id']==5114
+          assert v['filesize']==1093170227
+          assert v['md5']=='b18cc8004d311d19ff24060f655178bf'
+          assert f[0]['restricted'] is False
+          print('Original independently published GPS source metadata admitted')
+          PY
+      - name: Fetch official public original 1.09GB study archive one time only
+        run: |
+          set -euo pipefail
+          cd build/france_gyps_2019
+          curl --fail --location --silent --show-error \
+            --retry 3 --retry-delay 10 --connect-timeout 60 --max-time 1800 \
+            'https://data.indores.fr/api/access/datafile/5114' \
+            -o windTurbineAvoidance.zip
+          printf '%s\n' \
+            'b18cc8004d311d19ff24060f655178bf  windTurbineAvoidance.zip' \
+            | md5sum --check
+          test "$(stat -c %s windTurbineAvoidance.zip)" -eq 1093170227
+      - name: Read ONLY compressed directory names and per-CSV headers; leave native heights unopened
+        run: |
+          set -euo pipefail
+          python -m prospective.france_griffon_public_zip_headers \
+            --source build/france_gyps_2019/windTurbineAvoidance.zip \
+            --out build/france_gyps_2019/FRANCE_GYPS_2019_2021_ZIP_HEADER_GATE_V1.json
+      - name: Do not make biological claims without source GPS/time/height fields
+        run: |
+          python - <<'PY'
+          import json
+          path='build/france_gyps_2019/FRANCE_GYPS_2019_2021_ZIP_HEADER_GATE_V1.json'
+          x=json.load(open(path))
+          assert x['source_md5']=='b18cc8004d311d19ff24060f655178bf'
+          assert not x['animal_specific_altitude_value_read']
+          assert not x['native_altitude_missingness_checked']
+          assert not x['individual_eligibility_computed']
+          assert x['stage']=='ORIGINAL_PUBLIC_DATA_ARCHIVE_HEADERS_ONLY_PREHEIGHT'
+          print(json.dumps({
+            'archived_files':x['total_archived_nonMAC_files'],
+            'xy_timestamp_csvs':x['potential_GPS_x_y_timestamp_CSVs'],
+            'xy_height_csvs':x['potential_GPS_x_y_height_CSVs'],
+            'raw_altitude_values_used':False
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: france-Gyps-2019-2021-source-GPS-header-and-MD5-preheight-v1
+          path: build/france_gyps_2019/FRANCE_GYPS_2019_2021_ZIP_HEADER_GATE_V1.json
+          if-no-files-found: warn
