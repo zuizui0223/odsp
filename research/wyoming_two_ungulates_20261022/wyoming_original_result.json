@@ -1,0 +1,118 @@
+{
+  "metadata": {
+    "source_doi": "10.5441/001/1.703",
+    "original_provider_md5": "bd1c02734b6de3ddc9207fc1251edd66",
+    "original_bytes": 98724772,
+    "original_license": "CC BY-NC 4.0; derived group analyses preserve source DOI/attribution, no original tracked individual/locations released",
+    "analysis_on": "2026-10-22",
+    "url": "https://github.com/zuizui0223/odsp/actions/runs/39723531890",
+    "original_study": "Bighorn sheep and mule deer in Wyoming (2019-2020)",
+    "independent_from": "Utah study, not necessarily other Wyoming tracking archives",
+    "status": "two_original_wild_ungulate_taxa_processed"
+  },
+  "source_taxa": [
+    {
+      "admitted_animals_diel": 119,
+      "admitted_animals_photoperiod_slope": 118,
+      "admitted_individual_years_by_photoperiod_bin": {
+        "long": 123,
+        "middle": 160,
+        "short": 142
+      },
+      "animal_local_dates_with_day_and_night": 17402,
+      "day_night_speed_contrast": {
+        "animal_bootstrap_95_percentile": [
+          -0.005777731444226381,
+          -0.003089662007489691
+        ],
+        "individual_negative": 90,
+        "individual_positive": 29,
+        "mean": -0.0044624294869207584,
+        "n_individuals": 119,
+        "unit": "NIGHT-DAY log1p observed step km/h"
+      },
+      "daylength_association": {
+        "animal_bootstrap_95_percentile": [
+          0.004100642038651191,
+          0.006972852470055433
+        ],
+        "individual_negative": 26,
+        "individual_positive": 92,
+        "mean": 0.005538249061142167,
+        "n_individuals": 118,
+        "unit": "change in log1p NIGHT-DAY step rate per hour daylight"
+      },
+      "original_adjacent_hour_steps": 396322,
+      "qualified_daypart_step_observations": 338544,
+      "source_original_observations": {
+        "invalid_source_rows": 0,
+        "source_rows": 409383,
+        "valid_source_rows": 409383
+      },
+      "supported_geographic_yearmonth_cells": 29,
+      "taxon": "Odocoileus hemionus",
+      "total_original_animals": 122
+    },
+    {
+      "admitted_animals_diel": 41,
+      "admitted_animals_photoperiod_slope": 41,
+      "admitted_individual_years_by_photoperiod_bin": {
+        "long": 69,
+        "middle": 79,
+        "short": 37
+      },
+      "animal_local_dates_with_day_and_night": 7675,
+      "day_night_speed_contrast": {
+        "animal_bootstrap_95_percentile": [
+          -0.022469942801247658,
+          -0.017531021856795847
+        ],
+        "individual_negative": 41,
+        "individual_positive": 0,
+        "mean": -0.01997499965861462,
+        "n_individuals": 41,
+        "unit": "NIGHT-DAY log1p observed step km/h"
+      },
+      "daylength_association": {
+        "animal_bootstrap_95_percentile": [
+          -0.005850830726107115,
+          0.010983783945842589
+        ],
+        "individual_negative": 34,
+        "individual_positive": 7,
+        "mean": 0.00021733399923758685,
+        "n_individuals": 41,
+        "unit": "change in log1p NIGHT-DAY step rate per hour daylight"
+      },
+      "original_adjacent_hour_steps": 183323,
+      "qualified_daypart_step_observations": 158737,
+      "source_original_observations": {
+        "invalid_source_rows": 0,
+        "source_rows": 183440,
+        "valid_source_rows": 183440
+      },
+      "supported_geographic_yearmonth_cells": 16,
+      "taxon": "Ovis canadensis",
+      "total_original_animals": 42
+    }
+  ],
+  "spatial_comparison": {
+    "blockbootstrap_95_interval": null,
+    "equal_geographic_block_mean_q_difference_a_minus_b": null,
+    "interpretation": "Original same-study coarse-month spatial overlap, not physically simultaneous behavior; independent of Utah field study but potentially overlapping other Wyoming GPS archives.",
+    "q_difference_sign_if_estimable": "unavailable",
+    "shared_distinct_coarse_geographic_1degree_blocks": 0,
+    "source_original_pair_estimate_if_at_least_three_months": null,
+    "source_original_shared_coarse_cell_months": 0,
+    "taxa": [
+      "Odocoileus hemionus",
+      "Ovis canadensis"
+    ]
+  },
+  "limitations": [
+    "No Wyoming common 1degree x calendar year-month animal source support",
+    "GPS night/day step displacement not latent activity duration",
+    "One source context per landscape; animal-level bootstrap conditional on source",
+    "No causal environmental association or independent biological trait validation inferred"
+  ]
+}
