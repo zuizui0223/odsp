@@ -1,0 +1,100 @@
+name: French Gyps 2019-21 5km ERA5 source wind and shared-bird admission (no altitude)
+
+on:
+  push:
+    branches: [prospective/france-griffon-5km-era5-20261022]
+    paths:
+      - prospective/FRANCE_GYPS_2019_2021_ERA5_5KM_WEATHER_SUPPORT_FREEZE_V1.json
+      - prospective/france_gyps_era5_2019_5km_preheight_gate.py
+      - prospective/test_france_gyps_era5_2019_5km_preheight_gate.py
+      - .github/workflows/france-gyps-2019-ERA5-5km-admission.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify noheight climate regime, shared species, individual donors and native source alias quarantine
+        run: |
+          python -m pip install pytest numpy pyproj
+          python -m pytest -q prospective/test_france_gyps_era5_2019_5km_preheight_gate.py
+
+  external-regional-wind-eligibility:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy pyproj
+      - name: Fetch exact independent wild vulture 2019-21 GPS original archive
+        run: |
+          set -euo pipefail
+          mkdir -p build/francegyps_ERA5
+          cd build/francegyps_ERA5
+          # Proven official HTTP/1.1 Range: 206 bytes 0-0/1093170227,
+          # accept-ranges: bytes. Keep file bytes between attempts; resume at
+          # the exact byte already saved after unexpected server truncation.
+          success=0
+          for attempt in 1 2 3 4 5 6; do
+            echo "Dataverse source download/resume attempt $attempt"
+            if curl --http1.1 --fail --location --silent --show-error \
+                --connect-timeout 35 --max-time 1800 --continue-at - \
+                'https://data.indores.fr/api/access/datafile/5114' \
+                -o windTurbineAvoidance.zip; then
+              success=1
+              break
+            fi
+            echo "Partial source bytes retained: $(stat -c %s windTurbineAvoidance.zip 2>/dev/null || echo 0)"
+            sleep 4
+          done
+          test "$success" -eq 1
+          echo 'b18cc8004d311d19ff24060f655178bf  windTurbineAvoidance.zip' | md5sum --check
+          test "$(stat -c %s windTurbineAvoidance.zip)" -eq 1093170227
+      - name: Join archive-independent site ERA5 2019-21 whole-calendar monthly wind regimes with nonheight 5km source time/XY
+        run: |
+          set -euo pipefail
+          python -m prospective.france_gyps_era5_2019_5km_preheight_gate \
+            --source build/francegyps_ERA5/windTurbineAvoidance.zip \
+            --out build/francegyps_ERA5/FRANCE_GYPS_ERA5_5KM_WIND_CONTEXT_SOURCE_GATE_V1.json
+      - name: Audit biological source/tag exclusion and unchanged published height evidence
+        run: |
+          python - <<'PY'
+          import json
+          path='build/francegyps_ERA5/FRANCE_GYPS_ERA5_5KM_WIND_CONTEXT_SOURCE_GATE_V1.json'
+          x=json.load(open(path))
+          assert x['analysis']=='FRANCE_GYPS_2019_2021_ERA5_WIND_5KM_SOURCE_ADMISSION_V1'
+          assert x['source_zip_md5']=='b18cc8004d311d19ff24060f655178bf'
+          assert x['source_preheight_reinspection']['prior_preheight_5km_bird_sha']=='031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928'
+          assert x['source_preheight_reinspection']['quarantined_bird_count']==2
+          assert x['source_preheight_reinspection']['distinct_biological_bird_ids_after_quarantine']==27
+          assert x['source_native_height_values_read'] is False
+          assert x['new_study_individual_wind_interaction_tested'] is False
+          assert x['previous_dual_sensor_positive_outcomes_not_retested'] is True
+          p=x['population']
+          print(json.dumps({
+            'source_after_tag_quarantine':x['source_preheight_reinspection']['distinct_biological_bird_ids_after_quarantine'],
+            'base_5km':p['ordinary_5km_bird_identity_support']['birds'],
+            'regional_own_low_high':p['5km_own_low_high_regional_wind_support']['birds'],
+            'shared_species_low_high':p['5km_shared_species_wind_reference_support']['birds'],
+            'shared_species_admitted':p['5km_shared_species_wind_reference_support']['admitted'],
+            'independent_ERA5_wind_days':x['independent_ERA5_regional_wind']['n_calendar_days'],
+            'no_height_opened':True
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: france-gyps-2019-21-5km-ERA5-wind-context-preheight-v1
+          path: build/francegyps_ERA5/FRANCE_GYPS_ERA5_5KM_WIND_CONTEXT_SOURCE_GATE_V1.json
+          if-no-files-found: warn
