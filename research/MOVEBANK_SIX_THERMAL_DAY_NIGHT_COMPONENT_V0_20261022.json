@@ -1,0 +1,99 @@
+{
+  "id": "MOVEBANK_SIX_COHORT_THERMAL_DAY_NIGHT_COMPONENT_V0_20261022",
+  "frozen_at": "2026-10-22",
+  "science_question": "When regional paired-date modeled temperature contrasts are larger at near-identical daylight, is the observed NIGHT-relative GPS movement association driven by changes to DAY displacement, NIGHT displacement or both within the SAME original animal-year?",
+  "timing": "POST-RESULT ecological diagnostic: six cohort-mean original GPS effects, regional ERA5 contexts, original 6 univariate relative-night climate slopes and rank correlations are ALREADY known. New absolute DAY and NIGHT component climate slopes are registered before inspecting outcomes. This is neither blinded validation nor an independent dataset.",
+  "cohorts": [
+    "elk_canada",
+    "wild_pig_florida",
+    "black_bear_connecticut",
+    "mule_deer_wyoming",
+    "white_tail_virginia",
+    "wolves_alberta"
+  ],
+  "original_total_individual_animals": 197,
+  "original_group_relative_night_OLS_slope": {
+    "elk_canada": 0.0011032585927050443,
+    "wild_pig_florida": -0.00015281778743836714,
+    "black_bear_connecticut": -0.002903313186251235,
+    "mule_deer_wyoming": 0.003391490227694288,
+    "white_tail_virginia": 0.001473793110597808,
+    "wolves_alberta": 0.015004074494229896
+  },
+  "original_group_water_slope_per_100mm": {
+    "elk_canada": -0.0010562358895028373,
+    "wild_pig_florida": 0.001044757719654749,
+    "black_bear_connecticut": 0.056565735100623,
+    "mule_deer_wyoming": -0.07213090803856693,
+    "white_tail_virginia": -0.016741270944679244,
+    "wolves_alberta": 0.14027980179960864
+  },
+  "original_group_sampled_relative_movement": {
+    "elk_canada": 0.04500073152774594,
+    "wild_pig_florida": -0.0009771905623652984,
+    "black_bear_connecticut": -0.07716773206927685,
+    "mule_deer_wyoming": 0.03114824366094135,
+    "white_tail_virginia": -0.0031894638756262794,
+    "wolves_alberta": 0.02841038749300514
+  },
+  "original_group_n_animals": {
+    "elk_canada": 12,
+    "wild_pig_florida": 5,
+    "black_bear_connecticut": 20,
+    "mule_deer_wyoming": 118,
+    "white_tail_virginia": 33,
+    "wolves_alberta": 9
+  },
+  "original_group_regional_T_and_water_means": {
+    "elk_canada": [
+      9.750512034301794,
+      5.577170562084965
+    ],
+    "wild_pig_florida": [
+      1.793702846627266,
+      112.01405054163293
+    ],
+    "black_bear_connecticut": [
+      9.865042499781415,
+      -66.45652766096907
+    ],
+    "mule_deer_wyoming": [
+      9.269190637530341,
+      -82.59584118915718
+    ],
+    "white_tail_virginia": [
+      7.962932067840892,
+      -65.25938891572889
+    ],
+    "wolves_alberta": [
+      6.350364297528253,
+      34.28414690608809
+    ]
+  },
+  "source": {
+    "animal": "Identical original Movebank six original GPS file UUID/MD5 and 0.5–2h step, same day/solar period, ≥3 zone steps, same caliper ≤5min, greedy one-to-one paired dates separated≥30d, ≥10 pairs per animal year. Original helper locked_pairs must be unchanged.",
+    "ERA5": "Reuse ORIGINAL six public fixed coarse climate reference sites and the separately versioned successfully cached v1 scientific-only dated arrays from Actions CI39220116497, artifact six_original_regional_era5_scientific_daily_snapshot_v1.json. Do NOT requery ERA5, optimize window, or treat volatile response generationtime_ms as scientific data.",
+    "source_artifact_workflow_run": 39220116497,
+    "source_artifact_name": "movebank-six-original-gps-within-year-canonical-era5-v1-20261019",
+    "original_scientific_daily_validation": "Verify each source's canonical climate SHA256 from original source snapshot, exact valid date sequence, original units, source grid/standard timezone, finite physical precipitation/ET0. Verify reconstructed original GPS calendar pair dates and per-pair original relative outcome exactly; source cohort n & GPS mean within 1e−10. Verify prior source cohort thermal/water average numerical climate and prior univariate thermal/water OLS relative-NIGHT slope group means within 1e−9. Fail original source HOLD without retuning or substitutions."
+  },
+  "estimand": {
+    "original_pair_N": "falling−rising [log(1+median NIGHT straight-line GPS km/h)]",
+    "original_pair_D": "falling−rising [log(1+median DAY straight-line GPS km/h)]",
+    "original_pair_Y": "N−D EXACTLY equals preexisting locked relative NIGHT−DAY GPS pair effect.",
+    "environmental_x1": "ERA5 falling−rising daily source-region 2m temperature °C on exact original pair dates.",
+    "environmental_x2": "ERA5 falling−rising 30-day sum of (precipitation - ET0) mm / 100. Secondary separate univariate, not simultaneous adjusted.",
+    "slopes": "For each original individual×calendar year with >=10 unmodified source matched pairs, source-valid weather and SD(ΔT)>0.5°C or SD(ΔW)>10mm, fit centered least-squares Y~X, N~X, D~X on EXACT same pairs. This guarantees βY=βN−βD identically. Two predictors fitted separately. Never select dates by outcome.",
+    "hierarchy": "Average years equally within original individual for each predictor and component, then average individuals equally within source. Report source n original, admitted animal/year, component means/medians/signs/zero, leave-one-animal-out sensitivity NOT CI and original βY reproduced.",
+    "comparison": "For each source, check contribution of βNight and −βDay to βRelative; focal biologically interpretable source pair Wyoming mule deer and Connecticut bear, plus Virginia near-zero mean case. All six original cohorts and unfavorable results retained.",
+    "no_p_values": true
+  },
+  "limitations": [
+    "Observed minimum straight-line displacement per GPS step, NOT true activity hours, path length or physiological energy expenditure.",
+    "Regional ERA5 temperature and P−ET0 shared among animals, not actual operative body temperature, soil water or vegetation; individual slopes share calendar exposure and autocorrelated dates.",
+    "Different source taxa, source years, habitat, reproductive cycles, telemetry devices and environmental coverage remain confounded. This does not identify behavioral thermoregulation, vegetation cause, photoperiod memory or a general species-level law.",
+    "A difference in NIGHT-relative movement can reflect both absolute NIGHT and DAY changes. The decomposition of OLS slopes is algebraic/observational, not causal mediation.",
+    "All source GPS tracks and original per-animal effects kept private to ephemeral job; do not export ID, precise location, animal date or individual exact slopes."
+  ],
+  "stop": "One predetermined DAY/NIGHT climate-slope component analysis. No alternative season windows, thresholds, taxa/animal selection, or new models after results. If source declines, preserve HOLD and original v0/v1 outputs unchanged. Produce ecology Results and integrate manuscript cautiously."
+}
