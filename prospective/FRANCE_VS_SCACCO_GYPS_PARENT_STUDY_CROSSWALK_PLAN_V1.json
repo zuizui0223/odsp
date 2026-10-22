@@ -1,0 +1,43 @@
+{
+  "analysis": "FRENCH_GYPS_2019_2021_NEW_STUDY_SOURCE_CROSSWALK_V1",
+  "timestamp": "2026-10-22",
+  "source_France": {
+    "DOI": "10.48579/PRO/IOSZNM",
+    "original_GPS_source_run": 39714803696,
+    "artifact_id": 12398443408,
+    "artifact_sha256": "77286e6ad5639fdeca5c73b6c9049b6b00e3e601b467d34f966495c3d0f28a6c",
+    "source_study_name": "Eurasian griffon vulture in France (Grands Causses 2018) ID_PROG 961",
+    "preheight_animals": 30,
+    "eligible_5km_animals": 28,
+    "eligible_5km_bird_days": 12360,
+    "eligible_5km_5min_events": 608202,
+    "eligible_5km_roster_hash": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "source_outcome_heights_unread": true
+  },
+  "source_Scacco": {
+    "DOI": "10.5281/zenodo.21915776",
+    "zip_name": "Data.zip",
+    "zip_md5": "e1f116e6576cf20e54dad16d2c91a26d",
+    "native_segment_member": "ModelData/BIOLOGGING_finalSummaryDataset_perSegment_fromFix+COTvariables_Feb2025.csv",
+    "prior_study_IDs": [
+      "122120597",
+      "44080734"
+    ],
+    "prior_species": "Gyps fulvus",
+    "original_50km_Wstar_primary_run": 39594223949,
+    "original_evaluable_birds": [
+      25,
+      26
+    ],
+    "stage": "Independence crosswalk reads study, biological bird, tag/source identity metadata only, not any native height or Wstar outcome."
+  },
+  "acceptance": {
+    "direct_study_name_nonidentity": "Normalize original studyName and France source study-name and compare exact. Different names do not guarantee independent parent study.",
+    "direct_bird_ID_overlap": "Intersect exact biological local bird IDs across original Scacco study+species and French source all 30 birds, not just old 51 scored birds.",
+    "source_study_ID": "French CSV gives study-name but numeric Movebank study ID is not supplied; do not guess it.",
+    "other_device_overlap": "Scacco per-segment source lacks full tag/deployment mapping; physical device independence remains unverified.",
+    "categorical_source_independence": "DISTINCT_STUDY_NAMES_AND_NO_EXACT_BIRD_IDS supports an independently labeled observation cohort, not an independent experiment.",
+    "biological_altitudes_unread": true,
+    "future_study": "Only after distinct study evidence and >=10 source 5km birds can a newly frozen weather/height outcome be opened."
+  }
+}
