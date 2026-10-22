@@ -53,8 +53,8 @@ def inspect_archive(path):
     digest=check_source(path)
     meta=[]
     with zipfile.ZipFile(path) as archive:
-        if archive.testzip() is not None:
-            raise ValueError("Invalid archived ZIP CRC")
+        # Full-file MD5 is checked first; avoid unnecessarily decoding every 1GB
+        # compressed member just to inspect the source directory/header.
         members=[i for i in archive.infolist() if not i.is_dir()
                  and not i.filename.startswith("__MACOSX/")
                  and not i.filename.rsplit("/",1)[-1].startswith("._")]
@@ -73,7 +73,9 @@ def inspect_archive(path):
                 with archive.open(info) as raw:
                     stream=io.TextIOWrapper(raw,encoding="utf-8-sig",errors="replace",newline="")
                     try:
-                        line=next(csv.reader(stream,delimiter="\t" if info.filename.lower().endswith(".tsv") else ","))
+                        firstline=stream.readline()
+                        delimiter=max((",",";","\t"),key=lambda sep:firstline.count(sep))
+                        line=next(csv.reader([firstline],delimiter=delimiter))
                     except StopIteration:line=[]
                     item["data_columns"]=detect_fields(line)
                     item["header_read_status"]="HEADER_ONLY"
