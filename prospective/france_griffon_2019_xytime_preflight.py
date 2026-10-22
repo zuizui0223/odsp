@@ -20,6 +20,9 @@ SOURCE_ZIP="windTurbineAvoidance.zip"
 SOURCE_MD5="b18cc8004d311d19ff24060f655178bf"
 SOURCE_BYTES=1093170227
 TAXON="Gyps fulvus"
+# Native source lists a non-animal instrument/geodesy test as an individual.
+# Its literal label was identified in the outcome-blind initial source roster.
+NON_BIOLOGICAL_SOURCE_IDS={"Test géodésie ornitela"}
 PATTERN=re.compile(r"Vulturestracks_(Jan_to_May|Jun_to_Aug|Sep_to_Dec)(2019|2020|2021)\.csv$")
 REQUIRED={
  "timestamp","individual-local-identifier","tag-local-identifier",
@@ -71,6 +74,9 @@ def select_rows(rows,first,counters,seen_tags,studies,source_year):
         bird=item(row,"individual-local-identifier").strip()
         if not bird:
             counters["no_bird_id"]+=1;continue
+        if bird in NON_BIOLOGICAL_SOURCE_IDS:
+            counters["nonbiological_instrument_test_rows_quarantined"]+=1
+            continue
         if item(row,"individual-taxon-canonical-name").strip()!=TAXON:
             counters["non_target_taxon"]+=1;continue
         if item(row,"visible").strip().lower()=="false" or \
@@ -165,6 +171,14 @@ def analyze(first,counters,tags,study_names):
         "animals_with_more_than_one_tag_ID":sum(len(s)>1 for s in tags.values()),
         "animals_with_any_tag_ID":len(tags),
         "n_distinct_tag_IDs":len({t for vals in tags.values() for t in vals}),
+        "quarantined_nonbiological_animal_IDs":sorted(NON_BIOLOGICAL_SOURCE_IDS),
+        "birds_missing_any_native_tag_id":sorted({bird for bird,day,k in first if bird not in tags}),
+        "tags_aliased_to_multiple_biological_bird_IDs":{
+            tag:sorted(birds) for tag,birds in sorted(
+                {tag:{bird for bird,tset in tags.items() if tag in tset}
+                 for vals in tags.values() for tag in vals}.items())
+            if len(birds)>=2
+        },
         "selected_animal_IDs":sorted({k[0] for k in first}),
         "record_quality_by_year":{
           year:{
