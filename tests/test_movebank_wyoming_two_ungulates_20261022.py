@@ -34,13 +34,13 @@ class Tests(unittest.TestCase):
             self.assertEqual(sum(len(k) for k in x.values()),0)
     def test_same_source_pair_has_positive_known_synthetic(self):
         x={"Odocoileus hemionus":{
-              (40,-111,2020,4):.2,(40,-111,2020,5):.4,(41,-111,2020,5):.2},
+              (40,-111,2020,4):.2,(40,-111,2020,5):.4,(41,-111,2020,5):.2,(42,-111,2020,5):.3},
            "Ovis canadensis":{
-              (40,-111,2020,4):.1,(40,-111,2020,5):.2,(41,-111,2020,5):.1}}
+              (40,-111,2020,4):.1,(40,-111,2020,5):.2,(41,-111,2020,5):.1,(42,-111,2020,5):.1}}
         out=between_taxon_geography(x)
-        self.assertEqual(out["source_original_shared_coarse_cell_months"],3)
-        self.assertEqual(out["shared_distinct_coarse_geographic_1degree_blocks"],2)
-        self.assertAlmostEqual(out["equal_geographic_block_mean_q_difference_a_minus_b"],(.15+.1)/2)
+        self.assertEqual(out["source_original_shared_coarse_cell_months"],4)
+        self.assertEqual(out["shared_distinct_coarse_geographic_1degree_blocks"],3)
+        self.assertAlmostEqual(out["equal_geographic_block_mean_q_difference_a_minus_b"],(.15+.1+.2)/3)
         self.assertIsNone(out["blockbootstrap_95_interval"])
     def test_no_shared_space_is_not_biological_negative(self):
         x={"Odocoileus hemionus":{(40,-111,2020,4):.2},
