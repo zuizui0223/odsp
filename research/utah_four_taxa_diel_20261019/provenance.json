@@ -16,11 +16,17 @@
     "taxon_daylength_summary.csv",
     "shared_gridmonth_species_contrasts.csv",
     "provenance.json",
-    "spatial_block_day_night_components.csv"
+    "spatial_block_day_night_components.csv",
+    "era5_marginal_climate_associations.csv",
+    "era5_marginal_ecology_README.md"
   ],
   "privacy": "Only source-group aggregate values. No animal IDs, precise GPS, or event timestamps.",
   "spatial_block_source_replay_run": "https://github.com/zuizui0223/odsp/actions/runs/39218494366",
   "spatial_block_original_six_effects_reproduced": true,
   "spatial_block_shared_species_pairs": 6,
-  "spatial_block_pairs_with_geographic_bootstrap": 5
+  "spatial_block_pairs_with_geographic_bootstrap": 5,
+  "era5_first_marginal_link_run": "https://github.com/zuizui0223/odsp/actions/runs/39220101404",
+  "era5_distinct_coarse_source_grids": 19,
+  "era5_source_grid_holds": 0,
+  "era5_complete_taxon_pairs": 6
 }
