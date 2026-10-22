@@ -1,0 +1,90 @@
+name: Grus grus independent Dryad v4 archived 1Hz GPS access and non-altitude gate
+
+on:
+  push:
+    branches: [prospective/crane-44-context-20261022]
+    paths:
+      - prospective/GRUS_GRUS_DRYAD_2024_INDEPENDENT_SOURCE_GATE_V1.json
+      - prospective/grus_grus_dryad_v4_manifest.py
+      - prospective/test_grus_grus_dryad_v4_manifest.py
+      - prospective/grus_grus_dryad_access_pilot.py
+      - prospective/test_grus_grus_dryad_access_pilot.py
+      - .github/workflows/prospective-grus-dryad-access.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest
+      - name: Verify source SHA strictness and no-altitude pilot
+        run: |
+          python -m pytest -q \
+            prospective/test_grus_grus_dryad_v4_manifest.py \
+            prospective/test_grus_grus_dryad_access_pilot.py
+
+  official-source-access:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Retrieve and freeze official Dryad version-4 37-file SHA256 ledger
+        run: |
+          set -euo pipefail
+          python -m prospective.grus_grus_dryad_v4_manifest \
+            --output build/crane_dryad_v4/CRANE_DRYAD_2024_PUBLIC_FILE_MANIFEST_V1.json
+      - name: Probe only official public source downloads, honor 401/403
+        run: |
+          set -euo pipefail
+          python -m prospective.grus_grus_dryad_access_pilot \
+            --manifest build/crane_dryad_v4/CRANE_DRYAD_2024_PUBLIC_FILE_MANIFEST_V1.json \
+            --download-dir build/crane_dryad_v4/source_pilot \
+            --out build/crane_dryad_v4/CRANE_DRYAD_2024_PILOT_ACCESS_AND_XYTIME_V1.json
+      - name: Guard source identity and no native GPS altitude outcome
+        run: |
+          python - <<'PY'
+          import json
+          a=json.load(open('build/crane_dryad_v4/CRANE_DRYAD_2024_PUBLIC_FILE_MANIFEST_V1.json'))
+          b=json.load(open('build/crane_dryad_v4/CRANE_DRYAD_2024_PILOT_ACCESS_AND_XYTIME_V1.json'))
+          assert a['source_archive_version_id']==277770
+          assert a['record_files']==37
+          assert a['raw_individual_1Hz_csv_files']==32
+          assert a['native_GPS_height_values_read'] is False
+          assert b['native_altitude_or_AGL_values_used_for_selection'] is False
+          assert b['biological_result']=='not_tested'
+          assert b['status'] in {
+              'official_download_unavailable','verified_public_pilot',
+              'available_codebook_schema_inconsistent','schema_mismatch'
+          }
+          if b['status']=='official_download_unavailable':
+              assert any(not x['downloaded'] for x in b['files'].values())
+          if b['status']=='verified_public_pilot':
+              assert b['pilot_nonvertical']['no_altitude_values_read']
+          print(json.dumps({
+            'status':b['status'],
+            'pilot_days':b.get('pilot_nonvertical',{}).get('distinct_days_with_GPS'),
+            'official_download_codes':{k:v['http_status'] for k,v in b['files'].items()},
+            'numeric_altitude_opened':False,
+            'full_source_biological_inference_available':False
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: grus-grus-2024-Dryad-v4-manifest-and-access-preheight-v1
+          path: |
+            build/crane_dryad_v4/CRANE_DRYAD_2024_PUBLIC_FILE_MANIFEST_V1.json
+            build/crane_dryad_v4/CRANE_DRYAD_2024_PILOT_ACCESS_AND_XYTIME_V1.json
+          if-no-files-found: warn
