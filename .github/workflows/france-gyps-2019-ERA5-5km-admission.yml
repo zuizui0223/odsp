@@ -7,7 +7,6 @@ on:
       - prospective/FRANCE_GYPS_2019_2021_ERA5_5KM_WEATHER_SUPPORT_FREEZE_V1.json
       - prospective/france_gyps_era5_2019_5km_preheight_gate.py
       - prospective/test_france_gyps_era5_2019_5km_preheight_gate.py
-      - .github/workflows/france-gyps-2019-ERA5-5km-admission.yml
   workflow_dispatch:
 
 permissions:
@@ -76,7 +75,7 @@ jobs:
           assert x['analysis']=='FRANCE_GYPS_2019_2021_ERA5_WIND_5KM_SOURCE_ADMISSION_V1'
           assert x['source_zip_md5']=='b18cc8004d311d19ff24060f655178bf'
           assert x['source_preheight_reinspection']['prior_preheight_5km_bird_sha']=='031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928'
-          assert x['source_preheight_reinspection']['quarantined_bird_count']==2
+          assert x['source_preheight_reinspection']['excluded_bird_count']==2
           assert x['source_preheight_reinspection']['distinct_biological_bird_ids_after_quarantine']==27
           assert x['source_native_height_values_read'] is False
           assert x['new_study_individual_wind_interaction_tested'] is False
