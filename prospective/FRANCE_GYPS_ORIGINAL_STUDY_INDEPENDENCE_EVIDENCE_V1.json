@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-22",
+  "status": "STUDY_NAMES_DISTINCT_AND_ZERO_LITERAL_ANIMAL_ID_OVERLAP_DEVICE_INDEPENDENCE_UNKNOWN",
+  "source_gates": {
+    "France_source": "10.48579/PRO/IOSZNM",
+    "France_years": [
+      2019,
+      2020,
+      2021
+    ],
+    "France_source_GPS_MD5": "b18cc8004d311d19ff24060f655178bf",
+    "France_original_GPS_preheight_run": 39714803696,
+    "France_original_biological_birds": 30,
+    "France_5km_eligible_birds": 28,
+    "France_5km_eligible_bird_days": 12360,
+    "France_5km_roster_SHA256": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "Scacco_source": "10.5281/zenodo.21915776",
+    "Scacco_zip_MD5": "e1f116e6576cf20e54dad16d2c91a26d",
+    "source_crosswalk_run": 39715960239,
+    "source_crosswalk_artifact": 12399325799,
+    "source_crosswalk_zip_SHA256": "86a5c4c587119fb62ab331833ece731b2d937b46f717ed1f20dff86763dcdb6e"
+  },
+  "source_names_and_individual_cohort": {
+    "French": {
+      "study_name": "Eurasian griffon vulture in France (Grands Causses 2018) ID_PROG 961",
+      "original_animal_ID_count": 30
+    },
+    "previous_Scacco_Gyps_122120597": {
+      "name": "Griffon vulture - Bardenas Reales",
+      "unique_animal_ID_count": 33,
+      "unique_tracking_days": 1889,
+      "zero_animal_ID_overlap_with_all_French": true
+    },
+    "previous_Scacco_Gyps_44080734": {
+      "name": "Scavengers and wild ungulates",
+      "unique_animal_ID_count": 29,
+      "unique_tracking_days": 2010,
+      "zero_animal_ID_overlap_with_all_French": true
+    }
+  },
+  "evidence_type": {
+    "confirmed": "The three public archives have different literal source tracking-study names; the 30 French biological bird ID strings do not exactly match any biological bird ID in either old Gyps fulvus parent study.",
+    "unconfirmed": "Original France numeric Movebank study ID, animal marking/ring IDs crosswalk, GPS tag re-use across sources, and whether different bird-name strings refer to same biological individual.",
+    "not_claimed": "Independent ecological study experiment, causal wind difference, or new height-shape replication. All native GPS+barometric altitude observations remained unopened in this stage."
+  },
+  "source_device_independence_proven": false,
+  "numeric_altitude_opened_in_crosswalk": false,
+  "next_evidence": "Paired native GPS and barometric height on exactly first-selected source GPS fixes; quality threshold ≥80% paired joint, fixed 5km centroid and D1 bird-day null. Separately derive externally sampled wind/flight state if the source passes."
+}
