@@ -1,0 +1,104 @@
+name: France 2019 wild Gyps vs prior Scacco source parent and bird-ID noheight crosswalk
+
+on:
+  push:
+    branches: [prospective/france-griffon-2019-2021-20261022]
+    paths:
+      - prospective/FRANCE_VS_SCACCO_GYPS_PARENT_STUDY_CROSSWALK_PLAN_V1.json
+      - prospective/gyps_source_nonoverlap_crosswalk.py
+      - prospective/test_gyps_source_nonoverlap_crosswalk.py
+      - .github/workflows/france-gyps-scacco-source-crosswalk.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest
+      - name: Verify source-name and individual identity overlap diagnosis
+        run: python -m pytest -q prospective/test_gyps_source_nonoverlap_crosswalk.py
+  official-source:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Obtain immutable prior France bird ID receipt without original GPS height
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/crosswalk
+          curl --fail --location --silent --show-error --retry 4 --retry-delay 4 --max-time 150 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12398443408/zip' \
+            -o build/crosswalk/french_preheight_receipt.zip
+          echo '77286e6ad5639fdeca5c73b6c9049b6b00e3e601b467d34f966495c3d0f28a6c  build/crosswalk/french_preheight_receipt.zip' | sha256sum --check
+          unzip -p build/crosswalk/french_preheight_receipt.zip \
+            FRANCE_GYPS_2019_2021_XY_INSTRUMENT_SUPPORT_V1.json > build/crosswalk/french_preheight.json
+          python - <<'PY'
+          import json
+          d=json.load(open('build/crosswalk/french_preheight.json'))
+          assert d['selected_biological_animals']==30
+          assert d['horizontal_day_eligibility_by_cell_m']['5000']['n_unique_birds_with_qualifying_day_events']==28
+          assert d['horizontal_day_eligibility_by_cell_m']['5000']['source_bird_ID_sha256']=='031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928'
+          assert d['numeric_native_GPS_height_values_read'] is False
+          print('Frozen animal IDs and 5km donor roster verified')
+          PY
+      - name: Download checksum-pinned 2026 source, extract segment STUDY metadata only
+        run: |
+          set -euo pipefail
+          curl --http1.1 --fail --location --silent --show-error --retry 5 --retry-all-errors --retry-delay 8 --max-time 1500 \
+            'https://zenodo.org/records/21915776/files/Data.zip?download=1' -o build/crosswalk/Data.zip
+          echo 'e1f116e6576cf20e54dad16d2c91a26d  build/crosswalk/Data.zip' | md5sum --check
+          test "$(stat -c %s build/crosswalk/Data.zip)" -eq 551470630
+      - name: Compare original published study names and exact original bird IDs to France archive
+        run: |
+          set -euo pipefail
+          python -m prospective.gyps_source_nonoverlap_crosswalk \
+            --source-2026 build/crosswalk/Data.zip \
+            --france-source build/crosswalk/french_preheight.json \
+            --out build/crosswalk/FRANCE_GYPS_2019_VS_SCACCO_PARENT_STUDY_SOURCE_CROSSWALK_V1.json
+      - name: Preserve explicit limited independence claim and no biological outcome inspection
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('build/crosswalk/FRANCE_GYPS_2019_VS_SCACCO_PARENT_STUDY_SOURCE_CROSSWALK_V1.json'))
+          assert d['stage']=='PREHEIGHT_CROSS_ARCHIVE_MOVE_BANK_PARENT_LABEL_CHECK'
+          assert d['native_height_values_read'] is False
+          assert d['altitude_missingness_checked'] is False
+          assert d['tag_serial_crosswalk_complete'] is False
+          assert len(d['original_2026_Gyps_study_comparison'])==2
+          assert d['French_source_five_minute_birds_all']==30
+          assert d['source_independence_category'] in (
+            'DIFFERENT_STUDY_NAMES_AND_ZERO_EXACT_SOURCE_ANIMAL_IDS',
+            'SOURCE_OR_ANIMAL_OVERLAP_REQUIRES_REVIEW'
+          )
+          print(json.dumps({
+            'source_nonoverlap_category':d['source_independence_category'],
+            'exact_shared_bird_IDs':d['exact_bird_id_overlap_across_both_2026_Gyps_parents'],
+            'original_source_study_names':{
+                k:list(v['source_study_names'])
+                for k,v in d['original_2026_Gyps_study_comparison'].items()
+            },
+            'native_altitude_opened':False
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: france-gyps-versus-scacco-parent-and-individual-names-noheight-v1
+          path: build/crosswalk/FRANCE_GYPS_2019_VS_SCACCO_PARENT_STUDY_SOURCE_CROSSWALK_V1.json
+          if-no-files-found: warn
