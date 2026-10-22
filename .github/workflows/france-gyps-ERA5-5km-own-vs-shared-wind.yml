@@ -1,0 +1,160 @@
+name: French Gyps 5km ERA5 bird-specific versus species-shared wind 2-height diagnostic
+
+on:
+  push:
+    branches: [prospective/france-griffon-5km-era5-20261022]
+    paths:
+      - prospective/FRANCE_GYPS_ERA5_5KM_OWN_VS_SHARED_WIND_HEIGHT_TEST_FREEZE_V1.json
+      - prospective/run_france_gyps_era5_2019_5km_bird_vs_shared.py
+      - prospective/test_run_france_gyps_era5_2019_5km_bird_vs_shared.py
+      - .github/workflows/france-gyps-2019-ERA5-bird-vs-species-wind.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test paired source, same-day, weather group, and shared-population maths
+        env:
+          NUMBA_CACHE_DIR: /tmp/francegyps_era5_frozen_synth_numba
+        run: |
+          python -m pip install pytest numpy numba pyproj
+          python -m pytest -q prospective/test_run_france_gyps_era5_2019_5km_bird_vs_shared.py
+      - name: Confirm numeric source plan was frozen before new weather-height effect
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('prospective/FRANCE_GYPS_ERA5_5KM_OWN_VS_SHARED_WIND_HEIGHT_TEST_FREEZE_V1.json'))
+          assert x['population']['ERA5_same_cell_month_species_shared_wind_candidate_birds']==25
+          assert x['population']['STRICT_target_bird_IDs_hash']=='0528f4c8cff551ccc43a65d97f661b0f01a2529b9f355012770057e227e5d6f0'
+          assert x['test']['random_seed']==20261022
+          assert x['test']['min_valid_randomizations']==950
+          assert x['numeric_height_check']['source_joint_quality_fraction_min']==0.80
+          print('Source-based cohort, dual-height QC, 5-km cell and shared-wind reference frozen')
+          PY
+
+  original-source-analysis:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install fixed source projection and numerical probability code
+        run: python -m pip install numpy numba pyproj
+      - name: Verify independent pre-height ERA5 25-bird study sample without bulk-source reinspection
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/FranceGypsERA5
+          curl --fail --location --silent --show-error --retry 3 --max-time 120 \
+            -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12402730587/zip" \
+            -o build/FranceGypsERA5/preheight_verified.zip
+          echo 'cd1adcfd2789c4cda80553923214eaa9fe9787d6d970d9c912ca04060e1eaa59  build/FranceGypsERA5/preheight_verified.zip' | sha256sum --check
+          unzip -p build/FranceGypsERA5/preheight_verified.zip source.json \
+            > build/FranceGypsERA5/ERA5_nonheight_original.json
+          python - <<'PY'
+          import json
+          x=json.load(open('build/FranceGypsERA5/ERA5_nonheight_original.json'))
+          assert x['analysis']=='FRANCE_GYPS_2019_2021_ERA5_WIND_5KM_SOURCE_ADMISSION_V1'
+          assert x['no_altitude_values_accessed_this_analysis']
+          assert x['source_zip_md5']=='b18cc8004d311d19ff24060f655178bf'
+          assert x['population']['5km_shared_species_wind_reference_support']['birds']==25
+          assert x['population']['5km_shared_species_wind_reference_support']['bird_IDs_sha256']=='0528f4c8cff551ccc43a65d97f661b0f01a2529b9f355012770057e227e5d6f0'
+          print('Official 25-bird altitude-blind 2019-2021 ERA5 source support confirmed')
+          PY
+      - name: Resume public 1.09GB raw GPS ZIP in-place, verify exact original MD5
+        run: |
+          set -euo pipefail
+          cd build/FranceGypsERA5
+          ok=0
+          for pass in 1 2 3 4 5 6; do
+            echo "Exact official Dataverse byte-range download attempt $pass"
+            if curl --http1.1 --fail --location --silent --show-error \
+                 --connect-timeout 35 --max-time 1700 --continue-at - \
+                 "https://data.indores.fr/api/access/datafile/5114" \
+                 -o windTurbineAvoidance.zip; then
+              ok=1
+              break
+            fi
+            echo "Retained partial bytes: $(stat -c %s windTurbineAvoidance.zip 2>/dev/null || echo 0)"
+            sleep 4
+          done
+          test "$ok" -eq 1
+          echo 'b18cc8004d311d19ff24060f655178bf  windTurbineAvoidance.zip' | md5sum --check
+          test "$(stat -c %s windTurbineAvoidance.zip)" -eq 1093170227
+      - name: Recompute original source 27 animal donation structure and 1,096-day global ERA5 day states before numeric heights
+        env:
+          NUMBA_CACHE_DIR: /tmp/francegyps_era5_native_dual_numba
+        run: |
+          set -euo pipefail
+          python -m prospective.run_france_gyps_era5_2019_5km_bird_vs_shared \
+            --source-zip build/FranceGypsERA5/windTurbineAvoidance.zip \
+            --ERA5-preheight-receipt build/FranceGypsERA5/ERA5_nonheight_original.json \
+            --out build/FranceGypsERA5/results
+      - name: Validate frozen 25-bird source and dual-sensor scores or honest unavailability
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('build/FranceGypsERA5/results/FRANCE_GYPS_2019_2021_ERA5_5KM_BIRD_VS_SHARED_WIND_RESULT_V1.json'))
+          assert d['analysis']=='FRANCE_GYPS_2019_2021_ERA5_5KM_BIRD_VS_SHARED_WIND_V1'
+          assert d['mode']=='post_prior_height_exploratory_wind_context_comparison'
+          assert d['source_zip_md5']=='b18cc8004d311d19ff24060f655178bf'
+          assert d['ERA5_nonheight_source_run']==39723205971
+          assert d['source_clean_altitude_independent_wind_roster'] is True
+          assert d['source_ERA5_wind_local_5km'] is False
+          assert d['evidence_not_independent_of_historical_France_identity'] is True
+          assert d['quality']['target_birds_from_altitude_blind_gate']==25
+          assert d['quality']['selected_5min_original_tag_clean']==726993
+          assert d['terminal'] in (
+              'unavailable',
+              'exploratory_paired_native_sensor_regional_wind_response_comparison_completed')
+          for name,r in d['sensor_results'].items():
+              assert name in ('GPS','BAROMETRIC')
+              assert r['terminal'] in (
+                  'unavailable',
+                  'exploratory_bird_specific_wind_context_extra_predictability',
+                  'exploratory_bird_specific_wind_context_not_supported')
+              assert r['holm_p_upper'] >= r.get('calibration',{}).get('p_upper',0)
+              assert r['holm_family_p']==(1 if r['terminal']=='unavailable' else r['calibration']['p_upper'])
+          print(json.dumps({
+             'source_and_weather_outcome_independent_population_frozen':True,
+             'terminal':d['terminal'],
+             'paired_native_height_fraction':d['quality']['paired_native_source_quality_fraction'],
+             'GPS':{
+                  'status':d['sensor_results'].get('GPS',{}).get('terminal'),
+                  'birds':d['sensor_results'].get('GPS',{}).get('observed',{}).get('eligible_birds'),
+                  'gain':d['sensor_results'].get('GPS',{}).get('observed',{}).get('mean_gain'),
+                  'null_excess':d['sensor_results'].get('GPS',{}).get('calibration',{}).get('observed_minus_null_mean'),
+                  'valid_null':d['sensor_results'].get('GPS',{}).get('calibration',{}).get('valid'),
+                  'holm_upper':d['sensor_results'].get('GPS',{}).get('holm_p_upper')
+              },
+             'BAROMETRIC':{
+                  'status':d['sensor_results'].get('BAROMETRIC',{}).get('terminal'),
+                  'birds':d['sensor_results'].get('BAROMETRIC',{}).get('observed',{}).get('eligible_birds'),
+                  'gain':d['sensor_results'].get('BAROMETRIC',{}).get('observed',{}).get('mean_gain'),
+                  'null_excess':d['sensor_results'].get('BAROMETRIC',{}).get('calibration',{}).get('observed_minus_null_mean'),
+                  'valid_null':d['sensor_results'].get('BAROMETRIC',{}).get('calibration',{}).get('valid'),
+                  'holm_upper':d['sensor_results'].get('BAROMETRIC',{}).get('holm_p_upper')
+              }
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: France-Gyps-2019-2021-ERA5-5km-own-vs-shared-GPS-BARO-native-height-v1
+          path: build/FranceGypsERA5/results/*
+          if-no-files-found: warn
