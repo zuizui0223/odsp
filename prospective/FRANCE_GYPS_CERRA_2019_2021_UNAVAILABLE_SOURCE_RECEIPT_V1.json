@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-22",
+  "analysis": "FRANCE_GYPS_CERRA_2019_2021_REGIONAL_WIND_DATA_COVERAGE_V1",
+  "source_model": "CERRA",
+  "latitude": 44.2,
+  "longitude": 3.25,
+  "public_source": "Open-Meteo Historical Weather API, hourly CERRA wind_speed_100m, UTC m/s",
+  "source_code": "prospective/france_gyps_cerra_2019_5km_preheight_gate.py",
+  "original_frozen_gate": "prospective/FRANCE_GYPS_2019_2021_CERRA_5KM_WIND_CONTEXT_GATE_V1.json",
+  "original_noheight_run": 39722528384,
+  "fixed_weather_admission": ">=1050 20+ finite hourly wind calendar days from 2019-01-01 through 2021-12-31",
+  "observed_weather_coverage": {
+    "2019": {
+      "calendar_days": 365,
+      "valid_20hour_days": 365
+    },
+    "2020": {
+      "calendar_days": 366,
+      "valid_20hour_days": 366
+    },
+    "2021": {
+      "calendar_days": 365,
+      "valid_20hour_days": 181,
+      "all_missing_months": [
+        "2021-07",
+        "2021-08",
+        "2021-09",
+        "2021-10",
+        "2021-11",
+        "2021-12"
+      ]
+    }
+  },
+  "combined": {
+    "all_calendar_days": 1096,
+    "valid_20hour_days": 912,
+    "missing_days": 184,
+    "meets_fixed_1050_day_floor": false
+  },
+  "result": "source_unavailable_weather_calendar_incomplete",
+  "data_quality_diagnosis": "The CERRA public service returns entirely null hourly wind_speed_100m for 2021 July-Dec, despite returning UTC hourly timestamps; this—not missing GPS altitude or biological effect—caused the run to fail preheight.",
+  "biological_altitude_values_accessed_by_this_run": false,
+  "no_rescue": "Original CERRA study remains source-unavailable. Do not simply relax 1050 to 912 days or silently restrict the 2021 calendar window.",
+  "separate_research_option": "Create a distinct version-locked exploratory source-weather analysis with globally available ERA5 hourly 100m winds covering all 1,096 days, with its coarser grid and separate source/study declaration. Never present it as the same CERRA resolution or an independent biological sample."
+}
