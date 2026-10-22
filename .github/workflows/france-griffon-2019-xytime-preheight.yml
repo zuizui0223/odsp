@@ -1,0 +1,86 @@
+name: 2019-2021 French wild griffon bird-day/grid/tag-quality preheight source gate
+
+on:
+  push:
+    branches: [prospective/france-griffon-2019-2021-20261022]
+    paths:
+      - prospective/FRANCE_GYPS_2019_2021_XYTIME_INSTRUMENT_GATE_V1.json
+      - prospective/france_griffon_2019_xytime_preflight.py
+      - prospective/test_france_griffon_2019_xytime_preflight.py
+      - .github/workflows/france-griffon-2019-xytime-preheight.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Unit test streaming nonheight bird/time/source instrument eligibility
+        run: |
+          python -m pip install pytest pyproj
+          python -m pytest -q prospective/test_france_griffon_2019_xytime_preflight.py
+
+  official-source-XY:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pyproj
+      - name: Verify official published 2024 data.InDoRES French Gyps ZIP and exact MD5
+        run: |
+          set -euo pipefail
+          mkdir -p build/france_gyps_xy
+          cd build/france_gyps_xy
+          curl --fail --location --silent --show-error \
+            --retry 3 --retry-delay 8 --max-time 1800 \
+            'https://data.indores.fr/api/access/datafile/5114' \
+            -o windTurbineAvoidance.zip
+          printf '%s\n' 'b18cc8004d311d19ff24060f655178bf  windTurbineAvoidance.zip' | md5sum --check
+          test "$(stat -c %s windTurbineAvoidance.zip)" -eq 1093170227
+      - name: Stream all nine original 2019-2021 raw GPS CSVs using only bird/tag/time/XY/speed and HDOP
+        run: |
+          set -euo pipefail
+          python -m prospective.france_griffon_2019_xytime_preflight \
+            --source build/france_gyps_xy/windTurbineAvoidance.zip \
+            --out build/france_gyps_xy/FRANCE_GYPS_2019_2021_XY_INSTRUMENT_SUPPORT_V1.json
+      - name: Verify population selection without opening any GPS/barometric altitude values
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/france_gyps_xy/FRANCE_GYPS_2019_2021_XY_INSTRUMENT_SUPPORT_V1.json'))
+          assert x['phase']=='FRENCH_GYPS_2019_2021_XYTIME_INSTRUMENT_ONLY_PREHEIGHT'
+          assert x['source_zip_md5']=='b18cc8004d311d19ff24060f655178bf'
+          assert x['source_seasons_by_year']=={'2019':3,'2020':3,'2021':3}
+          assert x['numeric_native_GPS_height_values_read'] is False
+          assert x['numeric_barometric_height_values_read'] is False
+          assert x['height_completeness_used_for_selection'] is False
+          assert x['source_parent_overlap_resolved'] is False
+          assert x['ecological_height_identity_or_wind_response_tested'] is False
+          print(json.dumps({
+              'source_GPS_flight_birds':x['selected_biological_animals'],
+              'source_distinct_bird_days':x['selected_animal_days'],
+              'original_tag_reassigned_birds':x['animals_with_more_than_one_tag_ID'],
+              'source_5min_fixes':x['selected_native_GPS_five_minute_events'],
+              '5km_eligible_birds':x['horizontal_day_eligibility_by_cell_m']['5000']['n_unique_birds_with_qualifying_day_events'],
+              '50km_eligible_birds':x['horizontal_day_eligibility_by_cell_m']['50000']['n_unique_birds_with_qualifying_day_events'],
+              'height_unopened':True,
+              'source_independence_untested':True
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: french-griffon-2019-2021-GPS-XyTime-HDOP-noheight-source-gate-v1
+          path: build/france_gyps_xy/FRANCE_GYPS_2019_2021_XY_INSTRUMENT_SUPPORT_V1.json
+          if-no-files-found: warn
