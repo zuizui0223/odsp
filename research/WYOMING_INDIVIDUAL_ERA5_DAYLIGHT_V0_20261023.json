@@ -1,0 +1,43 @@
+{
+  "version": "wyoming-independent-individual-environment-daylight-v0",
+  "freeze_date": "2026-10-23",
+  "route_stage": "Declared AFTER seeing Utah+Wyoming species GPS/daylength effects and Utah post-outcome climate results. This is a post-outcome EXPLORATORY environmental interpretation, not a blinded prospective causal test.",
+  "biological_question": "Within independent Wyoming mule deer and bighorn source animals, is the previously observed positive mule-deer within-individual YEAR daylight association still identifiable and similarly signed when controlling for ERA5 monthly thermal/hydroclimatic season? Do bighorn show the same relationship?",
+  "original_source": {
+    "contract": "research/MOVEBANK_WYOMING_TWO_UNGULATES_SOURCE_V0_20261022.json",
+    "doi": "10.5441/001/1.703",
+    "package_uuid": "9c588e12-a0e6-40bf-8dd7-d7ad57dfbf22",
+    "md5": "bd1c02734b6de3ddc9207fc1251edd66",
+    "original_bytes": 98724772,
+    "taxon": [
+      "Odocoileus hemionus",
+      "Ovis canadensis"
+    ]
+  },
+  "prior_effects_to_replay": [
+    {
+      "taxon": "Odocoileus hemionus",
+      "source_animals": 119,
+      "baseline_mean_q": -0.0044624294869207584,
+      "source_daylight_animals": 118,
+      "source_daylight_slope": 0.005538249061142167
+    },
+    {
+      "taxon": "Ovis canadensis",
+      "source_animals": 41,
+      "baseline_mean_q": -0.01997499965861462,
+      "source_daylight_animals": 41,
+      "source_daylight_slope": 0.00021733399923758685
+    }
+  ],
+  "source_obs": "Reuse already-published original Wyoming time-only UTC hour fix selection per source animal; accepted GPS intervals 0.5-2h, <=60 km/h, both endpoints+midpoint same mean-solar date/day/night; per animal-date >=3 valid DAY and >=3 valid NIGHT intervals. No GPS interpolation. Group valid days per individual calendar-year with >=10 eligible dates, as in previous original published source v0.",
+  "environmental_exposure": "For all calendar-year accepted original individual-days (>=10 days before inspecting climate), identify 1degree latlon cell by floor of same day mean GPS lat/lon, group their YEAR/MONTH; request original ERA5 daily Tmean/Tmax/precip/reference ET0 for entire calendar months at 1degree cell centers using existing source-verified get_monthly_era5. Use only complete ERA5 months (>=80% finite daily and >=15 days), never substitute missing grids, and report SHA256 response receipt counts. These are not individual microclimate, vegetation productivity, foraging conditions, or waterhole accessibility.",
+  "exposure_aggregation": "Within animal x year x calendar month, only retain months containing >=4 valid original individual-days with matching source ERA5; calculate mean q, mean sampled-date modeled astronomical daylight, equal-valid-day mean T and monthly P-reference-ET0 (per 100 mm), keeping month as ONE repeated temporal unit. Require >=6 months and daylength range >=1.0 h to estimate month-level daylight association.",
+  "seasonal_estimands": "Within individual calendar-year, regress q on daylight L (monthly), q on L after adjusting T, q on L after adjusting monthly P-ET0, and q on L after BOTH T and P-ET0 (joint only if >=8 eligible months); also estimate q association with T after L and P-ET0, and with P-ET0 after L and T. Residualized partial OLS with singular/low residual-variance hold. Do not interpret association as causal mechanism or photoperiod entrainment.",
+  "predictor_identifiability": "For L regressions residual L SD >=0.2h, and within-year L span >=1.0h. Joint weather models need >=8 months. Temperature-adjusted exposure with independent variation required; climate residual SD >=0.25°C; P−ET0/100 residual SD >=0.05 (5mm). Multicollinearity determinant threshold 0.01 relative to diagonal product from unchanged original daylength-adjusted helper.",
+  "source_inference": "Calculate each annual slope once, average eligible years within source individual equally, then average individuals equally in each taxon. Boot 2,000 individuals with fixed seed 20261019 and only if >=5 unique individuals; otherwise status INSUFFICIENT. Do not treat multiple calendar months as independent animals or ecosystems. All endpoints, opposite-sign and unavailable cohorts are kept.",
+  "original_results_rule": "Before ERA5 retrieval, validate original provider MD5/bytes, original registered source taxa, AND exactly replay both species' previously published unadjusted day/night q and daylight slope and counts. If any differs, abort. New monthly-average slopes are distinct from the original DAILY source slopes, do not assert numeric equality.",
+  "environmental_sensitivity": "In addition to daylength, report monthly T and P−ET0 variance, source year/month admission and count of animals with full T/P controls. There is no experimental temperature/water manipulation or direct resource measure, so climate-driven causation and species-wide generality remain unproven.",
+  "privacy": "Never publish source animal IDs, timestamps, individual locations, source GPS files, grid identities, climate requests with precise coordinates, individual q values or individual slopes. Publish only source/taxon aggregate coverage, coefficients, CIs and hashes. Retain Wyoming CC BY-NC 4.0 attribution and noncommercial restrictions.",
+  "original_other_route_unaffected": "Utah spring/fall at exactly matched photoperiod had zero qualified source individual years and stays UNAVAILABLE. Wyoming zero shared 1degree cell×yearmonth between taxa remains unchanged."
+}
