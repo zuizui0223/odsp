@@ -43,7 +43,7 @@ class TestSixMovebankSolsticeDistanceFalsifier(unittest.TestCase):
 
     def test_phase_is_original_calendar_distance_not_outcome_or_gps_location(self):
         yr=2020
-        rising=date(yr,5,20)
+        rising=date(yr,5,21)
         falling=date(yr,7,22)
         self.assertEqual(seasonal_distance_from_june_solstice(rising,falling),31.)
         with self.assertRaisesRegex(ValueError,"HOLD_ORIGINAL_PAIR_NOT_JUNE"):
