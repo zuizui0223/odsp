@@ -282,8 +282,7 @@ def run(archived_weather_file:Path,output_dir:Path)->dict:
             item["original_source_individual_years"]=old_counts["included_individual_years"]
             item["original_canonical_daily_climate_source_receipts"]=receipts
             item["previous_original_unadjusted_associations"]={
-                kind:{p:prior_slope[kind]["β_"+p+"_NIGHT_minus_DAY"] if False else
-                      prior_slope[kind][{"relative":"β_relative_NIGHT_minus_DAY",
+                kind:{p:prior_slope[kind][{"relative":"β_relative_NIGHT_minus_DAY",
                                         "day":"β_day_absolute_observed_displacement",
                                         "night":"β_night_absolute_observed_displacement"}[p]]
                       for p in RESPONSES}
