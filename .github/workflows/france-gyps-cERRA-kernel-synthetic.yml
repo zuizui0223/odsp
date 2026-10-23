@@ -1,0 +1,29 @@
+name: France 2019-21 CERRA day-shared wind and shared-species height kernel synthetic checks
+
+on:
+  push:
+    branches: [prospective/france-gyps-cerra-wind-2019-2021-20261023]
+    paths:
+      - prospective/france_gyps_cerra_wind_shared_kernel.py
+      - prospective/test_france_gyps_cerra_wind_shared_kernel.py
+      - .github/workflows/france-gyps-cERRA-kernel-synthetic.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  weather-kernel-synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify synced calendar-day weather permutation and species-common vs individual native-height models
+        env:
+          NUMBA_CACHE_DIR: /tmp/france-gyps-cerra-kernel-numba
+        run: |
+          python -m pip install pytest numpy numba pyproj
+          python -m pytest -q prospective/test_france_gyps_cerra_wind_shared_kernel.py
