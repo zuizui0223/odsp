@@ -1,0 +1,111 @@
+name: France Gyps 2019-2021 5km CERRA solar/wind day environment preheight gate
+
+on:
+  push:
+    branches: [diagnostic/france-gyps-CERRA-day-context-20261023]
+    paths:
+      - prospective/FRANCE_GYPS_2019_2021_CERRA_SOLAR_WIND_XY_GATE_V1.json
+      - prospective/france_gyps_CERRA_context_support.py
+      - prospective/test_france_gyps_CERRA_context_support.py
+      - .github/workflows/france-gyps-CERRA-day-support.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest numpy pyproj
+      - name: Verify original study, geodesy dummy exclusion, bird/day donor and solar regime contract
+        run: python -m pytest -q prospective/test_france_gyps_CERRA_context_support.py
+
+  weather-and-source:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy pyproj
+      - name: Retrieve audited original French source bird/day eligibility corrected for test tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/france_gyps_cerra
+          curl --fail --silent --show-error --location --retry 3 --max-time 180 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12400333253/zip' \
+            -o build/france_gyps_cerra/validated_preheight.zip
+          echo '99677b58289e2663bfd1c87f0de661f996be0032ff39973e9725cb32ccb5189b  build/france_gyps_cerra/validated_preheight.zip' | sha256sum --check
+          unzip -p build/france_gyps_cerra/validated_preheight.zip FRANCE_GYPS_2019_2021_XY_INSTRUMENT_SUPPORT_V1.json \
+            > build/france_gyps_cerra/preheight.json
+          python - <<'PY'
+          import json
+          p=json.load(open('build/france_gyps_cerra/preheight.json'))
+          assert p['selected_biological_animals']==29
+          assert p['quarantined_nonbiological_animal_IDs']==['Test géodésie ornitela']
+          assert p['horizontal_day_eligibility_by_cell_m']['5000']['n_unique_birds_with_qualifying_day_events']==28
+          assert not p['numeric_native_GPS_height_values_read']
+          print('Original fixed biological 28-bird 5km source roster verified')
+          PY
+      - name: Retrieve official France original raw GPS archive with exactly pinned checksum
+        run: |
+          set -euo pipefail
+          cd build/france_gyps_cerra
+          curl --http1.1 --fail --silent --show-error --location \
+            --retry 6 --retry-all-errors --retry-delay 8 --max-time 1800 \
+            'https://data.indores.fr/api/access/datafile/5114' \
+            -o windTurbineAvoidance.zip
+          echo 'b18cc8004d311d19ff24060f655178bf  windTurbineAvoidance.zip' | md5sum --check
+          test "$(stat -c %s windTurbineAvoidance.zip)" -eq 1093170227
+      - name: Match whole CERRA calendar solar and wind source days before altitude
+        run: |
+          set -euo pipefail
+          python -m prospective.france_gyps_CERRA_context_support \
+            --source build/france_gyps_cerra/windTurbineAvoidance.zip \
+            --preheight build/france_gyps_cerra/preheight.json \
+            --out build/france_gyps_cerra/FRANCE_GYPS_CERRA_SOLAR_WIND_NOHEIGHT_SOURCE_V1.json
+      - name: Enforce externally measured site climate and no new GPS or barometric height information
+        run: |
+          python - <<'PY'
+          import json
+          path='build/france_gyps_cerra/FRANCE_GYPS_CERRA_SOLAR_WIND_NOHEIGHT_SOURCE_V1.json'
+          r=json.load(open(path))
+          assert r['analysis']=='FRANCE_GYPS_2019_2021_CERRA_DAY_CONTEXT_XY_NO_HEIGHT_V1'
+          assert r['original_biological_5min_events']==742078
+          assert r['prior_5km_biological_roster_hash']=='031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928'
+          assert r['numeric_GPS_height_read'] is False
+          assert r['numeric_baro_height_read'] is False
+          assert r['height_missingness_consulted'] is False
+          assert r['original_French_dualsensor_height_results_previously_opened'] is True
+          assert len(r['daily_climate'])>=1050
+          print(json.dumps({
+            'calendar_days':len(r['daily_climate']),
+            'solar_5km_birds':r['source_support']['solar']['n_eligible_birds'],
+            'solar_5km_bird_days':r['source_support']['solar']['eligible_bird_days'],
+            'solar_5km_source_fixes':r['source_support']['solar']['eligible_scored_5min_fixes'],
+            'wind_5km_birds':r['source_support']['wind']['n_eligible_birds'],
+            'wind_5km_bird_days':r['source_support']['wind']['eligible_bird_days'],
+            'solar_source_pass':r['solar_primary_source_admitted'],
+            'wind_source_pass':r['wind_secondary_source_admitted'],
+            'new_altitude_values_used':False,
+            'future_analysis_scope':'postoutcome exploratory'
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: france-gyps-2019-2021-CERRA-solar-wind-source-support-before-new-height-v1
+          path: build/france_gyps_cerra/FRANCE_GYPS_CERRA_SOLAR_WIND_NOHEIGHT_SOURCE_V1.json
+          if-no-files-found: warn
