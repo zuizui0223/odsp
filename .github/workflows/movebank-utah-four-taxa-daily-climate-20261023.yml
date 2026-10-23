@@ -1,0 +1,30 @@
+name: Utah all four source-original ungulates daily climate-adjusted daylight ecology
+on:
+  push:
+    branches: [ecology/utah-four-taxa-solar-20261019]
+    paths:
+      - 'research/UTAH_FOUR_TAXON_DAILY_CLIMATE_DAYLIGHT_V1_20261023.json'
+      - 'scripts/movebank_utah_four_daily_climate_20261023.py'
+      - 'tests/test_movebank_utah_four_daily_climate_20261023.py'
+      - '.github/workflows/movebank-utah-four-taxa-daily-climate-20261023.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_four_taxon_GPS_day_climate_calendar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Verify four source taxa and reuse identical Wyoming daily climate and ecological source controls
+        run: python -m unittest discover -s tests -p 'test_movebank_utah_four_daily_climate_20261023.py' -v
+      - name: First replay original four Utah animal-group GPS daylight effects then run identical source-day Tmax and antecedent water analyses
+        run: python -m scripts.movebank_utah_four_daily_climate_20261023 --out outputs/utah_four_taxon_original_daily_ERA5_20261023
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: utah-original-four-ungulates-Tmax-water-daily-daylight-v1-20261023
+          path: outputs/utah_four_taxon_original_daily_ERA5_20261023/utah_four_taxa_daily_climate_daylight.json
+          if-no-files-found: warn

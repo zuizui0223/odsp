@@ -1,0 +1,30 @@
+name: Wyoming independent original GPS day-level climate versus solar daylight ecology
+on:
+  push:
+    branches: [ecology/utah-four-taxa-solar-20261019]
+    paths:
+      - 'research/WYOMING_DAILY_ERA5_DAYLIGHT_V1_20261023.json'
+      - 'scripts/movebank_wyoming_daily_climate_20261023.py'
+      - 'tests/test_movebank_wyoming_daily_climate_20261023.py'
+      - '.github/workflows/movebank-wyoming-daily-climate-20261023.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  Wyoming_day_level_individual_hydrothermal_comparison:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Test 30-day past-only thermal-hydro, source units, individual nesting and solar partial regression
+        run: python -m unittest discover -s tests -p 'test_movebank_wyoming_daily_climate_20261023.py' -v
+      - name: Verify original Wyoming GPS source effects then join original daily ERA5 and within-animal solar change
+        run: python -m scripts.movebank_wyoming_daily_climate_20261023 --out outputs/wyoming_daily_environment_20261023
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Wyoming-original-mule-bighorn-day-level-thermal-water-solar-v1-20261023
+          path: outputs/wyoming_daily_environment_20261023/wyoming_daily_ERA5_solar_gps_ecology.json
+          if-no-files-found: warn

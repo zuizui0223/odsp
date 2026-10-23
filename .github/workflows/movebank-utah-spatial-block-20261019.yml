@@ -1,0 +1,30 @@
+name: Utah four-ungulate same-space ecological contrasts with spatial-block uncertainty
+on:
+  push:
+    branches: [ecology/utah-four-taxa-solar-20261019]
+    paths:
+      - 'research/MOVEBANK_UTAH_SHARED_SPATIAL_BLOCK_V0_20261019.json'
+      - 'scripts/movebank_utah_shared_spatial_20261019.py'
+      - 'tests/test_movebank_utah_shared_spatial_20261019.py'
+      - '.github/workflows/movebank-utah-spatial-block-20261019.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public_ungulates_same_space_comparative_ecology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Run known-truth spatial block uncertainty and component tests
+        run: python -m unittest discover -s tests -p 'test_movebank_utah_shared_spatial_20261019.py' -v
+      - name: Verify six source-original shared-cellmonth results and compute spatial block and day/night components
+        run: python -m scripts.movebank_utah_shared_spatial_20261019 --out outputs/utah_4taxon_spatial_ecology
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: utah-four-taxon-common-space-block-ecology-v0-20261019
+          path: outputs/utah_4taxon_spatial_ecology/utah_spatial_block_ecological_results.json
+          if-no-files-found: warn

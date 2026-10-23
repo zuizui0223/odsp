@@ -1,0 +1,30 @@
+name: Wyoming source individual daylight versus monthly thermal-water season
+on:
+  push:
+    branches: [ecology/utah-four-taxa-solar-20261019]
+    paths:
+      - 'research/WYOMING_INDIVIDUAL_ERA5_DAYLIGHT_V0_20261023.json'
+      - 'scripts/movebank_wyoming_individual_era5_20261023.py'
+      - 'tests/test_movebank_wyoming_individual_era5_20261023.py'
+      - '.github/workflows/movebank-wyoming-individual-ERA5-20261023.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent_gps_individuals_seasonal_ecology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Test pure registered source coverage, monthly climate aggregation, daylight adjustment and hold
+        run: python -m unittest discover -s tests -p 'test_movebank_wyoming_individual_era5_20261023.py' -v
+      - name: Replay original Wyoming mule deer and sheep daylight outcomes BEFORE ERA5 and estimate independent within-animal climate-adjusted slopes
+        run: python -m scripts.movebank_wyoming_individual_era5_20261023 --out outputs/wyoming_climate_daylight_20261023
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wyoming-source-verified-mule-bighorn-individual-ERA5-20261023
+          path: outputs/wyoming_climate_daylight_20261023/wyoming_individual_climate_daylight.json
+          if-no-files-found: warn

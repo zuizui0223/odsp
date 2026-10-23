@@ -1,0 +1,39 @@
+{
+  "version": "utah-shared-gridmonth-spatial-block-ecology-v0",
+  "date": "2026-10-19",
+  "stage": "Post-aggregated-outcome descriptive sensitivity. All six previously published shared-gridmonth contrasts and all four taxa are fixed BEFORE opening new geographic-block and day/night component outcomes.",
+  "source": {
+    "doi": "10.5441/001/1.711",
+    "package_uuid": "0043246e-e68c-4b76-84cc-31e7558d08e0",
+    "original_md5": "08200c9dbdf7989fb5a35467213b7e5a",
+    "fixed_four_taxa": [
+      "Antilocapra americana",
+      "Cervus elaphus",
+      "Odocoileus hemionus",
+      "Ovis canadensis"
+    ]
+  },
+  "source_effect_replay": {
+    "Antilocapra americana|Cervus elaphus": -0.11039588318680489,
+    "Antilocapra americana|Odocoileus hemionus": -0.10504146392302441,
+    "Antilocapra americana|Ovis canadensis": -0.04988128734983355,
+    "Cervus elaphus|Odocoileus hemionus": 0.0031937138077901177,
+    "Cervus elaphus|Ovis canadensis": 0.05350609691859285,
+    "Odocoileus hemionus|Ovis canadensis": 0.038532731043657835
+  },
+  "source_overlap_count_replay": {
+    "Antilocapra americana|Cervus elaphus": 16,
+    "Antilocapra americana|Odocoileus hemionus": 50,
+    "Antilocapra americana|Ovis canadensis": 27,
+    "Cervus elaphus|Odocoileus hemionus": 76,
+    "Cervus elaphus|Ovis canadensis": 24,
+    "Odocoileus hemionus|Ovis canadensis": 92
+  },
+  "biological_question": "When animal source cohorts share the same 1-degree geographic grid and year-month, are their relative night-versus-day GPS movement-speed differences accounted for by daytime or nighttime speeds, and are differences stable when geographic cells rather than successive months receive equal weight?",
+  "replicated_sample_policy": "Keep the exact previous source-gated cell x year-month roster: for each taxon, only animal-calendar-years with >=10 solar days having >=3 GPS valid 0.5–2 h intervals in BOTH solar day and night; accept a taxon cell-year-month only when >=3 animals each have >=3 eligible local dates. No source or threshold tuning after seeing signs.",
+  "outcome": "Within source taxon pair, compare equal-animals log1p(median night GPS speed), log1p(median day GPS speed) and q=night−day on the identical admitted grid-months. Report q_a−q_b, night_a−night_b, day_a−day_b and exact algebra.",
+  "spatial_block": "Treat the same 1-degree geographic grid recurring in different months/years as one spatial block. For each block mean all its admitted grid-month contrasts equally; then average blocks equally. Report distinct grid blocks, year-month units, and day/night components. Leave-one-spatial-grid ranges describe finite-sample influence, NOT inferential confidence intervals.",
+  "uncertainty": "If >=5 distinct 1-degree geographic blocks, perform deterministic (seed 20261019) 2000 draw nonparametric geographic-block bootstrap for 95% percentile interval of mean q difference. This is conditional on these coarse sampled spatial blocks, not on independently sampled ecosystems, shared recruitment or between-taxon behavioral causation. If fewer than 5 blocks, interval unavailable.",
+  "ethics": "No precise animal GPS coordinates, animal IDs, individual-level source values, exact dates or cell keys exported. Output only group aggregate grid-count, year-count and species source contrasts. Provider CC0 source attribution and original MD5 retained.",
+  "status_rule": "First reproduce the exact six original 1-degree × year-month taxon contrasts and support counts at <=1e-11 numeric tolerance. Abort source analysis if any original result differs. Do not reopen a failed original spring/autumn matched-photoperiod branch; this remains a separate diel observation study."
+}
