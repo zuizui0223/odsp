@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-23",
+  "phase": "PRE_HEIGHT_REGIONAL_WIND_AND_SHARED_INDIVIDUAL_CONTEXT_FEASIBILITY",
+  "data_source": {
+    "original_french_doi": "10.48579/PRO/IOSZNM",
+    "original_zip_md5": "b18cc8004d311d19ff24060f655178bf",
+    "original_preheight_run": 39714803696,
+    "source_first5min_records": 742423,
+    "original_5km_eligible_birds": 28,
+    "original_5km_eligible_roster_sha256": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "original_bird_ID_count": 30,
+    "original_source_study": "Eurasian griffon vulture in France (Grands Causses 2018) ID_PROG 961",
+    "previous_Scacco_studies_original_ids": [
+      "122120597",
+      "44080734"
+    ],
+    "source_crosswalk_run": 39715960239,
+    "known_distinct_names_and_literal_bird_ids": true,
+    "physical_sensor_and_parent_study_independence_proven": false,
+    "prior_height_outcomes_OPENED": true,
+    "existing_native_dual_sensor_result_run": 39716885648,
+    "existing_native_dual_sensor_result": "27 birds, 5205 bird days, 364520 GPS events, two altitude series support bird-ID height distribution."
+  },
+  "new_climate_source": {
+    "provider": "ECMWF CERRA Europe ~5km via Open-Meteo Historical Archive",
+    "endpoint": "https://archive-api.open-meteo.com/v1/archive",
+    "model": "cerra",
+    "variables": [
+      "wind_speed_100m",
+      "shortwave_radiation"
+    ],
+    "units": {
+      "wind_speed_100m": "m/s",
+      "shortwave_radiation": "W/m²"
+    },
+    "timezone": "UTC",
+    "years": [
+      2019,
+      2020,
+      2021
+    ],
+    "centroid_method": "For each of the EXACT 28 originally altitude-blind admitted birds, compute the median longitude and median latitude of that bird's earliest selected 5minute native flying GPS observations across all 2019-2021 source days. Compute the median of those 28 bird medians to define the one region-scale source reference coordinate. Round to 6 decimals before fixed weather API queries. No native height, barometric height or decoded Wstar outcome is used.",
+    "atmospheric_state_def": "For each year-calendar-month, collect the daily MEAN of 24 regional CERRA hourly 100m wind values, retain date only with ≥20 numeric wind hours, and define low≤calendar day 25th percentile, high≥75th percentile among ALL weather calendar days in that same year-month, middle otherwise. No GPS event count or altitude effect determines weather thresholds.",
+    "solar_field": "Collected as a descriptive solar influx proxy but NOT primary and NOT an outcome-tuned alternative to wind.",
+    "interpretation": "Single region-gridded 100m wind measures Grands Causses area weather, not flight-site wind, orographic lift or physical air mass actually experienced by individual vultures."
+  },
+  "noheight_eligibility": {
+    "source_filter": "Reuse exact 2019-21 source-native Gyps fulvus GPS: valid ID/date/WGS84, native speed 5–55m/s, exclude source invisible/outlier, EARLIEST time/XY valid event per bird×UTC day×5min before height; retain original 28 admitted bird IDs only.",
+    "horizontal": "EPSG:6933 global equal-area, original 5km cell, original archive all 2019-2021 calendar dates",
+    "score_unit": "bird, with low/high wind days within individual, not GPS event",
+    "own_other_day_state_min": 10,
+    "own_other_day_opposite_state_min": 10,
+    "other_bird_other_date_samecell_min": 10,
+    "evaluated_day_same_matching_cell_min_fixes": 20,
+    "per_bird_low_days_min": 2,
+    "per_bird_high_days_min": 2,
+    "min_independent_birds": 10,
+    "required_climate_calendar_day_coverage_fraction": 0.8,
+    "shared_species_model_reference": "For the same UTC-yearmonth and 5km cell, at least TWO OTHER distinct biological birds each with ≥10 selected nonheight GPS fixes in BOTH low and high wind day regimes on OTHER dates after excluding the target date's whole flock. This guards species-level common response against wind-specific donor bird-composition bias.",
+    "shared_species_bird_day_min": 20,
+    "panel_primary_admission": "At least10 birds separately with >=2 low and 2 high distinct UTC days meeting BOTH the individual-wind donor test and shared OTHER-bird/other-date wind donor test.",
+    "freeze_group": "Any results from new weather source must be recorded independent of previous native altitude outcome and of previous gyro wind labels; environment hypothesis devised AFTER original dual sensor results and is NOT a newly preregistered blind height outcome."
+  },
+  "future_models_if_source_passes": {
+    "M0": "Own wind-pooled centered native GPS/barometric height distributions, per bird×5km cell",
+    "M1": "Own wind-pooled distribution adjusted by species-common low/high CERRA regional wind odds from other birds in same original 5km cell and YYYY-MM, excluding focal bird/target UTC date",
+    "M2": "Own bird×wind low/high profile distributions learned only from other dates",
+    "primary_contrast": "M2−M1 held-out-day log predictive gain tests additional bird-specific regional wind information beyond species-common response; same target GPS events each model and two native altitude sensors, full original source eligibility fixed independently of height QC.",
+    "secondary_contrast": "M1−M0 shared wind response, descriptive, not an additional independent confirmatory study.",
+    "null": "999 shuffles of FULL calendar date regional wind labels within each year-month, synchronized across all birds sharing the same regional climate grid cell and date; retrain M1/M2 and recompute biological bird eligibility for each shuffle. Never shuffle GPS fixes or bird labels as if dates independent.",
+    "min_valid_null": 950,
+    "dual_sensor": "Exactly paired native GPS and barometric measurements; Holm over the 2 correlated sensor channels if inferential, sensor agreement itself is not independent instrumentation proof.",
+    "shared_caveats": [
+      "The native GPS/barometric source height outcome has ALREADY been opened for the D1 identity test; this new environment contrast is EXPLORATORY/POST-OUTCOME within the same source.",
+      "Tag and biological bird remain aliased; no physical tag-swap or precise terrain/flight-mode controls.",
+      "One region CERRA site wind is not local Wstar thermal uplift; an environmental association cannot be labeled a causal thermalling response.",
+      "If shared-reference matched context fails n≥10, keep unavailable; never broaden to 50km or relax monthly/donor/day constraints."
+    ]
+  },
+  "current_goal": "Run fixed independent CERRA weather assignment and source-meta 5km shared-wind donor counts without reading any numeric altitude, then decide candidly if the source can support a meaningful species-common vs bird-specific weather test."
+}
