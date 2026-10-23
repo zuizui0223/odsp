@@ -1,0 +1,172 @@
+{
+  "original_run": "https://github.com/zuizui0223/odsp/actions/runs/39878174016",
+  "source_doi": "10.5441/001/1.703",
+  "status": {
+    "previous_GPS_source_replay": true,
+    "source_weather_cells": 6,
+    "status": "completed_source_original_daily_environment_daylight_ecology",
+    "taxa": 2,
+    "weather_holds": 0
+  },
+  "source_group_results": [
+    {
+      "animal_years_with_at_least_ten_climate_complete_source_days_and_solar_span": 165,
+      "daylight_given_antecedent_water": {
+        "admitted_animal_years": 164,
+        "admitted_animals": 117,
+        "animal_bootstrap_95": [
+          0.004231064516541684,
+          0.00720760557244567
+        ],
+        "mean": 0.005744087277006168,
+        "negative_animals": 25,
+        "positive_animals": 92,
+        "status": "descriptive_within_original_animal_year"
+      },
+      "daylight_given_tmax": {
+        "admitted_animal_years": 165,
+        "admitted_animals": 118,
+        "animal_bootstrap_95": [
+          0.002574446783835074,
+          0.00621168136647784
+        ],
+        "mean": 0.004263879978816612,
+        "negative_animals": 37,
+        "positive_animals": 81,
+        "status": "descriptive_within_original_animal_year"
+      },
+      "daylight_given_tmax_and_water": {
+        "admitted_animal_years": 164,
+        "admitted_animals": 117,
+        "animal_bootstrap_95": [
+          0.002853788289044954,
+          0.005660031772393433
+        ],
+        "mean": 0.004237831338383433,
+        "negative_animals": 31,
+        "positive_animals": 86,
+        "status": "descriptive_within_original_animal_year"
+      },
+      "source_dates_without_30day_complete_ERA5": 0,
+      "source_original_qualified_animal_years": 166,
+      "taxon": "Odocoileus hemionus",
+      "tmax_given_daylight_and_water": {
+        "admitted_animal_years": 165,
+        "admitted_animals": 118,
+        "animal_bootstrap_95": [
+          0.00017695613304777105,
+          0.0008962389219461711
+        ],
+        "mean": 0.0005482351534262151,
+        "negative_animals": 43,
+        "positive_animals": 75,
+        "status": "descriptive_within_original_animal_year"
+      },
+      "unadjusted_daylight_on_climate_days": {
+        "admitted_animal_years": 165,
+        "admitted_animals": 118,
+        "animal_bootstrap_95": [
+          0.004101632821224659,
+          0.006972859886325625
+        ],
+        "mean": 0.005538249061142167,
+        "negative_animals": 26,
+        "positive_animals": 92,
+        "status": "descriptive_within_original_animal_year"
+      },
+      "water_given_daylight_and_tmax": {
+        "admitted_animal_years": 125,
+        "admitted_animals": 94,
+        "animal_bootstrap_95": [
+          -0.0026205882481034988,
+          0.016133770031374964
+        ],
+        "mean": 0.006876966632873731,
+        "negative_animals": 39,
+        "positive_animals": 55,
+        "status": "descriptive_within_original_animal_year"
+      },
+      "weather_complete_original_animal_days": 17402
+    },
+    {
+      "animal_years_with_at_least_ten_climate_complete_source_days_and_solar_span": 79,
+      "daylight_given_antecedent_water": {
+        "admitted_animal_years": 79,
+        "admitted_animals": 41,
+        "animal_bootstrap_95": [
+          -0.006440035980123685,
+          0.00989320388667792
+        ],
+        "mean": -0.00047997147247675075,
+        "negative_animals": 34,
+        "positive_animals": 7,
+        "status": "descriptive_within_original_animal_year"
+      },
+      "daylight_given_tmax": {
+        "admitted_animal_years": 79,
+        "admitted_animals": 41,
+        "animal_bootstrap_95": [
+          -0.006318014651171796,
+          0.010570372994436172
+        ],
+        "mean": -0.00017021057754707496,
+        "negative_animals": 35,
+        "positive_animals": 6,
+        "status": "descriptive_within_original_animal_year"
+      },
+      "daylight_given_tmax_and_water": {
+        "admitted_animal_years": 79,
+        "admitted_animals": 41,
+        "animal_bootstrap_95": [
+          -0.006481799838295373,
+          0.009908898285322744
+        ],
+        "mean": -0.0005158669191396834,
+        "negative_animals": 34,
+        "positive_animals": 7,
+        "status": "descriptive_within_original_animal_year"
+      },
+      "source_dates_without_30day_complete_ERA5": 0,
+      "source_original_qualified_animal_years": 79,
+      "taxon": "Ovis canadensis",
+      "tmax_given_daylight_and_water": {
+        "admitted_animal_years": 79,
+        "admitted_animals": 41,
+        "animal_bootstrap_95": [
+          -0.00013945493824262005,
+          0.00035775994269029955
+        ],
+        "mean": 0.00011276498257463868,
+        "negative_animals": 20,
+        "positive_animals": 21,
+        "status": "descriptive_within_original_animal_year"
+      },
+      "unadjusted_daylight_on_climate_days": {
+        "admitted_animal_years": 79,
+        "admitted_animals": 41,
+        "animal_bootstrap_95": [
+          -0.005847345967794438,
+          0.010985829877007601
+        ],
+        "mean": 0.00021733399923758685,
+        "negative_animals": 34,
+        "positive_animals": 7,
+        "status": "descriptive_within_original_animal_year"
+      },
+      "water_given_daylight_and_tmax": {
+        "admitted_animal_years": 75,
+        "admitted_animals": 41,
+        "animal_bootstrap_95": [
+          -0.013071671243048828,
+          0.013398263354604456
+        ],
+        "mean": 0.0007278644783655325,
+        "negative_animals": 17,
+        "positive_animals": 24,
+        "status": "descriptive_within_original_animal_year"
+      },
+      "weather_complete_original_animal_days": 7675
+    }
+  ],
+  "warning": "Original GPS + animal-level source group summary only; daily source climate and GPS coordinates not included"
+}
