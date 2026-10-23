@@ -1,0 +1,68 @@
+{
+  "analysis": "FRANCE_GYPS_2019_2021_5KM_CERRA_SOLAR_WIND_DUAL_HEIGHT_CONTEXT_V1",
+  "created_at": "2026-10-23",
+  "status": "FROZEN_BEFORE_THIS_ENVIRONMENTAL_CONTEXT_OUTCOME_COMPUTED",
+  "experiment_type": "POST_OUTCOME_EXPLORATORY_ENVIRONMENTAL_CONTEXT_EXTENSION",
+  "original_already_opened_endpoint": {
+    "paired_gps_barometric_identity_5km_run": 39716885648,
+    "original_birds_qualified_after_dual_height_QC": 27,
+    "original_bird_days_test": 5205,
+    "original_scored_fixes": 364520,
+    "original_DOI": "10.48579/PRO/IOSZNM",
+    "original_source_md5": "b18cc8004d311d19ff24060f655178bf",
+    "original_28_bird_source_hash": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "inference_label": "This experiment is NOT independent or fully prospective, because native GPS and barometric heights were previously examined for the individual-identity question."
+  },
+  "environmental_source": {
+    "primary": "CERRA site shortwave radiation 09–15 UTC, from latitude 44.2, longitude 3.25, monthly calendar-day lower/upper quartiles. A broad thermal-opportunity proxy, NOT physically observed thermal Wstar.",
+    "secondary": "CERRA site wind_speed_100m 09–15 UTC, same dated monthly calendar-day Q25/Q75",
+    "environment_availability_preflight": "diagnostic/france-gyps-CERRA-day-context-20261023, source metadata outcome-blind, 2019–2021, original 28 qualifying biological birds, first eligible GPS per 5 minute, with geodesy dummy excluded",
+    "weather_noncausal": "Regional CERRA at Cassagne, not each GPS animal's experienced atmosphere, and cannot separate shared landscape/migration/weather."
+  },
+  "source_filter": {
+    "time_window": "2019–2021 all seasons; original source-visible, native speed 5–55m/s, valid WGS84 XY, earliest GPS fix per bird×UTC5min, independent of numerical native height availability",
+    "spatial": "EPSG:6933 5000m cells",
+    "biological_bird_selection": "ONLY pre-height frozen original 28 biological bird IDs can enter; the source explicit geodesy tag and source nonqualifying birds cannot be added to rescue",
+    "native_height_pair": "GPS height-above-msl and bar:barometric-height both finite [-500,7000] meters on EXACT same original GPS fix, no substitutions",
+    "paired_quality": "Source wide ≥80% both-native-height availability, bird-day ≥50% paired first-selected points",
+    "height_center": "Each bird-day GPS and barometric column separately centered at its own median of all paired flying fixes across cells, ten fixed height bins [-inf,-200,-100,-50,-25,0,25,50,100,200,inf]",
+    "source_bird_day": "original GPS+BARO paired bird-day ≥50 selected first-5minute fixes, before environmental gain model and matched fine-cell test",
+    "training": "Same bird, same 5km cell, distinct UTC days, same chosen weather regime ≥10 other-day fixes and opposite weather regime ≥10 fixes in same cell",
+    "reference": "Same bird other-day wind/solar pooled daily-smoothed altitude probabilities across ALL low/middle/high dates in cell",
+    "other_bird_support": "At least10 other biological bird GPS fixes in same 5km cell on different UTC date, for exactly same target fixes; geodesy excluded.",
+    "heldout_day": "≥50 scored fixes after other-day source support, ≥2 days in EACH low/high environmental regime per focal biological bird, n≥10 birds to report a fixed family",
+    "weighting": "Jeffreys 0.5 per 10-bin source bird-day-cell probability vector; equal scoring per GPS fix within day; equal bird-days within low/high; equal low/high bird states; equal biological birds",
+    "source_artifact_bird_population": "Frozen 28 preheight source birds, never include Test géodésie ornitela, do not shift spatial grain based on effect."
+  },
+  "fixed_family": {
+    "sensors": [
+      "GPS",
+      "BAROMETRIC"
+    ],
+    "contexts": [
+      "solar",
+      "wind"
+    ],
+    "number_of_tests": 4,
+    "primary_context": "solar; wind is secondary and not rescue if solar fails",
+    "null": "999 permutations of WHOLE CALENDAR DATE solar/wind low/middle/high labels within every original calendar YYYY-MM, SYNCHRONIZED across all birds in source, preserving original source year-season day mix",
+    "seed": 20261023,
+    "valid_min": 950,
+    "p_upper": "(1+valid-null≥observed+invalid-null)/1000",
+    "multiple_tests": "Holm across all four sensor×environment comparisons. Unavailable context/sensor family member p=1 in Holm; do not use invalid-draw descriptive p as inferred value.",
+    "termination": [
+      "supported_exploratory_environmental_shape",
+      "not_supported_exploratory_environmental_shape",
+      "unavailable"
+    ],
+    "no_retuning": "No change to original 28 individual source identities, 5km cells, 09–15 UTC weather, year-month Q25/Q75, 50 event daily min, height bins, missing altitude day source, perm labels to rescue non-significant outcomes.",
+    "no_independence_overstatement": "GPS and BAROMETRIC are same native GPS points on same tagged birds; do not count sensor replicates as independent studies."
+  },
+  "explicit_claim_limits": [
+    "Not measurement of actual thermal uplift, not individual-specific response or causal adaptation.",
+    "A positive same-individual Wstar/solar model vs own-pooled shape could reflect a shared species-wide environmental reaction, not individual unique slope.",
+    "The original France altitude data already used to discover persistent shape; new weather association is postoutcome exploratory even with source threshold frozen now.",
+    "Outcome labels cannot be permuted independently by bird because solar/wind is COMMON on each site calendar day.",
+    "GPS altitude and barometric height can share tag calibration, their agreement is technical robustness only."
+  ]
+}
