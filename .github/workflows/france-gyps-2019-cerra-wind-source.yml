@@ -48,9 +48,10 @@ jobs:
             -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
             'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12398443408/zip' \
             -o build/france_gyps_wind/preheight_source.zip
-          echo '77286e6ad5639fdeca5c73b6c9049b6d00e3e601b467d34f966495c3d0f28a6c  build/france_gyps_wind/preheight_source.zip' | sha256sum --check
+          # GitHub may repackage artifact transport ZIP; verify exact source JSON bytes below.
           unzip -p build/france_gyps_wind/preheight_source.zip FRANCE_GYPS_2019_2021_XY_INSTRUMENT_SUPPORT_V1.json \
             > build/france_gyps_wind/preheight_source.json
+          echo '5459a3c5d717d655bbdeef3844625c4757eb2c94c312def85c0306977525ce87  build/france_gyps_wind/preheight_source.json' | sha256sum --check
           python - <<'PY'
           import json
           x=json.load(open('build/france_gyps_wind/preheight_source.json'))
