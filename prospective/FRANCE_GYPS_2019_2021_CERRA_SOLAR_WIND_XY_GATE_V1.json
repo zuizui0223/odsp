@@ -1,0 +1,74 @@
+{
+  "analysis": "FRANCE_GYPS_2019_2021_CERRA_DAY_CONTEXT_SOURCE_SUPPORT_V1",
+  "created_at": "2026-10-23",
+  "type": "POST_ORIGINAL_ALTITUDE_OUTCOME_ENVIRONMENT_SOURCE_FEASIBILITY_DIAGNOSTIC",
+  "original_evidence": {
+    "source_original": "Sassi et al. 2024 data.InDoRES DOI 10.48579/PRO/IOSZNM, ZIP MD5 b18cc8004d311d19ff24060f655178bf",
+    "original_5km_biological_birds": 28,
+    "original_5km_bird_hash": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "original_noheight_run": 39714803696,
+    "independent_parent_crosswalk_run": 39922607789,
+    "original_paired_sensor_height_individuality_run": 39716885648,
+    "original_5km_height_result_already_seen": true,
+    "source_geodesy_nonanimal": "Test géodésie ornitela (not in frozen 5km 28 birds)",
+    "statement": "Do not claim newly prospective height-effect test; this weather context was designed AFTER GPS/barometric source results had been opened for another endpoint."
+  },
+  "independent_weather": {
+    "site": "Cassagne feeding station, Grands Causses",
+    "location_grounded": "44°12′ N, 3°15′ E (Sassi et al. Ornithological Applications 2024)",
+    "site_lat": 44.2,
+    "site_lon": 3.25,
+    "provider": "Open-Meteo Historical Weather API, ECMWF CERRA ~5km reanalysis",
+    "requested_model": "cerra",
+    "region": "site centroid only, NOT meteorology at tracked 3D bird position",
+    "time": "2019-01-01 through 2021-12-31, UTC",
+    "variables": [
+      "shortwave_radiation",
+      "wind_speed_100m",
+      "temperature_2m"
+    ],
+    "fixed_daily_time_window_UTC_hours": [
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "min_hours_per_day": 6,
+    "primary": "Mean daytime 09–15 UTC shortwave_radiation W/m²; proxy for thermal convection opportunity, NOT measured Wstar uplift",
+    "secondary": "Mean same-hour wind_speed_100m m/s; descriptive separate environmental contrast, not a rescue if solar gate fails",
+    "missing": "CERRA boundary_layer_height is undefined for 2019 at site; do not impute or add as predictor.",
+    "atmospheric_binning": "Q25/Q75 of DAILY solar or wind values across all calendar dates of each ORIGINAL year-month; low ≤Q25, high ≥Q75, middle excluded. No bird tracking/day or height value enters the weather threshold.",
+    "coverage": "All years and months in source, no retrospective season selection",
+    "source_consistency": "After source API response, require UTC hourly units and retain source grid coordinate to catch reanalysis grid drift on rerun."
+  },
+  "source_flight_filter": {
+    "original_native_events": "All nine seasonal original CSVs over 2019–2021",
+    "source_study": "Eurasian griffon vulture in France (Grands Causses 2018) ID_PROG 961",
+    "exact_taxon": "Gyps fulvus",
+    "first_fix_rule": "Earliest source-visible/non-outlier, finite WGS84 XY, native 5-55 m/s speed fix per bird×UTC-date×five-minute bin BEFORE native GPS or barometric altitude availability.",
+    "original_noheight_source_count": 742423,
+    "original_bird_count": 30,
+    "eligible_original_5km_birds": 28,
+    "only_later_target": "Only those 28 source-preregistered birds can be evaluated, although nonadmitted biological birds may contribute to shared-background source support.",
+    "excluded_geodesy": "Do not count the literal Test géodésie ornitela as a biological bird in target or reference cohorts.",
+    "map": "EPSG:6933, 5km global equal-area cells",
+    "minimum_own_other_date_same_low_high_condition": 10,
+    "minimum_own_other_date_opposite_condition": 10,
+    "minimum_other_bird_other_date_cell": 10,
+    "minimum_scored_daily_5min_fixes": 20,
+    "minimum_bird_days_each_low_and_high": 2,
+    "minimum_study_birds": 10,
+    "source_result_is_biology": "No. Reports only whether it is meaningful to estimate conditional altitude probability in a new study."
+  },
+  "possible_next": {
+    "if_primary_solar_gate_passes": "Freeze a POST-OUTCOME EXPLORATORY shared-species solar-response versus bird-specific solar-response altitude-probability model. Reuse same 2019–2021 height pairs and 5km grid, compare matched GPS fixes in both models, not two independent biological replications. Include both original GPS and barometric height series as sensor robustness, not independent taxa.",
+    "if_primary_solar_fails": "Report structural UNAVAILABLE for solar and do not choose wind as a replacement primary based on environmental/admissibility results.",
+    "if_wind_support_passes": "Wind may be reported as secondary, explicitly nonconfirmatory, with own fixed family and caveats.",
+    "cross_study_independence": "Five old Scacco Gyps studies have no literal shared bird or named study match with France, but French numeric parent and tag mapping still unresolved; do not claim fully independent devices."
+  },
+  "no_altitude_values_accessed_in_this_feasibility_gate": true,
+  "no_original_2016_2017_or_old_Gyps_results_modified": true
+}
