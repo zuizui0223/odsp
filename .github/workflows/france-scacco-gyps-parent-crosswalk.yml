@@ -1,0 +1,106 @@
+name: French Gyps vs Scacco original study and animal parent source crosswalk
+
+on:
+  push:
+    branches: [prospective/france-griffon-2019-2021-20261022]
+    paths:
+      - prospective/FRANCE_SCACCO_GYPS_2026_PARENT_AND_BIRD_ID_AUDIT_PLAN_V1.json
+      - prospective/france_scacco_gyps_source_crosswalk.py
+      - prospective/test_france_scacco_gyps_source_crosswalk.py
+      - .github/workflows/france-scacco-gyps-parent-crosswalk.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest
+      - name: Prove geodesy nonanimal exclusion and study-name alias caution
+        run: python -m pytest -q prospective/test_france_scacco_gyps_source_crosswalk.py
+
+  independent-source:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read original 28-bird France 5km no-height source roster, not GPS heights
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/france_scacco
+          curl --fail --silent --show-error --location --retry 3 --max-time 160 \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12398443408/zip' \
+            -o build/france_scacco/france_preheight.zip
+          echo '77286e6ad5639fdeca5c73b6c9049b6b00e3e601b467d34f966495c3d0f28a6c  build/france_scacco/france_preheight.zip' | sha256sum --check
+          unzip -p build/france_scacco/france_preheight.zip FRANCE_GYPS_2019_2021_XY_INSTRUMENT_SUPPORT_V1.json \
+            > build/france_scacco/france_source.json
+          python - <<'PY'
+          import json
+          x=json.load(open('build/france_scacco/france_source.json'))
+          assert x['numeric_native_GPS_height_values_read'] is False
+          assert len(x['selected_animal_IDs'])==30
+          assert 'Test géodésie ornitela' in x['selected_animal_IDs']
+          assert 'Test géodésie ornitela' not in x['horizontal_day_eligibility_by_cell_m']['5000']['admitted_bird_ids']
+          print('Original no-altitude source and geodesy test flag intact')
+          PY
+      - name: Download Scacco et al 2026 original 551MB archive for STUDY/BIRD metadata only
+        run: |
+          set -euo pipefail
+          cd build/france_scacco
+          curl --fail --location --silent --show-error \
+            --retry 4 --retry-all-errors --retry-delay 8 --max-time 1500 \
+            'https://zenodo.org/records/21915776/files/Data.zip?download=1' -o Data.zip
+          echo 'e1f116e6576cf20e54dad16d2c91a26d  Data.zip' | md5sum --check
+          test "$(stat -c %s Data.zip)" -eq 551470630
+      - name: Compare old Gyps study names, all old individual IDs, source years, correct 50km test label
+        run: |
+          python -m prospective.france_scacco_gyps_source_crosswalk \
+            --scacco-zip build/france_scacco/Data.zip \
+            --french-xy-receipt build/france_scacco/france_source.json \
+            --out build/france_scacco/FRANCE_VS_SCACCO_GYPS_PARENT_CROSSWALK_V1.json
+      - name: Verify environmental source independence not overstated
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/france_scacco/FRANCE_VS_SCACCO_GYPS_PARENT_CROSSWALK_V1.json'))
+          assert not x['native_GPS_altitude_value_read']
+          assert not x['native_altitude_missingness_checked']
+          assert x['France_biological_5km_sample_unchanged']
+          assert x['France_original_5km_biological_birds']==28
+          assert x['France_corrected_50km_biological_birds']==28
+          assert x['fully_independent_device_or_parent_confirmed'] is False
+          assert {z['source_study_ID'] for z in x['original_positive_Gyps_source_studies']}=={'122120597','44080734'}
+          print(json.dumps({
+            'source_status':x['independence_class'],
+            'names_exact':x['exact_study_name_matches'],
+            'same_animal_IDs':x['exact_bird_ID_overlap_with_any_old_Gyps_study'],
+            'old_positive_studies':{
+              z['source_study_ID']:z['reported_study_names']
+              for z in x['original_positive_Gyps_source_studies']},
+            'France_5km_birds':x['France_original_5km_biological_birds'],
+            'France_50km_biological_birds':x['France_corrected_50km_biological_birds'],
+            'numeric_height_opened':False
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: france-vs-scacco-original-Gyps-parent-and-bird-ID-crosswalk-v1
+          path: build/france_scacco/FRANCE_VS_SCACCO_GYPS_PARENT_CROSSWALK_V1.json
+          if-no-files-found: warn
