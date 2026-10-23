@@ -1,0 +1,71 @@
+{
+  "id": "MOVEBANK_SIX_CALENDAR_PHASE_CONFOUND_GPS_ERA5_V0_20261023",
+  "registered_at": "2026-10-23",
+  "prior_outcomes": "Original six GPS population contrasts, all six matched-calendar ERA5 comparisons, within-animal-year univariate temperature/water slopes and separate daytime/nighttime coefficients were already known and published before this diagnostic. This analysis is POST-OUTCOME, not an external preregistration, blind confirmation, or causal ecology effect.",
+  "main_question": "Do source-observed matched-photoperiod associations between modeled regional warming and original same-animal diel GPS movement remain after explicitly accounting for how far each date pair lies from the June solstice within the same animal and year?",
+  "critical_ecology_explanations": [
+    "Ambient warmth alone may explain observed diel differences under same daylength.",
+    "Temperature and GPS movement may independently follow reproductive, migration, vegetation, or other year-season trajectories; the common calendar phase could generate observational associations.",
+    "At fixed near-equal daylength the annual distance from the solstice remains a latent seasonal-state variable; an association that disappears after phase adjustment is not definitive evidence of confounding, and persistence is not proof of heat causality."
+  ],
+  "cohorts": [
+    "elk_canada",
+    "wild_pig_florida",
+    "black_bear_connecticut",
+    "mule_deer_wyoming",
+    "white_tail_virginia",
+    "wolves_alberta"
+  ],
+  "source_lock": {
+    "original_n_animals_total": 197,
+    "animal": "Exactly ORIGINAL six Movebank provider ORIGINAL file UUID/MD5, 30–120min GPS step and source 5min one-to-one daylength/30d separation, >=3 DAY/NIGHT steps on dates, original n>=10 paired dates per animal-year, unmodified locked_pairs.",
+    "first_original_seasonal_effects": "research/MOVEBANK_SIX_THERMAL_DAY_NIGHT_COMPONENT_V0_20261022.json original_group_sampled_relative_movement",
+    "first_original_cohort_n": "research/MOVEBANK_SIX_THERMAL_DAY_NIGHT_COMPONENT_V0_20261022.json original_group_n_animals",
+    "first_original_regional_climate_means": "research/MOVEBANK_SIX_THERMAL_DAY_NIGHT_COMPONENT_V0_20261022.json original_group_regional_T_and_water_means",
+    "first_original_source_relative_temperature_and_water_slopes": "research/MOVEBANK_SIX_THERMAL_DAY_NIGHT_COMPONENT_V0_20261022.json original_group_relative_night_OLS_slope and original_group_water_slope_per_100mm",
+    "first_original_absolute_components": "reports in docs/movebank_six_cohort_day_night_thermal_water_ecological_result_20261022.md, or original run 39722587356 source JSON; temperature DAY/NIGHT group means and relative N-D identity must be reproduced independently before new phase values",
+    "archive": "Open-Meteo historical ERA5 prior scientific-only canonical daily arrays from original GitHub Actions 39220116497, artifact movebank-six-original-gps-within-year-canonical-era5-v1-20261019.",
+    "original_archived_scientific_daily_json_sha256": "8b637760b9199e6e7f9f85e647b74658827525ed42d400bc06d44c6a4a14f05e",
+    "never_refresh_model_time_or_regions": true
+  },
+  "calendar_control": {
+    "scope": "The original Northern Hemisphere matched rising and falling sample dates lie in the SAME calendar year around June 21. Use their original dates, not source animal GPS timestamps outside the original matched pairs.",
+    "phase_distance_days": "k = 0.5*[(June21 - rising_date).days + (falling_date - June21).days]; require rising<June21<falling and both dates same source year. This is the average distance of the paired original dates from solstice; equivalent to approximate seasonal phase or annual daylength magnitude.",
+    "model": "For each original animal×calendar year, regress x and y separately on [1,k] using exactly the same original source pairs (Frisch-Waugh-Lovell). Partial slope beta=(x_residual*y_residual).sum/(x_residual^2).sum for y=relative, DAY and NIGHT movement. Univariate x=delta regional ERA5 T (PRIMARY) or delta 30d P−ET0 /100mm (SECONDARY SEPARATE), not a simultaneous causal mediator model.",
+    "support_n_original_pairs_min": 10,
+    "minimum_source_solar_phase_sd_days": 7,
+    "minimum_temperature_residual_sd_C": 0.5,
+    "minimum_water_balance_residual_sd_mm": 10,
+    "minimum_distinct_calendar_k": 3,
+    "preserve_full_prior_animal_and_date_roster": true,
+    "do_not_drop_pairs_on_GPS_effect_or_ERA5_sign": true,
+    "undefined": "If k has inadequate variation, residual x too close to collinear, fewer than 10 original source-valid pairs, any original weather missing, or numeric inconsistency, report null for that year; never loosen threshold or choose alternative k transformation after results.",
+    "covariate_diagnostic": "R2 of source paired-temperature variation explained by linear k only (and water analogous), averaged equally by valid original animal/year before animal averages. This is observational collinearity, not a proportion of animal movement caused by calendar.",
+    "control_interpretation": "One fixed LINEAR distance-from-solstice adjustment, not full nonlinear annual phase, reproductive stage, landscape greenness, habitat, weather memory, weather autocorrelation or held-out future data."
+  },
+  "reporting": {
+    "original_replay_gate": "Replay original six original GPS data sources and source group effects to 1e−10, exact pair dates and relative N−D identity, original group matched-date climate means to 1e−9 and all six original OLS beta T/W cohort means to 1e−9 BEFORE opening new phase adjusted outcome.",
+    "outputs": [
+      "For every ORIGINAL one of six source cohorts and both temperature/water terms, total source animals, animal-years attempted, animal-years phase-qualified, animals retaining 1+ phase-qualified year, original unadjusted source slope, source-unadjusted original-calendar-supported-subset slope and new phase-adjusted slope, individual sign counts, source median, source leave-one-animal-out range NOT CI.",
+      "Explicit original calendar phase dispersion, R² of source ΔT explained by phase, and residual ΔT spread in eligible animal-years.",
+      "For the ORIGINAL same animal/year pair supports, report phase-adjusted beta_DAY and beta_NIGHT and exact beta_REL=beta_NIGHT-beta_DAY source-level identity.",
+      "No source animal identifiers/individual effects, exact dates, coordinates or raw movement values in outputs.",
+      "All positive, negative, null and insufficient GPS source outcomes remain; individual-based descriptive interpretation, NO species-wide p values or global across-source regression."
+    ],
+    "no_p_values": true,
+    "no_new_original_GPS_outcome_selection": true,
+    "no_reclassification_old_results": true,
+    "population_level_result_threshold_n_animals": 5
+  },
+  "limits": [
+    "Every animal in a source may share a coarse region daily climate calendar, so individual slope signs are NOT independent environmental interventions.",
+    "Controlling a linear k does not isolate seasonal biological state, thermal stress, phenology, endogenous clocks or interspecific mechanisms.",
+    "Original matched-daylight pair responses are source GPS minimum straight-line displacement log1p km/h, NOT time-active or energetics.",
+    "Different recruitment source, taxon, habitat, year and telemetry effort confound all six source group comparisons.",
+    "Calendar distance can be a common response variable of actual ecological environment; adjustment can remove part of a legitimate environmental signal as well as confounding. A source effect disappearing is a sensitivity result only.",
+    "Univariate water association is separately adjusted for k and NOT controlled for air temperature, so is not evidence of soil water or forage mediation.",
+    "Original ERA5 grid remains one coarse location per source, not actual animal GPS-derived microclimate.",
+    "Multiple analyses now in existing explored sources: primary manuscript ecological claim may need independent validation, not increasing significant-looking source model flexibility."
+  ],
+  "stop": "One fixed date-phase diagnostic route. On a failed source gate preserve HOLD; do not optimize windows, date cutoffs, k polynomial, source taxa or residual spread floor. Independent new-region/same-taxon animal datasets needed for external causal or predictive ecological claims."
+}
