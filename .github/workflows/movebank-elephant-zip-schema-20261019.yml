@@ -1,0 +1,21 @@
+name: Source-only Etosha elephant original ZIP manifest 2026-10-19
+on:
+  push:
+    branches: [ecology/seasonal-hysteresis-cross-landscape-paper-v0]
+    paths:
+      - 'scripts/movebank_elephant_zip_schema_20261019.py'
+      - '.github/workflows/movebank-elephant-zip-schema-20261019.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_checksum_and_header_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify source ZIP MD5 and print only archive filenames and CSV headers
+        run: python -m scripts.movebank_elephant_zip_schema_20261019

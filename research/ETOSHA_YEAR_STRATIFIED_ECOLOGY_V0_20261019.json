@@ -1,0 +1,22 @@
+{
+  "version": "etosha-independent-solar-year-ecology-v0",
+  "created_date": "2026-10-19",
+  "study_question": "In the two preidentified common Southern solar-year cycles 2009 and 2010, do elephant and jackal seasonal night/day GPS displacement changes show the same sign each year, and are their SAME regional matched-date hydrothermal contexts comparable?",
+  "time_and_evidence_status": "Exploratory follow-up. Previous pooled 2009+2010 source effects and identical common-region ERA5 source context already known. Year-specific GPS and climate values not accessed when this route was fixed. This route does not produce independent confirmatory species effects.",
+  "fixed_admitted_solar_years": [
+    2009,
+    2010
+  ],
+  "fixed_sources": "Two original provider-MD5 pinned Etosha elephant and jackal data archives declared in research/MOVEBANK_SOUTHERN_SOLAR_MOVEMENT_V0_20261019.json. Do not add sources if insufficient.",
+  "frozen_aggregate_replay": {
+    "etosha_elephant": -0.23780576300642028,
+    "etosha_jackal": 0.04478579444771083
+  },
+  "observation_model": "Use exactly the previously source-verified choose_one_per_utc_hour time-only sample rule; then unchanged south.analyze_south 0.5–2 h step speed, >=3 day and >=3 night GPS steps/date, >=10 one-to-one 5min daylength matched day-pairs/cycle with >=30d separation and 0.5–2 daypart fix-count ratios; Southern December solstice partition.",
+  "temporal_restriction": "For individual GPS fixes, select dates in solar cycle 2009 (rising after June 21 2009; falling after Dec 21 2009 until before Jun 21 2010) or cycle 2010 (rising after Jun 21 2010; falling after Dec 21 2010 until before Jun 21 2011); no movement-dependent inclusion.",
+  "estimates": "For each taxon x solar-cycle separately, report source animals, cycles, matched date pairs, source-mean falling-minus-rising (night-day log1p GPS speed) and absolute daytime/nighttime components if >=5 qualified individuals; individual-level 2000-bootstrap CI with fixed seed 20261019.",
+  "environment": "Use identical fixed Etosha ERA5 region grid 19°S,16°E for both species. Match to each admitted animal's paired days and estimate falling-minus-rising daily air temperature and 30d precipitation-minus-reference-ET0, with independently signed source response hashes; output group-level environmental differences only.",
+  "temporal_alignment": "Report number of unique astronomical date-pairs shared across the two species' source-admitted rosters within each year, and distinct rising/falling matched dates overlap. This is coverage information, not inferred animal encounter synchrony.",
+  "interpretation_limits": "Shared solar-cycle is not exactly shared GPS dates nor shared microhabitat. The same regional ERA5 cell is not animal thermal exposure, forage, measured water availability, or proof of heat/water causation. Source and species still confounded. The sources may have different sampling windows even within same year.",
+  "output": "Source aggregated outcomes, independent-group uncertainties, interval counts, calendar overlap counts, ERA5 hashes/URLs. No precise GPS, source individual ID, exact event timestamp or exact matched date published."
+}

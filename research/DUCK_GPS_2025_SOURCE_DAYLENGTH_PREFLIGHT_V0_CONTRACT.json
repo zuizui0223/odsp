@@ -1,0 +1,55 @@
+{
+  "id": "DUCK_GPS_2025_SOURCE_DAYLENGTH_PREFLIGHT_V0",
+  "registered": "2026-10-18",
+  "dependent_on": "ODSP PR#267 existing Serengeti photo-time results; external source contents UNOPENED as of contract registration.",
+  "source": {
+    "doi": "10.5281/zenodo.16940654",
+    "url": "https://zenodo.org/records/16940654/files/250823_LNU_dabbling_ducks_hourly.csv?download=1",
+    "file": "250823_LNU_dabbling_ducks_hourly.csv",
+    "md5": "1972d0ef08b83c2b88a169ba07bb48b3",
+    "max_bytes": 60000000,
+    "expected_header_columns": [
+      "study.name",
+      "individual.id",
+      "individual.taxon.canonical.name",
+      "timestamp",
+      "location.long",
+      "location.lat",
+      "ground.speed"
+    ],
+    "timestamp_timezone": "UTC"
+  },
+  "biological_objective": "Determine whether independent GPS fixes, 7 duck taxa/locations/years, support SAME INDIVIDUAL, SAME COARSE REGION and both seasonal branches of a shared approximate December-solstice daylength window. This is data admission ONLY; do not access/estimate movement-speed response on this first lane.",
+  "sampling": {
+    "physical_id": "study.name + individual.id distinct (IDs may collide across separate Movebank studies)",
+    "hemisphere": "Northern lat>=+1 degree, Southern lat<=-1, near equator excluded from branch preflight due weak daylength signal",
+    "coarse_geography": "0.5 degree lat/lon cell computed privately; output never displays cell or original GPS coordinates",
+    "solstice_year": "date of Dec 21 nearest season: Jul-Dec day => that year, Jan-Jun => prior year",
+    "branch_sign": "north hemisphere: Dec21-k falling daylight, Dec21+k rising; southern hemisphere signs reversed",
+    "k_days_range": [
+      7,
+      160
+    ],
+    "utc_date": "Use UTC date for BROAD SOURCE preflight only, final biological solar test must resolve site-local solar calendar and geometry before outcomes",
+    "eligible_individual_cell_cycle": "At least 7 distinct UTC dates AND 15 non-missing finite original GPS ground-speed observations in each of both increasing and decreasing photoperiod branches of the SAME 0.5-degree cell and December-solstice cycle.",
+    "support_more_than_one_hemisphere": "Report support by species/hemisphere only, no GPS positions or individual IDs",
+    "enough_population_for_external_analysis": "At least 10 distinct individuals meeting support spread over at least TWO independently sampled species and ≥2 coarse study geographic cells; otherwise HOLD independent cross-clade inference, not claim no response."
+  },
+  "fields_and_q": {
+    "read_GPS_speed_value_for_outcome": false,
+    "speed_availability_only": true,
+    "read_timestamp_and_coordinates_ephemerally_to_form_support_cell": true,
+    "original_fix_gap_hours_histogram_bins": [
+      "<=0 duplicate",
+      "0-1.5",
+      "1.5-3",
+      "3-6",
+      "6-12",
+      ">12"
+    ],
+    "note": "Battery-driven sampling, collar-model 1h/2h fix schedules, missing GPS speed, animal flight migration strongly confound clock-time frequencies and observed displacement. Header/availability support cannot establish actual animal activity."
+  },
+  "source_safety": "Print only archive MD5, row total, schema column names, species-level counts and aggregate cell/datetime support. No source animal names/IDs, exact timestamps, latitude, longitude, or measured speed released. If source file MD5 fails, HOLD with no source information.",
+  "future_analysis_gate": "Freeze actual matched measured daylength and source sampling effort after roster admission but BEFORE reading numerical ground.speed; no after-result tweaking taxon filters or solar-zone definitions.",
+  "original_source_prior_status": "Published indexed 46.3 MB public dataset; source bytes unverified at registration."
+}

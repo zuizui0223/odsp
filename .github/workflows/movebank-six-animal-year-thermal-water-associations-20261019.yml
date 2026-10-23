@@ -1,0 +1,40 @@
+name: Six Movebank mammal cohorts — within-animal matched-date ERA5 environmental slopes
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/MOVEBANK_SIX_COHORT_WITHIN_ANIMAL_ERA5_SLOPES_V0_20261019.json'
+      - 'scripts/movebank_six_source_within_animal_era5_date_slopes_20261019.py'
+      - 'tests/test_movebank_six_source_within_animal_era5_date_slopes_20261019.py'
+      - '.github/workflows/movebank-six-animal-year-thermal-water-associations-20261019.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original_source_animal_centered_ERA5_date_associations:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Six original source, date-pair slope and no-independent-dates tests FIRST
+        run: |
+          python -m unittest discover -s tests \
+            -p 'test_movebank_six_source_within_animal_era5_date_slopes_20261019.py' -v
+      - name: Check all original provider MD5s, reproduce all 6 GPS source effects and animal counts, THEN compute source-region ERA5 date-pair within-animal-year associations
+        run: |
+          python -m scripts.movebank_six_source_within_animal_era5_date_slopes_20261019 \
+            --out outputs/movebank_six_source_within_animal_climate
+      - name: Preserve all null and sign-heterogeneous outcomes at cohort aggregate level only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: movebank-six-source-animal-centered-matched-date-era5-associations-20261019
+          path: outputs/movebank_six_source_within_animal_climate/six_source_individual_year_climate_movements.json
+          if-no-files-found: warn

@@ -1,0 +1,81 @@
+{
+  "id": "MOVEBANK_SIX_COHORT_WITHIN_ANIMAL_MATCHED_ERA5_ASSOC_V0",
+  "date": "2026-10-19",
+  "epistemic_status": "EXPLORATORY AFTER opening all six original source movement outcomes and group-averaged ERA5 context; freeze new within-animal DATE-PAIR association estimands BEFORE opening individual paired-date temperature/water slopes. No causal identification, no prospectively blinded confirmation.",
+  "main_ecological_question": "Within a marked mammal and its original year-specific equal-daylength comparison, does the magnitude of seasonal regional air-temperature difference covary with its change in relative nighttime GPS displacement? Is this association consistent across independent original recruitment cohorts, or heterogeneous beyond group-level climate signs?",
+  "source_cohorts": {
+    "pilot": "research/MOVEBANK_NATIVE_OBSERVATION_PILOT_20261019.json",
+    "pilot_outcome": "research/MOVEBANK_SOLAR_MOVEMENT_V0_RESULT_20261019.json",
+    "pilot_environment": "research/MOVEBANK_REGIONAL_ERA5_MOVEMENT_LINK_V0_20261019.json",
+    "extension": "research/MOVEBANK_SOLAR_MOVEMENT_EXTENSION_V0_20261019.json",
+    "extension_outcome": "research/MOVEBANK_SOLAR_MOVEMENT_EXTENSION_V0_RESULT_20261019.json",
+    "extension_environment": "research/MOVEBANK_EXTENSION_THREE_ERA5_DATE_CONTEXT_V0_20261019.json",
+    "labels_fixed": [
+      "elk_canada",
+      "wild_pig_florida",
+      "black_bear_connecticut",
+      "mule_deer_wyoming",
+      "white_tail_virginia",
+      "wolves_alberta"
+    ],
+    "original_source_effects_exact": {
+      "elk_canada": 0.04500073152774594,
+      "wild_pig_florida": -0.0009771905623652984,
+      "black_bear_connecticut": -0.07716773206927685,
+      "mule_deer_wyoming": 0.03114824366094135,
+      "white_tail_virginia": -0.0031894638756262794,
+      "wolves_alberta": 0.02841038749300514
+    },
+    "original_individual_counts_exact": {
+      "elk_canada": 12,
+      "wild_pig_florida": 5,
+      "black_bear_connecticut": 20,
+      "mule_deer_wyoming": 118,
+      "white_tail_virginia": 33,
+      "wolves_alberta": 9
+    },
+    "original_individuals_total": 197,
+    "known_four_source_holds_and_one_zero_moose": "Do NOT include new source files to rescue signs or n. All prior failed source entries remain explicit in existing ledger."
+  },
+  "weather": {
+    "source": "historical Open-Meteo, models=era5, no new provider; use exactly original six already registered public coarse source reference points",
+    "reference_key": "pilot_environment.coarse_weather_reference_sites and extension_environment.geographic_exposure",
+    "fixed_timezone": "same source-local standard clock from rounded longitude / 15 as previous successful workflows; no GPS-local microclimate inferred",
+    "original_vars": [
+      "temperature_2m_mean",
+      "precipitation_sum",
+      "et0_fao_evapotranspiration"
+    ],
+    "covariates": [
+      "falling minus rising daily mean air temperature at original paired dates (°C)",
+      "falling minus rising previous-30-day P-ET0 (mm)"
+    ],
+    "climate_missingness": "No interpolation/filling; use only original GPS-date pairs with complete source ERA5, report missing original pairs. Preserve original group GPS effect even when weather missing.",
+    "coarse_exposure_limit": "One weather grid per source and shared dates among individual GPS animals are NOT independent weather replicates; modeled P−ET0 is not soil moisture/forage."
+  },
+  "response": {
+    "locked": "per animal-year exact original 1:1 paired dates <=5 min photoperiod mismatch, >=30 d apart, 0.5-2h GPS steps, >=3 per solar daypart, sample ratio 0.5-2, >=10 original source matched pairs per year",
+    "Y": "per already-frozen original date pair, falling minus rising in [log1p(NIGHT median straight-line GPS displacement km/h) − log1p(DAY median displacement km/h)]",
+    "no_recalculation": "MUST reproduce original per-source exactly group-mean and animal-count v0 result BEFORE requesting ERA5, using same scripts.movebank_regional_climate_link_20261019.locked_pairs() imported helper, never update original estimators.",
+    "no_percent_change": "Raw numeric log1p km/h scale is not animal activity percentage or energy use."
+  },
+  "date_pair_association": {
+    "unit": "Same original individually marked animal×solar year, original GPS matched date pairs; associations within year calculated first; then equal years within individual; then equal animals within source.",
+    "separate_slopes": [
+      "βT = sum((ΔTpair−meanΔT)(Ypair−meanY))/sum((ΔTpair−meanΔT)^2) log1p(km/h) per °C",
+      "βW = same slope with x=Δ30d(P−ET0) /100mm so units log1p(km/h) per 100 mm"
+    ],
+    "data_thresholds": "An original eligible animal×year requires >=10 ORIGINAL pairs, and source complete weather for >=10 matched pairs. Individual-year βT shown only if SD(ΔT)>0.5°C. βW shown only if SD(Δ30d(P−ET0))>10mm. These are fixed numerical-identifiability floors; no after-result rescue.",
+    "aggregation": "Mean eligible-year slope within each unique individual, then mean/median/sign of original independent individuals per source. Each animal counts once and individuals repeated across years are NOT independent populations.",
+    "descriptive_outputs": "For each source and each predictor: original n animals, n with valid slope, n eligible years and paired dates, n positive/negative/exact zero slopes, average/median slope, leave-one-animal-out mean range (NOT CI), slope undefined counts. The exact six originally named cohorts all reported.",
+    "strict_stop": "No optimizing lag, time window, source, correlation, test threshold, date-pair selection, sensor day-night definition or binarization after opening slopes. NO pooled source-independent p-values or cross-source hierarchical variance components, and no p-value from pair pseudoreplication."
+  },
+  "ecological_claim_ceiling": [
+    "Within-animal source date-pair slope on a shared regional modeled climate series is an observational seasonal co-trend, not a thermoregulatory causal coefficient or independent climate randomization.",
+    "Individuals reuse weather dates, and GPS time series are autocorrelated; no individual source bootstrap alone fixes shared calendar dependence.",
+    "Each source from one species/location/collar cohort is confounded; six slopes cannot establish a global conditional law.",
+    "GPS minimum straight-line displacement is not an activity budget, nor directly observed foraging/water visitation.",
+    "Do not force one coefficient sign across six cohorts; null/undefined/small mixed slopes are equally reportable.",
+    "Earlier Serengeti camera, global ERA5 grid and duck GPS instantaneous speed are not the same endpoint and must not be pooled as corroborating animal counts."
+  ]
+}

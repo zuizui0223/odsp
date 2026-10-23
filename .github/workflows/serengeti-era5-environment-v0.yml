@@ -1,0 +1,38 @@
+name: Serengeti independent ERA5 environmental branch contrast v0
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/SERENGETI_ERA5_EQUAL_PHOTOPERIOD_ENVIRONMENT_V0_CONTRACT.json'
+      - 'scripts/run_serengeti_era5_environment_v0.py'
+      - 'tests/test_serengeti_era5_environment_v0.py'
+      - '.github/workflows/serengeti-era5-environment-v0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frozen-independent-climate-context:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify all 522 planned mirror pairs and no invented climate days
+        run: python -m unittest discover -s tests -p 'test_serengeti_era5_environment_v0.py' -v
+      - name: Retrieve public original ERA5 model response and evaluate all planned contrasts
+        run: |
+          python -m scripts.run_serengeti_era5_environment_v0 \
+            --output outputs/serengeti_era5_mirrored_season_weather_v0.json
+      - name: Upload region-only weather receipt (NO wildlife/GPS rows)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: serengeti-regional-era5-seasonal-environment-v0
+          path: outputs/serengeti_era5_mirrored_season_weather_v0.json
+          if-no-files-found: warn

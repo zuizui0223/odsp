@@ -1,0 +1,22 @@
+cell_id,latitude,longitude,land,continent,map_label
+-30_-060,-30,-60,True,South America,Argentina
+-30_+030,-30,30,True,Africa,South Africa
+-30_+120,-30,120,True,Oceania,Australia
+-30_+150,-30,150,True,Oceania,Australia
+-15_-060,-15,-60,True,South America,Brazil
+-15_+030,-15,30,True,Africa,Zambia
++15_-090,15,-90,True,North America,Guatemala
++15_+000,15,0,True,Africa,Mali
++15_+030,15,30,True,Africa,Sudan
++30_-090,30,-90,True,North America,United States of America
++30_+000,30,0,True,Africa,Algeria
++30_+030,30,30,True,Africa,Egypt
++30_+060,30,60,True,Asia,Iran
++30_+090,30,90,True,Asia,China
++30_+120,30,120,True,Asia,China
++45_-120,45,-120,True,North America,United States of America
++45_-090,45,-90,True,North America,United States of America
++45_+000,45,0,True,Europe,France
++45_+060,45,60,True,Asia,Kazakhstan
++45_+090,45,90,True,Asia,China
++45_+120,45,120,True,Asia,China

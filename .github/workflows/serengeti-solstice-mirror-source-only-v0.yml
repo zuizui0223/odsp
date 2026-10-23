@@ -1,0 +1,45 @@
+name: Serengeti solstice-mirror station coverage — source-only
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'scripts/assess_serengeti_solstice_mirror_effort_v0.py'
+      - 'tests/test_serengeti_solstice_mirror_effort_v0.py'
+      - '.github/workflows/serengeti-solstice-mirror-source-only-v0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-camera-valid-date-feasibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test station/solstice mirror code without animal observations
+        run: python -m unittest discover -s tests -p 'test_serengeti_solstice_mirror_effort_v0.py' -v
+      - name: Obtain public pinned camera-valid date intervals only
+        run: |
+          mkdir -p .serengeti_source
+          curl -L --fail --retry 3 --retry-delay 3 \
+            'https://zenodo.org/records/5026386/files/search_effort.csv?download=1' \
+            -o .serengeti_source/search_effort.csv
+          echo '27cb42f3feaa0642b17cbde24ba15fbd  .serengeti_source/search_effort.csv' | md5sum -c -
+      - name: Count source date-only candidate same-site mirror supports
+        run: |
+          python scripts/assess_serengeti_solstice_mirror_effort_v0.py \
+            --effort .serengeti_source/search_effort.csv \
+            --output outputs/serengeti_solstice_mirror_date_support_v0.json
+      - name: Archive only non-sensitive source-date aggregate receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: serengeti-solstice-mirror-date-source-only-v0
+          path: outputs/serengeti_solstice_mirror_date_support_v0.json
+          if-no-files-found: warn

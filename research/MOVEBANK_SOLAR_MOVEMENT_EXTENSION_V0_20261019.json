@@ -1,0 +1,73 @@
+{
+  "version": "independent-published-source-extension-v0",
+  "frozen_before_new_source_animal_displacement_access": "2026-10-19",
+  "selection": "Chosen from the complete fixed 437 Movebank public package frame using original metadata only: additional North American single-taxon GPS mammal sources with multiple animals and abundant published fixes, spanning cervids, antilocaprids, wolves and pumas, including a second elk and two moose archives to probe within-taxon population differences. Not a random or globally complete sample. Keep each selected source and every NULL result.",
+  "same_method": "Use unchanged source-MD5 validation and prespecified scripts/movebank_solar_movement_20261019.py analyze_file function with 30–120 min source GPS steps, 5-min photoperiod match, >=30d separation, >=10 pairs per individual-year, 3 matched steps per daypart, 0.5–2 sample balance, and animal-level cluster bootstrap. No tuning on new signs.",
+  "publication_scope": "Aggregate source-level descriptive ecology only. Source archive != necessarily independent population if overlapping recruitment; original licenses and DOI preserved; no raw trajectory or animal ID published.",
+  "sources": [
+    {
+      "label": "mule_deer_wyoming",
+      "package_uuid": "0e3a4577-b063-47d9-9d6b-edec949aa5fa",
+      "original_csv_bitstream_uuid": "de7b956a-f5b6-4727-a2cc-a119a1217a68",
+      "original_csv_md5": "a8563f71fa6213919812dc0f2da30c26",
+      "taxon": "Odocoileus hemionus",
+      "doi": "10.5441/001/1.708"
+    },
+    {
+      "label": "white_tail_virginia",
+      "package_uuid": "e6102c38-8e96-4e36-9ff8-f40a0c03fe5f",
+      "original_csv_bitstream_uuid": "adc045b4-de87-4e0c-990f-4f74a2445b8c",
+      "original_csv_md5": "dcdaf661bbf7d4cb9364028999542629",
+      "taxon": "Odocoileus virginianus",
+      "doi": "10.5441/001/1.718"
+    },
+    {
+      "label": "moose_jackson",
+      "package_uuid": "7eee78a0-0df2-4611-abe9-b2fe3a42298f",
+      "original_csv_bitstream_uuid": "7c976f1b-6676-4a56-980f-8531c35ca997",
+      "original_csv_md5": "db918f2569cc9a9b4619e0f8589b25a3",
+      "taxon": "Alces alces",
+      "doi": "10.5441/001/1.701"
+    },
+    {
+      "label": "moose_snowy_range",
+      "package_uuid": "6857a715-9703-40fe-b306-43464f65a35c",
+      "original_csv_bitstream_uuid": "3ad0b906-3862-4916-931b-39b2375743ac",
+      "original_csv_md5": "4e8f1f7c5641e83612a629ee7c48c0fb",
+      "taxon": "Alces alces",
+      "doi": "10.5441/001/1.700"
+    },
+    {
+      "label": "wolves_alberta",
+      "package_uuid": "fb867768-11eb-4b55-9460-6ada78cc34c4",
+      "original_csv_bitstream_uuid": "ef3ba589-c3fc-4ada-84b8-c25bc26dd16e",
+      "original_csv_md5": "3a3a1b732e997c771943ae1151a76efd",
+      "taxon": "Canis lupus",
+      "doi": "10.5441/001/1.662"
+    },
+    {
+      "label": "cougar_olympic",
+      "package_uuid": "ce7c5d96-9e5b-400e-bf23-7c0a3e8ea933",
+      "original_csv_bitstream_uuid": "73378d1e-eea8-4616-a989-2648b33e9768",
+      "original_csv_md5": "0b60098a0eb5945fc06a4c1756bf0f3e",
+      "taxon": "Puma concolor",
+      "doi": "10.5441/001/1.716"
+    },
+    {
+      "label": "pronghorn_wyoming",
+      "package_uuid": "0b812dab-840b-4940-af5d-98cf2c5f9f63",
+      "original_csv_bitstream_uuid": "17ee83f6-d3ec-4030-94fb-e7cdbfeabc1d",
+      "original_csv_md5": "a4ce53222c790f8ecaa577311ad3df34",
+      "taxon": "Antilocapra americana",
+      "doi": "10.5441/001/1.74pf3n2p"
+    },
+    {
+      "label": "elk_alberta_fear",
+      "package_uuid": "3a171441-6c9b-4bf9-b2fd-0216d962f091",
+      "original_csv_bitstream_uuid": "35d5c362-8d5b-4328-885d-16c379be4812",
+      "original_csv_md5": "e25e57ba1c901305f26c9c2d03dcc67e",
+      "taxon": "Cervus elaphus",
+      "doi": "10.5441/001/1.j484vk24"
+    }
+  ]
+}

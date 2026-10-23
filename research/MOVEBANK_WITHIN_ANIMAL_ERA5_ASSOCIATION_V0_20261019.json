@@ -1,0 +1,100 @@
+{
+  "id": "MOVEBANK_WITHIN_INDIVIDUAL_YEAR_HYDROTHERMAL_ASSOCIATION_V0_20261019",
+  "frozen_date": "2026-10-19",
+  "temporal_order": "Post-outcome exploratory design: source-level mammal GPS contrasts and cohort-average coarse ERA5 environment effects already known. Pairwise original GPS response × pairwise environment association and within-animal-year correlations have not yet been evaluated for this route. This contract is not an external preregistration or causal specification.",
+  "scientific_question": "Within EACH of six already qualified public Movebank mammal cohorts, when the same marked animal visits comparable sunlit-daylength periods, do date-pair differences in regional temperature or antecedent precipitation-minus-ET0 associate with the observed reallocation of its NIGHT relative to DAY GPS displacement? Does the direction generalize even within a cohort or remain heterogeneous?",
+  "selected_source_labels": [
+    "elk_canada",
+    "wild_pig_florida",
+    "black_bear_connecticut",
+    "mule_deer_wyoming",
+    "white_tail_virginia",
+    "wolves_alberta"
+  ],
+  "source_frame": "Exact original six successful ORIGINAL MD5-pinned bitstreams from first three-source Movebank pilot and eight-source extension, with all four other source MD5 mismatches and the insufficient moose separately frozen; do not rescue/reclassify them.",
+  "original_first_gps": "scripts/movebank_regional_climate_link_20261019.py locked_pairs() computes ORIGINAL solar-matched relative NIGHT-vs-DAY GPS log1p(km/h) e per individually paired date and equal-animal original group mean, under 30–120min steps, 3+ day/night steps, 5min daylength, 30-day source date separation, >=10 paired dates/animal-year and per-zone sampling ratio 0.5–2. No refits.",
+  "source_group_first_environment": "First 3 cohort matched ERA5 CI 39203998039; other three first successful original GPS/ERA5 CI 39214116116. Current weather results are source-specific coarse fixed public grids, not each animal's experienced habitat temperature.",
+  "previous_source_results_and_response_raw_SHA": {
+    "elk_canada": {
+      "n": 12,
+      "e": 0.04500073152774594,
+      "t": 9.750512034301794,
+      "w": 5.577170562084965,
+      "sha": [
+        "57fa309a1e050aa808ca2da86f4fff306004dac8ebde3354e300c72f7249e2ae",
+        "340f54967efcc7c296413569b5abdb46cb5d35200bfba5d66d3b1e03e059f984"
+      ]
+    },
+    "wild_pig_florida": {
+      "n": 5,
+      "e": -0.0009771905623652984,
+      "t": 1.793702846627266,
+      "w": 112.01405054163293,
+      "sha": [
+        "37e7870fb0ee4c4cdb4d4ee961df85a42301046875e1a474e83946508a073fd7"
+      ]
+    },
+    "black_bear_connecticut": {
+      "n": 20,
+      "e": -0.07716773206927685,
+      "t": 9.865042499781415,
+      "w": -66.45652766096907,
+      "sha": [
+        "dedca0d9c9a524a3dcebe32d0389abdd0aaa4b2a3219c929defe6f55df1d2007"
+      ]
+    },
+    "mule_deer_wyoming": {
+      "n": 118,
+      "e": 0.03114824366094135,
+      "t": 9.269190637530341,
+      "w": -82.59584118915718,
+      "sha": [
+        "ce2da73d576892b91cf05d5de3fe3335873128eda7e6ed8418782ed2112aedc2"
+      ]
+    },
+    "white_tail_virginia": {
+      "n": 33,
+      "e": -0.0031894638756262794,
+      "t": 7.962932067840892,
+      "w": -65.25938891572889,
+      "sha": [
+        "6aba3d750a0e6ef12de7de9db61544f721b7d420c9c09902b5ae456652640037"
+      ]
+    },
+    "wolves_alberta": {
+      "n": 9,
+      "e": 0.02841038749300514,
+      "t": 6.350364297528253,
+      "w": 34.28414690608809,
+      "sha": [
+        "968b7a504c776a853bf1c396a5acfcb47b271df17b67723935c2c72c82f6328a",
+        "85af05d3bf39b38b026cf304e8e2e32a428e927303acf06b86a3766e962e9c44"
+      ]
+    }
+  },
+  "environment": "Open-Meteo historical ERA5 models=era5 and exact original source-fixed public coarse region, standard offset timezone; prior 30d P−ET0 sum and target-date daily mean 2m temperature. Original source API response SHA256 sequence must be identical to first published source, otherwise source hold before new result; no alternative model, season window, site or weather scaling.",
+  "estimand": {
+    "unit": "Original one-to-one matched rising/falling date-pair e, nested within individual×solstice/year within ONE GPS archive; never event-level independent mammal replicates.",
+    "e": "falling minus rising [log1p median NIGHT km/h − log1p median DAY km/h] from original locked_pairs, without changing its day/time filters.",
+    "X_T": "ERA5 coarse population-region daily mean air temp falling date minus rising date (°C).",
+    "X_W": "ERA5 original source region prior 30d summed P-ET0 falling date minus rising date (mm).",
+    "per_year": "Within ORIGINAL marked animal×calendar year only, rank-Spearman rho(e,ΔT), rho(e,ΔP−ET0), counting each source pair one time. This is an association with geographic climate season, not an animal microclimate slope.",
+    "minimum_source_support": "At least 10 ORIGINAL retained one-to-one date pairs AND >=80% of ORIGINAL paired dates weather-source qualified, >=8 complete finite independent date-pair observations for each predictor, >=4 distinct source predictor and response values. Keep undefined and low-support individual years; do not adjust thresholds after outcome.",
+    "per_individual": "Equal mean of source-valid year-specific rhos, ignoring undefined years only for that predictor. A marked animal enters each source one time even if contributing multiple years.",
+    "per_source": "Descriptive source mean and median individual rho; individual positive/negative/zero directions; distinct animals and total matched source pair counts; leave-one-individual-out mean min-max (NOT CI). Source-level descriptive estimate only if >=5 source animals have finite rho for a predictor. All six sources, all holds, negatives, zeros, undefined retained.",
+    "outcome_reporting": "Both original source_group_e and original coarse-ERA5 source_group_ΔT,ΔW must replay exactly before reporting new association, preserving population-level means; individual-year nested result counts aggregate only, never an individual effect/location/time export.",
+    "no_statistical_tests": "No pairwise p-values, no six-source meta-regression, no confidence intervals from shared-region weather dates; effective replicates number of independently recruited cohorts (max six), and shared weather per original source means correlated animal observations.",
+    "no_response_tuning": "No new dates, no after-sign source exclusion, no animal identity reconstruction/export, no geographic coordinates from raw GPS, no new photoperiod bins or weather exposure location, no alternative rolling history, no selection of 'best' predictor. Compute both registered T and water unconditionally."
+  },
+  "interpretation_limits": [
+    "Within-animal annual rank correlation reduces between-source species/geography confounding but cannot remove common seasonal trends, physiology, phase, reproduction, GPS observation timing, animal range use or autocorrelated date pairs.",
+    "One weather pixel shared by all source animals creates strong covariate pseudoreplication; an individual Spearman coefficient is descriptive evidence of observations, not an independently manipulated heat exposure.",
+    "Coarse P−ET0 is a modeled hydroclimatic proxy, not measured soil water, biomass or vegetation greenness.",
+    "Different species in different places preclude interpreting differences between cohort rho as species traits or causal thermal sensitivity.",
+    "An individual's GPS minimum straight-line displacement is not behavioral activity time; camera PHOTO and duck reported instantaneous speed are different estimands and not pooled.",
+    "If all six cohorts have insufficient within-year weather variation/response ties, the valid outcome is explicit insufficient support, not a negative ecological law.",
+    "Most valuable non-obvious ecological result would be conditional within-cohort response heterogeneity or a stable cross-source sign on the SAME endpoint, not a post-hoc maximum effect from multiple predictor choices."
+  ],
+  "source_artifact_policy": "Write only anonymous by-cohort aggregate n and finite/undefined rho indicators. No raw GPS CSV, animal IDs, date pairs, individual effects, or source precise coordinates included in committed file/artifacts.",
+  "future": "If identifiable, next deliberately source-held-out ecological validation or independently repeated populations of same species. Do not claim universality based on n=197 GPS tags or six convenience cohorts."
+}

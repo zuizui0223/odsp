@@ -1,0 +1,31 @@
+name: Southern hemisphere equal-daylength wild mammal GPS ecology 2026-10-19
+on:
+  push:
+    branches: [ecology/seasonal-hysteresis-cross-landscape-paper-v0]
+    paths:
+      - 'research/MOVEBANK_SOUTHERN_SOLAR_MOVEMENT_V0_20261019.json'
+      - 'scripts/movebank_southern_solar_mammal_20261019.py'
+      - 'tests/test_movebank_southern_solar_mammal_20261019.py'
+      - '.github/workflows/movebank-southern-solar-mammal-20261019.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  southern_source_locked_animal_ecology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test hemispheric solstice pairing, source provenance and ZIP safety
+        run: python -m unittest discover -s tests -p 'test_movebank_southern_solar_mammal_20261019.py' -v
+      - name: Original source MD5 verification and animal seasonal displacement for three frozen south-hemisphere datasets
+        run: python -m scripts.movebank_southern_solar_mammal_20261019 --out outputs/southern_mammal_20261019
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: southern-mammal-solar-movement-source-locked-20261019
+          path: outputs/southern_mammal_20261019/southern_three_source_grouped_results.json
+          if-no-files-found: warn

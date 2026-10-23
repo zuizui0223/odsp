@@ -1,0 +1,66 @@
+{
+  "contract_id": "ireland_caravaggi2018_equal_daylight_observed_record_timing_exploratory_v0",
+  "frozen_date": "2026-10-15",
+  "relationship": "After publication 2018 paper source code and after date-only discovery; first prospective relative to new branch/time contrast, explicitly exploratory; original 2018 seasonal-solar results not reinterpreted as new finding",
+  "source": {
+    "paper_doi": "10.7717/peerj.5827",
+    "repository": "arcaravaggi/PeerJ_mammal_activity",
+    "published_tag": "v1.2.1",
+    "path": "all_data.csv",
+    "pin_git_blob_sha1": "2084dfac55acb75efe6e61c1abc306aeda0904eb",
+    "zenodo": "https://zenodo.org/records/1470320",
+    "literal_fields": [
+      "site",
+      "spp_1",
+      "species",
+      "count",
+      "day",
+      "month",
+      "season",
+      "year",
+      "time",
+      "sunrise",
+      "sunset",
+      "m_60"
+    ],
+    "source_2018_original_row_count": 9411,
+    "original_species_exclusions": [
+      "Sika",
+      "Muntjac",
+      "Hedgehog",
+      "Rat"
+    ],
+    "known_date_quality_warning": "Year 2001 appears for 25 rows and must be retained as flagged in source audit, not imputed as another date. Exclude from 2013–2016 within-site branch comparison only."
+  },
+  "method": {
+    "sampling_units": "physical site name × original calendar year; NO independent hardware operation data",
+    "rising_falling": "< June 21 00:00 vs > June21 23:59 of each original calendar year, at least 7 days from solstice; keep original years 2013-2016; source 2001 anomalous flagged not silently corrected.",
+    "daylength_source": "Original author sunrise and sunset HH:MM durations, BOTH supplied in source raw rows; no invented station coordinates. Correct same-date duration if consistent within 3 minutes, otherwise reject ambiguous site/date.",
+    "match": "At each same site and calendar year, keep any photographed date if at least one photographed opposite-branch date has absolute author-source daylight length difference <=10min; assign eligibility based on dates across ALL published taxa after original source exclusions, never by focal taxon/time-zone count.",
+    "selection_warning": "Date presence is detection-conditioned because missing camera deployments/uptime and absence days cannot be verified. This cannot establish unbiased season encounter-rate change or site probability of the branch effect.",
+    "phase_categories": "Source author sunrise and sunset, daylight core middle half, daylight edge first and last 25% of sunshine, outside sunrise/sunset night; original clock time and source local sunrise/sunset assumed comparable; no independent timezone validation.",
+    "original_analysis_sample": "Publication used 8761 independent detections after four exclusions; replicate this base count before computing branch observations. Source count per row denotes animals in image and does not validate independent individuals.",
+    "unit_independence": "Rows treated only as descriptive recorded events, site-year as stratified group. Never test event-level independent-animal p.",
+    "all_taxa": "Retain all original nonexcluded species field names with zero branch-zone counts, even undefined ratios."
+  },
+  "endpoints": [
+    "per source taxon core/edge/night photographed event counts by original site/year and branch",
+    "pooled falling-vs-rising edge/core and night/day record odds",
+    "site-year-stratified Mantel-Haenszel relative record odds and leave-one-site-out sensitivity",
+    "original-date candidate matching support including site-year and matched date counts",
+    "explicit missing hourly uptime, camera q, individual labels and new region held-out hold"
+  ],
+  "no_claims": [
+    "No new mammal seasonal movement law",
+    "No animal seasonality causal inference",
+    "No phylogenetic or independent-region replication based on one Northern Ireland study",
+    "No p-value from repeated photographed events or site-independent sampling",
+    "No new outdoor detection effort measured",
+    "Cannot use Ireland + Serengeti as a confirmatory universal law after exploratory source selection"
+  ],
+  "stop_if": [
+    "git blob mismatch",
+    "wrong author source 8761 after exclusions",
+    "raw date or sunrise/sunset schema mismatch"
+  ]
+}

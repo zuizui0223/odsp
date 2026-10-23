@@ -1,0 +1,38 @@
+name: 2026 Serengeti 57-wildebeest GPS original public-source header gate v0
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/MASOLELE_2026_WILDEBEEST_GPS_SOURCE_GATE_V0.json'
+      - 'scripts/preflight_masolele2026_wildebeest_gps_header_v0.py'
+      - 'tests/test_masolele2026_gps_source_header_v0.py'
+      - '.github/workflows/masolele2026-original-gps-source-only-v0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gps57_original_source_integrity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Prove original 2026 GPS source integrity and no animal-row inspection
+        run: python -m unittest discover -s tests -p 'test_masolele2026_gps_source_header_v0.py' -v
+      - name: Ask ONLY officially documented public Dryad original download; record source header if authorized
+        run: |
+          python -m scripts.preflight_masolele2026_wildebeest_gps_header_v0 \
+            --output outputs/masolele2026_wildebeest_gps_header_source_only_v0.json
+      - name: Archive source-only accepted header or explicit HOLD, no GPS records
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: masolele2026-original-gps-header-source-only-v0
+          path: outputs/masolele2026_wildebeest_gps_header_source_only_v0.json
+          if-no-files-found: warn

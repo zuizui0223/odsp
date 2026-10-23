@@ -1,0 +1,21 @@
+name: Utah wild ungulate original GPS source ZIP schema 2026-10-19
+on:
+  push:
+    branches: [ecology/seasonal-hysteresis-cross-landscape-paper-v0]
+    paths:
+      - 'scripts/utah_multispecies_source_schema_20261019.py'
+      - '.github/workflows/utah-multispecies-source-schema-20261019.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  metadata_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify frozen ORIGINAL ZIP MD5 and inspect headers only
+        run: python -m scripts.utah_multispecies_source_schema_20261019

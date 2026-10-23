@@ -1,0 +1,10 @@
+{
+  "version": "etosha-jackal-hourly-blind-sampling-v1",
+  "date": "2026-10-19",
+  "status": "Post-outcome sensitivity after Etosha elephant hourly-v1 -0.150127 and original jackal raw +0.054846 were already observed; separately evaluate identical timestamp-only hourly selection on jackal without moving either frozen original endpoint.",
+  "source": "Etosha black-backed jackal Canis mesomelas, provider ORIGINAL CSV MD5 a51b46c628611a243bd298ff0cad76ec, source package 48c93576-7b84-48f8-bdf5-4e5d4ee139b3, from previously frozen southern triplet",
+  "sampling": "Exact choose_one_per_utc_hour timestamp-only algorithm from scripts/movebank_elephant_hourly_20261019.py; same underlying southern v0 analyze_south without changing bins, dates, thresholds, or inference.",
+  "comparisons": "Use original jackal native result +0.05484644894836822 and separately time-thinned Etosha elephant -0.15012724713090492 as fixed references only. Report jackal hourly-v1 effect and positive/negative animal counts. Do not conflate observation year, physiological state, sampling design or causality.",
+  "biological_limit": "No independent contemporary overlaps demonstrated. Relative speed contrasts are GPS displacement, not latent circadian control or predator-prey encounters. Same region and thinning do not prove that species rather than study/period drives differences.",
+  "no_raw_publication": true
+}

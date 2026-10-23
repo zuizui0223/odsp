@@ -1,0 +1,1151 @@
+{
+  "source": "Open-Meteo ERA5 archive",
+  "protocol": "GLOBAL_GRID_EQUINOX_ENVIRONMENT_PILOT_20261019",
+  "status": "ORIGINAL_API_SOURCE_OBSERVED",
+  "hemisphere": "south",
+  "dates_are_preselected": true,
+  "original_site_order": [
+    [
+      -30,
+      -60
+    ],
+    [
+      -30,
+      30
+    ],
+    [
+      -30,
+      120
+    ],
+    [
+      -30,
+      150
+    ],
+    [
+      -15,
+      -60
+    ],
+    [
+      -15,
+      30
+    ]
+  ],
+  "batches": [
+    {
+      "id": "S2018_rising",
+      "date": "2018-09-26",
+      "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=-30%2C-30%2C-30%2C-30%2C-15%2C-15&longitude=-60%2C30%2C120%2C150%2C-60%2C30&start_date=2018-09-26&end_date=2018-09-26&daily=temperature_2m_mean%2Ctemperature_2m_max%2Csoil_moisture_0_to_7cm_mean&timezone=auto&models=era5",
+      "original_response": [
+        {
+          "latitude": -30,
+          "longitude": -60,
+          "generationtime_ms": 0.0864267349243164,
+          "utc_offset_seconds": -10800,
+          "timezone": "America/Argentina/Cordoba",
+          "timezone_abbreviation": "GMT-3",
+          "elevation": 32,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2018-09-26"
+            ],
+            "temperature_2m_mean": [
+              21.6
+            ],
+            "temperature_2m_max": [
+              24.5
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.469
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 30,
+          "generationtime_ms": 0.053048133850097656,
+          "utc_offset_seconds": 7200,
+          "timezone": "Africa/Johannesburg",
+          "timezone_abbreviation": "GMT+2",
+          "elevation": 1313,
+          "location_id": 1,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2018-09-26"
+            ],
+            "temperature_2m_mean": [
+              16
+            ],
+            "temperature_2m_max": [
+              21.2
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.266
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 120,
+          "generationtime_ms": 0.0858306884765625,
+          "utc_offset_seconds": 28800,
+          "timezone": "Australia/Perth",
+          "timezone_abbreviation": "GMT+8",
+          "elevation": 486,
+          "location_id": 2,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2018-09-26"
+            ],
+            "temperature_2m_mean": [
+              19.7
+            ],
+            "temperature_2m_max": [
+              26.9
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.042
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 150,
+          "generationtime_ms": 0.05447864532470703,
+          "utc_offset_seconds": 39600,
+          "timezone": "Australia/Sydney",
+          "timezone_abbreviation": "GMT+11",
+          "elevation": 360,
+          "location_id": 3,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2018-09-26"
+            ],
+            "temperature_2m_mean": [
+              15.2
+            ],
+            "temperature_2m_max": [
+              21.4
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.286
+            ]
+          }
+        },
+        {
+          "latitude": -15,
+          "longitude": -60,
+          "generationtime_ms": 0.049233436584472656,
+          "utc_offset_seconds": -14400,
+          "timezone": "America/Cuiaba",
+          "timezone_abbreviation": "GMT-4",
+          "elevation": 224,
+          "location_id": 4,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2018-09-26"
+            ],
+            "temperature_2m_mean": [
+              27.9
+            ],
+            "temperature_2m_max": [
+              36.1
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.351
+            ]
+          }
+        },
+        {
+          "latitude": -15,
+          "longitude": 30,
+          "generationtime_ms": 0.04875659942626953,
+          "utc_offset_seconds": 7200,
+          "timezone": "Africa/Lusaka",
+          "timezone_abbreviation": "GMT+2",
+          "elevation": 749,
+          "location_id": 5,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2018-09-26"
+            ],
+            "temperature_2m_mean": [
+              27.9
+            ],
+            "temperature_2m_max": [
+              34.9
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.115
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "S2018_falling",
+      "date": "2019-03-19",
+      "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=-30%2C-30%2C-30%2C-30%2C-15%2C-15&longitude=-60%2C30%2C120%2C150%2C-60%2C30&start_date=2019-03-19&end_date=2019-03-19&daily=temperature_2m_mean%2Ctemperature_2m_max%2Csoil_moisture_0_to_7cm_mean&timezone=auto&models=era5",
+      "original_response": [
+        {
+          "latitude": -30,
+          "longitude": -60,
+          "generationtime_ms": 0.1004934310913086,
+          "utc_offset_seconds": -10800,
+          "timezone": "America/Argentina/Cordoba",
+          "timezone_abbreviation": "GMT-3",
+          "elevation": 32,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2019-03-19"
+            ],
+            "temperature_2m_mean": [
+              23
+            ],
+            "temperature_2m_max": [
+              27.9
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.426
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 30,
+          "generationtime_ms": 0.05078315734863281,
+          "utc_offset_seconds": 7200,
+          "timezone": "Africa/Johannesburg",
+          "timezone_abbreviation": "GMT+2",
+          "elevation": 1313,
+          "location_id": 1,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2019-03-19"
+            ],
+            "temperature_2m_mean": [
+              19
+            ],
+            "temperature_2m_max": [
+              26.2
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.329
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 120,
+          "generationtime_ms": 0.05340576171875,
+          "utc_offset_seconds": 28800,
+          "timezone": "Australia/Perth",
+          "timezone_abbreviation": "GMT+8",
+          "elevation": 486,
+          "location_id": 2,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2019-03-19"
+            ],
+            "temperature_2m_mean": [
+              26.6
+            ],
+            "temperature_2m_max": [
+              33.4
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.052
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 150,
+          "generationtime_ms": 0.045299530029296875,
+          "utc_offset_seconds": 39600,
+          "timezone": "Australia/Sydney",
+          "timezone_abbreviation": "GMT+11",
+          "elevation": 360,
+          "location_id": 3,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2019-03-19"
+            ],
+            "temperature_2m_mean": [
+              24.5
+            ],
+            "temperature_2m_max": [
+              31.2
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.354
+            ]
+          }
+        },
+        {
+          "latitude": -15,
+          "longitude": -60,
+          "generationtime_ms": 0.05459785461425781,
+          "utc_offset_seconds": -14400,
+          "timezone": "America/Cuiaba",
+          "timezone_abbreviation": "GMT-4",
+          "elevation": 224,
+          "location_id": 4,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2019-03-19"
+            ],
+            "temperature_2m_mean": [
+              27.5
+            ],
+            "temperature_2m_max": [
+              32.7
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.421
+            ]
+          }
+        },
+        {
+          "latitude": -15,
+          "longitude": 30,
+          "generationtime_ms": 0.06186962127685547,
+          "utc_offset_seconds": 7200,
+          "timezone": "Africa/Lusaka",
+          "timezone_abbreviation": "GMT+2",
+          "elevation": 749,
+          "location_id": 5,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2019-03-19"
+            ],
+            "temperature_2m_mean": [
+              26.6
+            ],
+            "temperature_2m_max": [
+              32.2
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.336
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "S2019_rising",
+      "date": "2019-09-22",
+      "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=-30%2C-30%2C-30%2C-30%2C-15%2C-15&longitude=-60%2C30%2C120%2C150%2C-60%2C30&start_date=2019-09-22&end_date=2019-09-22&daily=temperature_2m_mean%2Ctemperature_2m_max%2Csoil_moisture_0_to_7cm_mean&timezone=auto&models=era5",
+      "original_response": [
+        {
+          "latitude": -30,
+          "longitude": -60,
+          "generationtime_ms": 0.09107589721679688,
+          "utc_offset_seconds": -10800,
+          "timezone": "America/Argentina/Cordoba",
+          "timezone_abbreviation": "GMT-3",
+          "elevation": 32,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2019-09-22"
+            ],
+            "temperature_2m_mean": [
+              15.6
+            ],
+            "temperature_2m_max": [
+              24.3
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.383
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 30,
+          "generationtime_ms": 0.04863739013671875,
+          "utc_offset_seconds": 7200,
+          "timezone": "Africa/Johannesburg",
+          "timezone_abbreviation": "GMT+2",
+          "elevation": 1313,
+          "location_id": 1,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2019-09-22"
+            ],
+            "temperature_2m_mean": [
+              13.9
+            ],
+            "temperature_2m_max": [
+              19.3
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.153
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 120,
+          "generationtime_ms": 0.05137920379638672,
+          "utc_offset_seconds": 28800,
+          "timezone": "Australia/Perth",
+          "timezone_abbreviation": "GMT+8",
+          "elevation": 486,
+          "location_id": 2,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2019-09-22"
+            ],
+            "temperature_2m_mean": [
+              13.1
+            ],
+            "temperature_2m_max": [
+              20.4
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.05
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 150,
+          "generationtime_ms": 0.07045269012451172,
+          "utc_offset_seconds": 39600,
+          "timezone": "Australia/Sydney",
+          "timezone_abbreviation": "GMT+11",
+          "elevation": 360,
+          "location_id": 3,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2019-09-22"
+            ],
+            "temperature_2m_mean": [
+              20.3
+            ],
+            "temperature_2m_max": [
+              26.1
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.243
+            ]
+          }
+        },
+        {
+          "latitude": -15,
+          "longitude": -60,
+          "generationtime_ms": 0.04780292510986328,
+          "utc_offset_seconds": -14400,
+          "timezone": "America/Cuiaba",
+          "timezone_abbreviation": "GMT-4",
+          "elevation": 224,
+          "location_id": 4,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2019-09-22"
+            ],
+            "temperature_2m_mean": [
+              28.6
+            ],
+            "temperature_2m_max": [
+              33.9
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.25
+            ]
+          }
+        },
+        {
+          "latitude": -15,
+          "longitude": 30,
+          "generationtime_ms": 0.0635385513305664,
+          "utc_offset_seconds": 7200,
+          "timezone": "Africa/Lusaka",
+          "timezone_abbreviation": "GMT+2",
+          "elevation": 749,
+          "location_id": 5,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2019-09-22"
+            ],
+            "temperature_2m_mean": [
+              26.3
+            ],
+            "temperature_2m_max": [
+              34.2
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.117
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "S2019_falling",
+      "date": "2020-03-22",
+      "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=-30%2C-30%2C-30%2C-30%2C-15%2C-15&longitude=-60%2C30%2C120%2C150%2C-60%2C30&start_date=2020-03-22&end_date=2020-03-22&daily=temperature_2m_mean%2Ctemperature_2m_max%2Csoil_moisture_0_to_7cm_mean&timezone=auto&models=era5",
+      "original_response": [
+        {
+          "latitude": -30,
+          "longitude": -60,
+          "generationtime_ms": 0.1150369644165039,
+          "utc_offset_seconds": -10800,
+          "timezone": "America/Argentina/Cordoba",
+          "timezone_abbreviation": "GMT-3",
+          "elevation": 32,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2020-03-22"
+            ],
+            "temperature_2m_mean": [
+              23.4
+            ],
+            "temperature_2m_max": [
+              31.7
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.357
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 30,
+          "generationtime_ms": 0.05066394805908203,
+          "utc_offset_seconds": 7200,
+          "timezone": "Africa/Johannesburg",
+          "timezone_abbreviation": "GMT+2",
+          "elevation": 1313,
+          "location_id": 1,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2020-03-22"
+            ],
+            "temperature_2m_mean": [
+              20.1
+            ],
+            "temperature_2m_max": [
+              27.5
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.284
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 120,
+          "generationtime_ms": 0.05805492401123047,
+          "utc_offset_seconds": 28800,
+          "timezone": "Australia/Perth",
+          "timezone_abbreviation": "GMT+8",
+          "elevation": 486,
+          "location_id": 2,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2020-03-22"
+            ],
+            "temperature_2m_mean": [
+              22.3
+            ],
+            "temperature_2m_max": [
+              28
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.055
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 150,
+          "generationtime_ms": 0.06020069122314453,
+          "utc_offset_seconds": 39600,
+          "timezone": "Australia/Sydney",
+          "timezone_abbreviation": "GMT+11",
+          "elevation": 360,
+          "location_id": 3,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2020-03-22"
+            ],
+            "temperature_2m_mean": [
+              22.6
+            ],
+            "temperature_2m_max": [
+              31.4
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.298
+            ]
+          }
+        },
+        {
+          "latitude": -15,
+          "longitude": -60,
+          "generationtime_ms": 0.06473064422607422,
+          "utc_offset_seconds": -14400,
+          "timezone": "America/Cuiaba",
+          "timezone_abbreviation": "GMT-4",
+          "elevation": 224,
+          "location_id": 4,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2020-03-22"
+            ],
+            "temperature_2m_mean": [
+              25.9
+            ],
+            "temperature_2m_max": [
+              31.1
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.425
+            ]
+          }
+        },
+        {
+          "latitude": -15,
+          "longitude": 30,
+          "generationtime_ms": 0.06604194641113281,
+          "utc_offset_seconds": 7200,
+          "timezone": "Africa/Lusaka",
+          "timezone_abbreviation": "GMT+2",
+          "elevation": 749,
+          "location_id": 5,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2020-03-22"
+            ],
+            "temperature_2m_mean": [
+              23.9
+            ],
+            "temperature_2m_max": [
+              27.6
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.237
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "S2020_rising",
+      "date": "2020-09-25",
+      "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=-30%2C-30%2C-30%2C-30%2C-15%2C-15&longitude=-60%2C30%2C120%2C150%2C-60%2C30&start_date=2020-09-25&end_date=2020-09-25&daily=temperature_2m_mean%2Ctemperature_2m_max%2Csoil_moisture_0_to_7cm_mean&timezone=auto&models=era5",
+      "original_response": [
+        {
+          "latitude": -30,
+          "longitude": -60,
+          "generationtime_ms": 0.07486343383789062,
+          "utc_offset_seconds": -10800,
+          "timezone": "America/Argentina/Cordoba",
+          "timezone_abbreviation": "GMT-3",
+          "elevation": 32,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2020-09-25"
+            ],
+            "temperature_2m_mean": [
+              24.3
+            ],
+            "temperature_2m_max": [
+              27.9
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.297
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 30,
+          "generationtime_ms": 0.050902366638183594,
+          "utc_offset_seconds": 7200,
+          "timezone": "Africa/Johannesburg",
+          "timezone_abbreviation": "GMT+2",
+          "elevation": 1313,
+          "location_id": 1,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2020-09-25"
+            ],
+            "temperature_2m_mean": [
+              21.5
+            ],
+            "temperature_2m_max": [
+              33.7
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.166
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 120,
+          "generationtime_ms": 0.05245208740234375,
+          "utc_offset_seconds": 28800,
+          "timezone": "Australia/Perth",
+          "timezone_abbreviation": "GMT+8",
+          "elevation": 486,
+          "location_id": 2,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2020-09-25"
+            ],
+            "temperature_2m_mean": [
+              19.6
+            ],
+            "temperature_2m_max": [
+              26.5
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.037
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 150,
+          "generationtime_ms": 0.050187110900878906,
+          "utc_offset_seconds": 39600,
+          "timezone": "Australia/Sydney",
+          "timezone_abbreviation": "GMT+11",
+          "elevation": 360,
+          "location_id": 3,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2020-09-25"
+            ],
+            "temperature_2m_mean": [
+              14.9
+            ],
+            "temperature_2m_max": [
+              24.2
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.357
+            ]
+          }
+        },
+        {
+          "latitude": -15,
+          "longitude": -60,
+          "generationtime_ms": 0.05233287811279297,
+          "utc_offset_seconds": -14400,
+          "timezone": "America/Cuiaba",
+          "timezone_abbreviation": "GMT-4",
+          "elevation": 224,
+          "location_id": 4,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2020-09-25"
+            ],
+            "temperature_2m_mean": [
+              30.3
+            ],
+            "temperature_2m_max": [
+              38.5
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.238
+            ]
+          }
+        },
+        {
+          "latitude": -15,
+          "longitude": 30,
+          "generationtime_ms": 0.04661083221435547,
+          "utc_offset_seconds": 7200,
+          "timezone": "Africa/Lusaka",
+          "timezone_abbreviation": "GMT+2",
+          "elevation": 749,
+          "location_id": 5,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2020-09-25"
+            ],
+            "temperature_2m_mean": [
+              25.2
+            ],
+            "temperature_2m_max": [
+              32.8
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.115
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "S2020_falling",
+      "date": "2021-03-20",
+      "request_url": "https://archive-api.open-meteo.com/v1/archive?latitude=-30%2C-30%2C-30%2C-30%2C-15%2C-15&longitude=-60%2C30%2C120%2C150%2C-60%2C30&start_date=2021-03-20&end_date=2021-03-20&daily=temperature_2m_mean%2Ctemperature_2m_max%2Csoil_moisture_0_to_7cm_mean&timezone=auto&models=era5",
+      "original_response": [
+        {
+          "latitude": -30,
+          "longitude": -60,
+          "generationtime_ms": 0.07021427154541016,
+          "utc_offset_seconds": -10800,
+          "timezone": "America/Argentina/Cordoba",
+          "timezone_abbreviation": "GMT-3",
+          "elevation": 32,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2021-03-20"
+            ],
+            "temperature_2m_mean": [
+              20.7
+            ],
+            "temperature_2m_max": [
+              22.6
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.448
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 30,
+          "generationtime_ms": 0.05638599395751953,
+          "utc_offset_seconds": 7200,
+          "timezone": "Africa/Johannesburg",
+          "timezone_abbreviation": "GMT+2",
+          "elevation": 1313,
+          "location_id": 1,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2021-03-20"
+            ],
+            "temperature_2m_mean": [
+              17.9
+            ],
+            "temperature_2m_max": [
+              26
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.354
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 120,
+          "generationtime_ms": 0.06651878356933594,
+          "utc_offset_seconds": 28800,
+          "timezone": "Australia/Perth",
+          "timezone_abbreviation": "GMT+8",
+          "elevation": 486,
+          "location_id": 2,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2021-03-20"
+            ],
+            "temperature_2m_mean": [
+              26.6
+            ],
+            "temperature_2m_max": [
+              33.1
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.038
+            ]
+          }
+        },
+        {
+          "latitude": -30,
+          "longitude": 150,
+          "generationtime_ms": 0.0629425048828125,
+          "utc_offset_seconds": 39600,
+          "timezone": "Australia/Sydney",
+          "timezone_abbreviation": "GMT+11",
+          "elevation": 360,
+          "location_id": 3,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2021-03-20"
+            ],
+            "temperature_2m_mean": [
+              21.4
+            ],
+            "temperature_2m_max": [
+              26.6
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.447
+            ]
+          }
+        },
+        {
+          "latitude": -15,
+          "longitude": -60,
+          "generationtime_ms": 0.05543231964111328,
+          "utc_offset_seconds": -14400,
+          "timezone": "America/Cuiaba",
+          "timezone_abbreviation": "GMT-4",
+          "elevation": 224,
+          "location_id": 4,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2021-03-20"
+            ],
+            "temperature_2m_mean": [
+              24.7
+            ],
+            "temperature_2m_max": [
+              29.3
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.454
+            ]
+          }
+        },
+        {
+          "latitude": -15,
+          "longitude": 30,
+          "generationtime_ms": 0.053882598876953125,
+          "utc_offset_seconds": 7200,
+          "timezone": "Africa/Lusaka",
+          "timezone_abbreviation": "GMT+2",
+          "elevation": 749,
+          "location_id": 5,
+          "daily_units": {
+            "time": "iso8601",
+            "temperature_2m_mean": "°C",
+            "temperature_2m_max": "°C",
+            "soil_moisture_0_to_7cm_mean": "m³/m³"
+          },
+          "daily": {
+            "time": [
+              "2021-03-20"
+            ],
+            "temperature_2m_mean": [
+              23.6
+            ],
+            "temperature_2m_max": [
+              28.5
+            ],
+            "soil_moisture_0_to_7cm_mean": [
+              0.335
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+name: MOD13Q1 original public container SAS retry v1 — 2010-13 NDVI
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/SERENGETI_MOD13Q1_PUBLIC_TOKEN_V1_SOURCE_ACCESS_CONTRACT.json'
+      - 'scripts/run_serengeti_regional_modis_container_token_v1.py'
+      - 'tests/test_serengeti_modis_container_token_v1.py'
+      - '.github/workflows/serengeti-modis-container-token-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  legitimate-public-container-source-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 28
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install COG range-read and science dependencies
+        run: python -m pip install 'numpy>=1.24,<3' 'rasterio>=1.3.10,<2'
+      - name: Verify source-access-only v1 cannot retune original date/QA endpoints
+        run: python -m unittest discover -s tests -p 'test_serengeti_modis_container_token_v1.py' -v
+      - name: Fetch exactly one official anonymous public container token, then replay first scene and all 83 original MODIS Terra scenes
+        run: |
+          python -m scripts.run_serengeti_regional_modis_container_token_v1 \
+            --output outputs/serengeti_modis_public_container_token_v1.json
+      - name: Archive original MODIS item IDs, QC and 522-date-mirror green-context only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: serengeti-mod13q1-public-container-83scene-v1
+          path: outputs/serengeti_modis_public_container_token_v1.json
+          if-no-files-found: warn

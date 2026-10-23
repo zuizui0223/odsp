@@ -1,0 +1,54 @@
+name: Six original mammal GPS cohorts — solstice-phase calendar confound diagnostic
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/MOVEBANK_SIX_PHASE_ADJUSTED_GPS_ERA5_V0_20261023.json'
+      - 'scripts/movebank_six_calendar_phase_adjusted_era5_20261023.py'
+      - 'tests/test_movebank_six_calendar_phase_adjusted_era5_20261023.py'
+      - '.github/workflows/movebank-six-calendar-phase-confound-v0-20261023.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  original_source_six_mammals_phase_adjustment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test known-truth calendar confounding, YEAR support and partial DAY/NIGHT identity before opening animal outcomes
+        run: |
+          python -m unittest discover -s tests \
+            -p 'test_movebank_six_calendar_phase_adjusted_era5_20261023.py' -v
+      - name: Read previous original-date ERA5 scientific snapshot, never refetch today's potentially revised weather
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .old_science_ERA5
+          gh run download 39220116497 \
+            --repo zuizui0223/odsp \
+            --name movebank-six-original-gps-within-year-canonical-era5-v1-20261019 \
+            --dir .old_science_ERA5
+          echo '8b637760b9199e6e7f9f85e647b74658827525ed42d400bc06d44c6a4a14f05e  .old_science_ERA5/six_original_regional_era5_scientific_daily_snapshot_v1.json' | sha256sum -c -
+      - name: Replay original six SOURCE provider MD5s and 197 original animal-year GPS/temperature slopes, then calculate fixed calendar-distance controlled slopes
+        run: |
+          python -m scripts.movebank_six_calendar_phase_adjusted_era5_20261023 \
+            --archived-era5 .old_science_ERA5/six_original_regional_era5_scientific_daily_snapshot_v1.json \
+            --output-dir outputs/movebank_phase_distance_20261023
+      - name: Preserve only anonymized cohort statistics and source validation/hold states
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: movebank-six-original-gps-phase-controlled-era5-20261023
+          path: outputs/movebank_phase_distance_20261023/movebank_six_phase_distance_era5_gps_v0.json
+          if-no-files-found: warn

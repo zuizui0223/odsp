@@ -1,0 +1,69 @@
+{
+  "id": "GLOBAL_GRID_EQUINOX_15_30_DAY_ERA5_SEASON_HISTORY_V0",
+  "frozen_at": "2026-10-19",
+  "status": "FROZEN BEFORE OPENING NEW 15/30-DAY SOURCE ARRAYS; PREVIOUS ONE-DAY CLIMATE OUTCOMES ALREADY INSPECTED, THIS IS A POST-RESULT TEMPORAL SENSITIVITY, NOT INDEPENDENT CONFIRMATION.",
+  "main_ecological_question": "Do the 21 fixed sites' opposite temperature and shallow-soil-water trajectories at near-equal central-day photoperiod persist in the previous 15 and 30 calendar days, or were one-day contrasts mainly short-term weather?",
+  "original_source_frame": {
+    "physical_grid": "original_21_land_grid_sites.csv (21 unchanged preexisting sites from 72-grid static land mask)",
+    "year_cycles": [
+      2018,
+      2019,
+      2020
+    ],
+    "n_site_cycles": 63,
+    "original_dates_script": "scripts/analyze_fixed_21site_global_equinoctial_era5_20261019.py DATES",
+    "original_previous_1day_source_files": [
+      "research/solar_global_equinoctial_pilot_20261019/era5_southern_6batches_original_source.json",
+      "research/solar_global_equinoctial_pilot_20261019/era5_northern_6batches_original_source.json"
+    ],
+    "original_previous_first_run": "https://github.com/zuizui0223/odsp/actions/runs/39201993065",
+    "original_1day_hold": "Original Iran +30,+60 2019 falling source soil moisture -0.001 m3/m3; source H0 physically invalid. Keep previous one-day output untouched.",
+    "max_original_center_daylength_mismatch_min": 0.7997843976786498,
+    "replication_units": "21 fixed nonrepresentative geographic sites in three original annual cycles; NOT 63 independent regions or global land sample."
+  },
+  "new_time_scales": {
+    "lengths_calendar_days": [
+      15,
+      30
+    ],
+    "window": "Trailing inclusive calendar days ending exactly on the previously fixed rising or falling matched solar day. 15 includes target and prior 14; 30 includes target and prior 29.",
+    "daylight_caution": "Only endpoint pair's astronomy is near-equal, NOT every calendar day in each trailing window. These characterize season history preceding a matched photoperiod endpoint; NOT equal-daily-photoperiod windows.",
+    "no_selection_on_weather_values": true,
+    "no_other_dates_sites_years_substituted": true
+  },
+  "independent_source": {
+    "provider": "Open-Meteo ERA5 historical daily archive, API https://archive-api.open-meteo.com/v1/archive",
+    "model": "era5",
+    "timezone": "auto, original location-local calendar dates",
+    "daily_fields": [
+      "temperature_2m_mean",
+      "temperature_2m_max",
+      "soil_moisture_0_to_7cm_mean",
+      "precipitation_sum"
+    ],
+    "temperature_units": "°C",
+    "moisture_units": "m³/m³",
+    "rainfall_units": "mm",
+    "spatial_sampling": "same original 21 requested lat/lon points; validate actual output lat/lon and timezone per point, with 6 original sites south and 15 north",
+    "source_data": "12 official ERA5 original 30-day daily response arrays; archive all original request URLs and fields separately for hemispheres; recover 15-day values by subsetting original 30-day data, no second provider.",
+    "data_integrity": "all 30 dates consecutive and exact, no duplicate; per day T max >= T mean; 0<=surface_moisture<=1, precipitation_sum>=0, all values finite and units exact. A missing/physically invalid day means the full 30d pair unavailable; the 15d pair may still be independently available only when its own 15 days valid. No interpolation, fill, clipping, changing model or threshold."
+  },
+  "frozen_endpoints": [
+    "For each source location/cycle and W=15,30: Δ mean of DAILY mean T, Δ mean of DAILY max T, Δ mean of DAILY surface 0–7cm volumetric water, Δ accumulated precipitation over window. All comparisons falling minus rising, not ratios.",
+    "Count source qualified pairs and hold reasons separately for W=15 and W=30, including missing and invalid physically bounded moisture.",
+    "Count warmer/drier and cooler/wetter opposite signs, warmer/wetter and cooler/drier same signs, zero moisture and zero T separately; do not drop signs.",
+    "Among pairs source-valid at W=1,15,30, count how often the day-one opposite T/moisture sign remains an opposite sign at each 15/30day scale, as well as switches/undefined.",
+    "Report each original geographic site's three annual cycles, site-mean directional signs, and whether all three annual W=30 pairs remain opposed; no site exclusion chosen on result.",
+    "Report 30-day precipitation vs soil moisture sign agreement/disagreement as exploratory hydroclimate timing only; rainfall is not plant uptake.",
+    "Use equal source site/cycle weighting for descriptive means. No p-values, standard-error pseudo replication, area-weighted global estimates, or animal-effect estimates."
+  ],
+  "ecological_interpretation_limits": [
+    "One centered endpoint date per seasonal branch, multiweek history not equal daylength every day; no proof of endogenous photoperiod memory.",
+    "Temperatures, soil moisture and precipitation all from the SAME reanalysis model; not independent field sensors or causal forcing.",
+    "Source shallow soil water not root-zone resource or vegetation biomass; 30d accumulation of modeled rainfall not directly migratory or forage availability.",
+    "The prior Serengeti camera/NDVI data are from a different geography and years, without its camera hours/detection-q. Do NOT pool it as 21 observed animal site effects.",
+    "21 geographical sites were selected from a crude land mask, not area-weighted or biome-balanced; 3 years at each site autocorrelated.",
+    "Source API anomalies (such as negative moisture) must remain HOLD; do not clip small negatives or substitute 0."
+  ],
+  "acceptance": "One data-source verification and science table under research/solar_global_equinoctial_pilot_20261019, with all original daily source arrays and pre-existing 1d results unchanged, one dedicated test gate and a succinct honest ecology Results update."
+}

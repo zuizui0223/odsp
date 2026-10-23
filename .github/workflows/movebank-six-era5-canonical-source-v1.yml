@@ -1,0 +1,44 @@
+name: Six original Movebank mammals × ERA5 canonical daily source v1 rank association
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/MOVEBANK_WITHIN_ANIMAL_ERA5_CANONICAL_SOURCE_V1_20261019.json'
+      - 'scripts/movebank_six_source_within_animal_era5_canonical_v1.py'
+      - 'tests/test_movebank_six_era5_canonical_source_v1.py'
+      - '.github/workflows/movebank-six-era5-canonical-source-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  six_mammal_within_individual_year_source_canonical_v1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Prove original six-rank and new scientific-canonical source tests before any new pairwise outcome
+        run: |
+          python -m unittest discover -s tests \
+            -p 'test_movebank_six_source_within_animal_era5_v0.py' -v
+          python -m unittest discover -s tests \
+            -p 'test_movebank_six_era5_canonical_source_v1.py' -v
+      - name: Replay all 197 original source animals, original six GPS and ERA5 group means, then save canonical daily ERA5 arrays and descriptive per-animal-year temperature/water rank associations
+        run: |
+          python -m scripts.movebank_six_source_within_animal_era5_canonical_v1 \
+            --output-dir outputs/movebank_six_canonical_ERA5_v1
+      - name: Archive six cohort results and complete public coarse-grid daily scientific source, never animal identities or raw location/time
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: movebank-six-original-gps-within-year-canonical-era5-v1-20261019
+          path: |
+            outputs/movebank_six_canonical_ERA5_v1/six_source_within_animal_year_ERA5_correlations_v1.json
+            outputs/movebank_six_canonical_ERA5_v1/six_original_regional_era5_scientific_daily_snapshot_v1.json
+          if-no-files-found: warn

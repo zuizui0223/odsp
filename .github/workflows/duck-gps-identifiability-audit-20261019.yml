@@ -1,0 +1,47 @@
+name: Duck GPS sample identifiability audit 2026-10-19
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'scripts/audit_duck_gps_identifiability_20261019.py'
+      - 'tests/test_duck_gps_identifiability_audit_20261019.py'
+      - '.github/workflows/duck-gps-identifiability-audit-20261019.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source_sample_audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify matching capacity and observation-gate diagnostics
+        run: python -m unittest discover -s tests -p 'test_duck_gps_identifiability_audit_20261019.py' -v
+      - name: Retrieve original public GPS source once
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .gps_audit_source
+          curl -L --fail --retry 1 --retry-delay 3 --max-time 150 \
+            'https://zenodo.org/records/16940654/files/250823_LNU_dabbling_ducks_hourly.csv?download=1' \
+            -o .gps_audit_source/duck.csv
+          echo '1972d0ef08b83c2b88a169ba07bb48b3  .gps_audit_source/duck.csv' | md5sum -c -
+      - name: Replay unchanged result and audit attrition, matching and sensor zeros
+        run: |
+          python -m scripts.audit_duck_gps_identifiability_20261019 \
+            --input .gps_audit_source/duck.csv \
+            --output outputs/duck_gps_identifiability_20261019.json
+      - name: Retain aggregate-only evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duck-gps-identifiability-audit-20261019
+          path: outputs/duck_gps_identifiability_20261019.json
+          if-no-files-found: warn

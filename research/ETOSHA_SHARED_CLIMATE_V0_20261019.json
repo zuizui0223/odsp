@@ -1,0 +1,14 @@
+{
+  "version": "etosha-shared-solar-calendar-climate-v0",
+  "date": "2026-10-19",
+  "timing": "Exploratory AFTER original hourly elephant (-0.15012724713090492) and jackal (+0.04478579444771083) GPS source outcomes viewed. No blinded or causal inference claimed.",
+  "question": "When two tracked mammals inhabit Etosha National Park but show opposing within-individual relative night/day GPS displacement seasonality, do their matched-day sampling windows reflect similar seasonal regional temperatures and climatic water contexts; are their supported solar-cycle years overlapping?",
+  "source": "Fixed MD5-verified original Southern Movebank elephant and black-backed jackal archives, and their separately frozen identical UTC-clock-hour thinning + Southern Dec-solstice daylength matcher. No source switching or biological rule tuning.",
+  "reference": "Same fixed Etosha region 19°S 16°E ERA5 grid; daily mean T, preceding 30d precipitation minus FAO reference ET0, fixed timezone UTC+1, models=era5. Broad modelled regional environment, NOT animal body temperature, microclimate, root-zone soil water, forage or resource causality.",
+  "aggregation": "Within animal-cycle mean of matching dates; mean over cycles per animal; equal individuals per species. Report signed climate contrasts and qualified solar years without any source animal IDs, exact matched dates, locations, or trajectories.",
+  "expected_original_gps_results": {
+    "etosha_elephant": -0.15012724713090492,
+    "etosha_jackal": 0.04478579444771083
+  },
+  "limits": "Species and observation year remain confounded; matched observation sampling years need not overlap; even same regional climate grid does not independently test predator-prey temporal interaction or physiological photoperiod memory."
+}

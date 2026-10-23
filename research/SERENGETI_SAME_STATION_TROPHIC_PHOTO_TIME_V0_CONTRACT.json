@@ -1,0 +1,69 @@
+{
+  "id": "SERENGETI_SAME_STATION_TROPHIC_PHOTO_TIME_V0",
+  "frozen_on": "2026-10-15",
+  "prior_outcome_exposure": "Posterior exploratory ecological contrast: whole-landscape and per-year source photo night/day ORs were already observed in PR267. Selected pairs are ecological examples; NOT an independent hypothesis confirmation. All four predeclared pairs and unfavorable/undefined outcomes must be reported.",
+  "source_lock": {
+    "original_consensus_md5": "5ed2d32fd09127c178cf9dca8ccfd623",
+    "original_effort_md5": "27cb42f3feaa0642b17cbde24ba15fbd",
+    "first_source_photo_receipt_sha256": "0b70f7425d8ade2489a989bebc7b22fda997d82b2190e5e7d3c5d6f83ee71ef3",
+    "original_photo_records": 38792,
+    "original_solar_matched_site_date_pairs": 24290,
+    "original_camera_site_ids": 186,
+    "reference_run": "https://github.com/zuizui0223/odsp/actions/runs/38677521888",
+    "original_rule": "Source-local DateTime, original exact SiteID, source UTM geometry transformed privately, 1-minute photoperiod caliper at same pre-frozen Dec-solstice mirror dates, >=20 pre-outcome pair camera-year calendar support, 30-minute same site/taxon separation, >=0.8 vote certainty, all original taxa maintained"
+  },
+  "question": "Does the season-associated change in the share of NIGHT camera records relative to ALL daylight differ between a predator and a candidate prey species at the same physical source camera and same solstice-year cycle, and does it replicate across camera sites?",
+  "pair_order_fixed": [
+    {
+      "focal": "hyenaSpotted",
+      "comparison": "zebra",
+      "interpretation": "spotted hyena versus zebra; predator and possible prey, not photographed hunting evidence",
+      "role": "primary_ecological_contrast"
+    },
+    {
+      "focal": "lionFemale",
+      "comparison": "wildebeest",
+      "interpretation": "female lion versus wildebeest; predator-prey example, lion and early-year wildebeest support can be sparse",
+      "role": "secondary_predator_prey"
+    },
+    {
+      "focal": "buffalo",
+      "comparison": "zebra",
+      "interpretation": "two large herbivores in overlapping landscape, ecological negative-context comparison but not a randomized control",
+      "role": "herbivore_context"
+    },
+    {
+      "focal": "hyenaSpotted",
+      "comparison": "lionFemale",
+      "interpretation": "two sympatric carnivores, not necessarily competitors in each local event",
+      "role": "carnivore_context"
+    }
+  ],
+  "units": {
+    "base": "physical camera SiteID × 2010/2011/2012 December-solstice cycle, never camera photos as independent sites",
+    "eligibility": "same site-cycle has at least ONE retained source PHOTO record from BOTH taxa in BOTH annual branches; all sites failing this are counted as unsupported, never silently omitted",
+    "night": "outside computed sunrise-to-sunset, includes extra-daylight civil twilight",
+    "daylight": "all solar daylight (core + edge)",
+    "main_descriptor": "D_i = (night fraction of focal in falling - night fraction of comparison in falling) - (night fraction of focal in rising - night fraction of comparison in rising), on co-recorded camera site-cycle support. D ∈[-2,2].",
+    "primary_aggregation": "For each physical camera ID, arithmetic average D across its eligible solstice cycles. Then average equally over distinct physical cameras (camera-equal).",
+    "secondary_aggregations": [
+      "Equal weight each eligible site-cycle D and separately median D",
+      "Number of site-cycles D>0, D<0, D==0 including zeros",
+      "Physical-site leave-one-out min-max of camera-equal D, NOT a confidence interval",
+      "Each year/cycle number eligible, distinct sites, source records by focal and comparison, sign counts and camera-equal D",
+      "All-site-cycle STRICT complete 2taxon×2season×2night cells-positive triple log-odds contrast (ln [ (F_fN/F_fD)/(C_fN/C_fD) ] minus same ratio in rising), undefined without eight positive source cells; NO pseudocounts",
+      "Report all four pairs including unavailable/sparse, no after-result substitution"
+    ]
+  },
+  "null_and_limits": [
+    "A matched site-cycle merely recording both species is outcome-conditioned co-detection selection and cannot support unbiased all-site predator/prey encounter rates.",
+    "q/physical station hourly uptime or independently sampled true animal passage is unavailable. Differential image detection by animal body size and distance can distort photo-time D even at same camera.",
+    "Two species recorded at similar times does not prove physical interaction, active hunting, avoidance, diet or competition.",
+    "Not all photos identify independent individual animals. No event-independent binomial p-value, individual-population CI or causal inference.",
+    "186 original sites are within ONE sampled Serengeti landscape, not 186 independent climates or regions.",
+    "Year cycles are repeated station measurements and too few for climate mechanism mediation.",
+    "All raw station identifiers, precise coordinates and photo timestamps stay inside CI and MUST NOT leave source; aggregate species-pair receipts only.",
+    "Source event time transform and first original photo v0 result are immutable, no rescue by altering species date bins after outcomes."
+  ],
+  "result_logic": "If fewer than two independent physical cameras for a pair with all four detected site×branch margins, report DEFINITIONALLY UNINFORMATIVE rather than claim site-general transfer. If strict complete cells absent, triple log-odds undefined and reported, not smoothed."
+}

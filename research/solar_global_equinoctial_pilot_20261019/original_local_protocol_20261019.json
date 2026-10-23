@@ -1,0 +1,19 @@
+{
+  "id": "GLOBAL_GRID_EQUINOX_ENVIRONMENT_PILOT_20261019",
+  "status": "Analysis choices recorded locally before new climate outcomes. Exploratory first regional panel, not externally preregistered confirmation or an animal result.",
+  "question": "At approximately equal modeled daylength, do temperature and surface soil moisture change together or differently across regions?",
+  "frame": "72 fixed points: latitude -45,-30,-15,15,30,45 degrees and longitude -180 to 150 by 30 degrees. Static bundled Natural Earth land mask retained 21 land points before climate values. No relocation of desert, cropland, mountain, coastal or otherwise inconvenient points.",
+  "scope": "Six latitude lines; no polar/equatorial coverage, not an area-weighted globally representative survey. Land-mask positional uncertainty retained.",
+  "cycle_years": [
+    2018,
+    2019,
+    2020
+  ],
+  "hemisphere": "North: March increasing and September decreasing in the same year. South: September increasing and next March decreasing, bracketing the December summer solstice.",
+  "matching": "For each hemisphere/cycle, choose March date 17-25 and September date 17-29 with |modeled solar declination|<=1 degree, minimizing maximum modeled daylength mismatch over that hemisphere's preselected latitudes; ties by summed absolute declination then dates. Require max mismatch<=1 minute. Selection uses astronomy only. One paired day per site and cycle, not annual-average season effects.",
+  "source": "Open-Meteo Historical Weather API; explicitly models=era5, timezone=auto; daily temperature_2m_mean, temperature_2m_max, soil_moisture_0_to_7cm_mean. Modeled weather/soil water, not field observation, vegetation, forage, animal activity or independent driver interventions.",
+  "contrasts": "Decreasing minus increasing daylength branch, at each same requested point, using source local daily aggregates. Soil moisture in m3/m3 (dimensionless volume fraction); no interpretation as rainfall or plant-accessible biomass.",
+  "retention": "Preserve all 21 sites and all 63 proposed pairs; failed or missing source stays explicitly unavailable. No new sites added after climate values, no signs selected and no source substitution.",
+  "summaries": "Per-site three-cycle means and sign consistency; count opposite T/soil-water signs per available pair and per site mean. All changes descriptive; no p-values or population CIs; cycles within site and points within broad climate systems are dependent.",
+  "stop": "One pilot only. Do not interpret 63 pairs as 63 independent regions or a global biological law. Satellite and scheduled animal-sensor extensions remain unexecuted future stages. Earlier Serengeti and GPS outputs are unchanged."
+}
