@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-23",
+  "endpoint": "FRENCH_GYPS_2019_2021_GPS_VS_BARO_5KM_INDIVIDUAL_HEIGHT_SHAPE_V1",
+  "status": "SUPPORTED_IN_BOTH_NATIVE_HEIGHT_CHANNELS_OF_SAME_STUDY",
+  "provenance": {
+    "source_doi": "10.48579/PRO/IOSZNM",
+    "source_native_GPS_archive_md5": "b18cc8004d311d19ff24060f655178bf",
+    "source_preheight_run": 39714803696,
+    "independent_study_name_and_animal_ID_crosswalk_run": 39715960239,
+    "source_study_name": "Eurasian griffon vulture in France (Grands Causses 2018) ID_PROG 961",
+    "previous_Gyps_original_parent_names": [
+      "Griffon vulture - Bardenas Reales",
+      "Scavengers and wild ungulates"
+    ],
+    "previous_exact_animal_ID_overlap": 0,
+    "numeric_source_movebank_parent_ID_verified": false,
+    "physical_device_independence_verified": false,
+    "original_5km_bird_count": 28,
+    "original_5km_bird_ids_sha256": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "analysis_run": 39716885648,
+    "result_artifact_id": 12399538915,
+    "result_artifact_sha256": "4e73b15038ba45e025f21a2b1bd951d3f063b8dc4148bed8bbdd9473f07f4864",
+    "result_file": "FRANCE_GYPS_2019_2021_GPS_BARO_DUAL_HEIGHT_RESULT_V1.json"
+  },
+  "native_GPS_QC": {
+    "original_five_minute_selected_events": 742423,
+    "paired_valid_GPS_baro_height_events": 742358,
+    "joint_valid_fraction": 0.9999124488330776,
+    "GPS_outside_fixed_height_range_500to7000m": 65,
+    "paired_scorable_days_after_source_quality_and_50_fix": 5854,
+    "final_5km_D1_target_birds": 27,
+    "final_target_bird_days": 5205,
+    "final_target_fixes": 364520,
+    "same_target_GPS_fix_sets_both_sensors": true,
+    "same_tag_per_animal_at_source_preheight": true
+  },
+  "native_height_channels": {
+    "GPS": {
+      "outcome": "same_bird_day_centered_native_height_above_msl_10_bin_shape",
+      "n_birds": 27,
+      "n_bird_days": 5205,
+      "n_target_fixes": 364520,
+      "observed_balanced_D1_log_gain_nats_per_fix": 0.04071337079575615,
+      "permuted_null_mean": -0.007944019867103894,
+      "observed_minus_null_mean": 0.04865739066286004,
+      "valid_null": 999,
+      "permutation_total": 999,
+      "observed_or_more_extreme_null_count": 0,
+      "unadjusted_p_upper": 0.001,
+      "Holm_2_channel_p_upper": 0.002,
+      "terminal": "supported_own_bird_altitude_shape"
+    },
+    "BAROMETRIC": {
+      "outcome": "same_bird_day_centered_native_pressure_height_10_bin_shape",
+      "n_birds": 27,
+      "n_bird_days": 5205,
+      "n_target_fixes": 364520,
+      "observed_balanced_D1_log_gain_nats_per_fix": 0.0414526382434786,
+      "permuted_null_mean": -0.0071705605756125935,
+      "observed_minus_null_mean": 0.04862319881909119,
+      "valid_null": 999,
+      "permutation_total": 999,
+      "observed_or_more_extreme_null_count": 0,
+      "unadjusted_p_upper": 0.001,
+      "Holm_2_channel_p_upper": 0.002,
+      "terminal": "supported_own_bird_altitude_shape"
+    }
+  },
+  "descriptive_sensor_agreement": {
+    "per_bird_UTC_day_sensor_QC_pairs": 5854,
+    "centered_GPS_baro_height_Pearson_correlation": {
+      "n_days_with_finite_Pearson": 5854,
+      "median_approx": 0.9246429174308497,
+      "quartiles_approx": [
+        0.8832330974343111,
+        0.9535069826517389
+      ],
+      "mean_approx": 0.9074444032151798
+    },
+    "centered_same_fix_absolute_height_diff_m": {
+      "median_of_daywise_median_abs_diff_m": 33,
+      "quartiles_of_daywise_median_m": [
+        23,
+        47
+      ],
+      "daywise_mean_approx_m": 37.236163307140416
+    },
+    "GPS_HDOP_day_median_approx": 1.1,
+    "qualifier": "The barometric channel may be GPS- or pressure-model-calibrated, so the two native columns are NOT independent replications of biological individual effects; day-by-day centered values differ substantially even with high correlations."
+  },
+  "evidence_boundary": {
+    "supported": "In a separately archived, differently named wild Gyps fulvus tracking study, different native height observation columns show the same heldout bird-ID-associated distribution-shape pattern within matched 5km source GPS cells/days.",
+    "not_supported": [
+      "Independent height sensor causality or individual differences not linked to GPS tag/error: both height series can share calibrations, body-mounted location and device-specific errors.",
+      "Same 27 birds are 54 independent biological replications: both channels score exactly the same bird-days and target fixes.",
+      "Regional thermal/wind controls or bird-specific atmospheric response was tested: source D1 merely tests bird-ID height-shape identity.",
+      "True altitude above terrain was measured: native GPS height-above-msl and barometric height have distinct geodesy/mapping requirements.",
+      "Exact numeric parent Movebank study and all biological bird identity equivalence were independently established across old source archivals.",
+      "Positive p proves evolutionary adaptation, individual specialization in resource partitioning, or universal aeroecological rule."
+    ],
+    "next": "Freeze and test independent regional CERRA 100m wind time-state donor support for the same original 28 birds using only source GPS time/XY, then treat any within-source wind-context experiment as POST-OUTCOME exploratory because the original height-D1 response has already been inspected."
+  }
+}
