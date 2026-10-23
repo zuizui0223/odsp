@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-23",
+  "stage": "SOURCE_PARENT_AND_BIOLOGICAL_DEVICE_IDENTITY_AUDIT_PRE_VERTICAL_OUTCOME",
+  "France": {
+    "DOI": "10.48579/PRO/IOSZNM",
+    "source_dataset": "2019–2021 Grands Causses 2018, ID_PROG 961",
+    "source_GPS_flight_5minute_events": 742423,
+    "unique_source_bird_label_count": 30,
+    "original_5km_eligible_birds": 28,
+    "original_5km_ROSTER_sha256": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "original_50km_eligible_labels": 29,
+    "parent_source_audit_workflow": 39714803696,
+    "audit_artifact_id": 12398443408,
+    "audit_artifact_zip_sha256": "77286e6ad5639fdeca5c73b6c9049b6b00e3e601b467d34f966495c3d0f28a6c",
+    "known_calibration_label": "Test géodésie ornitela",
+    "discovered_quality_issue": "Nonbiological geodesy test label enters 50km source gate but not 5km. It must be removed before claiming independent biological bird count. No altitude data have been examined.",
+    "freeze_biological_5km_rule": "Do not alter existing 28-bird eligibility, as calibration label was not among them; verify by exact source ID-set arithmetic.",
+    "freeze_biological_50km_rule": "Exclude only explicit source calibration/test label from 29 candidate identities and audit regenerated hash; do not choose further exclusions based on post-outcome test."
+  },
+  "source_Scacco": {
+    "DOI": "10.5281/zenodo.21915776",
+    "source_GPS_zip": "Data.zip",
+    "source_md5": "e1f116e6576cf20e54dad16d2c91a26d",
+    "zip_bytes": 551470630,
+    "source_segment_member": "ModelData/BIOLOGGING_finalSummaryDataset_perSegment_fromFix+COTvariables_Feb2025.csv",
+    "previously_opened_study_ID_species": [
+      [
+        "122120597",
+        "Gyps fulvus"
+      ],
+      [
+        "44080734",
+        "Gyps fulvus"
+      ]
+    ],
+    "original_four_panel_height_run": 39594223949,
+    "numerical_heights_read_by_new_crosswalk": false
+  },
+  "exact_join": {
+    "step1": "Fetch original French outcome-blind artifact using GITHUB_TOKEN and SHA-256 of archived ZIP; do not touch height arrays.",
+    "step2": "Download and verify Scacco source archive, open ONLY precomputed segment metadata CSV (studyName/studyID/individualID/species/tag or flight source field if present). No GPS height or model outputs.",
+    "step3": "Compare exact canonical study names, original Movebank numeric IDs, and exact biological individual ID strings; also list all Gyps fulvus studies beyond previously used two because French parent might occur elsewhere in same archive.",
+    "step4": "Report exact normalized-string overlap separately from uncertain aliases. Exact study-name match is strong evidence of shared source parent; nonmatch without shared tags does NOT prove biological independence.",
+    "step5": "Flag the geodesy 'Test' ID as nonanimal regardless of height observations.",
+    "step6": "If study is original previously opened or if many names overlap, mark INDEPENDENCE_NOT_CONFIRMED and do not present this cohort as an independent replication.",
+    "biological_inference": false,
+    "GPS_altitude_values_read": false
+  },
+  "acceptance": {
+    "possible": "DISTINCT_PARENT_WITH_NO_SHARED_EXACT_BIRDS (subject to source-alias verification)",
+    "also_possible": "SOURCE_OVERLAP_WITH_PREVIOUS_GYPS (not independently replicating)",
+    "unknown": "PARENT_UNRESOLVED (do not claim novelty)",
+    "no_change": "All prior Gyps four-study findings and two-year gull and stork conclusions remain intact."
+  }
+}
