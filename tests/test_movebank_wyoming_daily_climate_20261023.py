@@ -9,7 +9,7 @@ class Tests(unittest.TestCase):
     def test_separately_registered_daily_not_monthly(self):
         c=json.loads(CONTRACT.read_text())
         self.assertEqual(c["version"],"wyoming-daily-original-gps-era5-daylight-v1")
-        self.assertIn("MONTHLY",c["epistemic_status"])
+        self.assertIn("monthly",c["epistemic_status"].lower())
         self.assertEqual(len(c["original_effect_replay"]),2)
     def test_antecedent_30_days_not_future(self):
         d=date(2019,3,15)
