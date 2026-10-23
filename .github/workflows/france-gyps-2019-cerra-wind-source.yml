@@ -67,9 +67,26 @@ jobs:
         run: |
           set -euo pipefail
           cd build/france_gyps_wind
-          curl --http1.1 --fail --location --silent --show-error \
-            --retry 6 --retry-all-errors --retry-delay 8 --max-time 1800 \
-            'https://data.indores.fr/api/access/datafile/5114' -o windTurbineAvoidance.zip
+          # Dataverse/CDN frequently closes a large response near its last
+          # 7 MB.  Do NOT restart the 1.09 GB from byte zero for every retry.
+          # Curl auto-resumes at the current local file size with HTTP Range.
+          for attempt in $(seq 1 14); do
+            oldbytes="$(stat -c %s windTurbineAvoidance.zip 2>/dev/null || echo 0)"
+            if curl --http1.1 --fail --location --silent --show-error \
+                --continue-at - --connect-timeout 50 --max-time 600 \
+                'https://data.indores.fr/api/access/datafile/5114' \
+                -o windTurbineAvoidance.zip; then
+              echo "Full official source transfer completed at attempt $attempt"
+              break
+            fi
+            newbytes="$(stat -c %s windTurbineAvoidance.zip 2>/dev/null || echo 0)"
+            echo "Interruption during source transfer: bytes before=$oldbytes after=$newbytes"
+            if [ "$oldbytes" -gt 0 ] && [ "$newbytes" -le "$oldbytes" ]; then
+              echo "Official endpoint did not support forward byte-range progress; not retrying identical source"
+              exit 1
+            fi
+            sleep 5
+          done
           echo 'b18cc8004d311d19ff24060f655178bf  windTurbineAvoidance.zip' | md5sum --check
           test "$(stat -c %s windTurbineAvoidance.zip)" -eq 1093170227
       - name: Derive 28-bird equal regional source centroid, independent CERRA wind and exact 5km donor support
