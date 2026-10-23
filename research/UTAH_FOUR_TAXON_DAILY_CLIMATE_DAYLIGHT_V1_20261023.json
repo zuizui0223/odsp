@@ -1,0 +1,45 @@
+{
+  "version": "utah-all-four-daily-original-gps-era5-daylight-v1",
+  "frozen_at": "2026-10-23",
+  "stage": "POST-OUTCOME exploratory cross-source analogue to already observed Wyoming daytime/nighttime/daylight and daily-climate results. All FOUR original Utah study ungulate taxa retained rather than selecting favorable sign results. Not a prospective test or animal causal mechanism.",
+  "question": "In the original Utah four-taxon ungulate database, which source animal-level night-minus-day GPS displacement relationships with astronomical daylight persist after controlling for the animal-date modelled regional Tmax and the preceding 30-day climatic P−ET0? Compare mule deer and bighorn with the exact same Wyoming v1 day-level estimand.",
+  "data_source": "Original source-verified Movebank Utah four wild ungulates 10.5441/001/1.711, provider-MD5 original ZIP fixed in research/MOVEBANK_UTAH_FOUR_TAXA_SOLAR_V0_20261019.json (63,369,773 bytes). CC0 per source metadata. Never choose new original animals or species after outcomes.",
+  "source_reference_results": [
+    {
+      "taxon": "Antilocapra americana",
+      "qualified_q_animals": 215,
+      "group_q": -0.1171668232141959,
+      "qualified_daylight_animals": 213,
+      "daylight_slope": 0.004899934756973461
+    },
+    {
+      "taxon": "Cervus elaphus",
+      "qualified_q_animals": 337,
+      "group_q": -0.031888720397475416,
+      "qualified_daylight_animals": 332,
+      "daylight_slope": 0.009598574984599324
+    },
+    {
+      "taxon": "Odocoileus hemionus",
+      "qualified_q_animals": 1723,
+      "group_q": -0.02184895488685285,
+      "qualified_daylight_animals": 1683,
+      "daylight_slope": 0.005619415769068772
+    },
+    {
+      "taxon": "Ovis canadensis",
+      "qualified_q_animals": 343,
+      "group_q": -0.06576087192631512,
+      "qualified_daylight_animals": 339,
+      "daylight_slope": -0.003411758739636626
+    }
+  ],
+  "independent_source_study_comparator": "Wyoming two original taxa, separate field sample: mule deer daylength q partial after daily Tmax+30d P−ET0 = +0.004237831338383433, individual 95% [0.002853788289044954,0.005660031772393433], N117; sheep = −0.0005158669191396834, [−0.006481799838295373,0.009908898285322744], N41. These are KNOWN BEFORE Utah v1 climate outcomes.",
+  "unmodified_observation": "GPS original track per taxon and animal, time-only one fix per UTC hour closest to hour start, unchanged 0.5–2h accepted straight-line intervals, >=3 solar-day and >=3 solar-night step speeds per local date, >=10 eligible GPS dates within individual calendar-year, original same date photoperiod approximate daylength. Replay original four source group q and daylength effects EXACTLY before modelled weather retrieval.",
+  "environmental_source": "ERA5 historical Open-Meteo models=era5 at 1degree latlon original GPS observed cell centers, daily Tmean/Tmax and daily precipitation/reference FAO ET0. Source weather day and preceding 29 day complete past-only P−ET0; require all 30 complete; no interpolation or source-replacing climate grids. Do not publish source cell coordinates or animal positions.",
+  "experiment_scope": "All original source valid animal dates for all FOUR original taxa, not cherry-picked species/regions/months; source weather request from minimum valid day minus29 to maximum per original 1degree grid. Hard limit 160 distinct 1degree cells; if unexpectedly larger, retain source hold and report, do NOT prune favorable cells.",
+  "estimator": "Exactly the same source-locked scripts/movebank_wyoming_daily_climate_20261023.py adjusted_daily_effects() endpoints and checks: per animal-year q~L, q~L|Tmax, q~L|past30d P−ET0, q~L|Tmax+past30d P−ET0, q~Tmax|L+water, q~water|L+Tmax; >=10 observed dates single predictor, >=15 joint, 0.5h observed L span; null/collinear and unexplained source observation bias retained as unavailable.",
+  "inference": "Equal source years per source individual, equal admitted individuals per taxon. Bootstrap 2000 individual clusters source-wise; no treating daily GPS observations or cells as independent animals. Only claim intra-source environmental associations and between-source consistency of descriptive slopes conditional on samples.",
+  "scope_limitation": "Not proof of direct astronomical entrainment or weather causation, no direct observed vegetation phenophase/food supply/predator exposure, not a global representative taxa law, weather at coarse original GPS cell grid not on-collar actual thermal exposure.",
+  "safe_publication": "Only grouped source taxonomy, weather source SHA256, source-support and individual-averaged effects; no animal IDs, timestamp records, event positions, local 1degree grid identifiers or source original telemetry. Preserve original Utah study DOI and rights."
+}
