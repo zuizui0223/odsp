@@ -1,0 +1,38 @@
+{
+  "version": "wyoming-daily-original-gps-era5-daylight-v1",
+  "frozen_at": "2026-10-23",
+  "epistemic_status": "Explicitly POST-OUTCOME exploratory follow-up to monthly model yielding zero >=6-month animal-years. Different estimand at SOURCE-ADMITTED GPS DATE granularity; previous monthly endpoint remains INSUFFICIENT, not rescued, no original source/q/daylight effects reclassified.",
+  "biology": "Do mule deer and bighorn show a daytime/nighttime observed GPS displacement–astronomical daylight association independently of daily thermal levels and antecedent hydrologic state? Is the relationship from Wyoming consistent with the positive original Utah/Wyoming mule deer daytime/nighttime source pattern?",
+  "source": {
+    "original_gps_archive": "research/MOVEBANK_WYOMING_TWO_UNGULATES_SOURCE_V0_20261022.json",
+    "original_md5": "bd1c02734b6de3ddc9207fc1251edd66",
+    "doi": "10.5441/001/1.703",
+    "taxa": [
+      "Odocoileus hemionus",
+      "Ovis canadensis"
+    ]
+  },
+  "original_effect_replay": {
+    "Odocoileus hemionus": {
+      "q": -0.0044624294869207584,
+      "n": 119,
+      "slope": 0.005538249061142167,
+      "slope_n": 118
+    },
+    "Ovis canadensis": {
+      "q": -0.01997499965861462,
+      "n": 41,
+      "slope": 0.00021733399923758685,
+      "slope_n": 41
+    }
+  },
+  "gps_sampling": "Identical ORIGINAL hour-time-only selection, observed 0.5–2h between-fix step rule, daytime/nighttime solar classification start/mid/end and >=3 speeds in BOTH dayparts per date. Admit each original individual-calendar-year >=10 qualified days before weather. Do NOT use climate or movement response to choose sources, locations or dates.",
+  "predictor_sources": "ERA5 modelled daily temperature mean/MAX, daily rain and reference FAO evapotranspiration via Open-Meteo Historical Archive with explicit models=era5, elevation=nan, nearest grid, fixed coarse time zone from longitude. One publicly named original one-degree source grid-center for each source animal-day, not exact tracked-animal ambient microclimate or forage.",
+  "day_weather": "Match modeled calendar-day Tmean/Tmax to original source solar-local event date (calendar offset approximation documented). Define 30-day antecedent climatic P−ET0 as sum over current and preceding 29 days; require ALL 30 full valid ERA5 days; convert to per-100mm predictor. No missing-value substitution or using future weather.",
+  "source_weather_scope": "ALL original GPS-eligible animal dates from both frozen source taxa; download daily weather history only in the source-observed 1-degree cells, from first admitted date minus 29d to last admitted date. Expected source grid count 6 from prior climate feasibility, but never select individual cells on outcome. Grid source HOLD if remote API or units fail; no nearby-grid replacement.",
+  "estimand": "Within each original admitted individual/calendar-year, pair q(day)=log1p(median observed night km/h)-log1p(median observed day km/h) with local astronomy daylength in hours, daily ERA5 Tmax and preceding-30d P−ET0/100. Estimate q~L, q~L|Tmax, q~L|30day P−ET0, q~L|Tmax+P−ET0 and q~Tmax|L+P−ET0, q~P−ET0|L+Tmax. Also q~L|Tmean+P−ET0 as sensitivity. Then average years equally within individual and animals equally within taxon.",
+  "admissibility": "Single-control source regressions >=10 date pairs and 0.5hr original observed L range, joint 3-covariate regressions >=15 dates, residualized L SD>=0.10h, residual Tmax SD>=0.5°C, residual Tmean SD>=0.5°C, residual P−ET0/100 SD>=0.1 (=10mm), independent-variable matrix non-collinearity determinant ratio >=0.01. If not met, coefficient UNAVAILABLE; no thresholds tuned to get positive sign.",
+  "inference": "Report all two original taxa even if zero, original source replay statuses, full weather grid/day support, sign of each source qualified independent individual and 2000 fixed-seed individual-cluster percentile intervals if >=5 independent animals. Repeated observation days or animal-years are NOT treated as independent animals.",
+  "caveat": "Daily weather association after daylight/hydrologic controls is NOT causal; L, temperature, rainfall/ET0, vegetation, migration, predation, human activity and collar usage may co-evolve seasonally, and climate raster at coarse-grid center is not individual exposure. No global taxon mechanism claim.",
+  "privacy": "No raw individual GPS, cell IDs, exact source positions, tagged ID or daily positions in output. Original Wyoming CC BY-NC 4.0 source license retained for derived aggregate publication."
+}
