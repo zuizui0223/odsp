@@ -1,0 +1,71 @@
+{
+  "analysis": "FRANCE_GYPS_2019_2021_CLEAN_SOURCE_DUAL_ALTITUDE_QA_V1",
+  "date": "2026-10-24",
+  "mode": "POST_OUTCOME_SOURCE_QA_SENSITIVITY",
+  "source": {
+    "DOI": "10.48579/PRO/IOSZNM",
+    "zip_md5": "b18cc8004d311d19ff24060f655178bf",
+    "original_height_run": 39716885648,
+    "corrected_noheight_run": 39720327589,
+    "corrected_noheight_artifact": 12400333253,
+    "corrected_noheight_ZIP_sha256": "99677b58289e2663bfd1c87f0de661f996be0032ff39973e9725cb32ccb5189b",
+    "original_5km_roster_sha256": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "original_5km_preheight_birds": 28,
+    "stricter_clean_roster_birds": 27,
+    "stricter_clean_roster_sha256": "d9feed17cd780ed1be1c5fcd275471a0f741dfa565aa5995cbd7d71841ded34c",
+    "previous_27_scored_overlap_clean_roster": 26,
+    "original_study_parent_crosswalk_run": 39922607789
+  },
+  "excluded_fixed_source_labels": [
+    "Test géodésie ornitela",
+    "2018-Causses-Ad-Peycare-HTK-182208",
+    "2019-Causses-Ad-Mostuejouls-IIE-182008"
+  ],
+  "exclusion_rationale": "First is a nonbiological geodesy test; latter two share original tag-local-identifier 182208 and are quarantined both regardless of previous outcomes.",
+  "unchanged_analysis": {
+    "source_years": [
+      2019,
+      2020,
+      2021
+    ],
+    "source_earliest_5min_first_fix": true,
+    "speed_m_s": [
+      5,
+      55
+    ],
+    "EPSG": 6933,
+    "grid_m": 5000,
+    "two_source_heights": [
+      "height-above-msl",
+      "bar:barometric-height"
+    ],
+    "valid_height_range_m": [
+      -500,
+      7000
+    ],
+    "paired_quality_min": 0.8,
+    "bird_day_joint_quality_min": 0.5,
+    "bird_day_min_events": 50,
+    "fixed_centered_bin_edges_m": [
+      "-inf",
+      -200,
+      -100,
+      -50,
+      -25,
+      0,
+      25,
+      50,
+      100,
+      200,
+      "inf"
+    ],
+    "model": "Unmodified original MEDGULL D1 balanced heldout individual vs conspecific vertical profile, two sensor outcomes on same GPS fixes",
+    "session_null": "999 whole UTC-day identity label shuffles per height source, seed 20261022, minimum 950 valid",
+    "inferential_family": "Holm across 2 height modalities. Biological bird is unit.",
+    "QC_rule": "Source original numerical height is already opened; sensitivity is postoutcome only. Preserve original 27-bird result; recompute both native heights and donor reference under clean source population, never simply subtract ambiguous individual's gain."
+  },
+  "status": "FROZEN_BEFORE_CLEAN_QA_RECOMPUTATION",
+  "no_rescue": "No adjusting 5km cell, age or time windows, GPS source speed, 10 bins, 50-event day floor, or original p-value endpoints after sensor results.",
+  "outcome_attestation": "Clean tag-quarantine 27-bird structural membership is precomputed from source metadata only, independent of numeric GPS and baro height values.",
+  "blocked_independent_wind": "Separate CERRA regional wind source 2019–2021 failed frozen calendar coverage (912<1050 valid days); do not label clean dual-height QA as a new wind-response study."
+}
