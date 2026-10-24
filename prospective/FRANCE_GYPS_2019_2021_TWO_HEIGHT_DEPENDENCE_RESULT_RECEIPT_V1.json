@@ -1,0 +1,100 @@
+{
+  "analysis": "FRANCE_GYPS_TWO_NATIVE_HEIGHT_MEASUREMENT_DEPENDENCE_AUDIT_V1",
+  "date": "2026-10-24",
+  "stage": "POST_OUTCOME_SENSOR_CONCORDANCE_SOURCE_QA",
+  "original_Dataverse_DOI": "10.48579/PRO/IOSZNM",
+  "original_dual_height_run": 39716885648,
+  "exact_original_artifact_id": 12399538915,
+  "exact_original_artifact_SHA256": "4e73b15038ba45e025f21a2b1bd951d3f063b8dc4148bed8bbdd9473f07f4864",
+  "audit_verification_run": 40057167210,
+  "audit_artifact_id": 12545508663,
+  "audit_artifact_sha256": "84b49e6c57971533c191363d38a05ebd5d8b5ebeed7a69f5ac056ea10b51d571",
+  "original_scores": [
+    {
+      "sensor": "GPS",
+      "n_birds": 27,
+      "score": 0.04071337079575615,
+      "null_mean": -0.007944019867103894,
+      "excess": 0.04865739066286004,
+      "null_draws_valid": 999,
+      "holm_p": 0.002
+    },
+    {
+      "sensor": "BAROMETRIC",
+      "n_birds": 27,
+      "score": 0.0414526382434786,
+      "null_mean": -0.0071705605756125935,
+      "excess": 0.04862319881909119,
+      "null_draws_valid": 999,
+      "holm_p": 0.002
+    }
+  ],
+  "per_bird_score_concordance": {
+    "scored_birds": 27,
+    "positive_in_both": 26,
+    "nonpositive_in_both": 1,
+    "pearson_r": 0.9841796494098031,
+    "spearman_rho": 0.9822954822954822,
+    "Spearman_bird_bootstrap_5000_95pct": [
+      0.9275156406231458,
+      0.9956870325914381
+    ],
+    "median_absolute_gain_difference_nats_per_fix": 0.0028033324912630046,
+    "GPS_minus_BARO_mean_gain_difference_nats_per_fix": -0.0007392674477224514,
+    "bird_bootstrap_5000_mean_difference_95pct": [
+      -0.002413695638189145,
+      0.000881219236478013
+    ],
+    "bird_is_resampling_unit": true
+  },
+  "native_measurement_daily_agreement": {
+    "all_source_28_birds": 28,
+    "source_bird_days_ge50_native_fix": 5854,
+    "bird_days_with_defined_Pearson": 5850,
+    "median_same_fix_GPS_vs_BARO_daywise_Pearson": 0.9246388835672021,
+    "bird_equal_median_of_bird_day_Pearson_medians": 0.9246487486596812,
+    "bird_cluster_bootstrap_95pct_median_bird_Pearson": [
+      0.9183343175399101,
+      0.9328170081968976
+    ],
+    "bird_day_median_of_daily_centered_absolute_sensor_difference_m": 33,
+    "bird_equal_median_sensor_difference_m": 33,
+    "bird_bootstrap_95pct_bird_median_difference_m": [
+      31.25,
+      35.5
+    ],
+    "per_year_median_sensor_centered_difference_m": {
+      "2019": 35,
+      "2020": 35,
+      "2021": 27
+    },
+    "descriptive_Spearman_HDOP_vs_bird_day_centered_sensor_difference": 0.1094456180751164,
+    "raw_GPS_altitudes_reloaded_for_this_audit": false,
+    "secondary_per_day_measures_already_contained_in_original_artifact": true
+  },
+  "important_late_source_QA": {
+    "nonbiological_ID": "Test géodésie ornitela",
+    "shared_native_tag_ID": "182208",
+    "tag_birds": [
+      "2018-Causses-Ad-Peycare-HTK-182208",
+      "2019-Causses-Ad-Mostuejouls-IIE-182008"
+    ],
+    "original_positive_27_includes": "2019-Causses-Ad-Mostuejouls-IIE-182008",
+    "extra_source_QA_noheight_run": 39720327589,
+    "original_27_dualsensor_from_unclean_source": true,
+    "clean_tag_quarantine_full_rerun": "GitHub Actions run 40057583095, separately frozen QA sensitivity",
+    "do_not_represent_original_27_p_values_as_clean_source_evidence": true
+  },
+  "interpretation": {
+    "supported": "Two numerically nonidentical native altitude series from the same GPS timestamps yield extremely concordant individual-ID shape scores in the originally examined 27 bird labels.",
+    "not_supported": [
+      "Two entirely independent biological studies or separate GPS tag deployments",
+      "Proven independent physical calibration of barometric height from GPS/geoid/weather",
+      "Exact intrinsic individual flight strategy after controlling subcell terrain and tag-specific noise",
+      "An independent species-level Wstar/environmental reaction norm",
+      "The originally reported 27-bird Holm p=0.002 is also the cleaned 26-bird QA cohort p without re-fitting"
+    ],
+    "methodological_reference": "Schramm et al. 2023 doi:10.1186/s40317-023-00342-1 documents GPS vs barometric measurement error and tag-specific calibration requirements",
+    "follow_up": "Postoutcome pre-fixed source-only tag+nonbird quarantine requires re-fitting both original D1 donor and null reference datasets, not simply subtracting the one bird's gain."
+  }
+}
