@@ -6,8 +6,6 @@ on:
     paths:
       - prospective/FRANCE_GYPS_2019_2021_CLEAN_DUAL_HEIGHT_QA_FREEZE_V1.json
       - prospective/france_gyps_clean_tag_dualheight_qa.py
-      - prospective/download_france_gyps_dataverse_verified_ranges.py
-      - prospective/test_download_france_gyps_dataverse_verified_ranges.py
       - prospective/test_france_gyps_clean_tag_dualheight_qa.py
       - .github/workflows/france-gyps-clean-tag-dualheight-qa.yml
   workflow_dispatch:
@@ -84,11 +82,22 @@ jobs:
           assert files['cleaned_noheight']['numeric_native_GPS_height_values_read'] is False
           print('Frozen preheight source original 28 -> clean 27, source score intersection 26 verified')
           PY
-      - name: Retrieve original 1.09GB via source-confirmed HTTP206 chunks and full MD5
+      - name: Resume official ZIP after predictable interrupted ending by curl HTTP206, verify original MD5
         run: |
           set -euo pipefail
-          python -m prospective.download_france_gyps_dataverse_verified_ranges \
-            --out build/france_gyps_clean/windTurbineAvoidance.zip --parallel 3
+          file='build/france_gyps_clean/windTurbineAvoidance.zip'
+          ok=no
+          for attempt in 1 2 3 4; do
+            echo "Original Dataverse ZIP resume attempt $attempt; existing bytes $(stat -c %s "$file" 2>/dev/null || echo 0)"
+            if curl --http1.1 --continue-at - --fail --location --silent --show-error \
+                --connect-timeout 45 --max-time 900 \
+                'https://data.indores.fr/api/access/datafile/5114' -o "$file"; then
+              ok=yes
+              break
+            fi
+            sleep 5
+          done
+          test "$ok" = yes
           echo 'b18cc8004d311d19ff24060f655178bf  build/france_gyps_clean/windTurbineAvoidance.zip' | md5sum --check
           test "$(stat -c %s build/france_gyps_clean/windTurbineAvoidance.zip)" -eq 1093170227
       - name: Rerun unchanged two-native-height D1 5km model on strict noheight tag/test cleaned cohort
