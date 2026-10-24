@@ -139,7 +139,7 @@ def validate_original_nulls(source_zip,original):
         if not np.isclose(p*2,original_result["holm_p_upper"]):
             raise ValueError("Independent recalculation disagrees with Holm/source conclusion")
         out[sensor]={
-            "n_valid_99null":999,
+            "n_valid_999null":999,
             "raw_score":gain,
             "null_mean":float(np.mean(values)),
             "observed_minus_null_mean":float(gain-np.mean(values)),
