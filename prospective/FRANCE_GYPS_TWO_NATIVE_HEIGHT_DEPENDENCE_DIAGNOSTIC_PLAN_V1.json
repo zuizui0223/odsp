@@ -1,0 +1,52 @@
+{
+  "analysis": "FRANCE_GYPS_2019_2021_TWO_NATIVE_HEIGHT_MODALITIES_DEPENDENCE_AUDIT_V1",
+  "registered": "2026-10-24",
+  "mode": "POST_OUTCOME_MEASUREMENT_AND_INSTRUMENT_CONFOUND_DIAGNOSTIC",
+  "immutable_source": {
+    "original_Dataverse_DOI": "10.48579/PRO/IOSZNM",
+    "original_archive_md5": "b18cc8004d311d19ff24060f655178bf",
+    "original_preheight_source_run": 39714803696,
+    "original_nonoverlap_source_run": 39715960239,
+    "updated_2026_10_23_source_crosswalk_run": 39922607789,
+    "original_dual_height_outcome_run": 39716885648,
+    "original_run_artifact_id": 12399538915,
+    "original_run_artifact_zip_sha256": "4e73b15038ba45e025f21a2b1bd951d3f063b8dc4148bed8bbdd9473f07f4864",
+    "original_JSON_sha256": "02fb090bfb94343a6635f2f0ca5d12bf734fbde1ee9422b18fe57bbde19d2b7d",
+    "original_NULL_GPS_csv_sha256": "a8919aedaef1bb1dcb01b98a5bbcc2946e58a48183e1352d195492819d6328e1",
+    "original_NULL_BARO_csv_sha256": "c6bbf5cd47608712ded599d63df522cedc71f02476d6139627013faa81194e09",
+    "no_new_altitude_source_download": true,
+    "original_source_sample": {
+      "source_eligible_birds": 28,
+      "birds_with_actual_height_ID_test": 27,
+      "paired_bird_days_with_at_least_50_fixes": 5854,
+      "scored_bird_days": 5205
+    }
+  },
+  "test": {
+    "level": "Descriptive measurement agreement and paired bird-level score concordance only; never redefine old 5km result.",
+    "metrics": [
+      "Per day Pearson correlation between daily-median-centered native GPS and barometric height on exact first-selected GPS fixes, then report median across 5,854 days and median of per-bird medians (28 biological birds).",
+      "Per bird-day median absolute centered GPS-vs-barometric difference, in meters; report median across bird-days and median of per-bird medians.",
+      "Spearman and Pearson correlation of the 27 exactly matched bird-level gain scores obtained previously from each native height modality, count positive-positive and nonpositive-nonpositive birds.",
+      "Paired bird bootstrap with 5,000 bird resamples, random seed 20261024, for Spearman and mean difference between native sensor gains; source quality median CI via resampled 28 bird medians.",
+      "Spearman association between bird-day median HDOP and median absolute GPS-vs-barometer discrepancy, descriptive only; year-stratified descriptive medians.",
+      "Recalculate original two per-sensor 999-draw null distributions from archived null CSV and verify Holm p=0.002 without re-running source event fitting."
+    ],
+    "units": "Bird is independent sampling unit for score and CIs; bird-day only descriptive source quality, GPS records are not biological replicates.",
+    "no_new_positive_criteria": "Do not turn postoutcome Spearman/bootstrap into new biology inferential p; do not suggest physical independence based on high correlation.",
+    "source_outcome_status": "Both fixed native GPS and pressure-height source results supported n=27, but are paired within the exact same biological bird and tag. Not two distinct biological-study replications."
+  },
+  "external_scientific_checks": {
+    "review_paper": "https://doi.org/10.1186/s40317-023-00342-1",
+    "method_knowledge": "GPS and air-pressure barometric altimetry use different direct sensors, but barometric height uses pressure/weather reference and GPS horizontal context. Barometric pressure sensor is optional for Ornitela tags, device model and calibration of these particular archived records unverified.",
+    "Movebank_vocabulary": "https://www.movebank.org/cms/movebank-content/movebank-attribute-dictionary",
+    "source_hardware_calibration_independence_claim": "UNVERIFIED",
+    "GPS_and_baro_share_same_tag": true,
+    "issues": [
+      "Within-50km or 5km microtopography and flight-mode composition can create the same apparent individual signal in both native altitude modalities.",
+      "Daily centering removes additive offsets but not heteroscedastic instrument error or tag-specific fluctuations.",
+      "Shared GPS x-y positions and time, non-independent weather and pressure calibration can induce correlated errors."
+    ]
+  },
+  "next": "Use this audit to constrain the publication claim, then seek original transmitter/manufacturer device-level calibration or genuine negative control from exact stationary geodetic test points before attributing the vertical identity to behavioral specialization."
+}
