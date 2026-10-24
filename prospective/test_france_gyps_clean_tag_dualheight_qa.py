@@ -40,7 +40,7 @@ def test_one_scored_wrong_device_changes_original_source_validation():
 def test_original_score_population_must_be_27():
     orig=fake_original()
     del orig["sensor_results"]["BAROMETRIC"]["observed"]["per_bird"]["bird00"]
-    with pytest.raises(ValueError,match="not on same scored birds"):
+    with pytest.raises(ValueError,match="Unexpected original height scoring population"):
         check_historical_result(orig,{f"bird{i:02d}" for i in range(26)}|{"new_clean_bird"})
 
 def test_new_both_modality_scores_use_exact_biological_bird_intersection():
