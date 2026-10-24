@@ -1,0 +1,81 @@
+name: French griffon GPS and barometric height measurement dependence audit
+
+on:
+  push:
+    branches: [diagnostic/france-gyps-two-height-measurement-audit-20261024]
+    paths:
+      - prospective/FRANCE_GYPS_TWO_NATIVE_HEIGHT_DEPENDENCE_DIAGNOSTIC_PLAN_V1.json
+      - prospective/france_gyps_source_dual_height_dependence_audit.py
+      - prospective/test_france_gyps_source_dual_height_dependence_audit.py
+      - .github/workflows/france-gyps-two-height-measurement-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  audit-original-frozen-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test unchanged bird-level concordance and source audit boundaries
+        run: |
+          python -m pip install numpy pytest
+          python -m pytest -q prospective/test_france_gyps_source_dual_height_dependence_audit.py
+      - name: Fetch exact original 2026-10-22 full sensor result archive, no raw GPS refitting
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/france_sensor_audit
+          curl --fail --silent --show-error --location --retry 4 --max-time 120 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12399538915/zip' \
+            -o build/france_sensor_audit/original_sensors.zip
+          echo '4e73b15038ba45e025f21a2b1bd951d3f063b8dc4148bed8bbdd9473f07f4864  build/france_sensor_audit/original_sensors.zip' | sha256sum --check
+      - name: Recalculate two-sensor agreement and 5000 biological bird cluster bootstrap
+        run: |
+          set -euo pipefail
+          python -m prospective.france_gyps_source_dual_height_dependence_audit \
+            --original-zip build/france_sensor_audit/original_sensors.zip \
+            --out build/france_sensor_audit/FRANCE_GYPS_2019_2021_NATIVE_TWO_HEIGHT_DEPENDENCE_V1.json
+      - name: Preserve original 27 birds, 5854 bird-days, original 999-null p values and noncausal boundaries
+        run: |
+          python - <<'PY'
+          import json
+          p='build/france_sensor_audit/FRANCE_GYPS_2019_2021_NATIVE_TWO_HEIGHT_DEPENDENCE_V1.json'
+          x=json.load(open(p))
+          a=x['agreement']
+          assert x['mode']=='POST_OUTCOME_SOURCE_QUALITY_ONLY'
+          assert x['source_original_sample_and_999_nulls_changed'] is False
+          assert a['scored_birds_both']==27
+          assert a['source_birds_paired']==28
+          assert a['source_bird_days_paired']==5854
+          assert a['positive_both']==26
+          assert a['source_representations_physically_independent'] is False
+          assert 0<a['bird_day_centered_GPS_baro_Pearson_median']<1
+          assert a['bird_day_median_absolute_centered_GPS_baro_delta_m_median']>=1
+          assert len(x['verified_original_nulls'])==2
+          assert all(v['n_valid_999null']==999 for v in x['verified_original_nulls'].values())
+          assert all(v['p_Holm_2_modality']==0.002 for v in x['verified_original_nulls'].values())
+          print(json.dumps({
+            'animals_with_same_score_sign':a['positive_both']+a['nonpositive_both'],
+            'positive_both':a['positive_both'],
+            'rank_alignment':a['bird_level_GPS_vs_BARO_gain_spearman'],
+            'paired_same_day_sensor_corr_median':a['bird_day_centered_GPS_baro_Pearson_median'],
+            'centered_altitude_sensor_disagreement_m':a['bird_day_median_absolute_centered_GPS_baro_delta_m_median'],
+            'gps_calibrated_device_independence_proven':False,
+            'biological_new_study_replication':False
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: france-2019-2021-Gyps-GPS-pressure-height-dependence-original-source-audit-v1
+          path: build/france_sensor_audit/FRANCE_GYPS_2019_2021_NATIVE_TWO_HEIGHT_DEPENDENCE_V1.json
+          if-no-files-found: warn
