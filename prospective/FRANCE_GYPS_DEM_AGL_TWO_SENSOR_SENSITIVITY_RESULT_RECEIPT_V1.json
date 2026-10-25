@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-25",
+  "analysis": "FRANCE_GYPS_2019_2021_TERRAIN_AGL_TWO_SENSOR_SENSITIVITY_V1",
+  "status": "POST_OUTCOME_DEM_RELATIVE_HEIGHT_INDIVIDUAL_ID_SIGNAL_RETAINED_BOTH_HEIGHT_SOURCES",
+  "source": {
+    "DOI": "10.48579/PRO/IOSZNM",
+    "original_source_zip_md5": "b18cc8004d311d19ff24060f655178bf",
+    "original_GPS_BARO_source_test_run": 39716885648,
+    "DEM_GPS_BARO_sensitivity_run": 40160008257,
+    "result_artifact_id": 12586855357,
+    "result_artifact_zip_sha256": "533d0cc1f00c21bea985cc5b327857d37a0786e188c7c07a0932ad96b695349d",
+    "result_JSON_sha256": "df7536632dcdd525edb42ad2ab0bdd9874c83ffdf652497d7772509549c35ab1",
+    "GPS_999_null_CSV_sha256": "4190de89af1bf0bc9cdc8ee732505401e4fa46adbe4af99bede8f135086b75ca",
+    "BARO_999_null_CSV_sha256": "a17667344cc6384069b4420806b4a750d256d122d82753700bf8da6f61cc65a1",
+    "fixed_original_5km_roster_sha256": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928"
+  },
+  "DEM": {
+    "native_member": "windTurbineAvoidance/Data/RawData/Elevation_Causses.tif",
+    "original_CRC32": "d7b033fb",
+    "native_bytes": 45336059,
+    "CRS_EPSG": 32631,
+    "pixels_m": [
+      24.997335059687792,
+      24.989104014423077
+    ],
+    "native_nodata": -32768,
+    "geography_only_firstfix_events_28_birds": 742042,
+    "DEM_covered_fixes": 695911,
+    "DEM_uncovered_fixes": 46131,
+    "covered_fraction": 0.9378323598933753,
+    "frozen_gate": 0.8,
+    "gate_admitted": true,
+    "exact_vertical_datum_agreement_verified": false
+  },
+  "cohort": {
+    "original_28_bird_roster_unchanged": true,
+    "matched_source_bird_days_scored": 5123,
+    "matched_source_GPS_events_scored": 358847,
+    "model_biological_birds": 27,
+    "DEM_and_both_native_sensor_heights_pass_QC_fraction": 0.997413462353663,
+    "original_MSL_scored_bird_days": 5205,
+    "original_MSL_scored_fixes": 364520,
+    "same_target_event_set_as_original_MSL": false
+  },
+  "sensor_results": {
+    "GPS": {
+      "raw_gain_nats_per_fix": 0.025918658127226477,
+      "null_mean": -0.00715792535473512,
+      "null_excess": 0.033076583481961595,
+      "null_valid": 999,
+      "Holm_p": 0.002,
+      "raw_positive_birds": 26,
+      "scored_birds": 27,
+      "per_bird_original_MSL_gain_correlation": 0.8357156627765551,
+      "terminal": "AGL_shape_identity_supported"
+    },
+    "BAROMETRIC": {
+      "raw_gain_nats_per_fix": 0.02472017274386498,
+      "null_mean": -0.006728401663850151,
+      "null_excess": 0.03144857440771513,
+      "null_valid": 999,
+      "Holm_p": 0.002,
+      "raw_positive_birds": 25,
+      "scored_birds": 27,
+      "per_bird_original_MSL_gain_correlation": 0.8097797645060326,
+      "terminal": "AGL_shape_identity_supported"
+    }
+  },
+  "interpretation": {
+    "supported": "Day-heldout ID-associated relative altitude probability shapes persist after subtracting original DEM landscape elevation at each GPS fix for both GPS and barometric native height channels within 5km cells.",
+    "status": "Post-outcome sensitivity, same 2019–2021 French source, not a new independent replication.",
+    "caution": [
+      "Original 27-bird DEM sensitivity is distinct from 26-bird tag-alias-clean native-height refit; tag alias ID remains in this older frozen DEM population.",
+      "DEM, GPS and barometric vertical datums not proved identical; height is a DEM-referenced proxy rather than true ground surveyed AGL.",
+      "Original MSL scored 364520 vs DEM scored 358847 different target events, so cannot attribute a percentage drop in gains to terrain.",
+      "Same tagged bird/device identity and correlated GPS/barometric sources may share systematic error.",
+      "Even DEM-robust individuality is not evidence for individual-specific wind/Wstar reaction, adaptation or competition partitioning."
+    ]
+  }
+}
