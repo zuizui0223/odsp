@@ -235,7 +235,7 @@ def main():
             vals=[mean(z) for z in joint_animals.values()]
             got=mean(vals) if len(vals)>=5 else None
             if got is None or abs(got-prior_mean)>1e-10 or len(vals)!=f["known_qualified_joint_animals"][item["taxon"]]:
-                raise ValueError("Previously published original source climate-adjusted daylight coefficient did not replay")
+                raise ValueError("Previously published original source climate-adjusted daylight coefficient did not replay: "+json.dumps({"taxon":item["taxon"],"expected":prior_mean,"actual":got,"expected_n":f["known_qualified_joint_animals"][item["taxon"]],"actual_n":len(vals)}))
             item["prior_joint_daylight_replayed"]=got
             item["prior_joint_admitted_animals_replayed"]=len(vals)
             by_taxon[item["taxon"]].clear()
@@ -250,5 +250,6 @@ def main():
         "source":args.source,"status":result["status"],"source_GPS_replayed":result["original_GPS_effects_replayed"],
         "previous_climate_model_replayed":result["prior_adjusted_L_replayed"],
         "taxa":len(result["taxa"]),"original_climate_grids":result.get("source_climate_grid_count"),
-        "weather_holds":result.get("weather_source_holds")},sort_keys=True))
+        "weather_holds":result.get("weather_source_holds"),"error":result.get("error")},sort_keys=True))
+    if result["status"]=="SOURCE_HOLD":raise SystemExit(2)
 if __name__=="__main__":main()
