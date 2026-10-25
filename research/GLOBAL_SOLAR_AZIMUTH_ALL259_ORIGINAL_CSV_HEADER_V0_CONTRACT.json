@@ -1,0 +1,21 @@
+{
+  "version": "global-azimuth-all259-original-GPS-header-snapshot-v0",
+  "date": "2026-10-25",
+  "base": "research/seasonal_database_catalog/2026-10-19/movebank/catalog.json",
+  "target": "ALL 259 sensor-labelled GPS or GNSS archived original source packages; preserve unchanged 437 registry denominator.",
+  "goal": "Systematically identify original CSV-format column support across the full source frame before expanding GPS macroecological outcomes, without selecting based on published or previously measured animal effects.",
+  "file_selection": "For each source, enumerate ORIGINAL bundle metadata; exactly ONE non-reference .csv, .csv.gz or .zip candidate required for automatic header route. Multi-primary originals remain ambiguous and are NEVER silently reduced to one. No replacement of a chosen source after any result.",
+  "byte_policy": "For one plain .csv only, byte-capped HTTP initial-range preview (<=8192 bytes) is used solely to parse FIRST header line; event values are not parsed, stored or logged. Original checksums must be verified for all later full GPS analyses, not a header claim.",
+  "known_required_columns": [
+    "timestamp",
+    "individual-local-identifier",
+    "location-lat",
+    "location-long"
+  ],
+  "optional_multi_species_column": "individual-taxon-canonical-name",
+  "network": "Public original DSpace bitstream content endpoint only, 30s request timeout. HTTP errors retained. 8 concurrent providers max; no login, authentication bypass or alternate-host substitution.",
+  "size_policy": "Plain original CSV above 120MB is marked full-transfer-size HOLD but is still counted as a file with known metadata. ZIP or gz primary file is COMPRESSED_PENDING_ORIGINAL_MD5_AND_SCHEMA not declared bad.",
+  "result": "Every original package UUID retained with candidate count, metadata status, header parse status, original schema column support, original source study IDs and provenance; NO animal rows, exact positions, timestamps or trajectories distributed.",
+  "cannot_identify": "A header indicates potential schema only; cadence, sun-azimuth coverage, actual GMT attestation, permitted behavioral inference, and original study independence cannot be verified from a header.",
+  "state": "frozen_before_any_all259_original_header_preview"
+}
