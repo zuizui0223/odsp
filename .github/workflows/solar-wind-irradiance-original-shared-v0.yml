@@ -1,0 +1,43 @@
+name: Two source original GPS solar bearing by ERA5 wind and shortwave
+on:
+  push:
+    branches:
+      - ecology/solar-wind-irradiance-shared-gps-v0
+    paths:
+      - 'research/SOLAR_WIND_IRRADIANCE_SHARED_GPS_V0_CONTRACT.json'
+      - 'scripts/solar_azimuth_era5_wind_v0.py'
+      - 'scripts/run_solar_wind_irradiance_shared_gps_v0.py'
+      - 'tests/test_solar_wind_irradiance_shared_gps_v0.py'
+      - '.github/workflows/solar-wind-irradiance-original-shared-v0.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_wind_irradiance_join:
+    strategy:
+      fail-fast: false
+      matrix:
+        source_index: [0, 1]
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify original GPS and ERA5 directional known truths before source request
+        run: |
+          python -m unittest discover -s tests -p 'test_solar_wind_irradiance_shared_gps_v0.py' -v
+          python -m unittest discover -s tests -p 'test_global_solar_azimuth_multitaxon_shared_cells_v0.py' -v
+      - name: Authenticate original GPS and replay all previous solar-pair effects before querying ERA5
+        run: |
+          python -m scripts.run_solar_wind_irradiance_shared_gps_v0 \
+            --source-index ${{ matrix.source_index }} \
+            --out outputs/solar_wind_original_shared
+      - name: Publish only anonymous original-source group ecology and weather SHA receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-GPS-solar-wind-irradiance-source-${{ matrix.source_index }}-v0
+          path: outputs/solar_wind_original_shared/solar_wind_original_source_*.json
+          if-no-files-found: warn
