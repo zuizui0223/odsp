@@ -1,0 +1,33 @@
+name: Original GPS twelve new sources sample selection v1
+on:
+  push:
+    branches:
+      - ecology/global-solar-azimuth-macroniche-v0
+    paths:
+      - 'research/GLOBAL_SOLAR_AZIMUTH_INDEPENDENT_12SOURCE_V1_CONTRACT.json'
+      - 'scripts/global_solar_azimuth_new_registry_sample_v1.py'
+      - 'tests/test_global_solar_azimuth_new_registry_sample_v1.py'
+      - '.github/workflows/global-solar-azimuth-new-source-sample-v1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  freeze_original_sources_without_biological_outcomes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test unbiased cohort selection and strict no-fallback source holds
+        run: python -m unittest discover -s tests -p 'test_global_solar_azimuth_new_registry_sample_v1.py' -v
+      - name: Select three per original metadata stratum and inspect ONLY original file listings
+        run: python -m scripts.global_solar_azimuth_new_registry_sample_v1 --out outputs/global_solar_azimuth_new_sources_v1
+      - name: Preserve full source selection before any new azimuth outcome
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-solar-azimuth-new-twelve-source-blind-file-manifest-v1
+          path: outputs/global_solar_azimuth_new_sources_v1/
+          if-no-files-found: warn
