@@ -3,7 +3,7 @@
 Date: 2026-10-25. Status: DRAFT / registered metadata census and executable source-locked route. **No empirical solar-azimuth effect has yet been established.**
 
 Protocol: ../research/GLOBAL_SOLAR_AZIMUTH_MACRO_V0_CONTRACT.json  
-Geometry: ../odsp/solar_azimuth_macro_v0.py  
+Geometry: ../scripts/solar_azimuth_macro_v0.py  
 Original-source runner: ../scripts/run_global_solar_azimuth_macro_v0.py
 
 ## Central independent ecological question
