@@ -20,7 +20,7 @@ from scripts.movebank_wyoming_two_ungulates_20261022 import (
 )
 from scripts.movebank_utah_diel_photoperiod_20261019 import one_taxon
 from scripts.movebank_wyoming_individual_era5_20261023 import source_admitted_daily
-from scripts.movebank_wyoming_daily_climate_20261023 import daily_source_era5,climate_at_gps_day
+from scripts.movebank_wyoming_daily_climate_20261023 import daily_source_era5,climate_at_gps_day,adjusted_daily_effects
 from scripts.movebank_utah_calendar_condition_20261022 import partial_slope
 from scripts.movebank_utah_shared_spatial_20261019 import cluster_interval
 
@@ -235,7 +235,16 @@ def main():
             vals=[mean(z) for z in joint_animals.values()]
             got=mean(vals) if len(vals)>=5 else None
             if got is None or abs(got-prior_mean)>1e-10 or len(vals)!=f["known_qualified_joint_animals"][item["taxon"]]:
-                raise ValueError("Previously published original source climate-adjusted daylight coefficient did not replay: "+json.dumps({"taxon":item["taxon"],"expected":prior_mean,"actual":got,"expected_n":f["known_qualified_joint_animals"][item["taxon"]],"actual_n":len(vals)}))
+                raise ValueError("Previously published original source climate-adjusted daylight coefficient did not replay: "+json.dumps({"taxon":item["taxon"],"expected":prior_mean,"new":got,"previous_original_algorithm_current_weather":adjusted_daily_effects(by_taxon[item["taxon"]],weather)["daylight_given_tmax_and_water"],"expected_n":f["known_qualified_joint_animals"][item["taxon"]],"actual_n":len(vals)}))
+            # Independently recompute the OLD source model through its own immutable
+            # original function on the SAME retrieved weather, not a new estimator.
+            prior_runner=adjusted_daily_effects(by_taxon[item["taxon"]],weather)
+            independent=prior_runner["daylight_given_tmax_and_water"]
+            item["current_weather_old_source_algorithm_joint_mean"]=independent["mean"]
+            item["current_weather_old_source_algorithm_joint_animals"]=independent["admitted_animals"]
+            item["source_replay_old_vs_new_algorithm_match"]=(independent["admitted_animals"]==len(vals)
+                and got is not None and independent["mean"] is not None
+                and abs(independent["mean"]-got)<1e-12)
             item["prior_joint_daylight_replayed"]=got
             item["prior_joint_admitted_animals_replayed"]=len(vals)
             by_taxon[item["taxon"]].clear()
