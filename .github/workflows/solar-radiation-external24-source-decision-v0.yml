@@ -1,0 +1,37 @@
+name: Independent heldout radiation-angle 24-study source-level decision
+on:
+  push:
+    branches:
+      - ecology/solar-weather-population-v0
+    paths:
+      - 'research/SOLAR_RADIATION_EXTERNAL_24_SOURCE_FIRST_ALL_RESULTS_20261025.json'
+      - 'scripts/evaluate_external_solar_radiation_24_source_study_blocks_v0.py'
+      - 'tests/test_solar_radiation_external_24_study_block_decision_v0.py'
+      - '.github/workflows/solar-radiation-external24-source-decision-v0.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frozen_external_original_study_block_direction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Confirm signed hypothesis and source support thresholds cannot change after original outcomes
+        run: |
+          python -m unittest discover -s tests -p 'test_solar_radiation_external_24_study_block_decision_v0.py' -v
+          python -m unittest discover -s tests -p 'test_solar_radiation_external_24_sources_v0.py' -v
+      - name: Compute preregistered positive/negative/insufficient source-level solar radiation decision
+        run: |
+          python -m scripts.evaluate_external_solar_radiation_24_source_study_blocks_v0 \
+            --out outputs/solar_external_signed_decision
+      - name: Preserve full 24-study heldout nulls, bootstrap and required replication decision
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-blind-24-study-solar-radiation-external-decision-v0
+          path: outputs/solar_external_signed_decision/heldout_24_original_source_radiation_directional_test.json
+          if-no-files-found: warn
