@@ -185,7 +185,7 @@ def diagnose(earlier,external,early_contexts,later_contexts):
     if contract["version"]!="original-GPS-shortwave-nonreplication-diagnostic-v0":
         raise ValueError("Post-exposure source sensitivity contract not frozen")
     if (earlier["complete_fixed_source_archive_denominator"]!=24
-        or external["first_external_original_source_study_frame"]!=24
+        or len(external["all_24_source_study_slope_means"])!=24
         or early_contexts["version"]!="original-gps-solar-population-weather-v0"
         or later_contexts["version"]!="external-24-original-GPS-solar-radiation-validation-v0"):
         raise ValueError("Original first study and heldout 24-source denominators modified")
