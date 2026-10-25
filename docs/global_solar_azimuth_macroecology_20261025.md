@@ -1,10 +1,13 @@
 # ODSP: Original-data solar-azimuth macroecology
 
-Date: 2026-10-25. Status: DRAFT / registered metadata census and executable source-locked route. **No empirical solar-azimuth effect has yet been established.**
+Date: 2026-10-25. Status: DRAFT / registered original-data programme. **Source-level solar-relative travel associations have now been observed, but no causal solar cue effect or population-general macroecological law has been established.**
 
 Protocol: ../research/GLOBAL_SOLAR_AZIMUTH_MACRO_V0_CONTRACT.json  
 Geometry: ../scripts/solar_azimuth_macro_v0.py  
-Original-source runner: ../scripts/run_global_solar_azimuth_macro_v0.py
+Original-source runner: ../scripts/run_global_solar_azimuth_macro_v0.py  
+First source-group results: ../research/GLOBAL_SOLAR_AZIMUTH_V0_13_COHORT_PRIMARY_DATA_MATRIX_20261025.csv  
+Full 259-source metadata first receipt: ../research/GLOBAL_SOLAR_AZIMUTH_259_ORIGINAL_SOURCE_METADATA_FIRST_RECEIPT_20261025.json  
+Draft scientific manuscript: ../manuscript/GLOBAL_SOLAR_AZIMUTH_ORIGINAL_GPS_MACROECOLOGY_DRAFT_20261025.md
 
 ## Central independent ecological question
 
@@ -65,3 +68,7 @@ Prospective explanatory variables: hemisphere, latitude, study season, ERA5 ther
 No preferred positive sign is assumed. Preserve zero/negative effects, source unavailability and ecological confounds. Progression to a global claim requires independently supported spatial populations, not repeated paper examples.
 
 Primary output envisioned: a reusable derived macroecological database with original source DOI, source-level unit independence, biological taxon, position/solar-time QC fractions, qualifying animal count, mean directional indices, uncertainty, and region/environment linkage. Coordinates/individual tracks are never redistributed.
+
+## Post-frozen-protocol observed progress (2026-10-25)
+
+Five previously selected Northern original source archives and four independently registered Southern original source archives all passed original provider MD5 checks and the new directional estimator (9 archived files, 13 source-taxon groups, nine literal taxon names, 10,898,358 source GPS rows, 1,087,873 qualified daylight movement steps). All raw and clock-restricted signed estimates, including negatives and near-zero results, are archived separately without touching the protocol. The all-259 GPS/GNSS ORIGINAL bitstream-metadata audit succeeded (259/259 with no metadata HOLD; 670 name-format candidates; 0 event schemas verified by metadata stage). Original study-ID strings have 3 shared-ID pairs across 6 packages. Keep original 437 package denominator and 259 sensor subframe fixed. For scientific comparisons and limits, see the [post-first Results](global_solar_azimuth_first_original_GPS_results_20261025.md) and [draft manuscript](../manuscript/GLOBAL_SOLAR_AZIMUTH_ORIGINAL_GPS_MACROECOLOGY_DRAFT_20261025.md). Raw/clock estimands differ; original observations are exploratory and not proof of solar directionality, season-independent populations or habitat causation.
