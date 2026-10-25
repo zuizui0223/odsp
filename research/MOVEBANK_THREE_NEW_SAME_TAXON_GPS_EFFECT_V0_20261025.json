@@ -1,0 +1,47 @@
+{
+  "id": "MOVEBANK_THREE_FROZEN_SAME_TAXON_NEW_SOURCE_GPS_EFFECT_V0_20261025",
+  "registered": "2026-10-25",
+  "sequencing": "Numerical GPS movement outcomes of the THREE new source archives were NOT inspected as of this contract. The baseline wolf/deer/elk source effects were previously observed, so these are nonrandom exploratory same-taxonomy source replications, not blind universal species tests.",
+  "source_selection": "Exactly the three publicly archived single-taxon GPS originals in research/MOVEBANK_SAME_TAXON_THREE_SOURCE_PREFLIGHT_20261025.json chosen from 437-source metadata; never choose favorable files/taxa after movement results.",
+  "source_only_gate": "First check provider original UUID/MD5/byte count and original GPS timestamp/day/night preflight, comparing against the first source-only CI 40159378985 artifact. Original source-only feasibility is necessary but cannot guarantee 0.5–2h displacement supports.",
+  "ecological_question": "For wolves in Alberta vs Yellowstone, white-tailed deer in Virginia vs Florida, and elk in Canadian Rockies vs southwestern Alberta (population independence unverified), does direction and DAY/NIGHT decomposition of observed matched-photoperiod GPS displacement replicate within the same taxonomic species?",
+  "estimator": "Use unchanged previously tested scripts.movebank_solar_movement_20261019.analyze_file; GPS steps 0.5–2 h, both endpoints + midpoint in same mean-solar DATE and DAY/NIGHT zone, <60km/h, ≥3 steps per original observed date each zone, one-to-one rising/falling dates in the same Northern Hemisphere year at modeled photoperiod mismatch ≤5 min, separated ≥30 days, fixed source step-count ratio [0.5,2], ≥10 matched dates per marked individual/year; individual-year mean then equal individual mean; 2,000 deterministic equal-original-animal bootstrap re-samples conditional original source animals; outputs retain n and source HOLD for n<5.",
+  "response_components": [
+    "falling_minus_rising_relative_NIGHT_minus_DAY_original_GPS_log1p_kmh",
+    "falling_minus_rising_DAY_original_GPS_log1p_kmh",
+    "falling_minus_rising_NIGHT_original_GPS_log1p_kmh"
+  ],
+  "comparisons": [
+    {
+      "label": "wolves_yellowstone",
+      "baseline": "wolves_alberta",
+      "taxon": "Canis lupus",
+      "initial_n": 9,
+      "initial_delta": 0.02841038749300514
+    },
+    {
+      "label": "white_tail_florida",
+      "baseline": "white_tail_virginia",
+      "taxon": "Odocoileus virginianus",
+      "initial_n": 33,
+      "initial_delta": -0.0031894638756262794
+    },
+    {
+      "label": "elk_southwest_alberta",
+      "baseline": "elk_canada",
+      "taxon": "Cervus elaphus",
+      "initial_n": 12,
+      "initial_delta": 0.04500073152774594
+    }
+  ],
+  "eligibility": "All three files evaluated even if source-only preflight predicts n<5; do not delete, substitute or weaken thresholds. Compare signs against old fixed source effects only if new ≥5 distinct original marked animals; if below, ecological inference HOLD.",
+  "limits": [
+    "Source study populations differ in habitat, field era, individual sex/recruitment, collar duty and sampling windows. Do not infer species-wide behavioral law, fixed taxon effect or explain effect differences by climate in this run.",
+    "Elk source in southwestern Alberta may overlap geographic population range of Ya Ha Tinda elk, although original package DOI and recruitment names differ; do not assert independent population without reference study IDs and animal overlap check.",
+    "Minimum straight-line GPS step rate is not active-time fraction or inferred continuous animal movement; bootstrap within-source is not cross-population confidence interval.",
+    "Source calendar matching does NOT hold temperature, precipitation, NDVI, migration stage or reproduction invariant.",
+    "No source GPS/individual coordinates, original timestamp, individual IDs, event rows or raw telemetry files uploaded to GitHub.",
+    "Even opposite signed replicated cohort effects do not prove ecological thermal causation. Any new environmental analysis must use a separately named contract after source outcomes, with true source-date weather and source hardware effort."
+  ],
+  "publication_position": "Show all 3 novel same-taxonomy independent original source outcomes and their previous counterpart in a bounded table, including failures and 0. Prefer ecological contrast to endless modeling."
+}
