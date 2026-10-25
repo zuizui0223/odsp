@@ -1,0 +1,68 @@
+{
+  "version": "original-shared-cell-solar-wind-irradiance-v0",
+  "date": "2026-10-25",
+  "status": "PRE_HOURLY_ENVIRONMENT_OBSERVATION",
+  "question": "Within original GPS source strata shared by two animal taxa, do observed differences in solar-relative travel headings coexist with differences in 100 m wind-relative travel and weather-derived incident shortwave radiation? Is the solar-wind geometry itself different at taxa's sampled hours?",
+  "source_selection": "All TWO original source archives supporting at least one pair in the prior locked ten-source original multi-taxon common-cell analysis; source IDs frozen AFTER solar-bearing group outcomes, BEFORE any weather values opened. Explicit exploratory, not an independent prospective validation.",
+  "reference_combined_pair_path": "research/GLOBAL_SOLAR_AZIMUTH_MULTITAXON_SHARED_CELL_COMBINED_FROZEN_V0_V1_20261025.json",
+  "exact_studies": [
+    {
+      "uuid": "8318572a-a9d8-4d9e-b685-7db8a73bdf86",
+      "taxa": [
+        "Anser albifrons",
+        "Anser anser",
+        "Branta leucopsis"
+      ],
+      "expected_supported_pair_count": 3
+    },
+    {
+      "uuid": "cd4e676d-424f-4b40-8e4e-3681a0f26530",
+      "taxa": [
+        "Cathartes melambrotus",
+        "Sarcoramphus papa"
+      ],
+      "expected_supported_pair_count": 1
+    }
+  ],
+  "gps_source_manifest": "research/GLOBAL_SOLAR_AZIMUTH_NEW24_PROVIDER_FROZEN_SOURCE_FILE_MANIFEST_20261025.json",
+  "gps_requirements": "Reproduce original fixed 1° floor latitude+longitude × original solar calendar year-month × 4-hour apparent solar-clock grouping, at least 3 tagged animals, 3 dates and 15 steps per taxon-cell, >=3 overlapping cells per pair; original GPS 30–120min adjacent interval, >=0.1km move, <=60km/h, sun elevation>=10 at both ends and midpoint. Reproduce all four original pair-specific R_A-R_B values and eligible shared cell counts EXACTLY before ANY weather API is called. Provider original UUID/size/MD5 must match frozen manifest.",
+  "weather_provider": "Open-Meteo historical archive public ERA5 hourly; SOURCE MODEL explicitly era5, not Best Match or forecast. https://open-meteo.com/en/docs/historical-weather-api",
+  "weather_api": "https://archive-api.open-meteo.com/v1/archive",
+  "weather_hourly_fields": [
+    "wind_speed_100m",
+    "wind_direction_100m",
+    "shortwave_radiation",
+    "temperature_2m"
+  ],
+  "weather_params": {
+    "models": "era5",
+    "timezone": "UTC",
+    "wind_speed_unit": "ms",
+    "elevation": "nan",
+    "cell_selection": "nearest"
+  },
+  "provider_units": {
+    "wind_speed_100m": "m/s",
+    "wind_direction_100m": "°",
+    "shortwave_radiation": "W/m²",
+    "temperature_2m": "°C"
+  },
+  "weather_requested_cells": "For every original shared GPS stratum of one of the four previously supported taxon pairs, use original GPS step-midpoint 1° spatial cell center (floor(lat)+0.5, floor(lon)+0.5) and UTC YEAR, request full Jan 1–Dec 31 hourly weather for the exact observed cell×year set (not selectively favorable dates).",
+  "max_distinct_spatial_grid_utc_year_requests_per_source": 45,
+  "max_response_size_bytes": 6000000,
+  "clock_hour_alignment": "Weather hour at floor(midpoint original UTC timestamp), no local timezone guesses, no interpolation of missing weather. ERA5 shortwave_radiation is preceding-hour mean; wind and T are hourly instantaneous approximations.",
+  "weather_provenance": "Record SHA256 of every provider returned raw hourly JSON and approximate coverage but no exact original animal lat/lon/time or weather request URLs in published results. Previous ODSP ERA5 refetches changed some source values; weather is observational/provisional, re-fetch reproducibility not guaranteed until byte preservation/versioned public source.",
+  "wind_conventions": "Meteorological wind_direction_100m is wind FROM north-clockwise; wind-flow-to bearing=(direction+180)%360. This is 100m gridded wind, NOT bird flight altitude or experienced wind.",
+  "estimands": [
+    "For EACH previously supported pair, use SAME original shared GPS cells and hourly weather-matched original GPS steps. Per cell, equally weight observed GPS fixes within animal then animals within original taxon; equally weight common cells.",
+    "Original solar-relative cos(B-A) for each species, re-evaluated after weather join; original baseline mean and pair difference must replay exactly if weather coverage 100%, otherwise explicitly disclose reduced support.",
+    "Wind-flow-relative cos(B-W_to) separately for each species on identical original GPS steps, wind speed and shortwave exposure same-steps.",
+    "Potential wind-only solar-alignment geometry cos(W_to-A), which uses weather wind flow and sun but NOT GPS animal bearing; measure group weather sampling/time composition.",
+    "Cell-equal pair taxon A-minus-B differences for solar, wind and wind-sun geometry, plus observed 100m wind-speed, 2m-temperature and shortwave exposures. No p-value or new selective pair admission.",
+    "Source/taxon/year observation support and ERA5 missingness; if <90% of relevant source GPS steps matched for ANY previously supported pair, environmental paired estimate SOURCE_HOLD rather than a weather-selected result."
+  ],
+  "interpretation_ceiling": "Original observational GPS heading is not animal body direction, cloud perception, selected light exposure or thermal orientation. Wind at 100m is lower-atmosphere coarse model, not local soaring wind. Shared 1° grid/month/4h clock does not establish encounter/competition, causal response or independent biomes. Original two studied landscapes selected after original bearing results; no confirmatory claims.",
+  "privacy": "No event-level GPS, exact timestamp, individual ID, original grid cell coordinates or hourly weather request URLs in committed results or GitHub logs; ephemeral CI analysis only. Original source licenses respected.",
+  "technical_policy": "One exact original provider checksum attempt per source. Fail closed on provider source, weather response missing, model, units, duplicate UTC hours, excessive grid-years, or reduced weather coverage; no new data or thresholds after outcome.",
+  "aim": "Ecology-forward environmental triangulation to determine whether existing solar-relative species differences could reflect meteorological directional opportunities rather than direct sun selection."
+}

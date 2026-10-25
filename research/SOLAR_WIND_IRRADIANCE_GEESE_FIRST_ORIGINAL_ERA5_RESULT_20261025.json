@@ -1,0 +1,292 @@
+{
+  "date": "2026-10-25",
+  "first_source_original_environmental_workflow_run_id": 40167349742,
+  "source_index": 0,
+  "original_method_sha": "489ce87a92a9835795aa1fb46378c7af895fcc2a",
+  "source_weather_reference": "Public historical ERA5 from Open-Meteo API, original UTC hourly wind_direction_100m, wind_speed_100m, shortwave_radiation and temperature_2m. Raw weather response hashes preserved but exact original weather bytes not redistributed.",
+  "status": "SOURCE_ENVIRONMENTAL_DESCRIPTION_COMPLETED",
+  "result": {
+    "n_original_studies": 1,
+    "original_study_result": {
+      "modelled_ERA5_coarse_grid_year_requests": 9,
+      "n_reference_supported_pairs": 3,
+      "original_frozen_solar_pairs_replayed": true,
+      "original_observation_rows": 480247,
+      "original_provider_checksum_verified": {
+        "bytes": 117340876,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "original_source_species_labels": [
+        "Branta leucopsis",
+        "Anser albifrons",
+        "Anser anser"
+      ],
+      "pair_results": [
+        {
+          "ERA5_joined_steps_A": 1211,
+          "ERA5_joined_steps_B": 3209,
+          "baseline_no_weather_solar_pair_difference": 0.03944188372159627,
+          "environmental_differences": {
+            "A_minus_B": {
+              "shortwave_W_m2": 1.1928920476739506,
+              "solar_cos": 0.039441883721596266,
+              "temperature_2m_C": -0.194320215830321,
+              "wind_speed_100m_ms": -0.23653027251885916,
+              "wind_sun_cos": 0.02274591769271367,
+              "windflow_cos": -0.04763992108571999
+            },
+            "joint_solar_minus_windflow_heading_contrast_delta": 0.08708180480731625,
+            "shared_original_GPS_cell_weighting": "equal original qualifying cells, equal tagged animals inside each cell",
+            "source_species_A_means": {
+              "shortwave_W_m2": 193.10443306725696,
+              "solar_cos": 0.011589075363045783,
+              "temperature_2m_C": 5.685599665793851,
+              "wind_speed_100m_ms": 9.864433800160578,
+              "wind_sun_cos": -0.2861555464509173,
+              "windflow_cos": -0.09210877863193528
+            },
+            "source_species_B_means": {
+              "shortwave_W_m2": 191.911541019583,
+              "solar_cos": -0.027852808358550484,
+              "temperature_2m_C": 5.879919881624172,
+              "wind_speed_100m_ms": 10.100964072679437,
+              "wind_sun_cos": -0.30890146414363095,
+              "windflow_cos": -0.044468857546215296
+            }
+          },
+          "fraction_steps_ERA5_qualified_A": 1,
+          "fraction_steps_ERA5_qualified_B": 1,
+          "full_original_GPS_solar_difference_replayed": true,
+          "original_GPS_steps_A": 1211,
+          "original_GPS_steps_B": 3209,
+          "registered_original_shared_cells": 21,
+          "status": "SOURCE_OBSERVED_ERA5_LINKED_DESCRIPTION",
+          "taxa": [
+            "Anser albifrons",
+            "Anser anser"
+          ]
+        },
+        {
+          "ERA5_joined_steps_A": 1301,
+          "ERA5_joined_steps_B": 12734,
+          "baseline_no_weather_solar_pair_difference": -0.1181428333560048,
+          "environmental_differences": {
+            "A_minus_B": {
+              "shortwave_W_m2": -7.135050681065621,
+              "solar_cos": -0.1181428333560048,
+              "temperature_2m_C": 0.09494830663374465,
+              "wind_speed_100m_ms": 0.2352778846132857,
+              "wind_sun_cos": -0.11828702329627444,
+              "windflow_cos": 0.013415467773185898
+            },
+            "joint_solar_minus_windflow_heading_contrast_delta": -0.1315583011291907,
+            "shared_original_GPS_cell_weighting": "equal original qualifying cells, equal tagged animals inside each cell",
+            "source_species_A_means": {
+              "shortwave_W_m2": 185.43701701074593,
+              "solar_cos": -0.08037059497724225,
+              "temperature_2m_C": 7.179590061672717,
+              "wind_speed_100m_ms": 11.125756021361001,
+              "wind_sun_cos": -0.37560266092704075,
+              "windflow_cos": -0.05312004614371255
+            },
+            "source_species_B_means": {
+              "shortwave_W_m2": 192.57206769181155,
+              "solar_cos": 0.03777223837876255,
+              "temperature_2m_C": 7.084641755038972,
+              "wind_speed_100m_ms": 10.890478136747715,
+              "wind_sun_cos": -0.2573156376307663,
+              "windflow_cos": -0.06653551391689845
+            }
+          },
+          "fraction_steps_ERA5_qualified_A": 1,
+          "fraction_steps_ERA5_qualified_B": 1,
+          "full_original_GPS_solar_difference_replayed": true,
+          "original_GPS_steps_A": 1301,
+          "original_GPS_steps_B": 12734,
+          "registered_original_shared_cells": 20,
+          "status": "SOURCE_OBSERVED_ERA5_LINKED_DESCRIPTION",
+          "taxa": [
+            "Anser albifrons",
+            "Branta leucopsis"
+          ]
+        },
+        {
+          "ERA5_joined_steps_A": 2713,
+          "ERA5_joined_steps_B": 8246,
+          "baseline_no_weather_solar_pair_difference": 0.022268217147296574,
+          "environmental_differences": {
+            "A_minus_B": {
+              "shortwave_W_m2": 5.089927282823453,
+              "solar_cos": 0.022268217147296585,
+              "temperature_2m_C": 0.8565895046209668,
+              "wind_speed_100m_ms": -0.06137202011609766,
+              "wind_sun_cos": -0.05563243479183416,
+              "windflow_cos": 0.019711460646329372
+            },
+            "joint_solar_minus_windflow_heading_contrast_delta": 0.0025567565009672125,
+            "shared_original_GPS_cell_weighting": "equal original qualifying cells, equal tagged animals inside each cell",
+            "source_species_A_means": {
+              "shortwave_W_m2": 274.834418747559,
+              "solar_cos": 0.005907271292170449,
+              "temperature_2m_C": 9.021080670015506,
+              "wind_speed_100m_ms": 8.453749114542878,
+              "wind_sun_cos": -0.1656971629352865,
+              "windflow_cos": -0.043664627621604855
+            },
+            "source_species_B_means": {
+              "shortwave_W_m2": 269.7444914647356,
+              "solar_cos": -0.016360945855126135,
+              "temperature_2m_C": 8.164491165394539,
+              "wind_speed_100m_ms": 8.515121134658976,
+              "wind_sun_cos": -0.11006472814345233,
+              "windflow_cos": -0.06337608826793423
+            }
+          },
+          "fraction_steps_ERA5_qualified_A": 1,
+          "fraction_steps_ERA5_qualified_B": 1,
+          "full_original_GPS_solar_difference_replayed": true,
+          "original_GPS_steps_A": 2713,
+          "original_GPS_steps_B": 8246,
+          "registered_original_shared_cells": 36,
+          "status": "SOURCE_OBSERVED_ERA5_LINKED_DESCRIPTION",
+          "taxa": [
+            "Anser anser",
+            "Branta leucopsis"
+          ]
+        }
+      ],
+      "source_dois": [
+        "doi:10.5441/001/1.fk899541"
+      ],
+      "source_original_solar_shared_cells": 127,
+      "source_original_steps_in_shared_solar_cells": 25567,
+      "source_package_uuid": "8318572a-a9d8-4d9e-b685-7db8a73bdf86",
+      "source_status": "SOURCE_ENVIRONMENTAL_DESCRIPTION_COMPLETED",
+      "source_weather_original_receipts_no_coordinates": [
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "5f6e5b5c61078578e0979f8a7ff95414dede9c68db835ea3d87f96590fed2049",
+          "original_requested_year_covers_full_calendar": true,
+          "source_hourly_records": 8784,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        },
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "b5bead578aac6bb435e24b1cc12d65583f4c9ced0b4fbe664aefbaaf8194dfb6",
+          "original_requested_year_covers_full_calendar": true,
+          "source_hourly_records": 8760,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        },
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "a104a935a4957743d4f8b3576cdcd22303d76253fe6fe3dfb1958910b339c586",
+          "original_requested_year_covers_full_calendar": true,
+          "source_hourly_records": 8784,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        },
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "3628a3524e1b11bcc8b0b69219dcd1094aa87be3a7d115b22e24d805789cdec8",
+          "original_requested_year_covers_full_calendar": true,
+          "source_hourly_records": 8760,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        },
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "b96716bacecaa5dbec146fea7a1c76f3919f59e07229689b283b94d1bdd5cd23",
+          "original_requested_year_covers_full_calendar": true,
+          "source_hourly_records": 8760,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        },
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "7c7a9052999ec719b7f54aed9e7fac3d6380c79069e71642d6498c7b7cac26ab",
+          "original_requested_year_covers_full_calendar": true,
+          "source_hourly_records": 8760,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        },
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "9025d008ab791929f8f3279ff6b5e1bbdbc3c47368f7478d36110ef6e69fbf62",
+          "original_requested_year_covers_full_calendar": true,
+          "source_hourly_records": 8784,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        },
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "a9fc324b5aff2a40a202710a5bcec2e5ed1162e41883ce13ec0614f1b3a8606a",
+          "original_requested_year_covers_full_calendar": true,
+          "source_hourly_records": 8760,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        },
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "4a0d874b91f9cea5b21afcb33ff99ecac4cfefa36bce7afe88638817cd4e738d",
+          "original_requested_year_covers_full_calendar": true,
+          "source_hourly_records": 8784,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        }
+      ]
+    },
+    "qualified_environment_pair_results": 3,
+    "source_claim_limit": "Coarse ERA5 100m wind and shortwave over source-matched original GPS, exploratory after prior solar effects. No direct causal solar/wind response, independent biome test or actual animal sunlight exposure.",
+    "source_index": 0,
+    "version": "original-shared-cell-solar-wind-irradiance-v0"
+  },
+  "ecological_interpretation_limit": "Reported differences use original GPS source equal cells and individual equal weighted weather-matched rows; no independent field-study inferential test, causal sun compass use or geese wind-adaptation claim."
+}
