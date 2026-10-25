@@ -1,0 +1,43 @@
+name: Systematic 24 new original GPS solar azimuth ecology v2
+on:
+  push:
+    branches:
+      - ecology/global-solar-azimuth-macroniche-v0
+    paths:
+      - 'research/GLOBAL_SOLAR_AZIMUTH_NEW24_PROVIDER_FROZEN_SOURCE_FILE_MANIFEST_20261025.json'
+      - 'scripts/global_solar_azimuth_new24_original_events_v2.py'
+      - 'tests/test_global_solar_azimuth_new24_original_events_v2.py'
+      - '.github/workflows/global-solar-new24-original-gps-ecology-v2.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  six_source_original_GPS_shards:
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5]
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test original GPS source and solar bearing known truths before new outcomes
+        run: |
+          python -m unittest discover -s tests -p 'test_global_solar_azimuth_new_original_events_v1.py' -v
+          python -m unittest discover -s tests -p 'test_global_solar_azimuth_new24_original_events_v2.py' -v
+          python -m unittest discover -s tests -p 'test_global_solar_azimuth_macro_v0.py' -v
+      - name: Verify original MD5 and calculate new source animal direction across four frozen source UUIDs
+        run: |
+          python -m scripts.global_solar_azimuth_new24_original_events_v2 \
+            --shard ${{ matrix.shard }} \
+            --out outputs/global_solar_azimuth_original_new24
+      - name: Archive all four source×taxon directional results and all source holds, no original tracks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-solar-new24-original-GPS-shard-${{ matrix.shard }}-v2
+          path: outputs/global_solar_azimuth_original_new24/new_24_source_v2_shard_*.json
+          if-no-files-found: warn

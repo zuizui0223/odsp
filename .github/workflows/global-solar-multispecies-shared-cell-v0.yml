@@ -1,0 +1,41 @@
+name: Multi-taxon original solar GPS shared-cell ecological contrasts
+on:
+  push:
+    branches:
+      - ecology/global-solar-azimuth-macroniche-v0
+    paths:
+      - 'research/GLOBAL_SOLAR_AZIMUTH_MULTI_SOURCE_SHARED_CELL_V0_CONTRACT.json'
+      - 'scripts/global_solar_azimuth_multitaxon_shared_cells_v0.py'
+      - 'tests/test_global_solar_azimuth_multitaxon_shared_cells_v0.py'
+      - '.github/workflows/global-solar-multispecies-shared-cell-v0.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  shared_grid_month_solar_clock_source_pairs:
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4]
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test source-independent all-pair and circular solar cell geometry first
+        run: |
+          python -m unittest discover -s tests -p 'test_global_solar_azimuth_multitaxon_shared_cells_v0.py' -v
+          python -m unittest discover -s tests -p 'test_global_solar_azimuth_macro_v0.py' -v
+      - name: Authenticate and evaluate all original multi-species source taxa in same geography season solar-hour
+        run: |
+          python -m scripts.global_solar_azimuth_multitaxon_shared_cells_v0 \
+            --shard ${{ matrix.shard }} --out outputs/global_solar_shared_cells
+      - name: Preserve all pair support and differences, never GPS coordinates or animal IDs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-solar-multispecies-shared-cell-shard-${{ matrix.shard }}-v0
+          path: outputs/global_solar_shared_cells/solar_azimuth_shared_cell_shard_*.json
+          if-no-files-found: warn

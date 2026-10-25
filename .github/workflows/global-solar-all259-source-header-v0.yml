@@ -1,0 +1,33 @@
+name: Full Movebank 259-source GPS original CSV header audit
+on:
+  push:
+    branches:
+      - ecology/global-solar-azimuth-macroniche-v0
+    paths:
+      - 'research/GLOBAL_SOLAR_AZIMUTH_ALL259_ORIGINAL_CSV_HEADER_V0_CONTRACT.json'
+      - 'scripts/global_solar_azimuth_all259_original_headers_v0.py'
+      - 'tests/test_global_solar_azimuth_all259_original_headers_v0.py'
+      - '.github/workflows/global-solar-all259-source-header-v0.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  entire_original_source_header_frame:
+    runs-on: ubuntu-latest
+    timeout-minutes: 27
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test original-header only parsing and no outcome leakage
+        run: python -m unittest discover -s tests -p 'test_global_solar_azimuth_all259_original_headers_v0.py' -v
+      - name: Enumerate all original GPS/GNSS headers with bounded 8 KB reads and retain every source
+        run: python -m scripts.global_solar_azimuth_all259_original_headers_v0 --out outputs/global_solar_259_original_headers --workers 8
+      - name: Archive every original-source header status; no animal positions or identifiers
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-solar-259-original-GPS-first-header-v0
+          path: outputs/global_solar_259_original_headers/
+          if-no-files-found: warn

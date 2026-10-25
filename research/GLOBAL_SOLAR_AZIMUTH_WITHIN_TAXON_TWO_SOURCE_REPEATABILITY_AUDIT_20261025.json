@@ -1,0 +1,283 @@
+{
+  "version": "global-solar-azimuth-original-source-within-taxon-repeatability-v0",
+  "date": "2026-10-25",
+  "basis": "All first computed ORIGINAL-GPS source×taxon mean effects, NOT source-paper reported effects. The 9 taxa having 2 source archives were identified post-result and form a descriptive, NON-confirmatory audit.",
+  "source_file": "research/GLOBAL_SOLAR_AZIMUTH_COMBINED_V2_MACRO_SUMMARY_20261025.json",
+  "repeated_taxa": 9,
+  "stable_signed_raw_solar_relative_GPS_bearing": 6,
+  "opposite_signed_raw_solar_relative_GPS_bearing": 3,
+  "stable_signed_paired_compass_solar_circular_covariance": 4,
+  "opposite_signed_paired_compass_solar_circular_covariance": 5,
+  "source_compass_component_dominance_switches": 4,
+  "source_summed_taxon_results_qualified": 41,
+  "repeated_original_source_taxa": [
+    {
+      "taxon": "Cervus elaphus",
+      "source_count": 2,
+      "sources": [
+        {
+          "source": "elk_canada",
+          "n": 130,
+          "raw": -0.06528943136319336,
+          "marginal": -0.013598895939913154,
+          "joint": -0.051690535423280205,
+          "clock": 0.0003559433766366389
+        },
+        {
+          "source": "Utah_UDWR",
+          "n": 327,
+          "raw": -0.03099213867498672,
+          "marginal": -0.002053385493203542,
+          "joint": -0.02893875318178318,
+          "clock": -0.001506218645192935
+        }
+      ],
+      "raw_sign_replicated": true,
+      "circular_covariance_sign_replicated": true,
+      "absolute_raw_difference": 0.03429729268820664,
+      "absolute_joint_difference": 0.022751782241497025,
+      "marginal_joint_contribution_category_a": "joint",
+      "marginal_joint_contribution_category_b": "joint",
+      "raw_to_clock_direct_attenuation_interpretable": false
+    },
+    {
+      "taxon": "Odocoileus hemionus",
+      "source_count": 2,
+      "sources": [
+        {
+          "source": "Utah_UDWR",
+          "n": 1652,
+          "raw": 0.023393157844424365,
+          "marginal": 0.0030487191608487008,
+          "joint": 0.020344438683575664,
+          "clock": 0.0003054651155448492
+        },
+        {
+          "source": "Wyoming_2019_2020",
+          "n": 110,
+          "raw": -0.04875792375635666,
+          "marginal": -0.04283750458040546,
+          "joint": -0.005920419175951203,
+          "clock": -0.0007429639431657286
+        }
+      ],
+      "raw_sign_replicated": false,
+      "circular_covariance_sign_replicated": false,
+      "absolute_raw_difference": 0.07215108160078103,
+      "absolute_joint_difference": 0.02626485785952687,
+      "marginal_joint_contribution_category_a": "joint",
+      "marginal_joint_contribution_category_b": "marginal",
+      "raw_to_clock_direct_attenuation_interpretable": false
+    },
+    {
+      "taxon": "Ovis canadensis",
+      "source_count": 2,
+      "sources": [
+        {
+          "source": "Utah_UDWR",
+          "n": 341,
+          "raw": 0.020777764359222645,
+          "marginal": 0.013720976426090926,
+          "joint": 0.0070567879331317205,
+          "clock": -0.0002888713162055318
+        },
+        {
+          "source": "Wyoming_2019_2020",
+          "n": 41,
+          "raw": -0.005280664595582365,
+          "marginal": -0.0007764223648863569,
+          "joint": -0.004504242230696008,
+          "clock": -0.0001791409751044888
+        }
+      ],
+      "raw_sign_replicated": false,
+      "circular_covariance_sign_replicated": false,
+      "absolute_raw_difference": 0.02605842895480501,
+      "absolute_joint_difference": 0.011561030163827729,
+      "marginal_joint_contribution_category_a": "marginal",
+      "marginal_joint_contribution_category_b": "joint",
+      "raw_to_clock_direct_attenuation_interpretable": false
+    },
+    {
+      "taxon": "Loxodonta africana",
+      "source_count": 2,
+      "sources": [
+        {
+          "source": "etosha_elephant",
+          "n": 15,
+          "raw": 0.033135779475102364,
+          "marginal": 0.01212813734239403,
+          "joint": 0.021007642132708334,
+          "clock": 0.0007550673921642844
+        },
+        {
+          "source": "kruger_elephant_2007",
+          "n": 14,
+          "raw": -0.009027146456500193,
+          "marginal": 0.020255409706425184,
+          "joint": -0.029282556162925376,
+          "clock": 0.00007531953940044024
+        }
+      ],
+      "raw_sign_replicated": false,
+      "circular_covariance_sign_replicated": false,
+      "absolute_raw_difference": 0.042162925931602556,
+      "absolute_joint_difference": 0.050290198295633706,
+      "marginal_joint_contribution_category_a": "joint",
+      "marginal_joint_contribution_category_b": "joint",
+      "raw_to_clock_direct_attenuation_interpretable": false
+    },
+    {
+      "taxon": "Lynx rufus",
+      "source_count": 2,
+      "sources": [
+        {
+          "source": "7d38dd27-3bd3-4f2d-a5f6-06cafe4b043e",
+          "n": 5,
+          "raw": -0.005316813359894519,
+          "marginal": 0.017422048708158153,
+          "joint": -0.022738862068052673,
+          "clock": -0.004679782226514084
+        },
+        {
+          "source": "29a049b2-bb18-4d7a-b497-9934c4ac50a5",
+          "n": 5,
+          "raw": -0.03977893936114442,
+          "marginal": -0.00004410641277901445,
+          "joint": -0.039734832948365405,
+          "clock": -0.0011997655435404357
+        }
+      ],
+      "raw_sign_replicated": true,
+      "circular_covariance_sign_replicated": true,
+      "absolute_raw_difference": 0.0344621260012499,
+      "absolute_joint_difference": 0.01699597088031273,
+      "marginal_joint_contribution_category_a": "joint",
+      "marginal_joint_contribution_category_b": "joint",
+      "raw_to_clock_direct_attenuation_interpretable": false
+    },
+    {
+      "taxon": "Ovis aries",
+      "source_count": 2,
+      "sources": [
+        {
+          "source": "eda74cd3-d35b-4fb5-9981-2d72b3e641d5",
+          "n": 8,
+          "raw": -0.02974951193258394,
+          "marginal": -0.0439702524154279,
+          "joint": 0.01422074048284396,
+          "clock": -0.003836814845097754
+        },
+        {
+          "source": "fb111311-26ef-41ef-9267-0037c2f9d56c",
+          "n": 11,
+          "raw": -0.03630816077896493,
+          "marginal": -0.008011770517105863,
+          "joint": -0.02829639026185907,
+          "clock": -0.0006531433142693944
+        }
+      ],
+      "raw_sign_replicated": true,
+      "circular_covariance_sign_replicated": false,
+      "absolute_raw_difference": 0.006558648846380993,
+      "absolute_joint_difference": 0.04251713074470303,
+      "marginal_joint_contribution_category_a": "marginal",
+      "marginal_joint_contribution_category_b": "joint",
+      "raw_to_clock_direct_attenuation_interpretable": false
+    },
+    {
+      "taxon": "Vulpes vulpes",
+      "source_count": 2,
+      "sources": [
+        {
+          "source": "28708a9c-5582-490e-9481-c094bdce74c2",
+          "n": 22,
+          "raw": -0.04298976855764619,
+          "marginal": -0.022969532197596877,
+          "joint": -0.020020236360049314,
+          "clock": 0.0004865985643490399
+        },
+        {
+          "source": "5a280544-06db-4c85-9713-842547972edd",
+          "n": 7,
+          "raw": -0.10526899568356214,
+          "marginal": -0.02675159347034567,
+          "joint": -0.07851740221321647,
+          "clock": -0.0005887678944668541
+        }
+      ],
+      "raw_sign_replicated": true,
+      "circular_covariance_sign_replicated": true,
+      "absolute_raw_difference": 0.06227922712591595,
+      "absolute_joint_difference": 0.05849716585316716,
+      "marginal_joint_contribution_category_a": "marginal",
+      "marginal_joint_contribution_category_b": "joint",
+      "raw_to_clock_direct_attenuation_interpretable": false
+    },
+    {
+      "taxon": "Grus vipio",
+      "source_count": 2,
+      "sources": [
+        {
+          "source": "1e31df42-edfa-4225-b923-d8b0de83ab20",
+          "n": 6,
+          "raw": -0.007538697254362178,
+          "marginal": -0.006299219054100698,
+          "joint": -0.0012394782002614802,
+          "clock": -0.0021043459462222083
+        },
+        {
+          "source": "fd78ade4-cedd-459c-b151-fac2ca2f65a1",
+          "n": 5,
+          "raw": -0.009961455755342474,
+          "marginal": -0.017988790596867664,
+          "joint": 0.008027334841525189,
+          "clock": 0.0045402368166812465
+        }
+      ],
+      "raw_sign_replicated": true,
+      "circular_covariance_sign_replicated": false,
+      "absolute_raw_difference": 0.002422758500980296,
+      "absolute_joint_difference": 0.009266813041786668,
+      "marginal_joint_contribution_category_a": "marginal",
+      "marginal_joint_contribution_category_b": "marginal",
+      "raw_to_clock_direct_attenuation_interpretable": false
+    },
+    {
+      "taxon": "Branta leucopsis",
+      "source_count": 2,
+      "sources": [
+        {
+          "source": "8318572a-a9d8-4d9e-b685-7db8a73bdf86",
+          "n": 62,
+          "raw": 0.013552096984327107,
+          "marginal": 0.014521004477975281,
+          "joint": -0.0009689074936481737,
+          "clock": -0.0003962221124346407
+        },
+        {
+          "source": "a61cb8c5-7a04-4a4a-8e85-8c7a9a51ce0c",
+          "n": 13,
+          "raw": 0.08279571521853792,
+          "marginal": 0.08647083026520483,
+          "joint": -0.0036751150466669117,
+          "clock": 0.0022988721145280086
+        }
+      ],
+      "raw_sign_replicated": true,
+      "circular_covariance_sign_replicated": true,
+      "absolute_raw_difference": 0.06924361823421081,
+      "absolute_joint_difference": 0.002706207553018738,
+      "marginal_joint_contribution_category_a": "marginal",
+      "marginal_joint_contribution_category_b": "marginal",
+      "raw_to_clock_direct_attenuation_interpretable": false
+    }
+  ],
+  "caveats": [
+    "There are only two original archive groups per repeated taxon. Some archives may not represent independent field populations or observation periods; source IDs must be reconciled.",
+    "Signed group point means may be close to zero and statistically unstable; signs are not a corrected hypothesis test or phylogenetic generalization.",
+    "Solar-bearing original GPS sources vary in device interval selection, observed clock bins, movement strategies, year and environmental context.",
+    "The joint circular covariance is not identified as direct solar cue use, while compass-sun marginal product is not necessarily a causal movement-corridor effect.",
+    "This audit follows prior effects and is not preregistered direction-identity validation."
+  ]
+}

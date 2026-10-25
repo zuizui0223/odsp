@@ -1,0 +1,33 @@
+name: Full Movebank original GPS/GNSS metadata preflight v0
+on:
+  push:
+    branches:
+      - ecology/global-solar-azimuth-macroniche-v0
+    paths:
+      - 'research/GLOBAL_SOLAR_AZIMUTH_259_SOURCE_PREFLIGHT_V0_CONTRACT.json'
+      - 'scripts/global_solar_azimuth_259_original_source_metadata_v0.py'
+      - 'tests/test_global_solar_azimuth_original_source_metadata_v0.py'
+      - '.github/workflows/global-solar-azimuth-full-source-preflight-v0.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  all_259_registered_original_source_metadata:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check complete-frame conservation and source-HOLD handling
+        run: python -m unittest discover -s tests -p 'test_global_solar_azimuth_original_source_metadata_v0.py' -v
+      - name: Enumerate original bitstreams of all 259 GPS/GNSS public packages, never event data
+        run: python -m scripts.global_solar_azimuth_259_original_source_metadata_v0 --out outputs/global_solar_source_preflight --workers 6
+      - name: Preserve COMPLETE source status, original file metadata, no raw tracks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-solar-all259-original-file-metadata-v0
+          path: outputs/global_solar_source_preflight/
+          if-no-files-found: warn

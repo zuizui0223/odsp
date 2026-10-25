@@ -1,0 +1,33 @@
+name: Global solar original 24 GPS source-only freeze v2
+on:
+  push:
+    branches:
+      - ecology/global-solar-azimuth-macroniche-v0
+    paths:
+      - 'research/GLOBAL_SOLAR_AZIMUTH_24_SCHEMA_QUALIFIED_NEW_SOURCE_V2_CONTRACT.json'
+      - 'scripts/global_solar_azimuth_24_source_only_v2.py'
+      - 'tests/test_global_solar_azimuth_24_source_only_v2.py'
+      - '.github/workflows/global-solar-new24-original-source-preflight-v2.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_sources_only_no_animal_events:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test frozen 24 original sample and provider checksum constraints
+        run: python -m unittest discover -s tests -p 'test_global_solar_azimuth_24_source_only_v2.py' -v
+      - name: List pre-data original source primary CSV metadata without reading any GPS events
+        run: python -m scripts.global_solar_azimuth_24_source_only_v2 --out outputs/global_solar_new24_source_v2
+      - name: Archive exact 24 original source file UUIDs and checksums
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-solar-new24-original-source-metadata-frozen-v2
+          path: outputs/global_solar_new24_source_v2/v2_original_twentyfour_source_file_manifest.json
+          if-no-files-found: warn

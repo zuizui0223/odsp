@@ -1,0 +1,408 @@
+{
+  "version": "global-solar-azimuth-original-multitaxon-shared-cell-v0",
+  "first_workflow_run_id": 40165922718,
+  "first_workflow_url": "https://github.com/zuizui0223/odsp/actions/runs/40165922718",
+  "date": "2026-10-25",
+  "summary": {
+    "selected_original_multitaxon_source_archives": 10,
+    "original_MD5_verified_repeat_read": 5,
+    "source_HOLD": 5,
+    "pairs_total": 17,
+    "pairs_supported": 1,
+    "first_source_failed_types": [
+      {
+        "uuid": "8318572a-a9d8-4d9e-b685-7db8a73bdf86",
+        "reason": "ValueError: Provider checksum mismatch"
+      },
+      {
+        "uuid": "a61cb8c5-7a04-4a4a-8e85-8c7a9a51ce0c",
+        "reason": "ValueError: Provider checksum mismatch"
+      },
+      {
+        "uuid": "bd9f2614-11b3-48c3-8251-1aee62c8e650",
+        "reason": "ValueError: Provider checksum mismatch"
+      },
+      {
+        "uuid": "fb111311-26ef-41ef-9267-0037c2f9d56c",
+        "reason": "RemoteDisconnected: Remote end closed connection without response"
+      },
+      {
+        "uuid": "fd78ade4-cedd-459c-b151-fac2ca2f65a1",
+        "reason": "RemoteDisconnected: Remote end closed connection without response"
+      }
+    ],
+    "supported_pairs": [
+      {
+        "source": "cd4e676d-424f-4b40-8e4e-3681a0f26530",
+        "doi": "doi:10.5441/001/1.320",
+        "taxa": [
+          "Cathartes melambrotus",
+          "Sarcoramphus papa"
+        ],
+        "status": "SUPPORTED_SOURCE_DESCRIPTIVE",
+        "delta": 0.03366318631572165,
+        "sharedcells": 45,
+        "spatialgrids": 2,
+        "months": 15,
+        "animals_A": 5,
+        "animals_B": 5
+      }
+    ],
+    "foxes": [
+      {
+        "source": "5a280544-06db-4c85-9713-842547972edd",
+        "doi": "doi:10.5441/001/1.291",
+        "taxa": [
+          "Vulpes lagopus",
+          "Vulpes vulpes"
+        ],
+        "status": "NO_COMMON_3_CELL_SUPPORT",
+        "delta": null,
+        "sharedcells": 0
+      }
+    ],
+    "methodological_scope": "1deg spatial grid×yearmonth×4h apparent solar clock; >=3 original animals per species and >=15 GPS steps, >=3 solar dates per source-cell, >=3 shared cells per taxon pair. 5-tagged-individual sample is not independently replicated ecosystem.",
+    "claims": "Explicitly post original marginal results exploratory, not a causal predation/solar direction test. Source failures are reproducibility/network holds, not ecological zeros. No sensitive coordinates, IDs, timestamps or raw GPS source values exported."
+  },
+  "all_source_results": [
+    {
+      "original_cell_coordinates_exported": false,
+      "original_dois": [
+        "doi:10.5441/001/1.652"
+      ],
+      "original_species_labels": [
+        "Lynx rufus",
+        "Pekania pennanti"
+      ],
+      "original_total_rows": 131930,
+      "package_uuid": "29a049b2-bb18-4d7a-b497-9934c4ac50a5",
+      "shared_taxon_pairs": [
+        {
+          "a_minus_b_solar_relative_bearing_cosine": null,
+          "shared_source_grid_month_solar_hour_cells": 0,
+          "source_eligible_species_A_cells": 4,
+          "source_eligible_species_B_cells": 0,
+          "status": "NO_COMMON_3_CELL_SUPPORT",
+          "taxa": [
+            "Lynx rufus",
+            "Pekania pennanti"
+          ]
+        }
+      ],
+      "source_status": "source_qualified_all_pairs_evaluated",
+      "verified_original_provider_checksum": {
+        "bytes": 32960972,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      }
+    },
+    {
+      "original_cell_coordinates_exported": false,
+      "original_dois": [
+        "doi:10.5441/001/1.291"
+      ],
+      "original_species_labels": [
+        "Vulpes vulpes",
+        "Vulpes lagopus"
+      ],
+      "original_total_rows": 12840,
+      "package_uuid": "5a280544-06db-4c85-9713-842547972edd",
+      "shared_taxon_pairs": [
+        {
+          "a_minus_b_solar_relative_bearing_cosine": null,
+          "shared_source_grid_month_solar_hour_cells": 0,
+          "source_eligible_species_A_cells": 12,
+          "source_eligible_species_B_cells": 17,
+          "status": "NO_COMMON_3_CELL_SUPPORT",
+          "taxa": [
+            "Vulpes lagopus",
+            "Vulpes vulpes"
+          ]
+        }
+      ],
+      "source_status": "source_qualified_all_pairs_evaluated",
+      "verified_original_provider_checksum": {
+        "bytes": 2292049,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      }
+    },
+    {
+      "original_cell_coordinates_exported": false,
+      "original_dois": [
+        "doi:10.5441/001/1.38f467s7"
+      ],
+      "original_species_labels": [
+        "Anas platyrhynchos",
+        "Cairina moschata"
+      ],
+      "original_total_rows": 1333,
+      "package_uuid": "5cfc9802-fcb4-41f3-ab10-e785a3777f3c",
+      "shared_taxon_pairs": [
+        {
+          "a_minus_b_solar_relative_bearing_cosine": null,
+          "shared_source_grid_month_solar_hour_cells": 0,
+          "source_eligible_species_A_cells": 0,
+          "source_eligible_species_B_cells": 0,
+          "status": "NO_COMMON_3_CELL_SUPPORT",
+          "taxa": [
+            "Anas platyrhynchos",
+            "Cairina moschata"
+          ]
+        }
+      ],
+      "source_status": "source_qualified_all_pairs_evaluated",
+      "verified_original_provider_checksum": {
+        "bytes": 210126,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      }
+    },
+    {
+      "original_cell_coordinates_exported": false,
+      "original_dois": [
+        "doi:10.5441/001/1.fk899541"
+      ],
+      "original_species_labels": [
+        "Branta leucopsis",
+        "Anser albifrons",
+        "Anser anser"
+      ],
+      "package_uuid": "8318572a-a9d8-4d9e-b685-7db8a73bdf86",
+      "reason": "ValueError: Provider checksum mismatch",
+      "shared_taxon_pairs": [
+        {
+          "a_minus_b_solar_relative_bearing_cosine": null,
+          "status": "SOURCE_HOLD",
+          "taxa": [
+            "Anser albifrons",
+            "Anser anser"
+          ]
+        },
+        {
+          "a_minus_b_solar_relative_bearing_cosine": null,
+          "status": "SOURCE_HOLD",
+          "taxa": [
+            "Anser albifrons",
+            "Branta leucopsis"
+          ]
+        },
+        {
+          "a_minus_b_solar_relative_bearing_cosine": null,
+          "status": "SOURCE_HOLD",
+          "taxa": [
+            "Anser anser",
+            "Branta leucopsis"
+          ]
+        }
+      ],
+      "source_status": "SOURCE_HOLD"
+    },
+    {
+      "original_cell_coordinates_exported": false,
+      "original_dois": [
+        "doi:10.5441/001/1.g51fs0jv"
+      ],
+      "original_species_labels": [
+        "Anser albifrons",
+        "Anser brachyrhynchus",
+        "Anser fabalis",
+        "Branta leucopsis"
+      ],
+      "package_uuid": "a61cb8c5-7a04-4a4a-8e85-8c7a9a51ce0c",
+      "reason": "ValueError: Provider checksum mismatch",
+      "shared_taxon_pairs": [
+        {
+          "a_minus_b_solar_relative_bearing_cosine": null,
+          "status": "SOURCE_HOLD",
+          "taxa": [
+            "Anser albifrons",
+            "Anser brachyrhynchus"
+          ]
+        },
+        {
+          "a_minus_b_solar_relative_bearing_cosine": null,
+          "status": "SOURCE_HOLD",
+          "taxa": [
+            "Anser albifrons",
+            "Anser fabalis"
+          ]
+        },
+        {
+          "a_minus_b_solar_relative_bearing_cosine": null,
+          "status": "SOURCE_HOLD",
+          "taxa": [
+            "Anser albifrons",
+            "Branta leucopsis"
+          ]
+        },
+        {
+          "a_minus_b_solar_relative_bearing_cosine": null,
+          "status": "SOURCE_HOLD",
+          "taxa": [
+            "Anser brachyrhynchus",
+            "Anser fabalis"
+          ]
+        },
+        {
+          "a_minus_b_solar_relative_bearing_cosine": null,
+          "status": "SOURCE_HOLD",
+          "taxa": [
+            "Anser brachyrhynchus",
+            "Branta leucopsis"
+          ]
+        },
+        {
+          "a_minus_b_solar_relative_bearing_cosine": null,
+          "status": "SOURCE_HOLD",
+          "taxa": [
+            "Anser fabalis",
+            "Branta leucopsis"
+          ]
+        }
+      ],
+      "source_status": "SOURCE_HOLD"
+    },
+    {
+      "original_cell_coordinates_exported": false,
+      "original_dois": [
+        "doi:10.5441/001/1.r72ph75f"
+      ],
+      "original_species_labels": [
+        "Chelonia mydas",
+        "Eretmochelys imbricata"
+      ],
+      "package_uuid": "bd9f2614-11b3-48c3-8251-1aee62c8e650",
+      "reason": "ValueError: Provider checksum mismatch",
+      "shared_taxon_pairs": [
+        {
+          "a_minus_b_solar_relative_bearing_cosine": null,
+          "status": "SOURCE_HOLD",
+          "taxa": [
+            "Chelonia mydas",
+            "Eretmochelys imbricata"
+          ]
+        }
+      ],
+      "source_status": "SOURCE_HOLD"
+    },
+    {
+      "original_cell_coordinates_exported": false,
+      "original_dois": [
+        "doi:10.5441/001/1.320"
+      ],
+      "original_species_labels": [
+        "Cathartes melambrotus",
+        "Sarcoramphus papa"
+      ],
+      "original_total_rows": 160364,
+      "package_uuid": "cd4e676d-424f-4b40-8e4e-3681a0f26530",
+      "shared_taxon_pairs": [
+        {
+          "a_minus_b_solar_relative_bearing_cosine": 0.03366318631572165,
+          "a_shared_cell_mean_cos": -0.0032126426667650784,
+          "b_shared_cell_mean_cos": -0.03687582898248672,
+          "eligible_tagged_animals_species_A": 5,
+          "eligible_tagged_animals_species_B": 5,
+          "n_original_gps_steps_species_A_cells_sum": 10190,
+          "n_original_gps_steps_species_B_cells_sum": 4303,
+          "number_unique_source_solar_dates": 457,
+          "shared_solar_clock_4h_categories": 3,
+          "shared_source_grid_month_solar_hour_cells": 45,
+          "shared_unique_coarse_1degree_spatial_grids": 2,
+          "shared_year_month_combinations": 15,
+          "source_eligible_species_A_cells": 68,
+          "source_eligible_species_B_cells": 52,
+          "status": "SUPPORTED_SOURCE_DESCRIPTIVE",
+          "taxa": [
+            "Cathartes melambrotus",
+            "Sarcoramphus papa"
+          ]
+        }
+      ],
+      "source_status": "source_qualified_all_pairs_evaluated",
+      "verified_original_provider_checksum": {
+        "bytes": 35458203,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      }
+    },
+    {
+      "original_cell_coordinates_exported": false,
+      "original_dois": [
+        "doi:10.5441/001/1.4f03k6s5"
+      ],
+      "original_species_labels": [
+        "Gyps fulvus",
+        "Gyps himalayensis"
+      ],
+      "original_total_rows": 197588,
+      "package_uuid": "f71b3103-2126-4406-9003-4baff15377d4",
+      "shared_taxon_pairs": [
+        {
+          "a_minus_b_solar_relative_bearing_cosine": null,
+          "shared_source_grid_month_solar_hour_cells": 0,
+          "source_eligible_species_A_cells": 0,
+          "source_eligible_species_B_cells": 0,
+          "status": "NO_COMMON_3_CELL_SUPPORT",
+          "taxa": [
+            "Gyps fulvus",
+            "Gyps himalayensis"
+          ]
+        }
+      ],
+      "source_status": "source_qualified_all_pairs_evaluated",
+      "verified_original_provider_checksum": {
+        "bytes": 52255731,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      }
+    },
+    {
+      "original_cell_coordinates_exported": false,
+      "original_dois": [
+        "doi:10.5441/001/1.739"
+      ],
+      "original_species_labels": [
+        "Ovis aries",
+        "Canis familiaris"
+      ],
+      "package_uuid": "fb111311-26ef-41ef-9267-0037c2f9d56c",
+      "reason": "RemoteDisconnected: Remote end closed connection without response",
+      "shared_taxon_pairs": [
+        {
+          "a_minus_b_solar_relative_bearing_cosine": null,
+          "status": "SOURCE_HOLD",
+          "taxa": [
+            "Canis familiaris",
+            "Ovis aries"
+          ]
+        }
+      ],
+      "source_status": "SOURCE_HOLD"
+    },
+    {
+      "original_cell_coordinates_exported": false,
+      "original_dois": [
+        "doi:10.5441/001/1.592"
+      ],
+      "original_species_labels": [
+        "Anthropoides virgo",
+        "Grus vipio"
+      ],
+      "package_uuid": "fd78ade4-cedd-459c-b151-fac2ca2f65a1",
+      "reason": "RemoteDisconnected: Remote end closed connection without response",
+      "shared_taxon_pairs": [
+        {
+          "a_minus_b_solar_relative_bearing_cosine": null,
+          "status": "SOURCE_HOLD",
+          "taxa": [
+            "Anthropoides virgo",
+            "Grus vipio"
+          ]
+        }
+      ],
+      "source_status": "SOURCE_HOLD"
+    }
+  ]
+}

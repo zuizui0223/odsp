@@ -1,0 +1,89 @@
+{
+  "snapshot_date": "2026-10-19",
+  "audit_date": "2026-10-25",
+  "scope": "ALL original public 437-package Movebank metadata; GPS or GNSS sensor-label subset only. Shared study IDs are definitely repeated, unique study IDs do not certify independent studies/deployments or individuals.",
+  "counts": {
+    "original_package_frame": 437,
+    "gps_gnss_package_count": 259,
+    "distinct_repository_study_id_labels": 254,
+    "packages_missing_repository_study_id": 2,
+    "repeated_repository_study_id_labels": 3,
+    "packages_sharing_a_reported_study_id": 6,
+    "missing_scientific_name_labels": 4
+  },
+  "repeats": [
+    {
+      "source_study_id": "2919708",
+      "packages": [
+        {
+          "package_uuid": "569fdce7-bd58-41b1-83c8-e4def740dae0",
+          "dois": [
+            "doi:10.5441/001/1.mf903197"
+          ],
+          "scientific_names": [
+            "Torgos tracheliotus",
+            "Gyps africanus"
+          ]
+        },
+        {
+          "package_uuid": "5935dd02-ffa9-43a7-b091-580d260d89e5",
+          "dois": [
+            "doi:10.5441/001/1.pr1vj29n"
+          ],
+          "scientific_names": [
+            "Gyps africanus",
+            "Torgos tracheliotus"
+          ]
+        }
+      ]
+    },
+    {
+      "source_study_id": "208092450",
+      "packages": [
+        {
+          "package_uuid": "5fa09bd6-afc9-4293-a39a-8458ea1da3c7",
+          "dois": [
+            "doi:10.5441/001/1.245kb7r6"
+          ],
+          "scientific_names": [
+            "Columba livia"
+          ]
+        },
+        {
+          "package_uuid": "8d661654-fcfa-494e-b452-e567b6f89e1e",
+          "dois": [
+            "doi:10.5441/001/1.73h2s043"
+          ],
+          "scientific_names": [
+            "Columba livia"
+          ]
+        }
+      ]
+    },
+    {
+      "source_study_id": "3850406",
+      "packages": [
+        {
+          "package_uuid": "39d8c910-6d38-47a0-804a-e8b311835b07",
+          "dois": [
+            "doi:10.5441/001/1.q8b02dc5"
+          ],
+          "scientific_names": [
+            "Columba livia"
+          ]
+        },
+        {
+          "package_uuid": "d2301e53-f143-42d7-b814-9357bdeb43ca",
+          "dois": [
+            "doi:10.5441/001/1.2sr7mm39"
+          ],
+          "scientific_names": [
+            "Columba livia",
+            "Columba livia"
+          ]
+        }
+      ]
+    }
+  ],
+  "next_step": "Resolve distinct study-population and deployment overlap before meta-regression; not proof of only three duplicated populations."
+}

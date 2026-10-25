@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-25",
+  "input_results": [
+    "research/GLOBAL_SOLAR_AZIMUTH_V0_FIRST_ORIGINAL_GPS_RESULT_20261025.json",
+    "research/GLOBAL_SOLAR_AZIMUTH_V0_FIRST_SOUTHERN_ORIGINAL_GPS_RESULT_20261025.json"
+  ],
+  "original_md5_verified_source_archives": 9,
+  "source_taxon_rows": 13,
+  "literal_taxa": 9,
+  "source_original_GPS_rows": 10898358,
+  "qualified_daylight_GPS_step_intervals": 1087873,
+  "summed_qualified_source_taxon_animals_raw": 2935,
+  "summed_qualified_source_taxon_animals_clock_restricted": 2765,
+  "raw_alignment_positive_source_taxa": 6,
+  "raw_alignment_negative_source_taxa": 7,
+  "raw_within_source_animal_bootstrap_CI_excludes_zero": 7,
+  "clock_within_source_animal_bootstrap_CI_excludes_zero": 3,
+  "distinct_source_study_ids_independence": "NOT CERTIFIED: original source archive count 9, but Namibia Etosha elephant and jackal share an ecosystem; geographic/temporal and individual deployments vary.",
+  "fixed_claim_ceiling": "Post-previous-outcome exploratory original GPS movement bearing analyses. Regions, individual periods and device-hour schedules differ; confidence intervals condition on individual sampling within each source and ignore familywise multiple comparisons. No solar-behavior cause, uniform ecology law or phylogenetic meta-regression yet."
+}

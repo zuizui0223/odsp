@@ -1,0 +1,19 @@
+{
+  "version": "solar-azimuth-shared-cell-technical-source-replay-v1",
+  "frozen_date": "2026-10-25",
+  "parent_first_run": "https://github.com/zuizui0223/odsp/actions/runs/40165922718",
+  "parent_first_result": "research/GLOBAL_SOLAR_AZIMUTH_MULTI_SOURCE_SHARED_CELL_V0_FIRST_RESULT_20261025.json",
+  "reason": "Five of ten original multi-taxon sources returned three provider-MD5 mismatch and two remote connection aborts during concurrently executed new ecological shared-cell source reads, despite successful provider MD5 verification in the earlier 24-source original GPS run.",
+  "fixed_failed_original_source_package_UUIDs": [
+    "8318572a-a9d8-4d9e-b685-7db8a73bdf86",
+    "a61cb8c5-7a04-4a4a-8e85-8c7a9a51ce0c",
+    "bd9f2614-11b3-48c3-8251-1aee62c8e650",
+    "fb111311-26ef-41ef-9267-0037c2f9d56c",
+    "fd78ade4-cedd-459c-b151-fac2ca2f65a1"
+  ],
+  "recovery_only_change": "Serial provider-original download rather than five concurrent workers, using EXACT unchanged original source identity/MD5, original required source schema, temporal/spatial/animal shared-cell thresholds, all original taxon combinations and original source pairing algorithm. No new ecological window or tolerance, no source substitution.",
+  "original_first_result_policy": "Historical original 10-source first outputs, both successes and failures, remain unchanged. This v1 recovery's outcomes are separately identified as post-first technical rerun; not independent confirmatory ecological tests.",
+  "gate": "If any retrieved original source still fails provider checksum or access, retain SOURCE_HOLD as final within v1. Do not attempt an alternate provider or relax SHA/MD5 checks.",
+  "raw_privacy": "Exact original locations, animal IDs and GPS dates stay inside the ephemeral runner; aggregated taxon pairs only",
+  "state": "frozen_before_recovery_source_access"
+}

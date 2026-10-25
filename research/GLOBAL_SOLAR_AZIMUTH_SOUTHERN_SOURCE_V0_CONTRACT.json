@@ -1,0 +1,15 @@
+{
+  "version": "global-solar-azimuth-southern-registered-sources-v0",
+  "frozen_on": "2026-10-25",
+  "branch_base": "ecology/global-solar-azimuth-macroniche-v0",
+  "source_manifest_south": "research/MOVEBANK_SOUTHERN_SOLAR_MOVEMENT_V0_20261019.json",
+  "source_manifest_kruger": "research/MOVEBANK_KRUGER_ELEPHANT_INDEPENDENT_V0_20261019.json",
+  "selection": "All 3 previously registered Southern Hemisphere original GPS source manifests plus the independent, already registered Kruger elephant original. No outcome sign or source effect sizes used to add/remove a study.",
+  "justification": "Original-data macro ecological habitat/region contrast across hemispheres; the northern 5-source result already exposed, but southern solar-azimuth outcome not opened at this freeze point.",
+  "scope": "Exploratory comparative original-GPS cohort patterns, NOT untouched independent validation, NOT independent source-wide sampling of all 259 GPS/GNSS packages.",
+  "qualification": "Original source MD5, bitstream UUID and bytes must match. One actual source GPS fix per individual UTC hour chosen nearest clock-hour start by timestamp only, then the original unchanged 0.5-2h, 0.1 km and sun >10 degree qualification, animal >=30 steps >=5 solar dates.",
+  "primary_outputs": "Solar relative compass and clock conditioned circular covariance per source taxon; present missingness and individual bootstrap intervals without cherry picking. All 4 archives mandatory in output.",
+  "independence": "Etosha elephant and jackal share a landscape (not independent ecosystems). Kruger elephants from different region/years. Brazil tapirs represent third region. Multiple original archives do not automatically supply independent populations if deployments overlap.",
+  "privacy": "Do not redistribute or log animal-level GPS data, individual identifiers, timestamp arrays, tracks or precise locations. Aggregated source taxon reports and provenance only.",
+  "status": "frozen_before_southern_azimuth_outcomes"
+}

@@ -1,0 +1,304 @@
+{
+  "version": "global-solar-azimuth-southern-registered-sources-v0",
+  "utc_date": "2026-10-25",
+  "workflow_run": "https://github.com/zuizui0223/odsp/actions/runs/40162960262",
+  "workflow_run_id": 40162960262,
+  "pre_result_registered_source_contract_commit": "5959541b205b77cf7d6472be566f98acb899669f",
+  "declared_original_source_docs": [
+    "research/MOVEBANK_SOUTHERN_SOLAR_MOVEMENT_V0_20261019.json",
+    "research/MOVEBANK_KRUGER_ELEPHANT_INDEPENDENT_V0_20261019.json"
+  ],
+  "first_run_state": "all_four_original_archives_provider_MD5_verified; all_four_southern_first_time_solar_azimuth_group_results_reported; three known_truth_southern_tests_and_nine_other_geometry_tests_passed",
+  "archive_count": 4,
+  "note": "Etosha elephant and jackal represent the SAME broad ecological landscape, not independent biome units; original GPS intervals prior studies were exposed for different outcomes. Time-only fix selection yields a newly consistent southern response, but northern source-conditional observation rules differ. No solar cue causality.",
+  "group_results": [
+    {
+      "adjacent_steps": 251263,
+      "claim_ceiling": "Detected GPS displacement directions; possible solar/clock/migration/habitat confounding. No causal solar orientation or universal macroecological law.",
+      "daylight_directional_qualified_steps": 76419,
+      "invalid_source_rows": 0,
+      "original_doi": "10.5441/001/1.3nj3qj45_2",
+      "original_rows": 2930268,
+      "original_source_license_metadata": "CC BY-NC 4.0; analyze public data and distribute only aggregated results with attribution, no raw redistribution",
+      "provider_MD5_verification": {
+        "bytes": 43018855,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "results": {
+        "clock_adjusted_excess_cos": {
+          "bootstrap95": [
+            -0.0002756571408080165,
+            0.0017443794531751672
+          ],
+          "mean": 0.0007550673921642844,
+          "n_individuals": 15
+        },
+        "clock_adjusted_excess_cos2": {
+          "bootstrap95": [
+            0.002697080383932469,
+            0.006725678370034439
+          ],
+          "mean": 0.00468203862231368,
+          "n_individuals": 15
+        },
+        "compass_independence_excess_cos": {
+          "bootstrap95": [
+            0.004261003265340692,
+            0.03611667017439382
+          ],
+          "mean": 0.021007642132708334,
+          "n_individuals": 15
+        },
+        "compass_independence_excess_cos2": {
+          "bootstrap95": [
+            0.007114776568621815,
+            0.025348995714799344
+          ],
+          "mean": 0.016003072672546508,
+          "n_individuals": 15
+        },
+        "raw_axial_mean_cos2": {
+          "bootstrap95": [
+            0.01624892198770162,
+            0.040132632183398506
+          ],
+          "mean": 0.028326198852630845,
+          "n_individuals": 15
+        },
+        "raw_toward_sun_mean_cos": {
+          "bootstrap95": [
+            0.012528736669926977,
+            0.05033411206820726
+          ],
+          "mean": 0.033135779475102364,
+          "n_individuals": 15
+        }
+      },
+      "source": "etosha_elephant",
+      "source_animals": 15,
+      "source_region": "Etosha, Namibia",
+      "status": "source_MD5_verified_original_GPS_azimuth_analyzed",
+      "supported_individual_years": 46,
+      "supported_individuals": 15,
+      "taxon": "Loxodonta africana",
+      "valid_unique_UTC_hour_source_fixes": 251278
+    },
+    {
+      "adjacent_steps": 223210,
+      "claim_ceiling": "Detected GPS displacement directions; possible solar/clock/migration/habitat confounding. No causal solar orientation or universal macroecological law.",
+      "daylight_directional_qualified_steps": 31812,
+      "invalid_source_rows": 0,
+      "original_doi": "10.5441/001/1.03ck4s52",
+      "original_rows": 223287,
+      "original_source_license_metadata": "CC0 1.0",
+      "provider_MD5_verification": {
+        "bytes": 52189597,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "results": {
+        "clock_adjusted_excess_cos": {
+          "bootstrap95": [
+            -0.003189104175106915,
+            0.002254568590119978
+          ],
+          "mean": -0.0005124441620822923,
+          "n_individuals": 40
+        },
+        "clock_adjusted_excess_cos2": {
+          "bootstrap95": [
+            -0.003807099817045735,
+            0.0071414801962482845
+          ],
+          "mean": 0.0014886431629789847,
+          "n_individuals": 40
+        },
+        "compass_independence_excess_cos": {
+          "bootstrap95": [
+            -0.011632158508721848,
+            0.019510358855361225
+          ],
+          "mean": 0.004368694558707718,
+          "n_individuals": 40
+        },
+        "compass_independence_excess_cos2": {
+          "bootstrap95": [
+            -0.014941989560614748,
+            0.007898486164704786
+          ],
+          "mean": -0.002716182607915577,
+          "n_individuals": 40
+        },
+        "raw_axial_mean_cos2": {
+          "bootstrap95": [
+            -0.045491210467578695,
+            0.011122138909042727
+          ],
+          "mean": -0.015260893703158224,
+          "n_individuals": 40
+        },
+        "raw_toward_sun_mean_cos": {
+          "bootstrap95": [
+            -0.03999953543733219,
+            0.03796653534035862
+          ],
+          "mean": -0.0017618679822400591,
+          "n_individuals": 40
+        }
+      },
+      "source": "brazil_tapir",
+      "source_animals": 51,
+      "source_region": "Southern Brazil",
+      "status": "source_MD5_verified_original_GPS_azimuth_analyzed",
+      "supported_individual_years": 70,
+      "supported_individuals": 40,
+      "taxon": "Tapirus terrestris",
+      "valid_unique_UTC_hour_source_fixes": 223261
+    },
+    {
+      "adjacent_steps": 112631,
+      "claim_ceiling": "Detected GPS displacement directions; possible solar/clock/migration/habitat confounding. No causal solar orientation or universal macroecological law.",
+      "daylight_directional_qualified_steps": 15553,
+      "invalid_source_rows": 0,
+      "original_doi": "10.5441/001/1.n1r7ds5r",
+      "original_rows": 130688,
+      "original_source_license_metadata": "CC0 1.0",
+      "provider_MD5_verification": {
+        "bytes": 19835832,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "results": {
+        "clock_adjusted_excess_cos": {
+          "bootstrap95": [
+            -0.008857918009177996,
+            -0.00007705612552473342
+          ],
+          "mean": -0.004162625070079754,
+          "n_individuals": 22
+        },
+        "clock_adjusted_excess_cos2": {
+          "bootstrap95": [
+            -0.009883567965223768,
+            0.0067164813605930344
+          ],
+          "mean": -0.0007452962335852438,
+          "n_individuals": 22
+        },
+        "compass_independence_excess_cos": {
+          "bootstrap95": [
+            -0.013274215909468604,
+            0.0296273962140565
+          ],
+          "mean": 0.009065032708752568,
+          "n_individuals": 22
+        },
+        "compass_independence_excess_cos2": {
+          "bootstrap95": [
+            -0.004826927544223531,
+            0.03231447952444475
+          ],
+          "mean": 0.014505510421270606,
+          "n_individuals": 22
+        },
+        "raw_axial_mean_cos2": {
+          "bootstrap95": [
+            -0.05295084974588453,
+            0.035078004518032384
+          ],
+          "mean": -0.00437870969619797,
+          "n_individuals": 22
+        },
+        "raw_toward_sun_mean_cos": {
+          "bootstrap95": [
+            0.0018997831898464699,
+            0.05219400691013602
+          ],
+          "mean": 0.02626160031618989,
+          "n_individuals": 22
+        }
+      },
+      "source": "etosha_jackal",
+      "source_animals": 22,
+      "source_region": "Etosha, Namibia",
+      "status": "source_MD5_verified_original_GPS_azimuth_analyzed",
+      "supported_individual_years": 33,
+      "supported_individuals": 22,
+      "taxon": "Canis mesomelas",
+      "valid_unique_UTC_hour_source_fixes": 112653
+    },
+    {
+      "adjacent_steps": 154843,
+      "claim_ceiling": "Detected GPS displacement directions; possible solar/clock/migration/habitat confounding. No causal solar orientation or universal macroecological law.",
+      "daylight_directional_qualified_steps": 48306,
+      "invalid_source_rows": 0,
+      "original_doi": "10.5441/001/1.403h24q5",
+      "original_rows": 283688,
+      "original_source_license_metadata": "CC0 1.0 Universal",
+      "provider_MD5_verification": {
+        "bytes": 43776326,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "results": {
+        "clock_adjusted_excess_cos": {
+          "bootstrap95": [
+            -0.0015633245857709264,
+            0.0016756866074111652
+          ],
+          "mean": 0.00007531953940044024,
+          "n_individuals": 14
+        },
+        "clock_adjusted_excess_cos2": {
+          "bootstrap95": [
+            -0.0020728915715915513,
+            0.0011564311045807382
+          ],
+          "mean": -0.0004223150278736103,
+          "n_individuals": 14
+        },
+        "compass_independence_excess_cos": {
+          "bootstrap95": [
+            -0.04527772977075174,
+            -0.01327908026184489
+          ],
+          "mean": -0.029282556162925376,
+          "n_individuals": 14
+        },
+        "compass_independence_excess_cos2": {
+          "bootstrap95": [
+            -0.0015518086658972458,
+            0.020834294948963227
+          ],
+          "mean": 0.009638214652565058,
+          "n_individuals": 14
+        },
+        "raw_axial_mean_cos2": {
+          "bootstrap95": [
+            -0.0017099121206893817,
+            0.018870756797577392
+          ],
+          "mean": 0.007543940190384926,
+          "n_individuals": 14
+        },
+        "raw_toward_sun_mean_cos": {
+          "bootstrap95": [
+            -0.029358764856583012,
+            0.009228911975672043
+          ],
+          "mean": -0.009027146456500193,
+          "n_individuals": 14
+        }
+      },
+      "source": "kruger_elephant_2007",
+      "source_animals": 14,
+      "source_region": "Kruger, South Africa",
+      "status": "source_MD5_verified_original_GPS_azimuth_analyzed",
+      "supported_individual_years": 36,
+      "supported_individuals": 14,
+      "taxon": "Loxodonta africana",
+      "valid_unique_UTC_hour_source_fixes": 154857
+    }
+  ]
+}

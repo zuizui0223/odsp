@@ -1,0 +1,62 @@
+{
+  "version": "global-original-gps-solar-azimuth-macro-v0",
+  "frozen_date": "2026-10-25",
+  "research_goal": "Independent registry-first macroecological analysis of original animal movement directions relative to the astronomical solar bearing, not synthesis of published effects or model-prediction competition.",
+  "frame": {
+    "catalog": "research/seasonal_database_catalog/2026-10-19/movebank/catalog.json",
+    "complete_public_package_count": 437,
+    "first_pass": "Retain every package and report GPS/GNSS candidates separately from Argos. Sensor metadata does not establish temporal or positional precision. Enforce original archive checksum before biological analysis.",
+    "original_source_pilots": [
+      "research/MOVEBANK_NATIVE_OBSERVATION_PILOT_20261019.json",
+      "research/MOVEBANK_UTAH_FOUR_TAXA_SOLAR_V0_20261019.json",
+      "research/MOVEBANK_WYOMING_TWO_UNGULATES_SOURCE_V0_20261022.json"
+    ],
+    "pilot_status": "post_previous_source_exposure_exploratory; no selection based on newly observed solar azimuth outcomes",
+    "source_independence": "Study IDs, DOI package versions, deployments, individuals and shared research populations require deduplication before meta-regression. Package count is not study count."
+  },
+  "hypotheses": [
+    "H1: Original GPS step direction has nonzero solar-relative covariance across suitably sampled individuals, but neither raw alignment nor covariance alone is a biological response to sunlight.",
+    "H2: The distribution of within-individual solar-relative association differs among independently sampled populations, biomes, body-size/movement guilds and thermal/vegetation contexts, after nuisance clock, direction and sampling structure are considered.",
+    "H3: At comparable solar geometry, ecological season and local microclimate can modify directionality; global direction of change is not presumed universal."
+  ],
+  "observation": {
+    "timestamps": "Original UTC; timezone and interval provenance must be verified source by source.",
+    "heading": "Initial great-circle bearing of GPS displacement, north-clockwise, not body-facing direction.",
+    "solar_position": "NOAA fractional-year geometric sun azimuth/elevation at source step midpoint and its actual geographical position, not synthetic civil time shift.",
+    "cadence_hours": [
+      0.5,
+      2
+    ],
+    "minimum_step_km": 0.1,
+    "maximum_step_speed_kmph": 60,
+    "minimum_solar_elevation_deg_at_start_mid_end": 10,
+    "crossing_daylight_or_solar_date": "Exclude",
+    "solar_position_accuracy": "Approximate NOAA equation; accurate ephemeris sensitivity and reported GPS positional accuracy required for confirmatory extension."
+  },
+  "outcomes": {
+    "raw_toward_sun": "Mean cos(bearing - solar_azimuth), only a compass-space description.",
+    "raw_solar_axis": "Mean cos(2*(bearing - solar_azimuth)), tests axis without sunward/antisunward sign.",
+    "compass_marginal_excess": "Mean cos relative bearing minus the exact product-of-compass-marginal and sun-marginal term, per animal year.",
+    "primary_identifiability_diagnostic": "Clock-adjusted within-individual-year month × 2-hour apparent-solar-time-bin circular covariance; cells require >=8 GPS steps, >=3 distinct solar dates and >=5-degree circular solar azimuth span. No suitable cells => UNIDENTIFIABLE, not a biological null.",
+    "minimum_individual_year": "At least 30 eligible steps across five solar dates",
+    "source_reporting_minimum_individuals": 5,
+    "aggregate": "Equal eligible solar-time strata within animal-year, equal years within animal, equal animals within source-taxon. Never weight source groups by GPS fixes.",
+    "bootstrap": "1000 individual-cluster draws, descriptive 95% percentiles conditional on a fixed source population; no source-independent confidence or universal response test.",
+    "data_policy": "No exact locations, animal IDs, timestamps or full tracks in committed files, CI logs or artifacts."
+  },
+  "macro_next_stage": {
+    "predictors": [
+      "Latitude and season phase",
+      "ERA5 thermal and water history",
+      "satellite vegetation phenophase",
+      "topography and aspect",
+      "wind",
+      "migration and trophic guild"
+    ],
+    "independent_units": "Study-population blocks, not 437 packages, repeated GPS fixes or many animals within the same shared environment.",
+    "model": "Multilevel circular-covariance meta-regression by source population, species and independent region; diagnose study-sensor and taxonomic heterogeneity, spatial autocorrelation and coverage bias.",
+    "identification": "Solar bearing and apparent solar time are geometrically linked at a fixed site and date. Clock-conditioned contrast identifies only residual variation with adequate support; no statistical method alone proves directional orientation to solar cues.",
+    "primary_validation": "Preselect environmentally contrasted independent source populations and hold out whole original study/region identities; do not promote initial cherry-picked pilot to confirmation."
+  },
+  "current_status": "Protocol and new software branch; original-azimuth outcome unavailable until source-verified workflow executes."
+}

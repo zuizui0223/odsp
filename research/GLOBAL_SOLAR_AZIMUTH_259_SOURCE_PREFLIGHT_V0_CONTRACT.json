@@ -1,0 +1,14 @@
+{
+  "version": "global-original-movebank-259-gps-source-metadata-preflight-v0",
+  "freeze_date": "2026-10-25",
+  "source_catalog": "research/seasonal_database_catalog/2026-10-19/movebank/catalog.json",
+  "frame_total_packages": 437,
+  "candidate_selection": "ALL original public registry packages with 'GPS' or 'GNSS' as an EXACT archived sensor-name label; 259 in frozen census. Do not select from reported species responses, geography titles or signs of previously analyzed studies.",
+  "metadata_only_scope": "Request each candidate package original bundle listing and ORIGINAL bitstream names, sizes, UUIDs and provider checksum metadata. Never download or inspect contents, exact tracks or any animal response. Report every candidate including failures.",
+  "file_hints": "Case-insensitive suffixes .csv/.csv.zip/.zip/.csv.gz/.tsv/.txt/.parquet; hints are not verified event-level GPS schema, original unit independence, device cadence or access entitlement.",
+  "priority": "Treat GPS/GNSS candidate animal count >=5 and locations >=10000 from 2026-10-19 as a metadata triage label only; do not exclude remaining candidates or treat report counts as unique sample sizes.",
+  "independence": "Use repository_study_ids from actual original catalog; DOIs and filenames alone do not deduplicate study versions, animals, or regional overlap.",
+  "calculation": "Deterministic sorted output by original package UUID; preserve all metadata source hold reasons, license labels, original checksum and candidate name classification.",
+  "privacy": "No source raw event, animal, timestamp or coordinate acquisition or redistribution.",
+  "status": "FROZEN_SOURCE_METADATA_PREFLIGHT_BEFORE_NEW_METADATA_OUTPUT"
+}

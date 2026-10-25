@@ -1,0 +1,446 @@
+{
+  "file_metadata_admissible": 8,
+  "frozen_original_catalog_packages": 437,
+  "interpretation": "No source original GPS positions, timestamps or movement outcomes opened; source FILE metadata only. No replacement of 12 original package UUIDs for technical failure.",
+  "metadata_eligible_framed_packages": 186,
+  "metadata_strata_eligible_counts": {
+    "multiple_large": 13,
+    "multiple_small": 13,
+    "single_large": 68,
+    "single_small": 92
+  },
+  "original_source_metadata_holds": 4,
+  "sample_original_file_source_entries": [
+    {
+      "animal_event_rows_opened": 0,
+      "candidate_source_data_containers": 1,
+      "original_bundle_bitstreams": 3,
+      "original_dois": [
+        "doi:10.5441/001/1.gm93267b"
+      ],
+      "original_file": {
+        "bitstream_uuid": "95a5148d-f8ce-4c45-b480-bb8f63b901c2",
+        "bytes": 23631112,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "0ed7aafa577f0363cc3fdfc25c8821ed"
+        },
+        "filename": "GPS tracking of bobcats and coyotes in northern Washington.csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_sensor_labels": [
+        "GPS"
+      ],
+      "original_species_labels": [
+        "Canis latrans",
+        "Lynx rufus"
+      ],
+      "package_uuid": "e7808391-1019-45cb-8701-e3ded043e0d8",
+      "preoutcome_hash_rank": "1e280bd959080de97d22e149c91639144ad2ab01ede6a92508c61eafdb668108",
+      "reported_registry_animals": 70,
+      "reported_registry_locations": 121706,
+      "sample_stratum": "multiple_large",
+      "source_study_ids": [
+        "2636372210"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 1
+    },
+    {
+      "animal_event_rows_opened": 0,
+      "candidate_source_data_containers": 1,
+      "original_bundle_bitstreams": 3,
+      "original_dois": [
+        "doi:10.5441/001/1.649"
+      ],
+      "original_file": {
+        "bitstream_uuid": "740a961c-c6ba-47cc-ae2e-a95d6aa4ed21",
+        "bytes": 31838152,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "611cc8d3100560ada3213c684059147a"
+        },
+        "filename": "Illinois white-tailed deer and predators.csv"
+      },
+      "original_licenses": [
+        "Attribution-NonCommercial 4.0 International"
+      ],
+      "original_sensor_labels": [
+        "GPS"
+      ],
+      "original_species_labels": [
+        "Canis latrans",
+        "Lynx rufus",
+        "Odocoileus virginianus"
+      ],
+      "package_uuid": "7d38dd27-3bd3-4f2d-a5f6-06cafe4b043e",
+      "preoutcome_hash_rank": "222c4206709d51bd4aad5713372516f8ef1b01b2d245e4ad80cb4169287e3748",
+      "reported_registry_animals": 81,
+      "reported_registry_locations": 162467,
+      "sample_stratum": "multiple_large",
+      "source_study_ids": [
+        "1233029719"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 2
+    },
+    {
+      "animal_event_rows_opened": 0,
+      "candidate_source_data_containers": 1,
+      "hold_reason": "original file outside preregistered 64B to 120MB transfer cap",
+      "original_bundle_bitstreams": 3,
+      "original_dois": [
+        "doi:10.5441/001/1.37r2b884"
+      ],
+      "original_file": {
+        "bitstream_uuid": "a45cd4c2-afe7-45f2-ba91-06e2934d6727",
+        "bytes": 120221694,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "1be9de6d3051bc8c65b3ae28c67736e1"
+        },
+        "filename": "Vultures Acopian Center USA 2003-2016.csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_sensor_labels": [
+        "GPS"
+      ],
+      "original_species_labels": [
+        "Cathartes aura",
+        "Coragyps atratus"
+      ],
+      "package_uuid": "21e96dfb-6323-4189-9039-557d6fbe34eb",
+      "preoutcome_hash_rank": "267b6929d7a047fa547128682fad4bac686c7bbafb9bb2a60dfd9d717002c1a8",
+      "reported_registry_animals": 65,
+      "reported_registry_locations": 686382,
+      "sample_stratum": "multiple_large",
+      "source_study_ids": [
+        "217784323"
+      ],
+      "status": "SOURCE_HOLD",
+      "within_stratum_metadata_rank": 3
+    },
+    {
+      "animal_event_rows_opened": 0,
+      "candidate_source_data_containers": 1,
+      "original_bundle_bitstreams": 3,
+      "original_dois": [
+        "doi:10.5441/001/1.c6q8353q"
+      ],
+      "original_file": {
+        "bitstream_uuid": "7c2992cf-6d70-4087-ba70-3dfdf46463d1",
+        "bytes": 73024526,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "66cccaecbfb300db3a550806c26da58c"
+        },
+        "filename": "Movements of long-legged buzzards and short-toed eagles.csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_sensor_labels": [
+        "GPS"
+      ],
+      "original_species_labels": [
+        "Buteo rufinus",
+        "Circaetus gallicus"
+      ],
+      "package_uuid": "c92d9814-0950-4b78-885c-ae76b6383c75",
+      "preoutcome_hash_rank": "10d5ca90ee8f07da58b3e0c817be639f4eff6ddb72c716b54701a74231f22c7d",
+      "reported_registry_animals": 24,
+      "reported_registry_locations": 371685,
+      "sample_stratum": "multiple_small",
+      "source_study_ids": [
+        "34551859"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 1
+    },
+    {
+      "animal_event_rows_opened": 0,
+      "candidate_source_data_containers": 1,
+      "original_bundle_bitstreams": 3,
+      "original_dois": [
+        "doi:10.5441/001/1.14sm8k1d"
+      ],
+      "original_file": {
+        "bitstream_uuid": "f96bfcbc-efda-4982-ba0b-bba8587ac0dc",
+        "bytes": 2904807,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "6d810fc9791fe5b6385fb6ea260fb60b"
+        },
+        "filename": "Hornbill telemetry in northeast India.csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_sensor_labels": [
+        "GPS"
+      ],
+      "original_species_labels": [
+        "Buceros bicornis",
+        "Rhyticeros undulatus"
+      ],
+      "package_uuid": "35a868e5-72ba-4082-bbf3-7426c490e829",
+      "preoutcome_hash_rank": "1750ee1f18d9840ef2d9f44cfba4d85950d5231130ab5693872dbe9e5b87123c",
+      "reported_registry_animals": 6,
+      "reported_registry_locations": 19275,
+      "sample_stratum": "multiple_small",
+      "source_study_ids": [
+        "37350671"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 2
+    },
+    {
+      "animal_event_rows_opened": 0,
+      "candidate_source_data_containers": 1,
+      "original_bundle_bitstreams": 4,
+      "original_dois": [
+        "doi:10.5441/001/1.pv048q7v"
+      ],
+      "original_file": {
+        "bitstream_uuid": "f1e0b167-199a-42fe-9076-dacb1198739b",
+        "bytes": 46869221,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "55bb664f30f6617cfe0e96f95f29835c"
+        },
+        "filename": "Movements of free-ranging Maremma sheepdogs (data from van Bommel and Johnson 2014).csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_sensor_labels": [
+        "GPS"
+      ],
+      "original_species_labels": [
+        "Canis familiaris",
+        "Ovis aries"
+      ],
+      "package_uuid": "eda74cd3-d35b-4fb5-9981-2d72b3e641d5",
+      "preoutcome_hash_rank": "46cfe0a3a3e2e5fc01577d70bf73f8ae74ec41921b88d0059b163ed6b797de73",
+      "reported_registry_animals": 22,
+      "reported_registry_locations": 162342,
+      "sample_stratum": "multiple_small",
+      "source_study_ids": [
+        "25750273"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 3
+    },
+    {
+      "animal_event_rows_opened": 0,
+      "candidate_source_data_containers": 2,
+      "hold_reason": "expected exactly one filename-qualified original data container",
+      "original_bundle_bitstreams": 4,
+      "original_dois": [
+        "doi:10.5441/001/1.j682ds56"
+      ],
+      "original_file": null,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_sensor_labels": [
+        "GPS"
+      ],
+      "original_species_labels": [
+        "Bos taurus"
+      ],
+      "package_uuid": "51c99a8b-2819-4fcf-8d30-c8d44b72489e",
+      "preoutcome_hash_rank": "02bd0d4ce153892ca0a048c49770e87f7c5eccb8049be1da19f37c24734421a4",
+      "reported_registry_animals": 33,
+      "reported_registry_locations": 166921,
+      "sample_stratum": "single_large",
+      "source_study_ids": [
+        "412206724"
+      ],
+      "status": "SOURCE_HOLD",
+      "within_stratum_metadata_rank": 1
+    },
+    {
+      "animal_event_rows_opened": 0,
+      "candidate_source_data_containers": 2,
+      "hold_reason": "expected exactly one filename-qualified original data container",
+      "original_bundle_bitstreams": 3,
+      "original_dois": [
+        "doi:10.5441/001/1.8dc0v84m"
+      ],
+      "original_file": null,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_sensor_labels": [
+        "GPS"
+      ],
+      "original_species_labels": [
+        "Anas platyrhynchos"
+      ],
+      "package_uuid": "316cff40-b957-4ad6-9ca5-0f50253ab56a",
+      "preoutcome_hash_rank": "0354626821f1aaf338a378f6b7ad6d43df8a8b4801272a39372d37a38b39577a",
+      "reported_registry_animals": 79,
+      "reported_registry_locations": 13797,
+      "sample_stratum": "single_large",
+      "source_study_ids": [
+        "11017705"
+      ],
+      "status": "SOURCE_HOLD",
+      "within_stratum_metadata_rank": 2
+    },
+    {
+      "animal_event_rows_opened": 0,
+      "candidate_source_data_containers": 2,
+      "hold_reason": "expected exactly one filename-qualified original data container",
+      "original_bundle_bitstreams": 4,
+      "original_dois": [
+        "doi:10.5441/001/1.341"
+      ],
+      "original_file": null,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_sensor_labels": [
+        "GPS",
+        "TDR"
+      ],
+      "original_species_labels": [
+        "Uria lomvia"
+      ],
+      "package_uuid": "c5d8e38f-ab54-498e-8372-efdc8af6c0f9",
+      "preoutcome_hash_rank": "03c55d62e00be52d1773f6f6099ed3f0f8b3c81f77d47e75dd039d6b072b5419",
+      "reported_registry_animals": 234,
+      "reported_registry_locations": 518548,
+      "sample_stratum": "single_large",
+      "source_study_ids": [
+        "2609400807"
+      ],
+      "status": "SOURCE_HOLD",
+      "within_stratum_metadata_rank": 3
+    },
+    {
+      "animal_event_rows_opened": 0,
+      "candidate_source_data_containers": 1,
+      "original_bundle_bitstreams": 3,
+      "original_dois": [
+        "doi:10.5441/001/1.kn0816jn"
+      ],
+      "original_file": {
+        "bitstream_uuid": "67ae8dda-1ab2-4f32-8b4e-635c7c019fea",
+        "bytes": 80702799,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "91e9407c549ac3aa017302fddd75bc8b"
+        },
+        "filename": "Collective movement in wild baboons (data from Strandburg-Peshkin et al. 2015).csv.zip"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_sensor_labels": [
+        "GPS"
+      ],
+      "original_species_labels": [
+        "Papio anubis"
+      ],
+      "package_uuid": "b1e834a9-be3b-4604-9bda-346de4e7c257",
+      "preoutcome_hash_rank": "01044808e7dea6f162057ff8b46e5b3412dca506698630230aa88ce99eb0bd15",
+      "reported_registry_animals": 26,
+      "reported_registry_locations": 10430200,
+      "sample_stratum": "single_small",
+      "source_study_ids": [
+        "53460105"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 1
+    },
+    {
+      "animal_event_rows_opened": 0,
+      "candidate_source_data_containers": 1,
+      "original_bundle_bitstreams": 3,
+      "original_dois": [
+        "doi:10.5441/001/1.282"
+      ],
+      "original_file": {
+        "bitstream_uuid": "40623d69-2787-4aec-8237-4d2264bd665f",
+        "bytes": 50919501,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "58d555f48e07b5e41e2c5d1983b25e80"
+        },
+        "filename": "Foraging movements of greater spear-nosed bats Bocas del Toro.csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_sensor_labels": [
+        "GPS"
+      ],
+      "original_species_labels": [
+        "Phyllostomus hastatus"
+      ],
+      "package_uuid": "5259147d-04a1-471d-a65c-240cd3d7071d",
+      "preoutcome_hash_rank": "01d51f2097f7bc2888b05f01eefc27dd31995b934205cdc5a22adc27adcbc01d",
+      "reported_registry_animals": 22,
+      "reported_registry_locations": 253968,
+      "sample_stratum": "single_small",
+      "source_study_ids": [
+        "145038719"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 2
+    },
+    {
+      "animal_event_rows_opened": 0,
+      "candidate_source_data_containers": 1,
+      "original_bundle_bitstreams": 3,
+      "original_dois": [
+        "doi:10.5441/001/1.318"
+      ],
+      "original_file": {
+        "bitstream_uuid": "350cf092-b05c-47d9-a33e-2ba8418bdb15",
+        "bytes": 104120266,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "1ab3d7bdd4a136082eca918908bfe85e"
+        },
+        "filename": "Effects of artificial feeding on post-fledging movements of Egyptian vultures.csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_sensor_labels": [
+        "GPS"
+      ],
+      "original_species_labels": [
+        "Neophron percnopterus"
+      ],
+      "package_uuid": "75de7d56-e1cf-4920-b1c9-6e30eee9f328",
+      "preoutcome_hash_rank": "020db985ec3c7511c0794cfab001ee4f79684021c386908d3550b4221b972179",
+      "reported_registry_animals": 18,
+      "reported_registry_locations": 470773,
+      "sample_stratum": "single_small",
+      "source_study_ids": [
+        "3392345835"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 3
+    }
+  ],
+  "selected_packages": 12,
+  "selection_seed": "odsp-azimuth-public-20261025-v1:",
+  "version": "global-azimuth-prospective-independent-source-frame-v1",
+  "provenance": {
+    "result_type": "SOURCE_METADATA_ONLY",
+    "selection_pre_outcome_contract_commit": "20174999e83954d203e0be1a8a352966ec02d17b",
+    "source_metadata_first_run_id": 40164002601,
+    "source_metadata_first_run_url": "https://github.com/zuizui0223/odsp/actions/runs/40164002601",
+    "original_source_observation_rows_read": 0,
+    "first_source_bearing_observation_status": "NOT_READ"
+  }
+}

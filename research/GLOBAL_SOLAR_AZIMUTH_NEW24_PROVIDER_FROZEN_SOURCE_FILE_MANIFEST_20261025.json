@@ -1,0 +1,752 @@
+{
+  "original_GPS_event_rows_opened": 0,
+  "previous_header_audit_SHA256": "e8c5378be305656713bec36563ca15a93a7bb3f80fedaea60768a44fa4b2cd26",
+  "scope": "Original bundle UUID, filename, byte count and checksum metadata only; not body orientation, position tracking or a scientifically qualified source.",
+  "selected_source_count": 24,
+  "source_file_entries": [
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.744_2"
+      ],
+      "original_file": {
+        "bitstream_uuid": "b36da51a-30d5-4e4a-856c-940d7b9c27e3",
+        "bytes": 705083,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "420dd8de4e0afe50f78ac848846591ba"
+        },
+        "filename": "Navigation with macrophage depletion in homing pigeons.csv"
+      },
+      "original_licenses": [
+        "Attribution-NonCommercial 4.0 International"
+      ],
+      "original_species_labels": [
+        "Columba livia"
+      ],
+      "package_uuid": "2f38f106-42bf-4c4a-b7a4-17d758bdd9a9",
+      "sample_stratum": "single_taxon_hash_sample",
+      "source_group": "single_taxon_hash_sample",
+      "source_group_rank": 1,
+      "source_study_ids": [
+        "4873279311"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 1
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.nk286sc0"
+      ],
+      "original_file": {
+        "bitstream_uuid": "0af618d3-ef32-44bf-9611-36cfc6331577",
+        "bytes": 11698844,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "2d62d5f215e57faf7b81875793149374"
+        },
+        "filename": "FTZ_ Foraging in lesser black-backed gulls (data from Garthe et al. 2016).csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Larus fuscus"
+      ],
+      "package_uuid": "335a3479-eb48-4708-9af0-b31a48311533",
+      "sample_stratum": "single_taxon_hash_sample",
+      "source_group": "single_taxon_hash_sample",
+      "source_group_rank": 2,
+      "source_study_ids": [
+        "183209639"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 2
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.q206rm6b"
+      ],
+      "original_file": {
+        "bitstream_uuid": "645f7588-2e09-4b0e-8a77-c93cee9d703c",
+        "bytes": 1141076,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "6bf4ee1aa253d23b6d5582f505c69caf"
+        },
+        "filename": "Antarctic petrel 3D flights, Svarthamaren, Antarctica (data from Tarroux et al. 2016).csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Thalassoica antarctica"
+      ],
+      "package_uuid": "0f73e753-3e3e-439e-ad96-df7e2944e04a",
+      "sample_stratum": "single_taxon_hash_sample",
+      "source_group": "single_taxon_hash_sample",
+      "source_group_rank": 3,
+      "source_study_ids": [
+        "121041109"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 3
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.72hh609t"
+      ],
+      "original_file": {
+        "bitstream_uuid": "b0242300-1945-42fc-adb2-546a4099d17e",
+        "bytes": 16891048,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "a941da2dd375fbaf8d22db0734ee029b"
+        },
+        "filename": "Red Fox (Vulpes vulpes) - Scotia NSW Australia.csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Vulpes vulpes"
+      ],
+      "package_uuid": "28708a9c-5582-490e-9481-c094bdce74c2",
+      "sample_stratum": "single_taxon_hash_sample",
+      "source_group": "single_taxon_hash_sample",
+      "source_group_rank": 4,
+      "source_study_ids": [
+        "444539014"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 4
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.td50n8q0"
+      ],
+      "original_file": {
+        "bitstream_uuid": "8a943283-823d-4d65-b24c-f38e520b12cb",
+        "bytes": 1729003,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "9c11165e405f168465cf86ad4be49d76"
+        },
+        "filename": "Pre-laying movements of Yelkouan Shearwaters 2016-2017 (BirdLife Malta).csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Puffinus yelkouan"
+      ],
+      "package_uuid": "8b91498b-27ce-4c9b-9f28-104204b1ed08",
+      "sample_stratum": "single_taxon_hash_sample",
+      "source_group": "single_taxon_hash_sample",
+      "source_group_rank": 5,
+      "source_study_ids": [
+        "363865056"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 5
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.333"
+      ],
+      "original_file": {
+        "bitstream_uuid": "142f32d8-bc2f-4b8d-bc9f-397ab0964aa9",
+        "bytes": 76243,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "2027d6e75b1b968b97e64a04a8d01233"
+        },
+        "filename": "Siberian rubythroat tracking from Qinghai China.csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Luscinia calliope"
+      ],
+      "package_uuid": "eff2b7e2-6626-4e36-9bfb-23a8f4bfb367",
+      "sample_stratum": "single_taxon_hash_sample",
+      "source_group": "single_taxon_hash_sample",
+      "source_group_rank": 6,
+      "source_study_ids": [
+        "3240092491"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 6
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.h43t9j6b"
+      ],
+      "original_file": {
+        "bitstream_uuid": "6c879d51-5a1e-4699-957b-028810df15db",
+        "bytes": 32014,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "24b0aa72c5cf8b62e66bb86fcde8e6f4"
+        },
+        "filename": "Breeding and non-breeding territories of ovenbirds (data from Hallworth and Marra 2015).csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Seiurus aurocapilla"
+      ],
+      "package_uuid": "e4fee65d-98d4-470e-b823-8f7c9d220c3c",
+      "sample_stratum": "single_taxon_hash_sample",
+      "source_group": "single_taxon_hash_sample",
+      "source_group_rank": 7,
+      "source_study_ids": [
+        "24795474"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 7
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.282vr7kd"
+      ],
+      "original_file": {
+        "bitstream_uuid": "210cd7db-1bf4-4daf-b169-29c47c0a2b77",
+        "bytes": 18442503,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "14efe49f51dceb300a744848bc194703"
+        },
+        "filename": "Herring Gulls (Larus Argentatus); Ronconi; Brier Island Canada.csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Larus argentatus"
+      ],
+      "package_uuid": "70744563-f820-42d3-8bf2-5e35403c3417",
+      "sample_stratum": "single_taxon_hash_sample",
+      "source_group": "single_taxon_hash_sample",
+      "source_group_rank": 8,
+      "source_study_ids": [
+        "1071134107"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 8
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.721tr877"
+      ],
+      "original_file": {
+        "bitstream_uuid": "4f98bb93-5755-4cc0-932a-16a2b176667d",
+        "bytes": 25200758,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "05c814a810f030bad0a15744e6b1b743"
+        },
+        "filename": "Environmental odours and pigeon homing (data from Gagliardo et al. 2016).csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Columba livia"
+      ],
+      "package_uuid": "ced2bf06-7e80-4262-8ff6-cf59f96e1159",
+      "sample_stratum": "single_taxon_hash_sample",
+      "source_group": "single_taxon_hash_sample",
+      "source_group_rank": 9,
+      "source_study_ids": [
+        "175963833"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 9
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.kk3bg2f4"
+      ],
+      "original_file": {
+        "bitstream_uuid": "8c34b3fd-d746-4716-bc67-8c770810d1dd",
+        "bytes": 2462362,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "07d8e34a973c361dada5dc46da90ed80"
+        },
+        "filename": "Mexican fish-eating bat in Isla Partida Norte, Mexico.csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Myotis vivesi"
+      ],
+      "package_uuid": "595664bf-661d-49d9-af92-ec8a41a50f50",
+      "sample_stratum": "single_taxon_hash_sample",
+      "source_group": "single_taxon_hash_sample",
+      "source_group_rank": 10,
+      "source_study_ids": [
+        "797650867"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 10
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.7vr1k987"
+      ],
+      "original_file": {
+        "bitstream_uuid": "485c621d-5177-4a88-a033-d81ed3a53d8c",
+        "bytes": 1922661,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "9a27a0c05d4282a5f9ebc65bee7bb238"
+        },
+        "filename": "Latham Alberta Wolves.csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Canis lupus"
+      ],
+      "package_uuid": "c0de801a-53ce-461b-8fd3-e9e3f9731a93",
+      "sample_stratum": "single_taxon_hash_sample",
+      "source_group": "single_taxon_hash_sample",
+      "source_group_rank": 11,
+      "source_study_ids": [
+        "178979729"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 11
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.3c4fv0m4"
+      ],
+      "original_file": {
+        "bitstream_uuid": "6e6e50c2-5ca9-4092-af15-d3bf967dd8e5",
+        "bytes": 8538558,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "f37fca496f95a8fa23fc2c5bc6e73700"
+        },
+        "filename": "Movement ecology of the jaguar in the largest floodplain of the world the Brazilian Pantanal.csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Panthera onca"
+      ],
+      "package_uuid": "8fed4a87-14d3-4f9d-b630-e1d406b15c68",
+      "sample_stratum": "single_taxon_hash_sample",
+      "source_group": "single_taxon_hash_sample",
+      "source_group_rank": 12,
+      "source_study_ids": [
+        "19411459"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 12
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.600"
+      ],
+      "original_file": {
+        "bitstream_uuid": "c25f3610-f3f0-46ee-817f-b12445d2292f",
+        "bytes": 42453951,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "8e6bf22f4dfa70d971958ed58d9bb037"
+        },
+        "filename": "White-naped crane Mongolia WSCC.csv"
+      },
+      "original_licenses": [
+        "Attribution-NonCommercial 4.0 International"
+      ],
+      "original_species_labels": [
+        "Grus vipio"
+      ],
+      "package_uuid": "1e31df42-edfa-4225-b923-d8b0de83ab20",
+      "sample_stratum": "single_taxon_hash_sample",
+      "source_group": "single_taxon_hash_sample",
+      "source_group_rank": 13,
+      "source_study_ids": [
+        "233141114"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 13
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.649s6f21"
+      ],
+      "original_file": {
+        "bitstream_uuid": "ef30eb16-9986-4210-b080-e17322b5f662",
+        "bytes": 1241425,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "6691abcff09095e7542f88b251404df2"
+        },
+        "filename": "Foraging habitat of white-tailed tropicbirds (data from Santos et al. 2019).csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Phaethon lepturus"
+      ],
+      "package_uuid": "0f7d9e2f-6269-4c7c-ad28-8af219e85ca9",
+      "sample_stratum": "single_taxon_hash_sample",
+      "source_group": "single_taxon_hash_sample",
+      "source_group_rank": 14,
+      "source_study_ids": [
+        "630478736"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 14
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.652"
+      ],
+      "original_file": {
+        "bitstream_uuid": "6cb77a34-6c87-49ff-ac7e-2e0026f22d18",
+        "bytes": 32960972,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "cfb0ae343499aa992d7f3773555c9c58"
+        },
+        "filename": "Carnivore movements near Black Rock Forest New York_part.csv"
+      },
+      "original_licenses": [
+        "Attribution 4.0 International"
+      ],
+      "original_species_labels": [
+        "Lynx rufus",
+        "Pekania pennanti"
+      ],
+      "package_uuid": "29a049b2-bb18-4d7a-b497-9934c4ac50a5",
+      "sample_stratum": "all_remaining_multitaxon_census",
+      "source_group": "all_remaining_multitaxon_census",
+      "source_group_rank": 1,
+      "source_study_ids": [
+        "1088836380"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 1
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.291"
+      ],
+      "original_file": {
+        "bitstream_uuid": "25506888-6e23-4459-b2ff-c8695a068055",
+        "bytes": 2292049,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "7eeab1871c97daaff54f071a0fa3b660"
+        },
+        "filename": "Arctic and red fox coexistence at the edge of Arctic.csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Vulpes vulpes",
+        "Vulpes lagopus"
+      ],
+      "package_uuid": "5a280544-06db-4c85-9713-842547972edd",
+      "sample_stratum": "all_remaining_multitaxon_census",
+      "source_group": "all_remaining_multitaxon_census",
+      "source_group_rank": 2,
+      "source_study_ids": [
+        "2930370782"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 2
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.38f467s7"
+      ],
+      "original_file": {
+        "bitstream_uuid": "84aded14-113f-4e39-a9f4-2f3972b77107",
+        "bytes": 210126,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "05f7c6d89b7e87f4712e2027d1a516a6"
+        },
+        "filename": "Poultry network China (data from Choi et al. 2016).csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Anas platyrhynchos",
+        "Cairina moschata"
+      ],
+      "package_uuid": "5cfc9802-fcb4-41f3-ab10-e785a3777f3c",
+      "sample_stratum": "all_remaining_multitaxon_census",
+      "source_group": "all_remaining_multitaxon_census",
+      "source_group_rank": 3,
+      "source_study_ids": [
+        "49520609"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 3
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.fk899541"
+      ],
+      "original_file": {
+        "bitstream_uuid": "7496bc82-dbb2-469f-ab32-27690f188089",
+        "bytes": 117340876,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "1597af159115bd206aaa9e042f44fcc7"
+        },
+        "filename": "GPS data from More grazing, more damage Assessed yield loss on agricultural grassland relates non-linearly to goose grazing pressure.csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Branta leucopsis",
+        "Anser albifrons",
+        "Anser anser"
+      ],
+      "package_uuid": "8318572a-a9d8-4d9e-b685-7db8a73bdf86",
+      "sample_stratum": "all_remaining_multitaxon_census",
+      "source_group": "all_remaining_multitaxon_census",
+      "source_group_rank": 4,
+      "source_study_ids": [
+        "1904388965"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 4
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.g51fs0jv"
+      ],
+      "original_file": {
+        "bitstream_uuid": "df3f0e84-f00c-4a8c-b0b3-faccf57882db",
+        "bytes": 52522893,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "8e60b56b3b3329dc9525a79d236ea952"
+        },
+        "filename": "Goose flight around New Year in W-Europe 2014-2021.csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Anser albifrons",
+        "Anser brachyrhynchus",
+        "Anser fabalis",
+        "Branta leucopsis"
+      ],
+      "package_uuid": "a61cb8c5-7a04-4a4a-8e85-8c7a9a51ce0c",
+      "sample_stratum": "all_remaining_multitaxon_census",
+      "source_group": "all_remaining_multitaxon_census",
+      "source_group_rank": 5,
+      "source_study_ids": [
+        "2290252202"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 5
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.r72ph75f"
+      ],
+      "original_file": {
+        "bitstream_uuid": "4154fa53-8cdd-4b9c-8453-478fd5388ef6",
+        "bytes": 22677899,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "ee4c3b8567d5226678ebac7ccfdfda24"
+        },
+        "filename": "Hawksbill_green turtles Chagos Archipelago Western Indian Ocean.csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Chelonia mydas",
+        "Eretmochelys imbricata"
+      ],
+      "package_uuid": "bd9f2614-11b3-48c3-8251-1aee62c8e650",
+      "sample_stratum": "all_remaining_multitaxon_census",
+      "source_group": "all_remaining_multitaxon_census",
+      "source_group_rank": 6,
+      "source_study_ids": [
+        "1606812667"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 6
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.320"
+      ],
+      "original_file": {
+        "bitstream_uuid": "0b7d400a-41d0-4213-87b4-d64e760e5dfa",
+        "bytes": 35458203,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "e40751fb43c3a43b2add7e4cf5e1fab0"
+        },
+        "filename": "OC Vultures_part.csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Cathartes melambrotus",
+        "Sarcoramphus papa"
+      ],
+      "package_uuid": "cd4e676d-424f-4b40-8e4e-3681a0f26530",
+      "sample_stratum": "all_remaining_multitaxon_census",
+      "source_group": "all_remaining_multitaxon_census",
+      "source_group_rank": 7,
+      "source_study_ids": [
+        "1573471517"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 7
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.4f03k6s5"
+      ],
+      "original_file": {
+        "bitstream_uuid": "3a458730-74a2-424e-8b63-8268c80efcbc",
+        "bytes": 52255731,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "98da31220a28fb2d93fa36959b24d136"
+        },
+        "filename": "Gyps vultures with Pitot airspeed at Rocamadour (data from Williams et al. 2018).csv"
+      },
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_species_labels": [
+        "Gyps fulvus",
+        "Gyps himalayensis"
+      ],
+      "package_uuid": "f71b3103-2126-4406-9003-4baff15377d4",
+      "sample_stratum": "all_remaining_multitaxon_census",
+      "source_group": "all_remaining_multitaxon_census",
+      "source_group_rank": 8,
+      "source_study_ids": [
+        "270967741"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 8
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.739"
+      ],
+      "original_file": {
+        "bitstream_uuid": "4040a363-bd28-46bc-951a-1ddd7363cfc9",
+        "bytes": 27574455,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "fcc52d247c995b7027bca66a08166e8b"
+        },
+        "filename": "Movements of livestock guarding dogs and sheep in Romania.csv"
+      },
+      "original_licenses": [
+        "Attribution-NonCommercial 4.0 International"
+      ],
+      "original_species_labels": [
+        "Ovis aries",
+        "Canis familiaris"
+      ],
+      "package_uuid": "fb111311-26ef-41ef-9267-0037c2f9d56c",
+      "sample_stratum": "all_remaining_multitaxon_census",
+      "source_group": "all_remaining_multitaxon_census",
+      "source_group_rank": 9,
+      "source_study_ids": [
+        "2302317848"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 9
+    },
+    {
+      "observed_original_GPS_rows": 0,
+      "original_dois": [
+        "doi:10.5441/001/1.592"
+      ],
+      "original_file": {
+        "bitstream_uuid": "ac6bd247-be0e-4897-924f-35eea89dccac",
+        "bytes": 5867871,
+        "checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "f7d8645b1f352d62726b05a652227f09"
+        },
+        "filename": "1000 Cranes. Russia. Transbaikalia.csv"
+      },
+      "original_licenses": [
+        "Attribution 4.0 International"
+      ],
+      "original_species_labels": [
+        "Anthropoides virgo",
+        "Grus vipio"
+      ],
+      "package_uuid": "fd78ade4-cedd-459c-b151-fac2ca2f65a1",
+      "sample_stratum": "all_remaining_multitaxon_census",
+      "source_group": "all_remaining_multitaxon_census",
+      "source_group_rank": 10,
+      "source_study_ids": [
+        "497091077"
+      ],
+      "status": "ORIGINAL_FILE_METADATA_ADMISSIBLE",
+      "within_stratum_metadata_rank": 10
+    }
+  ],
+  "source_meta_HOLD": 0,
+  "source_metadata_MD5_listed": 24,
+  "source_registry_count": 437,
+  "status": "source_metadata_frozen_before_new_v2_original_displacement_outcomes",
+  "version": "global-solar-azimuth-all259-original-header-qualified-24-source-v2",
+  "pre_result_source_manifest_provenance": {
+    "source_only_workflow_id": 40165311757,
+    "source_only_url": "https://github.com/zuizui0223/odsp/actions/runs/40165311757",
+    "preselected_source_contract_commit": "55197c5c6a761760252fb685565996d705bd8181",
+    "original_biological_response_exposed": false
+  }
+}

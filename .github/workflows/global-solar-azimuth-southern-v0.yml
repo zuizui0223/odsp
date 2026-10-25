@@ -1,0 +1,35 @@
+name: Independent Southern original-GPS solar azimuth v0
+on:
+  push:
+    branches:
+      - ecology/global-solar-azimuth-macroniche-v0
+    paths:
+      - 'research/GLOBAL_SOLAR_AZIMUTH_SOUTHERN_SOURCE_V0_CONTRACT.json'
+      - 'scripts/run_global_solar_azimuth_southern_v0.py'
+      - 'tests/test_global_solar_azimuth_southern_v0.py'
+      - '.github/workflows/global-solar-azimuth-southern-v0.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  four_southern_original_gps_studies:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test predetermined source roster, UTC time selection, and sun bearings
+        run: |
+          python -m unittest discover -s tests -p 'test_global_solar_azimuth_southern_v0.py' -v
+          python -m unittest discover -s tests -p 'test_global_solar_azimuth_macro_v0.py' -v
+      - name: Read four original-source MD5-verified Southern GPS files
+        run: python -m scripts.run_global_solar_azimuth_southern_v0 --out outputs/global_solar_azimuth_south
+      - name: Preserve all four source-taxonomy results and unavailability without raw tracks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-solar-azimuth-four-registered-southern-original-gps-v0
+          path: outputs/global_solar_azimuth_south/four_southern_original_source_group_results.json
+          if-no-files-found: warn
