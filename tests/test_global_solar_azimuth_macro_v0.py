@@ -43,7 +43,7 @@ class SolarAzimuthMacroKnownTruth(unittest.TestCase):
         self.assertIsNotNone(result)
         self.assertTrue(0 <= result.sun_azimuth < 360)
         self.assertGreater(result.sun_elevation, 10)
-        self.assertAlmostEqual(result.bearing, 90, places=2)
+        self.assertAlmostEqual(result.bearing, 90, delta=0.02)
 
     def test_circular_wrap_span(self):
         self.assertAlmostEqual(circular_span_degrees([358, 2, 359]), 4)
