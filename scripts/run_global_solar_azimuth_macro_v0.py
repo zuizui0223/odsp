@@ -16,7 +16,7 @@ import csv
 import json
 from pathlib import Path
 
-from odsp.solar_azimuth_macro_v0 import analyze_taxon
+from scripts.solar_azimuth_macro_v0 import analyze_taxon
 from scripts.movebank_native_ecology_20261019 import (
     CATALOG, PILOT, HERE, checksum_and_download, original_files
 )
