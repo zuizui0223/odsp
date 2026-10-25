@@ -1,0 +1,34 @@
+{
+  "previous13": 13,
+  "newEligible": 8,
+  "totalQualified": 21,
+  "distinct_taxa": 17,
+  "MD5_original_archives": 14,
+  "new_source_selected": 12,
+  "new_source_MD5_analyzed": 7,
+  "new_source_HOLD": 5,
+  "original_rows_qualified_original_archives": 12466431,
+  "daylight_qualified_GPS_intervals": 1136119,
+  "sum_source_taxon_qualified_animals": 3038,
+  "raw_positive": 7,
+  "raw_negative": 14,
+  "clock_positive": 7,
+  "clock_negative": 14,
+  "raw_descriptive_animal_bootstrap_excluding_zero": [
+    "elk_canada Cervus elaphus",
+    "Utah_UDWR Cervus elaphus",
+    "Utah_UDWR Odocoileus hemionus",
+    "Utah_UDWR Ovis canadensis",
+    "Wyoming_2019_2020 Odocoileus hemionus",
+    "etosha_elephant Loxodonta africana",
+    "etosha_jackal Canis mesomelas",
+    "75de7d56-e1cf-4920-b1c9-6e30eee9f328 Neophron percnopterus"
+  ],
+  "clock_descriptive_animal_bootstrap_excluding_zero": [
+    "wild_pig_florida Sus scrofa",
+    "Utah_UDWR Cervus elaphus",
+    "etosha_jackal Canis mesomelas",
+    "c92d9814-0950-4b78-885c-ae76b6383c75 Circaetus gallicus"
+  ],
+  "warning": "No formal source-independent biological n or causal solar orientation; first 13 post prior outcomes, second 12 registry-blind but schema exclusions reduce scope. Independence, effort and climate remain unverified."
+}
