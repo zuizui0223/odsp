@@ -1,0 +1,39 @@
+name: Source-only why wolf and deer cohorts lack GPS daylength support 2026-10-25
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'scripts/movebank_wolf_florida_original_source_diagnosis_20261025.py'
+      - 'tests/test_movebank_wolf_florida_original_source_diagnosis_20261025.py'
+      - '.github/workflows/movebank-wolf-florida-gps-source-diagnosis-20261025.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original_source_schema_calendar_reasons_no_animal_movement:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test five source privacy/schema/numerical-nonbehavior contracts
+        run: |
+          python -m unittest discover -s tests \
+            -p 'test_movebank_wolf_florida_original_source_diagnosis_20261025.py' -v
+      - name: Verify original public MD5 then count only missing positions/time and date-branch coverage
+        run: |
+          python -m scripts.movebank_wolf_florida_original_source_diagnosis_20261025 \
+            --output-dir outputs/movebank_wolf_florida_source_only_diagnostic
+      - name: Archive safe original-source missingness counts, no animal movements
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: movebank-wolf-florida-original-GPS-schema-missingness-only-20261025
+          path: outputs/movebank_wolf_florida_source_only_diagnostic/wolf_and_deer_original_source_only_diagnostic_20261025.json
+          if-no-files-found: warn
