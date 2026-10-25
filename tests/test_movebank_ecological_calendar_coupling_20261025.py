@@ -32,7 +32,7 @@ class Tests(unittest.TestCase):
         rows=[(2*i,3*i,10+.3*i,.5*i) for i in range(14)]
         self.assertIsNone(year_decomposition(rows))
     def test_calendar_groups_require_animals_not_pseudoreplicated_days(self):
-        x,c=summarize({},{"original_source_animal_years":100})
+        x=summarize({},{"original_source_animal_years":100})
         self.assertEqual(x["estimable_source_individuals"],0)
         self.assertIsNone(x["source_equal_individual_associations"]["conditional_L_association"]["equal_animal_mean"])
 if __name__=="__main__":unittest.main()
