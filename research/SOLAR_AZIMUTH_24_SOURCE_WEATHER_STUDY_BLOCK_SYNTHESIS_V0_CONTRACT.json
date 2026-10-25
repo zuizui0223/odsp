@@ -1,0 +1,26 @@
+{
+  "version": "solar-azimuth-24-original-source-weather-study-block-synthesis-v0",
+  "freeze_date": "2026-10-25",
+  "status": "POST_FIRST_SHARD_PRE_COMPLETE_24_SOURCE_OUTCOMES",
+  "scope": "All 24 originally selected source-ID archives, including all unsupported taxa/siteyears and full provider/weather HOLDs; source selection never uses observed solar-weather association sign.",
+  "input": "research/SOLAR_AZIMUTH_24_SOURCE_MULTI_POPULATION_ERA5_V0_FIRST_ALL_RESULTS_20261025.json",
+  "analysis_units": "One equal-weight original repository study-ID/source archive regardless of number of GPS animals, taxon groups, selected 1-degree grid-years or weather observations. Within source: mean equally over each taxon's admitted weather site-year estimates, then over all admitted taxa. Do not infer original population independence from unique study IDs.",
+  "primary_source_block_effects": [
+    "within_animal_clock_month_weather_associations.wind_sun_cos.mean per cosine unit",
+    "within_animal_clock_month_weather_associations.windspeed_ms.mean per +1 m/s",
+    "within_animal_clock_month_weather_associations.shortwave_Wm2.mean per +100 W/m²",
+    "within_animal_clock_month_weather_associations.temperature_C.mean per +5°C"
+  ],
+  "primary_summary": "For each variable, report all source counts; if at least six different original source IDs have supported mean slopes, compute equal-source arithmetic mean and fixed seed 2000 source-block bootstrap percentile95, plus source leave-one-out min/max. No GPS-step or tagged-animal iid inferential test.",
+  "secondary_environment_context_correlations": [
+    "Spearman rank correlation across source-study means of source-group sunward heading cosine versus mean sampled ERA5 temperature",
+    "Spearman rank correlation across source-study means of source-group sunward heading cosine versus mean sampled ERA5 shortwave",
+    "Spearman rank correlation across source-study means of source-group sunward heading cosine versus mean sampled ERA5 100m wind speed"
+  ],
+  "minimum_source_count_for_context_correlations": 8,
+  "secondary_uncertainty": "A descriptive source-ID bootstrap of Spearman correlation with 1000 resamples and leave-one-source-out range; no causal model or independent landscape p-value.",
+  "planned_outputs": "Full 24 source-level manifest of group weather supports and missingness, source ID mean estimates, source-level group summary, all slopes/correlation signs/uncertainty even if no effect. Do not retroactively change v0 climate threshold or source-qualification rules.",
+  "forbids": "No source subgroup search by favorable signs, publication-effect harvesting, outcome-based source replacement, global climate causation, wind mediation fraction, experimental sunlight avoidance, or calling independent 1-degree grid-year contexts independent ecosystems.",
+  "limitations": "Study archive is not always a distinct ecosystem; source species and individual counts are not source-independent ecological replication. Weather source can change upon refetch. Conditioning on observed GPS intervals and modal source grid-years may bias population representativeness.",
+  "outcome_inference": "Exploratory cross-source observations only; clusters are archived study-ID descriptors. Even source bootstrap CIs represent variability of sampled source studies, not scientifically representative world's biomes."
+}
