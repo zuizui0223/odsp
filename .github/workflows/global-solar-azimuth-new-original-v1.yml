@@ -1,0 +1,45 @@
+name: New independently sampled Movebank original GPS azimuth v1
+on:
+  push:
+    branches:
+      - ecology/global-solar-azimuth-macroniche-v0
+    paths:
+      - 'research/GLOBAL_SOLAR_AZIMUTH_12_NEW_SOURCE_FROZEN_ORIGINAL_FILE_MANIFEST_20261025.json'
+      - 'scripts/global_solar_azimuth_12_new_original_events_v1.py'
+      - 'tests/test_global_solar_azimuth_new_original_events_v1.py'
+      - '.github/workflows/global-solar-azimuth-new-original-v1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_source_azimuth_shards:
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2]
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run frozen source and azimuth known-truth tests before opening events
+        run: |
+          python -m unittest discover -s tests -p 'test_global_solar_azimuth_new_registry_sample_v1.py' -v
+          python -m unittest discover -s tests -p 'test_global_solar_azimuth_new_original_events_v1.py' -v
+          python -m unittest discover -s tests -p 'test_global_solar_azimuth_macro_v0.py' -v
+      - name: Read original source-MD5 GPS observations for assigned four packages, all taxa and holds
+        run: |
+          python -m scripts.global_solar_azimuth_12_new_original_events_v1 \
+            --shard ${{ matrix.shard }} \
+            --out outputs/global_solar_azimuth_new_source_v1
+        env:
+          PYTHONHASHSEED: '0'
+      - name: Preserve only source×taxon aggregate results, no GPS individual data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-solar-new-source-original-results-shard-${{ matrix.shard }}-v1
+          path: outputs/global_solar_azimuth_new_source_v1/azimuth_new_original_source_v1_shard_*.json
+          if-no-files-found: warn
