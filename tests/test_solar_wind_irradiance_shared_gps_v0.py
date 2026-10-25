@@ -90,7 +90,8 @@ class SolarWindSharedOriginalKnownTruth(unittest.TestCase):
         self.assertAlmostEqual(diff["windflow_cos"],2)
         self.assertAlmostEqual(diff["wind_sun_cos"],0)
         self.assertAlmostEqual(diff["shortwave_W_m2"],0)
-        self.assertNotIn("cell",str(target).lower()[:70])
+        self.assertFalse(any(key in target for key in ("original_cell_latitude", "original_cell_longitude", "original_GPS_ids", "source_midpoint_utc")))
+        self.assertNotIn(str(cell),str(target))
 
     def test_incomplete_climate_wont_invent_sunlight_result(self):
         cell=(15,20,2020,6,2)
