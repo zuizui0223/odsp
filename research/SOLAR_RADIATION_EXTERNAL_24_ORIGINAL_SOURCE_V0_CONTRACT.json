@@ -1,0 +1,175 @@
+{
+  "version": "external-24-original-GPS-solar-radiation-validation-v0",
+  "date": "2026-10-25",
+  "selection_stage": "SOURCE_UUIDS_FIXED_BEFORE_ANY_NEW_ORIGINAL_GPS_DIRECTION_OR_ERA5_RESPONSE",
+  "previous_discovery": "Original fixed 437 public Movebank package census, 259 GPS/GNSS sensor-labelled, 159 canonical original GPS CSV headers, original source header artifact https://github.com/zuizui0223/odsp/actions/runs/40164787562",
+  "previous_source_exclusion_rosters": [
+    "research/GLOBAL_SOLAR_AZIMUTH_INDEPENDENT_12SOURCE_V1_CONTRACT.json.previous_sources (9)",
+    "research/GLOBAL_SOLAR_AZIMUTH_12_NEW_SOURCE_FROZEN_ORIGINAL_FILE_MANIFEST_20261025.json (12)",
+    "research/GLOBAL_SOLAR_AZIMUTH_NEW24_PROVIDER_FROZEN_SOURCE_FILE_MANIFEST_20261025.json (24)"
+  ],
+  "selection_rule": "Among public canonical original GPS CSV source-header packages with ORIGINAL source file >=1,000,000 and <=80,000,000 bytes, provider checksum metadata, nonempty original repository study ID and EXACT ONE distinct literal nonhuman scientific-name label, exclude all previously selected 45 original source UUIDs and any shared original repository study ID. The preserved header audit left 89 eligible nonhuman one-species original file metadata packages; rank SHA256(UTF8('odsp-solar-weather-outer-validation-20261025-v0:'+package_uuid)) ascending; take FIRST 24 distinct taxon names and distinct original repository study IDs, without replacement. Human data excluded before outcomes for ethics and to target nonhuman animal ecology; domestic/feral nonhuman animals kept but must not be described as wild taxa.",
+  "seed": "odsp-solar-weather-outer-validation-20261025-v0:",
+  "original_header_eligible_nonhuman_single_taxon_sources": 89,
+  "sample_n_archives": 24,
+  "selected_source_roster": [
+    {
+      "rank": 1,
+      "package_uuid": "8c6ffeba-2067-48d9-beba-9ca068111b8e",
+      "taxon": "Canis lupus",
+      "expected_original_primary_csv_bytes": 3854637
+    },
+    {
+      "rank": 2,
+      "package_uuid": "2facc53d-e454-4bd4-82d1-f17040ec42a3",
+      "taxon": "Equus ferus",
+      "expected_original_primary_csv_bytes": 13867087
+    },
+    {
+      "rank": 3,
+      "package_uuid": "38e05433-0a6f-49c4-ab77-0511e716786c",
+      "taxon": "Loxodonta africana",
+      "expected_original_primary_csv_bytes": 7217101
+    },
+    {
+      "rank": 4,
+      "package_uuid": "80b3da4f-5e2d-4fb0-998f-121231d2ed71",
+      "taxon": "Puma concolor",
+      "expected_original_primary_csv_bytes": 7776803
+    },
+    {
+      "rank": 5,
+      "package_uuid": "cec3bcf7-08fe-43e7-ac0c-af8f7d684a04",
+      "taxon": "Pelecanus occidentalis",
+      "expected_original_primary_csv_bytes": 31539462
+    },
+    {
+      "rank": 6,
+      "package_uuid": "909126ab-cd8f-4c6f-98aa-99ea62f689de",
+      "taxon": "Calonectris diomedea",
+      "expected_original_primary_csv_bytes": 11485717
+    },
+    {
+      "rank": 7,
+      "package_uuid": "e3343be6-d586-4c65-8b0a-cd2a063f24c9",
+      "taxon": "Pteropus lylei",
+      "expected_original_primary_csv_bytes": 3110922
+    },
+    {
+      "rank": 8,
+      "package_uuid": "a19440b7-58a0-488a-a345-97f8d7afef87",
+      "taxon": "Anthropoides virgo",
+      "expected_original_primary_csv_bytes": 3528535
+    },
+    {
+      "rank": 9,
+      "package_uuid": "949bd0c7-87d5-445a-abed-10fca1989995",
+      "taxon": "Corvus corax",
+      "expected_original_primary_csv_bytes": 62310501
+    },
+    {
+      "rank": 10,
+      "package_uuid": "7ee85303-d762-4922-bdc2-1f89e0fa004b",
+      "taxon": "Haliaeetus leucocephalus",
+      "expected_original_primary_csv_bytes": 30452806
+    },
+    {
+      "rank": 11,
+      "package_uuid": "35c83272-210b-44c3-a7fc-7d0658137540",
+      "taxon": "Procyon lotor",
+      "expected_original_primary_csv_bytes": 2601043
+    },
+    {
+      "rank": 12,
+      "package_uuid": "5e487e1e-4271-4ee7-b5c7-5a05159cc81c",
+      "taxon": "Felis catus",
+      "expected_original_primary_csv_bytes": 29021350
+    },
+    {
+      "rank": 13,
+      "package_uuid": "f8d590ca-0f7a-47ef-bacd-dd9efada41b9",
+      "taxon": "Sula variegata",
+      "expected_original_primary_csv_bytes": 12916750
+    },
+    {
+      "rank": 14,
+      "package_uuid": "fb9f260b-b3fa-4c3b-a059-847341c43998",
+      "taxon": "Buteo swainsoni",
+      "expected_original_primary_csv_bytes": 4386915
+    },
+    {
+      "rank": 15,
+      "package_uuid": "fd28aac2-b22f-4368-8638-59906e769ded",
+      "taxon": "Caracal caracal",
+      "expected_original_primary_csv_bytes": 10385112
+    },
+    {
+      "rank": 16,
+      "package_uuid": "1ea09120-155c-4fc4-8a39-81df22784fac",
+      "taxon": "Milvus migrans",
+      "expected_original_primary_csv_bytes": 13461718
+    },
+    {
+      "rank": 17,
+      "package_uuid": "e7d1c177-cb56-4960-9c6f-e20986ff651a",
+      "taxon": "Odocoileus virginianus",
+      "expected_original_primary_csv_bytes": 6809097
+    },
+    {
+      "rank": 18,
+      "package_uuid": "6857a715-9703-40fe-b306-43464f65a35c",
+      "taxon": "Alces alces",
+      "expected_original_primary_csv_bytes": 18196368
+    },
+    {
+      "rank": 19,
+      "package_uuid": "94c9f436-2a1f-4238-947b-eb9240713b0b",
+      "taxon": "Puffinus yelkouan",
+      "expected_original_primary_csv_bytes": 1578669
+    },
+    {
+      "rank": 20,
+      "package_uuid": "0b812dab-840b-4940-af5d-98cf2c5f9f63",
+      "taxon": "Antilocapra americana",
+      "expected_original_primary_csv_bytes": 16689348
+    },
+    {
+      "rank": 21,
+      "package_uuid": "b7341994-42fa-4599-9858-086ffaa145f6",
+      "taxon": "Sus scrofa",
+      "expected_original_primary_csv_bytes": 8597658
+    },
+    {
+      "rank": 22,
+      "package_uuid": "91804022-7b95-4192-a1bb-5288e1141225",
+      "taxon": "Larus smithsonianus",
+      "expected_original_primary_csv_bytes": 67561755
+    },
+    {
+      "rank": 23,
+      "package_uuid": "f7b38cdd-b028-4889-8163-694c86df7dec",
+      "taxon": "Pteropus poliocephalus",
+      "expected_original_primary_csv_bytes": 30732701
+    },
+    {
+      "rank": 24,
+      "package_uuid": "a41015db-4632-46dc-abed-277b16daf97b",
+      "taxon": "Tockus deckeni",
+      "expected_original_primary_csv_bytes": 30203173
+    }
+  ],
+  "original_source_manifest_intent": "For EACH of 24 sources verify sole provider ORIGINAL .csv bitstream file, frozen ORIGINAL source byte size, original provider MD5/SHA checksum and exact canonical taxon/study ID before reading event rows; preserve all source HODs; never substitute next-ranked source or prefer favorable result.",
+  "original_tracking_observations": "Original UTC timestamp, individual-local-identifier, location-lat and location-long. Single published source taxon, verify original row source taxon label if available. Time-only choose nearest original GPS fix per tagged animal and UTC hour; original consecutive 0.5–2h steps >=100m <=60 kmph, geometric sun elevation >=10 degrees at start/midpoint/end, one solar day. Do not export raw GPS tracks, IDs, cell centers or exact event timestamps.",
+  "modal_environmental_frame": "PREDECLARED identical to exploratory 24-source programme: for original source taxon top TWO 1-degree lat×lon×UTC calendar year grid contexts selected by highest distinct tagged animal support then original daylight step count, no sun effect sign or weather value; require >=3 animals, >=30 qualified steps, >=3 original solar dates and original year 1940–2025. Unavailable siteyears are not replaced.",
+  "ERA5": "Public Open-Meteo Historical ERA5 explicitly models=era5, UTC full original year, wind_speed_100m, wind_direction_100m, shortwave_radiation, temperature_2m, identical source code and units, 1° grid center, original GPS midpoint UTC floored hour; weather source body hashes retained, no raw model arrays or source gridpoint positions redistributed.",
+  "primary_hypothesis": "In held-out original-source study archives, higher original same-hour ERA5 surface shortwave radiation is associated with LOWER solar-relative GPS travel alignment (cos(Bearing−SunAzimuth)), conditional on original tagged individual, UTC month and apparent solar four-hour clock bin.",
+  "primary_effect_units": "Within-animal signed univariate weather regression of cos(GPS travel−Sun) per +100 W/m² ERA5 surface shortwave, centered separately within tagged individual × month × four-hour apparent solar-time blocks: >=8 original weather-linked steps and >=3 dates per block, >=2 qualifying blocks and 20 observations/animal, predictor SD >=60 W/m²; >=5 qualifying animals for a source siteyear. Equal selected siteyears within single taxon source then equal ORIGINAL source study archive.",
+  "primary_test": "Source-block descriptive bootstrap (2000 source-ID resamples, deterministic random seed 20261025) of equal-source mean. Declare directional replication SUPPORTED only if at least 6 different held-out archive source-study IDs support a radiative slope, all 24 original outcomes/source holds are retained, and the 95% original-study bootstrap upper endpoint is <0. Otherwise result NOT SUPPORTED or INSUFFICIENT_SOURCE_SUPPORT. This is a conditional heldout source-sample criterion, NOT a formal population-representative confirmatory p-value.",
+  "secondary_exploratory": [
+    "In same original siteyears mean cos(GPS bearing−100m wind flow TO), mean cos(wind flow TO−solar bearing), modelled weather mean 100m wind, shortwave, 2m T.",
+    "Within-animal month×solar-hour weather associations of source sunward cosine with 100m windspeed, wind-solar geometry and 2m T; separate original-source mean slopes with source-block descriptive intervals, no selective direction claim."
+  ],
+  "distinction": "The first 24 original-source wind/shortwave slope results were used to formulate the primary negative direction. This new source roster was selected before original GPS or weather observations of these source packages, from a pre-existing public header-compatible archive list and is not a reanalysis of published effect sizes. Source studies may share real underlying field populations even when Movebank study IDs differ; no claim of truly independent ecological regions without GIS provenance.",
+  "limits": "Within-hour and within-month astronomical sun altitude and local route/foraging confounds remain. Modeled ERA5 hourly surface shortwave is not direct animal irradiance; windy cloud weather and movement behavior jointly change. One-sided source resampling is descriptive, not a causal effect nor a worldwide independent study sampling likelihood. Previous source weather raw response hashes not archived as bytes, later refetch may differ.",
+  "privacy": "No exact animal positions/timestamps, GPS tracks, UTC-hour weather grid locations, or animal IDs in publications or GitHub logs; only source-group counts, coarse hemisphere latitude bands, annual frame and source-weather hashed receipts."
+}
