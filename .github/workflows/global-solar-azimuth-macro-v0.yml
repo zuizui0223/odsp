@@ -1,0 +1,91 @@
+name: Independent global solar azimuth macroecology v0
+on:
+  push:
+    branches:
+      - ecology/global-solar-azimuth-macroniche-v0
+    paths:
+      - 'odsp/solar_azimuth_macro_v0.py'
+      - 'scripts/run_global_solar_azimuth_macro_v0.py'
+      - 'research/GLOBAL_SOLAR_AZIMUTH_MACRO_V0_CONTRACT.json'
+      - 'tests/test_global_solar_azimuth_macro_v0.py'
+      - '.github/workflows/global-solar-azimuth-macro-v0.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  full_frame_and_solar_known_truth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test solar azimuth, GPS bearings, circular compass null, source census
+        run: python -m unittest discover -s tests -p 'test_global_solar_azimuth_macro_v0.py' -v
+      - name: Recompute ALL 437 public source metadata without selecting taxa by outcome
+        run: python -m scripts.run_global_solar_azimuth_macro_v0 frame --out outputs/global_solar_azimuth_frame
+      - name: Preserve the full public-source screening result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-solar-azimuth-437-original-registry-frame-v0
+          path: outputs/global_solar_azimuth_frame/
+          if-no-files-found: warn
+
+  first_three_original_gps_sources:
+    needs: full_frame_and_solar_known_truth
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify ALL three original provider MD5s, calculate newly frozen directions
+        run: python -m scripts.run_global_solar_azimuth_macro_v0 pilot --out outputs/global_solar_azimuth_pilot
+      - name: Preserve aggregated biological outputs and source holds only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-solar-azimuth-three-original-gps-cohorts-v0
+          path: outputs/global_solar_azimuth_pilot/original_source_solar_azimuth_group_results.json
+          if-no-files-found: warn
+
+  original_utah_four_taxa:
+    needs: full_frame_and_solar_known_truth
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify Utah original MD5 and retain all 4 source taxon outcomes
+        run: python -m scripts.run_global_solar_azimuth_macro_v0 utah --out outputs/global_solar_azimuth_utah
+      - name: Preserve aggregate outcomes and all holds
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-solar-azimuth-utah-four-original-taxa-v0
+          path: outputs/global_solar_azimuth_utah/original_source_solar_azimuth_group_results.json
+          if-no-files-found: warn
+
+  original_wyoming_two_taxa:
+    needs: full_frame_and_solar_known_truth
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify Wyoming original MD5 and retain both source taxon outcomes
+        run: python -m scripts.run_global_solar_azimuth_macro_v0 wyoming --out outputs/global_solar_azimuth_wyoming
+      - name: Preserve aggregate outcomes and all holds
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-solar-azimuth-wyoming-two-original-taxa-v0
+          path: outputs/global_solar_azimuth_wyoming/original_source_solar_azimuth_group_results.json
+          if-no-files-found: warn
