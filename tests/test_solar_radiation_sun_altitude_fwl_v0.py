@@ -2,11 +2,12 @@
 from datetime import date,datetime
 import math
 import unittest
+from unittest.mock import patch
 from scripts.solar_radiation_sun_geometry_fwl_v0 import (
     conditional_shortwave_slope_one_animal
 )
 from scripts.run_solar_altitude_conditioned_48_original_studies_v0 import (
-    fixed_original_study_roster
+    fixed_original_study_roster, replay_original_full_source_GPS
 )
 
 
@@ -72,6 +73,23 @@ class SunAltTimeRadiationSeparation(unittest.TestCase):
         self.assertIn(v["status"],("INSUFFICIENT_ORIGINAL_BLOCKS",
                                   "INSUFFICIENT_SUN_INDEPENDENT_SHORTWAVE"))
         self.assertIsNone(v["solar_geometry_conditional_slope"])
+
+
+    @patch("scripts.run_solar_altitude_conditioned_48_original_studies_v0._original_source_replay")
+    def test_earlier_source_replay_uses_preweather_original_GPS_v2_not_weather_summary(self, mock):
+        selected,held=fixed_original_study_roster()
+        old=next((src,previous) for item,src,previous in selected
+                 if item["cohort"]=="earlier")
+        src,previous=old
+        self.assertTrue(all("analysis" not in t
+                            for t in previous["source_taxa"]))
+        mock.return_value={"original_GPS_taxa_replayed":1}
+        r=replay_original_full_source_GPS("earlier",src,previous,{}, {})
+        self.assertEqual(r["original_GPS_taxa_replayed"],1)
+        self.assertEqual(mock.call_count,1)
+        preweather_source=mock.call_args.args[2]
+        self.assertTrue(all("result_status" in t and "analysis" in t
+                            for t in preweather_source["source_taxa"]))
 
 
 if __name__=="__main__":
