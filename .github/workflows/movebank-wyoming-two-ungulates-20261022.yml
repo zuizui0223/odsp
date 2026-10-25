@@ -1,0 +1,30 @@
+name: Independent Wyoming bighorn and mule deer day-night solar ecology
+on:
+  push:
+    branches: [ecology/utah-four-taxa-solar-20261019]
+    paths:
+      - 'research/MOVEBANK_WYOMING_TWO_UNGULATES_SOURCE_V0_20261022.json'
+      - 'scripts/movebank_wyoming_two_ungulates_20261022.py'
+      - 'tests/test_movebank_wyoming_two_ungulates_20261022.py'
+      - '.github/workflows/movebank-wyoming-two-ungulates-20261022.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent_original_ungulate_population_ecology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Source-schema, UTC clock sampling, sex/taxon isolation and non-rescue tests
+        run: python -m unittest discover -s tests -p 'test_movebank_wyoming_two_ungulates_20261022.py' -v
+      - name: Original provider-MD5 qualified two wild ungulate population and same-place diel GPS source
+        run: python -m scripts.movebank_wyoming_two_ungulates_20261022 --out outputs/wyoming_mule_bighorn_source_20261022
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-Wyoming-mule-bighorn-independent-ecology-20261022
+          path: outputs/wyoming_mule_bighorn_source_20261022/wyoming_mule_deer_bighorn_diel_ecology.json
+          if-no-files-found: warn

@@ -1,0 +1,77 @@
+{
+  "version": "utah-six-pair-calendar-conditioned-ecology-v0",
+  "frozen_on": "2026-10-22",
+  "post_outcome_status": "Both Utah source GPS pair contrasts and marginal ERA5 climate slopes from completed run 39220101404 have been inspected. This is an explicitly post-outcome EXPLORATORY calendar-conditioned ecological mechanism screen, not confirmatory climate causation.",
+  "question": "At shared 1-degree Utah cell x calendar year-months, does within-cell variation in interspecific NIGHT−DAY GPS displacement differences relate to ERA5 temperature or climatic water balance independently of the astronomical daylight calendar? Do 2019 vs 2020 same-calendar-month contrasts provide support?",
+  "source_cohort": "All four original Utah UDWR GPS taxa in Movebank DOI 10.5441/001/1.711 and provider-MD5 08200c9dbdf7989fb5a35467213b7e5a. Reuse original one UTC-clock-hour fix time-only selection, original day/night GPS support and strict source taxon/grid-month roster without retuning.",
+  "weather": "Same ERA5 via Open-Meteo 1-degree gridcenter, whole-month daily Tmean/Tmax, precip/FAO ET0; require 80% month quality and >=15 source days. No missing-month replacement or interpolation. Same API response hashes and prior marginal slope numbers must replay or be explicitly source HOLD.",
+  "all_six_frozen_previous_results": [
+    {
+      "pair": [
+        "Antilocapra americana",
+        "Cervus elaphus"
+      ],
+      "shared_months": 16,
+      "q_difference": -0.11039588318680489,
+      "marginal_temperature_slope_per_C": -0.0025817698666897797,
+      "marginal_PminusET0_slope_per100mm": 0.023695361363164455
+    },
+    {
+      "pair": [
+        "Antilocapra americana",
+        "Odocoileus hemionus"
+      ],
+      "shared_months": 50,
+      "q_difference": -0.10504146392302441,
+      "marginal_temperature_slope_per_C": -0.000503100400370714,
+      "marginal_PminusET0_slope_per100mm": 0.0069309040917587715
+    },
+    {
+      "pair": [
+        "Antilocapra americana",
+        "Ovis canadensis"
+      ],
+      "shared_months": 27,
+      "q_difference": -0.04988128734983355,
+      "marginal_temperature_slope_per_C": 0.004313068583895202,
+      "marginal_PminusET0_slope_per100mm": -0.03886844000320049
+    },
+    {
+      "pair": [
+        "Cervus elaphus",
+        "Odocoileus hemionus"
+      ],
+      "shared_months": 76,
+      "q_difference": 0.0031937138077901177,
+      "marginal_temperature_slope_per_C": -0.0005494433717261148,
+      "marginal_PminusET0_slope_per100mm": 0.009157233642109408
+    },
+    {
+      "pair": [
+        "Cervus elaphus",
+        "Ovis canadensis"
+      ],
+      "shared_months": 24,
+      "q_difference": 0.05350609691859285,
+      "marginal_temperature_slope_per_C": 0.001408750252487395,
+      "marginal_PminusET0_slope_per100mm": -0.004560039106213904
+    },
+    {
+      "pair": [
+        "Odocoileus hemionus",
+        "Ovis canadensis"
+      ],
+      "shared_months": 92,
+      "q_difference": 0.038532731043657835,
+      "marginal_temperature_slope_per_C": 0.0027955030945157676,
+      "marginal_PminusET0_slope_per100mm": -0.0282333508072814
+    }
+  ],
+  "independent_unit": "Each distinct 1-degree geographic cell gets one estimated slope per pair. Repeated months in one cell are NOT independent units; 2000 cluster bootstraps by cell only when >=5 cells.",
+  "astronomical_covariate": "Modeled daylength on the calendar 15th at frozen cell-center latitude using existing source hemisphere-aware approximate daylength(); in hours. This is a regional month-level adjustment, not exact solar exposure experienced by every animal fix.",
+  "new_endpoints": "Within each geographic cell and taxon pair, fit q difference vs ERA5 Tmean or 100mm monthly P−ET0, PARTIALLY RESIDUALIZING both response and predictor against midmonth astronomical daylength. Also attempt multi-variable within-grid q ~ temp+water+daylight where estimable. Report all six, each slope, support counts, sign counts and block-bootstrap intervals, plus original unadjusted slopes side-by-side.",
+  "gates": "Daylight-controlled single-predictor partial slope requires >=6 shared weather-complete cell-months, >=0.20hour SD of month-midpoint daylength, and after-daylight residual predictor SD>=0.25°C or >=5mm monthly P−ET0; non-collinear positive denominator. Joint adjustment requires >=8 months and each predictor residual SD >= fixed threshold; declare singular as unavailable. No threshold optimization.",
+  "interannual_control": "As another explicitly exploratory check, compare the same geographic cell and same calendar month (different source years, e.g. 2019 vs 2020), so solar daylength is nearly constant. Report number of exact interannual cell-month pairs and spatial cells, and temperature/water slopes only if >=5 distinct cells. No year selection based on q signs.",
+  "source_level_interpretation": "No direct causal plant-resource, thermal physiology, predator-prey interactions or convergent evolution. Monthly ERA5 weather, daylight duration and phenology can be confounded; partialing daylength does not remove other seasonal or observational biases; negative or undefined slopes remain first-class ecological results.",
+  "privacy": "No source tag IDs, original animal locations, exact capture dates, weather grid identifiers, specific matched months or raw source records are published; source summaries and API hashes only."
+}

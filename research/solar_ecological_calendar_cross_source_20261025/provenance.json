@@ -1,0 +1,27 @@
+{
+  "created": "2026-10-25",
+  "project": "ODSP",
+  "source_files": [
+    "Movebank original source DOI 10.5441/001/1.711",
+    "Movebank original source DOI 10.5441/001/1.703"
+  ],
+  "archived_source_runs": [
+    39878716871,
+    39878174016
+  ],
+  "original_gps_md5s": [
+    "08200c9dbdf7989fb5a35467213b7e5a",
+    "bd1c02734b6de3ddc9207fc1251edd66"
+  ],
+  "source_studies": 2,
+  "source_taxon_rows": 6,
+  "original_raw_source_RI_hold": "none related",
+  "later_20261025_replay": "SOURCE_HOLD, +0.004237831 vs current +0.004304305 in same Wyoming 117 animals, original algorithm and current weather; do not replace old baseline",
+  "limits": "Heterogeneous population/time and weather version; raw and conditional cohorts may differ, no causal fractional mediation",
+  "license_credit": "Original Wyoming source CC BY-NC 4.0, Utah CC0; derived summary aggregates only",
+  "files": [
+    "source_level_daily_climate_daylight.csv",
+    "README.md",
+    "provenance.json"
+  ]
+}

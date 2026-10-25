@@ -1,0 +1,62 @@
+{
+  "version": "odsp-two-study-solar-ecological-calendar-coupling-v0",
+  "frozen_date": "2026-10-25",
+  "epistemic_status": "Post-outcome descriptive identity decomposition. Source daily GPS and ERA5 observations and previous adjusted source results are already observed. No new causal confirmation or predictive benchmarks.",
+  "biological_question": "Why do two independent mule deer sources show nearly identical raw positive daylength/night-relative-speed associations but different conditional daylength relationships when accounting for Tmax and antecedent P−ET0? Evaluate all original eligible taxa rather than positive mule deer alone.",
+  "sources": {
+    "utah": {
+      "source_contract": "research/MOVEBANK_UTAH_FOUR_TAXA_SOLAR_V0_20261019.json",
+      "daily_contract": "research/UTAH_FOUR_TAXON_DAILY_CLIMATE_DAYLIGHT_V1_20261023.json",
+      "doi": "10.5441/001/1.711",
+      "original_md5": "08200c9dbdf7989fb5a35467213b7e5a",
+      "taxa": [
+        "Antilocapra americana",
+        "Cervus elaphus",
+        "Odocoileus hemionus",
+        "Ovis canadensis"
+      ],
+      "known_previous_joint_L": {
+        "Antilocapra americana": -0.0011007073756315435,
+        "Cervus elaphus": 0.0024080584415621673,
+        "Odocoileus hemionus": -0.001340468719760979,
+        "Ovis canadensis": 0.0014656573824715182
+      },
+      "known_qualified_joint_animals": {
+        "Antilocapra americana": 213,
+        "Cervus elaphus": 331,
+        "Odocoileus hemionus": 1653,
+        "Ovis canadensis": 337
+      },
+      "maximum_original_weather_cells": 160,
+      "original_rights": "CC0 metadata"
+    },
+    "wyoming": {
+      "source_contract": "research/MOVEBANK_WYOMING_TWO_UNGULATES_SOURCE_V0_20261022.json",
+      "daily_contract": "research/WYOMING_DAILY_ERA5_DAYLIGHT_V1_20261023.json",
+      "doi": "10.5441/001/1.703",
+      "original_md5": "bd1c02734b6de3ddc9207fc1251edd66",
+      "taxa": [
+        "Odocoileus hemionus",
+        "Ovis canadensis"
+      ],
+      "known_previous_joint_L": {
+        "Odocoileus hemionus": 0.004237831338383433,
+        "Ovis canadensis": -0.0005158669191396834
+      },
+      "known_qualified_joint_animals": {
+        "Odocoileus hemionus": 117,
+        "Ovis canadensis": 41
+      },
+      "maximum_original_weather_cells": 120,
+      "original_rights": "CC BY-NC 4.0"
+    }
+  },
+  "unchanged_source_support": "All original individual-year local-solar day/nights from frozen source scripts. Select original one fix per UTC hour by timestamp alone. Straight-line step rates from qualified 0.5–2h intervals; >=3 GPS intervals in both day/night, >=10 original source local days in each individual calendar-year, original source season/year assembly. Original q and q~daylength group means and admission counts replay before weather.",
+  "weather": "Original first-party daily source ERA5 code from scripts/movebank_wyoming_daily_climate_20261023.py, same original 1-degree GPS-observed climate cell/date and 30d past-only P−ET0/100. Use all fixed original source observed cells including source holds, no interpolation or cherry-pick.",
+  "joint_year_gate": "At least 15 complete matched animal observation days, >=0.5h original observed daylight span, residual L SD>=0.1h, conditional Tmax SD>=0.5°C, conditional P−ET0/100 SD>=0.1 and 2-control matrix non-collinear (det ratio >=0.01). These are unchanged from previous source-locked daily climate slope estimator.",
+  "model": "For every qualified animal-year on IDENTICAL source days, q=alpha + beta_L*L + beta_T*Tmax + beta_W*(antecedent 30d P−ET0/100) + residual. Compute marginal b_raw=Cov(L,q)/Var(L), environmental calendar coupling gamma_T=Cov(L,Tmax)/Var(L), gamma_W=Cov(L,W)/Var(L). Verify exact omitted-variable identity b_raw=beta_L + beta_T*gamma_T + beta_W*gamma_W, requiring tolerance 1e-8.",
+  "interpretation": "T and W terms are MATHEMATICAL seasonal covariance contributions, not physical mediation or causal explained shares. Do not interpret b_L as directly experienced sunlight mechanism. No extrapolation beyond sources.",
+  "aggregation": "Within source species, equal animal-year means within each animal then equal animal means within original source. Different species, source years, grids are not independent global replicates. Preserve all 4 Utah and 2 Wyoming taxa, support failures and sign reversals.",
+  "uncertainty": "If >=5 qualified animals, 2000 deterministic animal-cluster bootstrap per contribution/source/taxon (seed 20261019), 95% percentile CI. No animal-day p-values, no raw GPS/date/source animal identities or 1° cell keys in artifacts.",
+  "decision": "If original known source joint L estimator does not replay to 1e-10 or original provider MD5 mismatches, source HOLD, no new ecological claims. Do not change original q, L, climate outcomes in PR #268."
+}

@@ -1,0 +1,30 @@
+name: Utah same-space ungulate solar-calendar-adjusted hydrothermal ecology
+on:
+  push:
+    branches: [ecology/utah-four-taxa-solar-20261019]
+    paths:
+      - 'research/MOVEBANK_UTAH_CALENDAR_CONDITIONED_V0_20261022.json'
+      - 'scripts/movebank_utah_calendar_condition_20261022.py'
+      - 'tests/test_movebank_utah_calendar_condition_20261022.py'
+      - '.github/workflows/movebank-utah-calendar-conditioned-20261022.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_source_solar_adjusted_environment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Check known truth solar/calendar conditioning, collinearity and missingness
+        run: python -m unittest discover -s tests -p 'test_movebank_utah_calendar_condition_20261022.py' -v
+      - name: Replay six prior GPS and climate results before solar-calendar-conditioned ecological associations
+        run: python -m scripts.movebank_utah_calendar_condition_20261022 --out outputs/utah_calendar_conditioned_20261022
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: utah-original-ungulates-ecology-calendar-conditioned-v0-20261022
+          path: outputs/utah_calendar_conditioned_20261022/utah_calendar_conditioned_ecology.json
+          if-no-files-found: warn

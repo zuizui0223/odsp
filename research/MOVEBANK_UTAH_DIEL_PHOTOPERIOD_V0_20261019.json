@@ -1,0 +1,13 @@
+{
+  "version": "utah-diel-photoperiod-description-v0",
+  "date": "2026-10-19",
+  "reason": "Distinct ecological analysis designed after original opposite-season equal-photoperiod endpoint had 0 eligible animal-years across four taxa. Original eligibility decision remains unchanged and is not rescued.",
+  "source": "Exactly provider original Utah 2019–2020 four-taxon GPS study DOI 10.5441/001/1.711, UUID/MD5 pinned in research/MOVEBANK_UTAH_FOUR_TAXA_SOLAR_V0_20261019.json; all four taxa retained.",
+  "question": "Within one public wildlife telemetry study, which taxa show greater observed nocturnal versus daytime GPS step displacement and how is this contrast associated within individuals with length of astronomical daylight?",
+  "observation": "Same preexisting time-only one original fix per UTC clock hour, actual consecutive steps 0.5–2h, <=60km/h, endpoints/midpoint same local solar date/daypart, >=3 recorded segments in each of DAY/NIGHT. Do not interpolate.",
+  "primary": "q=log1p(median nighttime step km/h)-log1p(median daytime step km/h) for individual-local-solar-day; mean daily q within animal-calendar-year if >=10 dates, mean years within animal, mean individuals within taxon. Require >=5 animals, 2000 fixed-seed individual bootstrap CI.",
+  "secondary": "Within animal-year with >=10 eligible dates and >=0.5h observed daylength range, fit centered OLS slope q on actual solar photoperiod hours. Equal year-weight within animal, equal animal weight within taxon. Report fixed photoperiod bins short <11h, medium [11,14)h, long >=14h.",
+  "spatial": "For each same calendar year-month × 1-degree geographic cell, source taxon admitted only if >=3 distinct animals each with >=3 admitted individual-days; report pairwise comparisons only if >=3 independent cell-month units qualify for both taxa; never infer actual co-encounters.",
+  "sampling_limits": "Different original capture/population/device contexts possible even within Utah study; all estimates about observed minimum straight-line step displacement conditional on sampling, not true activity budget, seasonal entrainment, causal heat or global species traits.",
+  "privacy": "No original tracked ID, GPS coordinate, timestamp, individual effect or raw GPS exported. Report null and unsupported cases."
+}

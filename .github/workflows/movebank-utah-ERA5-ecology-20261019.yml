@@ -1,0 +1,30 @@
+name: Utah four-ungulate same-location seasonal hydrothermal ecology from ERA5
+on:
+  push:
+    branches: [ecology/utah-four-taxa-solar-20261019]
+    paths:
+      - 'research/MOVEBANK_UTAH_SHARED_CELL_ERA5_V0_20261019.json'
+      - 'scripts/movebank_utah_era5_climate_20261019.py'
+      - 'tests/test_movebank_utah_era5_climate_20261019.py'
+      - '.github/workflows/movebank-utah-ERA5-ecology-20261019.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_source_weather_at_geographic_blocks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Check source, missingness, calendar, and within-block thermal/water slopes
+        run: python -m unittest discover -s tests -p 'test_movebank_utah_era5_climate_20261019.py' -v
+      - name: Reproduce original 6 species pair contrasts first, then retrieve complete ERA5 environmental months
+        run: python -m scripts.movebank_utah_era5_climate_20261019 --out outputs/utah_matched_hydrothermal_era5_20261019
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: utah-four-ungulates-original-movebank-matched-ERA5-ecology-20261019
+          path: outputs/utah_matched_hydrothermal_era5_20261019/utah_same_cell_climate_ecology.json
+          if-no-files-found: warn

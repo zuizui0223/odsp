@@ -1,0 +1,39 @@
+{
+  "version": "utah-four-taxon-time-only-hourly-solar-ecology-v0",
+  "freeze_date": "2026-10-19",
+  "intent": "Within one source/recruitment study, estimate species-specific seasonal night/day GPS displacement shifts at matched astronomical photoperiod. This is a hypothesis-led ecological pattern, not a prediction benchmark.",
+  "selection": "From complete fixed 437-package Movebank collection; chosen before viewing ANY Utah taxon movement outcomes. Utah UDWR 2019–2020 multi-taxon source includes pronghorn, elk, mule deer and bighorn sheep. All four must be retained regardless of eligibility, effect sign or null results.",
+  "source": {
+    "package_uuid": "0043246e-e68c-4b76-84cc-31e7558d08e0",
+    "handle": "10255/move.3628",
+    "doi": "10.5441/001/1.711",
+    "original_bitstream_uuid": "9c4aaf76-7476-4305-8b14-9a6d8886e39a",
+    "original_md5": "08200c9dbdf7989fb5a35467213b7e5a",
+    "original_bytes": 63369773,
+    "license": "CC0 1.0 Universal",
+    "original_file": "GPS tracking of ungulates in Utah by UDWR (2019-2020).csv.zip",
+    "prior_source_only_inspection": "https://github.com/zuizui0223/odsp/actions/runs/39209812719",
+    "catalog_taxa": [
+      "Antilocapra americana",
+      "Cervus elaphus",
+      "Odocoileus hemionus",
+      "Ovis canadensis"
+    ]
+  },
+  "observation": {
+    "taxon_key": "original individual-taxon-canonical-name, exact scientific-name match to all four frozen original archive taxon labels",
+    "animal_key": "(taxon, original individual-local-identifier); preserve identity only inside runner, no export",
+    "fix_selection": "Within (taxon, individual, UTC clock hour), select the actual source GPS fix nearest the START of that hour using timestamp only; preserve no interpolated points and do not choose by position or GPS displacement.",
+    "primary_rule": "Apply frozen Northern June-solstice v0 analysis unchanged after clock-time-only selection: actual consecutive steps 0.5 to 2 hours, start/midpoint/end same solar date and day/night, step <=60 km/h, >=3 day AND night accepted steps per date, <=5 min solar daylength mismatches on increasing/decreasing branches, >=30 days between matched dates, one-to-one no date reuse, per-daypart seasonal step count ratio within 0.5..2, >=10 date pairs per individual-year.",
+    "primary_effect": "falling-minus-rising branch difference of [log1p(median night GPS step km/h) - log1p(median day GPS step km/h)]; mean equally across matched date pairs, annual cycles within individual, then equal individuals per taxon",
+    "report": "For EACH of four species: source rows and animals, hourly selected fixes, movement-supported individuals, paired-year counts, paired-day comparisons, difference and daytime/nighttime components, #positive and #negative animals, fixed seed 2000-cluster-bootstrap percentile interval if >=5 individuals; null/undefined retained.",
+    "no_raw": "Do not export GPS coordinates, exact dates, individual identifiers, original archive observations or animal-level effects."
+  },
+  "interpretation": {
+    "scope": "Four taxa sampled under one public original source study reduces heterogeneity between source archives, but species may be tracked in non-overlapping sites/years with different devices, and equal fix criteria do not guarantee equal effort. Population identification and co-location require separate work.",
+    "population_generalization": "A single source archive is not multiple independent ecosystems. Animals within each species may be spatially/temporally clustered; do not treat N fixes as independent ecological replicates.",
+    "alt_explanations": "calendar phase, thermal environment, rainfall/vegetation, reproductive state, migration and anthropogenic activity. None are causally isolated in this first comparison.",
+    "links": "Previous independent source results: Banff wapiti +0.04500, Wyoming Sublette mule deer +0.03115; these are context, not hypotheses to tune or mandatory positive outcomes."
+  },
+  "failure_policy": "Source MD5/checksum mismatch, missing observation coverage or insufficient individuals remain HOLD or UNAVAILABLE with all original taxon labels preserved. No thresholds adjusted after outcomes."
+}

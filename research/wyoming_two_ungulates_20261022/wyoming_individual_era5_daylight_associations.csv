@@ -1,0 +1,13 @@
+source,doi,taxon,source_qualified_animal_years,weather_complete_days,source_days_missing_climate,metric,source_admitted_animals,mean_within_individual_year_slope,animal_bootstrap95_low,animal_bootstrap95_high,animal_slope_positive,animal_slope_negative,interpretation_status
+Wyoming,10.5441/001/1.703,Odocoileus hemionus,166,17402,0,unadjusted_daylight_on_climate_days,118,0.005538249061142167,0.004101632821224659,0.006972859886325625,92,26,descriptive_within_original_animal_year
+Wyoming,10.5441/001/1.703,Odocoileus hemionus,166,17402,0,daylight_given_tmax,118,0.004263879978816612,0.002574446783835074,0.00621168136647784,81,37,descriptive_within_original_animal_year
+Wyoming,10.5441/001/1.703,Odocoileus hemionus,166,17402,0,daylight_given_antecedent_water,117,0.005744087277006168,0.004231064516541684,0.00720760557244567,92,25,descriptive_within_original_animal_year
+Wyoming,10.5441/001/1.703,Odocoileus hemionus,166,17402,0,daylight_given_tmax_and_water,117,0.004237831338383433,0.002853788289044954,0.005660031772393433,86,31,descriptive_within_original_animal_year
+Wyoming,10.5441/001/1.703,Odocoileus hemionus,166,17402,0,tmax_given_daylight_and_water,118,0.0005482351534262151,0.00017695613304777105,0.0008962389219461711,75,43,descriptive_within_original_animal_year
+Wyoming,10.5441/001/1.703,Odocoileus hemionus,166,17402,0,water_given_daylight_and_tmax,94,0.006876966632873731,-0.0026205882481034988,0.016133770031374964,55,39,descriptive_within_original_animal_year
+Wyoming,10.5441/001/1.703,Ovis canadensis,79,7675,0,unadjusted_daylight_on_climate_days,41,0.00021733399923758685,-0.005847345967794438,0.010985829877007601,7,34,descriptive_within_original_animal_year
+Wyoming,10.5441/001/1.703,Ovis canadensis,79,7675,0,daylight_given_tmax,41,-0.00017021057754707496,-0.006318014651171796,0.010570372994436172,6,35,descriptive_within_original_animal_year
+Wyoming,10.5441/001/1.703,Ovis canadensis,79,7675,0,daylight_given_antecedent_water,41,-0.00047997147247675075,-0.006440035980123685,0.00989320388667792,7,34,descriptive_within_original_animal_year
+Wyoming,10.5441/001/1.703,Ovis canadensis,79,7675,0,daylight_given_tmax_and_water,41,-0.0005158669191396834,-0.006481799838295373,0.009908898285322744,7,34,descriptive_within_original_animal_year
+Wyoming,10.5441/001/1.703,Ovis canadensis,79,7675,0,tmax_given_daylight_and_water,41,0.00011276498257463868,-0.00013945493824262005,0.00035775994269029955,21,20,descriptive_within_original_animal_year
+Wyoming,10.5441/001/1.703,Ovis canadensis,79,7675,0,water_given_daylight_and_tmax,41,0.0007278644783655325,-0.013071671243048828,0.013398263354604456,24,17,descriptive_within_original_animal_year
