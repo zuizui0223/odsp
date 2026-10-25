@@ -69,7 +69,7 @@ class ExternalSourceHeldoutRadiation(unittest.TestCase):
     def test_no_source_substitution_or_dropped_undefined_studies(self):
         p=synthetic_external([-.01]*9)
         p["all_external_first_source_results"].pop()
-        with self.assertRaisesRegex(ValueError,"24"):
+        with self.assertRaisesRegex(ValueError,"predeclared original source"):
             analyze_external_heldout(p)
 
 
