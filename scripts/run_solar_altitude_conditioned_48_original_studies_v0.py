@@ -36,6 +36,7 @@ CONTRACT=HERE/"research/SOLAR_RADIATION_SOLAR_ALTITUDE_CONDITIONAL_48_SOURCE_V0_
 MANIFEST_FIRST=HERE/"research/GLOBAL_SOLAR_AZIMUTH_NEW24_PROVIDER_FROZEN_SOURCE_FILE_MANIFEST_20261025.json"
 MANIFEST_SECOND=HERE/"research/SOLAR_RADIATION_EXTERNAL_24_PROVIDER_FROZEN_SOURCE_MANIFEST_20261025.json"
 RESULT_FIRST=HERE/"research/SOLAR_AZIMUTH_24_SOURCE_MULTI_POPULATION_ERA5_V0_FIRST_ALL_RESULTS_20261025.json"
+GPS_FIRST_BEFORE_ERA5=HERE/"research/GLOBAL_SOLAR_AZIMUTH_NEW24_ORIGINAL_GPS_FIRST_V2_RESULT_20261025.json"
 RESULT_SECOND=HERE/"research/SOLAR_RADIATION_EXTERNAL_24_SOURCE_FIRST_ALL_RESULTS_20261025.json"
 
 def fixed_original_study_roster():
@@ -106,7 +107,12 @@ def original_sun_geometry_for_siteyear(source_taxon, selected_keys, baseline):
 
 def replay_original_full_source_GPS(cohort,source,previous,tracks,coverage):
     if cohort=="earlier":
-        original=_original_source_replay(tracks,coverage,previous)
+        frozen=json.loads(GPS_FIRST_BEFORE_ERA5.read_text(encoding="utf-8"))
+        originals=[r for r in frozen["all_preselected_source_originals"]
+                   if r["package_uuid"]==source["package_uuid"]]
+        if len(originals)!=1:
+            raise ValueError("Original pre-weather GPS v2 source reference not uniquely available")
+        original=_original_source_replay(tracks,coverage,originals[0])
         return original
     native=source["original_taxon"]
     recorded=previous["source_original_GPS_first_directional_result"]
