@@ -1,0 +1,70 @@
+{
+  "version": "original-GPS-shortwave-nonreplication-diagnostic-v0",
+  "freeze_date": "2026-10-25",
+  "selection_stage": "POST_BOTH_FROZEN_SAMPLES_AND_OUTCOME_DISCLOSURE",
+  "parent_prs": [
+    "https://github.com/zuizui0223/odsp/pull/269",
+    "https://github.com/zuizui0223/odsp/pull/270",
+    "https://github.com/zuizui0223/odsp/pull/271"
+  ],
+  "inputs": {
+    "earlier_original_study_results": "research/SOLAR_AZIMUTH_24_SOURCE_WEATHER_SOURCE_BLOCK_MACRO_FIRST_RESULT_20261025.json",
+    "external_new_original_study_results": "research/SOLAR_RADIATION_EXTERNAL_24_STUDY_SIGNED_TEST_FIRST_RESULT_20261025.json",
+    "earlier_gridded_contexts": "research/SOLAR_AZIMUTH_24_SOURCE_MULTI_POPULATION_ERA5_V0_FIRST_ALL_RESULTS_20261025.json",
+    "new_gridded_contexts": "research/SOLAR_RADIATION_EXTERNAL_24_SOURCE_FIRST_ALL_RESULTS_20261025.json"
+  },
+  "original_source_denominators": {
+    "earlier": 24,
+    "external": 24
+  },
+  "previously_frozen_outcome": "Per additional +100 W/m² ERA5 modeled surface shortwave, original same individual within month×4h astronomical solar-time slope of cos(GPS step travel bearing−solar azimuth); one equal original source study ID mean across 1° gridyears/taxa.",
+  "task": "Diagnose the observed external source-replication failure without searching for a new confirmatory sign. Preserve the original earlier negative result and the preregistered external negative-direction nonreplication verdict exactly.",
+  "full_sample_inference": {
+    "all_original_source_entries": "Include all 48 original source studies, both original source files, all weather/unidentifiable source holds; never substitute a different original source or select by source sign.",
+    "estimation": "Source-equal unweighted arithmetic mean of defined source shortwave slopes within earlier/external sets; the earlier sample's one source mean averages native taxa/gridyears, external sample's one source mean averages top two eligible source gridyears. Study source file is the highest unit, not GPS fixes or animals.",
+    "primary_descriptive_comparison": "Original − external equal-study mean. Within-cohort bootstrap with replacement at original source-study unit (20,000 draws, fixed seed 20261025). CI 2.5–97.5 percentiles and leave-one-original-study-out difference ranges separately.",
+    "exploratory_label_permutation": "Twenty-source pooled study means; shuffle earlier/external labels, holding 10 vs 10, for 20,000 Monte Carlo permutations, deterministic seed +1. Report two-sided |mean_diff| tail probability as an *exchangeability reference only*. The two original source sampling frames are NOT exchangeable random draws from a common ecological world population; never call the probability evidence of causal heterogeneity.",
+    "pooled_source_mean": "Fixed 20 source-equal mean and source-block bootstrap 20,000 draws (descriptive).",
+    "source_bias_coverage": "Report 24 per source sample, 10 identifiable per source sample, 14 no estimates per sample, and no source substitution."
+  },
+  "ecological_interpretation": {
+    "required_all_supported_source_taxa_labels": "ALL identifiable source-study groups and first native original source names; assign one of birds, mammals, reptiles using explicit frozen mapping only, no paper effects or code search. A prior mixed source with 3 geese is still ONE source unit.",
+    "frozen_taxa_groups": {
+      "birds": [
+        "Larus fuscus",
+        "Puffinus yelkouan",
+        "Larus argentatus",
+        "Grus vipio",
+        "Branta leucopsis",
+        "Anser albifrons",
+        "Anser anser",
+        "Cathartes melambrotus",
+        "Calonectris diomedea",
+        "Pelecanus occidentalis",
+        "Buteo swainsoni",
+        "Larus smithsonianus",
+        "Tockus deckeni"
+      ],
+      "mammals": [
+        "Vulpes vulpes",
+        "Panthera onca",
+        "Ovis aries",
+        "Puma concolor",
+        "Felis catus",
+        "Alces alces",
+        "Caracal caracal",
+        "Odocoileus virginianus"
+      ],
+      "reptiles": [
+        "Eretmochelys imbricata"
+      ]
+    },
+    "group_source_each": "Use exact native taxon names in source row, but if earlier study has mixed source with two valid native taxa of different groups, mark MIXED and exclude ONLY from class-specific descriptive comparison, preserve its all-source contribution.",
+    "class_gradient": "For each of birds, mammals, reptiles, report N earlier/N external, group mean and signed source counts, and fixed-source bootstrap CI ONLY when >=5 source files in a group. No preregistered guild effect; do not treat taxon groups as mutually matched climates.",
+    "latitude_season": "For each identifiable source, release coarse N/S hemisphere and source GPS 15-degree absolute-latitude band distribution from previously archived source siteyear contexts. Assign hemisphere if all radiation-identifiable siteyears have same hemisphere, else MIXED. Do not make a p-value for latitude/hemisphere without source independence.",
+    "within_source_context_signs": "For each original study having >=2 source siteyear contexts with identifiable native source response slopes, report whether signs agree or differ; do not conflate repeated GPS-tagged individuals with biological replicates, and do not count any contextual mean as an independent global study.",
+    "completeness": "Show study-level source observation support, source selection frame imbalance, unavailable weather observations and taxon classes, including original observed 4-hour solar-time confounding."
+  },
+  "no_change_policy": "Never rewrite/prune/merge original PR#269/#270/#271 outcomes. Commit separate diagnostic JSON+CSV+source-based interpretative report. If mean contrast not supported, say so; do not reinterpret nonreplication as statistically proven study×climate interaction.",
+  "limitation": "This is a POST-RESULT diagnostic; any apparent association with taxon class, latitude or cohort can reflect taxonomic sampling, latitudes, movement, calendar, instrument/firmware schedules, coarse 100m wind, sun elevation and ERA5 unversioned retrospective weather. Bootstraps only conditional on observed source-study ID sample."
+}
