@@ -96,10 +96,18 @@ jobs:
         run: |
           set -euo pipefail
           cd build/french-dem-agl
-          curl --http1.1 --fail --location --silent --show-error \
-            --retry 6 --retry-all-errors --retry-delay 8 --max-time 1800 \
-            'https://data.indores.fr/api/access/datafile/5114' \
-            -o windTurbineAvoidance.zip
+          ok=no
+          for attempt in 1 2 3 4; do
+            echo "Original public ZIP continuation attempt $attempt; bytes $(stat -c %s windTurbineAvoidance.zip 2>/dev/null || echo 0)"
+            if curl --http1.1 --continue-at - --fail --location --silent --show-error \
+                --connect-timeout 45 --max-time 900 \
+                'https://data.indores.fr/api/access/datafile/5114' -o windTurbineAvoidance.zip; then
+              ok=yes
+              break
+            fi
+            sleep 5
+          done
+          test "$ok" = yes
           echo 'b18cc8004d311d19ff24060f655178bf  windTurbineAvoidance.zip' | md5sum --check
           test "$(stat -c %s windTurbineAvoidance.zip)" -eq 1093170227
       - name: Verify terrain TIFF byte size and ZIP CRC before extracting, independent of height
