@@ -1,0 +1,45 @@
+name: Original Movebank solar-azimuth altitude-adjusted radiation sensitivity
+on:
+  push:
+    branches:
+      - ecology/solar-altitude-controlled-radiation-v0
+    paths:
+      - 'research/SOLAR_RADIATION_SOLAR_ALTITUDE_CONDITIONAL_48_SOURCE_V0_CONTRACT.json'
+      - 'scripts/solar_radiation_sun_geometry_fwl_v0.py'
+      - 'scripts/run_solar_altitude_conditioned_48_original_studies_v0.py'
+      - 'tests/test_solar_radiation_sun_altitude_fwl_v0.py'
+      - '.github/workflows/solar-altitude-radiation-original-source-v0.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_solar_altitude_and_source_weather_replay:
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        shard: [0, 1, 2, 3, 4]
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test original GPS 48-source support, astronomical angle, cloud-only & solar-only truths
+        run: |
+          python -m unittest discover -s tests -p 'test_solar_radiation_sun_altitude_fwl_v0.py' -v
+          python -m unittest discover -s tests -p 'test_solar_azimuth_24_source_population_weather_v0.py' -v
+          python -m unittest discover -s tests -p 'test_solar_radiation_external_24_study_block_decision_v0.py' -v
+      - name: Replay frozen GPS and original ERA5 before computing sun-altitude conditional effects
+        run: |
+          python -m scripts.run_solar_altitude_conditioned_48_original_studies_v0 \
+            --shard ${{ matrix.shard }} \
+            --out outputs/original_GPS_solar_altitude_rad
+      - name: Preserve every source weather replay hold/identifiable animal group without GPS traces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frozen-GPS-sun-altitude-source-replay-shard-${{ matrix.shard }}-v0
+          path: outputs/original_GPS_solar_altitude_rad/sun_altitude_original_source_shard_*.json
+          if-no-files-found: warn
