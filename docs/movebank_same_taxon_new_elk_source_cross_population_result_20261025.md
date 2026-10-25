@@ -44,6 +44,12 @@ The **portable observation** is that a previously observed clear NIGHT-relative 
 
 The source-only difference (**235** preliminary individual×years versus **20** actual qualified distinct original individuals) also shows that raw camera/GPS timestamp opportunities can greatly overstate source information about strictly modeled 0.5–2h GPS displacement. Yellowstone and Florida are recorded as **source support limitations**, not negative replication experiments, and no threshold rescue was conducted.
 
+### Original Yellowstone wolf source timestamp: one restricted, falsified rescue test
+
+The original 23,604 Yellowstone wolf GPS rows all have an individual identifier and a valid WGS84 position, while their timestamp values failed the historical ISO parser. The [separately registered strict timestamp-only diagnostic](../research/MOVEBANK_WOLF_STRICT_ONE_DIGIT_UTC_REPAIR_SOURCE_ONLY_20261025.json) tested one bounded, plausible source encoding hypothesis: *exactly* `YYYY-MM-DD HH:MM:<one digit second>Z`, where the uppercase terminal `Z` means UTC and one-leading-zero normalization might recover source time without shifting its date. It did **not** scan alternative timezone suffixes or examine displacement.
+
+[First strict-format CI 40160449302 passed all five synthetic/source tests](https://github.com/zuizui0223/odsp/actions/runs/40160449302) and reverified the original provider MD5. **The specific repair hypothesis failed on the real source:** all 23,604 original timestamp strings were **not** in the registered literal-uppercase-Z format (all end in some different original suffix). Thus **zero** records were repaired under the legitimate narrow hypothesis, and the complete original wolf cohort remains **`HOLD_NOT_ALL_ORIGINAL_SOURCE_TIME_STRICTLY_RECOVERED`**, not a numerical seasonal response. Guessing another timezone or assigning a source clock without checking original source documentation would be inappropriate. Root-cause future work must involve the author's timestamp metadata/README to define its actual time convention before any new GPS animal analysis. No prior wolf/Alberta source response is reclassified.
+
 ## Reproducibility and non-disclosure
 
 - First time-only original source/MD5/three-taxon audit: [CI 40159378985](https://github.com/zuizui0223/odsp/actions/runs/40159378985), artifact `movebank-yellowstone-wolves-florida-deer-alberta-elk-source-only-20261025`, ID **12585669605**. First source-only aggregate SHA `f4b884a36dd109b01db04a55ea9a81ccd413d74271febd6e90f1da15b11eda4f`.
