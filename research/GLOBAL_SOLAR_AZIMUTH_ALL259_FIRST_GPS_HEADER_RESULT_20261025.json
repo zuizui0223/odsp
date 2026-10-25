@@ -1,0 +1,25 @@
+{
+  "version": "global-azimuth-all259-original-GPS-header-snapshot-v0",
+  "date": "2026-10-25",
+  "source_workflow_run": 40164787562,
+  "link": "https://github.com/zuizui0223/odsp/actions/runs/40164787562",
+  "frozen_contract": "research/GLOBAL_SOLAR_AZIMUTH_ALL259_ORIGINAL_CSV_HEADER_V0_CONTRACT.json",
+  "artifact": "global-solar-259-original-GPS-first-header-v0",
+  "first_original_header_result": {
+    "GPS_GNSS_original_candidate_packages": 259,
+    "canonical_GPS_header_source_candidates": 159,
+    "original_bitstream_full_MD5_verified_by_header_probe": 0,
+    "original_registry_packages": 437,
+    "original_source_rows_processed_or_qualified": 0,
+    "result_scope": "Source original first HEADER only: no cadence, timestamp provenance, independent population unit or GPS-step validity proven.",
+    "source_package_results": 259,
+    "status_counts": {
+      "AMBIGUOUS_OR_MISSING_SINGLE_ORIGINAL_FILE": 62,
+      "CANONICAL_ORIGINAL_CSV_HEADER": 159,
+      "COMPRESSED_ORIGINAL_REQUIRES_VERIFIED_DOWNLOAD": 5,
+      "FILE_TOO_LARGE_FOR_V1_ORIGINAL_TRANSFER_CAP": 29,
+      "ORIGINAL_HEADER_MISSING_REQUIRED_FIELDS": 4
+    }
+  },
+  "claim_ceiling": "159 plain original CSV headers contain four required GPS columns. Does not establish actual cadence, timestamp provenance, live GPS permissions, original source event row quality or independent ecological population replication. Compressed/ambiguous/large source files remain in original 259 denominator."
+}
