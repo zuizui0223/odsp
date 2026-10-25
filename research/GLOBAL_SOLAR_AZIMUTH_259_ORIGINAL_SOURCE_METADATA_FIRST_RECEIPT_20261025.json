@@ -1,0 +1,28 @@
+{
+  "version": "global-original-movebank-259-gps-source-metadata-preflight-v0",
+  "source_frame": "research/seasonal_database_catalog/2026-10-19/movebank/catalog.json",
+  "frozen_pre_result_contract": "research/GLOBAL_SOLAR_AZIMUTH_259_SOURCE_PREFLIGHT_V0_CONTRACT.json",
+  "date": "2026-10-25",
+  "first_run_id": 40163260177,
+  "url": "https://github.com/zuizui0223/odsp/actions/runs/40163260177",
+  "artifact": "global-solar-all259-original-file-metadata-v0",
+  "tests": "3 fixed synthetic/source-HOLD unit tests passed (CI successful)",
+  "outcome": "All 259 original GPS/GNSS package ORIGINAL bundle bitstream lists resolved; original file content not read; original 670 suffix candidates not yet confirmed actual GPS events.",
+  "completeness": {
+    "candidate_original_file_containers": 670,
+    "candidate_packages_with_md5_or_sha_metadata": 259,
+    "candidate_public_original_GPS_or_GNSS_packages": 259,
+    "distinct_repository_study_ids": 254,
+    "geographic_independent_field_populations_certified": 0,
+    "metadata_priority_packages": 198,
+    "notes": "File suffixes indicate possible original GPS containers only, not admissible GPS data, access permissions, or independent study populations.",
+    "packages_missing_repository_study_ids": 2,
+    "packages_with_a_candidate_file_suffix": 259,
+    "packages_with_original_metadata_resolved": 259,
+    "source_HOLD_packages": 0,
+    "study_ids_repeated_on_more_than_one_package": 3,
+    "time_and_position_schema_validated_packages": 0
+  },
+  "privacy": "Only source metadata names/UUIDs/provider checksums exported; no raw event coordinates, dates or animal IDs",
+  "conclusion": "A systematic original-file inventory is now executable for every GPS/GNSS candidate instead of preselecting positive published species effect sizes; study-ID reconciliation and original row-header validation remain necessary."
+}
