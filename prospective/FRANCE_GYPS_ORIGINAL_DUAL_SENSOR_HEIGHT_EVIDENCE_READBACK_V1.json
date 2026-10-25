@@ -1,0 +1,75 @@
+{
+  "analysis": "FRANCE_GYPS_2019_2021_PAIRED_HEIGHT_IDENTITY_EVIDENCE_READBACK_V1",
+  "review_date": "2026-10-25",
+  "status": "VERIFIED_EXISTING_INDEPENDENT_LABELED_SOURCE_NATIVE_HEIGHT_BOTH_SENSORS",
+  "source": {
+    "doi": "10.48579/PRO/IOSZNM",
+    "title": "Tracking data and scripts of analysis to investigate griffon vulture avoidance in Grands Causses, France",
+    "original_public_zip_md5": "b18cc8004d311d19ff24060f655178bf",
+    "source_preheight_run": 39714803696,
+    "original_height_run": 39716885648,
+    "original_height_artifact": 12399538915,
+    "original_height_zip_sha256": "4e73b15038ba45e025f21a2b1bd951d3f063b8dc4148bed8bbdd9473f07f4864",
+    "source_bird_roster_SHA256": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "source_names_crosswalk_run": 39922607789,
+    "source_crosswalk_label": "NO_LITERAL_STUDY_NAME_OR_BIRD_ID_OVERLAP_PARENT_ID_UNCONFIRMED",
+    "source_biological_labels_after_test_geodesy_exclusion": 29,
+    "source_five_km_original_eligible_birds": 28,
+    "original_data_geodesy_test_source_label": "Test géodésie ornitela",
+    "tag_id_alias": "182208 is shared by two source bird IDs; one final target bird is recorded under a tag used by another source bird outside final 28",
+    "parent_numeric_Movebank_ID_independently_verified": false
+  },
+  "source_same_event_quality": {
+    "original_preselected_5minute_fix_events_including_instrument_test": 742423,
+    "both_native_altitude_columns_joint_valid_fixes": 742358,
+    "both_native_altitude_joint_fraction": 0.9999124488330776,
+    "original_evaluable_bird_days_before_scoring": 5854,
+    "paired_fixes_in_source_days_ge50": 417821,
+    "same_target_scored_fixes_both_sensors": 364520,
+    "same_target_scored_bird_days_both_sensors": 5205,
+    "same_source_scored_birds_both_sensors": 27,
+    "quality_bounds_m": [
+      -500,
+      7000
+    ]
+  },
+  "outcomes": {
+    "GPS": {
+      "observable": "height-above-msl",
+      "raw_bird_equal_gain_nats_per_5min_event": 0.04071337079575615,
+      "null_mean": -0.007944019867103894,
+      "null_excess": 0.04865739066286004,
+      "null_valid": 999,
+      "null_total": 999,
+      "one_sided_p_upper": 0.001,
+      "Holm_two_sensors_p": 0.002,
+      "positive_raw_bird_gains": 26,
+      "total_eligible_birds": 27
+    },
+    "BAROMETRIC": {
+      "observable": "bar:barometric-height",
+      "raw_bird_equal_gain_nats_per_5min_event": 0.0414526382434786,
+      "null_mean": -0.0071705605756125935,
+      "null_excess": 0.04862319881909119,
+      "null_valid": 999,
+      "null_total": 999,
+      "one_sided_p_upper": 0.001,
+      "Holm_two_sensors_p": 0.002,
+      "positive_raw_bird_gains": 26,
+      "total_eligible_birds": 27
+    },
+    "bird_gain_pearson_GPS_vs_barometric": 0.9841796494098031,
+    "median_within_bird_day_native_height_correlation": 0.9246388835672021,
+    "median_within_bird_day_centered_native_height_median_abs_difference_m": 33
+  },
+  "justified_claim": "Within an independently labeled French *Gyps fulvus* tracking cohort, 5km cell, day-heldout vertical height shape shows an individual-ID-associated repeated distribution under both original GPS and pressure-based altitude columns on the same 27 biological birds and same 364520 source fixes.",
+  "limitations": [
+    "Pressure-based height values may use GPS/barometric calibration sharing source errors; never call two fields independent sensors without device manufacturer metadata.",
+    "Day-centered MSL altitude within 5km does NOT subtract fine-scale terrain. The original archive has Elevation_Causses.tif available for terrain-reference test.",
+    "Animal ID remains tied to tag ID within each tracking subset; two altitude channels do not unalias biological individual identity and physical instrument.",
+    "Source study IDs do not exactly overlap previous Scacco studied Gyps parent by literal bird labels; source parent numeric Movebank ID and tag reuse between studies not confirmed.",
+    "This result measures individual identity predictive gain, not wind conditioning, causal thermal flight, competition partitioning, or an all-taxon law.",
+    "Original source 30 ID labels included one nonanimal calibration label, absent from the original 28 qualified 5km roster, and excluded in follow-up corrected source ledgers.",
+    "Current terrain adjustment using included DEM is necessarily POST-OUTCOME and no new ecological confirmation."
+  ]
+}
