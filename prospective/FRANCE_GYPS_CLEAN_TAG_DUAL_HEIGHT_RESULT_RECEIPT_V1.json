@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-10-25",
+  "analysis": "FRANCE_GYPS_TAG_AND_GEODESY_CLEANED_GPS_BAROMETRIC_IDENTITY_READBACK_V1",
+  "source_doi": "10.48579/PRO/IOSZNM",
+  "source_original_zip_md5": "b18cc8004d311d19ff24060f655178bf",
+  "source_original_noheight_run": 39714803696,
+  "source_noheight_geodesy_quarantine_run": 39720327589,
+  "original_2019_2021_5km_old_height_run": 39716885648,
+  "clean_recomputed_workflow_run": 40058292605,
+  "clean_result_artifact": 12546417941,
+  "clean_artifact_zip_sha256": "351af1b43cbc70e4cf73d363d547b0df2f3de407aa9c354ffbe491e084c61819",
+  "source_original_biological_ID_labels_before_QA": 30,
+  "source_biological_28_original_spatial_eligible": 28,
+  "excluded": [
+    "Test géodésie ornitela",
+    "2018-Causses-Ad-Peycare-HTK-182208",
+    "2019-Causses-Ad-Mostuejouls-IIE-182008"
+  ],
+  "tag_alias_explanation": "Tag ID 182208 occurs under two different source animal IDs. Both corresponding source IDs removed from the clean cohort, regardless of which animal previously scored.",
+  "clean_5km_eligible_source_birds": 27,
+  "clean_roster_SHA256": "d9feed17cd780ed1be1c5fcd275471a0f741dfa565aa5995cbd7d71841ded34c",
+  "clean_first_5min_fixes": 726993,
+  "clean_pairwise_height_complete_count": 726928,
+  "clean_pairwise_height_complete_fraction": 0.9999105906109137,
+  "clean_final_scored_birds": 26,
+  "clean_final_scored_bird_days": 5096,
+  "clean_final_scored_fixes": 356634,
+  "clean_bird_positive_raw_score_in_both_modalities": 25,
+  "native_original_frozen_reference_scoring": "MEDGULL D1 balanced same-5km bird-other-day vs other-bird-other-day per bird, daily-centered ten-bin native altitude. 999 whole UTC date individual label shuffles with 950 minimum valid and Holm across GPS/pressure.",
+  "sensor_results": {
+    "GPS": {
+      "native_column": "height-above-msl",
+      "observed_bird_equal_raw_gain_nats_per_fix": 0.03908789279557648,
+      "null_mean": -0.007808254843487552,
+      "null_excess": 0.04689614763906403,
+      "randomizations_valid": 999,
+      "randomizations_requested": 999,
+      "p_upper": 0.001,
+      "Holm_p": 0.002,
+      "terminal": "supported_own_bird_altitude_shape"
+    },
+    "BAROMETRIC": {
+      "native_column": "bar:barometric-height",
+      "observed_bird_equal_raw_gain_nats_per_fix": 0.04006573500784822,
+      "null_mean": -0.006996894257841648,
+      "null_excess": 0.04706262926568987,
+      "randomizations_valid": 999,
+      "randomizations_requested": 999,
+      "p_upper": 0.001,
+      "Holm_p": 0.002,
+      "terminal": "supported_own_bird_altitude_shape"
+    }
+  },
+  "prior_frozen_original_result_kept": true,
+  "interpretation": {
+    "supported": "The original bird-label repeatability of 5km within-day-centered native GPS and pressure-based altitude probability shape retains its direction and source-level date-block significance after complete refitting without the nonbird geodesy test and both tag-alias bird labels.",
+    "important_caveats": [
+      "This is a post-outcome source-QA sensitivity using the same underlying study, not an independent biological experiment.",
+      "GPS and barometric height source columns can share tag or calibration errors; their agreement does not unalias individual versus device.",
+      "The original 27-bird result MUST be reported separately from the clean 26-bird refit and not overwritten retroactively.",
+      "The original source GPS may reflect within-5km terrain and flight behaviour; not yet corrected for DEM elevation.",
+      "Another source study with distinct names and no exact animal ID overlap is not yet verified to have fully independent physical tag IDs.",
+      "A null-relative positive identity score does not identify an individual-specific wind/thermal reaction norm."
+    ]
+  }
+}
