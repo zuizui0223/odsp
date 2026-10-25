@@ -182,7 +182,7 @@ def analyze_combined(first):
         raise ValueError("Original source roster/duplicates changed")
     studies=[_study_mean(x) for x in sorted(first["source_groups"],
                                          key=lambda v:uuids.index(v["source_package_uuid"]))]
-    existing=[s for s in studies for id in s["original_repository_study_ids"]]
+    existing=[study_id for source in studies for study_id in source["original_repository_study_ids"]]
     if len(existing)!=24 or len(set(existing))!=24:
         raise ValueError("Cannot treat duplicate or missing study IDs as separate source blocks")
     associations={
