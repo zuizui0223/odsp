@@ -1,0 +1,1162 @@
+{
+  "all_48_previously_frozen_source_studies_included": 48,
+  "claim_ceiling": "Post-result descriptive diagnostic, not a new independent confirmation, solar-altitude-adjusted radiation mechanism, or proof two original source cohort means differ. The source-label permutation is a nonrandom exchangeability reference; raw GPS/time and environment are not exported.",
+  "first_24_and_external_24_original_source_weather_observation_coverages": {
+    "earlier": {
+      "all_registered_source_studies": 24,
+      "source_studies_with_shortwave_slope": 10,
+      "source_studies_without_shortwave_slope": 14
+    },
+    "external": {
+      "all_registered_source_studies": 24,
+      "source_studies_with_shortwave_slope": 10,
+      "source_studies_without_shortwave_slope": 14
+    }
+  },
+  "post_first_results_date": "2026-10-25",
+  "post_result_ecological_taxon_class_source_descriptions": {
+    "birds": {
+      "all_source_bootstrap95": [
+        -0.03613446884144152,
+        -0.0036052774967483357
+      ],
+      "all_source_mean": -0.01802168362000428,
+      "earlier_original_studies": 6,
+      "earlier_source_mean": -0.028716450651543022,
+      "external_original_studies": 5,
+      "external_source_mean": -0.005187963182157788,
+      "post_result_class_exploration_only": true,
+      "signs_negative": 8,
+      "signs_positive": 3
+    },
+    "mammals": {
+      "all_source_bootstrap95": [
+        -0.030878075514465194,
+        0.024404184370513355
+      ],
+      "all_source_mean": -0.0046786434824495435,
+      "earlier_original_studies": 3,
+      "earlier_source_mean": -0.00992053489007978,
+      "external_original_studies": 5,
+      "external_source_mean": -0.0015335086378714011,
+      "post_result_class_exploration_only": true,
+      "signs_negative": 6,
+      "signs_positive": 2
+    },
+    "reptiles": {
+      "all_source_bootstrap95": null,
+      "all_source_mean": 0.005473128006049719,
+      "earlier_original_studies": 1,
+      "earlier_source_mean": 0.005473128006049719,
+      "external_original_studies": 0,
+      "external_source_mean": null,
+      "post_result_class_exploration_only": true,
+      "signs_negative": 0,
+      "signs_positive": 1
+    }
+  },
+  "prior_frozen_external_replication_decision_UNCHANGED": "NEGATIVE_DIRECTION_NOT_REPLICATED_IN_HELDOUT_SOURCE_SAMPLE",
+  "study_equal_original_shortwave_slope_two_cohort_difference": {
+    "Monte_Carlo_two_sided_permutation_reference": {
+      "NOT_a_valid_randomized_world_source_design_p_value": true,
+      "fraction_random_source_labels_with_abs_difference_as_large": 0.2974,
+      "n_shuffles": 20000,
+      "reason": "Original source archive selection/biome/taxon distribution not exchangeable between two source collections."
+    },
+    "earlier_minus_external_observed_mean_difference": -0.016297982147330182,
+    "earlier_source_N": 10,
+    "equal_source_earlier_mean": -0.019658718057344777,
+    "equal_source_external_mean": -0.0033607359100145946,
+    "external_source_N": 10,
+    "observed_mean_difference_source_leave_one_earlier_out_range": [
+      -0.019090409487707346,
+      -0.008844771795777489
+    ],
+    "observed_mean_difference_source_leave_one_external_out_range": [
+      -0.024006328225681564,
+      -0.007240810540720691
+    ],
+    "pooled_source_cluster_bootstrap95": [
+      -0.026156899353351224,
+      0.002755787624915701
+    ],
+    "pooled_source_equal_mean": -0.011509726983679686,
+    "source_within_sample_bootstrap95_difference": [
+      -0.04528288214579537,
+      0.010441535985979055
+    ]
+  },
+  "version": "original-GPS-shortwave-nonreplication-diagnostic-v0",
+  "within_study_source_siteyear_sign_consistency": {
+    "ALL_IDENTIFIABLE_SOURCE_CONTEXTS_NEGATIVE": 6,
+    "ALL_IDENTIFIABLE_SOURCE_CONTEXTS_POSITIVE": 2,
+    "ONLY_ONE_OR_ZERO_IDENTIFIABLE_SOURCE_CONTEXT": 8,
+    "OPPOSITE_SIGN_ACROSS_SELECTED_SOURCE_CONTEXTS": 4
+  },
+  "all_original_studies_anonymized_source_descriptions": [
+    {
+      "source": "2f38f106-42bf-4c4a-b7a4-17d758bdd9a9",
+      "cohort": "earlier",
+      "study_ids": [
+        "4873279311"
+      ],
+      "native_taxon_names": [
+        "Columba livia"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 0,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "335a3479-eb48-4708-9af0-b31a48311533",
+      "cohort": "earlier",
+      "study_ids": [
+        "183209639"
+      ],
+      "native_taxon_names": [
+        "Larus fuscus"
+      ],
+      "taxa_in_source_slope": [
+        "Larus fuscus"
+      ],
+      "class": "birds",
+      "source_mean_rad_slope_per_100W": -0.05819894158320306,
+      "admitted_contexts": 1,
+      "attempted_contexts": 2,
+      "context_n": 1,
+      "context_negative": 1,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": [
+        "N:45-60"
+      ]
+    },
+    {
+      "source": "0f73e753-3e3e-439e-ad96-df7e2944e04a",
+      "cohort": "earlier",
+      "study_ids": [
+        "121041109"
+      ],
+      "native_taxon_names": [
+        "Thalassoica antarctica"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 1,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "28708a9c-5582-490e-9481-c094bdce74c2",
+      "cohort": "earlier",
+      "study_ids": [
+        "444539014"
+      ],
+      "native_taxon_names": [
+        "Vulpes vulpes"
+      ],
+      "taxa_in_source_slope": [
+        "Vulpes vulpes"
+      ],
+      "class": "mammals",
+      "source_mean_rad_slope_per_100W": -0.005902308323177372,
+      "admitted_contexts": 1,
+      "attempted_contexts": 2,
+      "context_n": 1,
+      "context_negative": 1,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": [
+        "S:30-45"
+      ]
+    },
+    {
+      "source": "8b91498b-27ce-4c9b-9f28-104204b1ed08",
+      "cohort": "earlier",
+      "study_ids": [
+        "363865056"
+      ],
+      "native_taxon_names": [
+        "Puffinus yelkouan"
+      ],
+      "taxa_in_source_slope": [
+        "Puffinus yelkouan"
+      ],
+      "class": "birds",
+      "source_mean_rad_slope_per_100W": -0.08673761122131901,
+      "admitted_contexts": 2,
+      "attempted_contexts": 2,
+      "context_n": 1,
+      "context_negative": 1,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": [
+        "N:30-45"
+      ]
+    },
+    {
+      "source": "eff2b7e2-6626-4e36-9bfb-23a8f4bfb367",
+      "cohort": "earlier",
+      "study_ids": [
+        "3240092491"
+      ],
+      "native_taxon_names": [
+        "Luscinia calliope"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 0,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "e4fee65d-98d4-470e-b823-8f7c9d220c3c",
+      "cohort": "earlier",
+      "study_ids": [
+        "24795474"
+      ],
+      "native_taxon_names": [
+        "Seiurus aurocapilla"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 0,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "70744563-f820-42d3-8bf2-5e35403c3417",
+      "cohort": "earlier",
+      "study_ids": [
+        "1071134107"
+      ],
+      "native_taxon_names": [
+        "Larus argentatus"
+      ],
+      "taxa_in_source_slope": [
+        "Larus argentatus"
+      ],
+      "class": "birds",
+      "source_mean_rad_slope_per_100W": -0.016679330355256754,
+      "admitted_contexts": 2,
+      "attempted_contexts": 2,
+      "context_n": 2,
+      "context_negative": 2,
+      "context_positive": 0,
+      "context_sign": "all_negative",
+      "source_observation_latitude_15deg_bands": [
+        "N:30-45"
+      ]
+    },
+    {
+      "source": "ced2bf06-7e80-4262-8ff6-cf59f96e1159",
+      "cohort": "earlier",
+      "study_ids": [
+        "175963833"
+      ],
+      "native_taxon_names": [
+        "Columba livia"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 2,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "595664bf-661d-49d9-af92-ec8a41a50f50",
+      "cohort": "earlier",
+      "study_ids": [
+        "797650867"
+      ],
+      "native_taxon_names": [
+        "Myotis vivesi"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 0,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "c0de801a-53ce-461b-8fd3-e9e3f9731a93",
+      "cohort": "earlier",
+      "study_ids": [
+        "178979729"
+      ],
+      "native_taxon_names": [
+        "Canis lupus"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 2,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "8fed4a87-14d3-4f9d-b630-e1d406b15c68",
+      "cohort": "earlier",
+      "study_ids": [
+        "19411459"
+      ],
+      "native_taxon_names": [
+        "Panthera onca"
+      ],
+      "taxa_in_source_slope": [
+        "Panthera onca"
+      ],
+      "class": "mammals",
+      "source_mean_rad_slope_per_100W": -0.004825215251507811,
+      "admitted_contexts": 2,
+      "attempted_contexts": 2,
+      "context_n": 2,
+      "context_negative": 2,
+      "context_positive": 0,
+      "context_sign": "all_negative",
+      "source_observation_latitude_15deg_bands": [
+        "S:15-30"
+      ]
+    },
+    {
+      "source": "1e31df42-edfa-4225-b923-d8b0de83ab20",
+      "cohort": "earlier",
+      "study_ids": [
+        "233141114"
+      ],
+      "native_taxon_names": [
+        "Grus vipio"
+      ],
+      "taxa_in_source_slope": [
+        "Grus vipio"
+      ],
+      "class": "birds",
+      "source_mean_rad_slope_per_100W": 0.0020001403873738904,
+      "admitted_contexts": 2,
+      "attempted_contexts": 2,
+      "context_n": 2,
+      "context_negative": 0,
+      "context_positive": 2,
+      "context_sign": "all_positive",
+      "source_observation_latitude_15deg_bands": [
+        "N:15-30",
+        "N:30-45"
+      ]
+    },
+    {
+      "source": "0f7d9e2f-6269-4c7c-ad28-8af219e85ca9",
+      "cohort": "earlier",
+      "study_ids": [
+        "630478736"
+      ],
+      "native_taxon_names": [
+        "Phaethon lepturus"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 0,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "29a049b2-bb18-4d7a-b497-9934c4ac50a5",
+      "cohort": "earlier",
+      "study_ids": [
+        "1088836380"
+      ],
+      "native_taxon_names": [
+        "Lynx rufus",
+        "Pekania pennanti"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 1,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "5a280544-06db-4c85-9713-842547972edd",
+      "cohort": "earlier",
+      "study_ids": [
+        "2930370782"
+      ],
+      "native_taxon_names": [
+        "Vulpes vulpes",
+        "Vulpes lagopus"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 1,
+      "attempted_contexts": 4,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "5cfc9802-fcb4-41f3-ab10-e785a3777f3c",
+      "cohort": "earlier",
+      "study_ids": [
+        "49520609"
+      ],
+      "native_taxon_names": [
+        "Anas platyrhynchos",
+        "Cairina moschata"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 0,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "8318572a-a9d8-4d9e-b685-7db8a73bdf86",
+      "cohort": "earlier",
+      "study_ids": [
+        "1904388965"
+      ],
+      "native_taxon_names": [
+        "Branta leucopsis",
+        "Anser albifrons",
+        "Anser anser"
+      ],
+      "taxa_in_source_slope": [
+        "Branta leucopsis",
+        "Anser albifrons",
+        "Anser anser"
+      ],
+      "class": "birds",
+      "source_mean_rad_slope_per_100W": -0.016598946556276313,
+      "admitted_contexts": 6,
+      "attempted_contexts": 6,
+      "context_n": 6,
+      "context_negative": 3,
+      "context_positive": 3,
+      "context_sign": "opposite",
+      "source_observation_latitude_15deg_bands": [
+        "N:45-60"
+      ]
+    },
+    {
+      "source": "a61cb8c5-7a04-4a4a-8e85-8c7a9a51ce0c",
+      "cohort": "earlier",
+      "study_ids": [
+        "2290252202"
+      ],
+      "native_taxon_names": [
+        "Anser albifrons",
+        "Anser brachyrhynchus",
+        "Anser fabalis",
+        "Branta leucopsis"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 3,
+      "attempted_contexts": 8,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "bd9f2614-11b3-48c3-8251-1aee62c8e650",
+      "cohort": "earlier",
+      "study_ids": [
+        "1606812667"
+      ],
+      "native_taxon_names": [
+        "Chelonia mydas",
+        "Eretmochelys imbricata"
+      ],
+      "taxa_in_source_slope": [
+        "Eretmochelys imbricata"
+      ],
+      "class": "reptiles",
+      "source_mean_rad_slope_per_100W": 0.005473128006049719,
+      "admitted_contexts": 1,
+      "attempted_contexts": 2,
+      "context_n": 1,
+      "context_negative": 0,
+      "context_positive": 1,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": [
+        "S:0-15"
+      ]
+    },
+    {
+      "source": "cd4e676d-424f-4b40-8e4e-3681a0f26530",
+      "cohort": "earlier",
+      "study_ids": [
+        "1573471517"
+      ],
+      "native_taxon_names": [
+        "Cathartes melambrotus",
+        "Sarcoramphus papa"
+      ],
+      "taxa_in_source_slope": [
+        "Cathartes melambrotus"
+      ],
+      "class": "birds",
+      "source_mean_rad_slope_per_100W": 0.003915985419423115,
+      "admitted_contexts": 2,
+      "attempted_contexts": 4,
+      "context_n": 2,
+      "context_negative": 0,
+      "context_positive": 2,
+      "context_sign": "all_positive",
+      "source_observation_latitude_15deg_bands": [
+        "S:0-15"
+      ]
+    },
+    {
+      "source": "f71b3103-2126-4406-9003-4baff15377d4",
+      "cohort": "earlier",
+      "study_ids": [
+        "270967741"
+      ],
+      "native_taxon_names": [
+        "Gyps fulvus",
+        "Gyps himalayensis"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 0,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "fb111311-26ef-41ef-9267-0037c2f9d56c",
+      "cohort": "earlier",
+      "study_ids": [
+        "2302317848"
+      ],
+      "native_taxon_names": [
+        "Ovis aries",
+        "Canis familiaris"
+      ],
+      "taxa_in_source_slope": [
+        "Ovis aries"
+      ],
+      "class": "mammals",
+      "source_mean_rad_slope_per_100W": -0.01903408109555416,
+      "admitted_contexts": 1,
+      "attempted_contexts": 1,
+      "context_n": 1,
+      "context_negative": 1,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": [
+        "N:45-60"
+      ]
+    },
+    {
+      "source": "fd78ade4-cedd-459c-b151-fac2ca2f65a1",
+      "cohort": "earlier",
+      "study_ids": [
+        "497091077"
+      ],
+      "native_taxon_names": [
+        "Anthropoides virgo",
+        "Grus vipio"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 2,
+      "attempted_contexts": 4,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "8c6ffeba-2067-48d9-beba-9ca068111b8e",
+      "cohort": "external",
+      "study_ids": [
+        "2390963697"
+      ],
+      "native_taxon_names": [
+        "Canis lupus"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 0,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "2facc53d-e454-4bd4-82d1-f17040ec42a3",
+      "cohort": "external",
+      "study_ids": [
+        "2478104452"
+      ],
+      "native_taxon_names": [
+        "Equus ferus"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 0,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "38e05433-0a6f-49c4-ab77-0511e716786c",
+      "cohort": "external",
+      "study_ids": [
+        "22646468"
+      ],
+      "native_taxon_names": [
+        "Loxodonta africana"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 0,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "80b3da4f-5e2d-4fb0-998f-121231d2ed71",
+      "cohort": "external",
+      "study_ids": [
+        "2561156373"
+      ],
+      "native_taxon_names": [
+        "Puma concolor"
+      ],
+      "taxa_in_source_slope": [
+        "Puma concolor"
+      ],
+      "class": "mammals",
+      "source_mean_rad_slope_per_100W": -0.07273585061517703,
+      "admitted_contexts": 2,
+      "attempted_contexts": 2,
+      "context_n": 2,
+      "context_negative": 2,
+      "context_positive": 0,
+      "context_sign": "all_negative",
+      "source_observation_latitude_15deg_bands": [
+        "N:30-45"
+      ]
+    },
+    {
+      "source": "cec3bcf7-08fe-43e7-ac0c-af8f7d684a04",
+      "cohort": "external",
+      "study_ids": [
+        "296027617"
+      ],
+      "native_taxon_names": [
+        "Pelecanus occidentalis"
+      ],
+      "taxa_in_source_slope": [
+        "Pelecanus occidentalis"
+      ],
+      "class": "birds",
+      "source_mean_rad_slope_per_100W": -0.001071094710547592,
+      "admitted_contexts": 2,
+      "attempted_contexts": 2,
+      "context_n": 2,
+      "context_negative": 1,
+      "context_positive": 1,
+      "context_sign": "opposite",
+      "source_observation_latitude_15deg_bands": [
+        "N:15-30"
+      ]
+    },
+    {
+      "source": "909126ab-cd8f-4c6f-98aa-99ea62f689de",
+      "cohort": "external",
+      "study_ids": [
+        "317481491"
+      ],
+      "native_taxon_names": [
+        "Calonectris diomedea"
+      ],
+      "taxa_in_source_slope": [
+        "Calonectris diomedea"
+      ],
+      "class": "birds",
+      "source_mean_rad_slope_per_100W": 0.008143927997609242,
+      "admitted_contexts": 2,
+      "attempted_contexts": 2,
+      "context_n": 2,
+      "context_negative": 1,
+      "context_positive": 1,
+      "context_sign": "opposite",
+      "source_observation_latitude_15deg_bands": [
+        "N:30-45"
+      ]
+    },
+    {
+      "source": "e3343be6-d586-4c65-8b0a-cd2a063f24c9",
+      "cohort": "external",
+      "study_ids": [
+        "681056756"
+      ],
+      "native_taxon_names": [
+        "Pteropus lylei"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 0,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "a19440b7-58a0-488a-a345-97f8d7afef87",
+      "cohort": "external",
+      "study_ids": [
+        "631036041"
+      ],
+      "native_taxon_names": [
+        "Anthropoides virgo"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 2,
+      "attempted_contexts": 2,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "949bd0c7-87d5-445a-abed-10fca1989995",
+      "cohort": "external",
+      "study_ids": [
+        "970414473"
+      ],
+      "native_taxon_names": [
+        "Corvus corax"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 0,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "7ee85303-d762-4922-bdc2-1f89e0fa004b",
+      "cohort": "external",
+      "study_ids": [
+        "430263960"
+      ],
+      "native_taxon_names": [
+        "Haliaeetus leucocephalus"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 2,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "35c83272-210b-44c3-a7fc-7d0658137540",
+      "cohort": "external",
+      "study_ids": [
+        "552493955"
+      ],
+      "native_taxon_names": [
+        "Procyon lotor"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 0,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "5e487e1e-4271-4ee7-b5c7-5a05159cc81c",
+      "cohort": "external",
+      "study_ids": [
+        "1728787796"
+      ],
+      "native_taxon_names": [
+        "Felis catus"
+      ],
+      "taxa_in_source_slope": [
+        "Felis catus"
+      ],
+      "class": "mammals",
+      "source_mean_rad_slope_per_100W": -0.00066930040677199,
+      "admitted_contexts": 1,
+      "attempted_contexts": 2,
+      "context_n": 1,
+      "context_negative": 1,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": [
+        "N:30-45"
+      ]
+    },
+    {
+      "source": "f8d590ca-0f7a-47ef-bacd-dd9efada41b9",
+      "cohort": "external",
+      "study_ids": [
+        "5549752586"
+      ],
+      "native_taxon_names": [
+        "Sula variegata"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 2,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "fb9f260b-b3fa-4c3b-a059-847341c43998",
+      "cohort": "external",
+      "study_ids": [
+        "164144882"
+      ],
+      "native_taxon_names": [
+        "Buteo swainsoni"
+      ],
+      "taxa_in_source_slope": [
+        "Buteo swainsoni"
+      ],
+      "class": "birds",
+      "source_mean_rad_slope_per_100W": -0.02115873303225071,
+      "admitted_contexts": 2,
+      "attempted_contexts": 2,
+      "context_n": 2,
+      "context_negative": 2,
+      "context_positive": 0,
+      "context_sign": "all_negative",
+      "source_observation_latitude_15deg_bands": [
+        "N:30-45"
+      ]
+    },
+    {
+      "source": "fd28aac2-b22f-4368-8638-59906e769ded",
+      "cohort": "external",
+      "study_ids": [
+        "1832666571"
+      ],
+      "native_taxon_names": [
+        "Caracal caracal"
+      ],
+      "taxa_in_source_slope": [
+        "Caracal caracal"
+      ],
+      "class": "mammals",
+      "source_mean_rad_slope_per_100W": 0.07815380854947082,
+      "admitted_contexts": 2,
+      "attempted_contexts": 2,
+      "context_n": 1,
+      "context_negative": 0,
+      "context_positive": 1,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": [
+        "S:30-45"
+      ]
+    },
+    {
+      "source": "1ea09120-155c-4fc4-8a39-81df22784fac",
+      "cohort": "external",
+      "study_ids": [
+        "294524920"
+      ],
+      "native_taxon_names": [
+        "Milvus migrans"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 1,
+      "attempted_contexts": 2,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "e7d1c177-cb56-4960-9c6f-e20986ff651a",
+      "cohort": "external",
+      "study_ids": [
+        "2976678046"
+      ],
+      "native_taxon_names": [
+        "Odocoileus virginianus"
+      ],
+      "taxa_in_source_slope": [
+        "Odocoileus virginianus"
+      ],
+      "class": "mammals",
+      "source_mean_rad_slope_per_100W": 0.005411820236752053,
+      "admitted_contexts": 1,
+      "attempted_contexts": 1,
+      "context_n": 1,
+      "context_negative": 0,
+      "context_positive": 1,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": [
+        "N:15-30"
+      ]
+    },
+    {
+      "source": "6857a715-9703-40fe-b306-43464f65a35c",
+      "cohort": "external",
+      "study_ids": [
+        "2548892515"
+      ],
+      "native_taxon_names": [
+        "Alces alces"
+      ],
+      "taxa_in_source_slope": [
+        "Alces alces"
+      ],
+      "class": "mammals",
+      "source_mean_rad_slope_per_100W": -0.017828020953630865,
+      "admitted_contexts": 2,
+      "attempted_contexts": 2,
+      "context_n": 2,
+      "context_negative": 1,
+      "context_positive": 1,
+      "context_sign": "opposite",
+      "source_observation_latitude_15deg_bands": [
+        "N:30-45"
+      ]
+    },
+    {
+      "source": "94c9f436-2a1f-4238-947b-eb9240713b0b",
+      "cohort": "external",
+      "study_ids": [
+        "108322181"
+      ],
+      "native_taxon_names": [
+        "Puffinus yelkouan"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 2,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "0b812dab-840b-4940-af5d-98cf2c5f9f63",
+      "cohort": "external",
+      "study_ids": [
+        "2478177417"
+      ],
+      "native_taxon_names": [
+        "Antilocapra americana"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 0,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "b7341994-42fa-4599-9858-086ffaa145f6",
+      "cohort": "external",
+      "study_ids": [
+        "3006923937"
+      ],
+      "native_taxon_names": [
+        "Sus scrofa"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 0,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "91804022-7b95-4192-a1bb-5288e1141225",
+      "cohort": "external",
+      "study_ids": [
+        "2944153255"
+      ],
+      "native_taxon_names": [
+        "Larus smithsonianus"
+      ],
+      "taxa_in_source_slope": [
+        "Larus smithsonianus"
+      ],
+      "class": "birds",
+      "source_mean_rad_slope_per_100W": -0.007817112821819861,
+      "admitted_contexts": 2,
+      "attempted_contexts": 2,
+      "context_n": 2,
+      "context_negative": 2,
+      "context_positive": 0,
+      "context_sign": "all_negative",
+      "source_observation_latitude_15deg_bands": [
+        "N:30-45"
+      ]
+    },
+    {
+      "source": "f7b38cdd-b028-4889-8163-694c86df7dec",
+      "cohort": "external",
+      "study_ids": [
+        "1077432441"
+      ],
+      "native_taxon_names": [
+        "Pteropus poliocephalus"
+      ],
+      "taxa_in_source_slope": [],
+      "class": null,
+      "source_mean_rad_slope_per_100W": null,
+      "admitted_contexts": 0,
+      "attempted_contexts": 0,
+      "context_n": 0,
+      "context_negative": 0,
+      "context_positive": 0,
+      "context_sign": "not_multiyear_replicated",
+      "source_observation_latitude_15deg_bands": []
+    },
+    {
+      "source": "a41015db-4632-46dc-abed-277b16daf97b",
+      "cohort": "external",
+      "study_ids": [
+        "1087068449"
+      ],
+      "native_taxon_names": [
+        "Tockus deckeni"
+      ],
+      "taxa_in_source_slope": [
+        "Tockus deckeni"
+      ],
+      "class": "birds",
+      "source_mean_rad_slope_per_100W": -0.004036803343780019,
+      "admitted_contexts": 2,
+      "attempted_contexts": 2,
+      "context_n": 2,
+      "context_negative": 2,
+      "context_positive": 0,
+      "context_sign": "all_negative",
+      "source_observation_latitude_15deg_bands": [
+        "N:0-15"
+      ]
+    }
+  ],
+  "source_receipt_original_study_group_aggregation_replayed": true,
+  "first_CI_run_url": "https://github.com/zuizui0223/odsp/actions/runs/40186468793",
+  "claim_ceilings": [
+    "The preregistered external negative shortwave replication verdict remains NOT REPLICATED.",
+    "The difference between the 10+10 original source study slopes has a 95% source-resampling descriptive interval spanning zero, so the apparent between-cohort mean difference is itself not well established.",
+    "Taxonomic guild summaries, source context sign flips, and hemisphere differences are post-result exploratory and cannot be promoted to a fixed ecological law.",
+    "Archived exact GPS paths, source individuals, original observations and coarse original site coordinates are not redistributed."
+  ]
+}
