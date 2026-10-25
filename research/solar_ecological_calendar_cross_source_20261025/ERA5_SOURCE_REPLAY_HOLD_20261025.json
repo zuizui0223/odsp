@@ -1,0 +1,47 @@
+{
+  "status": "SOURCE_HOLD_NOT_NEW_ECOLOGICAL_EVIDENCE",
+  "date": "2026-10-25",
+  "route": "ecological-calendar coupling omitted-variable decomposition v0",
+  "contract": "research/ODSP_TWO_STUDY_ECOLOGICAL_CALENDAR_COUPLING_V0_20261025.json",
+  "previous_validated": {
+    "utah": {
+      "run": "https://github.com/zuizui0223/odsp/actions/runs/39878716871",
+      "taxon": "Antilocapra americana",
+      "original_climate_adjusted_daylight_mean": -0.0011007073756315435,
+      "original_admitted_animals": 213,
+      "ERA5_source_grids": 28
+    },
+    "wyoming": {
+      "run": "https://github.com/zuizui0223/odsp/actions/runs/39878174016",
+      "taxon": "Odocoileus hemionus",
+      "original_climate_adjusted_daylight_mean": 0.004237831338383433,
+      "original_admitted_animals": 117,
+      "ERA5_source_grids": 6
+    }
+  },
+  "new_retrieval": {
+    "run": "https://github.com/zuizui0223/odsp/actions/runs/40159736618",
+    "original_GPS_checksum_and_source_group_replay": "PASS both sites",
+    "newly_requested_ERA5_grid_retrieval": "PASS 28 Utah; PASS 6 Wyoming; 0 source holds",
+    "independent_old_source_algorithm_re_run_on_newly_retrieved_weather": "DIFFERS from 2026-10-23 stored outputs",
+    "utah": {
+      "taxon": "Antilocapra americana",
+      "previous": -0.0011007073756315435,
+      "current": -0.001162612622714829,
+      "admitted_animals_same": 213,
+      "source_grids": 28,
+      "old_immutable_code_equal_to_new_calculation": true
+    },
+    "wyoming": {
+      "taxon": "Odocoileus hemionus",
+      "previous": 0.004237831338383433,
+      "current": 0.0043043051616359455,
+      "admitted_animals_same": 117,
+      "source_grids": 6,
+      "old_immutable_code_equal_to_new_calculation": true
+    }
+  },
+  "diagnostic_inference": "Identical original GPS source and admission counts, identical previous original model code, and newly retrieved weather lead to changed adjusted output. The discrepancy is input/retrieval dependent; precise source numerical field difference vs provider processing/metadata was not isolated. Raw whole-JSON SHA changes are not by themselves evidence for ERA5 climate revisions.",
+  "decision": "Fail closed: 2026-10-25 decomposition research route remains source HOLD for BOTH studies. Do not widen tolerance, alter source or analytical thresholds, or present new decomposition terms as accepted ecological effects. Original 2026-10-23 source-bounded model outputs remain archived separately, with the exact-replay caveat in manuscript.",
+  "next_scientific_action": "Version and archive source original numerical weather fields with explicit source retrievability, then repeat source original group effect replay; independently collect satellite NDVI phenophase for source-animal observation conditions. No automatic silent revision of original results."
+}
