@@ -1,5 +1,28 @@
 # Cross-taxon biological generality — current state
 
+## 2026-10-25: individual altitude shape survives original causses DEM correction (post-outcome)
+
+Source data [France Gyps fulvus Dataverse DOI 10.48579/PRO/IOSZNM](https://doi.org/10.48579/PRO/IOSZNM), original 2019–2021 GPS ZIP MD5 b18cc8004d311d19ff24060f655178bf. The archived ZIP also contains an original 25m elevation TIFF (EPSG:32631; DEM CRC32 d7b033fb). A specifically labeled **post-outcome sensitivity** (not a new tracking study) subtracts the raster elevation at **the same first-selected original 28-bird 5min GPS locations**, separately from native GPS and barometric altitude, then recalculates the UNCHANGED per-UTC-day-median-centered 10-bin probability-shape identity D1 within the original 5km horizontal mesh. Source geographical-DEM coverage gate ≥80% was fixed in advance; achieved **695,911/742,042 = 93.783%** in original fixed 28-bird XY population, with DEM nodata excluded and no event replacement.
+
+**Full source verified GitHub Actions run [40160008257](https://github.com/zuizui0223/odsp/actions/runs/40160008257) completed successfully** (original 1.09GB download resumed via officially supported HTTP206, MD5 verified); new result artifact **12586855357**, ZIP SHA256 **533d0cc1f00c21bea985cc5b327857d37a0786e188c7c07a0932ad96b695349d**. Both DEM-corrected modalities evaluated **the same 27 original biological birds / 5,123 bird-days / 358,847 five-minute source fixes**.
+
+| DEM-referenced native altitude profile | Raw bird-level D1 gain (nats/fix) | Null-mean excess | 999 whole-date nulls valid | Holm p | Raw positive birds |
+|---|---:|---:|---:|---:|---:|
+| GPS height − original DEM | +0.0259187 | **+0.0330766** | 999/999 | **0.002** | 26/27 |
+| BAROMETRIC height − original DEM | +0.0247202 | **+0.0314486** | 999/999 | **0.002** | 25/27 |
+
+This establishes a specific observational **measurement-robust boundary**: individual ID-associated daily-centered vertical flight-use shape is not entirely an artefact of simply recording different terrain elevations underneath birds. It does **not** prove individual biology independent of tag/device, path microhabitat or conditional flight mode, and DEM, GPS and barometric heights lack independently verified common vertical datum. Original native MSL source fit used 364,520 scored fixes versus 358,847 after DEM eligibility; **do NOT divide gains to assert an exact percent terrain-mediated effect**.
+
+**Preserve both distinct source-auditing analyses:** (i) Original 27-bird DEM sensitivity retains a tag-alias ID within its *original frozen* cohort; (ii) independently refitted **26-bird tag-quarantined source QA** before DEM correction (run [40058292605](https://github.com/zuizui0223/odsp/actions/runs/40058292605)) remains positive in both source height channels, Holm p=.002. Their logical combination in one rigorously clean+terrain-matched 26-bird study has NOT been performed and is NOT claimed.
+
+- [Complete ecological caveats and original model comparison](https://github.com/zuizui0223/odsp/blob/diagnostic/france-gyps-terrain-agl-20261025/prospective/FRANCE_GYPS_TERRAIN_SENSITIVITY_ECOLOGICAL_SYNTHESIS_V1.md)
+- [DEM source/method/numerical audit receipt](https://github.com/zuizui0223/odsp/blob/diagnostic/france-gyps-terrain-agl-20261025/prospective/FRANCE_GYPS_DEM_AGL_TWO_SENSOR_SENSITIVITY_RESULT_RECEIPT_V1.json)
+- [Exact clean 26-bird refit QA receipt](https://github.com/zuizui0223/odsp/blob/diagnostic/france-gyps-clean-dual-height-20261024/prospective/FRANCE_GYPS_CLEAN_TAG_DUAL_HEIGHT_RESULT_RECEIPT_V1.json)
+
+**Next biological challenge:** identify flight-state / fine terrain-micro-route / thermal opportunity repeatability and separated individual×environment reaction from a species-shared weather response in a truly untouched source with independent height-calibration; do not reframe this same 2019–21 dataset as a second biological replication.
+
+---
+
 ## 2026-10-25: tag-clean wild French Gyps 5km GPS & barometric individuality remains supported
 
 Previously the cross-taxon status incorrectly left an Oct24 clean-source rerun as pending. The completed [source-QA refit workflow 40058292605](https://github.com/zuizui0223/odsp/actions/runs/40058292605) now **passed successfully**, after re-downloading the exact published 1.09GB source by official HTTP206 byte-range continuation and rerunning the UNCHANGED 5km/source-day/ten-bin MEDGULL D1 GPS/barometric individual-label comparison and 999 whole-day nulls for each height column.
