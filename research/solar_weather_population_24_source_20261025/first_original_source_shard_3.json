@@ -1,0 +1,588 @@
+{
+  "version": "original-gps-solar-population-weather-v0",
+  "date": "2026-10-25",
+  "first_workflow_run_id": 40179789925,
+  "shard": 3,
+  "job_id": 121128195096,
+  "sources": [
+    {
+      "original_source_checksum_receipt": {
+        "bytes": 16891048,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "original_source_status": "ORIGINAL_GPS_REPLAYED_WEATHER_SCREENED",
+      "previous_source_results_replayed": {
+        "original_GPS_first_source_analyzable_taxa_replayed": 1,
+        "original_GPS_first_source_taxa_replayed": 1,
+        "prior_original_GPS_taxon_statuses": {
+          "Vulpes vulpes": "descriptive_source_estimated"
+        }
+      },
+      "source_climate_request_count": 2,
+      "source_dois": [
+        "doi:10.5441/001/1.72hh609t"
+      ],
+      "source_original_replay_success": true,
+      "source_original_validated_native_rows": 95413,
+      "source_package_uuid": "28708a9c-5582-490e-9481-c094bdce74c2",
+      "source_study_ids": [
+        "444539014"
+      ],
+      "source_taxa": [
+        {
+          "original_source_gridyear_support": {
+            "original_directional_gridyears": 7,
+            "selected_top_two_gridyears": 2,
+            "selection_is_heading_sign_blind": true,
+            "support_qualified_gridyears": 5
+          },
+          "source_gridyear_weather_contexts": [
+            {
+              "environmental_group_means": {
+                "shortwave_Wm2": {
+                  "mean": 420.24647986974253,
+                  "source_animal_bootstrap95": [
+                    368.9698853862877,
+                    471.2336608297055
+                  ],
+                  "units": "W/m²"
+                },
+                "sunward_cos": {
+                  "mean": -0.062761806752949,
+                  "source_animal_bootstrap95": [
+                    -0.11627801507820093,
+                    -0.006327179160812694
+                  ],
+                  "units": "cosine"
+                },
+                "temperature_2m_C": {
+                  "mean": 19.787524294443518,
+                  "source_animal_bootstrap95": [
+                    18.106081766512975,
+                    21.414425997932526
+                  ],
+                  "units": "°C"
+                },
+                "wind_speed_100m_ms": {
+                  "mean": 5.8219503973269955,
+                  "source_animal_bootstrap95": [
+                    5.608238337859014,
+                    6.027171894684391
+                  ],
+                  "units": "m/s"
+                },
+                "wind_sun_cos": {
+                  "mean": -0.1648325474875232,
+                  "source_animal_bootstrap95": [
+                    -0.20596584479294924,
+                    -0.12675021304641312
+                  ],
+                  "units": "cosine"
+                },
+                "windflow_cos": {
+                  "mean": 0.013072728790719745,
+                  "source_animal_bootstrap95": [
+                    -0.02971311509480827,
+                    0.06443146017906708
+                  ],
+                  "units": "cosine"
+                }
+              },
+              "geographic_latitude_band_not_coordinate": {
+                "absolute_latitude_band_degrees": [
+                  30,
+                  45
+                ],
+                "hemisphere": "S"
+              },
+              "observed_weather_qualified_original_tagged_animals": 15,
+              "original_GPS_hourly_weather_join_fraction": 1,
+              "original_GPS_qualified_sunlight_steps_in_gridyear": 2551,
+              "original_UTC_observation_year": 2016,
+              "original_gridyear_source_n_solar_dates": 181,
+              "original_gridyear_source_n_steps": 2551,
+              "original_gridyear_source_n_tagged_animals": 15,
+              "source_taxon_modal_original_gridyear_rank": 1,
+              "source_weather_hour_model": "era5",
+              "weather_environmental_effect_status": "SOURCE_GROUP_OBSERVED_ENVIRONMENT_DESCRIPTION",
+              "weather_matched_same_original_GPS_steps": 2551,
+              "within_animal_clock_month_weather_associations": {
+                "shortwave_Wm2": {
+                  "animals_negative": 6,
+                  "animals_positive": 7,
+                  "mean": -0.005902308323177372,
+                  "original_tagged_animals": 13,
+                  "source_animal_bootstrap95": [
+                    -0.051254316747381554,
+                    0.03518331825174505
+                  ],
+                  "status": "descriptive_within_tagged_source_animals"
+                },
+                "temperature_C": {
+                  "animals_negative": 3,
+                  "animals_positive": 10,
+                  "mean": 0.03984030783756012,
+                  "original_tagged_animals": 13,
+                  "source_animal_bootstrap95": [
+                    -0.02913164454499204,
+                    0.0960123091851291
+                  ],
+                  "status": "descriptive_within_tagged_source_animals"
+                },
+                "wind_sun_cos": {
+                  "animals_negative": 9,
+                  "animals_positive": 4,
+                  "mean": -0.0816512600291761,
+                  "original_tagged_animals": 13,
+                  "source_animal_bootstrap95": [
+                    -0.140707332747538,
+                    -0.03258713729859743
+                  ],
+                  "status": "descriptive_within_tagged_source_animals"
+                },
+                "windspeed_ms": {
+                  "animals_negative": 8,
+                  "animals_positive": 5,
+                  "mean": 0.0020183290705226213,
+                  "original_tagged_animals": 13,
+                  "source_animal_bootstrap95": [
+                    -0.009077694032041502,
+                    0.014199524108558249
+                  ],
+                  "status": "descriptive_within_tagged_source_animals"
+                }
+              }
+            },
+            {
+              "environmental_group_means": null,
+              "geographic_latitude_band_not_coordinate": {
+                "absolute_latitude_band_degrees": [
+                  30,
+                  45
+                ],
+                "hemisphere": "S"
+              },
+              "original_GPS_hourly_weather_join_fraction": 0,
+              "original_UTC_observation_year": 2017,
+              "original_gridyear_source_n_solar_dates": 93,
+              "original_gridyear_source_n_steps": 1059,
+              "original_gridyear_source_n_tagged_animals": 8,
+              "reason": "Original ERA5 hourly weather source unavailable",
+              "source_taxon_modal_original_gridyear_rank": 2,
+              "source_weather_hour_model": "era5",
+              "weather_environmental_effect_status": "SOURCE_WEATHER_HOLD",
+              "within_animal_clock_month_weather_associations": null
+            }
+          ],
+          "taxon": "Vulpes vulpes"
+        }
+      ],
+      "source_weather_model": "era5_hourly",
+      "weather_requests_checksum_receipts": [
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "b58feca9646c7b00656a886372fefcc16087cac72fec5fc66b32a5a4e457adc9",
+          "original_requested_year_covers_full_calendar": true,
+          "source_gridyear_request_number": 1,
+          "source_hourly_records": 8784,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        },
+        {
+          "error_type": "ERA5OriginalSourceHold",
+          "source_gridyear_request_number": 2,
+          "status": "SOURCE_WEATHER_HOLD"
+        }
+      ]
+    },
+    {
+      "original_source_checksum_receipt": {
+        "bytes": 2462362,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "original_source_status": "ORIGINAL_GPS_REPLAYED_WEATHER_SCREENED",
+      "previous_source_results_replayed": {
+        "original_GPS_first_source_analyzable_taxa_replayed": 1,
+        "original_GPS_first_source_taxa_replayed": 1,
+        "prior_original_GPS_taxon_statuses": {
+          "Myotis vivesi": "insufficient_independent_animals"
+        }
+      },
+      "source_climate_request_count": 0,
+      "source_dois": [
+        "doi:10.5441/001/1.kk3bg2f4"
+      ],
+      "source_original_replay_success": true,
+      "source_original_validated_native_rows": 14328,
+      "source_package_uuid": "595664bf-661d-49d9-af92-ec8a41a50f50",
+      "source_study_ids": [
+        "797650867"
+      ],
+      "source_taxa": [
+        {
+          "original_source_gridyear_support": {
+            "original_directional_gridyears": 0,
+            "selected_top_two_gridyears": 0,
+            "selection_is_heading_sign_blind": true,
+            "support_qualified_gridyears": 0
+          },
+          "source_gridyear_weather_contexts": [],
+          "taxon": "Myotis vivesi"
+        }
+      ],
+      "source_weather_model": "era5_hourly",
+      "weather_requests_checksum_receipts": []
+    },
+    {
+      "original_source_checksum_receipt": {
+        "bytes": 2292049,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "original_source_status": "ORIGINAL_GPS_REPLAYED_WEATHER_SCREENED",
+      "previous_source_results_replayed": {
+        "original_GPS_first_source_analyzable_taxa_replayed": 2,
+        "original_GPS_first_source_taxa_replayed": 2,
+        "prior_original_GPS_taxon_statuses": {
+          "Vulpes lagopus": "descriptive_source_estimated",
+          "Vulpes vulpes": "descriptive_source_estimated"
+        }
+      },
+      "source_climate_request_count": 4,
+      "source_dois": [
+        "doi:10.5441/001/1.291"
+      ],
+      "source_original_replay_success": true,
+      "source_original_validated_native_rows": 12840,
+      "source_package_uuid": "5a280544-06db-4c85-9713-842547972edd",
+      "source_study_ids": [
+        "2930370782"
+      ],
+      "source_taxa": [
+        {
+          "original_source_gridyear_support": {
+            "original_directional_gridyears": 8,
+            "selected_top_two_gridyears": 2,
+            "selection_is_heading_sign_blind": true,
+            "support_qualified_gridyears": 3
+          },
+          "source_gridyear_weather_contexts": [
+            {
+              "environmental_group_means": {
+                "shortwave_Wm2": {
+                  "mean": 420.7421213394984,
+                  "source_animal_bootstrap95": [
+                    389.3544290318061,
+                    462.35042735042737
+                  ],
+                  "units": "W/m²"
+                },
+                "sunward_cos": {
+                  "mean": -0.12164691879439742,
+                  "source_animal_bootstrap95": [
+                    -0.21814295514587861,
+                    -0.026194864395061527
+                  ],
+                  "units": "cosine"
+                },
+                "temperature_2m_C": {
+                  "mean": -0.4837451310074261,
+                  "source_animal_bootstrap95": [
+                    -0.8765641025641026,
+                    0.04245145018915508
+                  ],
+                  "units": "°C"
+                },
+                "wind_speed_100m_ms": {
+                  "mean": 7.30505116435477,
+                  "source_animal_bootstrap95": [
+                    6.646164775115595,
+                    8.012128087431693
+                  ],
+                  "units": "m/s"
+                },
+                "wind_sun_cos": {
+                  "mean": 0.024006824844522195,
+                  "source_animal_bootstrap95": [
+                    -0.058780796818933036,
+                    0.11709232252321425
+                  ],
+                  "units": "cosine"
+                },
+                "windflow_cos": {
+                  "mean": 0.0293938376591895,
+                  "source_animal_bootstrap95": [
+                    -0.09279467475591671,
+                    0.17051002387135697
+                  ],
+                  "units": "cosine"
+                }
+              },
+              "geographic_latitude_band_not_coordinate": {
+                "absolute_latitude_band_degrees": [
+                  45,
+                  60
+                ],
+                "hemisphere": "N"
+              },
+              "observed_weather_qualified_original_tagged_animals": 5,
+              "original_GPS_hourly_weather_join_fraction": 1,
+              "original_GPS_qualified_sunlight_steps_in_gridyear": 450,
+              "original_UTC_observation_year": 2019,
+              "original_gridyear_source_n_solar_dates": 66,
+              "original_gridyear_source_n_steps": 450,
+              "original_gridyear_source_n_tagged_animals": 5,
+              "source_taxon_modal_original_gridyear_rank": 1,
+              "source_weather_hour_model": "era5",
+              "weather_environmental_effect_status": "SOURCE_GROUP_OBSERVED_ENVIRONMENT_DESCRIPTION",
+              "weather_matched_same_original_GPS_steps": 450,
+              "within_animal_clock_month_weather_associations": {
+                "shortwave_Wm2": {
+                  "animals_negative": 1,
+                  "animals_positive": 3,
+                  "mean": null,
+                  "original_tagged_animals": 4,
+                  "source_animal_bootstrap95": null,
+                  "status": "INSUFFICIENT_ANIMAL_OR_ENVIRONMENT_VARIATION"
+                },
+                "temperature_C": {
+                  "animals_negative": 2,
+                  "animals_positive": 2,
+                  "mean": null,
+                  "original_tagged_animals": 4,
+                  "source_animal_bootstrap95": null,
+                  "status": "INSUFFICIENT_ANIMAL_OR_ENVIRONMENT_VARIATION"
+                },
+                "wind_sun_cos": {
+                  "animals_negative": 2,
+                  "animals_positive": 2,
+                  "mean": null,
+                  "original_tagged_animals": 4,
+                  "source_animal_bootstrap95": null,
+                  "status": "INSUFFICIENT_ANIMAL_OR_ENVIRONMENT_VARIATION"
+                },
+                "windspeed_ms": {
+                  "animals_negative": 3,
+                  "animals_positive": 1,
+                  "mean": null,
+                  "original_tagged_animals": 4,
+                  "source_animal_bootstrap95": null,
+                  "status": "INSUFFICIENT_ANIMAL_OR_ENVIRONMENT_VARIATION"
+                }
+              }
+            },
+            {
+              "environmental_group_means": null,
+              "geographic_latitude_band_not_coordinate": {
+                "absolute_latitude_band_degrees": [
+                  45,
+                  60
+                ],
+                "hemisphere": "N"
+              },
+              "observed_weather_qualified_original_tagged_animals": 3,
+              "original_GPS_hourly_weather_join_fraction": 1,
+              "original_GPS_qualified_sunlight_steps_in_gridyear": 301,
+              "original_UTC_observation_year": 2020,
+              "original_gridyear_source_n_solar_dates": 73,
+              "original_gridyear_source_n_steps": 301,
+              "original_gridyear_source_n_tagged_animals": 3,
+              "reason": "Fewer than five original tagged animals meet weather sampling support",
+              "source_taxon_modal_original_gridyear_rank": 2,
+              "source_weather_hour_model": "era5",
+              "weather_environmental_effect_status": "SOURCE_WEATHER_HOLD",
+              "weather_matched_same_original_GPS_steps": 301,
+              "within_animal_clock_month_weather_associations": null
+            }
+          ],
+          "taxon": "Vulpes vulpes"
+        },
+        {
+          "original_source_gridyear_support": {
+            "original_directional_gridyears": 6,
+            "selected_top_two_gridyears": 2,
+            "selection_is_heading_sign_blind": true,
+            "support_qualified_gridyears": 2
+          },
+          "source_gridyear_weather_contexts": [
+            {
+              "environmental_group_means": null,
+              "geographic_latitude_band_not_coordinate": {
+                "absolute_latitude_band_degrees": [
+                  45,
+                  60
+                ],
+                "hemisphere": "N"
+              },
+              "observed_weather_qualified_original_tagged_animals": 3,
+              "original_GPS_hourly_weather_join_fraction": 1,
+              "original_GPS_qualified_sunlight_steps_in_gridyear": 493,
+              "original_UTC_observation_year": 2018,
+              "original_gridyear_source_n_solar_dates": 58,
+              "original_gridyear_source_n_steps": 493,
+              "original_gridyear_source_n_tagged_animals": 3,
+              "reason": "Fewer than five original tagged animals meet weather sampling support",
+              "source_taxon_modal_original_gridyear_rank": 1,
+              "source_weather_hour_model": "era5",
+              "weather_environmental_effect_status": "SOURCE_WEATHER_HOLD",
+              "weather_matched_same_original_GPS_steps": 493,
+              "within_animal_clock_month_weather_associations": null
+            },
+            {
+              "environmental_group_means": null,
+              "geographic_latitude_band_not_coordinate": {
+                "absolute_latitude_band_degrees": [
+                  45,
+                  60
+                ],
+                "hemisphere": "N"
+              },
+              "observed_weather_qualified_original_tagged_animals": 3,
+              "original_GPS_hourly_weather_join_fraction": 1,
+              "original_GPS_qualified_sunlight_steps_in_gridyear": 248,
+              "original_UTC_observation_year": 2019,
+              "original_gridyear_source_n_solar_dates": 44,
+              "original_gridyear_source_n_steps": 248,
+              "original_gridyear_source_n_tagged_animals": 3,
+              "reason": "Fewer than five original tagged animals meet weather sampling support",
+              "source_taxon_modal_original_gridyear_rank": 2,
+              "source_weather_hour_model": "era5",
+              "weather_environmental_effect_status": "SOURCE_WEATHER_HOLD",
+              "weather_matched_same_original_GPS_steps": 248,
+              "within_animal_clock_month_weather_associations": null
+            }
+          ],
+          "taxon": "Vulpes lagopus"
+        }
+      ],
+      "source_weather_model": "era5_hourly",
+      "weather_requests_checksum_receipts": [
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "87b08464bfd5d64f02b548e890967779d44d14ae60f724b9110be755966a9c42",
+          "original_requested_year_covers_full_calendar": true,
+          "source_gridyear_request_number": 1,
+          "source_hourly_records": 8760,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        },
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "c3e595af1b80c51b1bf6c160bc9aa41e7ebb348e80308af1bffb3b414f01b68e",
+          "original_requested_year_covers_full_calendar": true,
+          "source_gridyear_request_number": 2,
+          "source_hourly_records": 8784,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        },
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "f3f2647925ab39e0afa2369af2cb877ec005d229ea72dece3fb9ca492af33568",
+          "original_requested_year_covers_full_calendar": true,
+          "source_gridyear_request_number": 3,
+          "source_hourly_records": 8760,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        },
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "3c06449ce03a3f805d9dc1cf72b0821a559a4ce2274b7d6d249cdbd0c0fee693",
+          "original_requested_year_covers_full_calendar": true,
+          "source_gridyear_request_number": 4,
+          "source_hourly_records": 8760,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        }
+      ]
+    },
+    {
+      "original_source_checksum_receipt": {
+        "bytes": 52255731,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "original_source_status": "ORIGINAL_GPS_REPLAYED_WEATHER_SCREENED",
+      "previous_source_results_replayed": {
+        "original_GPS_first_source_analyzable_taxa_replayed": 2,
+        "original_GPS_first_source_taxa_replayed": 2,
+        "prior_original_GPS_taxon_statuses": {
+          "Gyps fulvus": "insufficient_independent_animals",
+          "Gyps himalayensis": "insufficient_independent_animals"
+        }
+      },
+      "source_climate_request_count": 0,
+      "source_dois": [
+        "doi:10.5441/001/1.4f03k6s5"
+      ],
+      "source_original_replay_success": true,
+      "source_original_validated_native_rows": 197588,
+      "source_package_uuid": "f71b3103-2126-4406-9003-4baff15377d4",
+      "source_study_ids": [
+        "270967741"
+      ],
+      "source_taxa": [
+        {
+          "original_source_gridyear_support": {
+            "original_directional_gridyears": 1,
+            "selected_top_two_gridyears": 0,
+            "selection_is_heading_sign_blind": true,
+            "support_qualified_gridyears": 0
+          },
+          "source_gridyear_weather_contexts": [],
+          "taxon": "Gyps fulvus"
+        },
+        {
+          "original_source_gridyear_support": {
+            "original_directional_gridyears": 1,
+            "selected_top_two_gridyears": 0,
+            "selection_is_heading_sign_blind": true,
+            "support_qualified_gridyears": 0
+          },
+          "source_gridyear_weather_contexts": [],
+          "taxon": "Gyps himalayensis"
+        }
+      ],
+      "source_weather_model": "era5_hourly",
+      "weather_requests_checksum_receipts": []
+    }
+  ],
+  "first_summary": {
+    "fixed_original_source_archives_in_shard": 4,
+    "modelled_ERA5_original_gridyear_API_requests": 6,
+    "nonclaim": "Study and site-years NOT independent biomes; slopes are weather observational univariate within month/solar clock, not solar/wind mechanisms, and wind at 100m is not observed animal-flight altitude.",
+    "original_source_HOLDs": 0,
+    "source_ERA5_observed_contexts": 2,
+    "source_MD5_and_original_first_outcomes_replayed": 4,
+    "source_environmental_modal_gridyear_contexts_attempted": 6,
+    "source_modal_gridyear_environment_HOLDs": 4,
+    "source_shard": 3,
+    "version": "original-gps-solar-population-weather-v0"
+  }
+}

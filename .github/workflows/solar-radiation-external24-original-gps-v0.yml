@@ -1,0 +1,44 @@
+name: Independent external 24 Movebank original GPS solar-radiation validation
+on:
+  push:
+    branches:
+      - ecology/solar-weather-population-v0
+    paths:
+      - 'research/SOLAR_RADIATION_EXTERNAL_24_PROVIDER_FROZEN_SOURCE_MANIFEST_20261025.json'
+      - 'scripts/run_solar_radiation_external_24_sources_v0.py'
+      - 'tests/test_solar_radiation_external_24_sources_v0.py'
+      - '.github/workflows/solar-radiation-external24-original-gps-v0.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  new_unseen_external_original_sources:
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test independent 24 original source freeze and meteorological known truths
+        run: |
+          python -m unittest discover -s tests -p 'test_solar_radiation_external_24_sources_v0.py' -v
+          python -m unittest discover -s tests -p 'test_solar_azimuth_24_source_population_weather_v0.py' -v
+          python -m unittest discover -s tests -p 'test_solar_wind_irradiance_shared_gps_v0.py' -v
+      - name: First-access original Movebank GPS and full-year ERA5 under frozen radiative hypothesis
+        run: |
+          python -m scripts.run_solar_radiation_external_24_sources_v0 \
+            --shard ${{ matrix.shard }} \
+            --out outputs/solar_radiation_external24
+      - name: Preserve source-original outcomes and all unsupported source cohorts, NO source tracks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: solar-radiation-new-24-source-original-GPS-shard-${{ matrix.shard }}-v0
+          path: outputs/solar_radiation_external24/heldout_original_24_source_shard_*.json
+          if-no-files-found: warn

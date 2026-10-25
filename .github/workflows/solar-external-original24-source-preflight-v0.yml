@@ -1,0 +1,33 @@
+name: Freeze 24 untouched original nonhuman GPS sources before radiation validation
+on:
+  push:
+    branches:
+      - ecology/solar-weather-population-v0
+    paths:
+      - 'research/SOLAR_RADIATION_EXTERNAL_24_ORIGINAL_SOURCE_V0_CONTRACT.json'
+      - 'scripts/preflight_solar_external_original_24_sources_v0.py'
+      - 'tests/test_solar_external_original_24_source_preflight_v0.py'
+      - '.github/workflows/solar-external-original24-source-preflight-v0.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frozen_unseen_source_original_metadata:
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Prove fresh 24 study UUID and unique nonhuman taxa selection before any GPS observation
+        run: python -m unittest discover -s tests -p 'test_solar_external_original_24_source_preflight_v0.py' -v
+      - name: Freeze original provider CSV UUID, checksum and expected byte count, metadata only
+        run: python -m scripts.preflight_solar_external_original_24_sources_v0 --out outputs/solar_external_source_metadata
+      - name: Preserve complete selected source statuses and immutable original provider identities
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: solar-external-fresh24-original-provider-source-metadata-v0
+          path: outputs/solar_external_source_metadata/external_24_provider_source_metadata_before_outcomes.json
+          if-no-files-found: warn

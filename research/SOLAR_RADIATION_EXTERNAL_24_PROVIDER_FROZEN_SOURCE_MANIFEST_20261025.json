@@ -1,0 +1,691 @@
+{
+  "all_selected_original_source_entries": [
+    {
+      "expected_original_primary_csv_bytes": 3854637,
+      "frozen_metadata_rank": 1,
+      "original_dois": [
+        "doi:10.5441/001/1.717"
+      ],
+      "original_file": {
+        "bitstream_uuid": "4640a4f8-4fb3-4415-b8ea-3101050236cb",
+        "bytes": 3854637,
+        "original_file_name": "Wolves Stahler Yellowstone National Park_part.csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "c45f090bb797d6923e9360122f2ee156"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "2390963697"
+      ],
+      "original_source_package_uuid": "8c6ffeba-2067-48d9-beba-9ca068111b8e",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Canis lupus",
+      "selection_SHA256": "011f45ce5dd07a05171ee115368d726c439e90436054aca801dcfb629fbe31e1"
+    },
+    {
+      "expected_original_primary_csv_bytes": 13867087,
+      "frozen_metadata_rank": 2,
+      "original_dois": [
+        "doi:10.5441/001/1.4q2t4fn8"
+      ],
+      "original_file": {
+        "bitstream_uuid": "f4cfde2b-3538-408f-be9e-3e7b437ef0c5",
+        "bytes": 13867087,
+        "original_file_name": "Feral horse (Equus ferus caballus) Wyoming_Colorado USA.csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "daeb0a16941bfa3d7e6de2e1c037faba"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "2478104452"
+      ],
+      "original_source_package_uuid": "2facc53d-e454-4bd4-82d1-f17040ec42a3",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Equus ferus",
+      "selection_SHA256": "03eeadedcf020cd90566fd5a8c8745a6e23b0f9b9a4a21d7bf940b0a4e9597e7"
+    },
+    {
+      "expected_original_primary_csv_bytes": 7217101,
+      "frozen_metadata_rank": 3,
+      "original_dois": [
+        "doi:10.5441/001/1.f321pf80"
+      ],
+      "original_file": {
+        "bitstream_uuid": "77e38af2-b5fc-4c10-9e6d-f36b2adf9ea9",
+        "bytes": 7217101,
+        "original_file_name": "Elliptical Time-Density Model (Wall et al. 2014) African Elephant Dataset (Source-Save the Elephants).csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "31bd957da4e5c96a9b788411d009e798"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "22646468"
+      ],
+      "original_source_package_uuid": "38e05433-0a6f-49c4-ab77-0511e716786c",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Loxodonta africana",
+      "selection_SHA256": "04b5d47fa84cb638bd421499562bcb19f3dd763cb471d7c475fa0226b98c3e74"
+    },
+    {
+      "expected_original_primary_csv_bytes": 7776803,
+      "frozen_metadata_rank": 4,
+      "original_dois": [
+        "doi:10.5441/001/1.712"
+      ],
+      "original_file": {
+        "bitstream_uuid": "704656c2-04c9-4199-a6fe-1bdc318cf84d",
+        "bytes": 7776803,
+        "original_file_name": "GPS tracking of cougars in Utah by UDWR (2019-2020).csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "dc99ed5836b7c89e7889ad400ecac833"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "2561156373"
+      ],
+      "original_source_package_uuid": "80b3da4f-5e2d-4fb0-998f-121231d2ed71",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Puma concolor",
+      "selection_SHA256": "1490ab4e1a9babcbfbebf8ed22e4ff6beab3a56aff48cbe9b3fe77380694461f"
+    },
+    {
+      "expected_original_primary_csv_bytes": 31539462,
+      "frozen_metadata_rank": 5,
+      "original_dois": [
+        "doi:10.5441/001/1.7856r086"
+      ],
+      "original_file": {
+        "bitstream_uuid": "687b5e10-779e-4a67-be44-44998be286b5",
+        "bytes": 31539462,
+        "original_file_name": "Brown pelican data from Lamb et al. (2017).csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "8ee7010547cad6915231474447fc8aa0"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "296027617"
+      ],
+      "original_source_package_uuid": "cec3bcf7-08fe-43e7-ac0c-af8f7d684a04",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Pelecanus occidentalis",
+      "selection_SHA256": "152ff79ac16fbd953530481cf812f550c081b1a3d45af8c3cdfb81525dd77d52"
+    },
+    {
+      "expected_original_primary_csv_bytes": 11485717,
+      "frozen_metadata_rank": 6,
+      "original_dois": [
+        "doi:10.5441/001/1.c741t5b6"
+      ],
+      "original_file": {
+        "bitstream_uuid": "320ac450-35cc-4dff-8434-5cfc3abadd9e",
+        "bytes": 11485717,
+        "original_file_name": "Free-ranging anosmic, magnetic and control Scopoli's shearwaters.csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "c3421e643f3b522cc42a22abf24b4216"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "317481491"
+      ],
+      "original_source_package_uuid": "909126ab-cd8f-4c6f-98aa-99ea62f689de",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Calonectris diomedea",
+      "selection_SHA256": "18ce4a501b6ea3600c148fde49c31f927b8e1dec1660143b239d0f9811f3e2fe"
+    },
+    {
+      "expected_original_primary_csv_bytes": 3110922,
+      "frozen_metadata_rank": 7,
+      "original_dois": [
+        "doi:10.5441/001/1.j25661td"
+      ],
+      "original_file": {
+        "bitstream_uuid": "bfebccea-5324-4490-8a6f-3703831dc653",
+        "bytes": 3110922,
+        "original_file_name": "Foraging movements of Lyle's flying foxes in Cambodia (data from Choden et al. 2019).csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "203e27ccc65338b786d50729fc3dc3bf"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "681056756"
+      ],
+      "original_source_package_uuid": "e3343be6-d586-4c65-8b0a-cd2a063f24c9",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Pteropus lylei",
+      "selection_SHA256": "2178cf8794782f088087ef664a6b820e0e1b46b78a9b43ffef0afbf3caaebf42"
+    },
+    {
+      "expected_original_primary_csv_bytes": 3528535,
+      "frozen_metadata_rank": 8,
+      "original_dois": [
+        "doi:10.5441/001/1.598"
+      ],
+      "original_file": {
+        "bitstream_uuid": "20372a88-c1a7-4fae-9d1d-dfcd61db86d2",
+        "bytes": 3528535,
+        "original_file_name": "1000 Cranes. Mongolia.csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "dc7ca8e751bda1d23cc33a2be43ac940"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "Attribution-NonCommercial 4.0 International"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "631036041"
+      ],
+      "original_source_package_uuid": "a19440b7-58a0-488a-a345-97f8d7afef87",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Anthropoides virgo",
+      "selection_SHA256": "232c482c5432c68abf683e086449d05d93b0795ec9ba47fd9e0f4b9379446e78"
+    },
+    {
+      "expected_original_primary_csv_bytes": 62310501,
+      "frozen_metadata_rank": 9,
+      "original_dois": [
+        "doi:10.5441/001/1.653"
+      ],
+      "original_file": {
+        "bitstream_uuid": "70b06264-e365-4d0d-85bc-56271bfadf8f",
+        "bytes": 62310501,
+        "original_file_name": "Common Ravens - Yellowstone_part-gps.csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "944d1b1164eee0a97744355f7c37b887"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "Attribution-NonCommercial 4.0 International"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "970414473"
+      ],
+      "original_source_package_uuid": "949bd0c7-87d5-445a-abed-10fca1989995",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Corvus corax",
+      "selection_SHA256": "255b5b21cace47304d549b35938c579e04d9a893df0743346a1889f05c6f5156"
+    },
+    {
+      "expected_original_primary_csv_bytes": 30452806,
+      "frozen_metadata_rank": 10,
+      "original_dois": [
+        "doi:10.5441/001/1.702"
+      ],
+      "original_file": {
+        "bitstream_uuid": "fff939a5-7e33-4c78-b610-d39d6719bfb0",
+        "bytes": 30452806,
+        "original_file_name": "Bald Eagle (Haliaeetus leucocephalus) in the Pacific Northwest.csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "001e0097de026bfccfa8d9789074bec7"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "Attribution-NonCommercial 4.0 International"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "430263960"
+      ],
+      "original_source_package_uuid": "7ee85303-d762-4922-bdc2-1f89e0fa004b",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Haliaeetus leucocephalus",
+      "selection_SHA256": "25a5bb73fd42b58f114192fa6e339bbaa1916a1deecae44898b42a3c7b9576c3"
+    },
+    {
+      "expected_original_primary_csv_bytes": 2601043,
+      "frozen_metadata_rank": 11,
+      "original_dois": [
+        "doi:10.5441/001/1.709"
+      ],
+      "original_file": {
+        "bitstream_uuid": "2b9fffcb-0a57-4a0e-bd0a-ee71ba045271",
+        "bytes": 2601043,
+        "original_file_name": "UCSB Urban Raccoon Project_part.csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "0db99439326e785c58b254b2437625d6"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "Attribution 4.0 International"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "552493955"
+      ],
+      "original_source_package_uuid": "35c83272-210b-44c3-a7fc-7d0658137540",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Procyon lotor",
+      "selection_SHA256": "28e0a89c666ecedbca765f8c607104517d78bf22683c0af6acfc0f7a6cb86b68"
+    },
+    {
+      "expected_original_primary_csv_bytes": 29021350,
+      "frozen_metadata_rank": 12,
+      "original_dois": [
+        "doi:10.5441/001/1.296"
+      ],
+      "original_file": {
+        "bitstream_uuid": "10fb26ba-659e-4d89-947f-215a0cf13799",
+        "bytes": 29021350,
+        "original_file_name": "Feral Cats - Sumhal Spain.csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "1bf521fe8deab1499f5285912c6aaa84"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "1728787796"
+      ],
+      "original_source_package_uuid": "5e487e1e-4271-4ee7-b5c7-5a05159cc81c",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Felis catus",
+      "selection_SHA256": "2a25e62128e18670981d27676580aa1866f2a210fa05e29039152a2cc592205b"
+    },
+    {
+      "expected_original_primary_csv_bytes": 12916750,
+      "frozen_metadata_rank": 13,
+      "original_dois": [
+        "doi:10.5441/001/1.645"
+      ],
+      "original_file": {
+        "bitstream_uuid": "e250b2ee-cdc6-4f3c-b958-bb28db6f9a65",
+        "bytes": 12916750,
+        "original_file_name": "GPS tracking of Peruvian boobies.csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "b4249e710c95538f47a57b39e6cbccaf"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "Attribution-NonCommercial 4.0 International"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "5549752586"
+      ],
+      "original_source_package_uuid": "f8d590ca-0f7a-47ef-bacd-dd9efada41b9",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Sula variegata",
+      "selection_SHA256": "2be166655979baa7b30aa4b97f158f7d5abfaeecbd8ca376d22fb8ff4ac5f163"
+    },
+    {
+      "expected_original_primary_csv_bytes": 4386915,
+      "frozen_metadata_rank": 14,
+      "original_dois": [
+        "doi:10.5441/001/1.6p427t2f"
+      ],
+      "original_file": {
+        "bitstream_uuid": "e87708d3-95d0-4ae3-b653-2faa86389c47",
+        "bytes": 4386915,
+        "original_file_name": "Space use by Swainson's Hawk (Buteo swainsoni) in the Natomas Basin, California.csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "8dacaaa08769f0b8e156f3448ce4da77"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "164144882"
+      ],
+      "original_source_package_uuid": "fb9f260b-b3fa-4c3b-a059-847341c43998",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Buteo swainsoni",
+      "selection_SHA256": "3a665cef3abaaf3bffc273afa093a16beb234043e82ca5a19d00363152b765bb"
+    },
+    {
+      "expected_original_primary_csv_bytes": 10385112,
+      "frozen_metadata_rank": 15,
+      "original_dois": [
+        "doi:10.5441/001/1.317_2"
+      ],
+      "original_file": {
+        "bitstream_uuid": "eec8ce04-3309-4841-8b1b-b82354782319",
+        "bytes": 10385112,
+        "original_file_name": "Caracal movement ecology study in Cape Town South Africa.csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "0ce501ea91bd84cb3c57cb8d5782161e"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "1832666571"
+      ],
+      "original_source_package_uuid": "fd28aac2-b22f-4368-8638-59906e769ded",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Caracal caracal",
+      "selection_SHA256": "40cc12f16cde8c0088219a7c68b99bc9c65235f2c2f4888e5a9d85f77fea1dfc"
+    },
+    {
+      "expected_original_primary_csv_bytes": 13461718,
+      "frozen_metadata_rank": 16,
+      "original_dois": [
+        "doi:10.5441/001/1.q23p1t84"
+      ],
+      "original_file": {
+        "bitstream_uuid": "cba24fc5-8e3f-427f-b7ea-e00c63a4dbf8",
+        "bytes": 13461718,
+        "original_file_name": "Black Kites at the Strait of Gibraltar (data from Marques et al. 2019).csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "8c14762b95f64ad22f0b54385ecf2ede"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "294524920"
+      ],
+      "original_source_package_uuid": "1ea09120-155c-4fc4-8a39-81df22784fac",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Milvus migrans",
+      "selection_SHA256": "42f653cdad8f246029eb3af2cf816a00cc8cf8c830219603fb216d5cd7903732"
+    },
+    {
+      "expected_original_primary_csv_bytes": 6809097,
+      "frozen_metadata_rank": 17,
+      "original_dois": [
+        "doi:10.5441/001/1.293"
+      ],
+      "original_file": {
+        "bitstream_uuid": "5e4c8652-4c29-4502-b837-b7a11c64ae0b",
+        "bytes": 6809097,
+        "original_file_name": "White-tailed Deer Movement Florida.csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "68f281b1fb6734febe2c13e9f0696ec6"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "2976678046"
+      ],
+      "original_source_package_uuid": "e7d1c177-cb56-4960-9c6f-e20986ff651a",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Odocoileus virginianus",
+      "selection_SHA256": "4670fcc94188b2fafa78381af1561b6da74c980df7f578049d80fb8ab37fda3b"
+    },
+    {
+      "expected_original_primary_csv_bytes": 18196368,
+      "frozen_metadata_rank": 18,
+      "original_dois": [
+        "doi:10.5441/001/1.700"
+      ],
+      "original_file": {
+        "bitstream_uuid": "3ad0b906-3862-4916-931b-39b2375743ac",
+        "bytes": 18196368,
+        "original_file_name": "Snowy Range Moose in Wyoming (2019-2020).csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "4e8f1f7c5641e83612a629ee7c48c0fb"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "Attribution-NonCommercial 4.0 International"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "2548892515"
+      ],
+      "original_source_package_uuid": "6857a715-9703-40fe-b306-43464f65a35c",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Alces alces",
+      "selection_SHA256": "49c20e2f42623d2a84dd59640c96370fb2d6c0133cea9ca81c97a5783d3e47fa"
+    },
+    {
+      "expected_original_primary_csv_bytes": 1578669,
+      "frozen_metadata_rank": 19,
+      "original_dois": [
+        "doi:10.5441/001/1.66n12c36"
+      ],
+      "original_file": {
+        "bitstream_uuid": "d5192b69-c54f-4107-a6a6-ec76418f295d",
+        "bytes": 1578669,
+        "original_file_name": "Chick-rearing movements of Yelkouan Shearwaters 2012-2014 (BirdLife Malta).csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "e34887297546f15664677687735805ae"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "108322181"
+      ],
+      "original_source_package_uuid": "94c9f436-2a1f-4238-947b-eb9240713b0b",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Puffinus yelkouan",
+      "selection_SHA256": "4c8b6617e12a651108c27e86e0f4f88d2b53a672cea47d2fe86271e0fbf8e92f"
+    },
+    {
+      "expected_original_primary_csv_bytes": 16689348,
+      "frozen_metadata_rank": 20,
+      "original_dois": [
+        "doi:10.5441/001/1.74pf3n2p"
+      ],
+      "original_file": {
+        "bitstream_uuid": "17ee83f6-d3ec-4030-94fb-e7cdbfeabc1d",
+        "bytes": 16689348,
+        "original_file_name": "Pronghorn (Antilocapra americana) Wyoming_Colorado USA.csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "a4ce53222c790f8ecaa577311ad3df34"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "2478177417"
+      ],
+      "original_source_package_uuid": "0b812dab-840b-4940-af5d-98cf2c5f9f63",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Antilocapra americana",
+      "selection_SHA256": "4ffdba069a6e55ded524f3d54c02174bc17ca53cc1469c9fb0165bd051afd98d"
+    },
+    {
+      "expected_original_primary_csv_bytes": 8597658,
+      "frozen_metadata_rank": 21,
+      "original_dois": [
+        "doi:10.5441/001/1.672"
+      ],
+      "original_file": {
+        "bitstream_uuid": "6daf2bd5-00c9-4e61-995a-de7f815acfea",
+        "bytes": 8597658,
+        "original_file_name": "Wild Pig_Boar GPS Study on Rangeland-Sus scrofa-Oklahoma_part.csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "966833ee6f8373cbee2c61210d4440a9"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "3006923937"
+      ],
+      "original_source_package_uuid": "b7341994-42fa-4599-9858-086ffaa145f6",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Sus scrofa",
+      "selection_SHA256": "5126db50156b348f1bc3f2a94d6f28207f6fab473512a5008836306ebcd7eafc"
+    },
+    {
+      "expected_original_primary_csv_bytes": 67561755,
+      "frozen_metadata_rank": 22,
+      "original_dois": [
+        "doi:10.5441/001/1.292"
+      ],
+      "original_file": {
+        "bitstream_uuid": "2234e9bb-114a-48c3-87ea-6a2d7e2010ba",
+        "bytes": 67561755,
+        "original_file_name": "American Herring Gulls - GPS - Lobster Bay, Southwest Nova Scotia Canada.csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "1b5986102a5025dec3ea25c203dacff4"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "2944153255"
+      ],
+      "original_source_package_uuid": "91804022-7b95-4192-a1bb-5288e1141225",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Larus smithsonianus",
+      "selection_SHA256": "532f6b3446c2fe2da0e8e6134bb132cbdc419e0b45c49de55cadc004f83b0411"
+    },
+    {
+      "expected_original_primary_csv_bytes": 30732701,
+      "frozen_metadata_rank": 23,
+      "original_dois": [
+        "doi:10.5441/001/1.5bd6pq55"
+      ],
+      "original_file": {
+        "bitstream_uuid": "792122ca-c534-4607-81d4-1154cb7a5196",
+        "bytes": 30732701,
+        "original_file_name": "Grey-headed flying fox, Adelaide, 2015-2018.csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "72fc6f9c8819675666259e4db9eb6395"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "1077432441"
+      ],
+      "original_source_package_uuid": "f7b38cdd-b028-4889-8163-694c86df7dec",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Pteropus poliocephalus",
+      "selection_SHA256": "54f71387a3af345718d75741aaef36fec48cf88aeeb976e69fdfd3d119b9baa7"
+    },
+    {
+      "expected_original_primary_csv_bytes": 30203173,
+      "frozen_metadata_rank": 24,
+      "original_dois": [
+        "doi:10.5441/001/1.cp97k9j1"
+      ],
+      "original_file": {
+        "bitstream_uuid": "8f5335c6-4453-4e60-96a3-0f3fcde7f9fb",
+        "bytes": 30203173,
+        "original_file_name": "Von der Decken's hornbill (Jetz Kenya).csv",
+        "provider_checksum": {
+          "checkSumAlgorithm": "MD5",
+          "value": "458eb834feec682572a399a4634be9e5"
+        }
+      },
+      "original_gps_event_rows_read": 0,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_primary_candidate_count": 1,
+      "original_repository_study_ids": [
+        "1087068449"
+      ],
+      "original_source_package_uuid": "a41015db-4632-46dc-abed-277b16daf97b",
+      "original_source_status": "ORIGINAL_FILE_METADATA_QUALIFIED",
+      "original_taxon": "Tockus deckeni",
+      "selection_SHA256": "579bdbdf11033a3fcd6c81b27fc0a6ec2b522735b44cd113c4574cc10067c534"
+    }
+  ],
+  "date": "2026-10-25",
+  "external_source_catalog_frame_size": 437,
+  "original_GPS_positions_or_bearings_read": 0,
+  "prior_source_exclusion_count": 45,
+  "provider_original_metadata_qualified": 24,
+  "provider_original_source_hold": 0,
+  "source_selection_count": 24,
+  "status": "PROVIDER_SOURCE_IDENTITIES_FROZEN_BEFORE_NEW_GPS_OR_WEATHER_OUTCOME",
+  "version": "external-24-original-GPS-solar-radiation-validation-v0",
+  "provenance": {
+    "first_source_preflight_workflow_id": 40181787706,
+    "url": "https://github.com/zuizui0223/odsp/actions/runs/40181787706",
+    "original_new_solar_weather_observation_rows_read": 0,
+    "frozen_contract_commit": "fcda782de692e37214f320067ebe79999fa6a3f4"
+  }
+}

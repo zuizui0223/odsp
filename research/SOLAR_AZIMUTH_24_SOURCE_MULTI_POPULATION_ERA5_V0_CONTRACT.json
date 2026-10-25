@@ -1,0 +1,67 @@
+{
+  "version": "original-gps-solar-population-weather-v0",
+  "freeze_date": "2026-10-25",
+  "goal": "An ecological, original-GPS multi-source analysis of solar-relative animal movement directions under varying actual-hour modelled wind, radiation and thermal conditions. Expand beyond the two postselected multispecies ecology archives; retain original full source denominator and ecological failure statuses.",
+  "frame": {
+    "source": "research/GLOBAL_SOLAR_AZIMUTH_NEW24_PROVIDER_FROZEN_SOURCE_FILE_MANIFEST_20261025.json",
+    "prior_first_outcomes": "research/GLOBAL_SOLAR_AZIMUTH_NEW24_ORIGINAL_GPS_FIRST_V2_RESULT_20261025.json",
+    "preselected_header_frame": "research/GLOBAL_SOLAR_AZIMUTH_24_SCHEMA_QUALIFIED_NEW_SOURCE_V2_CONTRACT.json",
+    "selected_original_source_packages": 24,
+    "selection": "ALL 24 archives fixed by original Movebank GPS header and source-only metadata, NOT by previously observed sunward-effect sign, weather values or treatment outcome. Preserve unsupported species and all weather source HOLDs.",
+    "source_study_unit": "Original public Movebank study-ID within archived package; two subregion-years or species from the same study are NOT independent field populations. Raw original source animal names never exported."
+  },
+  "GPS": {
+    "provider": "Movebank provider ORIGINAL bitstream, exact frozen UUID/checksum/bytes. No substitutes if original MD5 no longer matches.",
+    "method": "Reuse scripts/global_solar_azimuth_12_new_original_events_v1.py strict original taxon-time parser and scripts/solar_azimuth_macro_v0.py fixed astronomical direction/cadence thresholds. Select closest original source UTC fix to the start of each UTC hour using timestamp only, then 0.5–2h, >=100m observed step, <=60km/h and sun geometric elevation at both endpoints and midpoint >=10 degrees.",
+    "preweather_replay": "For EACH native source taxon, reproduce first v2 original GPS source taxon status, animal count and sunward/clock-adjusted original group mean exactly with tolerance <=1e-12 before any ERA5 call. If source integrity or baseline replay fails, mark SOURCE_HOLD and read no weather.",
+    "observed_gridyear": "floor original GPS-step midpoint WGS84 latitude to integer degree, circular longitude floor to degree, and midpoint UTC year. Coordinates never leave runner.",
+    "source_siteyear_selection": "For each original source native taxon separately rank original daylight directional GPS grid-years by the number of distinct tagged original source animals, then count of accepted daylight displacement intervals, then lexicographically ascending grid/year. Retain top TWO grid-years with >=3 animals, >=30 accepted original GPS intervals and >=3 solar dates, only years 1940–2025 inclusive. No replacement if a chosen cell-year fails original weather access. This support-only selection is after previous solar results so it is explicitly exploratory, not a newly independent random global sample.",
+    "max_gridyears_per_registered_native_taxon": 2,
+    "max_gridyear_weather_API_queries_per_original_source": 8
+  },
+  "weather": {
+    "model": "ERA5 hourly historical archive via public Open-Meteo; no Best Match, no multi-model interpolation",
+    "API": "https://archive-api.open-meteo.com/v1/archive",
+    "variables": [
+      "wind_speed_100m",
+      "wind_direction_100m",
+      "shortwave_radiation",
+      "temperature_2m"
+    ],
+    "parameters": {
+      "models": "era5",
+      "timezone": "UTC",
+      "wind_speed_unit": "ms",
+      "elevation": "nan",
+      "cell_selection": "nearest"
+    },
+    "grid": "1-degree WGS84 cell center (floor midpoint source GPS lat+0.5, floor midpoint source GPS lon+0.5), exactly ONE full original observation UTC calendar year per selected original cell-year.",
+    "join": "Original GPS step midpoint time rounded DOWN to beginning of UTC hour; no time interpolation and no source event substitution.",
+    "provenance": "Source provider raw hourly JSON SHA-256 and anonymous source-year sample coverage (not exact grid or animal event time) preserved; raw climate JSON bodies are not archived, so later refetch may drift. No new weather effects used to select study/source/year.",
+    "exposure_limit": "Wind at 100m is modelled meteorology not actual altitude experienced by flying bird; shortwave is gridded preceding-hour radiation not individual incident solar energy; ambient 2m modelled temperature not body temperature."
+  },
+  "response": {
+    "primary_description": "For each admitted taxon × source-grid-year: equal original animals, mean cos(GPS travel bearing − sun azimuth), mean cos(GPS travel bearing − 100m wind flow TO), mean cos(100m wind flow TO − sun azimuth), and mean ERA5 windspeed/shortwave/2m temperature, calculated on EXACT same daytime moving GPS intervals.",
+    "source_environmental_support": "At least 5 different source tagged animals each with >=10 weather-complete GPS intervals spanning >=3 solar dates in this selected grid-year. >=90% original accepted GPS steps joined to ERA5 data, and at least 5 animals retained. Otherwise environmental result unavailable, not ecological zero.",
+    "month_solar_clock_stratification": "For association estimates only, within each tagged individual, within UTC calendar month × original apparent solar 4-hour clock bin, require >=8 weather-joined GPS intervals over >=3 solar dates, and at least TWO supported blocks per animal. The selected coarse GPS grid-year is always constant within an analyzed source-context.",
+    "association_predictors": {
+      "wind_sun_cos": "cos(WindFlowToAzimuth − SunAzimuth), slope per unit",
+      "windspeed": "ERA5 100m wind speed, slope per 1 m/s",
+      "shortwave": "ERA5 gridded shortwave, slope per +100 W/m²",
+      "temperature": "ERA5 2m temperature, slope per +5°C"
+    },
+    "min_block_predictor_SD": {
+      "wind_sun_cos": 0.12,
+      "windspeed_ms": 0.8,
+      "shortwave_Wm2": 60,
+      "temperature_C": 2
+    },
+    "minimum_individuals_for_association": 5,
+    "regression": "Within individual and month×solar-hour blocks, center predictor and cos(GPS bearing − solar azimuth); sum within-block covariance over sum within-block predictor squared deviations, with >=2 varying blocks and >=20 original matched steps per animal. These are FOUR separately estimated univariate associations, NOT jointly adjusted or causal effects.",
+    "uncertainty": "1000 original tagged-individual cluster bootstrap draws, deterministic seed 20261025. Source-group-only descriptive percentile intervals, NO per-step iid p values and NO source independence implied.",
+    "reporting": "All 24 source archives and original native taxon combinations, all selected/failing site-years, original selected weather support, weather receipt hashes; publish NO GPS precise coordinates, cell IDs, individual IDs, exact timestamps, request URLs or animal-level coefficients."
+  },
+  "hypothesis": "Sun-relative travel heading is environmentally context dependent rather than one universal sunward-or-antisunward response. Wind-flow geometry and wind/shortwave/temperature conditions may contribute to its variation across populations but the observational test cannot identify cause, or prove animals sense/avoid the Sun.",
+  "inferential_limit": "Even among public independent field study-ID labels, the measured source-gridyear is a convenience population, not a globally area-weighted biome sample. Coarse climate, solar geometry, migration, selected fix cadence, biological guild, time and seasonal history remain confounded. Compare source block means; never count individual GPS fixes, animals within a source or multiple years/grids in one original study as independent ecosystems.",
+  "state": "FROZEN_BEFORE_ANY_NEW_MULTI_POPULATION_ERA5_DATA_OR_ASSOCIATION_OUTCOMES"
+}

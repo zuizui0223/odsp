@@ -1,0 +1,36 @@
+name: Across-source solar weather ecological associations v0
+on:
+  push:
+    branches:
+      - ecology/solar-weather-population-v0
+    paths:
+      - 'research/SOLAR_AZIMUTH_24_SOURCE_WEATHER_STUDY_BLOCK_SYNTHESIS_V0_CONTRACT.json'
+      - 'research/SOLAR_AZIMUTH_24_SOURCE_MULTI_POPULATION_ERA5_V0_FIRST_ALL_RESULTS_20261025.json'
+      - 'scripts/analyze_solar_azimuth_24_source_weather_study_blocks_v0.py'
+      - 'tests/test_solar_azimuth_weather_study_blocks_v0.py'
+      - '.github/workflows/solar-weather-study-block-synthesis-v0.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_source_study_block_macro_ecology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify source-ID weighting, original roster, rank gradients and null/hold semantics
+        run: python -m unittest discover -s tests -p 'test_solar_azimuth_weather_study_blocks_v0.py' -v
+      - name: Estimate macroecological source-average weather context and within-animal slopes
+        run: |
+          python -m scripts.analyze_solar_azimuth_24_source_weather_study_blocks_v0 \
+            --out outputs/solar_weather_study_blocks
+      - name: Preserve auditable 24-study ecological results and missingness
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-24-study-source-equal-solar-weather-ecology-v0
+          path: outputs/solar_weather_study_blocks/study_block_macroecology.json
+          if-no-files-found: warn
