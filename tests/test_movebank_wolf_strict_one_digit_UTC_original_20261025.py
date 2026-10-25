@@ -47,7 +47,7 @@ class YellowstoneWolfStrictOriginalTimeSource(unittest.TestCase):
     def test_metadata_contract_does_not_authorize_other_time_reinterpretations(self):
         c=json.loads(Path("research/MOVEBANK_WOLF_STRICT_ONE_DIGIT_UTC_REPAIR_SOURCE_ONLY_20261025.json").read_text())
         self.assertIn("ONLY strings exactly",c["allowed_single_repair"])
-        self.assertIn("suffix is not Z",c["limits"])
+        self.assertIn("non-Z suffix",c["limits"])
         self.assertIn("no original animal movement",c["scientific_scope"])
 
 if __name__=="__main__":
