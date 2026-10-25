@@ -3,7 +3,7 @@ import math
 import unittest
 from datetime import date, datetime, timedelta, timezone
 
-from odsp.solar_azimuth_macro_v0 import (
+from scripts.solar_azimuth_macro_v0 import (
     Step, analyze_taxon, bearing_degrees, circular_span_degrees,
     cosine_alignment, directional_step, distance_km, summarize_animal, sun_position
 )
