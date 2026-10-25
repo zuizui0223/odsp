@@ -1,0 +1,35 @@
+name: Two frozen original GPS 24-study solar-radiation nonreplication ecology
+on:
+  push:
+    branches:
+      - ecology/solar-radiation-replication-diagnostic-v0
+    paths:
+      - 'research/SOLAR_RADIATION_TWO_24_SOURCE_NONREPLICATION_DIAGNOSTIC_V0_CONTRACT.json'
+      - 'scripts/analyze_original_solar_radiation_two_cohorts_diagnostic_v0.py'
+      - 'tests/test_solar_radiation_two_24_cohort_diagnostic_v0.py'
+      - '.github/workflows/solar-radiation-two-cohort-diagnostic-v0.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  complete_original_source_pair_of_cohorts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate 48 original archived source-ID denominator and post-result inference ceiling
+        run: python -m unittest discover -s tests -p 'test_solar_radiation_two_24_cohort_diagnostic_v0.py' -v
+      - name: Reproduce two frozen study-source means and study-block replicate differences
+        run: |
+          python -m scripts.analyze_original_solar_radiation_two_cohorts_diagnostic_v0 \
+            --out outputs/radiation_two_source_cohorts
+      - name: Preserve full 48-source source-level diagnostic and original missing studies
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: all48-original-Movebank-GPS-two-radiation-cohort-diagnostic-v0
+          path: outputs/radiation_two_source_cohorts/full48_original_source_radiation_nonreplication_diagnostic.json
+          if-no-files-found: warn
