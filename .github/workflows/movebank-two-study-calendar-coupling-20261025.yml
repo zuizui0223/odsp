@@ -1,0 +1,34 @@
+name: Original two-ungulate-studies ecological calendar coupling decomposition
+on:
+  push:
+    branches: [ecology/utah-four-taxa-solar-20261019]
+    paths:
+      - 'research/ODSP_TWO_STUDY_ECOLOGICAL_CALENDAR_COUPLING_V0_20261025.json'
+      - 'scripts/movebank_ecological_calendar_coupling_20261025.py'
+      - 'tests/test_movebank_ecological_calendar_coupling_20261025.py'
+      - '.github/workflows/movebank-two-study-calendar-coupling-20261025.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_ecology_decomposition:
+    strategy:
+      fail-fast: false
+      matrix:
+        source: [utah, wyoming]
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Test exact ecological covariance decomposition and original source locks
+        run: python -m unittest discover -s tests -p 'test_movebank_ecological_calendar_coupling_20261025.py' -v
+      - name: Replay original GPS+ERA5 and compare thermal-water daylight covariance with conditional calendar association
+        run: python -m scripts.movebank_ecological_calendar_coupling_20261025 --source ${{ matrix.source }} --out outputs/calendar_coupling_${{ matrix.source }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-${{ matrix.source }}-ecological-calendar-coupling-v0-20261025
+          path: outputs/calendar_coupling_${{ matrix.source }}/${{ matrix.source }}_calendar_decomposition.json
+          if-no-files-found: warn
