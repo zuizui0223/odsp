@@ -19,7 +19,7 @@ def artificial_animal(true_sw=0.0,geometry=0.3,collinear=False):
                 s=.5+.02*(hour-10)+.013*(day-3)+.012*(month-5)
                 sunel=math.degrees(math.asin(s))
                 residual=75*(((-1)**(hour+day))+0.4*(day%3-1))
-                SW=360+1250*(s-.5)+22*(hour-10)
+                SW=360+(4000 if collinear else 1250)*(s-.5)+22*(hour-10)
                 if not collinear:
                     SW+=residual
                 sunaz=150
