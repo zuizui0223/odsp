@@ -5,8 +5,8 @@
   "distinct_source_taxon_pairs": 4,
   "previous_shared_solar_only_pair_effects_replayed": 4,
   "all_pairs_weather_original_coverage_100pct": true,
-  "source_ERA5_grid_year_request_blocks": 9,
-  "source_original_GPS_steps_in_weather_candidate_frames": 25567,
+  "source_ERA5_grid_year_request_blocks": 13,
+  "source_original_GPS_steps_in_weather_candidate_frames": 40060,
   "sum_pair_cell_comparisons": 122,
   "prior_solar_original_sources": [
     "research/GLOBAL_SOLAR_AZIMUTH_MULTITAXON_SHARED_CELL_COMBINED_FROZEN_V0_V1_20261025.json"
