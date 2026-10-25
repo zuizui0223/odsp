@@ -1,0 +1,37 @@
+name: Study-block original solar altitude irradiation sensitivity synthesis
+on:
+  push:
+    branches:
+      - ecology/solar-altitude-controlled-radiation-v0
+    paths:
+      - 'research/SOLAR_ALTITUDE_GPS_48_SOURCE_FIRST_ALL_RESULTS_20261025.json'
+      - 'scripts/summarize_solar_altitude_conditional_48_source_v0.py'
+      - 'tests/test_summarize_solar_altitude_48_source_v0.py'
+      - '.github/workflows/solar-altitude-study-block-summary-v0.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  full48_source_elevation_conditioned_shortwave:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify original 48-source denominator and astronomical sensitivity estimator
+        run: |
+          python -m unittest discover -s tests -p 'test_summarize_solar_altitude_48_source_v0.py' -v
+          python -m unittest discover -s tests -p 'test_solar_radiation_sun_altitude_fwl_v0.py' -v
+      - name: Summarize 20 sampled source studies after original GPS and ERA5 replay
+        run: |
+          python -m scripts.summarize_solar_altitude_conditional_48_source_v0 \
+            --out outputs/solar_altitude_study_macro
+      - name: Publish 48-source complete ecological support and every altitude-adjusted hold
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: full48-original-solar-altitude-radiation-sensitivity-macro-v0
+          path: outputs/solar_altitude_study_macro/full48_solar_elevation_weather_source_study_sensitivity.json
+          if-no-files-found: warn
