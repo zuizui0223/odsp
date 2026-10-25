@@ -1,0 +1,44 @@
+name: Original GPS 24-study solar-bearing weather ecology v0
+on:
+  push:
+    branches:
+      - ecology/solar-weather-population-v0
+    paths:
+      - 'research/SOLAR_AZIMUTH_24_SOURCE_MULTI_POPULATION_ERA5_V0_CONTRACT.json'
+      - 'scripts/run_solar_azimuth_24_source_population_weather_v0.py'
+      - 'tests/test_solar_azimuth_24_source_population_weather_v0.py'
+      - '.github/workflows/solar-weather-population-24-sources-v0.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_GPS_population_weather:
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Known-truth original GPS pre-weather exact replay, source sampling and ERA5 astronomy
+        run: |
+          python -m unittest discover -s tests -p 'test_solar_azimuth_24_source_population_weather_v0.py' -v
+          python -m unittest discover -s tests -p 'test_solar_wind_irradiance_shared_gps_v0.py' -v
+          python -m unittest discover -s tests -p 'test_global_solar_azimuth_macro_v0.py' -v
+      - name: All original four assigned archives with full source MD5 and exact frozen response replay
+        run: |
+          python -m scripts.run_solar_azimuth_24_source_population_weather_v0 \
+            --shard ${{ matrix.shard }} \
+            --out outputs/solar_weather_population
+      - name: Preserve source and species environment descriptors and hold statuses without animal raw data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-24-source-GPS-solar-weather-population-shard-${{ matrix.shard }}-v0
+          path: outputs/solar_weather_population/original_source_population_weather_shard_*.json
+          if-no-files-found: warn
