@@ -1,0 +1,78 @@
+{
+  "date": "2026-10-25",
+  "original_sources": "The v0 northern/southern source MD5-verified results and registry-blind v1 new original source results; no new GPS data or inference thresholds in this algebraic recomputation.",
+  "identity": "Mean cos(B-A) = E[cosB]E[cosA]+E[sinB]E[sinA]+Cov(cosB,cosA)+Cov(sinB,sinA) within each original animal-year, preserved under equal-year and animal means.",
+  "scope": {
+    "source_taxon_groups": 21,
+    "literal_taxa": 17,
+    "larger_absolute_marginal_component": 11,
+    "larger_absolute_joint_component": 10
+  },
+  "selected_previously_known_taxon_replicates": [
+    {
+      "source": "elk_canada",
+      "taxon": "Cervus elaphus",
+      "n": 130,
+      "raw": -0.06528943136319336,
+      "marginal": -0.013598895939913154,
+      "joint": -0.051690535423280205
+    },
+    {
+      "source": "Utah_UDWR",
+      "taxon": "Cervus elaphus",
+      "n": 327,
+      "raw": -0.03099213867498672,
+      "marginal": -0.002053385493203542,
+      "joint": -0.02893875318178318
+    },
+    {
+      "source": "Utah_UDWR",
+      "taxon": "Odocoileus hemionus",
+      "n": 1652,
+      "raw": 0.023393157844424365,
+      "marginal": 0.0030487191608487008,
+      "joint": 0.020344438683575664
+    },
+    {
+      "source": "Utah_UDWR",
+      "taxon": "Ovis canadensis",
+      "n": 341,
+      "raw": 0.020777764359222645,
+      "marginal": 0.013720976426090926,
+      "joint": 0.0070567879331317205
+    },
+    {
+      "source": "Wyoming_2019_2020",
+      "taxon": "Odocoileus hemionus",
+      "n": 110,
+      "raw": -0.04875792375635666,
+      "marginal": -0.04283750458040546,
+      "joint": -0.005920419175951203
+    },
+    {
+      "source": "Wyoming_2019_2020",
+      "taxon": "Ovis canadensis",
+      "n": 41,
+      "raw": -0.005280664595582365,
+      "marginal": -0.0007764223648863569,
+      "joint": -0.004504242230696008
+    },
+    {
+      "source": "etosha_elephant",
+      "taxon": "Loxodonta africana",
+      "n": 15,
+      "raw": 0.033135779475102364,
+      "marginal": 0.01212813734239403,
+      "joint": 0.021007642132708334
+    },
+    {
+      "source": "kruger_elephant_2007",
+      "taxon": "Loxodonta africana",
+      "n": 14,
+      "raw": -0.009027146456500193,
+      "marginal": 0.020255409706425184,
+      "joint": -0.029282556162925376
+    }
+  ],
+  "ecological_interpretation": "Observed signed solar-relative travel bearings can reflect distinct compass-marginal composition and paired position/time structure across source populations, even when the same species shows a raw sign flip. JOINT circular covariance still includes clock, migration, habitat and sampling effects; it is not animal use of solar cues. MARGINAL is not automatically caused by routes, which remain unmeasured. Dominant magnitude labels are descriptive only. No joint-bootstrap interval for the decomposition or population-independent p-value has been computed."
+}
