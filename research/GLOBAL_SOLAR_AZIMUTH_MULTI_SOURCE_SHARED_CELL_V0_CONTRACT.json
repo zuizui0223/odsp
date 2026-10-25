@@ -1,0 +1,17 @@
+{
+  "version": "global-solar-azimuth-original-multitaxon-shared-cell-v0",
+  "date": "2026-10-25",
+  "pre_disclosure": "This ecological same-context contrast is frozen AFTER individual taxon marginal results for 24-source v2 were inspected. It is explicitly exploratory, NOT an untouched new dataset or confirmation.",
+  "source_frame": "ALL 10 fixed multi-taxon ORIGINAL source CSVs selected for v2 from the complete 159 canonical Movebank GPS header-frame. Keep all sources including those with no source-qualified animals.",
+  "source_manifest": "research/GLOBAL_SOLAR_AZIMUTH_NEW24_PROVIDER_FROZEN_SOURCE_FILE_MANIFEST_20261025.json",
+  "scientific_question": "Do pairs of taxa in the same original GPS source exhibit different sun-relative movement orientations when comparing the same broad geographical grid, calendar year-month, and local apparent solar time stratum?",
+  "ecological_limit": "Sharing an original source and a coarse 1° cell/month does not establish direct co-occurrence, encounter, competition, hunting, sunlight exposure or causal niche partition.",
+  "observation": "Use original timestamp-only nearest-UTC-hour GPS fix and unchanged solar-azimuth directional_step from scripts/solar_azimuth_macro_v0.py; require source original provider MD5/bitstream/bytes match frozen pre-outcome 24-source original file manifest.",
+  "spatial_temporal_cells": "floor(original step midpoint latitude) degree × floor(circular midpoint longitude) degree × original apparent solar calendar year × month × 4-hour apparent solar clock category (0..5). Protected original positions/time cells remain INSIDE runner.",
+  "per_species_cell_support": "At least 3 different GPS-tagged original animals, 3 separate solar dates and 15 original moving interval observations within the same exact cell. Average cos(GPS_bearing−solar_azimuth) within each animal then average eligible animals equally per species per cell.",
+  "pair_cell_support": "An unordered taxon pair only compares source cells where both taxa pass the identical cell gate; retain all taxon-pair candidate combinations regardless of how many cells are jointly observable.",
+  "across_shared_cells": "At least 3 shared source cells; equal-weight average of per-cell species-a minus species-b mean cos, report paired cell count, distinct 1° spatial grids, calendar months, separate qualified source species animals and source dates. No confidence interval from GPS fix independence, no ecological significance test.",
+  "source_scope": "No change to old GPS group outcomes and no post-first threshold revision. Negative, zero, undefined and no-common-support pair results all retained.",
+  "privacy": "Do not export original GPS coordinates, 1° cell IDs, timestamp hours, individual IDs or individual-level response values; only aggregated source×taxon pair and coarse support counts.",
+  "status": "post_prior_result_frozen_for_new_same_cell_contrast_before_outcomes"
+}
