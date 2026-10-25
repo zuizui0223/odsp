@@ -1,0 +1,79 @@
+{
+  "analysis": "FRANCE_GYPS_2019_2021_TERRAIN_AJUSTED_DUAL_SENSOR_SHAPE_V1",
+  "frozen_at": "2026-10-25",
+  "analysis_status": "POST_OUTCOME_TERRAIN_SENSITIVITY_NOT_NEW_REPLICATION",
+  "source": {
+    "doi": "10.48579/PRO/IOSZNM",
+    "zip_name": "windTurbineAvoidance.zip",
+    "zip_md5": "b18cc8004d311d19ff24060f655178bf",
+    "dem_member": "windTurbineAvoidance/Data/RawData/Elevation_Causses.tif",
+    "dem_uncompressed_bytes": 45336059,
+    "dem_crc32": "d7b033fb",
+    "dem_datum_and_projection": "Read TIFF CRS/transform/nodata from raster metadata; do not invent vertical datum. AGL proxy only conditional on altitude source comparability.",
+    "original_altitude_source_result_run": 39716885648,
+    "original_altitude_result_artifact": 12399538915,
+    "original_5km_individual_roster_sha256": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "original_5km_source_eligible_birds": 28,
+    "original_observed_birds_both_sensors": 27,
+    "original_same_5min_evaluation_fixes": 364520,
+    "original_5km_original_results": {
+      "GPS": {
+        "raw_gain": 0.04071337079575615,
+        "null_excess": 0.04865739066286004,
+        "holm_p": 0.002
+      },
+      "BAROMETRIC": {
+        "raw_gain": 0.0414526382434786,
+        "null_excess": 0.04862319881909119,
+        "holm_p": 0.002
+      }
+    },
+    "original_calibration_data_available": true
+  },
+  "spatial_correction": {
+    "native_dem_coverage": "Rasterio sample geospatial DEM elevation at every first-selected 5-minute native GPS fix in original 28 candidate birds, NOT at only height available fixes.",
+    "fixed_coverage_gate": "At least 0.80 of original candidate bird 5-minute fixes are inside DEM extent with finite unmasked elevation (independent of native GPS and barometric altitude). Otherwise report terrain unavailable; don't choose another raster or geographical filter after seeing heights.",
+    "inclusion": "All DEM valid native same-GPS-fix events, both sensor heights finite and within [-500,7000] m native ranges; do not replace earliest missing height with later fix.",
+    "sensor_height": "GPS MSL and barometric native height individually minus same raster elevation at each original GPS fix; retain native sensor-specific centering separately within every UTC bird-day.",
+    "AGL_reasoning": "Terrain subtraction removes large within-50km/5km topographic height differences but does not fully remove device error/DEM vertical datum mismatch/flight behavior changes.",
+    "secondary_dem_coverage": "Report per-bird and per-year geographic availability, not outcome-based exclusions.",
+    "source_quality": "Keep original required >=80% of the DEM-included source native GPS fixes dual-height finite. Every scored UTC day has >=50 matched 5minute fixes, else no evaluation."
+  },
+  "mathematical_test": {
+    "same_kernel": "Use exact existing MEDGULL D1-balanced source day/bird equal self vs other bird 10-bin profile scorer from original dual sensor project.",
+    "same_model": "Hold out whole bird-days; same individual and same 5km grid versus other bird other date. Jeffreys 0.5 pseudocount/height bin, own other day support >=10 fixes and other-bird other date >=10.",
+    "grid": "EPSG:6933 5000 m",
+    "altitude_bins_m": [
+      "-inf",
+      -200,
+      -100,
+      -50,
+      -25,
+      0,
+      25,
+      50,
+      100,
+      200,
+      "inf"
+    ],
+    "bird_day_centering": "Per-sensor median AGL proxy among jointly complete DEM-covered first-selected 5min source GPS fixes that day; offline distribution-shape prediction.",
+    "source_id": "28 original biological source roster from preheight frozen audit; no posthoc bird re-selection.",
+    "minimum_scored_birds": 10,
+    "minimum_scored_days_per_bird": 2,
+    "minimum_fixes_per_scored_bird_day": 50,
+    "null": "999 whole-bird-day source labels permuted within exact UTC date as original sensor pipeline; no fix-level shuffling; 950/999 valid minimum.",
+    "seed": 20261025,
+    "multiple_testing": "Holm across two GPS_AGL and BARO_AGL fixed sensor outcomes including unavailable p=1.",
+    "positive_claim": "Both GPS_AGL and BARO_AGL show positive null-adjusted identity score and Holm p<0.05, with DEM coverage gate and at least 10 birds; otherwise terrain-robust concordance unavailable/not supported.",
+    "per_bird_comparison": "Also report overlap/correlation with original 27 source bird gain estimates descriptively, but any significant new effect cannot be claimed independent validation because original heights have already been seen."
+  },
+  "limitations": [
+    "DEM is included in the original data archive and may be the same terrain source previously used to define home range/animal routing; using it is a postoutcome sensitivity check, not intervention.",
+    "GPS native height 'height-above-msl', barometric height could be calibrated from GPS or ambient weather, so sensor outcome agreement does NOT demonstrate independent physical sensors.",
+    "Subtracting a raster whose vertical datum does not exactly match each source height produces a DEM-referenced offset, not validated geodetic height-above-ground.",
+    "Grid-matched 5km altitude residual still includes within-cell microhabitat, flight state, diurnal/weather and tag-specific measurement errors.",
+    "Source 29 real birds includes a physical GPS calibration/test animal-label quarantined; original 28 eligible biological 5km bird IDs unchanged.",
+    "Tag serial 182208 occurs under two different bird IDs in full archive, but only one original eligible 28 belongs to the shared tag; pair-bird overlap needs explicit caveat."
+  ],
+  "success_or_failure": "Do not change years, 5km, 10-bin edges, original 28 birds, 50 fix/day or DEM coverage threshold if unsupported. Keep original 27-bird native-height positive result unchanged."
+}
