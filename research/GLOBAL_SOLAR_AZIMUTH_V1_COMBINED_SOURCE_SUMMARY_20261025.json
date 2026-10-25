@@ -3,12 +3,10 @@
   "newEligible": 8,
   "totalQualified": 21,
   "distinct_taxa": 17,
-  "MD5_original_archives": 14,
   "new_source_selected": 12,
   "new_source_MD5_analyzed": 7,
   "new_source_HOLD": 5,
   "original_rows_qualified_original_archives": 12466431,
-  "daylight_qualified_GPS_intervals": 1136119,
   "sum_source_taxon_qualified_animals": 3038,
   "raw_positive": 7,
   "raw_negative": 14,
@@ -30,5 +28,11 @@
     "etosha_jackal Canis mesomelas",
     "c92d9814-0950-4b78-885c-ae76b6383c75 Circaetus gallicus"
   ],
-  "warning": "No formal source-independent biological n or causal solar orientation; first 13 post prior outcomes, second 12 registry-blind but schema exclusions reduce scope. Independence, effort and climate remain unverified."
+  "warning": "No formal source-independent biological n or causal solar orientation; first 13 post prior outcomes, second 12 registry-blind but schema exclusions reduce scope. Independence, effort and climate remain unverified.",
+  "archives_with_at_least_one_supported_source_taxon": 14,
+  "all_verified_original_archive_files": 16,
+  "daylight_qualified_steps_in_supported_taxa": 1136119,
+  "qualified_daylight_steps_also_include_unsupported_one_animal_bird": 759,
+  "all_verified_source_daylight_qualified_intervals": 1136878,
+  "source_taxon_rows_including_all_holds_and_undefined": 32
 }
