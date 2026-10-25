@@ -1,0 +1,80 @@
+{
+  "id": "MOVEBANK_SAME_TAXON_THREE_INDEPENDENT_SOURCE_ROSTER_V0_20261025",
+  "registered": "2026-10-25",
+  "sequencing": "The six original GPS cohort effects and calendar-phase diagnostic were inspected earlier. Three DIFFERENT original archive files are selected here from the PREEXISTING metadata-only 437-package/1,677-original-bitstream census, BEFORE any numerical animal movement outcome from these files is read. Exploratory replication candidate, not blind prospective global test.",
+  "ecological_question": "At near-equal annual photoperiod in separate published tracking populations of the SAME mammal species, does the original observational solar-NIGHT vs DAY straight-line GPS displacement seasonal change replicate in sign and DAY/NIGHT composition? Can same-species cross-region differences be separated from study/field protocol?",
+  "baseline_cohorts_known": [
+    {
+      "taxon": "Canis lupus",
+      "baseline": "wolves_alberta",
+      "original_n": 9,
+      "original_relative_GPS_delta": 0.02841038749300514
+    },
+    {
+      "taxon": "Odocoileus virginianus",
+      "baseline": "white_tail_virginia",
+      "original_n": 33,
+      "original_relative_GPS_delta": -0.0031894638756262794
+    },
+    {
+      "taxon": "Cervus elaphus",
+      "baseline": "elk_canada",
+      "original_n": 12,
+      "original_relative_GPS_delta": 0.04500073152774594
+    }
+  ],
+  "candidate_source_files": [
+    {
+      "label": "wolves_yellowstone",
+      "package_uuid": "8c6ffeba-2067-48d9-beba-9ca068111b8e",
+      "doi": "10.5441/001/1.717",
+      "taxon": "Canis lupus",
+      "data_bitstream": "4640a4f8-4fb3-4415-b8ea-3101050236cb",
+      "filename": "Wolves Stahler Yellowstone National Park_part.csv",
+      "file_bytes": 3854637,
+      "checksum_md5": "c45f090bb797d6923e9360122f2ee156",
+      "license": "CC0 1.0 Universal",
+      "reported_animals_archive": 18,
+      "reported_locations_archive": 23604,
+      "baseline_cohort": "wolves_alberta"
+    },
+    {
+      "label": "white_tail_florida",
+      "package_uuid": "e7d1c177-cb56-4960-9c6f-e20986ff651a",
+      "doi": "10.5441/001/1.293",
+      "taxon": "Odocoileus virginianus",
+      "data_bitstream": "5e4c8652-4c29-4502-b837-b7a11c64ae0b",
+      "filename": "White-tailed Deer Movement Florida.csv",
+      "file_bytes": 6809097,
+      "checksum_md5": "68f281b1fb6734febe2c13e9f0696ec6",
+      "license": "CC0 1.0 Universal",
+      "reported_animals_archive": 15,
+      "reported_locations_archive": 40811,
+      "baseline_cohort": "white_tail_virginia"
+    },
+    {
+      "label": "elk_southwest_alberta",
+      "package_uuid": "3a171441-6c9b-4bf9-b2fd-0216d962f091",
+      "doi": "10.5441/001/1.j484vk24",
+      "taxon": "Cervus elaphus",
+      "data_bitstream": "35d5c362-8d5b-4328-885d-16c379be4812",
+      "filename": "Elk in southwestern Alberta.csv",
+      "file_bytes": 149867434,
+      "checksum_md5": "e25e57ba1c901305f26c9c2d03dcc67e",
+      "license": "Attribution 4.0 International",
+      "reported_animals_archive": 171,
+      "reported_locations_archive": 876925,
+      "baseline_cohort": "elk_canada"
+    }
+  ],
+  "source_only_stage": {
+    "backend": "Official Movebank Data Repository DSpace public ORIGINAL bitstream API, with expected UUID, byte count and provider MD5 exactly checked. No third-party mirrors or source substitution.",
+    "screening": "Use pre-existing scripts.movebank_native_ecology_20261019.inspect_csv: original GPS UTC time, physical original individual ID (internal only), GPS WGS84 lat/lon (internal only). A calendar date needs >=3 raw original fixes in BOTH solar-day and solar-night windows, the UTC-to-mean-solar day classifier from first original code. Match original rising vs falling dates in same individual and year around June 21 with modeled daylength mismatch <=5 minutes and at least 30 days apart, deterministic greedy no date reuse.",
+    "reporting": "For each of three fixed original sources report source/MD5 status, original row count, physical observed individuals (count only), individual-years with >=5/10/20 source-only solar dates, maximum matched date-pairs and the source-only n groups. No speeds/displacement, per-animal IDs, original GPS coordinate, raw timestamp or original content.",
+    "source_metric_LIMIT": "Original source-calendar feasibility counts do NOT validate GPS adjacent-step duration 30-120m, within-DAY/night movement or individual observations under duty-cycle constraints. No species response until separate post-source-admission freeze.",
+    "future_first_animal_endpoint": "If ≥5 original marked individuals have ≥10 source-only pair supports, later apply EXACT original unchanged analyze_file() 30–120min 1:1 original date pairs, all zero and insufficient effects retained; no new thresholds and no effect-driven selection."
+  },
+  "source_independence_limit": "Distinct DOI/source file does not guarantee distinct animal populations, individual non-overlap or identically comparable telemetry protocols. Banff/Yaha Tinda and southwest Alberta elk recruit in nearby provinces: SOURCE metadata does not establish field population independence; original reference data/collection years must be audited before calling independent ecological replication.",
+  "safety": "Do not write original tracking CSV, source individual ID or precise GPS coordinates to GitHub or artifact; source data remain ephemeral runner-only. Preserve original six cohort outcomes, earlier phase/calendar-adjusted results, and prior source HOLDS.",
+  "interpretation": "An originally separate source with 0 admitted animals remains ecological source-ineligibility rather than no seasonal effect. Same-taxon signed discrepancies even in admitted source cohorts are observational, not universal species-wide divergence or temperature causes."
+}
