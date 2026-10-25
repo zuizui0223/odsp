@@ -1,0 +1,471 @@
+{
+  "version": "external-24-original-GPS-solar-radiation-validation-v0",
+  "date": "2026-10-25",
+  "first_external_source_data": "research/SOLAR_RADIATION_EXTERNAL_24_SOURCE_FIRST_ALL_RESULTS_20261025.json",
+  "first_external_observation_workflow_run_id": 40182073261,
+  "first_external_directional_decision_workflow_run_id": 40182731749,
+  "workflow_url": "https://github.com/zuizui0223/odsp/actions/runs/40182731749",
+  "original_frozen_24_UUIDs_before_new_GPS_and_weather": "research/SOLAR_RADIATION_EXTERNAL_24_ORIGINAL_SOURCE_V0_CONTRACT.json",
+  "original_provider_MD5_all_new_archives": 24,
+  "first_original_GPS_taxa_with_supported_nge5": 13,
+  "heldout_source_weather_observation_studies": 12,
+  "weather_matched_original_GPS_intervals": 54623,
+  "original_studies_with_identifiable_radiation_slope": 10,
+  "first_original_sample_negative_slope": -0.019658718057344777,
+  "source_primary_radiation_per_100Wm2": {
+    "all_frozen_source_archives": 24,
+    "equal_original_source_study_mean": -0.0033607359100145946,
+    "leave_one_source_out_mean_range": [
+      -0.012417907516624086,
+      0.004347610168336786
+    ],
+    "predeclared_external_replication_decision": "NEGATIVE_DIRECTION_NOT_REPLICATED_IN_HELDOUT_SOURCE_SAMPLE",
+    "preregistered_direction": "negative",
+    "source_study_bootstrap95": [
+      -0.024096753109915714,
+      0.017406324755779155
+    ],
+    "source_study_means_negative": 7,
+    "source_study_means_positive": 3,
+    "strict_source_minimum": 6,
+    "supported_original_source_study_IDs": 10,
+    "test": "2000 fixed-seed source-ID resample percentile 95% upper endpoint <0 and N>=6; not a global population p-value"
+  },
+  "preregistered_directional_replication_decision": "NEGATIVE_DIRECTION_NOT_REPLICATED_IN_HELDOUT_SOURCE_SAMPLE",
+  "all_24_source_study_slope_means": [
+    {
+      "source_uuid": "8c6ffeba-2067-48d9-beba-9ca068111b8e",
+      "taxon": "Canis lupus",
+      "source_study_ids": [
+        "2390963697"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 0,
+      "original_first_sunward_mean": null,
+      "weather_context_count": 0,
+      "weather_context_supported": 0,
+      "source_slope_means": {
+        "wind_sun_cos": null,
+        "windspeed_ms": null,
+        "shortwave_Wm2": null,
+        "temperature_C": null
+      }
+    },
+    {
+      "source_uuid": "2facc53d-e454-4bd4-82d1-f17040ec42a3",
+      "taxon": "Equus ferus",
+      "source_study_ids": [
+        "2478104452"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 0,
+      "original_first_sunward_mean": null,
+      "weather_context_count": 0,
+      "weather_context_supported": 0,
+      "source_slope_means": {
+        "wind_sun_cos": null,
+        "windspeed_ms": null,
+        "shortwave_Wm2": null,
+        "temperature_C": null
+      }
+    },
+    {
+      "source_uuid": "38e05433-0a6f-49c4-ab77-0511e716786c",
+      "taxon": "Loxodonta africana",
+      "source_study_ids": [
+        "22646468"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 2,
+      "original_first_sunward_mean": null,
+      "weather_context_count": 0,
+      "weather_context_supported": 0,
+      "source_slope_means": {
+        "wind_sun_cos": null,
+        "windspeed_ms": null,
+        "shortwave_Wm2": null,
+        "temperature_C": null
+      }
+    },
+    {
+      "source_uuid": "80b3da4f-5e2d-4fb0-998f-121231d2ed71",
+      "taxon": "Puma concolor",
+      "source_study_ids": [
+        "2561156373"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 36,
+      "original_first_sunward_mean": 0.04779016538247184,
+      "weather_context_count": 2,
+      "weather_context_supported": 2,
+      "source_slope_means": {
+        "wind_sun_cos": 0.025895479090354417,
+        "windspeed_ms": -0.013093812461435643,
+        "shortwave_Wm2": -0.07273585061517703,
+        "temperature_C": -0.05596679994300584
+      }
+    },
+    {
+      "source_uuid": "cec3bcf7-08fe-43e7-ac0c-af8f7d684a04",
+      "taxon": "Pelecanus occidentalis",
+      "source_study_ids": [
+        "296027617"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 71,
+      "original_first_sunward_mean": -0.006645074261207913,
+      "weather_context_count": 2,
+      "weather_context_supported": 2,
+      "source_slope_means": {
+        "wind_sun_cos": -0.03493936146740232,
+        "windspeed_ms": 0.015619261731662918,
+        "shortwave_Wm2": -0.001071094710547592,
+        "temperature_C": -0.060151169134711226
+      }
+    },
+    {
+      "source_uuid": "909126ab-cd8f-4c6f-98aa-99ea62f689de",
+      "taxon": "Calonectris diomedea",
+      "source_study_ids": [
+        "317481491"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 22,
+      "original_first_sunward_mean": 0.047534970277859405,
+      "weather_context_count": 2,
+      "weather_context_supported": 2,
+      "source_slope_means": {
+        "wind_sun_cos": 0.18530821117035956,
+        "windspeed_ms": -0.02418076056536953,
+        "shortwave_Wm2": 0.008143927997609242,
+        "temperature_C": null
+      }
+    },
+    {
+      "source_uuid": "e3343be6-d586-4c65-8b0a-cd2a063f24c9",
+      "taxon": "Pteropus lylei",
+      "source_study_ids": [
+        "681056756"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 0,
+      "original_first_sunward_mean": null,
+      "weather_context_count": 0,
+      "weather_context_supported": 0,
+      "source_slope_means": {
+        "wind_sun_cos": null,
+        "windspeed_ms": null,
+        "shortwave_Wm2": null,
+        "temperature_C": null
+      }
+    },
+    {
+      "source_uuid": "a19440b7-58a0-488a-a345-97f8d7afef87",
+      "taxon": "Anthropoides virgo",
+      "source_study_ids": [
+        "631036041"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 9,
+      "original_first_sunward_mean": -0.03959590368410474,
+      "weather_context_count": 2,
+      "weather_context_supported": 2,
+      "source_slope_means": {
+        "wind_sun_cos": null,
+        "windspeed_ms": null,
+        "shortwave_Wm2": null,
+        "temperature_C": null
+      }
+    },
+    {
+      "source_uuid": "949bd0c7-87d5-445a-abed-10fca1989995",
+      "taxon": "Corvus corax",
+      "source_study_ids": [
+        "970414473"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 0,
+      "original_first_sunward_mean": null,
+      "weather_context_count": 0,
+      "weather_context_supported": 0,
+      "source_slope_means": {
+        "wind_sun_cos": null,
+        "windspeed_ms": null,
+        "shortwave_Wm2": null,
+        "temperature_C": null
+      }
+    },
+    {
+      "source_uuid": "7ee85303-d762-4922-bdc2-1f89e0fa004b",
+      "taxon": "Haliaeetus leucocephalus",
+      "source_study_ids": [
+        "430263960"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 15,
+      "original_first_sunward_mean": -0.04025563486273082,
+      "weather_context_count": 2,
+      "weather_context_supported": 0,
+      "source_slope_means": {
+        "wind_sun_cos": null,
+        "windspeed_ms": null,
+        "shortwave_Wm2": null,
+        "temperature_C": null
+      }
+    },
+    {
+      "source_uuid": "35c83272-210b-44c3-a7fc-7d0658137540",
+      "taxon": "Procyon lotor",
+      "source_study_ids": [
+        "552493955"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 0,
+      "original_first_sunward_mean": null,
+      "weather_context_count": 0,
+      "weather_context_supported": 0,
+      "source_slope_means": {
+        "wind_sun_cos": null,
+        "windspeed_ms": null,
+        "shortwave_Wm2": null,
+        "temperature_C": null
+      }
+    },
+    {
+      "source_uuid": "5e487e1e-4271-4ee7-b5c7-5a05159cc81c",
+      "taxon": "Felis catus",
+      "source_study_ids": [
+        "1728787796"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 12,
+      "original_first_sunward_mean": -0.008671984927771105,
+      "weather_context_count": 2,
+      "weather_context_supported": 1,
+      "source_slope_means": {
+        "wind_sun_cos": -0.03407596674501114,
+        "windspeed_ms": -0.033447357497559976,
+        "shortwave_Wm2": -0.00066930040677199,
+        "temperature_C": -0.03446870052989588
+      }
+    },
+    {
+      "source_uuid": "f8d590ca-0f7a-47ef-bacd-dd9efada41b9",
+      "taxon": "Sula variegata",
+      "source_study_ids": [
+        "5549752586"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 1,
+      "original_first_sunward_mean": null,
+      "weather_context_count": 2,
+      "weather_context_supported": 0,
+      "source_slope_means": {
+        "wind_sun_cos": null,
+        "windspeed_ms": null,
+        "shortwave_Wm2": null,
+        "temperature_C": null
+      }
+    },
+    {
+      "source_uuid": "fb9f260b-b3fa-4c3b-a059-847341c43998",
+      "taxon": "Buteo swainsoni",
+      "source_study_ids": [
+        "164144882"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 17,
+      "original_first_sunward_mean": 0.017405356031714957,
+      "weather_context_count": 2,
+      "weather_context_supported": 2,
+      "source_slope_means": {
+        "wind_sun_cos": 0.03762190377383849,
+        "windspeed_ms": -0.007883402507315784,
+        "shortwave_Wm2": -0.02115873303225071,
+        "temperature_C": -0.0005210046363752444
+      }
+    },
+    {
+      "source_uuid": "fd28aac2-b22f-4368-8638-59906e769ded",
+      "taxon": "Caracal caracal",
+      "source_study_ids": [
+        "1832666571"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 17,
+      "original_first_sunward_mean": -0.012331020081814881,
+      "weather_context_count": 2,
+      "weather_context_supported": 2,
+      "source_slope_means": {
+        "wind_sun_cos": -0.10279596517735085,
+        "windspeed_ms": 0.005919888008398928,
+        "shortwave_Wm2": 0.07815380854947082,
+        "temperature_C": null
+      }
+    },
+    {
+      "source_uuid": "1ea09120-155c-4fc4-8a39-81df22784fac",
+      "taxon": "Milvus migrans",
+      "source_study_ids": [
+        "294524920"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 0,
+      "original_first_sunward_mean": null,
+      "weather_context_count": 2,
+      "weather_context_supported": 1,
+      "source_slope_means": {
+        "wind_sun_cos": null,
+        "windspeed_ms": null,
+        "shortwave_Wm2": null,
+        "temperature_C": null
+      }
+    },
+    {
+      "source_uuid": "e7d1c177-cb56-4960-9c6f-e20986ff651a",
+      "taxon": "Odocoileus virginianus",
+      "source_study_ids": [
+        "2976678046"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 15,
+      "original_first_sunward_mean": 0.057147585335018264,
+      "weather_context_count": 1,
+      "weather_context_supported": 1,
+      "source_slope_means": {
+        "wind_sun_cos": 0.010696978341637192,
+        "windspeed_ms": 0.004399928677929878,
+        "shortwave_Wm2": 0.005411820236752053,
+        "temperature_C": null
+      }
+    },
+    {
+      "source_uuid": "6857a715-9703-40fe-b306-43464f65a35c",
+      "taxon": "Alces alces",
+      "source_study_ids": [
+        "2548892515"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 24,
+      "original_first_sunward_mean": 0.026425254808393642,
+      "weather_context_count": 2,
+      "weather_context_supported": 2,
+      "source_slope_means": {
+        "wind_sun_cos": 0.10160454750445322,
+        "windspeed_ms": 0.016798990670871913,
+        "shortwave_Wm2": -0.017828020953630865,
+        "temperature_C": 0.010116948357452332
+      }
+    },
+    {
+      "source_uuid": "94c9f436-2a1f-4238-947b-eb9240713b0b",
+      "taxon": "Puffinus yelkouan",
+      "source_study_ids": [
+        "108322181"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 9,
+      "original_first_sunward_mean": 0.13665437619899326,
+      "weather_context_count": 2,
+      "weather_context_supported": 0,
+      "source_slope_means": {
+        "wind_sun_cos": null,
+        "windspeed_ms": null,
+        "shortwave_Wm2": null,
+        "temperature_C": null
+      }
+    },
+    {
+      "source_uuid": "0b812dab-840b-4940-af5d-98cf2c5f9f63",
+      "taxon": "Antilocapra americana",
+      "source_study_ids": [
+        "2478177417"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 0,
+      "original_first_sunward_mean": null,
+      "weather_context_count": 0,
+      "weather_context_supported": 0,
+      "source_slope_means": {
+        "wind_sun_cos": null,
+        "windspeed_ms": null,
+        "shortwave_Wm2": null,
+        "temperature_C": null
+      }
+    },
+    {
+      "source_uuid": "b7341994-42fa-4599-9858-086ffaa145f6",
+      "taxon": "Sus scrofa",
+      "source_study_ids": [
+        "3006923937"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 0,
+      "original_first_sunward_mean": null,
+      "weather_context_count": 0,
+      "weather_context_supported": 0,
+      "source_slope_means": {
+        "wind_sun_cos": null,
+        "windspeed_ms": null,
+        "shortwave_Wm2": null,
+        "temperature_C": null
+      }
+    },
+    {
+      "source_uuid": "91804022-7b95-4192-a1bb-5288e1141225",
+      "taxon": "Larus smithsonianus",
+      "source_study_ids": [
+        "2944153255"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 15,
+      "original_first_sunward_mean": 0.03598370354782755,
+      "weather_context_count": 2,
+      "weather_context_supported": 2,
+      "source_slope_means": {
+        "wind_sun_cos": -0.014650363122074128,
+        "windspeed_ms": 0.0005029678109249417,
+        "shortwave_Wm2": -0.007817112821819861,
+        "temperature_C": -0.10833255242214951
+      }
+    },
+    {
+      "source_uuid": "f7b38cdd-b028-4889-8163-694c86df7dec",
+      "taxon": "Pteropus poliocephalus",
+      "source_study_ids": [
+        "1077432441"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 0,
+      "original_first_sunward_mean": null,
+      "weather_context_count": 0,
+      "weather_context_supported": 0,
+      "source_slope_means": {
+        "wind_sun_cos": null,
+        "windspeed_ms": null,
+        "shortwave_Wm2": null,
+        "temperature_C": null
+      }
+    },
+    {
+      "source_uuid": "a41015db-4632-46dc-abed-277b16daf97b",
+      "taxon": "Tockus deckeni",
+      "source_study_ids": [
+        "1087068449"
+      ],
+      "original_provider_checksum_verified": true,
+      "original_GPS_first_accepted_animals": 13,
+      "original_first_sunward_mean": -0.0015397340170224321,
+      "weather_context_count": 2,
+      "weather_context_supported": 2,
+      "source_slope_means": {
+        "wind_sun_cos": -0.010168830765473863,
+        "windspeed_ms": 0.005604556451880533,
+        "shortwave_Wm2": -0.004036803343780019,
+        "temperature_C": -0.024741372742849058
+      }
+    }
+  ],
+  "no_source_selection_or_response_reclassification": true,
+  "interpretation": "Negative radiation association from earlier 24-source study was NOT replicated in the fresh 24-source original sample under the preregistered one-sided descriptive study-bootstrap criterion, despite 7 negative/3 positive source signs in each set. Original source study IDs disjoint but environmental independence/field-population overlap, sun altitude within 4h bins and route confounding remain. A nonreplicated correlation is not proof no biological radiation effect exists; no shade-avoidance or thermal mechanism identified."
+}
