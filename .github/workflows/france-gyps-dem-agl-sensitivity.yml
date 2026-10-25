@@ -1,0 +1,177 @@
+name: French Gyps 5km DEM-referenced paired-height identity sensitivity (post-outcome)
+
+on:
+  push:
+    branches: [diagnostic/france-gyps-terrain-agl-20261025]
+    paths:
+      - prospective/FRANCE_GYPS_DEM_AGL_TWO_SENSOR_POSTHOC_CONTRACT_V1.json
+      - prospective/france_gyps_dem_agl_sensitivity.py
+      - prospective/test_france_gyps_dem_agl_sensitivity.py
+      - .github/workflows/france-gyps-dem-agl-sensitivity.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install raster, source scorer and test dependencies
+        run: python -m pip install pytest numpy numba pyproj rasterio
+      - name: Verify independent DEM coverage and both original sensor/null controls
+        env:
+          NUMBA_CACHE_DIR: /tmp/french-gyps-dem-synthetic-numba
+        run: |
+          python -m pytest -q prospective/test_france_gyps_dem_agl_sensitivity.py
+          python - <<'PY'
+          import json
+          c=json.load(open('prospective/FRANCE_GYPS_DEM_AGL_TWO_SENSOR_POSTHOC_CONTRACT_V1.json'))
+          assert c['analysis_status']=='POST_OUTCOME_TERRAIN_SENSITIVITY_NOT_NEW_REPLICATION'
+          assert c['source']['dem_crc32']=='d7b033fb'
+          assert c['source']['original_5km_source_eligible_birds']==28
+          assert c['spatial_correction']['fixed_coverage_gate'].startswith('At least 0.80')
+          assert c['mathematical_test']['minimum_scored_birds']==10
+          print('No source or DEM threshold outcome-tuning allowed')
+          PY
+
+  source-terrain-sensitivity:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install raster/numba/pyproj
+        run: python -m pip install numpy numba pyproj rasterio
+      - name: Pin existing preheight source, original study crosswalk and GPS/barometric result
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/french-dem-agl
+          curl --fail --silent --show-error --location --retry 4 --max-time 150 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12398443408/zip' \
+            -o build/french-dem-agl/source-preheight.zip
+          echo '77286e6ad5639fdeca5c73b6c9049b6b00e3e601b467d34f966495c3d0f28a6c  build/french-dem-agl/source-preheight.zip' | sha256sum --check
+          unzip -p build/french-dem-agl/source-preheight.zip FRANCE_GYPS_2019_2021_XY_INSTRUMENT_SUPPORT_V1.json \
+            > build/french-dem-agl/source-preheight.json
+          curl --fail --silent --show-error --location --retry 4 --max-time 150 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12399325799/zip' \
+            -o build/french-dem-agl/source-crosswalk.zip
+          echo '86a5c4c587119fb62ab331833ece731b2d937b46f717ed1f20dff86763dcdb6e  build/french-dem-agl/source-crosswalk.zip' | sha256sum --check
+          unzip -p build/french-dem-agl/source-crosswalk.zip FRANCE_GYPS_2019_VS_SCACCO_PARENT_STUDY_SOURCE_CROSSWALK_V1.json \
+            > build/french-dem-agl/source-crosswalk.json
+          curl --fail --silent --show-error --location --retry 4 --max-time 150 \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12399538915/zip' \
+            -o build/french-dem-agl/original-native-heights.zip
+          echo '4e73b15038ba45e025f21a2b1bd951d3f063b8dc4148bed8bbdd9473f07f4864  build/french-dem-agl/original-native-heights.zip' | sha256sum --check
+          unzip -p build/french-dem-agl/original-native-heights.zip FRANCE_GYPS_2019_2021_GPS_BARO_DUAL_HEIGHT_RESULT_V1.json \
+            > build/french-dem-agl/original-height-result.json
+          python - <<'PY'
+          import json
+          a=json.load(open('build/french-dem-agl/source-preheight.json'))
+          b=json.load(open('build/french-dem-agl/source-crosswalk.json'))
+          c=json.load(open('build/french-dem-agl/original-height-result.json'))
+          assert a['numeric_native_GPS_height_values_read'] is False
+          assert a['horizontal_day_eligibility_by_cell_m']['5000']['n_unique_birds_with_qualifying_day_events']==28
+          assert a['horizontal_day_eligibility_by_cell_m']['5000']['source_bird_ID_sha256']=='031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928'
+          assert b['source_independence_category']=='DIFFERENT_STUDY_NAMES_AND_ZERO_EXACT_SOURCE_ANIMAL_IDS'
+          assert c['terminal']=='paired_sensor_robust_individual_height_shape'
+          assert all(v['observed']['eligible_birds']==27 for v in c['sensor_results'].values())
+          print('Original 5km biological cohort, crosswalk and successful dual-height target frozen')
+          PY
+      - name: Obtain exact published source study ZIP with included elevation raster
+        run: |
+          set -euo pipefail
+          cd build/french-dem-agl
+          curl --http1.1 --fail --location --silent --show-error \
+            --retry 6 --retry-all-errors --retry-delay 8 --max-time 1800 \
+            'https://data.indores.fr/api/access/datafile/5114' \
+            -o windTurbineAvoidance.zip
+          echo 'b18cc8004d311d19ff24060f655178bf  windTurbineAvoidance.zip' | md5sum --check
+          test "$(stat -c %s windTurbineAvoidance.zip)" -eq 1093170227
+      - name: Verify terrain TIFF byte size and ZIP CRC before extracting, independent of height
+        run: |
+          python - <<'PY'
+          import zipfile,shutil
+          src='build/french-dem-agl/windTurbineAvoidance.zip'
+          out='build/french-dem-agl/original_causses_DEM.tif'
+          name='windTurbineAvoidance/Data/RawData/Elevation_Causses.tif'
+          with zipfile.ZipFile(src) as z:
+              x=z.getinfo(name)
+              assert x.file_size==45336059
+              assert f'{x.CRC:08x}'=='d7b033fb'
+              with z.open(x) as origin,open(out,'wb') as target:
+                  shutil.copyfileobj(origin,target,1024*1024)
+          print('Original source DEM TIFF extracted and CRC checked')
+          PY
+      - name: Compare DEM-referenced paired native source GPS/barometric altitude shapes to original D1 result
+        env:
+          NUMBA_CACHE_DIR: /tmp/french-gyps-dem-posthoc-numba
+        run: |
+          set -euo pipefail
+          python -m prospective.france_gyps_dem_agl_sensitivity \
+            --source build/french-dem-agl/windTurbineAvoidance.zip \
+            --original-dem build/french-dem-agl/original_causses_DEM.tif \
+            --preheight-receipt build/french-dem-agl/source-preheight.json \
+            --source-crosswalk build/french-dem-agl/source-crosswalk.json \
+            --original-height-result build/french-dem-agl/original-height-result.json \
+            --out build/french-dem-agl/results
+      - name: Validate post-outcome interpretation and original-studies unchanged
+        run: |
+          python - <<'PY'
+          import json
+          p='build/french-dem-agl/results/FRANCE_GYPS_2019_2021_DEM_AGL_POSTHOC_RESULT_V1.json'
+          x=json.load(open(p))
+          assert x['analysis']=='FRANCE_GYPS_2019_2021_TERRAIN_AGL_TWO_SENSOR_SENSITIVITY_V1'
+          assert x['post_outcome_diagnostic_only'] is True
+          assert x['source_original_zip_md5']=='b18cc8004d311d19ff24060f655178bf'
+          assert x['source_original_dem_crc32']=='d7b033fb'
+          assert x['original_5km_bird_roster_sha256']=='031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928'
+          assert x['native_vertical_datum_agreement_proven'] is False
+          assert x['terminal'] in (
+             'unavailable','both_AGL_proxy_sensor_shifts_supported_exploratory',
+             'terrain_Agl_robust_identity_not_established'
+          )
+          if x['source_sensor_results']:
+              assert set(x['source_sensor_results'])=={'GPS','BAROMETRIC'}
+              for sensor,stats in x['source_sensor_results'].items():
+                  assert stats['observed']['eligible_birds']<=28
+                  assert stats['family_p_value']>=stats.get('calibration',{}).get('p_upper',1.) if stats['terminal']!='unavailable' else True
+                  if stats['terminal']=='AGL_shape_identity_supported':
+                      assert stats['observed']['eligible_birds']>=10
+                      assert stats['calibration']['valid']>=950
+          print(json.dumps({
+              'DEMsampled_fraction':x['DEM_metadata_and_coverage']['fraction_geographically_covered'],
+              'DEM_EPSG':x['DEM_metadata_and_coverage']['crs_epsg'],
+              'terminal':x['terminal'],
+              'reason':x.get('reason'),
+              'sensor_outcomes':{sensor:{
+                  'status':v['terminal'],
+                  'birds':v['observed']['eligible_birds'],
+                  'days':v['observed']['eligible_days'],
+                  'scored_GPS_fix_count':v['observed']['eligible_bins'],
+                  'gain':v['observed']['mean_gain'],
+                  'null_excess':v.get('calibration',{}).get('observed_minus_valid_null_mean'),
+                  'Holm_p':v.get('Holm_p_upper')
+              } for sensor,v in x['source_sensor_results'].items()}
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: French-Gyps-2019-2021-original-DEM-referenced-GPS-baro-shape-posthoc-v1
+          path: build/french-dem-agl/results/*
+          if-no-files-found: warn
