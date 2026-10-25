@@ -1,5 +1,19 @@
 # Cross-taxon biological generality — current state
 
+## 2026-10-25: tag-clean wild French Gyps 5km GPS & barometric individuality remains supported
+
+Previously the cross-taxon status incorrectly left an Oct24 clean-source rerun as pending. The completed [source-QA refit workflow 40058292605](https://github.com/zuizui0223/odsp/actions/runs/40058292605) now **passed successfully**, after re-downloading the exact published 1.09GB source by official HTTP206 byte-range continuation and rerunning the UNCHANGED 5km/source-day/ten-bin MEDGULL D1 GPS/barometric individual-label comparison and 999 whole-day nulls for each height column.
+
+- Original 30 source animal labels included a nonanimal geodesy source test; one physical tag 182208 was reused under two separate bird IDs. The strict source-QA quarantined the test plus BOTH tag-alias birds, independent of height outcome. There were **27 clean eligible source birds** (new SHA256 `d9feed17cd780ed1be1c5fcd275471a0f741dfa565aa5995cbd7d71841ded34c`), of whom **26** actually scored.
+- On **26 biological birds, 5,096 independently held-out bird-days, 356,634 identical native 5-minute GPS fixes**, GPS height individual-ID gain +0.0390879 nats/fix (null-calibrated +0.0468961) and barometric height gain +0.0400657 (null-calibrated +0.0470626). Both sensors' 999/999 randomizations valid; Holm **p=.002** each. Of 26 birds, 25 have positive raw same-bird gain in BOTH.
+- Paired source height fields valid on **726,928/726,993=99.9911%** of clean original first-five-minute events. **The 27-bird historical native height run 39716885648 remains a separate result** and has *not* been mislabeled or overwritten as the clean sample.
+- Biological meaning: one independently *named* free-living French *Gyps fulvus* tracked study provides positive repeatable individual ID-associated vertical *MSL/pressure-altitude probability shape*, robust to obvious nonbird/device reuse contamination. **Tag and individual identity are still intertwined within each retained bird**, and GPS/barometric sources may share calibration; there is no independent proof of an individual-specific wind or Wstar reaction, causal mechanism, or fitness partition.
+- [Clean source-QA machine-readable numerical receipt](https://github.com/zuizui0223/odsp/blob/diagnostic/france-gyps-clean-dual-height-20261024/prospective/FRANCE_GYPS_CLEAN_TAG_DUAL_HEIGHT_RESULT_RECEIPT_V1.json).
+
+**Next additional caveat under investigation:** The unchanged previously opened French data ZIP also contains a 45.3MB `Elevation_Causses.tif` raster (CRC32 `d7b033fb`). A **POST-OUTCOME** DEM-referenced 5km dual-height sensitivity was frozen in [diagnostic/france-gyps-terrain-agl-20261025](https://github.com/zuizui0223/odsp/tree/diagnostic/france-gyps-terrain-agl-20261025) and executes only if original DEM covers ≥80% of the previously admitted 28-bird source's XY 5min events. Its numerical results must not be called a new biological replication, and the exact vertical datums for the raster, GPS and barometer are not known to be equivalent.
+
+---
+
 ## 2026-10-24 French wild *Gyps fulvus*: non-independent native height sensors and source-tag QA in progress
 
 Original frozen native GPS and barometric height D1 source [run 39716885648](https://github.com/zuizui0223/odsp/actions/runs/39716885648): 27 scored wild-vulture bird IDs, 5,205 matched target bird-days, GPS mean gain +0.0407134 and barometric mean gain +0.0414526 nats/record, both 999/999 valid and Holm p=.002. The **two heights are on the same bird/tag/UTC GPS events**, not independent biological replications.
