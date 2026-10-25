@@ -1,0 +1,57 @@
+{
+  "contract_id": "SERENGETI_MOD13Q1_QA_SOURCE_PROBE_V0",
+  "date": "2026-10-15",
+  "prerequisite": "Already published previous photo-time and station-weight results are known. This is a new independent satellite SOURCE ACCESS/QA test, not an animal outcome or an NDVI–animal association.",
+  "original_source": "Microsoft Planetary Computer openly indexed NASA MOD13Q1 v061 Terra vegetation indices, no signed-in account required; STAC requires signed Azure SAS file URL",
+  "stac_collection": "modis-13Q1-061",
+  "stac_root": "https://planetarycomputer.microsoft.com/api/stac/v1",
+  "asset_signer": "https://planetarycomputer.microsoft.com/api/sas/v1/sign",
+  "stac_item_id": "MOD13Q1.A2012017.h21v09.061.2021203222829",
+  "product": "MOD13Q1 Terra ONLY; do not accidentally pool MYD13Q1 Aqua",
+  "product_doi": "10.5067/MODIS/MOD13Q1.061",
+  "spatial_frame": {
+    "latitude": -2.5,
+    "longitude": 34.75,
+    "site_type": "public coarse representative climate-region point chosen in earlier ERA5 v0 before NDVI read. NOT exact original Serengeti camera locations",
+    "roi": "3 x 3 MODIS sinusoidal raster pixels centered on this representative point, approximately 0.75-km square",
+    "publish_original_source_camera_GPS": false
+  },
+  "temporal_frame": {
+    "item_start": "2012-01-17T00:00:00Z",
+    "item_end": "2012-02-01T23:59:59Z",
+    "composite_not_daily_truth": true,
+    "no_animal_date_join_in_source_probe": true
+  },
+  "ndvi_raster": {
+    "asset": "250m_16_days_NDVI",
+    "raw_type": "int16",
+    "scale": 0.0001,
+    "valid_raw_min": -2000,
+    "valid_raw_max": 10000,
+    "quality_asset": "250m_16_days_pixel_reliability",
+    "primary_quality": "good=0 ONLY",
+    "marginal_pixel_1": "must exclude from primary, can count but cannot use in primary median",
+    "reject_quality_codes": [
+      -1,
+      1,
+      2,
+      3
+    ],
+    "require_valid_good_pixels_at_least": 6,
+    "good_only_median": "median of good-quality 3x3 scaled NDVI; if <6 good pixels report QA_HOLD, never interpolate",
+    "range_scaled": [
+      -0.2,
+      1
+    ],
+    "original_item_id_and_asset_raster_scale_verified_against_STAC": true
+  },
+  "output": {
+    "report": "at most date, source STAC item id, source raster metadata, number of good/marginal/cloud pixel samples, median good NDVI if enough pixels; never exact protected camera coordinates, no source animal outcomes",
+    "schema_source_raster_io_first": true,
+    "status_on_download_error": "HOLD_OPEN_ASSET_DOWNLOAD_OR_QA_NOT_VERIFIED",
+    "status_on_insufficient_good_pixels": "QA_HOLD_NEED_AT_LEAST_6_GOOD_PIXELS",
+    "no_causal_animal_activity_claim": true
+  },
+  "decision_to_expand": "Expand to ~80 scene 2010-2013 historical vegetation only after successful actual COG+QA read and point/sampling repro. Never select item dates after animal response.",
+  "known_historical_problem": "ORNL MODIS original REST API metadata succeeded but Serengeti coordinates subset GET timed out, so no NDVI data previously used."
+}

@@ -1,0 +1,52 @@
+{
+  "version": "southern-solar-matched-mammal-gps-v0",
+  "date": "2026-10-19",
+  "stage": "Source-metadata and estimand contract created BEFORE animal displacement magnitudes opened for the three southern-source archives. Earlier northern outcomes already known; comparison is hypothesis-led exploratory rather than blinded confirmation.",
+  "sampling_frame": "Three preregistered Southern Hemisphere wild terrestrial mammals enumerated from the complete 437-package Movebank Data Repository catalog: Etosha African elephants, southern Brazil lowland tapirs, and Etosha black-backed jackals. No source added after outcome access.",
+  "sources": [
+    {
+      "label": "etosha_elephant",
+      "taxon": "Loxodonta africana",
+      "package_uuid": "f30fb6d4-803f-4b45-8313-716c3b21e087",
+      "doi": "10.5441/001/1.3nj3qj45_2",
+      "provider_original_bitstream_uuid": "b0eb0919-9265-40c5-953c-770abc223e08",
+      "provider_original_md5": "dd6447d7d933e6bb10cd1eec1269eeb7",
+      "provider_original_bytes": 43018855,
+      "provider_filename": "African elephants in Etosha National Park (data from Tsalyuk et al. 2018).csv.zip",
+      "rights": "CC BY-NC 4.0; analyze public data and distribute only aggregated results with attribution, no raw redistribution",
+      "area": "Etosha, Namibia"
+    },
+    {
+      "label": "brazil_tapir",
+      "taxon": "Tapirus terrestris",
+      "package_uuid": "e2fe5582-a707-4954-8329-ba107736fed8",
+      "doi": "10.5441/001/1.03ck4s52",
+      "provider_original_bitstream_uuid": "c4f2506f-1929-494f-b0c9-081eae80fc35",
+      "provider_original_md5": "8398444115bd242125225b4980089033",
+      "provider_original_bytes": 52189597,
+      "provider_filename": "Lowland tapirs Tapirus terrestris in Southern Brazil-gps.csv",
+      "rights": "CC0 1.0",
+      "area": "Southern Brazil"
+    },
+    {
+      "label": "etosha_jackal",
+      "taxon": "Canis mesomelas",
+      "package_uuid": "48c93576-7b84-48f8-bdf5-4e5d4ee139b3",
+      "doi": "10.5441/001/1.n1r7ds5r",
+      "provider_original_bitstream_uuid": "751e4679-3e89-45cb-9627-cbd812adfc85",
+      "provider_original_md5": "a51b46c628611a243bd298ff0cad76ec",
+      "provider_original_bytes": 19835832,
+      "provider_filename": "Black-backed jackal, Etosha National Park, Namibia.csv",
+      "rights": "CC0 1.0",
+      "area": "Etosha, Namibia"
+    }
+  ],
+  "astronomical_calendar": "Southern midwinter-to-midwinter solar cycle y: rising daylength after June 21 in year y until before December 21 y; falling daylength after December 21 y until before June 21 in y+1. Compare opposite summer-solstice branches, do not match northern June-summer convention to southern winter.",
+  "measurement": "Per individual, time-sort original UTC GPS fixes. Consecutive interval 0.5–2 h, both endpoint/midpoint local mean-solar day or night on same solar local date, great-circle km / elapsed time, exclude intervals exceeding 60 km/hour; >=3 such steps in both day and night per date. No interpolation. Distinct observation time is not an activity-duration estimate.",
+  "pairing": "Within individual and southern solar-year only, northern-style unchanged <=5-min astronomical daylength caliper evaluated at source-data daily mean latitude, dates separated >=30 days; match date pairs greedily by minimum mismatch with no date re-use; day and night step-count falling/rising ratios each 0.5..2; >=10 pairs per individual-solar-year. Drop day-pairs if source lacks observation coverage, no effect-based rescues.",
+  "primary_endpoint": "mean across date pairs and cycles, equal cycles within individual, equal individuals per source, of falling-minus-rising [(log1p median night speed km/h) - (log1p median day speed km/h)].",
+  "secondary": "Absolute falling-minus-rising daytime and nighttime log1p median GPS speed components; individual counts positive/negative/zero, qualified years and pairs.",
+  "uncertainty": "2000 animal-cluster bootstrap replicates with deterministic seed 20261019, percentile interval; only descriptive within source. Report effect only if >=5 admitted individuals.",
+  "nonclaims": "Not true continuous activity, animal energetic expenditure, environmental mediation, thermal causality, relative human-clock entrainment, phylogenetic generality, or a globally representative sample. Sources within Etosha may be from different years and are not synchronized interaction evidence.",
+  "output_policy": "Keep original source files, precise coordinates, event timestamps, per-individual IDs and per-individual effects off the repository and out of artifacts. Output grouped descriptive estimates, source checksum QA, gate failures and counts only."
+}

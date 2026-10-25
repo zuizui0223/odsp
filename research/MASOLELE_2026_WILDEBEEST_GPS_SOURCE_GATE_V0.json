@@ -1,0 +1,42 @@
+{
+  "id": "MASOLELE_2026_SERENGETI_WILDEBEEST_GPS_2019_2023_SOURCE_GATE_V0",
+  "freeze_date": "2026-10-16",
+  "nature": "SOURCE-ONLY public original artifact authenticity and CSV header test; no protected animal GPS rows read, no behavior analysis, no unauthorized login.",
+  "publication": "https://doi.org/10.1111/1365-2664.70435",
+  "original_archive": "https://doi.org/10.5061/dryad.rn8pk0ps8",
+  "file_api": "https://datadryad.org/api/v2/files/4763314/download",
+  "filename": "WB2019_2023_data.csv",
+  "expected_size_bytes": 13481100,
+  "sha256": "9631aa94bda8b9efd7adbe8ca0004e58f22c98d03b729fcab4df40434a0fc148",
+  "published_paper_eligible_observations": 143168,
+  "published_individuals": 57,
+  "period": "2019-01 through 2023-09",
+  "official_license": "CC0 1.0",
+  "published_fix_interval_distribution": {
+    "4h": 0.65,
+    "1h": 0.19,
+    "8h": 0.15,
+    "other": 0.02
+  },
+  "source_header_required": [
+    "AID",
+    "Date",
+    "Step_length",
+    "SPECIES",
+    "COLLAR_ID"
+  ],
+  "observation_ceiling": [
+    "Presence of source file does not establish source fix duty cycle, same-individual two seasonal branches, or valid solar timing.",
+    "Raw GPS fixes are not equivalent to animal movement activity; would require valid step speed/length and equal observation opportunity.",
+    "Raw coordinates are sensitive for individual protected wildlife. No raw location/timestamp/animal ID should be emitted in the source receipt.",
+    "This is an independent sensor and later time period within broadly same Serengeti ecosystem, not independent biome or direct comparable 2010 camera behavior.",
+    "Fail HOLD on HTTP 401 or missing public raw access. Do not use browser login or provider-security bypass."
+  ],
+  "promote_to_new_animal_analysis_only_after": [
+    "SHA256 exact original file verified",
+    "source UTC/local clock definitions verified with author README",
+    "individual and collar identity, chronological step gap distribution verified",
+    "independent source date-only within-individual daylight-branch matching eligibility",
+    "predeclare GPS step speed rather than number of GPS fixes as endpoint, and source duty-cycle stratification"
+  ]
+}

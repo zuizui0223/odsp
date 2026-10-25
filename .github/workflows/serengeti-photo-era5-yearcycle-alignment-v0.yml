@@ -1,0 +1,66 @@
+name: Serengeti original camera-photo × region ERA5 matched-date alignment v0
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/SERENGETI_SITE_DATE_PHOTO_ERA5_ALIGNMENT_V0_CONTRACT.json'
+      - 'scripts/run_serengeti_photo_weather_cycle_alignment_v0.py'
+      - 'tests/test_serengeti_photo_era5_cycle_alignment_v0.py'
+      - '.github/workflows/serengeti-photo-era5-yearcycle-alignment-v0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frozen-source-replay-and-climate-date-link:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install only astronomy-coordinates library
+        run: python -m pip install 'pyproj>=3.6,<4'
+      - name: Known-truth tests and original output/checksum contracts before reading new results
+        run: python -m unittest discover -s tests -p 'test_serengeti_photo_era5_cycle_alignment_v0.py' -v
+      - name: Source-only verification of previously archived ERA5 daily time series
+        run: |
+          python -m scripts.run_serengeti_era5_environment_v0 \
+            --output .climate_previous_frozen_environment.json
+          python - <<'PY'
+          import json
+          a=json.load(open('.climate_previous_frozen_environment.json'))
+          assert a['source_daily_arrays_sha256']=='aaa93eec1ac0fab3315bfc712020970746d47cd1d407b8a7778243b2f627bee7'
+          assert a['paired_calendar_design']['environmental_date_pairs_total']==522
+          print('FROZEN_ERA5_EXTERNAL_SERIES_REPLAY_OK')
+          PY
+      - name: Obtain original MD5-pinned animal photo data and camera-valid-date metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .serengeti_source_joint
+          curl -L --fail --retry 3 --retry-delay 5 --max-time 1300 \
+            'https://zenodo.org/records/5026386/files/consensus_data.csv?download=1' \
+            -o .serengeti_source_joint/consensus_data.csv
+          curl -L --fail --retry 3 --retry-delay 3 --max-time 90 \
+            'https://zenodo.org/records/5026386/files/search_effort.csv?download=1' \
+            -o .serengeti_source_joint/search_effort.csv
+          echo '5ed2d32fd09127c178cf9dca8ccfd623  .serengeti_source_joint/consensus_data.csv' | md5sum -c -
+          echo '27cb42f3feaa0642b17cbde24ba15fbd  .serengeti_source_joint/search_effort.csv' | md5sum -c -
+      - name: Replay original 43 taxa and align 3 cycles with independent regional ERA5
+        run: |
+          python -m scripts.run_serengeti_photo_weather_cycle_alignment_v0 \
+            --consensus .serengeti_source_joint/consensus_data.csv \
+            --effort .serengeti_source_joint/search_effort.csv \
+            --output outputs/serengeti_original_photo_era5_yearcycle_alignment_v0.json
+      - name: Archive COARSE climate + year×taxon aggregates only, no camera IDs or photo times
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: serengeti-original-photo-era5-cycle-alignment-v0
+          path: outputs/serengeti_original_photo_era5_yearcycle_alignment_v0.json
+          if-no-files-found: warn

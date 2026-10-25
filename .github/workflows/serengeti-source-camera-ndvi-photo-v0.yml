@@ -1,0 +1,67 @@
+name: Serengeti exact original-camera NDVI x photographed record source v0
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/SERENGETI_SITE_MODIS_NDVI_PHOTO_REWEIGHT_V0_CONTRACT.json'
+      - 'scripts/run_serengeti_camera_ndvi_photo_assoc_v0.py'
+      - 'tests/test_serengeti_camera_ndvi_photo_assoc_v0.py'
+      - '.github/workflows/serengeti-source-camera-ndvi-photo-v0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  exploratory-camera-site-greenness-vs-record-mixture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install just source geospatial and ordinal-statistic packages
+        run: python -m pip install 'numpy>=1.24,<3' 'rasterio>=1.3.10,<2' 'pyproj>=3.6,<4'
+      - name: All synthetic source/QC/temporal/statistical claim tests FIRST
+        run: python -m unittest discover -s tests -p 'test_serengeti_camera_ndvi_photo_assoc_v0.py' -v
+      - name: Retrieve original PRIOR verified full 83-scene regional MODIS source artifact by fixed run ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p .original_satellite
+          gh run download 38742381644 \
+            --repo zuizui0223/odsp \
+            --name serengeti-mod13q1-public-container-83scene-v1 \
+            --dir .original_satellite
+          echo 'e0e3c57de8d6a3ab9996412886e9733ea572cf9989f88a68b5c3ac5fb5557f11  .original_satellite/serengeti_modis_public_container_token_v1.json' | sha256sum -c -
+      - name: Download original published Snapshot Serengeti camera/animal sources and verify BOTH pinned MD5s
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .serengeti_original_ndvi_photo
+          curl -L --fail --retry 3 --retry-delay 4 --max-time 1200 \
+            'https://zenodo.org/records/5026386/files/consensus_data.csv?download=1' \
+            -o .serengeti_original_ndvi_photo/consensus_data.csv
+          curl -L --fail --retry 3 --retry-delay 4 --max-time 120 \
+            'https://zenodo.org/records/5026386/files/search_effort.csv?download=1' \
+            -o .serengeti_original_ndvi_photo/search_effort.csv
+          echo '5ed2d32fd09127c178cf9dca8ccfd623  .serengeti_original_ndvi_photo/consensus_data.csv' | md5sum -c -
+          echo '27cb42f3feaa0642b17cbde24ba15fbd  .serengeti_original_ndvi_photo/search_effort.csv' | md5sum -c -
+      - name: Reproduce original 38792 photo outcomes THEN sample published camera-site NDVI with original QA
+        run: |
+          python -m scripts.run_serengeti_camera_ndvi_photo_assoc_v0 \
+            --consensus .serengeti_original_ndvi_photo/consensus_data.csv \
+            --effort .serengeti_original_ndvi_photo/search_effort.csv \
+            --original-satellite-receipt .original_satellite/serengeti_modis_public_container_token_v1.json \
+            --output outputs/serengeti_source_camera_ndvi_photo_v0.json
+      - name: Export only year × taxon support and NDVI-photo descriptive ranks, no locations
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: serengeti-camera-pixel-ndvi-vs-photo-mix-source-v0
+          path: outputs/serengeti_source_camera_ndvi_photo_v0.json
+          if-no-files-found: warn

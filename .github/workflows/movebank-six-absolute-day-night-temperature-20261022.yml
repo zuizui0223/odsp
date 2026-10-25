@@ -1,0 +1,54 @@
+name: Six Movebank mammals original DAY NIGHT regional thermal slopes 2026-10-22
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/MOVEBANK_SIX_THERMAL_DAY_NIGHT_COMPONENT_V0_20261022.json'
+      - 'scripts/movebank_six_gps_thermal_day_night_component_20261022.py'
+      - 'tests/test_movebank_six_gps_thermal_day_night_component_20261022.py'
+      - '.github/workflows/movebank-six-absolute-day-night-temperature-20261022.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  original_source_six_mammal_day_and_night_climate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify mathematical component identities and immutable old-source guards BEFORE animal source values
+        run: |
+          python -m unittest discover -s tests \
+            -p 'test_movebank_six_gps_thermal_day_night_component_20261022.py' -v
+      - name: Retrieve and verify prior source-authenticated ORIGINAL ERA5 dated scientific arrays
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .previous_original_ERA5
+          gh run download 39220116497 \
+            --repo zuizui0223/odsp \
+            --name movebank-six-original-gps-within-year-canonical-era5-v1-20261019 \
+            --dir .previous_original_ERA5
+          echo '8b637760b9199e6e7f9f85e647b74658827525ed42d400bc06d44c6a4a14f05e  .previous_original_ERA5/six_original_regional_era5_scientific_daily_snapshot_v1.json' | sha256sum -c -
+      - name: Reproduce six unchanged original Movebank GPS files and every original matched date, then distinguish DAY and NIGHT temperature/water slopes
+        run: |
+          python -m scripts.movebank_six_gps_thermal_day_night_component_20261022 \
+            --original-era5-snapshot .previous_original_ERA5/six_original_regional_era5_scientific_daily_snapshot_v1.json \
+            --output-dir outputs/movebank_six_day_night_thermal_20261022
+      - name: Archive cohort-only source-validated ecological components, no animal IDs or GPS locations
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: movebank-six-gps-thermal-day-night-components-20261022
+          path: outputs/movebank_six_day_night_thermal_20261022/movebank_six_source_thermal_day_night_component_v0.json
+          if-no-files-found: warn

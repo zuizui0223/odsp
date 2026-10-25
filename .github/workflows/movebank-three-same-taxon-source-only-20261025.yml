@@ -1,0 +1,40 @@
+name: Three same-species cross-region mammal GPS original-source date feasibility 2026-10-25
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/MOVEBANK_SAME_TAXON_THREE_SOURCE_PREFLIGHT_20261025.json'
+      - 'scripts/movebank_same_taxon_three_source_only_20261025.py'
+      - 'tests/test_movebank_same_taxon_three_source_only_20261025.py'
+      - '.github/workflows/movebank-three-same-taxon-source-only-20261025.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  metadata_pinned_same_species_cross_region_source_screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Six known-truth tests before reading any new source file
+        run: |
+          python -m unittest discover -s tests \
+            -p 'test_movebank_same_taxon_three_source_only_20261025.py' -v
+      - name: Check original Movebank source UUID, provider MD5 and observational date support for all three frozen same-taxon sources (no movement outcomes)
+        run: |
+          python -m scripts.movebank_same_taxon_three_source_only_20261025 \
+            --output-dir outputs/movebank_same_taxon_source_only_20261025
+      - name: Preserve all source failures and accepted calendar counts, not raw sensitive tracks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: movebank-yellowstone-wolves-florida-deer-alberta-elk-source-only-20261025
+          path: outputs/movebank_same_taxon_source_only_20261025/original_same_taxon_three_source_feasibility_20261025.json
+          if-no-files-found: warn

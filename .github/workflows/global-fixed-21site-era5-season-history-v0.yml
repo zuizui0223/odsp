@@ -1,0 +1,40 @@
+name: ERA5 fixed 21-site 15/30-day hydrothermal season histories
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/solar_global_equinoctial_pilot_20261019/**'
+      - 'scripts/analyze_fixed_21site_era5_15_30day_history_v0.py'
+      - 'tests/test_fixed_21site_era5_15_30day_history_v0.py'
+      - '.github/workflows/global-fixed-21site-era5-season-history-v0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original_era5_15_30day_hydrothermal_history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test 15/30-day windows, all 63 original dates, bad-soil HOLD and zero-imputation safety
+        run: python -m unittest discover -s tests -p 'test_fixed_21site_era5_15_30day_history_v0.py' -v
+      - name: Recompute original frozen 1-day and independent 15/30-day raw-source weather contrasts
+        run: |
+          python -m scripts.analyze_fixed_21site_era5_15_30day_history_v0 \
+            --output-dir results
+      - name: Retain all accepted and physically invalid source pairs as original-source evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fixed-21sites-original-ERA5-15day-30day-hydrothermal-source-v0
+          path: |
+            results/global_grid_ERA5_15_30day_history_126sitecycles.csv
+            results/global_grid_ERA5_15_30day_source_history_summary.json
+          if-no-files-found: warn

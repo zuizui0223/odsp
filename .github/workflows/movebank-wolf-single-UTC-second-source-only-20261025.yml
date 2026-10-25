@@ -1,0 +1,40 @@
+name: Yellowstone wolf strict original one-digit UTC seconds source quality gate 2026-10-25
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/MOVEBANK_WOLF_STRICT_ONE_DIGIT_UTC_REPAIR_SOURCE_ONLY_20261025.json'
+      - 'scripts/movebank_wolf_original_strict_utc_second_preflight_20261025.py'
+      - 'tests/test_movebank_wolf_strict_one_digit_UTC_original_20261025.py'
+      - '.github/workflows/movebank-wolf-single-UTC-second-source-only-20261025.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original_wolf_UTC_source_only_no_movement_results:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Five tests prove only one-digit UTC Z repair (no other suffix, movement or privacy leakage)
+        run: |
+          python -m unittest discover -s tests \
+            -p 'test_movebank_wolf_strict_one_digit_UTC_original_20261025.py' -v
+      - name: Exact original Movebank native MD5, UTC original dates grammar, independent marked wolf seasonal solar dates, NO speed/distance
+        run: |
+          python -m scripts.movebank_wolf_original_strict_utc_second_preflight_20261025 \
+            --output-dir outputs/wolf_strict_UTC_source_only_20261025
+      - name: Preserve source-only validated grammar or explicit HOLD
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-wolf-single-digit-Z-UTC-calendar-source-only-20261025
+          path: outputs/wolf_strict_UTC_source_only_20261025/wolf_strict_UTC_single_digit_seconds_source_only_20261025.json
+          if-no-files-found: warn

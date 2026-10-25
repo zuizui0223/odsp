@@ -1,0 +1,54 @@
+name: Three same-taxon new original GPS biological effects, source-first 2026-10-25
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/MOVEBANK_THREE_NEW_SAME_TAXON_GPS_EFFECT_V0_20261025.json'
+      - 'scripts/movebank_three_same_taxon_original_gps_effect_20261025.py'
+      - 'tests/test_movebank_three_same_taxon_original_gps_effect_20261025.py'
+      - '.github/workflows/movebank-three-same-taxon-first-gps-effects-20261025.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  frozen_original_same_taxonomy_source_response:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check 5 known-truth prior outcomes, GPS original source constraints and no selection of failed cohorts
+        run: |
+          python -m unittest discover -s tests \
+            -p 'test_movebank_three_same_taxon_original_gps_effect_20261025.py' -v
+      - name: Retrieve ONLY the previous source-only original artifact, verify its SHA256 unchanged
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .source_first_original
+          gh run download 40159378985 \
+            --repo zuizui0223/odsp \
+            --name movebank-yellowstone-wolves-florida-deer-alberta-elk-source-only-20261025 \
+            --dir .source_first_original
+          echo 'f4b884a36dd109b01db04a55ea9a81ccd413d74271febd6e90f1da15b11eda4f  .source_first_original/original_same_taxon_three_source_feasibility_20261025.json' | sha256sum -c -
+      - name: Original GPS effect for any calendar-qualified original source using unchanged previous mammal estimator (all other source HOLDS preserved)
+        run: |
+          python -m scripts.movebank_three_same_taxon_original_gps_effect_20261025 \
+            --original-source-only-receipt .source_first_original/original_same_taxon_three_source_feasibility_20261025.json \
+            --output-dir outputs/movebank_same_taxon_effects_20261025
+      - name: Archive aggregate independent source response or support-based HOLDs without sensitive tracks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-elk-wolf-white-deer-same-taxonomy-biological-20261025
+          path: outputs/movebank_same_taxon_effects_20261025/three_same_taxon_new_GPS_effect_or_hold_20261025.json
+          if-no-files-found: warn

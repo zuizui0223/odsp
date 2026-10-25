@@ -1,0 +1,16 @@
+{
+  "version": "etosha-common-years-2009-2010-hourly-gps-v0",
+  "date": "2026-10-19",
+  "timing": "Post-outcome supplementary cohort comparison. Years 2009 and 2010 were selected ONLY as intersection of supported solar years in the previous independent ERA5 same-region source audit, not by looking at same-year mammal movement effect.",
+  "scientific_question": "Do Etosha African elephant and black-backed jackal have opposite or similar within-individual seasonal solar night-vs-day GPS displacement contrasts when both archive samples are restricted to the same southern solar-year cycles 2009 and 2010?",
+  "locked_sources": "Use exact ORIGINAL provider MD5 archives from MOVEBANK_SOUTHERN_SOLAR_MOVEMENT_V0_20261019.json and previous timestamp-only hourly selection on both species. No change to original measurement and thresholds.",
+  "comparison": "Precheck full-source hourly mean equals original previous validated elephant -0.15012724713090492 and jackal +0.04478579444771083 at floating tolerance 1e-12 before any restricted effect. Keep original whole-source results intact.",
+  "years": [
+    2009,
+    2010
+  ],
+  "restriction": "After timestamp-only hourly selection (using only timestamps), keep GPS fixes whose site-derived local mean-solar date belongs to southern solar-cycle year 2009 or 2010, independent of speeds and other biological outcomes; follow original 0.5-2h, >=3 day/night, 5min solar caliper, 30days apart, 0.5-2 sampling ratio, >=10 pairs per animal-year, 2000 animal bootstrap.",
+  "inference": "Report eligible animals, eligible individual-solar-years, sign counts, relative night/day GPS displacement contrast, absolute day and night components, animal bootstrap 95% descriptive intervals for each source. If fewer than five independent animals qualify, mark INS UFFICIENT instead of selecting other years.",
+  "limitations": "Not a controlled species comparison: event dates within years and microhabitats may differ, sampling effort/sensor/collar variation remain, biology and source identity confounded. There is no measured predation, causal resource mediation, or true latent activity.",
+  "privacy": "Only aggregate outputs, source DOIs and license statements; never raw GPS, animal ID or timestamp."
+}

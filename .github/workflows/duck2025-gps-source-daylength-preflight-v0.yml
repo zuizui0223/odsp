@@ -1,0 +1,48 @@
+name: 2025 seven-duck-species independent GPS seasonal-source feasibility v0
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/DUCK_GPS_2025_SOURCE_DAYLENGTH_PREFLIGHT_V0_CONTRACT.json'
+      - 'scripts/audit_2025_seven_duck_gps_daylength_source_v0.py'
+      - 'tests/test_2025_seven_duck_gps_source_v0.py'
+      - '.github/workflows/duck2025-gps-source-daylength-preflight-v0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  duck_seven_species_original_source_date_support:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test frozen original source integrity, UTC, hemispheric daylight branches and no animal behavior inspection
+        run: python -m unittest discover -s tests -p 'test_2025_seven_duck_gps_source_v0.py' -v
+      - name: Download public 2025 original 46MB duck GPS source and enforce publisher original MD5
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .duck2025_public_source
+          curl -L --fail --retry 3 --retry-delay 5 --max-time 720 \
+            'https://zenodo.org/records/16940654/files/250823_LNU_dabbling_ducks_hourly.csv?download=1' \
+            -o .duck2025_public_source/250823_LNU_dabbling_ducks_hourly.csv
+          echo '1972d0ef08b83c2b88a169ba07bb48b3  .duck2025_public_source/250823_LNU_dabbling_ducks_hourly.csv' | md5sum -c -
+      - name: Audit individual same-coarse-cell calendar branch support and device duty-cycle, no GPS response
+        run: |
+          python -m scripts.audit_2025_seven_duck_gps_daylength_source_v0 \
+            --input .duck2025_public_source/250823_LNU_dabbling_ducks_hourly.csv \
+            --output outputs/seven_duck2025_original_gps_source_date_support_v0.json
+      - name: Upload species-level source counts and explicit preregistered branch-readiness only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duck2025-7species-gps-utc-branch-source-only-v0
+          path: outputs/seven_duck2025_original_gps_source_date_support_v0.json
+          if-no-files-found: warn

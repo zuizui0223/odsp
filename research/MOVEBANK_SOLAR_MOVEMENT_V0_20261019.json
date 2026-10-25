@@ -1,0 +1,13 @@
+{
+  "version": "solar-movement-v0",
+  "freeze_before_first_segment_distance_outcome": "2026-10-19",
+  "source_cohort": "Three pinned provider-MD5 original CSVs from research/MOVEBANK_NATIVE_OBSERVATION_PILOT_20261019.json; no outcome-selection.",
+  "science_question": "At similar daylength in opposing seasons, do tracked wild mammals differ in day versus night GPS displacement? What is the relative contribution from each period?",
+  "geometry": "Northern June solstice increasing vs decreasing; local mean solar time UTC+lon/15; daylength at daily mean observed latitude; <=5min caliper, dates >=30 days separated, greedy one-to-one matching without movement outcome.",
+  "gps_step": "Consecutive fixes from same individual: 0.5–2h apart; endpoints and midpoint must share a solar date and day/night category; great circle minimum displacement (km)/elapsed hour. Drop zero or negative step time and steps with >60 km/h; do not interpolate missing hours.",
+  "daily_sampling": "At least three 0.5–2h steps in each DAY/NIGHT class on each date; each branch-step count ratio in [0.5,2]. Recompute date pairing without reading movement magnitudes.",
+  "primary_endpoint": "Per matched pair falling-minus-rising [(log1p median nighttime km/h)-(log1p median daytime km/h)]; average pairs to individual-year, years equally to individual, individuals equally to source. >=10 valid date pairs/individual-year. Report both day and night absolute log1p rate changes.",
+  "inference": "Source-level descriptive means, 2000-replicate animal-cluster bootstrap 95% percentile interval with fixed seed 20261019; do not count repeated years/fixes as independent animals. If <5 eligible animals, report insufficient support, not a directional effect.",
+  "scope": "Exploratory source-verified measurement of GPS displacement in three independent source populations, not continuous activity, phenological mediation, causal thermal avoidance, circadian memory, a universal law or prediction benchmarking.",
+  "privacy": "No raw coordinates, individual IDs, precise timestamps, source raw CSV or per-individual effects in committed output. Keep source citation, provider licenses and limitations."
+}

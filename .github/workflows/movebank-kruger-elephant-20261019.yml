@@ -1,0 +1,31 @@
+name: Independent Kruger African elephant same-photoperiod GPS ecology
+on:
+  push:
+    branches: [ecology/seasonal-hysteresis-cross-landscape-paper-v0]
+    paths:
+      - 'research/MOVEBANK_KRUGER_ELEPHANT_INDEPENDENT_V0_20261019.json'
+      - 'scripts/movebank_kruger_elephant_source_20261019.py'
+      - 'tests/test_movebank_kruger_elephant_source_20261019.py'
+      - '.github/workflows/movebank-kruger-elephant-20261019.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_source_same_taxon_comparison:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate source pin, solar hemisphere and header-only test
+        run: python -m unittest discover -s tests -p 'test_movebank_kruger_elephant_source_20261019.py' -v
+      - name: Source-MD5 original Kruger elephant and same timestamp-only hourly diel speed contrasts
+        run: python -m scripts.movebank_kruger_elephant_source_20261019 --out outputs/kruger_elephant_same_taxon_ecology_20261019
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-movebank-kruger-elephant-solar-ecology-20261019
+          path: outputs/kruger_elephant_same_taxon_ecology_20261019/kruger_elephant_grouped.json
+          if-no-files-found: warn

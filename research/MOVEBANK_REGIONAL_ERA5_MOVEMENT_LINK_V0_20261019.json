@@ -1,0 +1,35 @@
+{
+  "version": "movement-region-climate-link-v0",
+  "created_utc": "2026-10-19",
+  "timing": "AFTER reading first three published-source movement effect results; exploratory analysis, NOT independent confirmation",
+  "scientific_question": "At actual matched-daylength GPS observation dates, does the region-level direction of thermal and hydroclimate season shift coincide with night/day displacement reallocation? This cannot identify causation because taxon and site are confounded.",
+  "locked_source_cohort": "Exactly three original Movebank source archive/bitstream MD5s already frozen in MOVEBANK_NATIVE_OBSERVATION_PILOT_20261019.json; do not replace based on ecological signs",
+  "preserve_existing_result": "Replicate existing unmodified MOVEBANK_SOLAR_MOVEMENT_V0_20261019.json estimator and compare exact source-level means with results below BEFORE assessing climate",
+  "expected_source_means": {
+    "elk_canada": 0.04500073152774594,
+    "wild_pig_florida": -0.0009771905623652984,
+    "black_bear_connecticut": -0.07716773206927685
+  },
+  "coarse_weather_reference_sites": {
+    "elk_canada": {
+      "latitude": 51.5,
+      "longitude": -115.5,
+      "name": "Banff region, Alberta, Canada"
+    },
+    "wild_pig_florida": {
+      "latitude": 26.5,
+      "longitude": -81,
+      "name": "southern Florida, USA"
+    },
+    "black_bear_connecticut": {
+      "latitude": 41.5,
+      "longitude": -72.5,
+      "name": "Connecticut, USA"
+    }
+  },
+  "weather": "Open-Meteo historical archive, explicitly ERA5, native elevation (elevation=nan), nearest grid, UTC-offset-based fixed mean local standard dates (round(longitude/15) hours). Daily mean temperature °C and preceding-30-day sum(precipitation-ET0) mm. Original response hashes recorded; not individual microclimate, actual soil moisture or forage.",
+  "calendar": "Only dates that passed existing prespecified GPS step and same-photoperiod date pairing rules; no date threshold changes. Retain provider missingness.",
+  "aggregation": "Individual-year paired effects and paired environment difference averaged within years, then equal years per individual, equal individuals within source. Within-animal slopes are exploratory and reflect serial day/date dependence; no p-values or across-species trait-law inference.",
+  "outputs": "Three source-level regional environment+animal contrasts, source retries and response hashes; no raw coordinates, tagged animal IDs or matched dates emitted.",
+  "caveats": "All climate locations are coarse publicly named study-region reference points, not recovered individual GPS positions. Diet/movement species differences confounded with region and year. A future repeated population across hydroclimatic contexts is needed for explanation."
+}

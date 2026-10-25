@@ -1,0 +1,11 @@
+{
+  "version": "elephant-hourly-solar-v1",
+  "date": "2026-10-19",
+  "motivation": "Original Etosha elephant source passed provider MD5 yet only 413 of 2,930,253 consecutive pairs met original 30–120-minute admissibility; v0 remains insufficient. This separate source-cadence route was specified after coverage result and before time-thinned movement effects.",
+  "source": "Etosha Loxodonta africana only; research/MOVEBANK_SOUTHERN_SOLAR_MOVEMENT_V0_20261019.json MD5 locked 43,018,855-byte original ZIP; CC BY-NC 4.0",
+  "blind_sampling": "Within original individual and each UTC-clock-hour floor, choose fix with smallest elapsed seconds since hour start; tie earliest source timestamp; no use of position, speed, habitat, solar category or outcome in fixing the hour samples; no missing-hour interpolation.",
+  "identical_analysis": "Apply unchanged southern-solar-match original v0 analyzer after timestamp-only thinning: 0.5–2h observed steps, shared solar day/night category for start/stop/midpoint, <=60km/h, >=3 step speeds in each daypart per date, 0.5–2 falling:rising daypart step counts, <=5min matched photoperiod and >=30 day date separation, >=10 pairs/individual-solar-year.",
+  "outcome": "source-level mean falling-minus-rising (night log1p median km/h minus day log1p median km/h), within-cycle/individual equal means, 2000 animal-cluster bootstrap, all null/negative/unsupported shown",
+  "boundary": "Observational GPS step displacement, not continuous activity, energetic effort, water availability, temperature effect, or inferred circadian mechanism. V0 is not retroactively changed. Original source precise locations/IDs/timestamps never published; NC source attribution.",
+  "interpretation": "Distinct observation cadence creates a separate estimand; do not pool unqualified differences in sampling resolution as if equivalent."
+}

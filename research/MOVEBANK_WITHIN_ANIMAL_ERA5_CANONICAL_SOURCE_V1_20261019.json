@@ -1,0 +1,25 @@
+{
+  "id": "MOVEBANK_SIX_WITHIN_ANIMAL_ERA5_SOURCE_CANONICAL_V1_20261019",
+  "date": "2026-10-19",
+  "route_status": "SEPARATE SOURCE-VERSION RETRY following v0 fail-closed: CI39218182379 all six source HOLD because original raw Open-Meteo API JSON SHA256s changed. Six original GPS cohort animal counts and matched-date group movement & mean regional ERA5 climate outputs were reproduced exactly BEFORE raw SHA gate. No six new pairwise Spearman values opened in v0.",
+  "diagnosis": "Open-Meteo ERA5 original JSON body contains generationtime_ms which differs between multiple independently repeated requests to exactly the same public URL; initial diagnostic saw e.g. 2.084970474243164 and 2.16829776763916 with identical first/last sampled daily temperatures and full 287-day date coverage. A full raw-body checksum therefore does not reliably identify scientific weather-content revisions.",
+  "scientific_effect_status": "Unchanged v0 date list, individual roster, 6 original GPS effect means and day/night response. Unchanged v0 new rank Spearman endpoints, exclusion rules, six-cohort source sampling and source source terms. This is a source-integrity repair BEFORE v1 pairwise rho inspection, NOT a retune of animal analysis.",
+  "source_contract": "Exactly original Open-Meteo historical ERA5 source provider model, locations, timezone, source URL query, three daily numeric variables: temperature_2m_mean,precipitation_sum,et0_fao_evapotranspiration, and source date grid/elevation/unit metadata. No alternate weather product, region, imputation or variable choice.",
+  "canonicality": {
+    "stable_payload": "Parse official response into ordered source daily date + three numeric vectors and source units/location/timezone/elevation; remove ONLY response generationtime_ms from canonical JSON; sorted-key compact JSON SHA256, retained with the full source response receipt. Never remove climate dates or numeric values.",
+    "validate_units": "daily mean temperature °C, precipitation mm, FAO reference evapotranspiration mm; all 3 arrays same full consecutive local calendar source range; no null/nonfinite; negative precipitation/ET0 source HOLD.",
+    "validate_site": "provider output coordinate within 0.5° of original public regional reference, source response timezone original fixed mean standard offset from longitude, never actual animal GPS points.",
+    "numeric_old_first_run_guard": "Even though v0 raw-body SHA differs, original accepted n animals, source movement mean, source mean matched-day ΔT, source mean matched-day Δ30d P−ET0 and missing-date count MUST match first pre-v1 published numeric source receipts to 1e−10, or HOLD.",
+    "canonical_source_version_limit": "Original first run did not retain all original daily arrays, only original raw-response SHA and aggregate climate means. Thus byte-for-byte equivalence of all historical numeric daily values to v0 cannot be proved retrospectively; publish v1 canonical daily data SHA and optionally full public coarse daily arrays in an artifact, WITHOUT relabelling the original v0 raw SHA as passing.",
+    "avoid_source_instability": "Do not assert repeated API responses byte-identical. Keep original failed v0 result unchanged, disclose v1 canonical source SHA, API request URL, new numeric checks and any error."
+  },
+  "sampling_lock": {
+    "original_source_cohorts": 6,
+    "original_source_animals": 197,
+    "original_first_roster": "research/MOVEBANK_WITHIN_INDIVIDUAL_YEAR_HYDROTHERMAL_ASSOCIATION_V0_20261019.json",
+    "test": "Re-run old v0 pure tests AND test v1 source body canonicalization against two envelopes with different generationtime_ms; reject daily change, date gaps, wrong unit or different location",
+    "response": "For original marked animal×year n>=10 GPS source date-pairs and >=80% weather completeness, with >=8 finite pairs and 4 distinct values, report tie-aware Spearman rho between fixed paired NIGHT–DAY relative GPS displacement and original same-date regional ΔT or previous-30-day Δ(P−ET0). Then equal-year mean within animal, equal animal weights in each of six original cohorts.",
+    "scope": "All six original sources, all undefined, no source response-related selection, no p-values, no animal GPS identifiers or raw locations output."
+  },
+  "claim_ceiling": "Purely descriptive within-cohort climate–GPS co-trends. Animals share same regional ERA5 calendar and different species/geographies/collars; this does NOT prove causal heat sensitivity, species traits, or universal photoperiod memory. It is a robust rank-based sensitivity after earlier OLS slope results, not a new confirmatory animal hypothesis."
+}

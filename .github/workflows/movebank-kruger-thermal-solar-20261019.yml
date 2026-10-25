@@ -1,0 +1,31 @@
+name: Kruger elephant collar thermal-gradient versus diel GPS seasonal ecology
+on:
+  push:
+    branches: [ecology/seasonal-hysteresis-cross-landscape-paper-v0]
+    paths:
+      - 'research/MOVEBANK_KRUGER_THERMAL_DIEL_V0_20261019.json'
+      - 'scripts/movebank_kruger_thermal_solar_20261019.py'
+      - 'tests/test_movebank_kruger_thermal_solar_20261019.py'
+      - '.github/workflows/movebank-kruger-thermal-solar-20261019.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  temperature_diel_same_solar_daylength:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Independent known-truth temperature-slope and timestamp-blind sampling tests
+        run: python -m unittest discover -s tests -p 'test_movebank_kruger_thermal_solar_20261019.py' -v
+      - name: Replay earlier source GPS result exactly then estimate new original collar thermal association
+        run: python -m scripts.movebank_kruger_thermal_solar_20261019 --out outputs/kruger_thermal_solar_ecology_20261019
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kruger-elephant-collar-thermal-matched-daylength-20261019
+          path: outputs/kruger_thermal_solar_ecology_20261019/kruger_collar_thermal_solar_results.json
+          if-no-files-found: warn

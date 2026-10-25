@@ -1,0 +1,70 @@
+{
+  "title": "First three-source matched-photoperiod public GPS displacement comparison",
+  "study_type": "exploratory after source-only roster; observation-conditioned within-individual comparison",
+  "date": "2026-10-19",
+  "run_id": 39202860827,
+  "run_url": "https://github.com/zuizui0223/odsp/actions/runs/39202860827",
+  "contract": "research/MOVEBANK_SOLAR_MOVEMENT_V0_20261019.json",
+  "sources": [
+    {
+      "label": "elk_canada",
+      "taxon": "Cervus elaphus",
+      "doi": "10.5441/001/1.5g4h5t6c",
+      "gps_rows": 1585456,
+      "source_individuals": 175,
+      "qualified_same_solar_period_steps": 314229,
+      "individual_years_ge10_matched_days": 12,
+      "n_individuals": 12,
+      "positive": 11,
+      "negative": 1,
+      "relative_effect": 0.04500073152774594,
+      "day_component": -0.024114482267685474,
+      "night_component": 0.020886249260060465,
+      "bootstrap_95": [
+        0.02409234125345194,
+        0.061865039188471596
+      ]
+    },
+    {
+      "label": "wild_pig_florida",
+      "taxon": "Sus scrofa",
+      "doi": "10.5441/001/1.719",
+      "gps_rows": 79165,
+      "source_individuals": 10,
+      "qualified_same_solar_period_steps": 73583,
+      "individual_years_ge10_matched_days": 5,
+      "n_individuals": 5,
+      "positive": 3,
+      "negative": 2,
+      "relative_effect": -0.0009771905623652984,
+      "day_component": 0.001695531757669892,
+      "night_component": 0.0007183411953045934,
+      "bootstrap_95": [
+        -0.04009467189333418,
+        0.033542481547193644
+      ]
+    },
+    {
+      "label": "black_bear_connecticut",
+      "taxon": "Ursus americanus",
+      "doi": "10.5441/001/1.706",
+      "gps_rows": 156366,
+      "source_individuals": 21,
+      "qualified_same_solar_period_steps": 98109,
+      "individual_years_ge10_matched_days": 30,
+      "n_individuals": 20,
+      "positive": 0,
+      "negative": 20,
+      "relative_effect": -0.07716773206927685,
+      "day_component": 0.0668473750404711,
+      "night_component": -0.010320357028805753,
+      "bootstrap_95": [
+        -0.08876598691453004,
+        -0.06590610413212282
+      ]
+    }
+  ],
+  "estimand": "falling-minus-rising branch within-animal mean of log1p(median GPS straight-line speed km/h at night) - log1p(median speed at daylight), paired on same daylength. Not raw night share, instantaneous true activity or location occupancy.",
+  "interpretation_ceiling": "Each species is represented by one source and site; within-source bootstraps cluster by animal but do not justify species-general or global inference. Data coverage is selective; GPS intervals exclude gaps; movement is a minimum straight-line measure. No temperature, vegetation, humans or lunar mechanism has yet been tested.",
+  "privacy": "Only grouped source statistics; original trajectories and IDs omitted."
+}

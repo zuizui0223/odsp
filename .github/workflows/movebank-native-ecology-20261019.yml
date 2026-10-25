@@ -1,0 +1,52 @@
+name: Movebank native file and individual observation coverage 2026-10-19
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/MOVEBANK_NATIVE_OBSERVATION_PILOT_20261019.json'
+      - 'scripts/movebank_native_ecology_20261019.py'
+      - 'tests/test_movebank_native_ecology_20261019.py'
+      - '.github/workflows/movebank-native-ecology-20261019.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  full_archive_native_file_inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test source controls before archive inspection
+        run: python -m unittest discover -s tests -p 'test_movebank_native_ecology_20261019.py' -v
+      - name: Inspect ORIGINAL filenames, sizes and checksums for all 437 public source packages
+        run: python -m scripts.movebank_native_ecology_20261019 inventory --workers 6 --out outputs/movebank_native_inventory_20261019
+      - name: Preserve native file metadata and all access failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: movebank-native-original-file-inventory-20261019
+          path: outputs/movebank_native_inventory_20261019
+          if-no-files-found: warn
+  first_three_mammal_source_coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test coverage and astronomy before opening source CSVs
+        run: python -m unittest discover -s tests -p 'test_movebank_native_ecology_20261019.py' -v
+      - name: Download three provider-MD5-qualified GPS files and count individual seasonal sampling only
+        run: python -m scripts.movebank_native_ecology_20261019 pilot --out outputs/movebank_native_coverage_20261019
+      - name: Publish only aggregate source coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: movebank-native-3-mammal-observation-coverage-20261019
+          path: outputs/movebank_native_coverage_20261019/pilot_coverage_summary.json
+          if-no-files-found: warn

@@ -1,0 +1,48 @@
+name: Independent seven-duck GPS solar-matched day/night movement-speed v0
+
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/DUCK_GPS_2025_SOLAR_MATCHED_SPEED_V0_CONTRACT.json'
+      - 'scripts/run_2025_seven_duck_gps_solar_matched_speed_v0.py'
+      - 'tests/test_2025_seven_duck_gps_solar_speed_v0.py'
+      - '.github/workflows/duck2025-gps-solar-matched-groundspeed-v0.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent_GPS_groundspeed_not_animal_activity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run six known-truth GPS solar, duty-cycle and individual-replication controls before speed values
+        run: python -m unittest discover -s tests -p 'test_2025_seven_duck_gps_solar_speed_v0.py' -v
+      - name: Download exact publicly archived original seven-duck-species GPS source and verify MD5
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .duck2025_independent_source
+          curl -L --fail --retry 3 --retry-delay 4 --max-time 720 \
+            'https://zenodo.org/records/16940654/files/250823_LNU_dabbling_ducks_hourly.csv?download=1' \
+            -o .duck2025_independent_source/250823_LNU_dabbling_ducks_hourly.csv
+          echo '1972d0ef08b83c2b88a169ba07bb48b3  .duck2025_independent_source/250823_LNU_dabbling_ducks_hourly.csv' | md5sum -c -
+      - name: Replay 294683 source rows/36 prelim supported animals, then analyze original GPS sensor speed on fixed near-equal solar daylength dates
+        run: |
+          python -m scripts.run_2025_seven_duck_gps_solar_matched_speed_v0 \
+            --input .duck2025_independent_source/250823_LNU_dabbling_ducks_hourly.csv \
+            --output outputs/duck2025_real_GPS_same_individual_solar_matched_speed_v0.json
+      - name: Archive anonymous individual-aggregated speed contrasts, preserve all seven taxa and undefined results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duck2025-7species-real-gps-solar-matched-speed-v0
+          path: outputs/duck2025_real_GPS_same_individual_solar_matched_speed_v0.json
+          if-no-files-found: warn

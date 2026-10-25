@@ -1,0 +1,45 @@
+{
+  "id": "DUCK_GPS_2025_SOLAR_MATCHED_SPEED_V0",
+  "registered": "2026-10-18",
+  "status": "FIRST external numerical ground.speed outcome freeze; source-only 294,683 GPS row/36 individual both-branch coarse-cell support already opened. Movement speed VALUES NOT OPENED, so all speed endpoints/signs frozen before first value inspection.",
+  "source": {
+    "original": "https://zenodo.org/records/16940654/files/250823_LNU_dabbling_ducks_hourly.csv?download=1",
+    "checksum_md5": "1972d0ef08b83c2b88a169ba07bb48b3",
+    "source_only_first_run": "https://github.com/zuizui0223/odsp/actions/runs/39090010649",
+    "source_fix_rows": 294683,
+    "source_branch_supported_individual_count": 36,
+    "source_species": 7,
+    "timestamp": "Original UTC per publisher, not assumed local",
+    "location": "Original GPS WGS84 used ephemerally to derive solar geometry and 0.5° cells only; never publish raw locations or exact individual IDs."
+  },
+  "biological_question": "At the same approximate site-local astronomical daylength on opposite seasonal branches, does the same marked bird's daytime-versus-nighttime GPS ground speed allocation change? Does any direction replicate across individually sampled bird taxa independent of camera detector systems?",
+  "unit": {
+    "pre_source_cell": "SAME study.name×individual.id, SAME 0.5° lat/long grid and December21 solstice-year. A bird can contribute multiple cells or cycles, but final taxon aggregate weights each independent individual equally across such groups.",
+    "hemisphere": "Must satisfy abs(latitude)>=1°, northern solstice branches before Dec21 falling and after rising, southern reversed; source preflight k=7..160 days is immutable.",
+    "solar_hour": "At each original GPS UTC timestamp and source GPS coordinate, use NOAA sun declination, equation of time and solar zenith; DAY where computed apparent solar elevation >= -0.833° (the same upper-limb/refraction convention), NIGHT otherwise. Never classify by a fixed clock-hour offset.",
+    "daily_support": "Within each individual×cell×solstice UTC-calendar date and photoperiod branch, require >=3 finite plausible GPS ground-speed readings in solar daylight and >=3 in night. This is SPEED SAMPLE OPPORTUNITY check, not time-corrected animal observation.",
+    "daylength": "At that indiv×cell×solstice year, calculate modeled astronomical daylight minutes for every candidate UTC date from the SOURCE latitudes' per-cell median, not event speed. Match eligible one rising and one falling date within <=5 minutes daylight length using deterministic minimum-absolute-daylength-difference greedy one-to-one matching (ties by dates). No date reused; choose based only on astronomy and source observation availability.",
+    "sensor_speed": "Original GPS ground.speed in meters/second, include only finite 0<=speed<=60 m/s, retain clipped/excluded records count. Ground speed is sensor-estimated, NOT animal energy use or proof of locomotor activity.",
+    "source_duty": "For each candidate paired date and each solar day/night zone, require >=3 original valid ground-speed samples per date AND ratio of falling/rising fix counts in [0.5,2]. If outside reject pair before any result reading. Report number of duty-balanced pairs.",
+    "eligibility": "Individual×cell×solstice group qualifies for reported GPS speed contrast if >=5 DISTINCT matched date pairs satisfy astronomical and source duty criteria; otherwise record support-only, no estimated effect. For population-level descriptive species comparison require >=5 distinct individuals, and for cross-species claim require >=2 such species."
+  },
+  "endpoints": {
+    "per_date": "median log(1+ground.speed_m_s) of source GPS readings for each DAY and NIGHT solar class (not mean raw distance/number of GPS points).",
+    "per_date_relative": "night median(log(1+speed)) minus day median(log(1+speed))",
+    "per_pair_delta": "[night−day speed log-median]_falling − [night−day speed log-median]_rising, at equal daylength and same individual×region.",
+    "per_individual_cellcycle": "mean across all source matched date-pair deltas in the group; each date used once",
+    "per_individual": "mean of all eligible same individual×cell×solstice group means; one animal only contributes once within a species",
+    "per_species": "mean and median of eligible independent-individual effects; count positive/negative/tied animal-level effect signs; leave-one-individual-out min/max of species mean (NOT confidence interval); keep all seven taxa and undefined low support.",
+    "sampling_observational_quality": "Report actual original timestamps row counts, speed availability, speed >60 rejected, spatial/same-individual matched pairs, day/night fix counts per branch. NO event-level independent animal p-values.",
+    "prior_source_replay": "Exact original Duck source-only 294,683 row count and MD5, original 7 taxa, 36 preliminary individual branch support MUST replay; do not alter previous GPS source status/effort hist."
+  },
+  "sensitivity_and_limit": [
+    "Fix timing varies by animal battery, species tag model (1h or 2h), cloud/weather and GSM success; even speed sensor values can vary by GPS conditions. Matching day/night sample count does not fully identify continuous-time behavioral budgets.",
+    "Comparisons remain within 0.5° (~tens of km), not same individual exact microhabitat; site relocation and resource changes can contribute.",
+    "Source captures in migration/wintering season vary among taxa and years; a nonzero within-individual speed response could reflect context/migration stage as well as seasonal memory.",
+    "Species under n=5 independent animals are displayed as insufficient for species-level inference; no post-hoc taxa or date-window rescue.",
+    "GPS movement is a different response from Serengeti camera PHOTO detection; do not pool raw effect sizes as one estimand or claim field replication of particular zebra/hyena OR.",
+    "Only one independent GPS publication across several countries, not a randomized set of independent landscapes; count independent individuals/cells/studies and distinguish.",
+    "No causal NDVI/temperature, photoperiod entrainment, animal behavioral activity, conservation impact or universal hysteresis claim from observational GPS sensor speeds."
+  ]
+}

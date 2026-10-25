@@ -1,0 +1,31 @@
+name: Etosha matched-date ERA5 climate context of elephant and jackal
+on:
+  push:
+    branches: [ecology/seasonal-hysteresis-cross-landscape-paper-v0]
+    paths:
+      - 'research/ETOSHA_SHARED_CLIMATE_V0_20261019.json'
+      - 'scripts/etosha_shared_climate_20261019.py'
+      - 'tests/test_etosha_shared_climate_20261019.py'
+      - '.github/workflows/etosha-shared-climate-20261019.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  etosha_two_species_common_regional_environment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test paired-date weather arithmetic and source missingness
+        run: python -m unittest discover -s tests -p 'test_etosha_shared_climate_20261019.py' -v
+      - name: Verify old original mammal sources and link identical-hour solar date pairs to fixed regional ERA5
+        run: python -m scripts.etosha_shared_climate_20261019 --out outputs/etosha_joint_20261019
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: etosha-elephant-jackal-matched-date-era5-20261019
+          path: outputs/etosha_joint_20261019/etosha_shared_era5.json
+          if-no-files-found: warn

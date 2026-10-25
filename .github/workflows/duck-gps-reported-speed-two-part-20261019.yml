@@ -1,0 +1,44 @@
+name: Duck GPS reported-speed two-part description 2026-10-19
+on:
+  push:
+    branches:
+      - ecology/seasonal-hysteresis-cross-landscape-paper-v0
+    paths:
+      - 'research/DUCK_GPS_REPORTED_SPEED_TWO_PART_20261019.json'
+      - 'scripts/duck_gps_reported_speed_two_part_20261019.py'
+      - 'tests/test_duck_gps_reported_speed_two_part_20261019.py'
+      - '.github/workflows/duck-gps-reported-speed-two-part-20261019.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sensor_description:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test mixture definitions before empirical execution
+        run: python -m unittest discover -s tests -p 'test_duck_gps_reported_speed_two_part_20261019.py' -v
+      - name: Obtain original source once and verify publisher checksum
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .duck_source
+          curl -L --fail --retry 2 --retry-delay 4 --max-time 600 \
+            'https://zenodo.org/records/16940654/files/250823_LNU_dabbling_ducks_hourly.csv?download=1' \
+            -o .duck_source/original.csv
+          echo '1972d0ef08b83c2b88a169ba07bb48b3  .duck_source/original.csv' | md5sum -c -
+      - name: Replay original median result, then describe positive reports and conditional magnitude
+        run: |
+          python -m scripts.duck_gps_reported_speed_two_part_20261019 \
+            --input .duck_source/original.csv \
+            --output outputs/duck_gps_reported_speed_two_part_20261019.json
+      - name: Retain aggregate evidence only
+        uses: actions/upload-artifact@v4
+        with:
+          name: duck-gps-reported-speed-two-part-20261019
+          path: outputs/duck_gps_reported_speed_two_part_20261019.json
+          if-no-files-found: error

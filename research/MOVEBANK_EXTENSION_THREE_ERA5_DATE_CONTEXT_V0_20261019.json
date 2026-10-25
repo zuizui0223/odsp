@@ -1,0 +1,77 @@
+{
+  "id": "MOVEBANK_GPS_THREE_EXTENDED_ERA5_MATCHED_DATE_V0_20261019",
+  "date": "2026-10-19",
+  "timing": "POST-OUTCOME exploratory: original GPS relative night/day movement v0 effects for these three cohorts were seen and published on this branch before this environmental-link analysis; climate values have NOT been opened for this route. No blinded biological replication or causal mechanism.",
+  "goal": "Provide source-matched environmental context for the existing unlinked 3 qualified North American Movebank mammal source cohorts. Assess whether near-identical photoperiod and broadly warmer/cooler regional atmosphere uniquely determines sign of source-observed GPS day/night displacement change; do not claim animal temperature causation.",
+  "source_cohort": "Exactly three source-labeled ORIGINAL GPS Movebank archived bitstreams from the first frozen eight-package extension; no source replacement, sample retuning or new individual roster. Files and provenance in research/MOVEBANK_SOLAR_MOVEMENT_EXTENSION_V0_20261019.json; base previous effects in research/MOVEBANK_SOLAR_MOVEMENT_EXTENSION_V0_RESULT_20261019.json.",
+  "frozen_expected_results": {
+    "mule_deer_wyoming": {
+      "source_md5": "a8563f71fa6213919812dc0f2da30c26",
+      "individuals": 118,
+      "relative_log_speed": 0.03114824366094135,
+      "day_component": -0.016573549520154343,
+      "night_component": 0.014574694140787008,
+      "doi": "10.5441/001/1.708"
+    },
+    "white_tail_virginia": {
+      "source_md5": "dcdaf661bbf7d4cb9364028999542629",
+      "individuals": 33,
+      "relative_log_speed": -0.0031894638756262794,
+      "day_component": 0.003167048714583989,
+      "night_component": -0.000022415161042290707,
+      "doi": "10.5441/001/1.718"
+    },
+    "wolves_alberta": {
+      "source_md5": "3a3a1b732e997c771943ae1151a76efd",
+      "individuals": 9,
+      "relative_log_speed": 0.02841038749300514,
+      "day_component": -0.011776124169609587,
+      "night_component": 0.016634263323395553,
+      "doi": "10.5441/001/1.662"
+    }
+  },
+  "geographic_exposure": {
+    "mule_deer_wyoming": {
+      "latitude": 42.5,
+      "longitude": -110.5,
+      "description": "Sublette region, Wyoming, USA; coarse public regional climate reference, not confirmed animal GPS centroid"
+    },
+    "white_tail_virginia": {
+      "latitude": 37.5,
+      "longitude": -80.5,
+      "description": "Western Virginia, USA; coarse public regional climate reference, not confirmed animal GPS centroid"
+    },
+    "wolves_alberta": {
+      "latitude": 53,
+      "longitude": -116,
+      "description": "Alberta–British Columbia boundary region; coarse public regional grid may represent some collared packs poorly; never call actual wolf exposure"
+    }
+  },
+  "weather": {
+    "provider": "Open-Meteo historical ERA5, https://archive-api.open-meteo.com/v1/archive",
+    "variables": [
+      "temperature_2m_mean",
+      "precipitation_sum",
+      "et0_fao_evapotranspiration"
+    ],
+    "model": "era5",
+    "grid": "nearest, model-native elevation; same coarse public place for all matched dates within a source",
+    "calendar_timezone": "fixed local STANDARD timezone by rounded longitude/15 as in first 3-source ERA5 join, rather than UTC dates; original GPS step date uses mean-solar date; mismatch caveat retained",
+    "antecedent_water_proxy": "sum of daily precipitation minus reference evapotranspiration ET0 during target date plus prior 29 days, falling minus rising; not soil moisture, vegetation, forage or actual water availability",
+    "contrast": "for exact original individually retained daylength-matched rising/falling GPS dates, ERA5 falling minus rising daily mean air T and trailing 30d P-ET0"
+  },
+  "source_safety": [
+    "First verify that original public package selected bitstream UUID, provider MD5 and file byte count match extension freeze. Do not replace a file whose provider checksum differs.",
+    "Recompute the locked source movement mean and eligible number of individuals EXACTLY against archived original v0 result before consulting climate; else HOLD and do not output environment.",
+    "No animal IDs, precise track positions, individual event times, raw coordinates, movements, or original telemetry CSV redistributed; only group-level ecological climate/movement comparison and original climate request SHA/URLs.",
+    "Keep all original individual years; do not drop animals/dates to increase climate effect signs. Report missing ERA5 source dates explicitly and preserve original group effect separately from climate-qualified restricted effect.",
+    "No unit change: movement response is falling−rising [log1p median night km/h − log1p median daylight km/h] from min straight-line GPS displacement per 0.5–2h step. Not true continuous activity, energy expenditure or percent movement.",
+    "Do not infer regional daily climate as the exact temperature experienced by an individual, heat stress, circadian entrainment, rainfall-vegetation causation or species-specific response without multiregion replication.",
+    "Three extra cohorts plus previous 3 are not six independent experimental regions; overlapping taxonomy and populations/site protocols remain confounded. Prediction accuracy is not required for ecological interpretation."
+  ],
+  "result_table": [
+    "source,taxon,DOI,eligible individuals,matched source date-pairs,individual-year count,mean GPS relative night/day response,matched-day regional ERA5 ΔT (°C),matched-day prior 30d Δ(P-ET0) (mm),number of warm-direction animals,number of drier-direction animals,weather source missing pair count,source exact reproduction flag"
+  ],
+  "statistical_limit": "Only source-level descriptive contrasts, date dependence and animal nesting recognized; no cross-source naive p-values, causal slopes or pseudo-replicated independent regions. Report the three 3-source past linked contrasts side-by-side without recoding them.",
+  "acceptance": "Produce genuine source-verified results with a new workflow and tests. If three sources cannot be obtained from original bitstreams, preserve explicit source HOLD; no new simulation or dataset substitution."
+}
