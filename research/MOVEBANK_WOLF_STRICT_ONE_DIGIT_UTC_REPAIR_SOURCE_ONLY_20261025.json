@@ -1,0 +1,17 @@
+{
+  "id": "MOVEBANK_WOLVES_YELLOWSTONE_SINGLE_DIGIT_UTC_SECOND_SCHEMA_V0_20261025",
+  "date": "2026-10-25",
+  "prior_original_source": "research/MOVEBANK_SAME_TAXON_THREE_SOURCE_PREFLIGHT_20261025.json original wolf dataset DOI 10.5441/001/1.717, provider MD5 c45f090bb797d6923e9360122f2ee156; prior source-only run 40159378985 original 23,604 rows all unparseable but all positions+individual IDs valid. Specific source-only diagnosis run 40160155029 found all timestamp lexical patterns YYYY-MM-DD HH:MM:S<letter>.",
+  "scientific_scope": "SOURCE HEADER/TIMESTAMP QUALITY ONLY, no original animal movement magnitude read, no new behavioral outcome, no after-data date/step threshold retuning.",
+  "allowed_single_repair": "ONLY strings exactly matching YYYY-MM-DD[space or T]HH:MM:<ONE DIGIT SECOND>Z (literal terminal uppercase Z) may be standardized by leading one zero onto the one-digit seconds field, preserving local date, UTC instant, original chronology and Z timezone. Do not alter any other timestamp class; if suffix is not Z or any source date cannot be parsed, report unrecognized and HOLD.",
+  "source_taxon": "Canis lupus",
+  "source_size": 3854637,
+  "source_rows": 23604,
+  "source_original_provider_MD5": "c45f090bb797d6923e9360122f2ee156",
+  "source_only_results": [
+    "Count share of timestamp lexical variants, terminal Z vs other letter, number repaired, number still invalid (no actual GPS timestamp values exported)",
+    "Recompute from original source only the same original 5min photoperiod paired DATE observation opportunity, >=3 source fixes each solar DAY and NIGHT and >=30d paired dates, by individual×calendar year. No GPS displacement calculation; no raw ID, GPS coordinates or timestamps exported.",
+    "If no individual-years with >=10 date pairs after strict one-digit UTC conversion, no new wolf biological response is admitted. If positive support, freeze new source numerical GPS response separately and use unchanged original movement algorithm after only permissible timestamp normalization inside ephemeral runner."
+  ],
+  "limits": "The original Movebank timestamps could have a non-Z suffix or a nonstandard source encoding; never guess or relabel. Source file provenance and original source HOLDS remain preserved even if separate valid schema route is demonstrated. Distinct wolf recruitment from Alberta not proven identical protocol/population, and no animal causal inference."
+}
