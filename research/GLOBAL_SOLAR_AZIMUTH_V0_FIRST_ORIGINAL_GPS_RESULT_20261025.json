@@ -1,0 +1,574 @@
+{
+  "version": "global-original-gps-solar-azimuth-macro-v0",
+  "generated_utc_date": "2026-10-25",
+  "original_source_workflow_run_id": 40162457020,
+  "original_source_workflow_url": "https://github.com/zuizui0223/odsp/actions/runs/40162457020",
+  "original_method_commit": "9b36775cf5be5a0f00da570431d5b640301bb37b",
+  "frozen_protocol_commit": "88cbceacfc1367e3466579903185c8524f67c145",
+  "first_run_status": "all_four_jobs_success; source-MD5-verified; previously reused original GPS sources; exploratory",
+  "caveat": "Raw alignment and clock-restricted covariance are different estimands; numerically smaller covariance does NOT quantify percent attenuation or establish absence of solar response. Clock conditioning restricts available azimuth variation. Individual bootstrap CIs do not provide independent study, multiple-testing or causal inference. All source cohorts are post-prior-effect exploratory.",
+  "summary": {
+    "n_original_file_archives": 5,
+    "n_source_taxon_entries": 9,
+    "n_literal_taxa": 6,
+    "original_rows": 7330427,
+    "daylight_directional_qualified_steps": 915783,
+    "sum_qualified_source_taxon_animals": 2844,
+    "clock_adjusted_qualified_source_taxon_animals": 2674,
+    "equal_source_taxon_mean_absolute_raw_alignment": 0.02344940881328184,
+    "equal_source_taxon_mean_absolute_clock_adjusted_covariance": 0.0013479120385320783,
+    "source_taxa_with_raw_individual_bootstrap_interval_excluding_zero": 5,
+    "source_taxa_with_clock_covariance_individual_bootstrap_interval_excluding_zero": 2
+  },
+  "source_taxon_results": [
+    {
+      "stage": "pilot",
+      "study_source": "elk_canada",
+      "original_data_doi": "10.5441/001/1.5g4h5t6c",
+      "source_taxon": "Cervus elaphus",
+      "source_status": "provider_MD5_verified_original",
+      "study_taxon_raw_rows": 1585456,
+      "qualified_daylight_GPS_steps": 66661,
+      "source_animals": 175,
+      "qualified_animals": 130,
+      "qualified_individual_years": 240,
+      "raw_sunward": {
+        "bootstrap95": [
+          -0.07780906383267493,
+          -0.05287725977260667
+        ],
+        "mean": -0.06528943136319336,
+        "n_individuals": 130
+      },
+      "raw_axial": {
+        "bootstrap95": [
+          -0.002837670484154617,
+          0.01497589190834646
+        ],
+        "mean": 0.006294322135302772,
+        "n_individuals": 130
+      },
+      "compass_adjusted": {
+        "bootstrap95": [
+          -0.06083307150493701,
+          -0.04280375551119928
+        ],
+        "mean": -0.051690535423280205,
+        "n_individuals": 130
+      },
+      "compass_adjusted_axial": {
+        "bootstrap95": [
+          0.0016193260298879566,
+          0.01559143706073654
+        ],
+        "mean": 0.008797502797127727,
+        "n_individuals": 130
+      },
+      "clock_adjusted": {
+        "bootstrap95": [
+          -0.0007713999950713614,
+          0.0014348369984367477
+        ],
+        "mean": 0.0003559433766366389,
+        "n_individuals": 128
+      },
+      "clock_adjusted_axial": {
+        "bootstrap95": [
+          -0.0012136176209727374,
+          0.004853559683250281
+        ],
+        "mean": 0.0017275164190676763,
+        "n_individuals": 128
+      },
+      "status": "descriptive_source_estimated"
+    },
+    {
+      "stage": "pilot",
+      "study_source": "wild_pig_florida",
+      "original_data_doi": "10.5441/001/1.719",
+      "source_taxon": "Sus scrofa",
+      "source_status": "provider_MD5_verified_original",
+      "study_taxon_raw_rows": 79165,
+      "qualified_daylight_GPS_steps": 3928,
+      "source_animals": 10,
+      "qualified_animals": 10,
+      "qualified_individual_years": 12,
+      "raw_sunward": {
+        "bootstrap95": [
+          -0.057693371784802445,
+          0.06844588367233122
+        ],
+        "mean": 0.005673956881073896,
+        "n_individuals": 10
+      },
+      "raw_axial": {
+        "bootstrap95": [
+          -0.12260571582411804,
+          0.029236749034877402
+        ],
+        "mean": -0.03964326625961202,
+        "n_individuals": 10
+      },
+      "compass_adjusted": {
+        "bootstrap95": [
+          -0.07428667518906854,
+          0.02620465373099008
+        ],
+        "mean": -0.025439359971783863,
+        "n_individuals": 10
+      },
+      "compass_adjusted_axial": {
+        "bootstrap95": [
+          -0.02313487120342525,
+          0.03950013041347508
+        ],
+        "mean": 0.008147402362411812,
+        "n_individuals": 10
+      },
+      "clock_adjusted": {
+        "bootstrap95": [
+          -0.011684093809195101,
+          -0.0038646014751554264
+        ],
+        "mean": -0.007599218654059825,
+        "n_individuals": 10
+      },
+      "clock_adjusted_axial": {
+        "bootstrap95": [
+          -0.010795338978698858,
+          0.0211567687691394
+        ],
+        "mean": 0.004830297998723537,
+        "n_individuals": 10
+      },
+      "status": "descriptive_source_estimated"
+    },
+    {
+      "stage": "pilot",
+      "study_source": "black_bear_connecticut",
+      "original_data_doi": "10.5441/001/1.706",
+      "source_taxon": "Ursus americanus",
+      "source_status": "provider_MD5_verified_original",
+      "study_taxon_raw_rows": 156366,
+      "qualified_daylight_GPS_steps": 15684,
+      "source_animals": 21,
+      "qualified_animals": 21,
+      "qualified_individual_years": 36,
+      "raw_sunward": {
+        "bootstrap95": [
+          -0.012595401299713071,
+          0.024318011471260097
+        ],
+        "mean": 0.006368782270899627,
+        "n_individuals": 21
+      },
+      "raw_axial": {
+        "bootstrap95": [
+          -0.05529218588554018,
+          -0.02121975070644469
+        ],
+        "mean": -0.03732295624581819,
+        "n_individuals": 21
+      },
+      "compass_adjusted": {
+        "bootstrap95": [
+          -0.02623453884030406,
+          0.019534731168976045
+        ],
+        "mean": 0.0009713687627496902,
+        "n_individuals": 21
+      },
+      "compass_adjusted_axial": {
+        "bootstrap95": [
+          -0.01665702009440808,
+          0.009169424901385748
+        ],
+        "mean": -0.0033828781338017698,
+        "n_individuals": 21
+      },
+      "clock_adjusted": {
+        "bootstrap95": [
+          -0.001656920871702824,
+          0.0038963334646033416
+        ],
+        "mean": 0.000898432309470185,
+        "n_individuals": 21
+      },
+      "clock_adjusted_axial": {
+        "bootstrap95": [
+          -0.004977283076245023,
+          0.009139477137415166
+        ],
+        "mean": 0.002374398979864505,
+        "n_individuals": 21
+      },
+      "status": "descriptive_source_estimated"
+    },
+    {
+      "stage": "utah",
+      "study_source": "Utah_UDWR",
+      "original_data_doi": "10.5441/001/1.711",
+      "source_taxon": "Antilocapra americana",
+      "source_status": "provider_MD5_verified_original",
+      "study_taxon_raw_rows": 385342,
+      "qualified_daylight_GPS_steps": 100489,
+      "source_animals": 222,
+      "qualified_animals": 212,
+      "qualified_individual_years": 280,
+      "raw_sunward": {
+        "bootstrap95": [
+          -0.013941606694393162,
+          0.005461565735967214
+        ],
+        "mean": -0.0045108595737969135,
+        "n_individuals": 212
+      },
+      "raw_axial": {
+        "bootstrap95": [
+          -0.00044831866151975376,
+          0.011902740766652563
+        ],
+        "mean": 0.005697964082792937,
+        "n_individuals": 212
+      },
+      "compass_adjusted": {
+        "bootstrap95": [
+          -0.004393258421264342,
+          0.008894383321701213
+        ],
+        "mean": 0.0024281476050759514,
+        "n_individuals": 212
+      },
+      "compass_adjusted_axial": {
+        "bootstrap95": [
+          -0.0032542471242901676,
+          0.008402848318225199
+        ],
+        "mean": 0.0026744291947230297,
+        "n_individuals": 212
+      },
+      "clock_adjusted": {
+        "bootstrap95": [
+          -0.0008722267903001921,
+          0.00030775528461031237
+        ],
+        "mean": -0.0002549540114085214,
+        "n_individuals": 209
+      },
+      "clock_adjusted_axial": {
+        "bootstrap95": [
+          -0.0008477703737633843,
+          0.0012260734023135191
+        ],
+        "mean": 0.00022795349842572602,
+        "n_individuals": 209
+      },
+      "status": "descriptive_source_estimated"
+    },
+    {
+      "stage": "utah",
+      "study_source": "Utah_UDWR",
+      "original_data_doi": "10.5441/001/1.711",
+      "source_taxon": "Cervus elaphus",
+      "source_status": "provider_MD5_verified_original",
+      "study_taxon_raw_rows": 610062,
+      "qualified_daylight_GPS_steps": 98739,
+      "source_animals": 349,
+      "qualified_animals": 327,
+      "qualified_individual_years": 471,
+      "raw_sunward": {
+        "bootstrap95": [
+          -0.04497547498668726,
+          -0.017385473445674107
+        ],
+        "mean": -0.03099213867498672,
+        "n_individuals": 327
+      },
+      "raw_axial": {
+        "bootstrap95": [
+          0.006669188778462006,
+          0.022417603709603707
+        ],
+        "mean": 0.014391905409653844,
+        "n_individuals": 327
+      },
+      "compass_adjusted": {
+        "bootstrap95": [
+          -0.03996784937691136,
+          -0.018186515480611287
+        ],
+        "mean": -0.02893875318178318,
+        "n_individuals": 327
+      },
+      "compass_adjusted_axial": {
+        "bootstrap95": [
+          0.008957764440048453,
+          0.020921056559934374
+        ],
+        "mean": 0.014931353695271005,
+        "n_individuals": 327
+      },
+      "clock_adjusted": {
+        "bootstrap95": [
+          -0.002423910854428869,
+          -0.0006615691414126823
+        ],
+        "mean": -0.001506218645192935,
+        "n_individuals": 321
+      },
+      "clock_adjusted_axial": {
+        "bootstrap95": [
+          0.00043755050694558256,
+          0.002724654628330181
+        ],
+        "mean": 0.0015473337024367424,
+        "n_individuals": 321
+      },
+      "status": "descriptive_source_estimated"
+    },
+    {
+      "stage": "utah",
+      "study_source": "Utah_UDWR",
+      "original_data_doi": "10.5441/001/1.711",
+      "source_taxon": "Odocoileus hemionus",
+      "source_status": "provider_MD5_verified_original",
+      "study_taxon_raw_rows": 3234515,
+      "qualified_daylight_GPS_steps": 458406,
+      "source_animals": 1771,
+      "qualified_animals": 1652,
+      "qualified_individual_years": 2202,
+      "raw_sunward": {
+        "bootstrap95": [
+          0.016263503507486673,
+          0.03067344984180173
+        ],
+        "mean": 0.023393157844424365,
+        "n_individuals": 1652
+      },
+      "raw_axial": {
+        "bootstrap95": [
+          -0.0043827699008056765,
+          0.0026904432344036847
+        ],
+        "mean": -0.0008944223604380587,
+        "n_individuals": 1652
+      },
+      "compass_adjusted": {
+        "bootstrap95": [
+          0.014906430340269524,
+          0.025487047169548683
+        ],
+        "mean": 0.020344438683575664,
+        "n_individuals": 1652
+      },
+      "compass_adjusted_axial": {
+        "bootstrap95": [
+          -0.004891362271027478,
+          0.0009019737643438852
+        ],
+        "mean": -0.0020095107898748313,
+        "n_individuals": 1652
+      },
+      "clock_adjusted": {
+        "bootstrap95": [
+          -0.00007121368217237803,
+          0.0006231680219465845
+        ],
+        "mean": 0.0003054651155448492,
+        "n_individuals": 1509
+      },
+      "clock_adjusted_axial": {
+        "bootstrap95": [
+          -0.0007085559096993328,
+          0.0004740706973240598
+        ],
+        "mean": -0.00012810618393558024,
+        "n_individuals": 1509
+      },
+      "status": "descriptive_source_estimated"
+    },
+    {
+      "stage": "utah",
+      "study_source": "Utah_UDWR",
+      "original_data_doi": "10.5441/001/1.711",
+      "source_taxon": "Ovis canadensis",
+      "source_status": "provider_MD5_verified_original",
+      "study_taxon_raw_rows": 686698,
+      "qualified_daylight_GPS_steps": 112131,
+      "source_animals": 352,
+      "qualified_animals": 341,
+      "qualified_individual_years": 464,
+      "raw_sunward": {
+        "bootstrap95": [
+          0.01258211959761602,
+          0.028674137620671666
+        ],
+        "mean": 0.020777764359222645,
+        "n_individuals": 341
+      },
+      "raw_axial": {
+        "bootstrap95": [
+          -0.01881573812217318,
+          -0.006001682008735081
+        ],
+        "mean": -0.012150727824364917,
+        "n_individuals": 341
+      },
+      "compass_adjusted": {
+        "bootstrap95": [
+          0.0007397349555554561,
+          0.012617976836224409
+        ],
+        "mean": 0.0070567879331317205,
+        "n_individuals": 341
+      },
+      "compass_adjusted_axial": {
+        "bootstrap95": [
+          -0.012950782457548505,
+          -0.0010735230966484614
+        ],
+        "mean": -0.007029800087468746,
+        "n_individuals": 341
+      },
+      "clock_adjusted": {
+        "bootstrap95": [
+          -0.0008786370745782811,
+          0.00030588306695740876
+        ],
+        "mean": -0.0002888713162055318,
+        "n_individuals": 329
+      },
+      "clock_adjusted_axial": {
+        "bootstrap95": [
+          -0.0011731012193465702,
+          0.0009420161765878036
+        ],
+        "mean": -0.0001365172474521195,
+        "n_individuals": 329
+      },
+      "status": "descriptive_source_estimated"
+    },
+    {
+      "stage": "wyoming",
+      "study_source": "Wyoming_2019_2020",
+      "original_data_doi": "10.5441/001/1.703",
+      "source_taxon": "Odocoileus hemionus",
+      "source_status": "provider_MD5_verified_original",
+      "study_taxon_raw_rows": 409383,
+      "qualified_daylight_GPS_steps": 41249,
+      "source_animals": 122,
+      "qualified_animals": 110,
+      "qualified_individual_years": 157,
+      "raw_sunward": {
+        "bootstrap95": [
+          -0.0688249761970045,
+          -0.03128410920046904
+        ],
+        "mean": -0.04875792375635666,
+        "n_individuals": 110
+      },
+      "raw_axial": {
+        "bootstrap95": [
+          -0.013376703252250868,
+          0.012959638190237913
+        ],
+        "mean": -0.0001666069092784619,
+        "n_individuals": 110
+      },
+      "compass_adjusted": {
+        "bootstrap95": [
+          -0.0153797081104032,
+          0.003488521319433596
+        ],
+        "mean": -0.005920419175951203,
+        "n_individuals": 110
+      },
+      "compass_adjusted_axial": {
+        "bootstrap95": [
+          -0.016109832775435613,
+          0.006314858884257031
+        ],
+        "mean": -0.0050029161573816846,
+        "n_individuals": 110
+      },
+      "clock_adjusted": {
+        "bootstrap95": [
+          -0.002771839363489578,
+          0.0012359982771934662
+        ],
+        "mean": -0.0007429639431657286,
+        "n_individuals": 106
+      },
+      "clock_adjusted_axial": {
+        "bootstrap95": [
+          -0.0030799708487160536,
+          0.004562724045051313
+        ],
+        "mean": 0.0005062199586084403,
+        "n_individuals": 106
+      },
+      "status": "descriptive_source_estimated"
+    },
+    {
+      "stage": "wyoming",
+      "study_source": "Wyoming_2019_2020",
+      "original_data_doi": "10.5441/001/1.703",
+      "source_taxon": "Ovis canadensis",
+      "source_status": "provider_MD5_verified_original",
+      "study_taxon_raw_rows": 183440,
+      "qualified_daylight_GPS_steps": 18496,
+      "source_animals": 42,
+      "qualified_animals": 41,
+      "qualified_individual_years": 78,
+      "raw_sunward": {
+        "bootstrap95": [
+          -0.03861666245298831,
+          0.02440226934920781
+        ],
+        "mean": -0.005280664595582365,
+        "n_individuals": 41
+      },
+      "raw_axial": {
+        "bootstrap95": [
+          -0.012758079251422435,
+          0.03494821438593813
+        ],
+        "mean": 0.010538887155063343,
+        "n_individuals": 41
+      },
+      "compass_adjusted": {
+        "bootstrap95": [
+          -0.015542394129459184,
+          0.007503306747045637
+        ],
+        "mean": -0.004504242230696008,
+        "n_individuals": 41
+      },
+      "compass_adjusted_axial": {
+        "bootstrap95": [
+          -0.008094568862178651,
+          0.013901723932804477
+        ],
+        "mean": 0.003143085701143263,
+        "n_individuals": 41
+      },
+      "clock_adjusted": {
+        "bootstrap95": [
+          -0.0014527412908141347,
+          0.0010196173644198689
+        ],
+        "mean": -0.0001791409751044888,
+        "n_individuals": 41
+      },
+      "clock_adjusted_axial": {
+        "bootstrap95": [
+          -0.002702677189325548,
+          0.004298641102005287
+        ],
+        "mean": 0.0005850162975998654,
+        "n_individuals": 41
+      },
+      "status": "descriptive_source_estimated"
+    }
+  ]
+}
