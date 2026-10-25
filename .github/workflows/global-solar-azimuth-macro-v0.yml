@@ -4,7 +4,7 @@ on:
     branches:
       - ecology/global-solar-azimuth-macroniche-v0
     paths:
-      - 'odsp/solar_azimuth_macro_v0.py'
+      - 'scripts/solar_azimuth_macro_v0.py'
       - 'scripts/run_global_solar_azimuth_macro_v0.py'
       - 'research/GLOBAL_SOLAR_AZIMUTH_MACRO_V0_CONTRACT.json'
       - 'tests/test_global_solar_azimuth_macro_v0.py'
