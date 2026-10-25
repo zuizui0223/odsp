@@ -1,0 +1,57 @@
+{
+  "version": "global-azimuth-prospective-independent-source-frame-v1",
+  "frozen_date": "2026-10-25",
+  "objective": "Systematically select new primary GPS/GNSS public source archives for an independent solar azimuth macroecological sampling frame. No previous-study ecological effect sizes or new azimuth responses enter selection.",
+  "catalog_path": "research/seasonal_database_catalog/2026-10-19/movebank/catalog.json",
+  "previous_sources": [
+    "dce434f5-0cae-45be-8847-e45b61833bf0",
+    "0a2f2a67-20fe-42c6-b864-68a1a7147c18",
+    "89b8132d-fc88-498f-9040-39643b387dd4",
+    "0043246e-e68c-4b76-84cc-31e7558d08e0",
+    "9c588e12-a0e6-40bf-8dd7-d7ad57dfbf22",
+    "f30fb6d4-803f-4b45-8313-716c3b21e087",
+    "e2fe5582-a707-4954-8329-ba107736fed8",
+    "48c93576-7b84-48f8-bdf5-4e5d4ee139b3",
+    "b777279a-581d-43ce-b790-8e60304fb8b4"
+  ],
+  "registry_eligibility": {
+    "sensor_labels": [
+      "GPS",
+      "GNSS"
+    ],
+    "reported_min_animals": 5,
+    "reported_min_positions": 10000,
+    "require_species_names": true,
+    "exclude_previously_used_nine_original_source_archives": true,
+    "selected_without_access_to_original_GPS_rows": true,
+    "note": "Reported positions and animals are public registry metadata only; do not equate these thresholds with actual qualified GPS animal-years."
+  },
+  "strata": "Within metadata-qualified candidates, use 2x2 strata based on one vs multiple DISTINCT literal scientific-name labels and reported animal count <30 vs >=30.",
+  "selection": "Rank each stratum by ascending SHA256 UTF8('odsp-azimuth-public-20261025-v1:'+package_uuid) and retain exactly the first THREE package UUIDs. No replacement for failed sources, ambiguous primary GPS files, poor cadence, unsupported time zone, fewer than five qualified animals, or uninteresting effects.",
+  "expected_selected_packages": 12,
+  "expected_frame_eligible_packages": 186,
+  "file_preflight": {
+    "only_original_bundle": true,
+    "only_filename_suffixes": [
+      ".csv",
+      ".zip",
+      ".csv.gz"
+    ],
+    "exclude_reference_data_suffix": true,
+    "require_exactly_one_potential_original_data_container": true,
+    "require_provider_checksum": true,
+    "max_provider_archive_bytes": 120000000,
+    "max_uncompressed_csv_bytes": 300000000,
+    "if_ambiguous_or_unavailable": "SOURCE_HOLD; never substitute next ranked source"
+  },
+  "biological_follow_on": {
+    "source_id_and_doi": "registry exact sample; record study-ID overlaps against all 259 original sensor-labelled packages",
+    "taxon": "Source-original individual-taxon-canonical-name must match registry when multi-taxon; single taxon source may lack row taxon column",
+    "utc_schema": "Original columns timestamp, location-lat, location-long, individual-local-identifier required; do not guess or repair source clock/tz after effects.",
+    "hourly_rule": "Within each animal and original UTC hour, choose nearest start-of-hour source fix on timestamp only (never heading).",
+    "geometry_and_outcomes": "Reuse scripts/solar_azimuth_macro_v0.py unchanged, including 0.5-2h step, 0.1km displacement floor, sun elevation >=10 at endpoint/midpoint, circular raw/compass/clock covariance, animal-year/animal equal weighting.",
+    "output": "All twelve source entries, all source-native taxa and counts; original GPS coordinates, per-animal identities and timestamps must not leave runner.",
+    "no_global_effect_claim": "Source package is not an independent biological region; source-specific wild/domestic taxon, migration, sensor and terrain confounds unresolved."
+  },
+  "state": "frozen_before_new_source_original_file_contents_and_azimuth_outcomes"
+}
