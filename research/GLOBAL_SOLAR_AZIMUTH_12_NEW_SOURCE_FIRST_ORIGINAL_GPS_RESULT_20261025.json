@@ -1,0 +1,1194 @@
+{
+  "version": "global-azimuth-prospective-independent-source-frame-v1",
+  "date": "2026-10-25",
+  "frozen_12_source_manifest_commit": "4893bfb2a9bca0314f0b1112494ff691ae3ee3db",
+  "frozen_sample_selection_contract_commit": "20174999e83954d203e0be1a8a352966ec02d17b",
+  "original_first_outcome_script_commit": "b67aae21894775f871022b797974d2f0048eb2ea",
+  "first_source_workflow_run_id": 40164287129,
+  "first_source_workflow_url": "https://github.com/zuizui0223/odsp/actions/runs/40164287129",
+  "registered_source_archives": 12,
+  "metadata_pass": 8,
+  "metadata_hold": 4,
+  "verified_originals_and_analyzed": 7,
+  "source_holds_total": 5,
+  "qualified_source_taxon_groups": 8,
+  "total_original_rows_accessed_for_verified_sources": 1568073,
+  "total_qualified_daylight_directional_intervals": 48246,
+  "total_source_group_eligible_animals": 103,
+  "all_registered_source_rows": [
+    {
+      "dois": [
+        "doi:10.5441/001/1.gm93267b"
+      ],
+      "metadata_selection_rank": 1,
+      "original_file_size": 23631112,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_provider_checksum_verified": {
+        "bytes": 23631112,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "package_uuid": "e7808391-1019-45cb-8701-e3ded043e0d8",
+      "registry_species_labels": [
+        "Canis latrans",
+        "Lynx rufus"
+      ],
+      "sample_stratum": "multiple_large",
+      "source_original_coverage": {
+        "invalid_position_time_or_id_rows": 0,
+        "original_UTC_attestation": "source timestamps parsed as UTC under the original Movebank archive convention; independent device-clock attestation not supplied",
+        "original_total_rows": 121706,
+        "source_rows_outside_registered_taxa": 0
+      },
+      "source_state": "original_MD5_verified_source_analyzed",
+      "source_study_ids": [
+        "2636372210"
+      ],
+      "source_taxa": [
+        {
+          "analysis": {
+            "adjacent_steps": 72859,
+            "claim_ceiling": "Detected GPS displacement directions; possible solar/clock/migration/habitat confounding. No causal solar orientation or universal macroecological law.",
+            "daylight_directional_qualified_steps": 0,
+            "results": {
+              "clock_adjusted_excess_cos": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              },
+              "clock_adjusted_excess_cos2": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              },
+              "compass_independence_excess_cos": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              },
+              "compass_independence_excess_cos2": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              },
+              "raw_axial_mean_cos2": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              },
+              "raw_toward_sun_mean_cos": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              }
+            },
+            "source_animals": 34,
+            "status": "insufficient_independent_animals",
+            "supported_individual_years": 0,
+            "supported_individuals": 0
+          },
+          "qualified_individuals": 0,
+          "result_status": "insufficient_independent_animals",
+          "source_original_coverage": {
+            "hour_selected_fixes": 72893,
+            "invalid_rows": 0,
+            "original_taxon_rows": 72893,
+            "source_individuals": 34
+          },
+          "taxon": "Canis latrans"
+        },
+        {
+          "analysis": {
+            "adjacent_steps": 48777,
+            "claim_ceiling": "Detected GPS displacement directions; possible solar/clock/migration/habitat confounding. No causal solar orientation or universal macroecological law.",
+            "daylight_directional_qualified_steps": 0,
+            "results": {
+              "clock_adjusted_excess_cos": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              },
+              "clock_adjusted_excess_cos2": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              },
+              "compass_independence_excess_cos": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              },
+              "compass_independence_excess_cos2": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              },
+              "raw_axial_mean_cos2": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              },
+              "raw_toward_sun_mean_cos": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              }
+            },
+            "source_animals": 36,
+            "status": "insufficient_independent_animals",
+            "supported_individual_years": 0,
+            "supported_individuals": 0
+          },
+          "qualified_individuals": 0,
+          "result_status": "insufficient_independent_animals",
+          "source_original_coverage": {
+            "hour_selected_fixes": 48813,
+            "invalid_rows": 0,
+            "original_taxon_rows": 48813,
+            "source_individuals": 36
+          },
+          "taxon": "Lynx rufus"
+        }
+      ],
+      "source_manifest_order_shard": 0
+    },
+    {
+      "dois": [
+        "doi:10.5441/001/1.649"
+      ],
+      "metadata_selection_rank": 2,
+      "original_file_size": 31838152,
+      "original_licenses": [
+        "Attribution-NonCommercial 4.0 International"
+      ],
+      "original_provider_checksum_verified": {
+        "bytes": 31838152,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "package_uuid": "7d38dd27-3bd3-4f2d-a5f6-06cafe4b043e",
+      "registry_species_labels": [
+        "Canis latrans",
+        "Lynx rufus",
+        "Odocoileus virginianus"
+      ],
+      "sample_stratum": "multiple_large",
+      "source_original_coverage": {
+        "invalid_position_time_or_id_rows": 0,
+        "original_UTC_attestation": "source timestamps parsed as UTC under the original Movebank archive convention; independent device-clock attestation not supplied",
+        "original_total_rows": 168323,
+        "source_rows_outside_registered_taxa": 0
+      },
+      "source_state": "original_MD5_verified_source_analyzed",
+      "source_study_ids": [
+        "1233029719"
+      ],
+      "source_taxa": [
+        {
+          "analysis": {
+            "adjacent_steps": 44114,
+            "claim_ceiling": "Detected GPS displacement directions; possible solar/clock/migration/habitat confounding. No causal solar orientation or universal macroecological law.",
+            "daylight_directional_qualified_steps": 3274,
+            "results": {
+              "clock_adjusted_excess_cos": {
+                "bootstrap95": [
+                  -0.012340290084938034,
+                  0.002598089940020829
+                ],
+                "mean": -0.004063055198870876,
+                "n_individuals": 16
+              },
+              "clock_adjusted_excess_cos2": {
+                "bootstrap95": [
+                  -0.017956899819549406,
+                  0.0002755531895177858
+                ],
+                "mean": -0.007773237628438076,
+                "n_individuals": 16
+              },
+              "compass_independence_excess_cos": {
+                "bootstrap95": [
+                  -0.02090094736579531,
+                  0.027832951348816193
+                ],
+                "mean": 0.00306171241630085,
+                "n_individuals": 17
+              },
+              "compass_independence_excess_cos2": {
+                "bootstrap95": [
+                  -0.033821996499289485,
+                  0.02707903859638423
+                ],
+                "mean": -0.0019810129504719324,
+                "n_individuals": 17
+              },
+              "raw_axial_mean_cos2": {
+                "bootstrap95": [
+                  -0.03330668681769097,
+                  0.04574324708315388
+                ],
+                "mean": 0.0037433812162102516,
+                "n_individuals": 17
+              },
+              "raw_toward_sun_mean_cos": {
+                "bootstrap95": [
+                  -0.050847875755181716,
+                  0.01369736948587059
+                ],
+                "mean": -0.018443554166732344,
+                "n_individuals": 17
+              }
+            },
+            "source_animals": 27,
+            "status": "descriptive_source_estimated",
+            "supported_individual_years": 17,
+            "supported_individuals": 17
+          },
+          "qualified_individuals": 17,
+          "result_status": "descriptive_source_estimated",
+          "source_original_coverage": {
+            "hour_selected_fixes": 44141,
+            "invalid_rows": 0,
+            "original_taxon_rows": 44142,
+            "source_individuals": 27
+          },
+          "taxon": "Canis latrans"
+        },
+        {
+          "analysis": {
+            "adjacent_steps": 13046,
+            "claim_ceiling": "Detected GPS displacement directions; possible solar/clock/migration/habitat confounding. No causal solar orientation or universal macroecological law.",
+            "daylight_directional_qualified_steps": 1152,
+            "results": {
+              "clock_adjusted_excess_cos": {
+                "bootstrap95": [
+                  -0.01690148535808673,
+                  0.007156688959825088
+                ],
+                "mean": -0.004679782226514084,
+                "n_individuals": 5
+              },
+              "clock_adjusted_excess_cos2": {
+                "bootstrap95": [
+                  -0.01936896915520888,
+                  0.010460621308080913
+                ],
+                "mean": -0.00460785342527395,
+                "n_individuals": 5
+              },
+              "compass_independence_excess_cos": {
+                "bootstrap95": [
+                  -0.07392291055117367,
+                  0.017864415595696872
+                ],
+                "mean": -0.022738862068052673,
+                "n_individuals": 5
+              },
+              "compass_independence_excess_cos2": {
+                "bootstrap95": [
+                  -0.03578270987548304,
+                  0.026447747430773976
+                ],
+                "mean": -0.004667481222354533,
+                "n_individuals": 5
+              },
+              "raw_axial_mean_cos2": {
+                "bootstrap95": [
+                  -0.03655701432887763,
+                  0.014452094314235189
+                ],
+                "mean": -0.0099979271479338,
+                "n_individuals": 5
+              },
+              "raw_toward_sun_mean_cos": {
+                "bootstrap95": [
+                  -0.09613941343628199,
+                  0.08300538540689056
+                ],
+                "mean": -0.005316813359894519,
+                "n_individuals": 5
+              }
+            },
+            "source_animals": 9,
+            "status": "descriptive_source_estimated",
+            "supported_individual_years": 6,
+            "supported_individuals": 5
+          },
+          "qualified_individuals": 5,
+          "result_status": "descriptive_source_estimated",
+          "source_original_coverage": {
+            "hour_selected_fixes": 13055,
+            "invalid_rows": 0,
+            "original_taxon_rows": 13055,
+            "source_individuals": 9
+          },
+          "taxon": "Lynx rufus"
+        },
+        {
+          "analysis": {
+            "adjacent_steps": 104589,
+            "claim_ceiling": "Detected GPS displacement directions; possible solar/clock/migration/habitat confounding. No causal solar orientation or universal macroecological law.",
+            "daylight_directional_qualified_steps": 7944,
+            "results": {
+              "clock_adjusted_excess_cos": {
+                "bootstrap95": [
+                  -0.002617024818666566,
+                  0.005085620347843582
+                ],
+                "mean": 0.001045029711457787,
+                "n_individuals": 26
+              },
+              "clock_adjusted_excess_cos2": {
+                "bootstrap95": [
+                  -0.002705692257488188,
+                  0.013914013917054442
+                ],
+                "mean": 0.004762628295684196,
+                "n_individuals": 26
+              },
+              "compass_independence_excess_cos": {
+                "bootstrap95": [
+                  -0.03417663375904914,
+                  0.010680000875540918
+                ],
+                "mean": -0.01210790780275876,
+                "n_individuals": 35
+              },
+              "compass_independence_excess_cos2": {
+                "bootstrap95": [
+                  -0.003038318073856724,
+                  0.036924979429003975
+                ],
+                "mean": 0.016114791007087858,
+                "n_individuals": 35
+              },
+              "raw_axial_mean_cos2": {
+                "bootstrap95": [
+                  -0.016538249512355486,
+                  0.0324939984417291
+                ],
+                "mean": 0.006852006515175867,
+                "n_individuals": 35
+              },
+              "raw_toward_sun_mean_cos": {
+                "bootstrap95": [
+                  -0.04223712337200261,
+                  0.013569205608809247
+                ],
+                "mean": -0.014651317109323098,
+                "n_individuals": 35
+              }
+            },
+            "source_animals": 45,
+            "status": "descriptive_source_estimated",
+            "supported_individual_years": 46,
+            "supported_individuals": 35
+          },
+          "qualified_individuals": 35,
+          "result_status": "descriptive_source_estimated",
+          "source_original_coverage": {
+            "hour_selected_fixes": 104634,
+            "invalid_rows": 0,
+            "original_taxon_rows": 111126,
+            "source_individuals": 45
+          },
+          "taxon": "Odocoileus virginianus"
+        }
+      ],
+      "source_manifest_order_shard": 1
+    },
+    {
+      "dois": [
+        "doi:10.5441/001/1.37r2b884"
+      ],
+      "metadata_selection_rank": 3,
+      "original_file_size": 120221694,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "package_uuid": "21e96dfb-6323-4189-9039-557d6fbe34eb",
+      "reason": "FROZEN_SOURCE_METADATA_HOLD: original file outside preregistered 64B to 120MB transfer cap",
+      "registry_species_labels": [
+        "Cathartes aura",
+        "Coragyps atratus"
+      ],
+      "sample_stratum": "multiple_large",
+      "source_state": "SOURCE_HOLD",
+      "source_study_ids": [
+        "217784323"
+      ],
+      "source_taxa": [
+        {
+          "qualified_individuals": 0,
+          "result_status": "SOURCE_HOLD",
+          "taxon": "Cathartes aura"
+        },
+        {
+          "qualified_individuals": 0,
+          "result_status": "SOURCE_HOLD",
+          "taxon": "Coragyps atratus"
+        }
+      ],
+      "source_manifest_order_shard": 2
+    },
+    {
+      "dois": [
+        "doi:10.5441/001/1.c6q8353q"
+      ],
+      "metadata_selection_rank": 1,
+      "original_file_size": 73024526,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_provider_checksum_verified": {
+        "bytes": 73024526,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "package_uuid": "c92d9814-0950-4b78-885c-ae76b6383c75",
+      "registry_species_labels": [
+        "Buteo rufinus",
+        "Circaetus gallicus"
+      ],
+      "sample_stratum": "multiple_small",
+      "source_original_coverage": {
+        "invalid_position_time_or_id_rows": 12742,
+        "original_UTC_attestation": "source timestamps parsed as UTC under the original Movebank archive convention; independent device-clock attestation not supplied",
+        "original_total_rows": 371685,
+        "source_rows_outside_registered_taxa": 0
+      },
+      "source_state": "original_MD5_verified_source_analyzed",
+      "source_study_ids": [
+        "34551859"
+      ],
+      "source_taxa": [
+        {
+          "analysis": {
+            "adjacent_steps": 29114,
+            "claim_ceiling": "Detected GPS displacement directions; possible solar/clock/migration/habitat confounding. No causal solar orientation or universal macroecological law.",
+            "daylight_directional_qualified_steps": 13580,
+            "results": {
+              "clock_adjusted_excess_cos": {
+                "bootstrap95": [
+                  -0.007789122333030895,
+                  0.0012223216601098675
+                ],
+                "mean": -0.0030043964418626436,
+                "n_individuals": 10
+              },
+              "clock_adjusted_excess_cos2": {
+                "bootstrap95": [
+                  0.0013177919084097045,
+                  0.016230017564912637
+                ],
+                "mean": 0.008660061175730696,
+                "n_individuals": 10
+              },
+              "compass_independence_excess_cos": {
+                "bootstrap95": [
+                  -0.03814145793776661,
+                  0.0525576376752813
+                ],
+                "mean": 0.006725750876369711,
+                "n_individuals": 10
+              },
+              "compass_independence_excess_cos2": {
+                "bootstrap95": [
+                  -0.020283620258004148,
+                  0.03138326779546963
+                ],
+                "mean": 0.0084804389050158,
+                "n_individuals": 10
+              },
+              "raw_axial_mean_cos2": {
+                "bootstrap95": [
+                  0.004268302462087372,
+                  0.04833253490456157
+                ],
+                "mean": 0.02620726211676207,
+                "n_individuals": 10
+              },
+              "raw_toward_sun_mean_cos": {
+                "bootstrap95": [
+                  -0.050830616693303805,
+                  0.03814655181930832
+                ],
+                "mean": -0.006333771035357986,
+                "n_individuals": 10
+              }
+            },
+            "source_animals": 13,
+            "status": "descriptive_source_estimated",
+            "supported_individual_years": 16,
+            "supported_individuals": 10
+          },
+          "qualified_individuals": 10,
+          "result_status": "descriptive_source_estimated",
+          "source_original_coverage": {
+            "hour_selected_fixes": 29127,
+            "invalid_rows": 7271,
+            "original_taxon_rows": 135682,
+            "source_individuals": 13
+          },
+          "taxon": "Buteo rufinus"
+        },
+        {
+          "analysis": {
+            "adjacent_steps": 36945,
+            "claim_ceiling": "Detected GPS displacement directions; possible solar/clock/migration/habitat confounding. No causal solar orientation or universal macroecological law.",
+            "daylight_directional_qualified_steps": 14903,
+            "results": {
+              "clock_adjusted_excess_cos": {
+                "bootstrap95": [
+                  -0.005838722357946339,
+                  -0.00046797840275953956
+                ],
+                "mean": -0.00308195115386575,
+                "n_individuals": 5
+              },
+              "clock_adjusted_excess_cos2": {
+                "bootstrap95": [
+                  -0.0031199188121759434,
+                  0.008412791107106958
+                ],
+                "mean": 0.003851777180476817,
+                "n_individuals": 5
+              },
+              "compass_independence_excess_cos": {
+                "bootstrap95": [
+                  -0.03966046763072889,
+                  0.05442591438793092
+                ],
+                "mean": 0.007382723378601016,
+                "n_individuals": 5
+              },
+              "compass_independence_excess_cos2": {
+                "bootstrap95": [
+                  -0.010282155973534936,
+                  0.05281509528912668
+                ],
+                "mean": 0.020535046441796684,
+                "n_individuals": 5
+              },
+              "raw_axial_mean_cos2": {
+                "bootstrap95": [
+                  -0.016296838109832713,
+                  0.045035303061070085
+                ],
+                "mean": 0.01422075791428705,
+                "n_individuals": 5
+              },
+              "raw_toward_sun_mean_cos": {
+                "bootstrap95": [
+                  -0.06473108180190713,
+                  0.06401505555613676
+                ],
+                "mean": 0.0026558072820145667,
+                "n_individuals": 5
+              }
+            },
+            "source_animals": 11,
+            "status": "descriptive_source_estimated",
+            "supported_individual_years": 12,
+            "supported_individuals": 5
+          },
+          "qualified_individuals": 5,
+          "result_status": "descriptive_source_estimated",
+          "source_original_coverage": {
+            "hour_selected_fixes": 36956,
+            "invalid_rows": 5471,
+            "original_taxon_rows": 236003,
+            "source_individuals": 11
+          },
+          "taxon": "Circaetus gallicus"
+        }
+      ],
+      "source_manifest_order_shard": 0
+    },
+    {
+      "dois": [
+        "doi:10.5441/001/1.14sm8k1d"
+      ],
+      "metadata_selection_rank": 2,
+      "original_file_size": 2904807,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_provider_checksum_verified": {
+        "bytes": 2904807,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "package_uuid": "35a868e5-72ba-4082-bbf3-7426c490e829",
+      "registry_species_labels": [
+        "Buceros bicornis",
+        "Rhyticeros undulatus"
+      ],
+      "sample_stratum": "multiple_small",
+      "source_original_coverage": {
+        "invalid_position_time_or_id_rows": 0,
+        "original_UTC_attestation": "source timestamps parsed as UTC under the original Movebank archive convention; independent device-clock attestation not supplied",
+        "original_total_rows": 19275,
+        "source_rows_outside_registered_taxa": 0
+      },
+      "source_state": "original_MD5_verified_source_analyzed",
+      "source_study_ids": [
+        "37350671"
+      ],
+      "source_taxa": [
+        {
+          "analysis": {
+            "adjacent_steps": 3998,
+            "claim_ceiling": "Detected GPS displacement directions; possible solar/clock/migration/habitat confounding. No causal solar orientation or universal macroecological law.",
+            "daylight_directional_qualified_steps": 1563,
+            "results": {
+              "clock_adjusted_excess_cos": {
+                "bootstrap95": [
+                  -0.0030616175341490774,
+                  0.00770615716172753
+                ],
+                "mean": 0.001717783544394915,
+                "n_individuals": 5
+              },
+              "clock_adjusted_excess_cos2": {
+                "bootstrap95": [
+                  -0.006319945757235118,
+                  0.01049302165155099
+                ],
+                "mean": 0.0013384362690068894,
+                "n_individuals": 5
+              },
+              "compass_independence_excess_cos": {
+                "bootstrap95": [
+                  -0.014200632100523943,
+                  0.021578821758089346
+                ],
+                "mean": 0.004144944551037209,
+                "n_individuals": 5
+              },
+              "compass_independence_excess_cos2": {
+                "bootstrap95": [
+                  -0.05636276698845369,
+                  0.004489431893402178
+                ],
+                "mean": -0.020670454797511253,
+                "n_individuals": 5
+              },
+              "raw_axial_mean_cos2": {
+                "bootstrap95": [
+                  -0.07127466885637909,
+                  0.044650524392970625
+                ],
+                "mean": -0.02091715729204341,
+                "n_individuals": 5
+              },
+              "raw_toward_sun_mean_cos": {
+                "bootstrap95": [
+                  -0.019738380742380525,
+                  0.018530015436602394
+                ],
+                "mean": -0.0006041826528890663,
+                "n_individuals": 5
+              }
+            },
+            "source_animals": 5,
+            "status": "descriptive_source_estimated",
+            "supported_individual_years": 6,
+            "supported_individuals": 5
+          },
+          "qualified_individuals": 5,
+          "result_status": "descriptive_source_estimated",
+          "source_original_coverage": {
+            "hour_selected_fixes": 4003,
+            "invalid_rows": 0,
+            "original_taxon_rows": 14568,
+            "source_individuals": 5
+          },
+          "taxon": "Buceros bicornis"
+        },
+        {
+          "analysis": {
+            "adjacent_steps": 1256,
+            "claim_ceiling": "Detected GPS displacement directions; possible solar/clock/migration/habitat confounding. No causal solar orientation or universal macroecological law.",
+            "daylight_directional_qualified_steps": 759,
+            "results": {
+              "clock_adjusted_excess_cos": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 1
+              },
+              "clock_adjusted_excess_cos2": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 1
+              },
+              "compass_independence_excess_cos": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 1
+              },
+              "compass_independence_excess_cos2": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 1
+              },
+              "raw_axial_mean_cos2": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 1
+              },
+              "raw_toward_sun_mean_cos": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 1
+              }
+            },
+            "source_animals": 1,
+            "status": "insufficient_independent_animals",
+            "supported_individual_years": 1,
+            "supported_individuals": 1
+          },
+          "qualified_individuals": 1,
+          "result_status": "insufficient_independent_animals",
+          "source_original_coverage": {
+            "hour_selected_fixes": 1257,
+            "invalid_rows": 0,
+            "original_taxon_rows": 4707,
+            "source_individuals": 1
+          },
+          "taxon": "Rhyticeros undulatus"
+        }
+      ],
+      "source_manifest_order_shard": 1
+    },
+    {
+      "dois": [
+        "doi:10.5441/001/1.pv048q7v"
+      ],
+      "metadata_selection_rank": 3,
+      "original_file_size": 46869221,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_provider_checksum_verified": {
+        "bytes": 46869221,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "package_uuid": "eda74cd3-d35b-4fb5-9981-2d72b3e641d5",
+      "registry_species_labels": [
+        "Canis familiaris",
+        "Ovis aries"
+      ],
+      "sample_stratum": "multiple_small",
+      "source_original_coverage": {
+        "invalid_position_time_or_id_rows": 0,
+        "original_UTC_attestation": "source timestamps parsed as UTC under the original Movebank archive convention; independent device-clock attestation not supplied",
+        "original_total_rows": 162342,
+        "source_rows_outside_registered_taxa": 135264
+      },
+      "source_state": "original_MD5_verified_source_analyzed",
+      "source_study_ids": [
+        "25750273"
+      ],
+      "source_taxa": [
+        {
+          "analysis": {
+            "daylight_directional_qualified_steps": 0,
+            "results": null,
+            "status": "NO_SOURCE_TAXON_RECORDS",
+            "supported_individuals": 0
+          },
+          "qualified_individuals": 0,
+          "result_status": "NO_SOURCE_TAXON_RECORDS",
+          "source_original_coverage": {
+            "hour_selected_fixes": 0,
+            "invalid_rows": 0,
+            "original_taxon_rows": 0,
+            "source_individuals": 0
+          },
+          "taxon": "Canis familiaris"
+        },
+        {
+          "analysis": {
+            "adjacent_steps": 17195,
+            "claim_ceiling": "Detected GPS displacement directions; possible solar/clock/migration/habitat confounding. No causal solar orientation or universal macroecological law.",
+            "daylight_directional_qualified_steps": 2922,
+            "results": {
+              "clock_adjusted_excess_cos": {
+                "bootstrap95": [
+                  -0.008454125299983725,
+                  0.00009151247169343298
+                ],
+                "mean": -0.003836814845097754,
+                "n_individuals": 8
+              },
+              "clock_adjusted_excess_cos2": {
+                "bootstrap95": [
+                  -0.013544045696637915,
+                  -0.0027819063780467196
+                ],
+                "mean": -0.00806730646810439,
+                "n_individuals": 8
+              },
+              "compass_independence_excess_cos": {
+                "bootstrap95": [
+                  -0.005990988724924792,
+                  0.037025655907164404
+                ],
+                "mean": 0.01422074048284396,
+                "n_individuals": 8
+              },
+              "compass_independence_excess_cos2": {
+                "bootstrap95": [
+                  -0.04535713214711666,
+                  0.02083964835202748
+                ],
+                "mean": -0.01670353394436713,
+                "n_individuals": 8
+              },
+              "raw_axial_mean_cos2": {
+                "bootstrap95": [
+                  -0.11401046998776393,
+                  0.008264587315908513
+                ],
+                "mean": -0.05314739025838257,
+                "n_individuals": 8
+              },
+              "raw_toward_sun_mean_cos": {
+                "bootstrap95": [
+                  -0.06578242663499141,
+                  0.006377805196269146
+                ],
+                "mean": -0.02974951193258394,
+                "n_individuals": 8
+              }
+            },
+            "source_animals": 8,
+            "status": "descriptive_source_estimated",
+            "supported_individual_years": 8,
+            "supported_individuals": 8
+          },
+          "qualified_individuals": 8,
+          "result_status": "descriptive_source_estimated",
+          "source_original_coverage": {
+            "hour_selected_fixes": 17203,
+            "invalid_rows": 0,
+            "original_taxon_rows": 27078,
+            "source_individuals": 8
+          },
+          "taxon": "Ovis aries"
+        }
+      ],
+      "source_manifest_order_shard": 2
+    },
+    {
+      "dois": [
+        "doi:10.5441/001/1.j682ds56"
+      ],
+      "metadata_selection_rank": 1,
+      "original_file_size": null,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "package_uuid": "51c99a8b-2819-4fcf-8d30-c8d44b72489e",
+      "reason": "FROZEN_SOURCE_METADATA_HOLD: expected exactly one filename-qualified original data container",
+      "registry_species_labels": [
+        "Bos taurus"
+      ],
+      "sample_stratum": "single_large",
+      "source_state": "SOURCE_HOLD",
+      "source_study_ids": [
+        "412206724"
+      ],
+      "source_taxa": [
+        {
+          "qualified_individuals": 0,
+          "result_status": "SOURCE_HOLD",
+          "taxon": "Bos taurus"
+        }
+      ],
+      "source_manifest_order_shard": 0
+    },
+    {
+      "dois": [
+        "doi:10.5441/001/1.8dc0v84m"
+      ],
+      "metadata_selection_rank": 2,
+      "original_file_size": null,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "package_uuid": "316cff40-b957-4ad6-9ca5-0f50253ab56a",
+      "reason": "FROZEN_SOURCE_METADATA_HOLD: expected exactly one filename-qualified original data container",
+      "registry_species_labels": [
+        "Anas platyrhynchos"
+      ],
+      "sample_stratum": "single_large",
+      "source_state": "SOURCE_HOLD",
+      "source_study_ids": [
+        "11017705"
+      ],
+      "source_taxa": [
+        {
+          "qualified_individuals": 0,
+          "result_status": "SOURCE_HOLD",
+          "taxon": "Anas platyrhynchos"
+        }
+      ],
+      "source_manifest_order_shard": 1
+    },
+    {
+      "dois": [
+        "doi:10.5441/001/1.341"
+      ],
+      "metadata_selection_rank": 3,
+      "original_file_size": null,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "package_uuid": "c5d8e38f-ab54-498e-8372-efdc8af6c0f9",
+      "reason": "FROZEN_SOURCE_METADATA_HOLD: expected exactly one filename-qualified original data container",
+      "registry_species_labels": [
+        "Uria lomvia"
+      ],
+      "sample_stratum": "single_large",
+      "source_state": "SOURCE_HOLD",
+      "source_study_ids": [
+        "2609400807"
+      ],
+      "source_taxa": [
+        {
+          "qualified_individuals": 0,
+          "result_status": "SOURCE_HOLD",
+          "taxon": "Uria lomvia"
+        }
+      ],
+      "source_manifest_order_shard": 2
+    },
+    {
+      "dois": [
+        "doi:10.5441/001/1.kn0816jn"
+      ],
+      "metadata_selection_rank": 1,
+      "original_file_size": 80702799,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_provider_checksum_verified": {
+        "bytes": 80702799,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "package_uuid": "b1e834a9-be3b-4604-9bda-346de4e7c257",
+      "reason": "StrictSourceHold: ZIP extracted original CSV exceeds frozen source size cap",
+      "registry_species_labels": [
+        "Papio anubis"
+      ],
+      "sample_stratum": "single_small",
+      "source_state": "SOURCE_HOLD",
+      "source_study_ids": [
+        "53460105"
+      ],
+      "source_taxa": [
+        {
+          "qualified_individuals": 0,
+          "result_status": "SOURCE_HOLD",
+          "taxon": "Papio anubis"
+        }
+      ],
+      "source_manifest_order_shard": 0
+    },
+    {
+      "dois": [
+        "doi:10.5441/001/1.282"
+      ],
+      "metadata_selection_rank": 2,
+      "original_file_size": 50919501,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_provider_checksum_verified": {
+        "bytes": 50919501,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "package_uuid": "5259147d-04a1-471d-a65c-240cd3d7071d",
+      "registry_species_labels": [
+        "Phyllostomus hastatus"
+      ],
+      "sample_stratum": "single_small",
+      "source_original_coverage": {
+        "invalid_position_time_or_id_rows": 0,
+        "original_UTC_attestation": "source timestamps parsed as UTC under the original Movebank archive convention; independent device-clock attestation not supplied",
+        "original_total_rows": 253968,
+        "source_rows_outside_registered_taxa": 0
+      },
+      "source_state": "original_MD5_verified_source_analyzed",
+      "source_study_ids": [
+        "145038719"
+      ],
+      "source_taxa": [
+        {
+          "analysis": {
+            "adjacent_steps": 118,
+            "claim_ceiling": "Detected GPS displacement directions; possible solar/clock/migration/habitat confounding. No causal solar orientation or universal macroecological law.",
+            "daylight_directional_qualified_steps": 0,
+            "results": {
+              "clock_adjusted_excess_cos": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              },
+              "clock_adjusted_excess_cos2": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              },
+              "compass_independence_excess_cos": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              },
+              "compass_independence_excess_cos2": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              },
+              "raw_axial_mean_cos2": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              },
+              "raw_toward_sun_mean_cos": {
+                "bootstrap95": null,
+                "mean": null,
+                "n_individuals": 0
+              }
+            },
+            "source_animals": 22,
+            "status": "insufficient_independent_animals",
+            "supported_individual_years": 0,
+            "supported_individuals": 0
+          },
+          "qualified_individuals": 0,
+          "result_status": "insufficient_independent_animals",
+          "source_original_coverage": {
+            "hour_selected_fixes": 140,
+            "invalid_rows": 0,
+            "original_taxon_rows": 253968,
+            "source_individuals": 22
+          },
+          "taxon": "Phyllostomus hastatus"
+        }
+      ],
+      "source_manifest_order_shard": 1
+    },
+    {
+      "dois": [
+        "doi:10.5441/001/1.318"
+      ],
+      "metadata_selection_rank": 3,
+      "original_file_size": 104120266,
+      "original_licenses": [
+        "CC0 1.0 Universal"
+      ],
+      "original_provider_checksum_verified": {
+        "bytes": 104120266,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "package_uuid": "75de7d56-e1cf-4920-b1c9-6e30eee9f328",
+      "registry_species_labels": [
+        "Neophron percnopterus"
+      ],
+      "sample_stratum": "single_small",
+      "source_original_coverage": {
+        "invalid_position_time_or_id_rows": 0,
+        "original_UTC_attestation": "source timestamps parsed as UTC under the original Movebank archive convention; independent device-clock attestation not supplied",
+        "original_total_rows": 470774,
+        "source_rows_outside_registered_taxa": 0
+      },
+      "source_state": "original_MD5_verified_source_analyzed",
+      "source_study_ids": [
+        "3392345835"
+      ],
+      "source_taxa": [
+        {
+          "analysis": {
+            "adjacent_steps": 6794,
+            "claim_ceiling": "Detected GPS displacement directions; possible solar/clock/migration/habitat confounding. No causal solar orientation or universal macroecological law.",
+            "daylight_directional_qualified_steps": 2908,
+            "results": {
+              "clock_adjusted_excess_cos": {
+                "bootstrap95": [
+                  -0.011319483535882581,
+                  0.001419105994029013
+                ],
+                "mean": -0.004918487742562391,
+                "n_individuals": 17
+              },
+              "clock_adjusted_excess_cos2": {
+                "bootstrap95": [
+                  -0.02055660847849834,
+                  0.009753551032554411
+                ],
+                "mean": -0.00453208364293902,
+                "n_individuals": 17
+              },
+              "compass_independence_excess_cos": {
+                "bootstrap95": [
+                  -0.0957612042942515,
+                  0.010155602868551165
+                ],
+                "mean": -0.04477039357262471,
+                "n_individuals": 18
+              },
+              "compass_independence_excess_cos2": {
+                "bootstrap95": [
+                  -0.07260408856388546,
+                  0.01629142583154865
+                ],
+                "mean": -0.029975804694466306,
+                "n_individuals": 18
+              },
+              "raw_axial_mean_cos2": {
+                "bootstrap95": [
+                  -0.12404152883571623,
+                  -0.005740170409270937
+                ],
+                "mean": -0.06782618098243412,
+                "n_individuals": 18
+              },
+              "raw_toward_sun_mean_cos": {
+                "bootstrap95": [
+                  -0.11860482677899802,
+                  -0.0067422292030462315
+                ],
+                "mean": -0.06492559958995572,
+                "n_individuals": 18
+              }
+            },
+            "source_animals": 18,
+            "status": "descriptive_source_estimated",
+            "supported_individual_years": 18,
+            "supported_individuals": 18
+          },
+          "qualified_individuals": 18,
+          "result_status": "descriptive_source_estimated",
+          "source_original_coverage": {
+            "hour_selected_fixes": 6812,
+            "invalid_rows": 0,
+            "original_taxon_rows": 470774,
+            "source_individuals": 18
+          },
+          "taxon": "Neophron percnopterus"
+        }
+      ],
+      "source_manifest_order_shard": 2
+    }
+  ],
+  "summary_scope": "All 12 original metadata preselected sources retained; original sample consists of verified and unverified source/sampled populations, no replacement for source holds or unsupported animal directions. GPS clock assumption from original source format; not independently device-attested."
+}
