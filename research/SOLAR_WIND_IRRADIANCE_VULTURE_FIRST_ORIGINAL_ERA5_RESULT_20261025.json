@@ -1,0 +1,140 @@
+{
+  "date": "2026-10-25",
+  "first_source_hourly_wind_analysis_run_id": 40167349742,
+  "original_head_sha_at_first_run": "489ce87a92a9835795aa1fb46378c7af895fcc2a",
+  "source_index": 1,
+  "first_result_status": "SOURCE_ENVIRONMENTAL_DESCRIPTION_COMPLETED",
+  "source_is_one_preselected_original_field_study": true,
+  "original_model_weather_source": "Open-Meteo historical ERA5 hourly, requested model era5, 100m wind, shortwave and temperature; provider weather bodies SHA pinned in receipt",
+  "source_original_GPS_replay_exact": true,
+  "source_result": {
+    "n_original_studies": 1,
+    "original_study_result": {
+      "modelled_ERA5_coarse_grid_year_requests": 4,
+      "n_reference_supported_pairs": 1,
+      "original_frozen_solar_pairs_replayed": true,
+      "original_observation_rows": 160364,
+      "original_provider_checksum_verified": {
+        "bytes": 35458203,
+        "checksum_type": "md5",
+        "provider_checksum_verified": true
+      },
+      "original_source_species_labels": [
+        "Cathartes melambrotus",
+        "Sarcoramphus papa"
+      ],
+      "pair_results": [
+        {
+          "ERA5_joined_steps_A": 10190,
+          "ERA5_joined_steps_B": 4303,
+          "baseline_no_weather_solar_pair_difference": 0.03366318631572165,
+          "environmental_differences": {
+            "A_minus_B": {
+              "shortwave_W_m2": -36.91217863098859,
+              "solar_cos": 0.03366318631572165,
+              "temperature_2m_C": -0.1540697691898032,
+              "wind_speed_100m_ms": 0.08778992793136542,
+              "wind_sun_cos": 0.025053123665220337,
+              "windflow_cos": 0.008298229664037527
+            },
+            "joint_solar_minus_windflow_heading_contrast_delta": 0.02536495665168412,
+            "shared_original_GPS_cell_weighting": "equal original qualifying cells, equal tagged animals inside each cell",
+            "source_species_A_means": {
+              "shortwave_W_m2": 531.2248079416776,
+              "solar_cos": -0.00321264266676508,
+              "temperature_2m_C": 28.949488358222748,
+              "wind_speed_100m_ms": 2.5414525109930617,
+              "wind_sun_cos": -0.010264897440799104,
+              "windflow_cos": -0.00253252409653385
+            },
+            "source_species_B_means": {
+              "shortwave_W_m2": 568.1369865726662,
+              "solar_cos": -0.03687582898248673,
+              "temperature_2m_C": 29.10355812741255,
+              "wind_speed_100m_ms": 2.4536625830616963,
+              "wind_sun_cos": -0.03531802110601944,
+              "windflow_cos": -0.010830753760571377
+            }
+          },
+          "fraction_steps_ERA5_qualified_A": 1,
+          "fraction_steps_ERA5_qualified_B": 1,
+          "full_original_GPS_solar_difference_replayed": true,
+          "original_GPS_steps_A": 10190,
+          "original_GPS_steps_B": 4303,
+          "registered_original_shared_cells": 45,
+          "status": "SOURCE_OBSERVED_ERA5_LINKED_DESCRIPTION",
+          "taxa": [
+            "Cathartes melambrotus",
+            "Sarcoramphus papa"
+          ]
+        }
+      ],
+      "source_dois": [
+        "doi:10.5441/001/1.320"
+      ],
+      "source_original_solar_shared_cells": 90,
+      "source_original_steps_in_shared_solar_cells": 14493,
+      "source_package_uuid": "cd4e676d-424f-4b40-8e4e-3681a0f26530",
+      "source_status": "SOURCE_ENVIRONMENTAL_DESCRIPTION_COMPLETED",
+      "source_weather_original_receipts_no_coordinates": [
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "a4b6c0a0957ed363395ff7d9d6140d897cd2da818e6ef71dbc0f04524c7aa83d",
+          "original_requested_year_covers_full_calendar": true,
+          "source_hourly_records": 8760,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        },
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "f0e9c8753636d5d521bdfef5e27d953281f59759a3649c310fd31914fcc47286",
+          "original_requested_year_covers_full_calendar": true,
+          "source_hourly_records": 8760,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        },
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "9a44917739533a05aac4b2e7d1c9cb501775007bb12a06a8665efc0b44c926f6",
+          "original_requested_year_covers_full_calendar": true,
+          "source_hourly_records": 8760,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        },
+        {
+          "climate_missing_or_invalid_hours": 0,
+          "original_raw_json_sha256": "1a96371b861cebf1b12ed65ba95b2459c4e32fa195eb476dd7f4ae24e779107d",
+          "original_requested_year_covers_full_calendar": true,
+          "source_hourly_records": 8760,
+          "source_weather_model": "era5",
+          "source_weather_variables": [
+            "wind_speed_100m",
+            "wind_direction_100m",
+            "shortwave_radiation",
+            "temperature_2m"
+          ]
+        }
+      ]
+    },
+    "qualified_environment_pair_results": 1,
+    "source_claim_limit": "Coarse ERA5 100m wind and shortwave over source-matched original GPS, exploratory after prior solar effects. No direct causal solar/wind response, independent biome test or actual animal sunlight exposure.",
+    "source_index": 1,
+    "version": "original-shared-cell-solar-wind-irradiance-v0"
+  },
+  "note": "Experimental source-specific descriptive numerical results. Does NOT identify radiation-caused or wind-independent compass behavior. Original wind 100m sampled weather is not flight-altitude wind and modeled shortwave is not direct individual solar radiation."
+}
