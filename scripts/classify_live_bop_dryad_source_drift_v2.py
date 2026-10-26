@@ -12,6 +12,7 @@ frozen new scientific endpoint or authorization to inspect GPS files.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -19,6 +20,10 @@ from pathlib import Path
 from scripts.validate_bop_dryad_external_schema_first_result_v1 import (
     CONTRACT, FIRST, RECEIPT, validate_dryad_first_result
 )
+
+ORIGINAL_FIRST = FIRST.parent / "BOP_DRYAD_V1_ORIGINAL_ACTIONS_ARTIFACT_JSON.json"
+_EXPECTED_CORRUPTED_VERSIONS = "433835a643d6685935835df2ac3c5ff609ffd7f4a623b5083da5c9f"
+_EXPECTED_ORIGINAL_VERSIONS = "433835a643d6685935835df2ac3fbb9070d331ff609ffd7f4a623b5083da5c9f"
 
 _HEX = re.compile(r"^[0-9a-f]{64}$")
 _SAFE_FIELDS = frozenset((
@@ -73,10 +78,11 @@ def _digest_proper(value: object, field: str) -> bool:
 
 def classify_live_dryad_source_drift(
     live: dict,
-    first: dict,
+    first_semantic: dict,
     receipt: dict,
     contract_bytes: bytes,
-    first_bytes: bytes,
+    semantic_bytes: bytes,
+    original_artifact_bytes: bytes,
 ) -> dict[str, object]:
     """Split archived first-result correctness from independent LIVE source drift.
 
@@ -84,7 +90,26 @@ def classify_live_dryad_source_drift(
     content differs, report a source HOLD with the changed field paths.
     New metadata cannot independently admit the candidate or renew a claim.
     """
-    validate_dryad_first_result(first, receipt, contract_bytes, first_bytes)
+    # Historical v1 validator still verifies its immutable semantic copy.
+    # It is not silently repaired: that copy contains one truncated digest.
+    validate_dryad_first_result(
+        first_semantic, receipt, contract_bytes, semantic_bytes
+    )
+    expected_raw_sha = receipt["first_official_execution"][
+        "artifact_raw_result_json_sha256"
+    ]
+    if hashlib.sha256(original_artifact_bytes).hexdigest() != expected_raw_sha:
+        raise ValueError("original GitHub Actions source JSON checksum mismatch")
+    first = json.loads(original_artifact_bytes)
+    if (
+        _diff_paths(first_semantic, first)
+        != ("official_metadata_api.versions.sha256",)
+        or first_semantic["official_metadata_api"]["versions"]["sha256"]
+        != _EXPECTED_CORRUPTED_VERSIONS
+        or first["official_metadata_api"]["versions"]["sha256"]
+        != _EXPECTED_ORIGINAL_VERSIONS
+    ):
+        raise ValueError("historical v1 semantic-copy truncation not uniquely verified")
 
     if not isinstance(live, dict) or set(live) - _SAFE_FIELDS:
         raise ValueError("live Dryad report contains unauthorized fields")
@@ -169,6 +194,9 @@ def classify_live_dryad_source_drift(
         "schema_version": 2,
         "role": "post_result_live_source_drift_audit",
         "first_result_verified_unchanged": True,
+        "original_actions_json_sha256_verified": expected_raw_sha,
+        "malformed_historical_semantic_copy_retained": True,
+        "semantic_copy_digest_truncation_reconciled_not_overwritten": True,
         "first_official_result_sha256": receipt["first_official_execution"][
             "artifact_raw_result_json_sha256"
         ],
@@ -190,12 +218,13 @@ def main() -> None:
     p.add_argument("--result", type=Path, required=True)
     p.add_argument("--out", type=Path)
     args = p.parse_args()
-    first_bytes = FIRST.read_bytes()
+    semantic_bytes = FIRST.read_bytes()
     answer = classify_live_dryad_source_drift(
         json.loads(args.result.read_text(encoding="utf-8")),
-        json.loads(first_bytes),
+        json.loads(semantic_bytes),
         json.loads(RECEIPT.read_text(encoding="utf-8")),
-        CONTRACT.read_bytes(), first_bytes
+        CONTRACT.read_bytes(), semantic_bytes,
+        ORIGINAL_FIRST.read_bytes(),
     )
     result = json.dumps(answer, sort_keys=True, indent=2, allow_nan=False) + "\n"
     if args.out:
