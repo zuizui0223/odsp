@@ -123,6 +123,37 @@ python scripts/run_bop_fixed_model_group_transfer_benchmark.py --out /tmp/bop-fi
 The first successful CI output is archived as a separate artifact rather
 than changing the historic BOP source or its result checksum.
 
+
+## First frozen result (2026-10-26)
+
+The **first** full 128-replicate run was GitHub Actions
+[40265218136](https://github.com/zuizui0223/odsp/actions/runs/40265218136),
+head \`ec60b5eb550f14279a1618c3eef23915885d8a2f\`.
+
+The frozen contract's SHA256 is
+\`f0afd25b55fbc5d5e5584331d683a1559bd2a3fe9c65a06d684236f0a452d75d\`.
+The first-run JSON is archived as artifact \`12626376388\`
+(\`bop-fixed-model-knowntruth-v1\`; artifact ZIP SHA256
+\`2f577e7e87094b21fd77146de907e782a1014dfa1b555b682fedb1bfb27698fd\`).
+
+| Unchanged first-run evaluation | Group-unit coverage | Pre-frozen acceptance |
+|---|---:|---|
+| Same-process unseen independent individuals | **0.8994384765625** | 0.86 to 0.94: **PASS** |
+| Severe +2-mod-4 state-label shift | **0.0680908203125** | <=0.80: **PASS** |
+
+All five fixed checks passed; each evaluation used 40,960 **new group
+scores**. Model/reference fingerprints, predictions and calibration were
+not updated from untouched validation outcomes.
+
+The separate
+\`BOP_FIXED_MODEL_GROUP_TRANSFER_V1_VALIDATION_RECEIPT.json\`
+records the first outcome, contract, workflow and artifact digests.
+\`scripts/validate_bop_fixed_model_group_transfer_receipt.py\` enforces
+an exact replay of its scientific summary and verifies all 128
+per-replicate group-count/provenance rows. The first run was observed
+**after** the contract had been committed; the retrospective real BOP
+endpoint remains mixed and untouched.
+
 ## Future empirical gate: truly unseen birds
 
 The original BOP v3 is no longer an untouched source. A genuinely new
