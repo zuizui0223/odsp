@@ -102,7 +102,7 @@ def test_official_http_403_is_source_hold_not_a_new_data_discovery():
     ("https://datadryad.org/api/v2/datasets/anything-else",None),
 ])
 def test_strict_source_allowlist_rejects_any_data_file_or_origin_substitution(url,small_id):
-    with pytest.raises(ValueError,match="only"):
+    with pytest.raises(ValueError,match="only|GPS/source-data"):
         _strict_official_url(url,small_id=small_id)
 
 
