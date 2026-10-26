@@ -131,7 +131,7 @@ def test_semantic_version_identity_fails_on_material_change(malformed,expected):
 
 
 @pytest.mark.parametrize("case,expected",[
-    ("missing_file","file list"),
+    ("missing_file","file count"),
     ("duplicate_file","duplicate provider"),
     ("unexpected_file","path or size"),
     ("file_no_size","path or size"),
