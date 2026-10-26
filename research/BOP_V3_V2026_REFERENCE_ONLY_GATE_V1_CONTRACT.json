@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-v3-v6-reference-only-roster-gate-v1",
+  "frozen_date": "2026-10-26",
+  "scientific_role": "outcome_blind_source_identity_admission_preflight_not_empirical_prediction",
+  "source_study": "BOP_RODENT",
+  "movebank_study_id": 1278021460,
+  "original_frozen_terminal": "empirical_state_prediction_mixed",
+  "source_versions": [
+    {
+      "id": "v3_2023",
+      "record_id": 10055071,
+      "doi": "10.5281/zenodo.10055071",
+      "published_metadata_individual_count": 35,
+      "reference_file": "BOP_RODENT-reference-data.csv",
+      "md5": "81e85243e38823db4bde56e315b596f8",
+      "url": "https://zenodo.org/records/10055071/files/BOP_RODENT-reference-data.csv?download=1"
+    },
+    {
+      "id": "v2026",
+      "record_id": 17310324,
+      "doi": "10.5281/zenodo.17310324",
+      "published_metadata_individual_count": 45,
+      "reference_file": "BOP_RODENT-reference-data.csv",
+      "md5": "fc4623f4dd5f32ef228b3dae386b2c1a",
+      "url": "https://zenodo.org/records/17310324/files/BOP_RODENT-reference-data.csv?download=1"
+    }
+  ],
+  "provider_changelog": {
+    "new_gps_years": [
+      2024,
+      2025
+    ],
+    "corrected_animal_id_aliases": {
+      "H200701": "H197221"
+    },
+    "removed_out_of_scope_ids": [
+      "H200730"
+    ],
+    "note": "Version notes also revise earlier 2020-2022 GPS files; metadata count growth is not independent biological cohort size."
+  },
+  "only_authorized_download": "two pinned reference-data.csv files; downloading GPS/event observation members expressly forbidden",
+  "expected_source_csv_field_names": [
+    "animal-id",
+    "animal-taxon"
+  ],
+  "maximum_reference_bytes_each": 250000,
+  "parsing_rules": {
+    "independent_identity_key": "animal-id (study-local animal identity, not tag ID, not deployment ID)",
+    "taxon_field": "animal-taxon",
+    "duplicate_animal_id_records": "collapse deployments, require consistent non-empty taxon per animal",
+    "aliases": "map old corrected ID to new ID only when the old identity is present in v3 and new identity present in v2026; flag mismatch otherwise",
+    "old_removed": "historical IDs absent from newer file may not be relabeled as new; retain counts as attrition",
+    "unknown_or_changed_taxon": "stop rather than treating identity as newly eligible",
+    "no_animal_identifiers_in_public_result": true,
+    "report_original_and_current_roster_sha256": true,
+    "no_rescue_after_source_failure": true
+  },
+  "admission_rule": {
+    "minimum_new_individuals_for_one_stratum_90pct_rank_calibration_plus_one_test": 10,
+    "rank_calibration_individuals_minimum": 9,
+    "explicit_test_individuals_minimum": 1,
+    "note": "Necessary count for k=floor((9+1)*0.1)=1; it is not sufficient for biological independence, telemetry quality, covariate support, exchangeability, or external generality.",
+    "old_original_animal_roster_cannot_count_as_new": true,
+    "within_study_not_cross_study_independence": true
+  },
+  "terminal_gates": [
+    "SOURCE_UNAVAILABLE",
+    "METADATA_SCHEMA_MISMATCH",
+    "VERSION_IDENTITY_AMBIGUOUS",
+    "NO_WITHIN_STRATUM_NEW_GROUP_RANK_SUPPORT",
+    "METADATA_ONLY_CANDIDATE_NEEDS_OUTCOME_BLIND_GPS_ELIGIBILITY"
+  ],
+  "closure": "Never compute altitude, speed, per-event covariates, GPS timestamps, held-out scores or RF outcomes during this gate."
+}
