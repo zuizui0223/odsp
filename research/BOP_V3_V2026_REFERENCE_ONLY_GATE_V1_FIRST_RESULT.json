@@ -1,0 +1,68 @@
+{
+  "contract_id": "bop-v3-v6-reference-only-roster-gate-v1",
+  "contract_sha256": "cec6373d5787e83c9966ead902dc09aeffef179daa69ea68bde2f65d9ecd25ba",
+  "gps_event_data_accessed": false,
+  "identity_audit": {
+    "applied_known_alias_count": 1,
+    "metadata_novelty_not_proof_of_independent_animal": true,
+    "new_distinct_animals": 45,
+    "new_id_candidates_by_species": {
+      "Asio flammeus": 2,
+      "Buteo buteo": 1,
+      "Circus aeruginosus": 6,
+      "Circus pygargus": 1
+    },
+    "new_id_candidates_count": 10,
+    "new_id_candidates_within_stratum_meet_min_count": {
+      "Asio flammeus": false,
+      "Buteo buteo": false,
+      "Circus aeruginosus": false,
+      "Circus pygargus": false
+    },
+    "old_distinct_animals": 35,
+    "old_removed_out_of_scope_count": 0,
+    "one_stratum_minimum_count": 10,
+    "original_empirical_BOP_terminal_changed": false,
+    "overlapping_corrected_animal_ids": 35,
+    "same_study_not_independent_population_replication": true,
+    "scientific_status": "NO_WITHIN_STRATUM_NEW_GROUP_RANK_SUPPORT"
+  },
+  "old_original_terminal": "empirical_state_prediction_mixed",
+  "only_reference_data_access_authorized": true,
+  "references": [
+    {
+      "distinct_animal_ids": 35,
+      "identity_taxon_roster_sha256": "b1b46d84e935697b7a72bc58f72aa5b903083fb17d081ad76cfdcc896336dc27",
+      "reference_bytes_sha256": "1d0aa855db5e744400a534271cb3d18831aed31f74b77b4ab79e2a30fa0bf262",
+      "reference_rows": 35,
+      "species_counts": {
+        "Asio flammeus": 3,
+        "Buteo buteo": 5,
+        "Circus aeruginosus": 9,
+        "Circus cyaneus": 9,
+        "Circus pygargus": 9
+      }
+    },
+    {
+      "distinct_animal_ids": 45,
+      "identity_taxon_roster_sha256": "43630665b8638ebb29cc236cf267a6c1427c88f0b6233e7dc72ad92a5bc27746",
+      "reference_bytes_sha256": "ea5e2fe375ee463f02cf82e6a2318f8a3c7b1c07f4d1eab2808473962214df1c",
+      "reference_rows": 46,
+      "species_counts": {
+        "Asio flammeus": 5,
+        "Buteo buteo": 6,
+        "Circus aeruginosus": 15,
+        "Circus cyaneus": 9,
+        "Circus pygargus": 10
+      }
+    }
+  ],
+  "source_md5s": [
+    "81e85243e38823db4bde56e315b596f8",
+    "fc4623f4dd5f32ef228b3dae386b2c1a"
+  ],
+  "source_version_dois": [
+    "10.5281/zenodo.10055071",
+    "10.5281/zenodo.17310324"
+  ]
+}
