@@ -52,6 +52,23 @@ The prospectively frozen BOP_RODENT public-data endpoint provides a larger multi
 
 This prediction layer does **not** turn ODSP into a new MaxEnt/RF-style occurrence algorithm. Upstream learners can produce state probabilities and ODSP supplies a common ecological-state target, richer prediction output and independent scoring architecture.
 
+## Independent-group predictive gain envelopes
+
+The historical BOP_RODENT 27/30 positive held-out RF log-score gains describe
+performance for **30 tagged individuals**, not 154,655 independent future
+animals. ODSP now exposes a one-sided **new-group gain lower envelope** that uses
+one held-out mean gain per independent group and a finite-sample order
+statistic. For a fixed predictor and exchangeable calibration/future group
+scores, the rank construction has conditional marginal new-group coverage;
+if too few groups exist it deliberately returns a vacuous lower bound.
+
+The read-only archived BOP example gives a *descriptive* 90%-rank lower value
+of -0.026803 for the original pooled-comparator RF gain. Because its folds use
+different models and four species are heterogeneous, **this is not a formal
+90% forecast guarantee** for a future BOP individual; the frozen mixed
+terminal result is unchanged. See
+[method, known-truth tests and archived BOP audit](docs/bop_new_group_gain_envelope_v1.md).
+
 ## Niche thickness
 
 `odsp.niche_geometry` provides model-agnostic information-theoretic metrics on any non-negative support distribution.
