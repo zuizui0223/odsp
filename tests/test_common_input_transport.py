@@ -153,6 +153,7 @@ def test_holdout_never_contains_label_or_removed_predictor(invalid_key):
     cal[0][invalid_key]=2
     with pytest.raises(ValueError,match="outcomes/leakage forbidden"):
         freeze_common_input_transport(
+            evidence_role="known_truth_synthetic_only",
             training_BOP_rows=train,calibration_Dryad_features=cal,
             validation_Dryad_features=val
         )
@@ -165,6 +166,7 @@ def test_training_model_cannot_retain_unavailable_temperature_predictor():
     train[0]["external-temperature"]=11.0
     with pytest.raises(ValueError,match="role schema"):
         freeze_common_input_transport(
+            evidence_role="known_truth_synthetic_only",
             training_BOP_rows=train,calibration_Dryad_features=cal,
             validation_Dryad_features=val
         )
@@ -175,6 +177,7 @@ def test_training_species_and_group_id_collisions_fail_closed():
     tr[0]["individual-taxon-canonical-name"]="Milvus milvus"
     with pytest.raises(ValueError,match="species"):
         freeze_common_input_transport(
+            evidence_role="known_truth_synthetic_only",
             training_BOP_rows=tr,calibration_Dryad_features=cal,
             validation_Dryad_features=val
         )
@@ -182,6 +185,7 @@ def test_training_species_and_group_id_collisions_fail_closed():
     val[0]["row_id"]=cal[0]["row_id"]
     with pytest.raises(ValueError,match="rosters overlap|duplicate row_id"):
         freeze_common_input_transport(
+            evidence_role="known_truth_synthetic_only",
             training_BOP_rows=tr,calibration_Dryad_features=cal,
             validation_Dryad_features=val
         )
@@ -211,3 +215,15 @@ def test_namespaced_ids_not_mistaken_for_cross_source_animal_independence():
     assert obj.forecast.plan.training_group_ids[0].startswith("BOP:")
     assert obj.forecast.plan.calibration_rows[0].group_id.startswith("DRYAD:")
     assert obj.public_manifest()["real_cross_source_individual_nonoverlap_verified"] is False
+
+def test_real_external_source_role_cannot_be_smuggled_into_method_benchmark():
+    tr=_train()
+    cal=_target("cal",19)
+    val=_target("val",30)
+    with pytest.raises(ValueError,match="NOT_ADMITTED"):
+        freeze_common_input_transport(
+            training_BOP_rows=tr,
+            calibration_Dryad_features=cal,
+            validation_Dryad_features=val,
+            evidence_role="claimed_real_Dryad_validation",
+        )
