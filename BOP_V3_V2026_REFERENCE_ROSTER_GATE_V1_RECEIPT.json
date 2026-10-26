@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-v3-2026-reference-only-roster-gate-first-result-v1",
+  "scientific_role": "public_provider_metadata_only_no_GPS_altitude_outcomes",
+  "source_contract_id": "bop-v3-v6-reference-only-roster-gate-v1",
+  "source_contract_commit_sha": "cf8d1cc94cf78b128911b31c43ff096fe4b32fd2",
+  "source_contract_sha256": "cec6373d5787e83c9966ead902dc09aeffef179daa69ea68bde2f65d9ecd25ba",
+  "first_run": {
+    "workflow_run_id": 40270123505,
+    "job_id": 121401001030,
+    "head_sha": "e5e5a201162ebb02bfff39aed21e61f339dfd171",
+    "artifact_id": 12628031015,
+    "artifact_name": "bop-v3-v2026-reference-only-v1",
+    "artifact_zip_sha256": "f41a550ff0f08cf358e4fa2d1cb7407a5fc011e755e047b33d2b3c91bb552feb",
+    "status": "success"
+  },
+  "sources": [
+    {
+      "doi": "10.5281/zenodo.10055071",
+      "version": "v3",
+      "reference_md5": "81e85243e38823db4bde56e315b596f8",
+      "source_csv_sha256": "1d0aa855db5e744400a534271cb3d18831aed31f74b77b4ab79e2a30fa0bf262",
+      "identity_taxon_roster_sha256": "b1b46d84e935697b7a72bc58f72aa5b903083fb17d081ad76cfdcc896336dc27",
+      "distinct_individual_ids": 35,
+      "reference_rows": 35,
+      "species_counts": {
+        "Asio flammeus": 3,
+        "Buteo buteo": 5,
+        "Circus aeruginosus": 9,
+        "Circus cyaneus": 9,
+        "Circus pygargus": 9
+      }
+    },
+    {
+      "doi": "10.5281/zenodo.17310324",
+      "version": "2026-09-04",
+      "reference_md5": "fc4623f4dd5f32ef228b3dae386b2c1a",
+      "source_csv_sha256": "ea5e2fe375ee463f02cf82e6a2318f8a3c7b1c07f4d1eab2808473962214df1c",
+      "identity_taxon_roster_sha256": "43630665b8638ebb29cc236cf267a6c1427c88f0b6233e7dc72ad92a5bc27746",
+      "distinct_individual_ids": 45,
+      "reference_rows": 46,
+      "species_counts": {
+        "Asio flammeus": 5,
+        "Buteo buteo": 6,
+        "Circus aeruginosus": 15,
+        "Circus cyaneus": 9,
+        "Circus pygargus": 10
+      }
+    }
+  ],
+  "identity_audit": {
+    "overlap_after_declared_alias_correction": 35,
+    "known_alias_corrections_applied": 1,
+    "old_removed_ids_present_in_v3": 0,
+    "new_animal_id_candidates": 10,
+    "new_candidates_by_species": {
+      "Asio flammeus": 2,
+      "Buteo buteo": 1,
+      "Circus aeruginosus": 6,
+      "Circus cyaneus": 0,
+      "Circus pygargus": 1
+    },
+    "within_species_90pct_rank_minimum_new_calibration_plus_validation": 10,
+    "any_species_meets_necessary_new_animal_count": false,
+    "scientific_terminal": "NO_WITHIN_STRATUM_NEW_GROUP_RANK_SUPPORT"
+  },
+  "immutable_ceiling": {
+    "source_files_read": [
+      "BOP_RODENT-reference-data.csv v3",
+      "BOP_RODENT-reference-data.csv v2026"
+    ],
+    "downloaded_GPS_or_event_data": false,
+    "no_altitude_or_realized_outcomes_opened": true,
+    "biological_independence_of_new_ids_not_established": true,
+    "between_study_replication": false,
+    "real_BOP_primary_terminal": "empirical_state_prediction_mixed",
+    "all_frozen_30_birds_unchanged": true,
+    "no_new_covariate_model_scoring_run": true,
+    "eligible_for_90pct_future_individual_rank_claim": false
+  }
+}
