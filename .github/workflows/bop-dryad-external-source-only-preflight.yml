@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "research/BOP_DRYAD_EXTERNAL_SCHEMA_PREFLIGHT_V1_CONTRACT.json"
+      - "BOP_RODENT_STATE_PREDICTION_CONTRACT.json"
       - "scripts/bop_dryad_external_schema_preflight_v1.py"
       - "tests/test_bop_dryad_external_schema_preflight_v1.py"
       - "docs/bop_dryad_external_schema_preflight_v1.md"
