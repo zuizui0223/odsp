@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-dryad-v1-original-artifact-vs-semantic-copy-provenance-correction-v2",
+  "classification": "POST_RESULT_SOURCE_PROVENANCE_CORRECTION_NOT_NEW_CONFIRMATORY_RESULT",
+  "historical_scientific_outputs_unchanged": true,
+  "original_first_official": {
+    "workflow_run_id": 40275944700,
+    "artifact_id": 12630760184,
+    "artifact_zip_sha256": "ddc23a16ea20e51e1c630cdc45b2466af0e421e0745aa282b7bb5331283922cd",
+    "original_raw_json_sha256": "10181566debf005c51d5a28f6d058a9134fddca33580621d1d9a2ce40b32669e",
+    "original_json_length_bytes": 3535,
+    "original_versions_response_sha256": "433835a643d6685935835df2ac3fbb9070d331ff609ffd7f4a623b5083da5c9f"
+  },
+  "original_action_json_restoration": {
+    "path": "research/BOP_DRYAD_V1_ORIGINAL_ACTIONS_ARTIFACT_JSON.json",
+    "git_blob_sha1": "68f866f2da42b89db9549ee043451bf30e1d7fe4",
+    "content_sha256": "10181566debf005c51d5a28f6d058a9134fddca33580621d1d9a2ce40b32669e",
+    "matches_original_actions_json_bytes": true,
+    "raw_GPS_or_animal_event_data_included": false
+  },
+  "historical_later_semantic_copy_preserved": {
+    "path": "research/BOP_DRYAD_EXTERNAL_SCHEMA_PREFLIGHT_V1_FIRST_RESULT.json",
+    "git_blob_sha1": "c63e07172207c341eb9ec213096e426b874bd49d",
+    "incorrect_versions_response_sha256": "433835a643d6685935835df2ac3c5ff609ffd7f4a623b5083da5c9f",
+    "incorrect_digest_length": 55,
+    "missing_hex_character_count": 9,
+    "unique_differing_parsed_json_path": "official_metadata_api.versions.sha256",
+    "original_file_edited": false
+  },
+  "historical_v1_terminal_receipt_preserved": {
+    "path": "BOP_DRYAD_EXTERNAL_SCHEMA_PREFLIGHT_V1_TERMINAL_RECEIPT.json",
+    "original_incorrect_versions_digest_not_reclassified": true,
+    "claim_in_original_receipt_of_parsed_json_equality": "SUPERSEDED_BY_THIS_CORRECTION",
+    "raw_API_response_replay_failure_remains_visible": true
+  },
+  "source_policy_and_claim_ceiling": {
+    "original_RF_direct_external_scoring_admissible": false,
+    "dryad_external_biological_sample_admitted": false,
+    "old_BOP_terminal": "empirical_state_prediction_mixed",
+    "GPS_outcomes_accessed": false,
+    "small_three_non_GPS_downloads_first_result": "HTTP_403_SOURCE_HOLD",
+    "license_first_result": "https://spdx.org/licenses/CC0-1.0.html",
+    "raw_versions_API_byte_sha_may_change_in_later_calls": true,
+    "change_in_response_sha_alone_not_proof_of_changed_published_data_version": true,
+    "followup_semantic_version_route": "research/BOP_DRYAD_SEMANTIC_VERSION_V2_CONTRACT.json",
+    "next_data_claim_requires_independent_source_identity_and_executable_feature_compatibility": true
+  }
+}
