@@ -198,10 +198,17 @@ def freeze_common_input_transport(
     training_BOP_rows: Sequence[Mapping[str, object]],
     calibration_Dryad_features: Sequence[Mapping[str, object]],
     validation_Dryad_features: Sequence[Mapping[str, object]],
+    evidence_role: str,
     pseudocount: float = 0.1,
     miscoverage: float = 0.1,
 ) -> CommonInputTransport:
-    """One new learner, not the historic RF: freeze before external labels open."""
+    """Method benchmark only; future real-source analysis needs a new frozen route.
+
+    The caller must explicitly declare a synthetic known-truth run. This is
+    an evidence-role declaration, NOT verification of data origin.
+    """
+    if evidence_role != "known_truth_synthetic_only":
+        raise ValueError("real external source is NOT_ADMITTED; use a new preregistered empirical route")
     train = _project(training_BOP_rows, source="BOP", role="training")
     cal = _project(calibration_Dryad_features, source="DRYAD", role="calibration")
     test = _project(validation_Dryad_features, source="DRYAD", role="validation")
