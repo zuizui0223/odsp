@@ -67,6 +67,10 @@ from .niche_geometry import (
     niche_thickness_profile,
     shannon_entropy,
 )
+from .new_group_gain_envelope import (
+    NewGroupGainEnvelope,
+    fit_new_group_gain_lower_envelope,
+)
 from .prediction_novelty import (
     EnvironmentalNoveltyModel,
     NoveltySummary,
@@ -176,6 +180,7 @@ __all__ = [
     "IndependentGroupTransferability",
     "N2ToN3HandoffDecision",
     "N2ToN3Payload",
+    "NewGroupGainEnvelope",
     "NicheThicknessProfile",
     "NoveltySummary",
     "PredictionTrustBenchmarkResult",
@@ -214,6 +219,7 @@ __all__ = [
     "evaluate_added_axis_evidence",
     "fit_covariate_state_model",
     "fit_environmental_novelty_model",
+    "fit_new_group_gain_lower_envelope",
     "fit_state_conformal_calibrator",
     "fit_state_resolved_events",
     "fit_state_resolved_model",
