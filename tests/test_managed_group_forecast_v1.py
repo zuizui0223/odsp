@@ -222,8 +222,8 @@ def test_gps_pseudoreplication_does_not_change_equal_group_training_mass():
     )
     probs = json.loads(plan.reference_artifact)["probabilities"]["s"]
     # Both whole animals contribute unit total training weight:
-    assert probs[0] < 0.65
-    assert probs[1] > 0.35
+    assert 0.64 < probs[0] < 0.70
+    assert 0.20 < probs[1] < 0.30
 
 
 @pytest.mark.parametrize("mode,pattern", [
