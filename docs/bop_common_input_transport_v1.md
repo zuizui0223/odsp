@@ -149,6 +149,53 @@ python -m pytest tests/test_common_input_transport.py tests/test_bop_common_inpu
 python scripts/run_bop_common_input_transport_v1.py --out /tmp/bop-common-input-transport-v1.json
 ```
 
+## First preregistered method outcome (synthetic, frozen)
+
+Original independent CI [run 40281982238](https://github.com/zuizui0223/odsp/actions/runs/40281982238)
+completed successfully at head `1e9343bb2089c28a576696bea00cc9b2a7f19699`.
+The scientific contract had been frozen previously in commit
+`b32eed2503b94cbec0bab21daa4f20f765bb6fe0`.
+
+- 24 generated worlds × 4 species × 30 final target individuals:
+  **2,880 independent group scores per scenario**, not independent GPS fixes.
+- Same-target-source validation: **2,599/2,880 = 0.9024305555555555**
+  covered at nominal 90% (in precommitted 0.84–0.96 range).
+- Validation-only label shift: **757/2,880 = 0.26284722222222223**
+  covered (below precommitted maximum 0.80).
+- All five frozen counts/provenance/coverage/claim-boundary checks
+  passed without changing the input-feature or statistical thresholds.
+- The original JSON result is retained as GitHub Actions artifact ID
+  **12633395633**, name `bop-common-input-v1`, original ZIP SHA256
+  `e95e5e35f51b56ac136a8d93870868b4aab553fd6c5c30de78de22db758df993`.
+  Original JSON SHA256:
+  `2419a3fe9a5646818b7b2d51eff3c2cb89c287522a458e326eb1e1bfdc000758`.
+  All 24 world-audit rows have SHA256
+  `f12c03cefceadf2f848c5efae92942ffe507c55e239eafefc4134464f7410f38`.
+- A separate `BOP_COMMON_INPUT_TRANSPORT_V1_VALIDATION_RECEIPT.json`
+  records the first outcome and its frozen provenance. Subsequent
+  runs execute `scripts/validate_bop_common_input_first_result_v1.py`
+  and fail if the precommitted contract, numeric result, or full-world
+  audit trace differs.
+
+**Method meaning:** calibration and validation group gains were drawn
+from the same synthetic target-source process while the fitted
+predictor was trained on a modestly different source process.
+A separate, deliberately disrupted *validation-only* generator broke
+that exchangeability and sharply lowered observed rank-bound coverage.
+This verifies the stated statistical distinction under **known truth**;
+it neither proves model gain is positive for new ecological samples
+nor establishes any real BOP→Dryad exchangeability.
+
+The original first successful source was executed **before** an
+additional API declaration
+`evidence_role="known_truth_synthetic_only"` was required.
+That later guard only prevents artificial-method code being
+casually presented as a real external assessment. It does not change
+the source generator, model, comparator, scores or predeclared
+acceptance conditions. The independent rerun validates this claim
+against the original audit hashes.
+
+
 ## External biological admission remains unresolved
 
 Dryad's public API identity, CC0 license and semantic data version are
