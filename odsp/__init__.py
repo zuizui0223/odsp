@@ -67,6 +67,14 @@ from .niche_geometry import (
     niche_thickness_profile,
     shannon_entropy,
 )
+from .fixed_group_gain_protocol import (
+    FrozenGroupForecastPlan,
+    FrozenGainCalibration,
+    FrozenGainValidation,
+    freeze_fixed_group_forecasts,
+    calibrate_fixed_group_gain,
+    validate_fixed_group_gain,
+)
 from .new_group_gain_envelope import (
     NewGroupGainEnvelope,
     fit_new_group_gain_lower_envelope,
@@ -174,6 +182,9 @@ __all__ = [
     "GeneralizationGroupScore",
     "GeneralizationLevelProfile",
     "GeneralizationProfile",
+    "FrozenGainValidation",
+    "FrozenGainCalibration",
+    "FrozenGroupForecastPlan",
     "GroupedHandoffPayload",
     "GroupedStatePredictionScore",
     "GroupedTransferabilityResult",
@@ -209,6 +220,7 @@ __all__ = [
     "build_n2_to_n3_payload",
     "build_population_transfer_value_handoff",
     "classify_grouped_temporal_partition_result",
+    "calibrate_fixed_group_gain",
     "classify_independent_gains",
     "classify_temporal_partition_result",
     "conditional_information",
@@ -217,6 +229,7 @@ __all__ = [
     "estimate_projection_overlap_from_counts",
     "estimate_thickness_from_counts",
     "evaluate_added_axis_evidence",
+    "freeze_fixed_group_forecasts",
     "fit_covariate_state_model",
     "fit_environmental_novelty_model",
     "fit_new_group_gain_lower_envelope",
@@ -251,6 +264,7 @@ __all__ = [
     "shannon_entropy",
     "temporal_partition_profile",
     "trusted_state_predictions",
+    "validate_fixed_group_gain",
     "validate_n2_to_n3_payload",
     "validate_population_transfer_value_handoff",
     "validate_serengeti_terminal_result",
