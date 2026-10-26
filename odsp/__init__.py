@@ -23,6 +23,13 @@ from .concealed_recovery import (
     run_concealed_recovery_benchmark,
     sample_state_counts,
 )
+from .common_input_transport import (
+    CommonInputTransport,
+    altitude_state,
+    freeze_common_input_transport,
+    calibrate_common_input_transport,
+    validate_common_input_transport,
+)
 from .covariate_state_prediction import (
     CovariateStateModel,
     CovariateStatePredictionSummary,
@@ -169,6 +176,7 @@ __all__ = [
     "AxisThicknessMap",
     "ConcealedRecoveryBenchmark",
     "ConcealedRecoveryCheck",
+    "CommonInputTransport",
     "ConditionalTransferabilityScore",
     "ConformalCoverageReport",
     "ConformalPredictionSummary",
@@ -213,6 +221,7 @@ __all__ = [
     "TrustedStatePredictionSummary",
     "VerticalFieldMap",
     "VerticalObservation",
+    "altitude_state",
     "assess_n2_to_n3_handoff",
     "axis_thickness_map",
     "base_added_mutual_information",
@@ -220,6 +229,7 @@ __all__ = [
     "build_n2_to_n3_payload",
     "build_population_transfer_value_handoff",
     "classify_grouped_temporal_partition_result",
+    "calibrate_common_input_transport",
     "calibrate_fixed_group_gain",
     "classify_independent_gains",
     "classify_temporal_partition_result",
@@ -229,6 +239,7 @@ __all__ = [
     "estimate_projection_overlap_from_counts",
     "estimate_thickness_from_counts",
     "evaluate_added_axis_evidence",
+    "freeze_common_input_transport",
     "freeze_fixed_group_forecasts",
     "fit_covariate_state_model",
     "fit_environmental_novelty_model",
@@ -264,6 +275,7 @@ __all__ = [
     "shannon_entropy",
     "temporal_partition_profile",
     "trusted_state_predictions",
+    "validate_common_input_transport",
     "validate_fixed_group_gain",
     "validate_n2_to_n3_payload",
     "validate_population_transfer_value_handoff",
