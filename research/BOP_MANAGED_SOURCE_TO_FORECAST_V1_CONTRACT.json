@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-managed-source-model-forecast-v1-knowntruth",
+  "frozen_date": "2026-10-26",
+  "purpose": "Validate executable linkage of training-only source rows to generated model/reference artifacts to outcome-blind calibration and validation predictions, then one group gain per individual and external rank coverage.",
+  "role": "prospective_known_truth_method_validation_not_real_BOP",
+  "primary_immutable_terminal": "empirical_state_prediction_mixed",
+  "predecessor_contract": "bop-fixed-model-group-transfer-known-truth-v1",
+  "frozen_prior_first_result": {
+    "same_process": 0.8994384765625,
+    "shifted": 0.0680908203125
+  },
+  "rng_seed": 20261027,
+  "replicates": 64,
+  "independent_strata": [
+    "raptor_A",
+    "raptor_B",
+    "raptor_C",
+    "raptor_D"
+  ],
+  "state_labels": [
+    "s0",
+    "s1",
+    "s2",
+    "s3"
+  ],
+  "context_levels": [
+    0,
+    1
+  ],
+  "true_base_probabilities": [
+    [
+      0.6,
+      0.25,
+      0.1,
+      0.05
+    ],
+    [
+      0.15,
+      0.45,
+      0.3,
+      0.1
+    ],
+    [
+      0.1,
+      0.15,
+      0.35,
+      0.4
+    ],
+    [
+      0.3,
+      0.35,
+      0.2,
+      0.15
+    ]
+  ],
+  "context_amplitude": 1.5,
+  "independent_groups_per_stratum": {
+    "training": 20,
+    "calibration": 39,
+    "validation": 40
+  },
+  "group_event_count_min": 8,
+  "group_event_count_max": 20,
+  "context_fraction_distribution": "one group-specific Bernoulli probability drawn uniformly from 0.1..0.9",
+  "training_weighting": "within each stratum each biological group has equal weight 1, each group event receives 1 / group event count; finite pseudo-count 0.1 added per cell",
+  "pseudocount": 0.1,
+  "source_serialization": "deterministic JSON of exactly source training rows; SHA256 bound to generated model and reference artifact",
+  "feature_roster_schema": "row_id, group_id, stratum, context (integer 0|1), weight optional; no outcome allowed",
+  "training_schema": "row_id, group_id, stratum, context, outcome (one of four), weight optional",
+  "strict_source_to_forecast_checks": [
+    "training-only fit recovers byte-identical model and reference",
+    "both holdout role forecasts derived only from exact model/reference artifacts",
+    "model predictions cannot be independently supplied",
+    "training source hashed and source-to-model replay checked",
+    "group and row namespaces disjoint",
+    "calibration outcomes inaccessible to validation scoring until frozen calibration",
+    "exact heldout outcomes per frozen row",
+    "no shift claims"
+  ],
+  "design_for_shift": "Same generated validation labels rotated by +2 modulo four for a separate adversarial shift test, with same model and calibration.",
+  "target": "90% one-sided group gain lower rank prediction for one new individual within the same stratum; rank floor((39+1)*0.1)=4.",
+  "acceptance": {
+    "n_expected_validation_groups_each_condition": 10240,
+    "same_process_coverage_range": [
+      0.85,
+      0.95
+    ],
+    "shifted_coverage_max": 0.8,
+    "all_provenance_integrity_tests_must_pass": true,
+    "all_64_replicates_must_have_160_independent_calibration_groups": true,
+    "empirical_BOP_result_remains_unchanged": true
+  },
+  "guardrails": [
+    "No early access to calibration/validation labels in model training",
+    "No empirical BOP raw GPS download or re-fit",
+    "Never treat 8-20 same-animal events as independent validation groups",
+    "No source content or IDs exported in public benchmark receipt",
+    "Contract/acceptance criteria not revised after first result to obtain positive classification",
+    "Failure and first result retained, no post-result tuning"
+  ]
+}
