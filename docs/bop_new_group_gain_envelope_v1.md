@@ -118,6 +118,16 @@ independent group scores. Additional tests cover ties, insufficient n,
 malformed input, repeated identifiers, future-group reuse and frozen-receipt
 tampering.
 
+A separate constructed known-truth stress test draws 800 sets of 20
+exchangeable animals. Gains are independent across animals, but GPS fixes
+within each animal are perfectly correlated copies; positive-gain animals
+produce 200 fixes and negative-gain animals only two. With 19 calibration
+animals and one new animal, the correct animal-rank method covers
+**0.910** of new animals at nominal 0.90. The intentionally invalid method
+that treats all repeated fixes as independent calibrators covers only
+**0.430**. This is a diagnostic of pseudoreplication, **not** a measured
+coverage result for BOP_RODENT.
+
 For a *new formal BOP-related deployment endpoint*, independently specify
 the animal admission and future target population, freeze one predictor and
 one training baseline, reserve exchangeable new individuals for **calibration**
