@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-v3-v2026-reference-only-roster-gate-v1-first-terminal",
+  "freeze_and_first_access": {
+    "contract_path": "research/BOP_V3_V2026_REFERENCE_ONLY_GATE_V1_CONTRACT.json",
+    "contract_commit_sha": "cf8d1cc94cf78b128911b31c43ff096fe4b32fd2",
+    "contract_sha256": "cec6373d5787e83c9966ead902dc09aeffef179daa69ea68bde2f65d9ecd25ba",
+    "first_workflow_run_id": 40270328971,
+    "first_official_probe_job_id": 121401647193,
+    "first_run_head_sha": "266cc965c573f3b22e352a47ae9d6642d77d50aa",
+    "first_result_artifact_id": 12627019951,
+    "first_result_artifact_name": "bop-v3-v2026-reference-only-v1",
+    "first_result_artifact_zip_sha256": "a75379cd04409e316f3b05d3d193ccaaea6bac360bfc817179e9dbdc7c2811f5",
+    "first_result_json_sha256": "a380740b228cea7c52b1b58d9b8aeb81c28aed00f526d80e794b22a3c7353fb8",
+    "result_file": "research/BOP_V3_V2026_REFERENCE_ONLY_GATE_V1_FIRST_RESULT.json",
+    "result_file_git_blob_sha1": "8112156ac82bfe3302e34f2e5d142bab61458b4c"
+  },
+  "source_verification": {
+    "official_reference_file_only": true,
+    "gps_or_event_access": false,
+    "source_reference_md5s": [
+      "81e85243e38823db4bde56e315b596f8",
+      "fc4623f4dd5f32ef228b3dae386b2c1a"
+    ],
+    "source_reference_sha256s": [
+      "1d0aa855db5e744400a534271cb3d18831aed31f74b77b4ab79e2a30fa0bf262",
+      "ea5e2fe375ee463f02cf82e6a2318f8a3c7b1c07f4d1eab2808473962214df1c"
+    ],
+    "source_roster_sha256s": [
+      "b1b46d84e935697b7a72bc58f72aa5b903083fb17d081ad76cfdcc896336dc27",
+      "43630665b8638ebb29cc236cf267a6c1427c88f0b6233e7dc72ad92a5bc27746"
+    ]
+  },
+  "first_terminal": {
+    "category": "NO_WITHIN_STRATUM_NEW_GROUP_RANK_SUPPORT",
+    "old_unique_individual_ids": 35,
+    "new_unique_individual_ids": 45,
+    "old_reference_rows": 35,
+    "new_reference_rows": 46,
+    "corrected_alias_count": 1,
+    "corrected_id_matched_old_to_new_count": 35,
+    "missing_old_id_after_alias_count": 0,
+    "removed_old_id_from_reference_count": 0,
+    "novel_id_candidate_count": 10,
+    "novel_id_candidates_by_species": {
+      "Asio flammeus": 2,
+      "Buteo buteo": 1,
+      "Circus aeruginosus": 6,
+      "Circus pygargus": 1
+    },
+    "novel_id_candidates_for_Circus_cyaneus": 0,
+    "maximum_single_species_new_ids": 6,
+    "necessary_new_ids_for_90pct_stratified_rank_calibration_plus_one_untouched_validation": 10,
+    "no_species_met_threshold": true
+  },
+  "interpretation": {
+    "positive": "exact pinned source metadata yield 10 new animal-ID candidates and show heterogeneity across species",
+    "historical_BOP_primary_terminal": "empirical_state_prediction_mixed",
+    "historic_BOP_terminal_changed": false,
+    "no_new_empirical_log_score_or_altitude_inference": true,
+    "no_GPS_access": true,
+    "version_identity_not_equal_independent_biological_replication": true,
+    "provider_declared_removed_out_of_scope_id_not_absent_from_reference_roster": true,
+    "next_route": "Stop this 90% same-stratum new-animal rank-coverage endpoint on source count. Any separate empirical route requires its own prospectively frozen source population, model, comparator, group independence and outcome-access protocol; do not rescue this gate after inspecting its result."
+  }
+}
