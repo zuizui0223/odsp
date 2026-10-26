@@ -124,3 +124,41 @@ def test_nonaligned_input_and_threshold_fail_closed():
         fit_new_group_gain_lower_envelope([0.1, 0.2], ["a"])
     with pytest.raises(ValueError, match="gain_threshold"):
         _fit([0.1], gain_threshold=float("inf"))
+
+
+def test_known_truth_unequal_within_animal_fix_counts_cannot_fake_coverage():
+    """Exchangeable animals, but positive-gain animals contribute many more fixes.
+
+    Each animal has one latent gain. Its telemetry fixes are perfectly
+    correlated copies of that gain; positive animals have 200 fixes and
+    negative animals only two. Using *fixes* as calibration units violates
+    the future-animal rank guarantee even though group gains are exchangeable.
+    """
+    import numpy as np
+
+    rng = np.random.default_rng(20261026)
+    group_covered = 0
+    naive_fix_covered = 0
+    trials = 800
+    for scores in rng.normal(size=(trials, 20)):
+        calibration = scores[:19]
+        future = float(scores[19])
+        envelope = _fit(calibration.tolist(), 0.1)
+        group_covered += envelope.covers_new_group("future", future)
+
+        # Intentionally INVALID naive comparator: treat clustered fixes as
+        # independent group calibrators. This is only a known-truth control.
+        per_animal_fix_count = np.where(calibration > 0, 200, 2)
+        pseudo_rows = np.sort(np.repeat(calibration, per_animal_fix_count))
+        naive_rank = math.floor((len(pseudo_rows) + 1) * 0.1)
+        naive_lower = (
+            float(pseudo_rows[naive_rank - 1])
+            if naive_rank > 0 else float("-inf")
+        )
+        naive_fix_covered += future >= naive_lower
+
+    group_rate = group_covered / trials
+    naive_fix_rate = naive_fix_covered / trials
+    assert 0.87 <= group_rate <= 0.94
+    assert naive_fix_rate < 0.75
+    assert group_rate - naive_fix_rate > 0.12
