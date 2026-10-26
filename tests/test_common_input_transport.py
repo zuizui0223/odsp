@@ -51,6 +51,7 @@ def _setup():
     cal=_target("cal",19)
     val=_target("val",30)
     obj=freeze_common_input_transport(
+        evidence_role="known_truth_synthetic_only",
         training_BOP_rows=train,
         calibration_Dryad_features=cal,
         validation_Dryad_features=val,
