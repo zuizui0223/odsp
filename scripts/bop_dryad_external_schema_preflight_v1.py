@@ -53,6 +53,10 @@ def load_contract(path: Path = CONTRACT) -> dict:
         or candidate.get("api_dataset_url") != EXPECTED_DATADRYAD_API
         or candidate.get("api_versions_url") != EXPECTED_DATADRYAD_API + "/versions"
         or tuple(x.get("name") for x in candidate.get("expected_files", [])) != EXPECTED_NAMES
+        or tuple((x["name"],x.get("file_stream_id")) for x in candidate["expected_files"][:3]) != (
+            ("README.md",4917192),("Study_areas_bounding_boxes.csv",4917158),
+            ("Complete_succesful_breeding_seasons.csv",4917159)
+        )
         or {x["file_stream_id"] for x in candidate["expected_files"] if "file_stream_id" in x} != EXPECTED_SMALL_FILE_IDS
         or any(x.get("download_allowed") is not False for x in candidate["expected_files"][3:])
         or source.get("allow_hosts") != ["datadryad.org"]
@@ -165,6 +169,8 @@ def _bounded_official_get(url: str, max_bytes: int, *, small_id: int|None = None
 def _safe_source_attempt(url: str, max_bytes: int, *, small_id: int|None = None,
                          fetcher=None) -> tuple[dict[str,object], bytes|None]:
     """Never release source IDs, locations or raw contents in public summary."""
+    # Enforce the same URL/filename policy even with a mocked transport.
+    _strict_official_url(url, small_id=small_id)
     reader = fetcher or _bounded_official_get
     try:
         raw = reader(url, max_bytes, small_id=small_id)
