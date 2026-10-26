@@ -7,6 +7,10 @@ on:
       - "scripts/bop_v3_v2026_reference_roster_preflight_v1.py"
       - "docs/bop_v3_v2026_reference_only_gate_v1.md"
       - "tests/test_bop_v3_v2026_reference_roster_gate_v1.py"
+      - "tests/test_bop_v3_v2026_reference_first_result_v1.py"
+      - "scripts/validate_bop_v3_v2026_reference_first_result_v1.py"
+      - "BOP_V3_V2026_REFERENCE_ONLY_GATE_V1_TERMINAL_RECEIPT.json"
+      - "research/BOP_V3_V2026_REFERENCE_ONLY_GATE_V1_FIRST_RESULT.json"
       - ".github/workflows/bop-v3-v2026-reference-only.yml"
   workflow_dispatch:
 
@@ -27,7 +31,7 @@ jobs:
       - name: Install
         run: python -m pip install -e '.[dev]'
       - name: Check animal identity, version alias and GPS-access ban
-        run: python -m pytest tests/test_bop_v3_v2026_reference_roster_gate_v1.py
+        run: python -m pytest tests/test_bop_v3_v2026_reference_roster_gate_v1.py tests/test_bop_v3_v2026_reference_first_result_v1.py
 
   official-reference-only-probe:
     needs: test-source-only-rules
@@ -42,6 +46,8 @@ jobs:
       - name: Print scientific gate, not a GPS result
         run: |
           python -c "import json,os,pathlib; p=pathlib.Path(os.environ['RUNNER_TEMP'])/'bop-v3-v2026-reference-only-v1.json'; a=json.loads(p.read_text()); assert a['gps_event_data_accessed'] is False; print('METADATA_ONLY_TERMINAL:',a.get('identity_audit',{}).get('scientific_status',a.get('scientific_status')))"
+      - name: Verify official references reproduce the original MD5-verified terminal
+        run: python scripts/validate_bop_v3_v2026_reference_first_result_v1.py --result "$RUNNER_TEMP/bop-v3-v2026-reference-only-v1.json"
       - name: Archive only deidentified reference audit and source holds
         uses: actions/upload-artifact@v4
         if: always()
