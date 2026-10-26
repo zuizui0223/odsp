@@ -100,6 +100,72 @@ Then run the **metadata-only** source check:
 The dedicated GitHub workflow pins the outcome-free comparison
 result in an artifact and never opens a GPS dataset.
 
+
+## First source-qualified outcome (closed)
+
+The first official reference-only GitHub Actions run passed:
+[workflow 40270328971](https://github.com/zuizui0223/odsp/actions/runs/40270328971),
+official reference probe job 121401647193 at head
+266cc965c573f3b22e352a47ae9d6642d77d50aa.
+
+**Source receipts**:
+
+- Frozen contract committed before reference access at
+  cf8d1cc94cf78b128911b31c43ff096fe4b32fd2.
+- Contract SHA256:
+  cec6373d5787e83c9966ead902dc09aeffef179daa69ea68bde2f65d9ecd25ba.
+- Original source-only JSON artifact ID 12627019951, ZIP SHA256
+  a75379cd04409e316f3b05d3d193ccaaea6bac360bfc817179e9dbdc7c2811f5;
+  original JSON SHA256:
+  a380740b228cea7c52b1b58d9b8aeb81c28aed00f526d80e794b22a3c7353fb8.
+- The complete original safe summary is now retained in
+  research/BOP_V3_V2026_REFERENCE_ONLY_GATE_V1_FIRST_RESULT.json and the
+  pinned interpretation is in BOP_V3_V2026_REFERENCE_ONLY_GATE_V1_TERMINAL_RECEIPT.json.
+
+The original reference CSV contains 35 rows for 35 unique animals.
+The September 2026 reference CSV contains **46 rows but 45 unique animal
+IDs**. Exactly **one known alias correction** was applied, leaving all
+35 older unique animal IDs matched in the new reference and **10 new
+ID candidates**, split as follows:
+
+| Original canonical taxon | v3 individuals | 2026 individuals | New ID candidates |
+|---|---:|---:|---:|
+| Asio flammeus | 3 | 5 | **2** |
+| Buteo buteo | 5 | 6 | **1** |
+| Circus aeruginosus | 9 | 15 | **6** |
+| Circus cyaneus | 9 | 9 | **0** |
+| Circus pygargus | 9 | 10 | **1** |
+| **Total** | **35** | **45** | **10** |
+
+The provider's version note says a historical out-of-scope animal
+was removed, but the **reference roster itself** shows no missing old
+unique ID after the corrected-alias normalization (old-absent count
+0). That is a source-meaning distinction, not grounds to "repair" the
+source or inflate the unseen group count. A removal from GPS observations
+must not be confused with removal from the metadata reference roster.
+
+No stratum contains ten new IDs. The largest single-species candidate
+frame is six Circus aeruginosus animals. At alpha 0.10, six potential
+calibration group gains give rank floor((6+1)*0.1)=0: a **vacuous**
+one-sided finite-sample lower bound even *before* reserving any separate
+untouched validation animal. Thus the predeclared terminal is
+
+    NO_WITHIN_STRATUM_NEW_GROUP_RANK_SUPPORT
+
+The original BOP model, state scores and terminal mixed status remain
+untouched. No GPS or biological outcomes were read in this test.
+**This same-source 2026 reference update cannot support the frozen
+new-individual 90%-rank endpoint**, and the route must not be rescued by
+pooling species or reducing the 90% target after source inspection.
+
+The replay validator,
+scripts/validate_bop_v3_v2026_reference_first_result_v1.py,
+checks byte-identical first-result content, the pre-source contract
+digest, exact official source hashes, original species-specific counts,
+the no-GPS restriction and terminal status. Source drift or failure
+will be recorded and **cannot silently change the frozen conclusion**.
+
+
 ## What remains deliberately unopened
 
 Regardless of source gate result, the next ecological endpoint must
