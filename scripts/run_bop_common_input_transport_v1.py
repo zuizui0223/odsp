@@ -161,6 +161,7 @@ def run_world(contract: dict, world: int) -> dict[str, object]:
     # Freeze source-trained predictor, baseline, feature roster and both
     # calibration/validation forecasts *before* drawing target outcomes.
     fixed=freeze_common_input_transport(
+        evidence_role="known_truth_synthetic_only",
         training_BOP_rows=train,
         calibration_Dryad_features=cal,
         validation_Dryad_features=val,
