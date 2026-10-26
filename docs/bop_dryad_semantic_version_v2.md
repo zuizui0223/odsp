@@ -19,6 +19,48 @@ must not be interpreted by itself as a change of biological source.
 The v1 response SHA mismatch and failed workflow remain historical
 evidence. Neither v1 result nor v1 receipt is silently edited.
 
+## Provenance correction: v1 SHA mismatch was copied, not observed source drift
+
+A follow-up audit recovered the **actual first GitHub Actions JSON**
+(artifact 12630760184, ZIP SHA256
+`ddc23a16ea20e51e1c630cdc45b2466af0e421e0745aa282b7bb5331283922cd`,
+original JSON SHA256
+`10181566debf005c51d5a28f6d058a9134fddca33580621d1d9a2ce40b32669e`).
+The raw first Dryad `/versions` response SHA256 recorded there is a valid
+64-digit digest,
+`433835a643d6685935835df2ac3fbb9070d331ff609ffd7f4a623b5083da5c9f`.
+
+By contrast, the subsequently checked-in *semantic copy* omitted nine
+characters, yielding a 55-digit invalid digest. The original later v1
+replay failed when compared against that corrupted value. Once the
+authoritative Actions JSON was restored in a separate, preserved file,
+the live metadata preflight at GitHub Actions run **40278424271**
+returned `EXACT_FIRST_SOURCE_REPLAY`: the official two API source
+response summaries matched the first actual source evidence.
+
+**Correction:** the earlier claim that changed official `/versions`
+response bytes were observed is **not supported by the corrected
+comparison**. The historical failed replay and frozen v2 design
+contract remain unchanged as provenance; the explanation of that
+failure is superseded by this correction. The v2 semantic-version
+method remains valid and useful for future response drift, but it
+must not claim that actual source drift was demonstrated here.
+
+The corrected authoritative raw JSON is now separately archived at
+`research/BOP_DRYAD_V1_ORIGINAL_ACTIONS_ARTIFACT_JSON.json`; the
+historical copy and receipt are retained without editing, and
+`BOP_DRYAD_V1_SOURCE_PROVENANCE_CORRECTION_V2_RECEIPT.json`
+documents the nine-character omission.
+
+At the same CI run, the semantic-version route returned
+`SEMANTIC_METADATA_VERSION_VERIFIED_ONLY`, provider version ID
+**458400**, semantic fingerprint SHA256
+`e94f521659adb2cac99047b052bd34ebc150a11ad4f336244a9c0ffce878e5c6`.
+No GPS file content, animal identities or scores were opened.
+Neither confirmation makes the historical BOP RF directly
+feature-compatible with Dryad.
+
+
 ## Distinct v2 semantic source identity
 
 The new v2 contract was committed before first v2 external response:
