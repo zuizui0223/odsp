@@ -79,6 +79,13 @@ study/population design would need independent confirmation.
    and validation individual gains within the new source**, not on
    equal membership in the original training distribution.
 
+The freeze adapter requires the explicit
+`evidence_role="known_truth_synthetic_only"` declaration and rejects
+attempts to assert actual external Dryad prediction. This declaration
+does not cryptographically prove the data are artificial; it prevents the
+method-benchmark output from being silently promoted as an empirical
+external validation. A separate prospective real-data contract is needed.
+
 The critical scientific distinction is:
 
 > A model can be inaccurate or have negative average transfer gain
@@ -92,10 +99,10 @@ all-individual positivity or population causality.
 ## Separate known-truth, pre-outcome contract
 
 Before opening any simulated target outcomes, we froze:
-\`research/BOP_COMMON_INPUT_TRANSPORT_V1_CONTRACT.json\`.
+`research/BOP_COMMON_INPUT_TRANSPORT_V1_CONTRACT.json`.
 
 - 24 independently seeded synthetic worlds beginning at seed 20261028.
-- Four original BOP taxa, 4 original raw AM SL altitude-state bins,
+- Four original BOP taxa, 4 original raw AMSL altitude-state bins,
   and binary common solar-clock contexts.
 - For each species/world: **20 independent BOP-style training birds,
   39 Dryad-style calibration birds and 30 Dryad-style final validation
@@ -125,22 +132,22 @@ feature, reference or threshold tuning is allowed within this route.
 
 ## Source files and running
 
-- \`odsp/common_input_transport.py\`: exact two-source projections,
+- `odsp/common_input_transport.py`: exact two-source projections,
   date/longitude normalization, preserved original AMSL bins,
   common feature construction and managed learner bridge.
-- \`scripts/run_bop_common_input_transport_v1.py\`: prespecified
+- `scripts/run_bop_common_input_transport_v1.py`: prespecified
   synthetic source-shift and target-only shift experiment.
-- \`tests/test_common_input_transport.py\`: clock/precision boundary,
+- `tests/test_common_input_transport.py`: clock/precision boundary,
   outcome leakage, source-role/stratum and replay regression tests.
-- \`tests/test_bop_common_input_transport_contract.py\`: contract freeze
+- `tests/test_bop_common_input_transport_contract.py`: contract freeze
   and known-truth generator checks.
 
 Commands:
 
-\`\`\`bash
+```bash
 python -m pytest tests/test_common_input_transport.py tests/test_bop_common_input_transport_contract.py
 python scripts/run_bop_common_input_transport_v1.py --out /tmp/bop-common-input-transport-v1.json
-\`\`\`
+```
 
 ## External biological admission remains unresolved
 
