@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-fixed-model-group-transfer-known-truth-v1",
+  "freeze_date": "2026-10-26",
+  "role": "prospective_known_truth_method_benchmark_only",
+  "primary_question": "does a model frozen before calibration and validation score outcomes yield nominal new-independent-individual log-score gain lower coverage?",
+  "frozen_empirical_bop_rodent_terminal": "empirical_state_prediction_mixed",
+  "closed_endpoint_modification": false,
+  "design": {
+    "generator": "four_stratum_multinomial_binary_context_group_level_v1",
+    "seed": 20261026,
+    "replicates": 128,
+    "stratum_labels": [
+      "raptor_A",
+      "raptor_B",
+      "raptor_C",
+      "raptor_D"
+    ],
+    "truth_base_probabilities": [
+      [
+        0.6,
+        0.25,
+        0.1,
+        0.05
+      ],
+      [
+        0.15,
+        0.45,
+        0.3,
+        0.1
+      ],
+      [
+        0.1,
+        0.15,
+        0.35,
+        0.4
+      ],
+      [
+        0.3,
+        0.35,
+        0.2,
+        0.15
+      ]
+    ],
+    "context_class_weight_amplitude": 1.5,
+    "individual_context_heterogeneity_probability": 0.3,
+    "per_stratum_groups": {
+      "train": 20,
+      "calibration": 39,
+      "validation": 80
+    },
+    "events_per_group_min": 8,
+    "events_per_group_max_inclusive": 24,
+    "model": "frozen_table_predictor_fit_on_training_only_by_stratum_and_context_with_additive_smoothing",
+    "comparator": "frozen_training_only_stratum_marginal_with_additive_smoothing",
+    "additive_smoothing": 0.5,
+    "group_strata": "exact stratum, no pooled cross-stratum rank calibration",
+    "validation_scenarios": [
+      "same_process",
+      "shifted_validation_labels_plus_two_mod_four"
+    ],
+    "score": "mean_true_state_log_probability_model_minus_training_only_stratum_reference_per_individual",
+    "miscoverage": 0.1,
+    "rank": "floor((n_cal+1)*alpha)th ascending heldout group mean gain, vacuous when zero",
+    "negative_controls": [
+      "validation_outcomes_not_in_freeze_or_calibration",
+      "duplicate_row_and_group_ID_rejected",
+      "non-overlapping_training_calibration_validation_group_IDs",
+      "wrong_artifact_hash_rejected",
+      "unseen_stratum_fail_closed",
+      "target_outcome_row_coverage_exact"
+    ]
+  },
+  "acceptance": {
+    "per_scenario_validation_group_count": 40960,
+    "same_process_coverage_min": 0.86,
+    "same_process_coverage_max": 0.94,
+    "shifted_validation_coverage_max": 0.8,
+    "all_group_scoring_uses_one_equal_group_vote": true,
+    "return_boolean_success_if_synthetic_prospective_rules_hold": true,
+    "no_empirical_BOP_prospective_coverage_claim": true
+  },
+  "chronology": "contract must be committed before first execution of benchmark results, and first output archived without choosing a new seed or adjusting pass thresholds",
+  "future_real_validation": "requires new independent animals, externally frozen predictor+reference+prediction roster and audited outcome nonaccess; historical BOP folds are not eligible as prospective exchangeable validation"
+}
