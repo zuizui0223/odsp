@@ -47,6 +47,50 @@ Previous evidence and its failing CI are not deleted or reclassified.
    version qualification.** These two diagnostics answer different
    questions and their outcomes are not substituted.
 
+
+## Reconciliation of the real first Actions artifact
+
+A stricter follow-up found a **specific defect in the repository's later
+deidentified semantic copy** of the original first v1 Dryad source result:
+the \`official_metadata_api.versions.sha256\` field contains 55 rather
+than 64 hexadecimal characters. Its value was not a valid SHA256 digest.
+
+We recovered the genuine original GitHub Actions artifact **12630760184**
+from historical workflow 40275944700:
+
+- ZIP SHA256:
+  \`ddc23a16ea20e51e1c630cdc45b2466af0e421e0745aa282b7bb5331283922cd\`.
+- Original JSON content: exactly 3,535 bytes, SHA256:
+  \`10181566debf005c51d5a28f6d058a9134fddca33580621d1d9a2ce40b32669e\`.
+- Its authentic original Dryad versions-response SHA256 is:
+  \`433835a643d6685935835df2ac3fbb9070d331ff609ffd7f4a623b5083da5c9f\`.
+- The historical later semantic copy instead recorded:
+  \`433835a643d6685935835df2ac3c5ff609ffd7f4a623b5083da5c9f\`.
+  This is exactly a nine-character omission; every other parsed JSON
+  field matches the authentic original source artifact.
+
+The first semantic copy and old receipt remain unchanged to preserve
+auditability. We committed a **separate byte-identical original Actions
+source** under
+\`research/BOP_DRYAD_V1_ORIGINAL_ACTIONS_ARTIFACT_JSON.json\`, plus an
+explicit correction receipt,
+\`BOP_DRYAD_V1_SOURCE_PROVENANCE_CORRECTION_V2_RECEIPT.json\`.
+The previous receipt's suggestion that the parsed JSON copy equaled
+the original is **superseded by the correction**, not treated as true.
+
+The live-drift classifier now checks **both** preserved objects:
+it validates the immutable historical semantic copy with the original
+v1 validator, then verifies the separately archived original Actions
+JSON against its authoritative raw SHA256. It refuses other differences
+and compares later live responses **against the recovered original**,
+not against the malformed copied hash.
+
+The original scientific conclusion is unchanged: \`NOT_ADMITTED\`, original
+BOP_RF input fields incompatible, GPS outcomes unopened. Later changes
+in Dryad's raw versions JSON are still source-response drift, not proof of
+a changed dataset version. The existing semantic version v2 remains the
+appropriate independent published-version metadata identity check.
+
 ## Execution
 
 ```bash
