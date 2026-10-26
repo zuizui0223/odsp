@@ -9,6 +9,12 @@ ODSP is **Chapter 2** of the fixed four-chapter programme `niche-to-survey-four-
 
 See [`FOUR_CHAPTER_PROGRAM.md`](FOUR_CHAPTER_PROGRAM.md), [`CHAPTER_CONTRACT.json`](CHAPTER_CONTRACT.json), and [`CHAPTER2_ROADMAP.md`](CHAPTER2_ROADMAP.md).
 
+## Research domain handoff to RSDS — 2026-10-26
+
+**Solar radiation, Sun azimuth, astronomical/civil time, seasonal GPS movement, same-photoperiod comparisons and related ecology now belong in [RSDS](https://github.com/zuizui0223/RSDS).** The complete original-data science migration was validated and merged in [RSDS PR #1](https://github.com/zuizui0223/RSDS/pull/1), with [390 matching original Git blobs](https://github.com/zuizui0223/RSDS/blob/main/provenance/RSDS_TRANSFER_VERIFICATION_20261026.json) and [passing RSDS main CI](https://github.com/zuizui0223/RSDS/actions/runs/40260697816).
+
+This repository remains the primary home for ODSP **methodology**. Earlier solar/time ecology result receipts and PRs remain unchanged here for provenance, not as the destination of future ecological papers or new ecological conclusions. The preregistered external solar-radiation nonreplication is preserved in RSDS.
+
 ## Scientific center
 
 A conventional species-distribution product ultimately collapses support to a horizontal field:
