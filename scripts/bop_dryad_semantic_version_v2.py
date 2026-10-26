@@ -200,6 +200,8 @@ def run_v2(*,contract_path:Path=CONTRACT,fetcher=None)->dict:
         "external_candidate_admitted":False,
         "original_BOP_RF_directly_usable":False,
     }
+    _check_url(c["source"]["api_dataset"])
+    _check_url(c["source"]["api_versions"])
     try:
         d=fetch(c["source"]["api_dataset"],max_bytes=131072)
         v=fetch(c["source"]["api_versions"],max_bytes=131072)
@@ -214,6 +216,7 @@ def run_v2(*,contract_path:Path=CONTRACT,fetcher=None)->dict:
                 "rejected_semantic_field":str(exc)[:140]}
     vid=identity["published_version_id"]
     file_url=f"https://datadryad.org/api/v2/versions/{vid}/files?per_page=100"
+    _check_url(file_url,latest_version_id=vid)
     try:
         file_meta=fetch(file_url,max_bytes=131072,latest_version_id=vid)
     except Exception as exc:
