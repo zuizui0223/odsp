@@ -94,6 +94,43 @@ This is artificial known-truth qualification. The first empirical
 BOP_RODENT endpoint remains 27/30 positive, with mixed terminal status.
 No new independent real bird outcomes are claimed.
 
+
+## First frozen result: managed executable forecast-chain qualification
+
+The first full run of the newly frozen 64-world contract succeeded:
+[GitHub Actions 40268692658](https://github.com/zuizui0223/odsp/actions/runs/40268692658),
+job 121396685682 at head 4085d5b2899e078a08fda138eb303c8ab3894e9f.
+
+- Same-process, one prediction gain per independent simulated tagged animal:
+  **0.89150390625** coverage (9,129/10,240; precommitted pass).
+- Deliberately changed validation-state labels, with the same exact source-trained
+  model and calibrator: **0.1287109375** coverage (1,318/10,240;
+  shifted-coverage failure diagnosed as designed).
+- All five first-run contract checks passed. Exact replay of the managed
+  training-source to model, reference and full calibration/validation
+  probability plan passed before scoring any new individual outcomes.
+- Source contract committed first at
+  df24eeb0e3802bf203287ce47ee89e4f2b3fd91d.
+  First-run JSON artifact: GitHub artifact 12627243315,
+  ZIP SHA256
+  3d8d21731c880e3062de59634a2d96db7b693459ef68efb0262dd8c267e86cbc.
+- The independent scientific receipt is
+  BOP_MANAGED_SOURCE_TO_FORECAST_V1_VALIDATION_RECEIPT.json.
+  Every later run uses
+  scripts/validate_bop_managed_first_result_v1.py to check the
+  frozen Git-blob fingerprint of the contract, same numerical first result,
+  all 64 group-count and replay status rows, and unchanged
+  empirical BOP terminal category. The original external ZIP digest
+  remains the separate evidence of byte-level first-run artifact identity.
+
+**Interpretation:** the missing artifact-to-prediction link is executable
+and validated for the declared transparent categorical learner. This
+does NOT make the historical 30-individual BOP_RF trained fit replayable,
+and does NOT establish future-bird 90% coverage without new independent
+biological calibration and validation animals. It does not introduce a
+new species, altitude bin or biological solar/season inference.
+
+
 ## Test and reproduction
 
 Tests cover actual artifact-to-probability reproduction; equality
