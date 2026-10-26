@@ -108,7 +108,7 @@ def test_historical_first_semantic_copy_cannot_be_silently_substituted():
     wrong["official_metadata_api"]["versions"]["sha256"] = (
         first["official_metadata_api"]["versions"]["sha256"]
     )
-    with pytest.raises(ValueError, match="first-result semantic-copy bytes drifted|truncation"):
+    with pytest.raises(ValueError, match="official Dryad metadata-only replay differs|truncation"):
         _call(first, wrong, receipt, contract, semantic_raw, original_raw)
 
 
