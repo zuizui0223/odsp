@@ -52,6 +52,7 @@ def test_benchmark_and_original_terminal_are_separate():
     assert contract["future_real_validation"].startswith(
         "requires new independent animals"
     )
+    import scripts.run_bop_fixed_model_group_transfer_benchmark as benchmark
     assert "BOP_RODENT_STATE_PREDICTION_TERMINAL_RECEIPT.json" not in (
-        Path(__file__).read_text()
+        Path(benchmark.__file__).read_text(encoding="utf-8")
     )
