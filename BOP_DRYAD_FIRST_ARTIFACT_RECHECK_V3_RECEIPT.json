@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-dryad-v1-artifact-reconciliation-live-recheck-v3",
+  "kind": "post_result_evidence_reconciliation_no_new_empirical_or_confirmatory_claim",
+  "original_first": {
+    "workflow_run_id": 40275944700,
+    "artifact_id": 12630760184,
+    "artifact_zip_sha256": "ddc23a16ea20e51e1c630cdc45b2466af0e421e0745aa282b7bb5331283922cd",
+    "original_json_sha256": "10181566debf005c51d5a28f6d058a9134fddca33580621d1d9a2ce40b32669e",
+    "original_versions_api_response_sha256": "433835a643d6685935835df2ac3fbb9070d331ff609ffd7f4a623b5083da5c9f",
+    "original_version_api_digest_length": 64
+  },
+  "historical_semantic_copy": {
+    "preserved_at": "research/BOP_DRYAD_EXTERNAL_SCHEMA_PREFLIGHT_V1_FIRST_RESULT.json",
+    "original_file_unchanged": true,
+    "incorrect_versions_api_sha256": "433835a643d6685935835df2ac3c5ff609ffd7f4a623b5083da5c9f",
+    "incorrect_digest_length": 55,
+    "omission_hex_character_count": 9,
+    "unique_difference_from_original_parsed_JSON_path": "official_metadata_api.versions.sha256"
+  },
+  "evidence_reconciliation": {
+    "authoritative_bytes_preserved_at": "research/BOP_DRYAD_V1_ORIGINAL_ACTIONS_ARTIFACT_JSON.json",
+    "provenance_correction_receipt": "BOP_DRYAD_V1_SOURCE_PROVENANCE_CORRECTION_V2_RECEIPT.json",
+    "original_first_science_overwritten": false,
+    "observed_raw_api_response_drift_explanation": "historical replay failure compared against malformed semantic copy; no actual raw metadata difference was verified from that failure"
+  },
+  "subsequent_verification": {
+    "workflow_run_id": 40278424271,
+    "separate_live_source_probe": "EXACT_FIRST_SOURCE_REPLAY",
+    "changed_field_paths": [],
+    "original_first_actions_content_sha256_verified": true,
+    "original_semantic_copy_kept_as_historical_evidence": true,
+    "semantic_version_status": "SEMANTIC_METADATA_VERSION_VERIFIED_ONLY",
+    "semantic_published_version_id": 458400,
+    "semantic_fingerprint_sha256": "e94f521659adb2cac99047b052bd34ebc150a11ad4f336244a9c0ffce878e5c6",
+    "authorized_source_access": "Dryad public metadata JSON and frozen small non-GPS sidecar IDs only",
+    "raw_GPS_or_biological_response_rows_opened": false,
+    "small_sidecars_source_status": "HTTP_403_ALL_THREE"
+  },
+  "still_not_supported": {
+    "historical_BOP_RF_direct_external_validation": true,
+    "sample_of_independent_external_tagged_animals": true,
+    "external_model_skill_or_coverage_claim": true,
+    "causal_altitude_or_climate_mechanism": true,
+    "change_to_original_BOP_empirical_state_prediction_mixed": true,
+    "change_to_same_study_2026_NO_WITHIN_STRATUM_NEW_GROUP_RANK_SUPPORT": true
+  }
+}
