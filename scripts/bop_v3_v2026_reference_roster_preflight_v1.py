@@ -217,9 +217,16 @@ def main()->None:
     try:
         report=build_report()
     except (ValueError,OSError,TimeoutError) as exc:
+        message=str(exc)
+        if any(key in message for key in ("reference CSV","missing animal identity","conflicting taxa")):
+            scientific_status="METADATA_SCHEMA_MISMATCH"
+        elif any(key in message for key in ("alias", "correction", "changed species", "unexpected old", "individual counts")):
+            scientific_status="VERSION_IDENTITY_AMBIGUOUS"
+        else:
+            scientific_status="SOURCE_UNAVAILABLE"
         report={
             "contract_id":"bop-v3-v6-reference-only-roster-gate-v1",
-            "scientific_status":"SOURCE_UNAVAILABLE_OR_IDENTITY_HOLD",
+            "scientific_status":scientific_status,
             "failure_class":type(exc).__name__,
             "failure_description":str(exc)[:350],
             "gps_event_data_accessed":False,
