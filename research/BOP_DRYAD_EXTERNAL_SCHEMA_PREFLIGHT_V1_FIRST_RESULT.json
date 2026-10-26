@@ -1,0 +1,90 @@
+{
+  "BOP_2026_same_study_count_gate_reopened": false,
+  "BOP_existing_mixed_terminal_reclassified": false,
+  "candidate_admission": "NOT_ADMITTED",
+  "contract_id": "bop-dryad-2026-external-schema-and-source-preflight-v1",
+  "contract_sha256": "eea45aeafdbde603aabec17ac9f0157b83b62c203352359eba6f7ef64adf2781",
+  "dataset_doi": "10.5061/dryad.n8pk0p398",
+  "documented_common_BOP_taxa_total": 217,
+  "documented_data_1a_individuals": 271,
+  "documented_data_2a_individuals": 162,
+  "documented_species_total": 280,
+  "feature_compatibility": {
+    "data_1a_altitude_semantics": "documented_raw_height_above_MSL_not_height_above_ground",
+    "data_2a_semantics": "in_flight_only_corrected_AMSL_not_directly_exchangeable_with_BOP",
+    "documented_missing_required_features": [
+      "external-temperature"
+    ],
+    "original_RF_rerun_performed": false,
+    "original_bop_rf_direct_external_scoring_admissible": false,
+    "original_required_feature_count": 7,
+    "precision_changed_features": [
+      "location-lat",
+      "location-long"
+    ],
+    "published_total_280_not_independent_external_BOP_units": true,
+    "reason": "required external-temperature absent from documented Data_1a predictors; locations rounded to 0.1 degrees; individual ID crosswalk unverified",
+    "schema_only_not_verified_against_raw_GPS_header": true,
+    "source_column_correspondences": {
+      "external-temperature": "documented_absent",
+      "height-above-msl": "raw_AMSL_data_1a_only_no_outcome_opened",
+      "individual-local-identifier": "identifier_namespace_crosswalk_unknown",
+      "individual-taxon-canonical-name": "documented_taxon",
+      "location-lat": "rounded_coordinates_not_original_precision",
+      "location-long": "rounded_coordinates_not_original_precision",
+      "timestamp": "documented_exact_clock_field"
+    }
+  },
+  "first_public_readme_date": "2026-08-17",
+  "individual_cross_study_identity_overlap_status": "UNKNOWN_NOT_EVALUABLE_WITH_PUBLISHED_COUNTS",
+  "metadata_source_status": "AT_LEAST_ONE_OFFICIAL_SOURCE_READ",
+  "new_model_prospective_freeze_required": true,
+  "official_metadata_api": {
+    "dataset": {
+      "bytes_verified": true,
+      "explicit_provider_license": "https://spdx.org/licenses/CC0-1.0.html",
+      "json_status": "VALID_JSON",
+      "sha256": "2147f78f1d56acc7668fc4fae7390376af9cf29ccdd8ef85ae1bee7416a91d85",
+      "size_bytes": 10113,
+      "status": "SOURCE_READ",
+      "top_level_key_count": 23
+    },
+    "versions": {
+      "bytes_verified": true,
+      "json_status": "VALID_JSON",
+      "sha256": "433835a643d6685935835df2ac3c5ff609ffd7f4a623b5083da5c9f",
+      "size_bytes": 9964,
+      "status": "SOURCE_READ",
+      "top_level_key_count": 4
+    }
+  },
+  "original_BOP_RF_direct_external_transfer_status": "ORIGINAL_RF_PREDICTOR_INCOMPATIBLE",
+  "raw_gps_or_height_outcomes_accessed": false,
+  "schema_version": 1,
+  "small_non_gps_file_checks": {
+    "Complete_succesful_breeding_seasons.csv": {
+      "bytes_verified": false,
+      "error_code": "HTTP_403",
+      "parsed_non_gps": {
+        "status": "UNAVAILABLE"
+      },
+      "status": "SOURCE_HOLD"
+    },
+    "README.md": {
+      "bytes_verified": false,
+      "error_code": "HTTP_403",
+      "parsed_non_gps": {
+        "status": "UNAVAILABLE"
+      },
+      "status": "SOURCE_HOLD"
+    },
+    "Study_areas_bounding_boxes.csv": {
+      "bytes_verified": false,
+      "error_code": "HTTP_403",
+      "parsed_non_gps": {
+        "status": "UNAVAILABLE"
+      },
+      "status": "SOURCE_HOLD"
+    }
+  }
+}
