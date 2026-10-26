@@ -17,9 +17,14 @@ import json
 import re
 from pathlib import Path
 
-from scripts.validate_bop_dryad_external_schema_first_result_v1 import (
-    CONTRACT, FIRST, RECEIPT, validate_dryad_first_result
-)
+if __package__:
+    from .validate_bop_dryad_external_schema_first_result_v1 import (
+        CONTRACT, FIRST, RECEIPT, validate_dryad_first_result
+    )
+else:
+    from validate_bop_dryad_external_schema_first_result_v1 import (
+        CONTRACT, FIRST, RECEIPT, validate_dryad_first_result
+    )
 
 ORIGINAL_FIRST = FIRST.parent / "BOP_DRYAD_V1_ORIGINAL_ACTIONS_ARTIFACT_JSON.json"
 _EXPECTED_CORRUPTED_VERSIONS = "433835a643d6685935835df2ac3c5ff609ffd7f4a623b5083da5c9f"
