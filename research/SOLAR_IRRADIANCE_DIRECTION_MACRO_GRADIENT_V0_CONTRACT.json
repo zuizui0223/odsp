@@ -1,0 +1,50 @@
+{
+  "version": "solar-irradiance-direction-macro-gradient-v0",
+  "freeze_date": "2026-10-26",
+  "stage": "POST_RESULT_EXPLORATORY_MACROECOLOGICAL_SYNTHESIS",
+  "parent": "https://github.com/zuizui0223/odsp/pull/272",
+  "original_inputs": [
+    "research/SOLAR_AZIMUTH_24_SOURCE_MULTI_POPULATION_ERA5_V0_FIRST_ALL_RESULTS_20261025.json",
+    "research/SOLAR_RADIATION_EXTERNAL_24_SOURCE_FIRST_ALL_RESULTS_20261025.json",
+    "research/SOLAR_RADIATION_TWO_24_SOURCE_NONREPLICATION_DIAGNOSTIC_FIRST_RESULT_20261025.json"
+  ],
+  "question": "How does original observed animal travel in relation to solar azimuth and ERA5 shortwave vary along biogeographical climate gradients, and which macro gradients persist within an original taxon/study?",
+  "outcome": "Previously computed within-tagged animal, calendar month x four-hour apparent-solar-time mean effect of +100 W/m2 ERA5 shortwave on cos(GPS travel bearing minus Sun azimuth). Do not re-estimate it.",
+  "fixed_sampling_frame": {
+    "original_studies": 48,
+    "first": 24,
+    "external": 24,
+    "estimable": 20,
+    "unavailable": 28,
+    "original_same_taxon_context_pairs": 14,
+    "original_context_source_studies": 12
+  },
+  "exploratory_macro_axes": [
+    "mean ERA5 shortwave W/m2",
+    "mean ERA5 temperature C",
+    "mean ERA5 wind speed at 100m",
+    "mean cosine(wind-flow-to direction minus Sun azimuth)",
+    "absolute latitude proxy from source 15-degree band midpoint"
+  ],
+  "analysis": {
+    "source_equal_unit": true,
+    "source_environment_averaging": "Equal native taxon x selected 1degree grid x original calendar year context means; one equal unit per source study.",
+    "between_studies": "Spearman source-level rho and source leave-one-out min/max, overall 20 and first/external 10 each, plus 5000 source resampling descriptive percentile intervals.",
+    "within_studies": "Only same native taxon with two original preselected contexts, compute slope(high covariate)-slope(low covariate), average if multiple same-taxon pairs within one source, then aggregate source units.",
+    "missing_effects": "All 28 without shortwave effect are retained with UNAVAILABLE; never zero-impute.",
+    "estimands_posthoc": true,
+    "no_p_value": true,
+    "no_world_population_CI": true,
+    "no_causal_claims": true
+  },
+  "previously_frozen_external_decision_UNCHANGED": "NEGATIVE_DIRECTION_NOT_REPLICATED_IN_HELDOUT_SOURCE_SAMPLE",
+  "limits": [
+    "Gridded ERA5 shortwave is not actual body solar exposure or microhabitat shading.",
+    "Sun altitude, route geometry, season and fine solar clock may confound remaining 4-hour matched effects.",
+    "Study/clade/geography/telemetry source selection nonrandom and severely imbalanced.",
+    "Wind at 100m is not validated flight-altitude wind.",
+    "Within-study source comparisons may reuse individuals and do not represent independent field populations.",
+    "No animal track coordinates, IDs or precise UTC fix timestamps should be redistributed."
+  ],
+  "next_route": "Separate prospective source-frozen physical test: residualize ERA5 shortwave on true solar altitude, local fine solar clock and season within animal/study, model both cos and sin sun-relative travel with wind, and reserve untouched independent source archives."
+}

@@ -1,0 +1,35 @@
+name: Solar irradiance × direction macroecology v0
+on:
+  push:
+    branches:
+      - ecology/solar-irradiance-direction-macro-gradient-v0
+    paths:
+      - 'scripts/analyze_solar_irradiance_direction_macro_gradient_v0.py'
+      - 'tests/test_solar_irradiance_direction_macro_gradient_v0.py'
+      - 'research/SOLAR_IRRADIANCE_DIRECTION_MACRO_GRADIENT_V0_CONTRACT.json'
+      - 'docs/solar_irradiance_direction_macroecology_20261026.md'
+      - '.github/workflows/solar-irradiance-direction-macro-gradient-v0.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  macroecology_fixed_original_sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify archived first-original source integrity and unit cases
+        run: python -m unittest discover -s tests -p 'test_solar_irradiance_direction_macro_gradient_v0.py' -v
+      - name: Calculate 48-original-study macro-climate associations and within-source pairs
+        run: |
+          python -m scripts.analyze_solar_irradiance_direction_macro_gradient_v0 --out outputs/SOLAR_IRRADIANCE_DIRECTION_MACRO_GRADIENT_FIRST_RESULT_20261026.json
+          python -m json.tool outputs/SOLAR_IRRADIANCE_DIRECTION_MACRO_GRADIENT_FIRST_RESULT_20261026.json > /dev/null
+      - name: Archive public summary only, never raw animal telemetry
+        uses: actions/upload-artifact@v4
+        with:
+          name: solar-irradiance-direction-macro-48-original-studies-20261026
+          path: outputs/SOLAR_IRRADIANCE_DIRECTION_MACRO_GRADIENT_FIRST_RESULT_20261026.json
+          if-no-files-found: error
