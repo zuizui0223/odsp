@@ -1,0 +1,67 @@
+{
+  "analysis": "FRANCE_GYPS_2019_2021_GPS_BARO_HDOP_BIRD_LEVEL_QUALITY_DESCRIPTIVE_V1",
+  "date": "2026-10-28",
+  "stage": "POST_OUTCOME_NONCONFIRMATORY_SECONDARY_QUALITY_CHECK",
+  "source": {
+    "original_result_run": 39716885648,
+    "original_artifact_id": 12399538915,
+    "artifact_zip_sha256": "4e73b15038ba45e025f21a2b1bd951d3f063b8dc4148bed8bbdd9473f07f4864",
+    "json_filename": "FRANCE_GYPS_2019_2021_GPS_BARO_DUAL_HEIGHT_RESULT_V1.json",
+    "json_sha256": "02fb090bfb94343a6635f2f0ca5d12bf734fbde1ee9422b18fe57bbde19d2b7d",
+    "no_new_native_GPS_altitude_read": true,
+    "no_new_outcome_search": true
+  },
+  "analysis_construction": {
+    "biological_unit": "27 original D1-scored birds",
+    "quality_aggregation": "median of each bird's previously archived eligible paired-source individual-day HDOP, matched GPS/baro height correlation, absolute centered height mismatch and number of paired fixes; do not select/drop birds by quality",
+    "score": "Original fixed per-bird D1 GPS MSL own-vs-other per-day balanced log-score gain",
+    "association": "Spearman rank correlation between each preexisting bird-level median-quality proxy and original fixed bird-level gain; p-values are unadjusted, descriptive, not mechanism tests",
+    "measurement_quality_coverage": "source paired HDOP and satellite count originated from same tag GPS fix, not an independent sensor calibration"
+  },
+  "descriptive_correlations": [
+    {
+      "predictor": "median within-day GPS–barometric Pearson correlation",
+      "n_birds": 27,
+      "predictor_median": 0.9246010574590888,
+      "Spearman_rho_with_original_GPS_bird_gain": 0.3412698412698412,
+      "unadjusted_spearman_p": 0.08148808987305811
+    },
+    {
+      "predictor": "median within-day GPS–barometric centered absolute height mismatch (m)",
+      "n_birds": 27,
+      "predictor_median": 33,
+      "Spearman_rho_with_original_GPS_bird_gain": 0,
+      "unadjusted_spearman_p": 1
+    },
+    {
+      "predictor": "median native GPS HDOP",
+      "n_birds": 27,
+      "predictor_median": 1.1,
+      "Spearman_rho_with_original_GPS_bird_gain": -0.2726278810960105,
+      "unadjusted_spearman_p": 0.1688804442583728
+    },
+    {
+      "predictor": "median paired native GPS records per bird-day",
+      "n_birds": 27,
+      "predictor_median": 67,
+      "Spearman_rho_with_original_GPS_bird_gain": 0.2372944374793688,
+      "unadjusted_spearman_p": 0.23334410232196354
+    },
+    {
+      "predictor": "number of bird-days with paired measurements",
+      "n_birds": 27,
+      "predictor_median": 222,
+      "Spearman_rho_with_original_GPS_bird_gain": 0.09830560334347413,
+      "unadjusted_spearman_p": 0.6256741820476948
+    }
+  ],
+  "interpretation": {
+    "limited_support": "The original per-bird GPS identity gain does not show a strong simple monotonic correlation with the source's bird-median HDOP or GPS–baro magnitude difference in this small 27-bird descriptive dataset.",
+    "cannot_conclude": [
+      "No sensor artifact exists; quality proxies are imprecise summaries, GPS/barometric estimates may share calibration and terrain/roost contexts.",
+      "No causal influence of HDOP/satellite number has been controlled; this is an unadjusted exploratory association.",
+      "Statistical independence of the 5854 bird-days; the inferential unit is 27 birds only.",
+      "A matched speed/behavioural negative control was performed. The strict low-motion gate is separate and pending native original source processing."
+    ]
+  }
+}
