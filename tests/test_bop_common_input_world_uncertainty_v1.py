@@ -65,7 +65,7 @@ def test_24_independent_world_monte_carlo_uncertainty_and_paired_shift():
 
 
 @pytest.mark.parametrize("change, message", [
-    ("modified_one_world", "world-count trace"),
+    ("modified_one_world", "group-count trace changed"),
     ("duplicated_world_id", "world row"),
     ("wrong_total", "world row"),
     ("added_raw_animal_id", "extra fields"),
