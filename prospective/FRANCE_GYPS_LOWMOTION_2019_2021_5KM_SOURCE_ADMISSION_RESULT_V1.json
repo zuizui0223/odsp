@@ -1,0 +1,29 @@
+{
+  "analysis": "FRANCE_GYPS_LOWMOTION_5KM_OTHER_DAY_SOURCE_GATE_V1",
+  "date": "2026-10-28",
+  "status": "PREHEIGHT_LOW_MOTION_SOURCE_ADMITTED",
+  "original_source_doi": "10.48579/PRO/IOSZNM",
+  "source_ZIP_MD5": "b18cc8004d311d19ff24060f655178bf",
+  "preheight_run": 40535137506,
+  "preheight_artifact_id": 12749366272,
+  "preheight_zip_sha256": "d3cff7dca8fa40f9bf4c4d8ea91bbcb74faea8529428796e9cf63ac0b977f3a0",
+  "preserved_original_5km_28_bird_roster_sha256": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+  "source_nine_2019_2021_GPS_seasons": true,
+  "preselected_native_speed_m_s": [
+    0,
+    1
+  ],
+  "all_source_5min_first_low_motion_events": 1389669,
+  "original_flight_birds": 28,
+  "eligible_low_motion_birds": 28,
+  "eligible_bird_days": 11407,
+  "scorable_5min_lowmotion_fixes": 1005089,
+  "native_GPS_MSL_height_numeric_values_read": false,
+  "native_barometric_height_numeric_values_read": false,
+  "zero_biological_altitude_outcomes_tested": true,
+  "existing_geodesy_test_non_bird_excluded": true,
+  "source_passed_predeclared_min_10_birds": true,
+  "upcoming_study": "Negative-control 5km paired GPS/barometric daily-centred altitude distribution D1 on same source; status exploratory because original flight response known",
+  "no_rescue": "Do not change 0-1m/s speed, source bird IDs, first five-minute rule, 5km grid, height bins, minimum 10 birds, or 999 permutation rules based on low-motion height result.",
+  "caution": "Low speed is not certified ground/perch; a positive result is compatible with ecological place fidelity AND sensor/terrain confounding, not automatic evidence of mere GPS error."
+}
