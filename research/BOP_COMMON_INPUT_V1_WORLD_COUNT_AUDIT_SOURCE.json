@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "role": "POST_RESULT_DESCRIPTIVE_WORLD_LEVEL_MONTE_CARLO_AUDIT_NOT_NEW_PRECOMMITTED_TEST",
+  "source": "original_first_successful_24_world_method_benchmark",
+  "original_bop_terminal": "empirical_state_prediction_mixed",
+  "real_bop_or_dryad_gps_accessed": false,
+  "original_actions": {
+    "workflow_run_id": 40281982238,
+    "artifact_id": 12633395633,
+    "artifact_zip_sha256": "e95e5e35f51b56ac136a8d93870868b4aab553fd6c5c30de78de22db758df993",
+    "original_json_sha256": "2419a3fe9a5646818b7b2d51eff3c2cb89c287522a458e326eb1e1bfdc000758",
+    "first_world_audit_sha256": "f12c03cefceadf2f848c5efae92942ffe507c55e239eafefc4134464f7410f38"
+  },
+  "method": "one_independent_synthetic_world_per_replicate; 120 correlated-on-fitted-model target individuals within each world",
+  "world_count": 24,
+  "nominal_target_coverage": 0.9,
+  "post_result_analysis": "equal-world-weight means, sample SD and Student-t 95% descriptive Monte Carlo CI with df23 and t critical 2.068657610; paired same-minus-shift difference by world",
+  "worlds": [
+    {
+      "world": 0,
+      "n": 120,
+      "same": 117,
+      "shift": 40
+    },
+    {
+      "world": 1,
+      "n": 120,
+      "same": 107,
+      "shift": 30
+    },
+    {
+      "world": 2,
+      "n": 120,
+      "same": 109,
+      "shift": 28
+    },
+    {
+      "world": 3,
+      "n": 120,
+      "same": 110,
+      "shift": 37
+    },
+    {
+      "world": 4,
+      "n": 120,
+      "same": 95,
+      "shift": 24
+    },
+    {
+      "world": 5,
+      "n": 120,
+      "same": 110,
+      "shift": 50
+    },
+    {
+      "world": 6,
+      "n": 120,
+      "same": 109,
+      "shift": 25
+    },
+    {
+      "world": 7,
+      "n": 120,
+      "same": 109,
+      "shift": 22
+    },
+    {
+      "world": 8,
+      "n": 120,
+      "same": 111,
+      "shift": 38
+    },
+    {
+      "world": 9,
+      "n": 120,
+      "same": 110,
+      "shift": 31
+    },
+    {
+      "world": 10,
+      "n": 120,
+      "same": 105,
+      "shift": 26
+    },
+    {
+      "world": 11,
+      "n": 120,
+      "same": 105,
+      "shift": 26
+    },
+    {
+      "world": 12,
+      "n": 120,
+      "same": 111,
+      "shift": 23
+    },
+    {
+      "world": 13,
+      "n": 120,
+      "same": 108,
+      "shift": 37
+    },
+    {
+      "world": 14,
+      "n": 120,
+      "same": 106,
+      "shift": 27
+    },
+    {
+      "world": 15,
+      "n": 120,
+      "same": 112,
+      "shift": 42
+    },
+    {
+      "world": 16,
+      "n": 120,
+      "same": 109,
+      "shift": 27
+    },
+    {
+      "world": 17,
+      "n": 120,
+      "same": 104,
+      "shift": 22
+    },
+    {
+      "world": 18,
+      "n": 120,
+      "same": 107,
+      "shift": 34
+    },
+    {
+      "world": 19,
+      "n": 120,
+      "same": 107,
+      "shift": 38
+    },
+    {
+      "world": 20,
+      "n": 120,
+      "same": 109,
+      "shift": 41
+    },
+    {
+      "world": 21,
+      "n": 120,
+      "same": 118,
+      "shift": 29
+    },
+    {
+      "world": 22,
+      "n": 120,
+      "same": 110,
+      "shift": 33
+    },
+    {
+      "world": 23,
+      "n": 120,
+      "same": 101,
+      "shift": 27
+    }
+  ]
+}
