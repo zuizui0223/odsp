@@ -110,6 +110,14 @@ passed; the first-run summary and archive digests are pinned in
 These are mathematical-method results, not new empirical BOP_RODENT
 outcomes. The original all-individual BOP endpoint remains **mixed**.
 
+## BOP method integration and independent animal admission
+
+ODSP's five linked BOP methodology PRs [#274](https://github.com/zuizui0223/odsp/pull/274)–[#278](https://github.com/zuizui0223/odsp/pull/278) were **merged into main**. Their methods-paper evidence and explicit stopping conditions are collected in [the BOP methodology spine](docs/bop_method_spine_v1.md). They separate historical held-out individual prediction gain, future-group lower prediction bounds, exact trained-model-to-forecast replay, biological source admission and synthetic cross-source input transport.
+
+The new common-input transport example achieved nominal-90% group-bound coverage of **2,599/2,880 (90.24%)** across 24 independently simulated model/calibration worlds, versus **757/2,880 (26.28%)** under deliberate validation-only response shift. An additional *post-result descriptive* uncertainty audit correctly uses **24 model/calibrator worlds**, not 2,880 pseudoreplicated individuals, as its Monte Carlo unit. These are method checks, not new GPS or ecological findings.
+
+For a real external study, **matching software group IDs is insufficient**: the same bird can appear under different provider names or multiple deployments. The [outcome-blind canonical animal identity gate](docs/bop_group_identity_admission_v1.md) checks externally mapped animal identity keys, immutable training/calibration/test group rosters and nonvacuous **within-species** rank support without opening test outcomes. A passed count is not a certification of independence or exchangeability. The historical BOP terminal stays **mixed**, the 2026 within-species new-animal route remains closed, and Dryad remains **NOT_ADMITTED** for direct historic RF external testing.
+
 ## Niche thickness
 
 `odsp.niche_geometry` provides model-agnostic information-theoretic metrics on any non-negative support distribution.
