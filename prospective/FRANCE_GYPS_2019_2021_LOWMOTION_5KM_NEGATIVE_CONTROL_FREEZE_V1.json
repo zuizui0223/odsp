@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-28",
+  "stage": "POST_PRIOR_POSITIVE_EXPLORATORY_NEGATIVE_CONTROL__LOWMOTION_PREHEIGHT_GATE",
+  "hypothesis": "If bird/tag/roost micro-geography alone produces apparent bird identity in daily-centered GPS altitude distributions, low-motion source fixes from the SAME birds at the SAME 5km grain may retain a similar held-out individual identity signal even when flight movement is absent.",
+  "source": {
+    "dataset": "10.48579/PRO/IOSZNM",
+    "filename": "windTurbineAvoidance.zip",
+    "expected_file_md5": "b18cc8004d311d19ff24060f655178bf",
+    "expected_file_size": 1093170227,
+    "source_years": [
+      2019,
+      2020,
+      2021
+    ],
+    "original_source_study": "Eurasian griffon vulture in France (Grands Causses 2018) ID_PROG 961",
+    "original_observed_flight_5km_test_run": 39716885648,
+    "original_positive_flight_results": {
+      "first_source_flight_preheight_run": 39714803696,
+      "corrected_nonbird_source_preheight_run": 39720327589,
+      "corrected_noheight_artifact_id": 12400333253,
+      "corrected_noheight_zip_sha256": "99677b58289e2663bfd1c87f0de661f996be0032ff39973e9725cb32ccb5189b",
+      "frozen_flight_roster_28_sha256": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+      "original_scored_27_birds": 27,
+      "original_scored_fix_events": 364520,
+      "original_Holm_p_GPS": 0.002,
+      "original_Holm_p_BARO": 0.002
+    }
+  },
+  "negative_control_prescreen": {
+    "movement_class": "Native ground-speed 0.0 to 1.0 m/s inclusive. This is a LOW-MOTION PROXY, NOT verified stationary/on-ground state (GPS speed and bird kinematics may include slow flapping, gliding or drift).",
+    "exclude_test_device": "Always exclude source individual-local-identifier 'Test géodésie ornitela' and any other source-provided explicit calibration tag, regardless of speed.",
+    "cohort": "Restrict to the pre-height frozen 5km-eligible flight 28 biological bird IDs. Never select new birds by their low-motion GPS height outcome.",
+    "native_input_fields_only": [
+      "timestamp",
+      "individual-local-identifier",
+      "individual-taxon-canonical-name",
+      "location-long",
+      "location-lat",
+      "ground-speed",
+      "visible",
+      "import-marked-outlier",
+      "tag-local-identifier",
+      "gps:hdop",
+      "gps:satellite-count"
+    ],
+    "years_UTC": [
+      2019,
+      2020,
+      2021
+    ],
+    "date_filter": "All source calendar dates in those years, no restrictions by season or previous flight result; 9 original source GPS CSV files.",
+    "time_thinning": "FIRST native nonheight-qualified low-motion source event per bird/date/UTC 5-minute bin. Never replace first event based on altitude completeness.",
+    "projection": "EPSG:6933",
+    "grid_m": 5000,
+    "horizontal_support": "Within same 5km cell, at least 10 own OTHER UTC date 5min fixes and 10 different bird OTHER UTC date 5min fixes.",
+    "target_day_min_fixes": 50,
+    "min_eligible_target_days_per_bird": 2,
+    "min_eligible_birds": 10,
+    "sensor_quality_metadata": "Report HDOP/satellite native source availability WITHOUT filtering to favorable device quality.",
+    "all_source_motion_contexts": "Do not compare absolute source-level raw altitude gain to prior flight unless sufficient low-motion matched support; small sample differences have no causal meaning.",
+    "expected_outcome": "ONLY ID/day/XY/source-quality support, not altitude mean, distribution, missingness or cross-device residual."
+  },
+  "if_admitted_subsequent_exploratory_test": {
+    "vertical_outcome": "Pair native GPS MSL and barometric height columns on identical low-motion GPS fixes after this gate, same ten daily-centered altitude categories and fixed [−500,7000]m, source paired quality >=80%; no outcome-guided fallback.",
+    "comparison": "Reuse the exact original D1-balanced self-vs-other other-day altitude-shape method, 50 scored native 5min events per day and 2 separate days per bird; 999 whole-date biological bird identity label permutations, min950 valid null per mode.",
+    "sensor_family": "Holm across exactly GPS and barometric height negative-control outcomes; no additional altitude-grid/class threshold exploration.",
+    "interpretation_if_positive": "Similarity under low-motion makes tag/terrain and stationarity opportunity explanations more plausible; does NOT show all flight identity is artifact without matching 5km fine paths and device calibration.",
+    "interpretation_if_nonpositive": "Absence in low-motion does NOT establish genuine flight individuality; speed class, roost opportunity, night-time, sample size and altitude noise differ.",
+    "inferential_category": "POST-OUTCOME EXPLORATORY, not pre-confirmatory replication: high-speed result and bird-ID strengths were opened before this low-motion study was designed."
+  },
+  "no_rescue": [
+    "No changing source GPS years, speed cutoff from 1m/s, 5km grain, minimum days, height bins or original 28 bird names after inspecting low-motion altitude.",
+    "If fewer than 10 low-motion birds pass the preheight same-cell test, report UNAVAILABLE and do not open low-motion height.",
+    "Do not call these cases a true behavioral on-ground control without external acceleration/roost proof.",
+    "Do not count GPS and barometric columns as physically independent measurement devices without source instrument documentation."
+  ]
+}
