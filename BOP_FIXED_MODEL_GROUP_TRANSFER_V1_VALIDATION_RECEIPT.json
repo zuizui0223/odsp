@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-fixed-model-new-group-known-truth-first-green-v1",
+  "role": "prospective_known_truth_methodology_validation_not_empirical_BOP",
+  "frozen_contract_path": "research/BOP_FIXED_MODEL_GROUP_TRANSFER_V1_CONTRACT.json",
+  "frozen_contract_sha256": "f0afd25b55fbc5d5e5584331d683a1559bd2a3fe9c65a06d684236f0a452d75d",
+  "contract_commit_sha": "f5374d7f58893d24d6f771649801f4de37110ad0",
+  "first_successful_execution": {
+    "workflow_run_id": 40265218136,
+    "workflow_job_id": 121386129962,
+    "workflow_head_sha": "ec60b5eb550f14279a1618c3eef23915885d8a2f",
+    "artifact_id": 12626376388,
+    "artifact_name": "bop-fixed-model-knowntruth-v1",
+    "artifact_zip_digest": "sha256:2f577e7e87094b21fd77146de907e782a1014dfa1b555b682fedb1bfb27698fd",
+    "artifact_size_bytes": 11871,
+    "completed_status": "success"
+  },
+  "generator": {
+    "seed": 20261026,
+    "replicates": 128,
+    "stratum_count": 4,
+    "training_groups_per_stratum": 20,
+    "calibration_groups_per_stratum": 39,
+    "validation_groups_per_stratum": 80,
+    "validation_groups_per_scenario": 40960,
+    "score": "one group mean log P_frozen_model(true class) minus log P_training_only_stratum_marginal(true class)"
+  },
+  "first_result": {
+    "same_process_group_coverage": 0.8994384765625,
+    "shifted_validation_labels_plus_two_mod_four_group_coverage": 0.0680908203125,
+    "checks": {
+      "all_groups_one_equal_vote": true,
+      "calibration_and_validation_group_counts": true,
+      "frozen_model_and_calibration": true,
+      "same_process_coverage": true,
+      "shifted_process_detected": true
+    },
+    "passed": true
+  },
+  "scientific_boundary": {
+    "real_BOP_rodent_terminal_recomputed": false,
+    "historical_BOP_terminal": "empirical_state_prediction_mixed",
+    "new_real_BOP_individuals_tested": false,
+    "guaranteed_new_BOP_individual_coverage": false,
+    "interpretation": "Finite-sample group-rank method matches nominal group coverage under synthetic exchangeable group gains with a fixed training-only predictor and correctly fails under severe label shift. No general exchangeability guarantee is claimed for the archived cross-validation BOP animals or external populations."
+  }
+}

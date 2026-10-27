@@ -52,6 +52,42 @@ The prospectively frozen BOP_RODENT public-data endpoint provides a larger multi
 
 This prediction layer does **not** turn ODSP into a new MaxEnt/RF-style occurrence algorithm. Upstream learners can produce state probabilities and ODSP supplies a common ecological-state target, richer prediction output and independent scoring architecture.
 
+## Independent-group predictive gain envelopes
+
+The historical BOP_RODENT 27/30 positive held-out RF log-score gains describe
+performance for **30 tagged individuals**, not 154,655 independent future
+animals. ODSP now exposes a one-sided **new-group gain lower envelope** that uses
+one held-out mean gain per independent group and a finite-sample order
+statistic. For a fixed predictor and exchangeable calibration/future group
+scores, the rank construction has conditional marginal new-group coverage;
+if too few groups exist it deliberately returns a vacuous lower bound.
+
+The read-only archived BOP example gives a *descriptive* 90%-rank lower value
+of -0.026803 for the original pooled-comparator RF gain. Because its folds use
+different models and four species are heterogeneous, **this is not a formal
+90% forecast guarantee** for a future BOP individual; the frozen mixed
+terminal result is unchanged. See
+[method, known-truth tests and archived BOP audit](docs/bop_new_group_gain_envelope_v1.md).
+
+### Fixed-predictor independent-animal validation
+
+The new [fixed-forecast group protocol](docs/bop_fixed_model_group_validation_v1.md)
+locks training/calibration/validation animal rosters, pre-outcome state
+probabilities and the actual fitted-model/reference bytes. It then scores
+one mean held-out log-score gain **per independent individual**, estimates
+a stratified lower transfer-gain bound from calibration individuals only,
+and evaluates that frozen bound on previously unseen validation individuals.
+
+Under the prospectively committed 128-world **known-truth** contract,
+the first execution obtained **89.94%** group-level coverage for
+same-process new animals (nominal 90%), and **6.81%** under a deliberate
+four-state-label distribution shift. Each evaluation used 40,960 simulated
+individual scores; all five frozen acceptance checks passed. Results are
+archived in `BOP_FIXED_MODEL_GROUP_TRANSFER_V1_VALIDATION_RECEIPT.json`.
+This is **synthetic method validation**, not evidence of 90% coverage for
+new real BOP_RODENT birds; the archived BOP terminal outcome remains
+`empirical_state_prediction_mixed`.
+
 ## Niche thickness
 
 `odsp.niche_geometry` provides model-agnostic information-theoretic metrics on any non-negative support distribution.

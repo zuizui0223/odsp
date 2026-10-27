@@ -1,0 +1,38 @@
+name: bop-new-group-gain-envelope
+
+on:
+  pull_request:
+    paths:
+      - "odsp/new_group_gain_envelope.py"
+      - "odsp/__init__.py"
+      - "tests/test_new_group_gain_envelope.py"
+      - "tests/test_bop_new_group_gain_envelope.py"
+      - "scripts/audit_bop_new_group_gain_envelope.py"
+      - "docs/bop_new_group_gain_envelope_v1.md"
+      - "BOP_RODENT_STATE_PREDICTION_TERMINAL_RECEIPT.json"
+      - ".github/workflows/bop-new-group-gain-envelope.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  read-only-method-check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install scientific method dependencies
+        run: python -m pip install -e '.[dev]'
+      - name: Verify group-rank known truth and original BOP receipt
+        run: python -m pytest tests/test_new_group_gain_envelope.py tests/test_bop_new_group_gain_envelope.py
+      - name: Run read-only archived BOP audit
+        run: python scripts/audit_bop_new_group_gain_envelope.py --out "$RUNNER_TEMP/bop-new-group-gain-audit.json"
+      - name: Check standards-compliant audit JSON
+        run: |
+          python -c "import json,os,pathlib; p=pathlib.Path(os.environ['RUNNER_TEMP'])/'bop-new-group-gain-audit.json'; x=json.loads(p.read_text()); assert x['frozen_terminal_category']=='empirical_state_prediction_mixed'; assert x['original_terminal_reclassified'] is False"
