@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse,csv,hashlib,io,json,math,zipfile
 from collections import Counter
+from datetime import date
 from pathlib import Path
 
 from . import france_gyps_2019_dualsensor_identity as original
@@ -94,6 +95,7 @@ def native_lowmotion_first_heights(path,original_flight_roster):
                     stamp=item(row,"timestamp").strip()
                     try:
                         yy=int(stamp[:4]);mm=int(stamp[5:7]);dd=int(stamp[8:10])
+                        date(yy,mm,dd)
                         hh=int(stamp[11:13]);minute=int(stamp[14:16])
                     except (ValueError,TypeError):
                         continue
