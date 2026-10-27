@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "id": "bop-frozen-group-identity-support-gate-v1",
+  "scientific_role": "outcome_blind_identity_and_sample_size_preflight_only",
+  "predecessors": {
+    "core_method": "BOP_METHOD_SPINE_274_TO_278",
+    "historical_bop_result": "empirical_state_prediction_mixed",
+    "same_study_2026_gate": "NO_WITHIN_STRATUM_NEW_GROUP_RANK_SUPPORT",
+    "external_dryad_gate": "NOT_ADMITTED"
+  },
+  "unit": "one canonical biological animal/entity for training, calibration or validation; deployments or fixes cannot create new units",
+  "requires": [
+    "frozen_model_artifact_bytes",
+    "frozen_reference_artifact_bytes",
+    "immutable_FrozenGroupForecastPlan",
+    "one_row_per_group_identity_metadata",
+    "explicit_role_source_label",
+    "canonical_cross_source_biological_entity_key",
+    "stratum",
+    "study_cluster_key",
+    "independence_attestation_role"
+  ],
+  "metadata_allowed_fields": [
+    "group_id",
+    "entity_key",
+    "stratum",
+    "source",
+    "study_cluster"
+  ],
+  "metadata_forbidden": [
+    "outcome",
+    "height",
+    "altitude",
+    "latitude",
+    "longitude",
+    "timestamp",
+    "score",
+    "weight",
+    "gps_fix",
+    "state",
+    "pseudonym_dictionary"
+  ],
+  "source_by_role": {
+    "training": "BOP",
+    "calibration": "DRYAD",
+    "validation": "DRYAD"
+  },
+  "sample_size_rule": "k=floor((n_calibration+1)*miscoverage), k>=1 and n_validation>=1 within same stratum; source-trained model must have at least 2 independent training entities per stratum",
+  "classification": [
+    "HOLD_IDENTITY_EVIDENCE_UNVERIFIED",
+    "HOLD_SOME_STRATA_HAVE_VACUOUS_RANK",
+    "COUNT_GATE_PASSED_EXCHANGEABILITY_NOT_PROVED"
+  ],
+  "identity_attestations": [
+    "synthetic_known_truth",
+    "externally_attested_identity_crosswalk",
+    "unverified"
+  ],
+  "refuse": [
+    "reused_canonical_entity_key_within_or_across_roles",
+    "duplicate_group_id_or_malformed_metadata",
+    "nonmatching_frozen_group_roster",
+    "different_species_for_same_entity",
+    "unexpected_source_role",
+    "changed_model_reference_forecast",
+    "extra_fields_indicating_outcome_leakage"
+  ],
+  "explicit_limits": {
+    "externally_attested_crosswalk_not_independently_verified_by_software": true,
+    "distinct_entity_keys_not_proof_of_biological_independence": true,
+    "different_study_ids_not_proof_of_independent_populations": true,
+    "calibration_validation_context_exchangeability_not_proven": true,
+    "source_shift_not_corrected": true,
+    "can_never_authorize_real_Dryad_GPS_access": true,
+    "original_RF_not_rerun": true,
+    "no_empirical_result_changes": true
+  }
+}
