@@ -48,6 +48,11 @@ from .generalization_profile import (
     GeneralizationProfile,
     generalization_profile_from_probability_field,
 )
+from .group_identity_gate import (
+    IdentityAdmissionGate,
+    StratumIdentitySupport,
+    audit_frozen_group_identity_support,
+)
 from .grouped_handoff import (
     GroupedHandoffPayload,
     build_grouped_n2_to_n3_payload,
@@ -196,6 +201,7 @@ __all__ = [
     "GroupedHandoffPayload",
     "GroupedStatePredictionScore",
     "GroupedTransferabilityResult",
+    "IdentityAdmissionGate",
     "IndependentGroupTransferability",
     "N2ToN3HandoffDecision",
     "N2ToN3Payload",
@@ -206,6 +212,7 @@ __all__ = [
     "PredictionTrustCheck",
     "ProjectionOverlapProfile",
     "SerengetiTerminalReceipt",
+    "StratumIdentitySupport",
     "StateArtifact",
     "StateConformalCalibrator",
     "StatePredictionBenchmarkCell",
@@ -223,6 +230,7 @@ __all__ = [
     "VerticalObservation",
     "altitude_state",
     "assess_n2_to_n3_handoff",
+    "audit_frozen_group_identity_support",
     "axis_thickness_map",
     "base_added_mutual_information",
     "build_grouped_n2_to_n3_payload",
