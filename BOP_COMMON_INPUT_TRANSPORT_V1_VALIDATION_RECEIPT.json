@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-cross-source-common-input-first-knowntruth-v1",
+  "evidence_role": "prospective_synthetic_reference_learner_only_no_real_GPS",
+  "frozen_contract": {
+    "path": "research/BOP_COMMON_INPUT_TRANSPORT_V1_CONTRACT.json",
+    "contract_freeze_commit_sha": "b32eed2503b94cbec0bab21daa4f20f765bb6fe0",
+    "contract_sha256": "4461c8e36f7db394a3c953470e36155f2ed14601bdbfcdd7d771b5ddffbd46ab"
+  },
+  "first_execution": {
+    "workflow_run_id": 40281982238,
+    "workflow_job_id": 121437952233,
+    "first_head_sha": "1e9343bb2089c28a576696bea00cc9b2a7f19699",
+    "artifact_id": 12633395633,
+    "artifact_name": "bop-common-input-v1",
+    "artifact_zip_sha256": "e95e5e35f51b56ac136a8d93870868b4aab553fd6c5c30de78de22db758df993",
+    "original_result_json_sha256": "2419a3fe9a5646818b7b2d51eff3c2cb89c287522a458e326eb1e1bfdc000758",
+    "original_result_json_byte_count": 22614,
+    "original_result_world_audit_sha256": "f12c03cefceadf2f848c5efae92942ffe507c55e239eafefc4134464f7410f38",
+    "test_status": "success",
+    "execution_boundary": "This first artifact precedes an additional explicit synthetic-only caller evidence_role argument. Added later as a fail-closed interface guard; no generator, score, estimand, or pass condition changed."
+  },
+  "design": {
+    "worlds": 24,
+    "stratum_count": 4,
+    "training_animals_per_stratum": 20,
+    "target_calibration_animals_per_stratum": 39,
+    "target_validation_animals_per_stratum": 30,
+    "validation_independent_animals_per_condition": 2880,
+    "target_group_rank_at_nominal_90pct": 4,
+    "model": "training-only species and binary local mean-solar clock table; new learner NOT original BOP RF",
+    "reference": "training-only species marginal"
+  },
+  "first_result": {
+    "stable_target_source_group_coverage": 0.9024305555555555,
+    "validation_only_distribution_shift_group_coverage": 0.26284722222222223,
+    "covered_target_individuals": 2599,
+    "covered_validation_shift_individuals": 757,
+    "checks": {
+      "correct_independent_individual_count": true,
+      "no_original_RF_or_empirical_BOP_reclassification": true,
+      "target_group_coverage_in_range": true,
+      "training_fit_and_external_forecast_frozen": true,
+      "validation_only_shift_detected": true
+    },
+    "passed": true
+  },
+  "scientific_boundary": {
+    "all_results_are_synthetic": true,
+    "real_BOP_GPS_accessed": false,
+    "real_Dryad_GPS_accessed": false,
+    "real_source_individual_crosswalk_verified": false,
+    "real_Dryad_candidate_admitted": false,
+    "original_BOP_RF_direct_external_scoring_validated": false,
+    "original_BOP_terminal": "empirical_state_prediction_mixed",
+    "same_study_v2026_source_gate": "NO_WITHIN_STRATUM_NEW_GROUP_RANK_SUPPORT",
+    "quantitative_claim": "Finite-sample group gain lower bound calibrated on the target source under target-group-score exchangeability, distinct from mean gain or proof of positive skill.",
+    "original_BOP_scientific_results_modified": false
+  }
+}

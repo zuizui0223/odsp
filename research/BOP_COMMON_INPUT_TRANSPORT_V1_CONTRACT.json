@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "id": "bop-common-input-transport-new-individual-v1",
+  "frozen_date": "2026-10-26",
+  "role": "prospective_known_truth_method_validation_only_not_real_BOP_or_Dryad_results",
+  "predecessors": {
+    "original_BOP_contract": "bop-rodent-state-prediction-v1",
+    "closed_BOP_terminal": "empirical_state_prediction_mixed",
+    "BOP_v2026_same_study_source_gate": "NO_WITHIN_STRATUM_NEW_GROUP_RANK_SUPPORT",
+    "Dryad_external_source_gate": "NOT_ADMITTED",
+    "Dryad_original_RF_gate": "ORIGINAL_RF_PREDICTOR_INCOMPATIBLE"
+  },
+  "target": "one-sided rank lower prediction limit for mean four-class log-score gain of a future exchangeable independent target-source individual over training-only species marginal, using a frozen reduced common-feature learner",
+  "source_schema": {
+    "training_source": "BOP",
+    "target_source": "DRYAD",
+    "BOP_required_fields": [
+      "row_id",
+      "individual-local-identifier",
+      "individual-taxon-canonical-name",
+      "timestamp",
+      "location-long",
+      "height-above-msl"
+    ],
+    "DRYAD_required_fields": [
+      "row_id",
+      "individual.global.identifier",
+      "individual.taxon.canonical.name",
+      "timestamp",
+      "location.long.rnd"
+    ],
+    "optional_field": "weight",
+    "prohibit_holdout_fields": [
+      "height.above.msl",
+      "height-above-msl",
+      "outcome",
+      "conditional",
+      "reference",
+      "external-temperature",
+      "ground.speed"
+    ],
+    "timezone": "strict ISO 8601 with explicit UTC offset +00:00 or Z; naive timestamps rejected",
+    "transport_feature": "binary mean solar-clock phase, 1 if 06:00 <= (UTC_hour + longitude/15 mod24) < 18:00, else 0; not astronomical daylight",
+    "longitude_rounding_degrees": 0.1,
+    "max_error_from_rounding_degrees": 0.05,
+    "boundary_exclusion_hours": 0.0033333333333333335,
+    "reject_if_distance_to_06_or_18_boundary_leq_exclusion": true,
+    "no_fitted_temperature_imputation": true,
+    "exclude_latitude_as_direct_predictor": true,
+    "do_not_claim_original_BOP_RF_transfer": true,
+    "altitude_class_labels": [
+      "low_lt50",
+      "lower_mid_50_200",
+      "upper_mid_200_500",
+      "high_ge500"
+    ],
+    "altitude_bin_upper_exclusive": [
+      50,
+      200,
+      500
+    ],
+    "training_altitude_allowed_min": -100,
+    "training_altitude_allowed_max": 5000,
+    "allowed_strata": [
+      "Buteo buteo",
+      "Circus aeruginosus",
+      "Circus cyaneus",
+      "Circus pygargus"
+    ],
+    "group_identity_namespace_only_not_proof_of_biological_independence": true,
+    "prior_external_identity_nonoverlap_verification_required_for_empirical_admission": true
+  },
+  "synthetic_generator": {
+    "worlds": 24,
+    "seed": 20261028,
+    "strata": 4,
+    "group_counts_per_stratum": {
+      "BOP_training": 20,
+      "DRYAD_calibration": 39,
+      "DRYAD_validation": 30
+    },
+    "events_per_group": {
+      "min": 8,
+      "max": 16
+    },
+    "synthetic_groups_independent_across_sources": true,
+    "solar_hour_samples": "hour values from two separated bands 10..14 and 22..02; no ambiguous 06/18 boundary observations",
+    "BOP_longitude_deg": 4.35,
+    "DRYAD_rounded_longitude_deg": 4.3,
+    "BOP_context_amplitude": 1.4,
+    "DRYAD_context_amplitude": 1.1,
+    "four_stratum_base_probabilities": [
+      [
+        0.6,
+        0.25,
+        0.1,
+        0.05
+      ],
+      [
+        0.15,
+        0.45,
+        0.3,
+        0.1
+      ],
+      [
+        0.1,
+        0.15,
+        0.35,
+        0.4
+      ],
+      [
+        0.3,
+        0.35,
+        0.2,
+        0.15
+      ]
+    ],
+    "conditional_truth": "multiply first and last state weights by exp(sign * source_context_amplitude) and exp(-sign * source_context_amplitude), sign +1 for context 1 and -1 for 0, renormalize",
+    "calibration_and_validation_labels_drawn_only_after_forecast_freeze": true,
+    "shifted_validation_condition": "same exact validation labels permuted by +2 modulo four states, without recalibration or model refit",
+    "smoothed_reference_learner": "odsp.managed_group_forecast_v1",
+    "pseudocount": 0.1,
+    "miscoverage": 0.1,
+    "rank_39_cal_groups": 4,
+    "external_source_identity_verified_in_synthetic_only": true
+  },
+  "acceptance": {
+    "expected_validation_groups_each_condition": 2880,
+    "target_source_same_process_coverage_range": [
+      0.84,
+      0.96
+    ],
+    "target_validation_label_shift_coverage_max": 0.8,
+    "sample_units_are_independent_animals_not_rows": true,
+    "training_only_model_and_reference_bytes_replayed": true,
+    "model_reference_hash_and_feature_plan_unchanged_for_both_validation_conditions": true,
+    "source_features_cannot_include_target_outcomes_during_freeze": true,
+    "all_source_claim_boundaries_unchanged": true
+  },
+  "interpretation": {
+    "one_sided_90pct_rank_coverage_conditional_on_group_gain_exchangeability": true,
+    "does_not_certify_positive_model_gain": true,
+    "source_shift_between_training_and_target_does_not_automatically_invalidate_exchangeability_within_target_calibration_and_test": true,
+    "target_calibration_validation_shift_can_destroy_coverage": true,
+    "actual_cross_study_independence_not_verified": true,
+    "actual_Dryad_source_remains_unadmitted": true,
+    "original_BOP_RF_not_rerun": true
+  }
+}

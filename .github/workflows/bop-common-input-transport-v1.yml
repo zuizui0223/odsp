@@ -1,0 +1,67 @@
+name: bop-common-input-transport-v1
+
+on:
+  pull_request:
+    paths:
+      - "odsp/common_input_transport.py"
+      - "scripts/run_bop_common_input_transport_v1.py"
+      - "tests/test_common_input_transport.py"
+      - "tests/test_bop_common_input_transport_contract.py"
+      - "tests/test_bop_common_input_first_result.py"
+      - "tests/test_bop_common_input_world_uncertainty_v1.py"
+      - "tests/test_bop_method_spine_v1.py"
+      - "docs/bop_method_spine_v1.md"
+      - "scripts/audit_bop_common_input_world_uncertainty_v1.py"
+      - "research/BOP_COMMON_INPUT_V1_WORLD_COUNT_AUDIT_SOURCE.json"
+      - "scripts/validate_bop_common_input_first_result_v1.py"
+      - "BOP_COMMON_INPUT_TRANSPORT_V1_VALIDATION_RECEIPT.json"
+      - "research/BOP_COMMON_INPUT_TRANSPORT_V1_CONTRACT.json"
+      - "docs/bop_common_input_transport_v1.md"
+      - ".github/workflows/bop-common-input-transport-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  method-unit-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Verify no outcome leakage, strict input source schema, and frozen contract
+        run: python -m pytest tests/test_common_input_transport.py tests/test_bop_common_input_transport_contract.py tests/test_bop_common_input_first_result.py tests/test_bop_common_input_world_uncertainty_v1.py tests/test_bop_method_spine_v1.py
+
+  frozen-cross-source-known-truth:
+    needs: method-unit-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: python -m pip install -e '.[dev]'
+      - name: Run the first precommitted 24-world cross-source generator
+        run: python scripts/run_bop_common_input_transport_v1.py --out "$RUNNER_TEMP/bop-common-input-v1.json"
+      - name: Compare complete rerun against original frozen 24-world source receipt
+        run: python scripts/validate_bop_common_input_first_result_v1.py --result "$RUNNER_TEMP/bop-common-input-v1.json"
+      - name: Audit Monte Carlo uncertainty at independent 24-world level (post-result descriptive)
+        run: python scripts/audit_bop_common_input_world_uncertainty_v1.py --out "$RUNNER_TEMP/bop-common-input-world-uncertainty-v1.json"
+      - name: Preserve the first run, including scientific failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bop-common-input-v1
+          path: |
+            ${{ runner.temp }}/bop-common-input-v1.json
+            ${{ runner.temp }}/bop-common-input-world-uncertainty-v1.json
+          retention-days: 90
+          if-no-files-found: warn
