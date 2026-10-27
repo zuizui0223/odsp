@@ -1,0 +1,154 @@
+name: French Gyps exploratory low-motion 5km dual GPS/barometric height identity negative control
+
+on:
+  push:
+    branches: [diagnostic/france-gyps-lowmotion-control-20261028]
+    paths:
+      - prospective/FRANCE_GYPS_LOWMOTION_2019_2021_5KM_SOURCE_ADMISSION_RESULT_V1.json
+      - prospective/FRANCE_GYPS_LOWMOTION_DUAL_SENSOR_D1_PREHEIGHT_EXECUTION_CONTRACT_V1.json
+      - prospective/france_gyps_lowmotion_dualsensor_negative_control.py
+      - prospective/test_france_gyps_lowmotion_dualsensor_negative_control.py
+      - .github/workflows/france-gyps-lowmotion-dualheight-real.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  final-synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify source-height separation and original D1 kernel safety
+        env:
+          NUMBA_CACHE_DIR: /tmp/french_gyps_lowmotion_dual_synth
+        run: |
+          set -euo pipefail
+          python -m pip install pytest numpy pyproj numba
+          python -m pytest -q \
+            prospective/test_france_gyps_lowmotion_source_gate.py \
+            prospective/test_france_gyps_lowmotion_dualsensor_negative_control.py \
+            prospective/test_france_gyps_2019_dualsensor_identity.py
+
+  independent-lowmotion-height:
+    needs: final-synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy pyproj numba
+      - name: Load immutable original high-speed preheight cohort, low-motion source gate and positive flight result
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/french_low_motion
+          fetch_artifact() {
+            local id="$1" destination="$2" sum="$3" member="$4" out="$5"
+            curl --http1.1 --fail --silent --show-error --location \
+              --retry 5 --retry-all-errors --retry-delay 5 --max-time 180 \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H 'Accept: application/vnd.github+json' \
+              "https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/$id/zip" \
+              -o "$destination"
+            echo "$sum  $destination" | sha256sum --check
+            unzip -p "$destination" "$member" > "$out"
+          }
+          fetch_artifact \
+            12400333253 build/french_low_motion/original_flight_preheight.zip \
+            99677b58289e2663bfd1c87f0de661f996be0032ff39973e9725cb32ccb5189b \
+            FRANCE_GYPS_2019_2021_XY_INSTRUMENT_SUPPORT_V1.json \
+            build/french_low_motion/original_flight_preheight.json
+          fetch_artifact \
+            12749366272 build/french_low_motion/lowmotion_preheight.zip \
+            d3cff7dca8fa40f9bf4c4d8ea91bbcb74faea8529428796e9cf63ac0b977f3a0 \
+            LOWMOTION_2019_2021_5KM_PREHEIGHT_SUPPORT_V1.json \
+            build/french_low_motion/lowmotion_preheight.json
+          fetch_artifact \
+            12399538915 build/french_low_motion/old_flight_result.zip \
+            4e73b15038ba45e025f21a2b1bd951d3f063b8dc4148bed8bbdd9473f07f4864 \
+            FRANCE_GYPS_2019_2021_GPS_BARO_DUAL_HEIGHT_RESULT_V1.json \
+            build/french_low_motion/old_flight_result.json
+          python - <<'PY'
+          import json
+          a=json.load(open('build/french_low_motion/original_flight_preheight.json'))
+          b=json.load(open('build/french_low_motion/lowmotion_preheight.json'))
+          c=json.load(open('build/french_low_motion/old_flight_result.json'))
+          assert a['numeric_native_GPS_height_values_read'] is False
+          assert a['horizontal_day_eligibility_by_cell_m']['5000']['n_unique_birds_with_qualifying_day_events']==28
+          assert a['horizontal_day_eligibility_by_cell_m']['5000']['source_bird_ID_sha256']=='031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928'
+          assert b['independent_native_height_values_opened'] is False
+          assert b['original_eligible_lowmotion_birds']==28
+          assert b['lowmotion_eligible_bird_days']==11407
+          assert b['admitted_for_separately_frozen_negative_control'] is True
+          assert c['terminal']=='paired_sensor_robust_individual_height_shape'
+          assert c['sensor_results']['GPS']['observed']['eligible_birds']==27
+          assert c['sensor_results']['BAROMETRIC']['observed']['eligible_birds']==27
+          print('Original positive flight result unchanged, 28 low-motion eligible source birds frozen')
+          PY
+      - name: Fetch unchanged original 1.09GB Gyps GPS source and verify checksum
+        run: |
+          set -euo pipefail
+          cd build/french_low_motion
+          curl --http1.1 --fail --silent --show-error --location \
+            --retry 5 --retry-all-errors --retry-delay 8 --max-time 1800 \
+            'https://data.indores.fr/api/access/datafile/5114' \
+            -o windTurbineAvoidance.zip
+          echo 'b18cc8004d311d19ff24060f655178bf  windTurbineAvoidance.zip' | md5sum --check
+          test "$(stat -c %s windTurbineAvoidance.zip)" -eq 1093170227
+      - name: Execute new LOW-MOTION only GPS/baro height negative control with original D1 and 999 permutations
+        env:
+          NUMBA_CACHE_DIR: /tmp/france_gyps_low_motion_scorer
+        run: |
+          set -euo pipefail
+          python -m prospective.france_gyps_lowmotion_dualsensor_negative_control \
+            --source-zip build/french_low_motion/windTurbineAvoidance.zip \
+            --lowmotion-preheight build/french_low_motion/lowmotion_preheight.json \
+            --original-flight-preheight build/french_low_motion/original_flight_preheight.json \
+            --original-flight-result build/french_low_motion/old_flight_result.json \
+            --out build/french_low_motion/results
+      - name: Verify nonconfirmation boundaries and original flight result invariance
+        run: |
+          python - <<'PY'
+          import json
+          p='build/french_low_motion/results/FRANCE_GYPS_LOWMOTION_DUAL_HEIGHT_NEGATIVE_CONTROL_RESULT_V1.json'
+          x=json.load(open(p))
+          assert x['analysis']=='FRANCE_GYPS_2019_2021_LOWMOTION_5KM_GPS_BARO_NEGATIVE_CONTROL_V1'
+          assert x['original_flight_result_left_unchanged'] is True
+          assert x['original_flight_roster_sha']=='031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928'
+          assert x['lowmotion_original_eligibility']['birds']==28
+          assert x['source_zip_md5']=='b18cc8004d311d19ff24060f655178bf'
+          assert x['exploratory_negative_control_not_new_confirmation'] is True
+          assert x['status'] in (
+             'unavailable','exploratory_lowmotion_both_native_heights_support_identity',
+             'exploratory_lowmotion_native_heights_not_both_supported'
+          )
+          if x['status']=='exploratory_lowmotion_both_native_heights_support_identity':
+              assert all(r['terminal']=='supported_own_bird_altitude_shape'
+                         for r in x['sensor_results'].values())
+              assert all(r['calibration']['valid']>=950 for r in x['sensor_results'].values())
+          print(json.dumps({
+              'terminal':x['status'],'reason':x.get('reason'),
+              'paired_quality':x.get('native_low_motion_quality',{}).get('source_firstfix_pair_complete_fraction'),
+              'GPS_scored_birds':x.get('sensor_results',{}).get('GPS',{}).get('observed',{}).get('eligible_birds'),
+              'baro_scored_birds':x.get('sensor_results',{}).get('BAROMETRIC',{}).get('observed',{}).get('eligible_birds'),
+              'GPS_raw_gain':x.get('sensor_results',{}).get('GPS',{}).get('observed',{}).get('mean_gain'),
+              'BARO_raw_gain':x.get('sensor_results',{}).get('BAROMETRIC',{}).get('observed',{}).get('mean_gain'),
+              'GPS_holm':x.get('sensor_results',{}).get('GPS',{}).get('holm_p_upper'),
+              'BARO_holm':x.get('sensor_results',{}).get('BAROMETRIC',{}).get('holm_p_upper')
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: french-gyps-2019-2021-5km-lowmotion-GPS-baro-negative-control-v1
+          path: build/french_low_motion/results/*
+          if-no-files-found: warn
