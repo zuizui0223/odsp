@@ -196,6 +196,70 @@ acceptance conditions. The independent rerun validates this claim
 against the original audit hashes.
 
 
+## Post-result Monte Carlo uncertainty at world level
+
+This precision assessment was **introduced after** the original frozen
+known-truth 24-world PASS was opened. It is a **descriptive numerical
+uncertainty audit**, not a new precommitted hypothesis test, correction to
+the 90% finite-sample group prediction bound, or new evidence from birds.
+
+All 2,880 target animal scores are organized into 24 independent
+synthetic world draws, with **120 animals within each world sharing a
+single source-trained model and target-source calibrator**. That
+dependence makes the naive sample-size-2,880 iid binomial standard error
+inappropriate for a general claim about **refitting the model and
+recalibrating across repeated worlds**.
+
+The original 24-world GitHub Actions artifact was downloaded and
+its ZIP SHA256
+\`e95e5e35f51b56ac136a8d93870868b4aab553fd6c5c30de78de22db758df993\`
+and original JSON SHA256
+\`2419a3fe9a5646818b7b2d51eff3c2cb89c287522a458e326eb1e1bfdc000758\`
+were checked before any precision analysis. Its exact independent-world
+counts were stored, without animal IDs or telemetry observations, as
+\`research/BOP_COMMON_INPUT_V1_WORLD_COUNT_AUDIT_SOURCE.json\`.
+The SHA256 of the canonical 24 records is
+\`5efeb87b3a2ec78f6f59f2939048b6b8e71623e1ff58f340fc4ea40afb68dc38\`.
+
+| 24-world descriptive statistic | Mean | Between-world SD | Monte Carlo SE | Approximate 95% t interval |
+|---|---:|---:|---:|---:|
+| Exchangeable target-source group coverage | 0.90243 | 0.03858 | 0.00788 | **0.88614–0.91872** |
+| Deliberately shifted validation-only coverage | 0.26285 | 0.06173 | 0.01260 | **0.23678–0.28891** |
+| Paired within-world coverage contrast | 0.63958 | 0.05780 | 0.01180 | **0.61518–0.66399** |
+
+Calculated as the equal-world mean ± Student's t critical
+\`t(23, 0.975)=2.068657610419\` multiplied by between-world
+sample SD / square root of 24. This approximation describes uncertainty
+in the **Monte Carlo average coverage over independent simulated
+training/model/calibration worlds**, not individual-fix sampling
+uncertainty, the formal 90% conformal group prediction guarantee,
+conditional-on-a-specific-training-set coverage, or the coverage rate
+of real tagged birds.
+
+World-specific nominal-90% target coverage ranged from **0.79167
+to 0.98333**. Thus even when the marginal group-rank method covers
+about 90% across worlds, **90% coverage for every particular fitted
+model and calibrator is not demonstrated**. The paired shift
+difference is an intentionally engineered negative control; its t
+interval does not constitute a new confirmatory effect-size estimate
+about ecological distribution shift.
+
+For comparison only, treating all 2,880 scores as independent would
+produce a naive binomial SE of **0.00553** for stable coverage and
+**0.00820** for shifted coverage, smaller than the independent-world
+Monte Carlo SEs **0.00788** and **0.01260**, respectively. This
+illustrates why uncertainty units must follow the actual repeated
+training/calibration mechanism.
+
+Executable read-only audit:
+\`scripts/audit_bop_common_input_world_uncertainty_v1.py\`;
+tamper and known-number regression tests:
+\`tests/test_bop_common_input_world_uncertainty_v1.py\`.
+No pretrained model, biological observations, calibration/test group
+membership, prespecified acceptance rule, or frozen original receipt
+was changed.
+
+
 ## External biological admission remains unresolved
 
 Dryad's public API identity, CC0 license and semantic data version are
