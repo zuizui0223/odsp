@@ -9,6 +9,8 @@ on:
       - "tests/test_bop_common_input_transport_contract.py"
       - "tests/test_bop_common_input_first_result.py"
       - "tests/test_bop_common_input_world_uncertainty_v1.py"
+      - "tests/test_bop_method_spine_v1.py"
+      - "docs/bop_method_spine_v1.md"
       - "scripts/audit_bop_common_input_world_uncertainty_v1.py"
       - "research/BOP_COMMON_INPUT_V1_WORLD_COUNT_AUDIT_SOURCE.json"
       - "scripts/validate_bop_common_input_first_result_v1.py"
@@ -35,7 +37,7 @@ jobs:
       - name: Install
         run: python -m pip install -e '.[dev]'
       - name: Verify no outcome leakage, strict input source schema, and frozen contract
-        run: python -m pytest tests/test_common_input_transport.py tests/test_bop_common_input_transport_contract.py tests/test_bop_common_input_first_result.py tests/test_bop_common_input_world_uncertainty_v1.py
+        run: python -m pytest tests/test_common_input_transport.py tests/test_bop_common_input_transport_contract.py tests/test_bop_common_input_first_result.py tests/test_bop_common_input_world_uncertainty_v1.py tests/test_bop_method_spine_v1.py
 
   frozen-cross-source-known-truth:
     needs: method-unit-tests
