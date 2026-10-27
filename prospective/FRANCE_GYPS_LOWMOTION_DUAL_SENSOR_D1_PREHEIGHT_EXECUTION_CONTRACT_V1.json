@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "study": "FRANCE_GYPS_2019_2021_LOWMOTION_DUAL_SENSOR_D1_NEGATIVE_CONTROL_V1",
+  "stage": "FROZEN_WHILE_LOW_SPEED_METADATA_SOURCE_GATE_RUNNING__BEFORE_ANY_LOW_SPEED_HEIGHT_VALUES_OPENED",
+  "scope": "POST_OUTCOME_DIAGNOSTIC__NOT_INDEPENDENT_BIOLOGICAL_REPLICATION",
+  "original_GPS_plus_barometric_flight_result_run": 39716885648,
+  "original_altitude_unaware_bird_roster_SHA256": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+  "original_public_source_MD5": "b18cc8004d311d19ff24060f655178bf",
+  "low_motion_source_gate_run": 40535137506,
+  "no_source_metadata_repeated_outcome_selection": true,
+  "strict_acceptance": "Open GPS + barometric altitude only if separate saved no-height source receipt says admitted_for_separately_frozen_negative_control true, >=10 independent biological birds, correct source IDs SHA, all original 9 seasonal GPS files and MD5.",
+  "lowmotion_source_selection": {
+    "years": [
+      2019,
+      2020,
+      2021
+    ],
+    "native_ground_speed_m_s": [
+      0,
+      1
+    ],
+    "source_UTC_first5min_rule": "Earliest valid bird/source/XY/time speed event per bird/date/5min bin, no later fallback if altitude missing",
+    "horizon": "All original source calendar days, no year or breeding filter",
+    "nonbiological_geodesy_test_excluded": true,
+    "source_birds": "Only preheight 28-bird original 5km flight-eligible names, then the height-unaware low-motion eligible subset",
+    "geodesy_cell_size": "5000m, EPSG:6933",
+    "source_per_cell_support": "at least10 same bird other UTC date 5min events and10 other bird other UTC date events",
+    "source_day_support": ">=50 GPS events/day at same supported 5km cells",
+    "individual_support": ">=2 independently tracked low-motion bird days",
+    "min_birds": 10
+  },
+  "post_qc_d1": {
+    "native_altitude_fields": [
+      "height-above-msl",
+      "bar:barometric-height"
+    ],
+    "native_valid_range_m": [
+      -500,
+      7000
+    ],
+    "joint_complete_fraction_min": 0.8,
+    "within_eligible_bird_day_joint_complete_fraction_min": 0.5,
+    "native_event_identity": "Same source x-y/timestamps for both measurement channels; daily medians computed per sensor over same paired original low-motion records",
+    "ten_centered_height_bins_m": [
+      "-inf",
+      -200,
+      -100,
+      -50,
+      -25,
+      0,
+      25,
+      50,
+      100,
+      200,
+      "inf"
+    ],
+    "scorer": "EXACT ORIGINAL `france_gyps_2019_dualsensor_identity.py` D1-balanced native height source self vs other day heldout bird profiles. No score engine changes.",
+    "target_bird_day_min_native_fixes": 50,
+    "minimum_two_target_days_per_bird": true,
+    "min_birds_scored_each_channel": 10,
+    "null": "999 full bird-day individual-label permutations within exact UTC calendar date, from existing validated `d1.permute_labels` scorer; recompute scoring and eligible units each draw",
+    "null_seed": 20261022,
+    "min_valid_null_draws": 950,
+    "p_upper": "(1+null>=observed+unavailable_null)/1000",
+    "family_correction": "Holm exactly two native height fields, unavailable contributes p=1",
+    "success_requirement": "Both native height modalities have positive observed−null mean and Holm p<.05, with ≥10 unique birds and ≥950 valid null per field",
+    "permitted_unavailable": "Any fixed low-motion source >=10 or height/quality/null gate not satisfied => terminal UNAVAILABLE, no further threshold search."
+  },
+  "cross_mode_quality": {
+    "comparison": "Original flight result remains 27 birds/5205 days/364520 GPS fixes, Holm p=.002 in both modalities; no change to original study. Report overlap of eligible bird IDs and difference in raw gains descriptively only.",
+    "necessary_boundary": "Flight and low-motion differ in path, behavior, time and event opportunity, so a difference between two raw scores is NOT a statistical conditional speed effect.",
+    "no_causal_behavioral_state": "0–1m/s GPS speed does not identify perched/on-ground state without acceleration, so all findings called low-motion control."
+  },
+  "not_claimed": [
+    "Independent ecological test: target source and original flight birds are the same tracking network",
+    "Independent physical GPS/barometric sensors: same tag may calibrate pressure height from GPS",
+    "Ecological absence of flight individuality if low-motion source unavailable",
+    "Full original flight individual signal explained by tag/roost if low-motion source positive"
+  ]
+}
