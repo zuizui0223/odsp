@@ -67,11 +67,11 @@ def test_24_independent_world_monte_carlo_uncertainty_and_paired_shift():
 @pytest.mark.parametrize("change, message", [
     ("modified_one_world", "world-count trace"),
     ("duplicated_world_id", "world row"),
-    ("wrong_total", "world-count trace"),
+    ("wrong_total", "world row"),
     ("added_raw_animal_id", "extra fields"),
     ("changed_first_source", "original first-run provenance"),
     ("shifted_to_empirical", "science"),
-    ("altered_contract", "contract"),
+    ("altered_contract", "frozen first-run science"),
 ])
 def test_tampering_or_empirical_promotion_rejected(change, message):
     source, receipt, contract = _fixture()
