@@ -81,7 +81,7 @@ def test_corrupted_original_flight_positive_cannot_be_reclassified(monkeypatch):
     origin,low,flight,sha=source_mock(birds)
     monkeypatch.setattr(source,"PRESCREEN_ORIGINAL_FLIGHT_BIRD_IDS_SHA",sha)
     flight["terminal"]="not_supported_own_bird_altitude_shape"
-    with pytest.raises(ValueError,match="original"):
+    with pytest.raises(ValueError,match="archived positive flight result"):
         negative.verify_source_gates(low,origin,flight)
 
 
