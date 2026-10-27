@@ -1,0 +1,120 @@
+name: French Gyps low-motion 0–1m/s GPS negative-control x-y-time preheight gate
+
+on:
+  push:
+    branches: [diagnostic/france-gyps-lowmotion-control-20261028]
+    paths:
+      - prospective/FRANCE_GYPS_2019_2021_LOWMOTION_5KM_NEGATIVE_CONTROL_FREEZE_V1.json
+      - prospective/france_gyps_lowmotion_source_gate.py
+      - prospective/test_france_gyps_lowmotion_source_gate.py
+      - .github/workflows/france-gyps-lowmotion-preheight.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify frozen low-motion negative-control source support
+        run: |
+          python -m pip install pytest pyproj
+          python -m pytest -q prospective/test_france_gyps_lowmotion_source_gate.py
+          python - <<'PY'
+          import json
+          x=json.load(open('prospective/FRANCE_GYPS_2019_2021_LOWMOTION_5KM_NEGATIVE_CONTROL_FREEZE_V1.json'))
+          assert x['stage']=='POST_PRIOR_POSITIVE_EXPLORATORY_NEGATIVE_CONTROL__LOWMOTION_PREHEIGHT_GATE'
+          assert x['negative_control_prescreen']['movement_class'].startswith('Native ground-speed 0.0 to 1.0')
+          assert x['source']['original_observed_flight_5km_test_run']==39716885648
+          print('Frozen low-motion source/QC/data identity plan validated')
+          PY
+
+  complete_raw_nonheight_source:
+    needs: synthetic
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pyproj
+      - name: Verify original corrected 28-bird high-speed source population and exclude geodesy test label
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p build/french_gyps_negative
+          curl --http1.1 --fail --location --silent --show-error --retry 5 --retry-all-errors \
+            -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/zuizui0223/odsp/actions/artifacts/12400333253/zip' \
+            -o build/french_gyps_negative/original_noheight_corrected.zip
+          echo '99677b58289e2663bfd1c87f0de661f996be0032ff39973e9725cb32ccb5189b  build/french_gyps_negative/original_noheight_corrected.zip' | sha256sum --check
+          unzip -p build/french_gyps_negative/original_noheight_corrected.zip \
+            FRANCE_GYPS_2019_2021_XY_INSTRUMENT_SUPPORT_V1.json \
+            > build/french_gyps_negative/original_noheight.json
+          python - <<'PY'
+          import json
+          x=json.load(open('build/french_gyps_negative/original_noheight.json'))
+          assert x['source_zip_md5']=='b18cc8004d311d19ff24060f655178bf'
+          assert x['selected_biological_animals']==29
+          assert x['horizontal_day_eligibility_by_cell_m']['5000']['n_unique_birds_with_qualifying_day_events']==28
+          assert x['horizontal_day_eligibility_by_cell_m']['5000']['source_bird_ID_sha256']=='031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928'
+          assert 'Test géodésie ornitela' in x['quarantined_nonbiological_animal_IDs']
+          assert x['numeric_native_GPS_height_values_read'] is False
+          print('SOURCE: 29 real source biological birds, 28 frozen 5km-eligible birds, one geodesy test quarantined')
+          PY
+      - name: Fetch same original 1.09GB native French GPS source with exact source checksum
+        run: |
+          set -euo pipefail
+          cd build/french_gyps_negative
+          curl --http1.1 --fail --location --silent --show-error \
+            --retry 6 --retry-all-errors --retry-delay 8 --max-time 1800 \
+            'https://data.indores.fr/api/access/datafile/5114' \
+            -o windTurbineAvoidance.zip
+          echo 'b18cc8004d311d19ff24060f655178bf  windTurbineAvoidance.zip' | md5sum --check
+          test "$(stat -c %s windTurbineAvoidance.zip)" -eq 1093170227
+      - name: Screen ALL nine 2019-2021 low-speed source seasons with ZERO height inputs
+        run: |
+          set -euo pipefail
+          python -m prospective.france_gyps_lowmotion_source_gate \
+            --source-zip build/french_gyps_negative/windTurbineAvoidance.zip \
+            --flight-preheight build/french_gyps_negative/original_noheight.json \
+            --out build/french_gyps_negative/LOWMOTION_2019_2021_5KM_PREHEIGHT_SUPPORT_V1.json
+      - name: Assert original motion-negative source eligibility and no native altitude outcome
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('build/french_gyps_negative/LOWMOTION_2019_2021_5KM_PREHEIGHT_SUPPORT_V1.json'))
+          assert d['source_MD5']=='b18cc8004d311d19ff24060f655178bf'
+          assert d['original_previous_flight_eligible_bird_roster_sha256']=='031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928'
+          assert d['nine_source_CSV_year_count']=={'2019':3,'2020':3,'2021':3}
+          assert d['independent_native_height_values_opened'] is False
+          assert d['altitude_missingness_used_in_eligibility'] is False
+          assert d['biological_lowmotion_identity_tested'] is False
+          assert d['source_original_flight_eligible_birds']==28
+          assert d['original_eligible_lowmotion_birds']<=28
+          if d['admitted_for_separately_frozen_negative_control']:
+              assert d['original_eligible_lowmotion_birds']>=10
+          print(json.dumps({
+             'preheight_lowmotion_birds':d['original_eligible_lowmotion_birds'],
+             'preheight_lowmotion_bird_days':d['lowmotion_eligible_bird_days'],
+             'preheight_lowmotion_selected_GPS':d['lowmotion_eligible_scored_five_minute_events'],
+             'five_minute_native_lowmotion_total':d['all_source_lowmotion_five_minute_events'],
+             'source_admitted':d['admitted_for_separately_frozen_negative_control'],
+             'lowmotion_raw_native_heights_used':False
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: france-gyps-2019-21-lowmotion-5km-preheight-source-negative-control-v1
+          path: build/french_gyps_negative/LOWMOTION_2019_2021_5KM_PREHEIGHT_SUPPORT_V1.json
+          if-no-files-found: warn
