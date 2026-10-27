@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-dryad-2026-external-schema-and-source-preflight-v1",
+  "frozen_date": "2026-10-26",
+  "role": "outcome_blind_external_source_and_predictor_compatibility_check_only",
+  "dependency": "BOP_V3_V2026_REFERENCE_ONLY_GATE_V1_TERMINAL_RECEIPT.json",
+  "historical_bop_primary_terminal": "empirical_state_prediction_mixed",
+  "candidate": {
+    "doi": "10.5061/dryad.n8pk0p398",
+    "publisher": "Dryad",
+    "title": "Data from: Evaluating the sensitivity of raptors to wind turbine collisions: an integrative approach based on GPS tracking",
+    "published": "2026-08-17",
+    "landing_url": "https://datadryad.org/dataset/doi:10.5061/dryad.n8pk0p398",
+    "api_dataset_url": "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.n8pk0p398",
+    "api_versions_url": "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.n8pk0p398/versions",
+    "expected_files": [
+      {
+        "name": "README.md",
+        "max_download_bytes": 32768,
+        "file_stream_id": 4917192
+      },
+      {
+        "name": "Study_areas_bounding_boxes.csv",
+        "max_download_bytes": 8192,
+        "file_stream_id": 4917158
+      },
+      {
+        "name": "Complete_succesful_breeding_seasons.csv",
+        "max_download_bytes": 32768,
+        "file_stream_id": 4917159
+      },
+      {
+        "name": "Data_1a.csv",
+        "download_allowed": false
+      },
+      {
+        "name": "Data_2a.csv",
+        "download_allowed": false
+      }
+    ],
+    "readme_public_metadata": {
+      "study_areas": 15,
+      "dataset_total_tagged_individuals": 280,
+      "data_1a_distinct_individuals": 271,
+      "data_2a_distinct_individuals": 162,
+      "data_1a_gps_fixes": 3302242,
+      "data_2a_gps_fixes": 7013897,
+      "species_counts": {
+        "Circus pygargus": 101,
+        "Circus cyaneus": 54,
+        "Circus aeruginosus": 31,
+        "Buteo buteo": 31,
+        "Milvus milvus": 61,
+        "Circaetus gallicus": 2
+      },
+      "source_coordinates_rounded_degrees": 0.1
+    }
+  },
+  "dryad_data_1a_documented_columns": [
+    "tag.local.identifier",
+    "timestamp",
+    "location.lat.rnd",
+    "location.long.rnd",
+    "height.above.msl",
+    "height.above.ellipsoid",
+    "ground.speed",
+    "gps.satellite.count",
+    "gps.time.to.fix",
+    "gps.dop",
+    "gps.hdop",
+    "gps.vdop",
+    "gps.pdop",
+    "dtime",
+    "dtime_orig",
+    "doy",
+    "tag.manufacturer.name",
+    "tag.model",
+    "res",
+    "move",
+    "bb_name_2",
+    "individual.global.identifier",
+    "individual.taxon.canonical.name",
+    "individual.sex",
+    "individual.year.1st.depl",
+    "individual.age.1st.depl",
+    "bird_year",
+    "CY",
+    "active_nest",
+    "status_nest_n1",
+    "status_nest_n2",
+    "dist_nest_n1",
+    "dist_nest_n2"
+  ],
+  "dryad_data_2a_semantics": "in_flight_only_corrected_AMSL_not_original_BOP_raw_four_state_target",
+  "frozen_feature_crosswalk": [
+    {
+      "bop": "timestamp",
+      "dryad": "timestamp",
+      "condition": "documented_exact_clock_field"
+    },
+    {
+      "bop": "location-long",
+      "dryad": "location.long.rnd",
+      "condition": "rounded_coordinates_not_original_precision"
+    },
+    {
+      "bop": "location-lat",
+      "dryad": "location.lat.rnd",
+      "condition": "rounded_coordinates_not_original_precision"
+    },
+    {
+      "bop": "external-temperature",
+      "dryad": null,
+      "condition": "required_original_BOP_RF_feature_missing"
+    },
+    {
+      "bop": "height-above-msl",
+      "dryad": "height.above.msl",
+      "condition": "raw_AMSL_data_1a_only_no_outcome_opened"
+    },
+    {
+      "bop": "individual-local-identifier",
+      "dryad": "individual.global.identifier",
+      "condition": "identifier_namespace_crosswalk_unknown"
+    },
+    {
+      "bop": "individual-taxon-canonical-name",
+      "dryad": "individual.taxon.canonical.name",
+      "condition": "documented_taxon"
+    }
+  ],
+  "source_probe": {
+    "allow_http_methods": [
+      "GET"
+    ],
+    "allow_hosts": [
+      "datadryad.org"
+    ],
+    "max_api_response_bytes": 131072,
+    "metadata_only_endpoint_prefixes": [
+      "/api/v2/datasets/",
+      "/api/v2/versions/"
+    ],
+    "allow_small_file_ids": [
+      4917192,
+      4917158,
+      4917159
+    ],
+    "small_file_download_url_prefix": "https://datadryad.org/downloads/file_stream/",
+    "no_large_gps_download": true,
+    "no_location_or_individual_identifiers_in_public_result": true,
+    "no_mirror_substitution_after_failure": true,
+    "record_file_403_as_hold": true,
+    "capture_license_only_if_provider_metadata_explicit": true,
+    "timeout_seconds": 20
+  },
+  "decision": {
+    "original_RF_schema_requires_all_fields": true,
+    "unavailable_required_predictor_automatically_stops_direct_RF_transfer": true,
+    "coarse_coordinates_not_equivalent_to_original_training_precision": true,
+    "metadata_publication_counts_not_group_independence": true,
+    "new_model_if_any_must_be_independent_prospectively_frozen_protocol": true,
+    "no_reclassification_of_archived_BOP_or_closed_2026_version_gate": true,
+    "statuses": [
+      "DIRECT_ORIGINAL_RF_INCOMPATIBLE",
+      "EXTERNAL_SMALL_FILE_SOURCE_HOLD",
+      "EXTERNAL_METADATA_SOURCE_AVAILABLE",
+      "INDIVIDUAL_OVERLAP_UNKNOWN"
+    ]
+  }
+}

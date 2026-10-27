@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "id": "bop-dryad-semantic-version-identity-v2",
+  "frozen_date": "2026-10-26",
+  "role": "post_v1_response_byte_drift_semantic_provenance_correction",
+  "historical_first_result_unchanged": {
+    "source_contract_v1": "bop-dryad-2026-external-schema-and-source-preflight-v1",
+    "original_source_only_run": 40275944700,
+    "first_result_zip_digest": "sha256:ddc23a16ea20e51e1c630cdc45b2466af0e421e0745aa282b7bb5331283922cd",
+    "originally_observed_versions_api_sha256": "433835a643d6685935835df2ac3c5ff609ffd7f4a623b5083da5c9f",
+    "observed_v1_replay_failure": "versions_endpoint_raw_bytes_not_identical",
+    "no_reinterpretation_of_historical_v1_replay_failure": true
+  },
+  "source": {
+    "doi": "doi:10.5061/dryad.n8pk0p398",
+    "expected_publication_date": "2026-08-17",
+    "expected_license": "https://spdx.org/licenses/CC0-1.0.html",
+    "api_dataset": "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.n8pk0p398",
+    "api_versions": "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.n8pk0p398/versions",
+    "file_inventory_endpoint_pattern": "https://datadryad.org/api/v2/versions/{integer_version_id}/files?per_page=100",
+    "expected_file_names": [
+      "README.md",
+      "Study_areas_bounding_boxes.csv",
+      "Complete_succesful_breeding_seasons.csv",
+      "Data_1a.csv",
+      "Data_2a.csv"
+    ],
+    "file_inventory_is_metadata_not_download": true,
+    "allow_only_three_small_json_api_gets": true,
+    "max_response_bytes": 131072,
+    "no_GPS_or_file_stream_access": true,
+    "do_not_retrieve_or_redistribute_individual_ids_or_study_area_coords": true
+  },
+  "semantic_fingerprint": {
+    "included_dataset_fields": [
+      "identifier",
+      "versionNumber",
+      "publicationDate",
+      "license",
+      "curationStatus",
+      "_links.stash:version.href"
+    ],
+    "included_published_versions_fields": [
+      "versionNumber",
+      "publicationDate",
+      "_links.self.href"
+    ],
+    "included_file_inventory_fields": [
+      "path",
+      "size"
+    ],
+    "excluded_mutable_fields": [
+      "lastModificationDate",
+      "downloadCount",
+      "download_count",
+      "accessCount",
+      "_links.download.href",
+      "storageSize",
+      "page",
+      "total",
+      "count",
+      "request_time",
+      "signature",
+      "versionChanges",
+      "changedFields"
+    ],
+    "refuse_arbitrary_or_unpinned_version_selection": true,
+    "require_dataset_current_version_link_equals_last_published_version_link": true,
+    "require_minimal_stable_file_name_roster_to_match_exactly": true
+  },
+  "decision": {
+    "valid_external_schema_direct_original_RF": false,
+    "historical_BOP_status": "empirical_state_prediction_mixed",
+    "same_study_v2026_status": "NO_WITHIN_STRATUM_NEW_GROUP_RANK_SUPPORT",
+    "expected_qualifying_status": "SEMANTIC_METADATA_VERSION_VERIFIED_ONLY",
+    "source_failure_categories": [
+      "API_UNAVAILABLE",
+      "VERSION_METADATA_MISMATCH",
+      "FILE_INVENTORY_UNAVAILABLE",
+      "FILE_INVENTORY_SCHEMA_MISMATCH"
+    ],
+    "no_arbitrary_byte_level_metadata_SHA_as_evidence_of_new_dataset_version": true,
+    "no_external_biological_predicton_or_90pct_group_coverage_claim": true
+  }
+}
