@@ -88,6 +88,28 @@ This is **synthetic method validation**, not evidence of 90% coverage for
 new real BOP_RODENT birds; the archived BOP terminal outcome remains
 `empirical_state_prediction_mixed`.
 
+### Managed provenance for state probability forecasts
+
+The [managed group forecast method](docs/bop_managed_source_to_forecast_v1.md)
+repairs an important limit of hashing model files and caller-supplied
+predictions separately: for its transparent stratum-by-binary-context
+categorical reference learner, ODSP now **fits the model only from
+training-source observations, generates holdout class probabilities
+from the actual model/reference artifact bytes, and replays both**
+before independent calibration or validation outcomes are scored.
+Training rows, individual roles, feature rosters and model artifacts
+are content-bound; group-balanced weighting and cross-role separation
+are validated. This does not assert arbitrary RF artifact execution.
+
+Under a separately frozen 64-world known-truth test, the fully managed
+chain achieved **89.15%** independent-new-group coverage at nominal 90%
+for 10,240 synthetic validation animals, versus **12.87%** under a
+deliberately shifted state distribution. Its five predeclared checks
+passed; the first-run summary and archive digests are pinned in
+`BOP_MANAGED_SOURCE_TO_FORECAST_V1_VALIDATION_RECEIPT.json`.
+These are mathematical-method results, not new empirical BOP_RODENT
+outcomes. The original all-individual BOP endpoint remains **mixed**.
+
 ## Niche thickness
 
 `odsp.niche_geometry` provides model-agnostic information-theoretic metrics on any non-negative support distribution.

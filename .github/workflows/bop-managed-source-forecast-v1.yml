@@ -1,0 +1,58 @@
+name: bop-managed-source-forecast-v1
+
+on:
+  pull_request:
+    paths:
+      - "odsp/managed_group_forecast_v1.py"
+      - "tests/test_managed_group_forecast_v1.py"
+      - "tests/test_bop_managed_source_forecast_v1.py"
+      - "tests/test_bop_managed_first_result_v1.py"
+      - "scripts/validate_bop_managed_first_result_v1.py"
+      - "BOP_MANAGED_SOURCE_TO_FORECAST_V1_VALIDATION_RECEIPT.json"
+      - "scripts/run_bop_managed_source_to_forecast_v1.py"
+      - "research/BOP_MANAGED_SOURCE_TO_FORECAST_V1_CONTRACT.json"
+      - "docs/bop_managed_source_to_forecast_v1.md"
+      - ".github/workflows/bop-managed-source-forecast-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-provenance-and-leakage:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install scientific method
+        run: python -m pip install -e '.[dev]'
+      - name: Check actual training/model/forecast binding and pre-frozen world
+        run: python -m pytest tests/test_managed_group_forecast_v1.py tests/test_bop_managed_source_forecast_v1.py tests/test_bop_managed_first_result_v1.py tests/test_fixed_group_gain_protocol.py
+
+  prospective-known-truth:
+    needs: check-provenance-and-leakage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install scientific method
+        run: python -m pip install -e '.[dev]'
+      - name: Run committed 64-world first-result benchmark
+        run: python scripts/run_bop_managed_source_to_forecast_v1.py --out "$RUNNER_TEMP/bop-managed-v1-first.json"
+      - name: Compare full 64-world rerun with the first frozen outcome
+        run: python scripts/validate_bop_managed_first_result_v1.py --result "$RUNNER_TEMP/bop-managed-v1-first.json"
+      - name: Preserve all first-run outcomes, including failures
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bop-managed-source-forecast-v1-first
+          path: ${{ runner.temp }}/bop-managed-v1-first.json
+          if-no-files-found: warn
+          retention-days: 90

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-managed-training-source-to-forecast-first-result-v1",
+  "date": "2026-10-26",
+  "analysis_role": "prospective_synthetic_methodology_validation_no_real_BOP_reopening",
+  "contract": {
+    "path": "research/BOP_MANAGED_SOURCE_TO_FORECAST_V1_CONTRACT.json",
+    "blob_sha1": "ff8b333a5383358582ade81a9d03250bb7cf73e1",
+    "freeze_commit_sha": "df24eeb0e3802bf203287ce47ee89e4f2b3fd91d"
+  },
+  "first_run": {
+    "workflow_run_id": 40268692658,
+    "job_id": 121396685682,
+    "first_run_head_sha": "4085d5b2899e078a08fda138eb303c8ab3894e9f",
+    "artifact_id": 12627243315,
+    "artifact_name": "bop-managed-source-forecast-v1-first",
+    "artifact_digest": "sha256:3d8d21731c880e3062de59634a2d96db7b693459ef68efb0262dd8c267e86cbc",
+    "artifact_size_bytes": 16198,
+    "status": "success"
+  },
+  "fixed_design": {
+    "world_count": 64,
+    "independent_strata": 4,
+    "train_groups_per_stratum": 20,
+    "calibration_groups_per_stratum": 39,
+    "validation_groups_per_stratum": 40,
+    "calibration_groups_per_world": 156,
+    "validation_groups_per_world": 160,
+    "validation_group_count_per_scenario": 10240
+  },
+  "observed_first_result": {
+    "same_process_coverage": 0.89150390625,
+    "shifted_validation_coverage": 0.1287109375,
+    "same_process_covered_groups": 9129,
+    "shifted_covered_groups": 1318,
+    "checks": {
+      "distribution_shift_detected": true,
+      "empirical_BOP_terminal_unchanged": true,
+      "exchangeable_coverage": true,
+      "group_roster": true,
+      "source_to_model_to_forecast_binding": true
+    },
+    "passed": true
+  },
+  "evidence_boundaries": {
+    "synthetic_known_truth_only": true,
+    "newly_observed_real_birds": 0,
+    "external_data_collected": false,
+    "model_artifact_to_forecast_binding": "deterministic categorical reference learner replayed from exact synthetic source rows",
+    "model_family_not_certified": "historical BOP random forest",
+    "primary_empirical_BOP_frozen_terminal": "empirical_state_prediction_mixed",
+    "historical_empirical_results_modified": false,
+    "real_source_nonaccess_attested": false,
+    "independence_and_exchangeability_verified_for_real_animals": false,
+    "original_fixed_model_method_first_result_unchanged": true
+  }
+}
