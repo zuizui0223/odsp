@@ -1,0 +1,44 @@
+name: France Gyps low-motion GPS/baro negative-control source and height adapter synthetic verification
+
+on:
+  push:
+    branches: [diagnostic/france-gyps-lowmotion-control-20261028]
+    paths:
+      - prospective/france_gyps_lowmotion_dualsensor_negative_control.py
+      - prospective/test_france_gyps_lowmotion_dualsensor_negative_control.py
+      - .github/workflows/france-gyps-lowmotion-dualsensor-synthetic.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify original frozen D1 kernel and low-motion source no-height gates
+        env:
+          NUMBA_CACHE_DIR: /tmp/france-gyps-lowmotion-source-negative
+        run: |
+          set -euo pipefail
+          python -m pip install numpy numba pyproj pytest
+          python -m pytest -q \
+            prospective/test_france_gyps_lowmotion_source_gate.py \
+            prospective/test_france_gyps_lowmotion_dualsensor_negative_control.py \
+            prospective/test_france_gyps_2019_dualsensor_identity.py
+      - name: Verify no new high-speed scientific source endpoint was rewritten
+        run: |
+          python - <<'PY'
+          import json
+          p=json.load(open('prospective/FRANCE_GYPS_2019_2021_LOWMOTION_5KM_NEGATIVE_CONTROL_FREEZE_V1.json'))
+          assert p['source']['original_observed_flight_5km_test_run']==39716885648
+          assert p['negative_control_prescreen']['grid_m']==5000
+          assert p['negative_control_prescreen']['min_eligible_birds']==10
+          assert p['if_admitted_subsequent_exploratory_test']['inferential_category'].startswith('POST-OUTCOME')
+          print('Original positive result preserved; new low-speed control strictly exploratory')
+          PY
