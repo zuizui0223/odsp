@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "analysis": "FRENCH_GYPS_2019_2021_GPS_VS_BARO_5KM_INDIVIDUAL_HEIGHT_SHAPE_V1",
+  "state": "REPRODUCIBLY_SUPPORTED_CROSS_HEIGHT_FIELD_IDENTITY_WITH_UNRESOLVED_DEVICE_DEPENDENCE",
+  "source": {
+    "doi": "10.48579/PRO/IOSZNM",
+    "repository": "data.InDoRES",
+    "native_archive": "windTurbineAvoidance.zip",
+    "native_md5": "b18cc8004d311d19ff24060f655178bf",
+    "years": [
+      2019,
+      2020,
+      2021
+    ],
+    "native_animal_labels": 30,
+    "one_nonanimal_GPS_geodesy_test_label_in_complete_source": true,
+    "no_geodesy_label_in_original_5km_admitted_28": true,
+    "noheight_source_run": 39714803696,
+    "noheight_source_artifact": 12398443408,
+    "original_5km_birds": 28,
+    "original_5km_roster_sha256": "031d6226418cc0291a48d7d4eb44f1cae003df3a411ef3767a5229dbd45b1928",
+    "total_selected_source_flight_5min_events": 742423
+  },
+  "prior_source_overlap": {
+    "source_crosswalk_run": 39922607789,
+    "source_crosswalk_artifact": 12488186760,
+    "prior_positive_gyps_study_ids": [
+      "122120597",
+      "44080734"
+    ],
+    "prior_study_names": [
+      "Griffon vulture - Bardenas Reales",
+      "Scavengers and wild ungulates"
+    ],
+    "france_study_name": "Eurasian griffon vulture in France (Grands Causses 2018) ID_PROG 961",
+    "exact_biological_animal_id_overlap": 0,
+    "exact_source_study_name_matches": 0,
+    "numeric_parent_movebank_study_id_not_verified": true,
+    "physical_tag_overlap_not_verified": true,
+    "interpretation": "Distinct literal source names and bird IDs; not proof of independent biological experiments or sensors."
+  },
+  "original_result": {
+    "gitHub_run": 39716885648,
+    "artifact_id": 12399538915,
+    "artifact_zip_sha256": "4e73b15038ba45e025f21a2b1bd951d3f063b8dc4148bed8bbdd9473f07f4864",
+    "json_sha256": "02fb090bfb94343a6635f2f0ca5d12bf734fbde1ee9422b18fe57bbde19d2b7d",
+    "GPS_999_null_csv_sha256": "a8919aedaef1bb1dcb01b98a5bbcc2946e58a48183e1352d195492819d6328e1",
+    "BAROMETRIC_999_null_csv_sha256": "c6bbf5cd47608712ded599d63df522cedc71f02476d6139627013faa81194e09",
+    "paired_native_height_valid": 742358,
+    "paired_native_height_denominator": 742423,
+    "jointly_valid_fraction": 0.9999124488330776,
+    "initially_5km_eligible_birds": 28,
+    "final_birds": 27,
+    "paired_profiles_bird_days_before_D1_minimum": 5854,
+    "matched_frozen_D1_bird_days": 5205,
+    "matched_D1_5minute_height_fix_events": 364520,
+    "native_height_range_m": [
+      -500,
+      7000
+    ],
+    "GPS": {
+      "raw_balanced_own_vs_other_log_gain_nats_per_fix": 0.04071337079575615,
+      "null_mean": -0.007944019867103894,
+      "observed_minus_null_mean": 0.04865739066286004,
+      "valid_null": 999,
+      "total_null": 999,
+      "p_one_sided": 0.001,
+      "Holm_two_sensor_p": 0.002,
+      "bird_raw_gain_positive": 26
+    },
+    "BAROMETRIC": {
+      "raw_balanced_own_vs_other_log_gain_nats_per_fix": 0.0414526382434786,
+      "null_mean": -0.0071705605756125935,
+      "observed_minus_null_mean": 0.04862319881909119,
+      "valid_null": 999,
+      "total_null": 999,
+      "p_one_sided": 0.001,
+      "Holm_two_sensor_p": 0.002,
+      "bird_raw_gain_positive": 26
+    },
+    "n_positive_in_both_height_fields_same_animal": 26,
+    "recorded_sensor_error_not_excluded": true
+  },
+  "derived_validation_from_existing_immutable_result_only": {
+    "n_birds_both_sensors_27": true,
+    "bird_gain_Pearson_GPS_vs_BARO": 0.9841796494098031,
+    "GPS_minus_BARO_bird_mean_raw_log_gain": -0.0007392674477224514,
+    "GPS_minus_BARO_bird_bootstrap_95pct_4000_draws_seed_20261028": [
+      -0.00245196,
+      0.00090682
+    ],
+    "bird_day_paired_sensor_observations": 5854,
+    "bird_day_valid_height_pair_correlation_count": 5850,
+    "within_bird_day_GPS_vs_BARO_pearson_median": 0.9246388835672021,
+    "within_bird_day_GPS_vs_BARO_pearson_05_95": [
+      0.77606531,
+      0.98120729
+    ],
+    "per_bird_day_median_centered_GPS_MINUS_BARO_absolute_difference_m_median": 33,
+    "per_bird_day_absolute_difference_m_05_95": [
+      13,
+      75
+    ],
+    "GPS_HDOP_bird_day_median": 1.1,
+    "note": "All derived summaries from existing frozen GitHub artifact JSON; no raw GPS height refitting, no outcome-guided sample changes, 4000 bird-bootstrap draws descriptive."
+  },
+  "scientific_boundary": {
+    "supports": "Distinctly named French wild Gyps observational cohort, same native GPS fixes under GPS-MSL and barometric height fields, repeats biologically indexed altitude-use probability shape in 27 birds at 5km, both sensors null/Holm positive.",
+    "does_not_support": [
+      "Physical independence of GPS and barometric altitude: barometric height can be derived or calibrated from GPS in the same tag.",
+      "The vertical flight profile is independent of bird-tag aliasing, fine within-cell path, repeated roost terrain, or background atmosphere.",
+      "The whole source has 30 biological birds: 1 source label is a geodesy test, and only 28 birds pass frozen 5km horizontal gate.",
+      "Individual-specific environmental Wstar/wind reaction, causal atmospheric mechanism or selection/adaptive niche.",
+      "Sensor score correlation r=0.984 is independent proof of two biological replication cohorts; both height fields are on the SAME target fixes."
+    ],
+    "next": "Predeclare a *new exploratory negative control* in same cohort: motion-negative low-speed GPS altitude identity at the same source 5km grain. If stationary/low-motion profiles show comparable identity signal, tag/roost location ambiguity increases. Do not revise already reported flight-height endpoint."
+  }
+}
