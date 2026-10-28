@@ -143,4 +143,3 @@ def test_published_receipt_never_contains_actual_bird_or_transmitter_ids():
     assert "L143451" not in raw
     assert "5325667" not in raw
     assert "study_cluster" not in raw
-    assert "30c0d4fe9eb198328e38f7474279ceef6fa3bf8c" not in raw or True
