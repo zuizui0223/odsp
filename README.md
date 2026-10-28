@@ -127,6 +127,28 @@ submission.** A separate eligible real external-bird study and/or a
 clearly distinct methodological contribution beyond established
 conformal ranks remain substantial scientific gaps.
 
+### Two-source real animal-vs-tag reference audit (no GPS)
+
+A new [reference-only western marsh-harrier source screen](docs/bop_two_marsh_reference_only_preflight_v1_v2.md)
+used **only checksum-pinned 2023 Zenodo animal/tag reference CSVs**, not
+GPS outcomes: MH_WATERLAND has **7 animal IDs but 6 tag IDs** because a
+transmitter was reused between different birds; H_GRONINGEN has **4 animal
+IDs and 4 tag IDs**. Exact cross-study animal-ID-string overlap is zero,
+but this is not a verified biological identity crosswalk. Both individual
+study rosters fall short of 9 independent calibration plus 1 separate
+untouched validation animal, so real external gain inference remains
+**HOLD**, even though the pooled unverified upper bound is 11 birds.
+
+The first preaccess source contract **failed on an unexpected provider
+column name** (original terminal `SOURCE_SCHEMA_HOLD`), and the corrected
+reference parsing is explicitly **post-header descriptive**. The first
+actual source result, provider MD5s, Actions artifact and original
+scientific stops are preserved in
+[`BOP_TWO_MARSH_REFERENCE_ONLY_V1_V2_FIRST_RECEIPT.json`](BOP_TWO_MARSH_REFERENCE_ONLY_V1_V2_FIRST_RECEIPT.json).
+This strengthens the methodological provenance example in the
+[working BOP manuscript](manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md),
+not the evidence for generalization of the historical BOP random forest.
+
 ## BOP method integration and independent animal admission
 
 ODSP's five linked BOP methodology PRs [#274](https://github.com/zuizui0223/odsp/pull/274)–[#278](https://github.com/zuizui0223/odsp/pull/278) were **merged into main**. Their methods-paper evidence and explicit stopping conditions are collected in [the BOP methodology spine](docs/bop_method_spine_v1.md). They separate historical held-out individual prediction gain, future-group lower prediction bounds, exact trained-model-to-forecast replay, biological source admission and synthetic cross-source input transport.

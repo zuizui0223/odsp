@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "contract_id": "bop-two-marsh-reference-schema-observed-v2",
+  "created_after_source_header_access": true,
+  "source_header_first_read": "2026-10-28",
+  "purpose": "retrospective source-only ID and tag reuse audit using published file MD5, not prospective test and no GPS",
+  "v1_contract": "research/BOP_TWO_MARSH_REFERENCE_ONLY_V1_CONTRACT.json",
+  "v1_frozen_before_first_source_header": true,
+  "v1_schema_mismatch": "SOURCE_SCHEMA_HOLD: actual Zenodo reference fields animal-id, animal-taxon, tag-id not in fixed initial animal/species field aliases",
+  "source_csv_required_columns": [
+    "animal-id",
+    "animal-taxon",
+    "tag-id",
+    "alt-project-id"
+  ],
+  "source_study_filters": [
+    "MH_WATERLAND",
+    "H_GRONINGEN"
+  ],
+  "fixed_taxon": "Circus aeruginosus",
+  "only_allowed_zenodo_record_and_filename": {
+    "MH_WATERLAND": {
+      "record_id": 10053583,
+      "filename": "MH_WATERLAND-reference-data.csv",
+      "md5": "b76cc93d9be67b814f1a3be646f84269",
+      "public_count": 7
+    },
+    "H_GRONINGEN": {
+      "record_id": 10053658,
+      "filename": "H_GRONINGEN-reference-data.csv",
+      "md5": "944d7d2488914b1b528b76812dea48f9",
+      "public_count": 4
+    }
+  },
+  "forbidden_reads": [
+    "gps",
+    "height",
+    "temperature",
+    "location",
+    "timestamp",
+    "acceleration",
+    "Data_1a",
+    "Data_2a",
+    "MH_ANTWERPEN-reference-data.csv"
+  ],
+  "no_full_source_IDs_in_public_receipt": true,
+  "no_individual_ID_hashes_in_public_receipt": true,
+  "definitions": {
+    "within_study_unique_individual": "number of unique animal-id values after stripping whitespace",
+    "within_study_unique_tag": "number of unique tag-id values",
+    "same_tag_different_animal": "tag-id maps to >1 distinct animal-id",
+    "cross_study_exact_ID_match": "exact string intersection of animal-id across two sources, cannot detect renamed/aliased animal",
+    "count_only_upper_bound": "sum source unique animal-id counts minus exact string duplicates; potential only; no identity or population exchangeability proof",
+    "within_study_90pct_group_rank_minimum": "9 calibration unique animals plus 1 disjoint untouched validation animal in one species",
+    "interstudy_marginal_coverage": "cannot certify score exchangeability from 2 study clusters"
+  },
+  "policy": {
+    "v1_terminal_irreversible": "SOURCE_SCHEMA_HOLD",
+    "v2_terminal": "REFERENCE_ID_AND_TAG_REUSE_AUDIT_ONLY",
+    "real_external_sample_admitted": false,
+    "preexisting_MH_ANTWERPEN_2026_09_05_already_opened": true,
+    "BOP_2023_historical_terminal": "empirical_state_prediction_mixed",
+    "Schaub_Dryad_original_RF_gate": "ORIGINAL_RF_PREDICTOR_INCOMPATIBLE",
+    "real_future_bird_gain_coverage_asserted": false
+  }
+}

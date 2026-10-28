@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-two-marsh-harrier-archive-reference-only-v1",
+  "frozen_date": "2026-10-28",
+  "scientific_role": "PRE_ACCESS_METADATA_ONLY_SOURCE_ELIGIBILITY_AND_DEDUPLICATION_NOT_GPS_OR_EXTERNAL_VALIDATION",
+  "scope": "two separately archived western marsh harrier populations, not BOP_RODENT RF validation",
+  "fixed_species": "Circus aeruginosus",
+  "target_miscoverage": 0.1,
+  "min_new_calibration_entities_per_stratum": 9,
+  "min_new_untouched_validation_entities_per_stratum": 1,
+  "unit": "one nonduplicated biological individual, never GPS position/tag deployment/year",
+  "fixed_archive_versions": [
+    {
+      "study": "MH_WATERLAND",
+      "doi": "10.5281/zenodo.10053583",
+      "record_id": 10053583,
+      "movebank_study_id": 604806671,
+      "reference_filename": "MH_WATERLAND-reference-data.csv",
+      "reference_md5": "b76cc93d9be67b814f1a3be646f84269",
+      "publicly_reported_species_individuals": 7,
+      "provider_url": "https://zenodo.org/records/10053583"
+    },
+    {
+      "study": "H_GRONINGEN",
+      "doi": "10.5281/zenodo.10053658",
+      "record_id": 10053658,
+      "movebank_study_id": 922263102,
+      "reference_filename": "H_GRONINGEN-reference-data.csv",
+      "reference_md5": "944d7d2488914b1b528b76812dea48f9",
+      "publicly_reported_species_individuals": 4,
+      "provider_url": "https://zenodo.org/records/10053658"
+    }
+  ],
+  "source_access_allowlist": [
+    "https://zenodo.org/records/10053583/files/MH_WATERLAND-reference-data.csv",
+    "https://zenodo.org/records/10053658/files/H_GRONINGEN-reference-data.csv"
+  ],
+  "access_constraints": {
+    "only_allow_exact_two_small_csv_filenames": true,
+    "file_size_cap_bytes_each": 10000,
+    "require_pinned_md5_exact": true,
+    "reject_url_rewrites_to_gps_or_acceleration": true,
+    "no_datapackage_required": true,
+    "no_GPS_event_files": true,
+    "no_altitude_time_location_or_predictor_values": true,
+    "no_raw_animal_tag_or_deployment_names_in_committed_result": true,
+    "do_not_access_existing_historical_MH_ANTWERPEN_GPS_or_ID_roster": true,
+    "do_not_access_original_BOP_2023_GPS": true,
+    "do_not_access_Schaub_Dryad_GPS": true,
+    "no_new_empirical_outcome_access": true
+  },
+  "metadata_schema_policy": {
+    "required_individual_field_candidates": [
+      "individual-local-identifier",
+      "individual-id",
+      "individual.id",
+      "individual_id"
+    ],
+    "required_species_field_candidates": [
+      "individual-taxon-canonical-name",
+      "taxon",
+      "species",
+      "individual.taxon.canonical.name"
+    ],
+    "required_tag_field_candidates": [
+      "tag-local-identifier",
+      "tag-id",
+      "tag.id"
+    ],
+    "allow_csv_other_reference_metadata_fields_but_never_export_values": true,
+    "exclude_empty_individual_IDs": true,
+    "strip_whitespace_before_ID_compare": true,
+    "compare_identical_nonempty_individual_IDs_across_sources_only": true,
+    "identity_aliases_not_proven_by_string_deduplication": true,
+    "deployments_are_not_inference_units": true,
+    "no_assumption_that_two_provider_keys_are_distinct_birds": true
+  },
+  "predefined_results": {
+    "per_study_group_count": "actual distinct reference individual IDs for Circus aeruginosus",
+    "cross_study_exact_ID_overlap": "set intersection by exact identifier string; not adequate crosswalk",
+    "maximum_candidate_distinct_ID_upper_bound": "sum distinct source IDs minus exact string overlaps; still provisional, not independent-animal guarantee",
+    "within_study_count_rank": "k=floor((n+1)*0.1), need at least 9 calibration and 1 untouched group in same inference population",
+    "study_cluster_generalization": "cannot be certified from two study clusters; no study-level finite-sample coverage claim",
+    "policy_for_cross_study_pooled_11": "HOLD_POPULATION_AND_IDENTITY_EXCHANGEABILITY_UNVERIFIED_even_if_count_upper_bound_ge_10",
+    "policy_when_MD5_access_missing": "SOURCE_ACCESS_HOLD_NO_IDENTITY_RESULT",
+    "policy_for_preopened_antwerpen": "excluded_from_candidate_new_untouched_validation_group",
+    "historical_BOP_terminal": "empirical_state_prediction_mixed",
+    "original_BOP_RF_Dryad_incompatibility": "ORIGINAL_RF_PREDICTOR_INCOMPATIBLE"
+  },
+  "do_not_change_past_receipts": true,
+  "claim_ceiling": "official source references can inform an individual count feasibility screen; neither authentic cross-study identity nor exchangeability, eligible GPS states, or future-bird prediction has been established"
+}
