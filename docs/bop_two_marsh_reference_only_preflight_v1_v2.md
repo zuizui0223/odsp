@@ -172,6 +172,16 @@ study clusters**; group-score exchangeability across their distinct
 populations is not established. Nothing is rescued by adding the
 previously opened MH_ANTWERPEN study.
 
+**Whole-study holdout consequence (deterministic count arithmetic):**
+If MH_WATERLAND (7 animals) is the calibration study and H_GRONINGEN
+(4 animals) is untouched, the one-sided 90% rank is
+`floor((7+1) * 0.10) = 0`. Reversing the study roles gives
+`floor((4+1) * 0.10) = 0`. **Both leave-one-study-out
+orientations are vacuous.** This is a necessary-count calculation
+from the MD5-confirmed published reference rosters, not biological
+coverage evidence or a new confirmatory statistical test. No
+individual's altitude or log-score was opened.
+
 The first frozen v1 scientific classification remains
 **`SOURCE_SCHEMA_HOLD`** because of the header mismatch. The v2
 result is explicitly an **after-header, descriptive**
