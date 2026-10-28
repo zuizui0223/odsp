@@ -120,7 +120,7 @@ def test_original_json_bytes_and_metadata_api_sha_are_separate():
 
 def test_manuscript_source_coverage_still_unavailable_after_an_inventory_pass():
     receipt=json.loads(RECEIPT.read_text(encoding="utf-8"))
-    assert receipt["scientific_terminal"]["original_BOP_RF_altitude_validation"] if "original_BOP_RF_altitude_validation" in receipt["scientific_terminal"] else True
+    assert receipt["scientific_terminal"]["no_new_altitude_state_RF_external_transfer_claim"] is True
     assert receipt["scientific_terminal"]["external_real_German_sample_admitted"] is False
     assert receipt["scientific_terminal"]["new_group_gain_calibration_performed"] is False
     assert receipt["scientific_terminal"]["no_breeding_success_outcomes_accessed"] is True
