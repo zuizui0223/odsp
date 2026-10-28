@@ -132,6 +132,61 @@ When either file is inaccessible, redirected unexpectedly, malformed
 or checksum-mismatched, a first-run failure receipt is still retained
 and no count or success is claimed.
 
+## First official MD5-confirmed reference result (2026-10-28)
+
+The first official [GitHub Actions run 40618963940](https://github.com/zuizui0223/odsp/actions/runs/40618963940)
+downloaded exactly the two pinned, small Zenodo reference CSVs, did not
+open any GPS files, and passed the official source-published MD5 checks.
+
+The archived original first JSON has SHA256
+\`dde91e85cc389f18440882f19c461549597f7f5c63d54bac5563d84a118446ad\`
+(2,662 bytes). The first run ZIP artifact is ID **12786202874**,
+SHA256
+\`a5c854089722cb16bcb833ee2a409c4b32a956dfa6834c77de0f42be91fb2bbc\`.
+The first-run result and source hashes are preserved in
+\`BOP_TWO_MARSH_REFERENCE_ONLY_V1_V2_FIRST_RECEIPT.json\`.
+
+| Actual reference-only quantity | MH_WATERLAND | H_GRONINGEN |
+|---|---:|---:|
+| Published-source MD5 verified | YES | YES |
+| Original reference CSV bytes | 2,444 | 1,495 |
+| Reference deployment rows | 7 | 4 |
+| Distinct \`animal-id\` values | **7** | **4** |
+| Distinct \`tag-id\` values | **6** | **4** |
+| Tags reused by distinct animals | **1** | **0** |
+| Per-study ≥9 calibration plus ≥1 untouched bird possible | NO | NO |
+
+Actual source SHA256s are
+\`7c6f8fc45d36bb3b2dd3e9bd0d56fe9598774d33dd464dfb08ceff589980e42f\`
+(WATERLAND) and
+\`ef4fd4dd519effa867b993aa522bb0f1473996ae467a8223ef4dc2cf53432d1b\`
+(GRONINGEN).
+
+Exact animal-ID-string overlap between the two source references:
+**zero**; exact tag-ID-string overlap: **zero**. This is a limited
+literal-string comparison, **not an independently corroborated biological
+identity crosswalk**. The candidate upper bound from these strings is
+11, but no study individually has the 10 target birds needed for
+within-study calibration and untouched validation. These are only **two
+study clusters**; group-score exchangeability across their distinct
+populations is not established. Nothing is rescued by adding the
+previously opened MH_ANTWERPEN study.
+
+The first frozen v1 scientific classification remains
+**\`SOURCE_SCHEMA_HOLD\`** because of the header mismatch. The v2
+result is explicitly an **after-header, descriptive**
+\`REFERENCE_ID_AND_TAG_REUSE_AUDIT_ONLY\` and the future-animal
+inference endpoint remains **HOLD**.
+
+The subsequently added
+\`scripts/verify_bop_two_marsh_first_source_result.py\` reopens only
+the exact MD5-pinned reference CSVs and confirms byte-for-byte
+identity with the first archived output, unchanged original contract
+SHA256s, preserved schema HOLD, unchanged count/overlap and no GPS
+or model response access. It cannot turn the source screen into
+external predictive validation.
+
+
 ## Test and non-duplication policy
 
 \`\`\`bash
