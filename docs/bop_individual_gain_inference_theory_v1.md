@@ -65,6 +65,14 @@ Thus even nine calibration birds require **at least one different future bird** 
 
 ## 3. What this guarantee does and does not entail
 
+**Relation to hierarchical conformal prediction:** Dunn, Wasserman
+& Ramdas (2023) develop distribution-free prediction procedures for
+new observations from hierarchically organized groups. Here the
+scalar response to be covered is **the mean scoring advantage for one
+whole independently sampled animal**, not the altitude state of
+one new GPS record inside that animal. We do not propose or certify a
+hierarchical row-level prediction set or a novel rank theorem.
+
 1. If \(L_\alpha>0\) and the assumptions hold, then \(\Pr(G_{\mathrm{new}}>0\mid\mathcal F)\ge 1-\alpha\) for **one** future animal in that stratum. If \(L_\alpha\le0\), coverage of the lower bound does **not** establish positive gain.
 2. There is **no guarantee that all** future individuals improve, no confidence interval for average population gain, no mean effect-size significance test and no biological causal claim.
 3. Source-trained \(q_{\mathcal F}\) may perform badly on a target-source population yet the rank coverage remains valid **if calibration and future scores are still exchangeable within that target population**. Calibrating on target-source groups is not the same as showing that the predictor itself transfers well.
@@ -111,6 +119,7 @@ The post-result descriptive world-level Monte Carlo audit of the 24-world common
 - An external-study claim would require a *new, pre-outcome frozen* source, documented independent calibration/test animal roster, comparable altitude/state and predictor fields, and explicit score-exchangeability argument. **No new biological or methods benchmark is opened in this technical note.**
 
 ## References for the statistical context (not claims of novel conformal theory)
+- Dunn, R., Wasserman, L. & Ramdas, A. (2023). *Distribution-Free Prediction Sets for Two-Layer Hierarchical Models*. Journal of the American Statistical Association 118, 2491–2502. https://doi.org/10.1080/01621459.2022.2060112
 
 - Angelopoulos, A. N. & Bates, S. (2023). *Conformal Prediction: A Gentle Introduction*. Foundations and Trends in Machine Learning. https://doi.org/10.1561/2200000101
 - Tibshirani, R. J., Barber, R. F., Candès, E. J. & Ramdas, A. (2019). *Conformal Prediction Under Covariate Shift*. NeurIPS 32. https://proceedings.neurips.cc/paper_files/paper/2019/hash/8fb21ee7a2207526da55a679f0332de2-Abstract.html
