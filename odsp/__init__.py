@@ -48,6 +48,12 @@ from .generalization_profile import (
     GeneralizationProfile,
     generalization_profile_from_probability_field,
 )
+from .identity_checked_transport import (
+    FrozenIdentityCheckedTransport,
+    freeze_identity_checked_transport,
+    calibrate_identity_checked_transport,
+    validate_identity_checked_transport,
+)
 from .group_identity_gate import (
     IdentityAdmissionGate,
     StratumIdentitySupport,
@@ -195,6 +201,7 @@ __all__ = [
     "GeneralizationGroupScore",
     "GeneralizationLevelProfile",
     "GeneralizationProfile",
+    "FrozenIdentityCheckedTransport",
     "FrozenGainValidation",
     "FrozenGainCalibration",
     "FrozenGroupForecastPlan",
@@ -238,6 +245,7 @@ __all__ = [
     "build_population_transfer_value_handoff",
     "classify_grouped_temporal_partition_result",
     "calibrate_common_input_transport",
+    "calibrate_identity_checked_transport",
     "calibrate_fixed_group_gain",
     "classify_independent_gains",
     "classify_temporal_partition_result",
@@ -248,6 +256,7 @@ __all__ = [
     "estimate_thickness_from_counts",
     "evaluate_added_axis_evidence",
     "freeze_common_input_transport",
+    "freeze_identity_checked_transport",
     "freeze_fixed_group_forecasts",
     "fit_covariate_state_model",
     "fit_environmental_novelty_model",
@@ -284,6 +293,7 @@ __all__ = [
     "temporal_partition_profile",
     "trusted_state_predictions",
     "validate_common_input_transport",
+    "validate_identity_checked_transport",
     "validate_fixed_group_gain",
     "validate_n2_to_n3_payload",
     "validate_population_transfer_value_handoff",
