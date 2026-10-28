@@ -139,7 +139,7 @@ def test_manuscript_does_not_claim_external_validation_or_novel_rank_theorem():
         "training-only species marginal",
     ):
         assert phrase.lower() in body.lower(),phrase
-    assert "one-sided rank lemma" in note
+    assert "one-sided rank lemma" in note.lower()
     assert "can only make the bound more conservative" in note
     assert "does **not**" in note
     assert "standard_order_statistic_rank_coverage_is_not_new_theorem" in matrix["novelty_and_claim_guardrails"]
