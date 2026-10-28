@@ -44,6 +44,7 @@ def _original_fields():
     o={
         "schema_version":1,
         "contract_id":c["contract_id"],
+        "contract_sha256":"eaa06e023efb403ed215a579ce4c0664ddaa447a01791886566bc3590121af3d",
         "source_role":"OBSERVED_CSV_HEADERS_ONLY_NO_RESPONSES",
         "structural_header_status":"SOURCE_HEADERS_RECORDED_NO_FULL_DATA_ACCESS",
         "scientific_terminal":"HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
