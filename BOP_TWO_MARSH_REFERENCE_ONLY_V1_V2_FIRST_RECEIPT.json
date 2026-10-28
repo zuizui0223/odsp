@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-two-marsh-reference-source-only-first-verified-v1-v2",
+  "role": "first_source_only_reference_csv_outcome_after_v1_header_HOLD",
+  "preaccess_v1": {
+    "frozen_commit": "e13490fa2c2c314e5129a32a7fa7b5f6e31a2897",
+    "contract_path": "research/BOP_TWO_MARSH_REFERENCE_ONLY_V1_CONTRACT.json",
+    "contract_sha256": "8c49e1715388f56b263ebb4f83693e5d480a2947962790341660a1a0b9e57d58",
+    "original_terminal": "SOURCE_SCHEMA_HOLD",
+    "source_schema_reason": "animal-id and animal-taxon columns were not in originally frozen v1 aliases"
+  },
+  "postheader_v2": {
+    "contract_path": "research/BOP_TWO_MARSH_REFERENCE_ONLY_V2_POSTHEADER_CONTRACT.json",
+    "contract_sha256": "3420dc8faffc9aacf688e12ba1e25001d511022baf379ba3bbd1c3baf2a820cf",
+    "header_observed_before_contract": true,
+    "status": "REFERENCE_ID_AND_TAG_REUSE_AUDIT_ONLY",
+    "study_populations_exchangeable": false,
+    "cross_source_identity_authenticity_certified": false,
+    "real_external_sample_admitted": false
+  },
+  "first_official_run": {
+    "workflow_run_id": 40618963940,
+    "workflow_job_id": 122588123105,
+    "artifact_id": 12786202874,
+    "artifact_name": "bop-two-marsh-source-only-first",
+    "artifact_zip_sha256": "a5c854089722cb16bcb833ee2a409c4b32a956dfa6834c77de0f42be91fb2bbc",
+    "artifact_original_json_sha256": "dde91e85cc389f18440882f19c461549597f7f5c63d54bac5563d84a118446ad",
+    "artifact_original_json_bytes": 2662,
+    "official_job_status": "success",
+    "allowed_read_targets": [
+      "https://zenodo.org/records/10053583/files/MH_WATERLAND-reference-data.csv",
+      "https://zenodo.org/records/10053658/files/H_GRONINGEN-reference-data.csv"
+    ],
+    "gps_or_outcome_rows_accessed": false
+  },
+  "first_result": {
+    "MD5_verified_sources": 2,
+    "source_Circus_aeruginosus_individuals": {
+      "MH_WATERLAND": 7,
+      "H_GRONINGEN": 4
+    },
+    "reference_rows": {
+      "MH_WATERLAND": 7,
+      "H_GRONINGEN": 4
+    },
+    "distinct_tags": {
+      "MH_WATERLAND": 6,
+      "H_GRONINGEN": 4
+    },
+    "tags_reused_between_different_animals": {
+      "MH_WATERLAND": 1,
+      "H_GRONINGEN": 0
+    },
+    "max_animals_sharing_a_tag": {
+      "MH_WATERLAND": 2,
+      "H_GRONINGEN": 0
+    },
+    "exact_ID_string_overlap_across_sources": 0,
+    "exact_tag_string_overlap_across_sources": 0,
+    "optimistic_upper_bound_candidate_animals": 11,
+    "any_study_has_10_individuals_for_9_calibration_1_test": false,
+    "two_study_clusters": 2,
+    "pooled_count_alone_certifies_exchangeability": false,
+    "source_sha256": {
+      "MH_WATERLAND": "7c6f8fc45d36bb3b2dd3e9bd0d56fe9598774d33dd464dfb08ceff589980e42f",
+      "H_GRONINGEN": "ef4fd4dd519effa867b993aa522bb0f1473996ae467a8223ef4dc2cf53432d1b"
+    },
+    "source_bytes": {
+      "MH_WATERLAND": 2444,
+      "H_GRONINGEN": 1495
+    },
+    "all_original_sources_MD5_verified": true,
+    "first_V1_terminal": "SOURCE_SCHEMA_HOLD",
+    "V2_terminal": "REFERENCE_ID_AND_TAG_REUSE_AUDIT_ONLY",
+    "real_external_group_gain_terminal": "HOLD_POPULATION_AND_IDENTITY_EXCHANGEABILITY_UNVERIFIED",
+    "no_GPS": true,
+    "no_raw_bird_IDs_or_tag_values_exported": true
+  },
+  "science_guardrails": {
+    "historical_MH_ANTWERPEN_observed_2026_09_05": true,
+    "historical_BOP_terminal": "empirical_state_prediction_mixed",
+    "Schaub_Dryad_original_RF_status": "ORIGINAL_RF_PREDICTOR_INCOMPATIBLE",
+    "new_biological_predictions_scored": false,
+    "v1_result_not_reclassified_after_v2": true,
+    "v2_is_postheader_descriptive_not_prospective_qualification": true
+  }
+}
