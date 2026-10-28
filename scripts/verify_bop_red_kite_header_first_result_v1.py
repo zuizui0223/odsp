@@ -3,9 +3,7 @@
 from __future__ import annotations
 
 import argparse
-import csv
 import hashlib
-import io
 import json
 from pathlib import Path
 
@@ -74,7 +72,8 @@ def verify_first_header_only(obj:dict,receipt:dict,contract:dict,*,raw:bytes|Non
         if (
             field.get("file")!=first_header["filename"]
             or field.get("columns")!=column_names
-            or field.get("header_bytes_only")!=first_header["header_byte_length"]!=len(raw_line)
+            or field.get("header_bytes_only")!=first_header["header_byte_length"]
+            or first_header["header_byte_length"]!=len(raw_line)
             or field.get("header_sha256")!=first_header["header_sha256"]
             or hashlib.sha256(raw_line).hexdigest()!=first_header["header_sha256"]
             or field.get("HTTP_status")!=206
