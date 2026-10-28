@@ -114,6 +114,17 @@ outcomes. The original all-individual BOP endpoint remains **mixed**.
 
 ODSP's five linked BOP methodology PRs [#274](https://github.com/zuizui0223/odsp/pull/274)–[#278](https://github.com/zuizui0223/odsp/pull/278) were **merged into main**. Their methods-paper evidence and explicit stopping conditions are collected in [the BOP methodology spine](docs/bop_method_spine_v1.md). They separate historical held-out individual prediction gain, future-group lower prediction bounds, exact trained-model-to-forecast replay, biological source admission and synthetic cross-source input transport.
 
+The [identity-checked end-to-end source-to-gain chain](docs/bop_identity_checked_transport_integration_v1.md)
+now composes the existing source-trained managed predictor, an exact
+canonical-animal identity crosswalk, nonvacuous target calibration-group
+rank admission, and untouched-group gain validation **in execution order**.
+It replays both the fitted model/forecast probabilities and the identity
+roster before each outcome-consuming step. Unlike simple provider-prefix
+ID comparisons, it also requires the declared training species per
+animal to match the actual fitted training source. This is **synthetic-only
+method integration** and cannot certify real BOP–Dryad bird identity,
+ecological exchangeability or source admission.
+
 The new common-input transport example achieved nominal-90% group-bound coverage of **2,599/2,880 (90.24%)** across 24 independently simulated model/calibration worlds, versus **757/2,880 (26.28%)** under deliberate validation-only response shift. An additional *post-result descriptive* uncertainty audit correctly uses **24 model/calibrator worlds**, not 2,880 pseudoreplicated individuals, as its Monte Carlo unit. These are method checks, not new GPS or ecological findings.
 
 For a real external study, **matching software group IDs is insufficient**: the same bird can appear under different provider names or multiple deployments. The [outcome-blind canonical animal identity gate](docs/bop_group_identity_admission_v1.md) checks externally mapped animal identity keys, immutable training/calibration/test group rosters and nonvacuous **within-species** rank support without opening test outcomes. A passed count is not a certification of independence or exchangeability. The historical BOP terminal stays **mixed**, the 2026 within-species new-animal route remains closed, and Dryad remains **NOT_ADMITTED** for direct historic RF external testing.
