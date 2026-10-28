@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-red-kite-zenodo-source-metadata-first-success-v1",
+  "role": "OFFICIAL_ZENODO_METADATA_ONLY_NOT_CSV_CONTENT_NOT_EXTERNAL_PREDICTIVE_INFERENCE",
+  "source_contract": {
+    "path": "research/BOP_RED_KITE_SOURCE_INVENTORY_V1_CONTRACT.json",
+    "original_frozen_commit": "8f12d441ab2ee1cb826838a7a65fc52df6d88a12",
+    "original_source_allowed": "https://zenodo.org/api/records/13736049",
+    "filename_md5s_predeclared_before_provider_API": true
+  },
+  "initial_verified_actions": {
+    "workflow_run_id": 40636304599,
+    "workflow_artifact_id": 12792739938,
+    "original_zip_sha256": "109fe897235724db921f0c1cdcbbec7c2f504dc501e0e4dc2126a92dc62bd966",
+    "first_result_filename": "red-kite-inventory-first.json",
+    "first_result_sha256": "9f7de00fa42ccbb5ac68924fdf121e271882629a1c7730b598b24f82d1b19ebe",
+    "first_result_bytes": 2403,
+    "raw_official_metadata_sha256": "15938986f1966543b22722f38ff0d4e7c95134bbc6c157d691ef129eef2f0b46",
+    "dedicated_source_run_completed_successfully": true
+  },
+  "source_manifest_observation": {
+    "source_doi": "10.5281/zenodo.13736049",
+    "source_record_id": 13736049,
+    "provider_license_id": "cc-by-4.0",
+    "manifest_version_string": "UNDECLARED",
+    "published": true,
+    "source_file_count": 6,
+    "total_manifest_bytes": 326617369,
+    "source_file_manifest_values_not_checksum_of_downloaded_CSV_bytes": true,
+    "manifest": [
+      {
+        "key": "GER_indseasondata.csv",
+        "md5": "bdf5445971195ca8cc27760d242b1563",
+        "bytes": 6456
+      },
+      {
+        "key": "GER_trackingdata.csv",
+        "md5": "ec5dd057fc6d704a09f15bbbffe00129",
+        "bytes": 53471439
+      },
+      {
+        "key": "NestTool-1.0.0.zip",
+        "md5": "b172b87191f00f221e9d0151c61d65a6",
+        "bytes": 6578763
+      },
+      {
+        "key": "NestTool_archived_full_analysis.r",
+        "md5": "f3878bd76bd851d0ea048950ee84e8f9",
+        "bytes": 26930
+      },
+      {
+        "key": "SUI_indseasondata.csv",
+        "md5": "91394907a2d036e3dbacf5cd4f70475b",
+        "bytes": 117327
+      },
+      {
+        "key": "SUI_trackingdata.csv",
+        "md5": "f654300e9a77b8dc41221f44d468ea2c",
+        "bytes": 266416454
+      }
+    ]
+  },
+  "scientific_terminal": {
+    "inventory": "SOURCE_FILE_INVENTORY_VERIFIED_ONLY",
+    "biological": "HOLD_NEW_NEST_STATE_TARGET_AND_AUTHENTIC_GROUP_ROSTER_NOT_YET_FROZEN",
+    "historical_BOP": "empirical_state_prediction_mixed",
+    "historical_Dryad_original_RF": "NOT_ADMITTED",
+    "original_2026_group_count": "NO_WITHIN_STRATUM_NEW_GROUP_RANK_SUPPORT",
+    "external_real_German_sample_admitted": false,
+    "original_paper_uses_German_validation_already": true,
+    "new_group_gain_calibration_performed": false,
+    "no_breeding_success_outcomes_accessed": true,
+    "no_tracking_CSVs_or_GPS_accessed": true,
+    "no_new_altitude_state_RF_external_transfer_claim": true
+  }
+}

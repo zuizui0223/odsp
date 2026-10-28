@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-red-kite-nest-state-external-source-inventory-v1",
+  "frozen_date": "2026-10-28",
+  "role": "BEFORE_PROVIDER_API_ACCESS_METADATA_ONLY_PROSPECTIVE_SOURCE_INVENTORY_NOT_RESPONSE_OR_INDEPENDENT_ANIMAL_VALIDATION",
+  "target_source": {
+    "dataset": "Data and Code for Extracting reproductive parameters from GPS tracking data for a nesting raptor in Europe",
+    "zenodo_record_id": 13736049,
+    "zenodo_doi": "10.5281/zenodo.13736049",
+    "allowed_metadata_api": "https://zenodo.org/api/records/13736049",
+    "allow_event_or_summary_csv_download": false,
+    "allow_file_content_download": false,
+    "allow_nesting_outcome_access": false,
+    "allow_altitude_or_location_access": false,
+    "maximum_metadata_json_bytes": 500000
+  },
+  "expected_files": [
+    {
+      "key": "GER_indseasondata.csv",
+      "md5": "bdf5445971195ca8cc27760d242b1563",
+      "role": "GER_yearly_individual_nest_state_AND_OUTCOME_DO_NOT_OPEN"
+    },
+    {
+      "key": "SUI_indseasondata.csv",
+      "md5": "91394907a2d036e3dbacf5cd4f70475b",
+      "role": "SUI_yearly_individual_nest_state_AND_OUTCOME_DO_NOT_OPEN"
+    },
+    {
+      "key": "GER_trackingdata.csv",
+      "md5": "ec5dd057fc6d704a09f15bbbffe00129",
+      "role": "GER_GPS_DO_NOT_OPEN"
+    },
+    {
+      "key": "SUI_trackingdata.csv",
+      "md5": "f654300e9a77b8dc41221f44d468ea2c",
+      "role": "SUI_GPS_DO_NOT_OPEN"
+    },
+    {
+      "key": "NestTool-1.0.0.zip",
+      "md5": "b172b87191f00f221e9d0151c61d65a6",
+      "role": "published_code_DO_NOT_OPEN"
+    },
+    {
+      "key": "NestTool_archived_full_analysis.r",
+      "md5": "f3878bd76bd851d0ea048950ee84e8f9",
+      "role": "previous_published_analysis_code_DO_NOT_OPEN"
+    }
+  ],
+  "already_published_paper_metadata_only": {
+    "paper_doi": "10.1111/jav.03246",
+    "published_2024_10_17": true,
+    "Swiss_GPS_tracked_birds_reported": 324,
+    "Swiss_model_training_birds_reported": 258,
+    "Swiss_individual_seasons_model_development": 697,
+    "German_tracked_birds_reported": 65,
+    "German_source_birds_meeting_minimum_800_locations": 63,
+    "German_individual_seasons_eligible_in_paper": 99,
+    "published_German_outcome_model_accuracy_already_seen": true,
+    "sample_counts_not_source_eligible_rosters": true,
+    "published_original_model_not_ODSP_model": true,
+    "source_response_axis": "nesting_behaviour_breeding_initiation_success_NOT_altitude",
+    "source_input_tracking_features": "GPS movement metrics; detailed endpoint requires precommitted schema and purpose-built new model",
+    "original_BOP_RF_input_and_target_incompatible": true
+  },
+  "allowed_output_fields": [
+    "source_doi",
+    "record_id",
+    "published",
+    "provider_license_id",
+    "metadata_version",
+    "metadata_sha256",
+    "official_file_inventory_verified",
+    "file_count",
+    "declared_file_list",
+    "total_provider_file_bytes",
+    "read_actions",
+    "source_inventory_terminal",
+    "biology_terminal",
+    "outcome_rows_accessed",
+    "historical_BOP_mixed_preserved"
+  ],
+  "criteria": {
+    "source_inventory_terminal_if_exact_metadata_matches": "SOURCE_FILE_INVENTORY_VERIFIED_ONLY",
+    "source_inventory_terminal_if_missing_inaccessible_or_md5_differs": "SOURCE_METADATA_ACCESS_OR_VERSION_HOLD",
+    "biology_terminal_always": "HOLD_NEW_NEST_STATE_TARGET_AND_AUTHENTIC_GROUP_ROSTER_NOT_YET_FROZEN",
+    "no_real_external_scoring_even_if_63_German_individuals": true,
+    "no_claim_of_unseen_biology_independent_from_original_publication": true,
+    "no_unjustified_altitude_prediction_axis_conversion": true,
+    "no_original_BOP_RF_reclassification": true,
+    "no_downloaded_file_md5_attestation_from_metadata_only": true
+  },
+  "original_scientific_endpoints_immutable": {
+    "historical_BOP": "empirical_state_prediction_mixed",
+    "Dryad": "NOT_ADMITTED",
+    "BOP_2026_reference_gate": "NO_WITHIN_STRATUM_NEW_GROUP_RANK_SUPPORT",
+    "two_marsh_source_only": "HOLD_POPULATION_AND_IDENTITY_EXCHANGEABILITY_UNVERIFIED"
+  }
+}
