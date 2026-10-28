@@ -143,3 +143,19 @@ def test_published_receipt_never_contains_actual_bird_or_transmitter_ids():
     # Aggregated 'two_study_clusters' count is permitted; the raw
     # study-cluster identity field and its values must not be serialized.
     assert '"study_cluster":' not in raw
+
+
+def test_working_manuscript_relabels_source_only_reuse_not_external_validation():
+    from pathlib import Path
+    root=Path(__file__).resolve().parents[1]
+    body=(root/"manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md").read_text(encoding="utf-8")
+    section=body.split("### 3.4 Source-only reality check: animal IDs are not transmitter IDs",1)[1].split("## 4 | Discussion",1)[0]
+    assert "seven distinct animal IDs but six distinct tag IDs" in section
+    assert "four animal IDs and four tag IDs" in section
+    assert "one tag reused between **two different animals**" in section
+    assert "SOURCE_SCHEMA_HOLD" in section
+    assert "post-header" in section
+    assert "HOLD_POPULATION_AND_IDENTITY_EXCHANGEABILITY_UNVERIFIED" in section
+    assert "MH_ANTWERPEN, previously opened" in section
+    assert "Neither BOP nor these external sources were refitted or scored" in section
+    assert "BOP_TWO_MARSH_REFERENCE_ONLY_V1_V2_FIRST_RECEIPT.json" in section
