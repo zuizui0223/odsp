@@ -11,6 +11,18 @@ on:
       - "scripts/verify_bop_two_marsh_first_source_result.py"
       - "BOP_TWO_MARSH_REFERENCE_ONLY_V1_V2_FIRST_RECEIPT.json"
       - "docs/bop_two_marsh_reference_only_preflight_v1_v2.md"
+      - "manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md"
+      - "README.md"
+      - ".github/workflows/bop-two-marsh-reference-only-v1.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/BOP_TWO_MARSH_REFERENCE_ONLY_V1_CONTRACT.json"
+      - "research/BOP_TWO_MARSH_REFERENCE_ONLY_V2_POSTHEADER_CONTRACT.json"
+      - "scripts/bop_two_marsh_reference_only_preflight.py"
+      - "scripts/verify_bop_two_marsh_first_source_result.py"
+      - "tests/test_bop_two_marsh_first_source_receipt.py"
+      - "manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md"
       - ".github/workflows/bop-two-marsh-reference-only-v1.yml"
   workflow_dispatch:
 
@@ -32,7 +44,7 @@ jobs:
       - name: Install
         run: python -m pip install -e '.[dev]'
       - name: Test no-GPS source schema, MD5 integrity and real tag reuse semantics
-        run: python -m pytest tests/test_bop_two_marsh_reference_only_preflight.py tests/test_bop_two_marsh_first_source_receipt.py tests/test_bop_method_spine_v1.py
+        run: python -m pytest tests/test_bop_two_marsh_reference_only_preflight.py tests/test_bop_two_marsh_first_source_receipt.py tests/test_bop_method_spine_v1.py tests/test_bop_method_paper_evidence_v1.py
 
   official-reference-source-only-first:
     needs: offline-frozen-source-safety
