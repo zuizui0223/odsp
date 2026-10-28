@@ -136,10 +136,10 @@ def test_first_result_bytes_must_match_original_actions_artifact():
 def test_published_receipt_never_contains_actual_bird_or_transmitter_ids():
     raw=RECEIPT.read_text(encoding="utf-8")
     assert "animal-nickname" not in raw
-    assert '"GPS_height_or_location_events_accessed": false' not in raw or (
-        json.loads(raw)["first_official_run"]["gps_or_outcome_rows_accessed"] is False
-    )
+    assert json.loads(raw)["first_official_run"]["gps_or_outcome_rows_accessed"] is False
     assert "H173481" not in raw
     assert "L143451" not in raw
     assert "5325667" not in raw
-    assert "study_cluster" not in raw
+    # Aggregated 'two_study_clusters' count is permitted; the raw
+    # study-cluster identity field and its values must not be serialized.
+    assert '"study_cluster":' not in raw
