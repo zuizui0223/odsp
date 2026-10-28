@@ -27,6 +27,8 @@ def verify_first_header_only(obj:dict,receipt:dict,contract:dict,*,raw:bytes|Non
         or first["artifact_id"]!=12793992320
         or first["original_zip_sha256"]!="16fc6c53011c1a0aa7062ee979881ea9fa1e47868341749709bc6521aa165985"
         or contract["contract_id"]!=obj.get("contract_id")
+        or obj.get("contract_sha256")!="eaa06e023efb403ed215a579ce4c0664ddaa447a01791886566bc3590121af3d"
+        or hashlib.sha256(CONTRACT.read_bytes()).hexdigest()!=obj["contract_sha256"]
         or [x["key"] for x in contract["authorized_header_requests"]]!=[observed[k]["filename"] for k in keys]
     ):
         raise ValueError("original pre-access header provider evidence drifted")
