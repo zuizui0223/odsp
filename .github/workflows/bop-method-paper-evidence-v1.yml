@@ -1,0 +1,40 @@
+name: bop-method-paper-evidence-v1
+
+on:
+  pull_request:
+    paths:
+      - "research/BOP_METHOD_PAPER_EVIDENCE_MATRIX_V1.json"
+      - "manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md"
+      - "docs/bop_individual_gain_inference_theory_v1.md"
+      - "tests/test_bop_method_paper_evidence_v1.py"
+      - "README.md"
+      - ".github/workflows/bop-method-paper-evidence-v1.yml"
+  push:
+    branches: [main]
+    paths:
+      - "research/BOP_METHOD_PAPER_EVIDENCE_MATRIX_V1.json"
+      - "manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md"
+      - "docs/bop_individual_gain_inference_theory_v1.md"
+      - "tests/test_bop_method_paper_evidence_v1.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  manuscript-evidence-and-rank-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10","3.12","3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install method test dependencies
+        run: python -m pip install -e '.[dev]'
+      - name: Reconcile every published numeric statement with six frozen receipts and rank implementation
+        run: python -m pytest tests/test_bop_method_paper_evidence_v1.py tests/test_bop_method_spine_v1.py tests/test_new_group_gain_envelope.py tests/test_bop_common_input_first_result.py

@@ -110,6 +110,23 @@ passed; the first-run summary and archive digests are pinned in
 These are mathematical-method results, not new empirical BOP_RODENT
 outcomes. The original all-individual BOP endpoint remains **mixed**.
 
+## Future-individual BOP methods-paper working draft
+
+The [individual-level transfer-gain methods manuscript](manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md)
+and [technical rank-coverage assumptions note](docs/bop_individual_gain_inference_theory_v1.md)
+assemble the already frozen BOP #274–#280 method stages, biological
+mixed endpoint, synthetic group-rank coverage and independent-source
+admission stops into a single evidence-checked narrative.
+
+The [paper's machine-checkable evidence crosswalk](research/BOP_METHOD_PAPER_EVIDENCE_MATRIX_V1.json)
+binds all numeric claims to original Git blob identities; its tests
+cannot turn synthetic coverage into real Dryad validation, claim that
+standard conformal rank validity is novel, or change the original BOP
+all-individual mixed endpoint. **Working draft only, not a ready
+submission.** A separate eligible real external-bird study and/or a
+clearly distinct methodological contribution beyond established
+conformal ranks remain substantial scientific gaps.
+
 ## BOP method integration and independent animal admission
 
 ODSP's five linked BOP methodology PRs [#274](https://github.com/zuizui0223/odsp/pull/274)–[#278](https://github.com/zuizui0223/odsp/pull/278) were **merged into main**. Their methods-paper evidence and explicit stopping conditions are collected in [the BOP methodology spine](docs/bop_method_spine_v1.md). They separate historical held-out individual prediction gain, future-group lower prediction bounds, exact trained-model-to-forecast replay, biological source admission and synthetic cross-source input transport.
