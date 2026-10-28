@@ -18,9 +18,9 @@
 
 ## 1 | Introduction
 
-An ecological model can represent a species' state as a distribution over discrete altitude strata, habitat categories or temporal states, rather than compressing every event to a single predicted value. The benefit of conditioning on additional predictors can be assessed with proper probability scoring. However, three logical leaps often separate an encouraging result from a defensible future-animal claim.
+An ecological model can represent a species' state as a distribution over discrete altitude strata, habitat categories or temporal states, rather than compressing every event to a single predicted value. The benefit of conditioning on additional predictors can be assessed with proper probability scoring. Logarithmic and quadratic/Brier scoring rules are established proper scores for probabilistic forecasts (Gneiting & Raftery, 2007). However, three logical leaps often separate an encouraging result from a defensible future-animal claim.
 
-First, one bird may contribute thousands of autocorrelated GPS observations. A gain measured across those positions does not create thousands of independent demonstrations of generalization. The appropriate calibration unit for a new-bird claim is the **bird**, not the GPS fix.
+First, one bird may contribute thousands of autocorrelated GPS observations. A gain measured across those positions does not create thousands of independent demonstrations of generalization. The appropriate calibration unit for a new-bird claim is the **bird**, not the GPS fix. This is also consistent with the established warning that unstructured cross-validation of temporally, spatially or hierarchically dependent ecological observations can understate prediction error (Roberts et al., 2017).
 
 Second, the probability reference matters. A model conditioned on species, location and time may beat a species-pooled altitude-state marginal because it knows species identity, even if additional within-species context contributes little. An inferential statement about the value of context requires a comparator that fixes the lower-information content being claimed. Baselines are therefore a substantive part of the estimand, not a plotting choice.
 
@@ -173,6 +173,9 @@ A journal submission should be chosen only after deciding whether this is a **di
 **Table 1 — Comparator and evidence roles.** Historical pooled-fold RF versus new species-marginal categorical reference; first empirical terminal, synthetic method qualification, source-only admission, and unavailable real generalization.
 
 ## Literature (verified, methodological context)
+
+- Gneiting, T. & Raftery, A. E. (2007). *Strictly proper scoring rules, prediction, and estimation*. Journal of the American Statistical Association 102, 359–378. https://doi.org/10.1198/016214506000001437
+- Roberts, D. R. et al. (2017). *Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure*. Ecography 40, 913–929. https://doi.org/10.1111/ecog.02881
 
 - Angelopoulos, A. N. & Bates, S. (2023). *Conformal Prediction: A Gentle Introduction*. Foundations and Trends in Machine Learning. https://doi.org/10.1561/2200000101
 - Tibshirani, R. J., Barber, R. F., Candès, E. J. & Ramdas, A. (2019). *Conformal Prediction Under Covariate Shift*. Advances in Neural Information Processing Systems 32. https://proceedings.neurips.cc/paper_files/paper/2019/hash/8fb21ee7a2207526da55a679f0332de2-Abstract.html
