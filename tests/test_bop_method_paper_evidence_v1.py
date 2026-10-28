@@ -149,7 +149,7 @@ def test_manuscript_does_not_claim_external_validation_or_novel_rank_theorem():
     assert "10.1198/016214506000001437" in body
     assert "10.1111/ecog.02881" in body
     assert "10.1080/01621459.2022.2060112" in body
-    assert "whole independently held-out animal" in body
+    assert "entire independently held-out animal" in body
     assert "10.1080/01621459.2022.2060112" in note
 
 
