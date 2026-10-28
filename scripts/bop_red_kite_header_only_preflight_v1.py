@@ -101,6 +101,8 @@ def _read_exact_first_physical_line(url:str,key:str,limit:int)->tuple[bytes,int]
 def _parse_header(raw:bytes)->tuple[str,...]:
     if not raw.endswith(b"\n"):
         raise ValueError("complete header with terminal newline required")
+    if b"\x00" in raw:
+        raise ValueError("binary NUL is forbidden in CSV source header")
     try:
         decoded=raw.decode("utf-8-sig")
     except UnicodeDecodeError as exc:
