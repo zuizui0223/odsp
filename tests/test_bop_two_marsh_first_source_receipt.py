@@ -159,3 +159,28 @@ def test_working_manuscript_relabels_source_only_reuse_not_external_validation()
     assert "MH_ANTWERPEN, previously opened" in section
     assert "Neither BOP nor these external sources were refitted or scored" in section
     assert "BOP_TWO_MARSH_REFERENCE_ONLY_V1_V2_FIRST_RECEIPT.json" in section
+
+
+def test_leave_one_entire_study_out_has_only_vacuous_90pct_rank():
+    import math
+    from odsp.new_group_gain_envelope import fit_new_group_gain_lower_envelope
+
+    first=json.loads(RECEIPT.read_text(encoding="utf-8"))["first_result"]
+    study_counts=first["source_Circus_aeruginosus_individuals"]
+    assert study_counts=={"MH_WATERLAND":7,"H_GRONINGEN":4}
+
+    for heldout_study in study_counts:
+        calibration_study=next(k for k in study_counts if k!=heldout_study)
+        n_cal=study_counts[calibration_study]
+        n_val=study_counts[heldout_study]
+        assert n_val>=1
+        assert math.floor((n_cal+1)*0.1)==0
+        mathematical_example=fit_new_group_gain_lower_envelope(
+            [0.0]*n_cal,
+            [f"artificial_{calibration_study}_{i}" for i in range(n_cal)],
+            miscoverage=0.1,source_design="fixed_predictor_groups",
+        )
+        assert mathematical_example.finite_sample_rank==0
+        assert mathematical_example.bound_is_vacuous is True
+        assert mathematical_example.as_dict()["lower_gain_bound"] is None
+        assert mathematical_example.as_dict()["exchangeability_verified_by_software"] is False
