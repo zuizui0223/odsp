@@ -12,9 +12,10 @@ import json
 from pathlib import Path
 from typing import Mapping
 
-from scripts.bop_two_marsh_reference_only_preflight import (
-    V1_PATH,V2_PATH
-)
+if __package__:
+    from .bop_two_marsh_reference_only_preflight import V1_PATH,V2_PATH
+else:
+    from bop_two_marsh_reference_only_preflight import V1_PATH,V2_PATH
 
 ROOT=Path(__file__).resolve().parents[1]
 RECEIPT=ROOT/"BOP_TWO_MARSH_REFERENCE_ONLY_V1_V2_FIRST_RECEIPT.json"
