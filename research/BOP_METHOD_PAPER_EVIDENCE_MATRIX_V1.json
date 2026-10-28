@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "role": "POST_RESULT_MANUSCRIPT_EVIDENCE_CROSSWALK_NO_NEW_EMPIRICAL_OR_CONFIRMATORY_ANALYSIS",
+  "main_verified_commit": "b2e77482ccbf55117e57f99c1f6514757ac3f040",
+  "source_receipts": {
+    "bop": {
+      "path": "BOP_RODENT_STATE_PREDICTION_TERMINAL_RECEIPT.json",
+      "git_blob_sha1": "3da6937a410ae73d0976cd1b80334d69685ea006"
+    },
+    "rank": {
+      "path": "BOP_FIXED_MODEL_GROUP_TRANSFER_V1_VALIDATION_RECEIPT.json",
+      "git_blob_sha1": "e587b435e1e3d06621eabfbae3569e55d294e763"
+    },
+    "managed": {
+      "path": "BOP_MANAGED_SOURCE_TO_FORECAST_V1_VALIDATION_RECEIPT.json",
+      "git_blob_sha1": "16a9e529434359aae1651c5d3b273769fc65c252"
+    },
+    "v2026": {
+      "path": "BOP_V3_V2026_REFERENCE_ONLY_GATE_V1_TERMINAL_RECEIPT.json",
+      "git_blob_sha1": "8fba1499b4fd5333abcabf28cec83c6505b29cc3"
+    },
+    "dryad": {
+      "path": "BOP_DRYAD_EXTERNAL_SCHEMA_PREFLIGHT_V1_TERMINAL_RECEIPT.json",
+      "git_blob_sha1": "8a62516524cff760851d77f6d6679fe46235eba6"
+    },
+    "common": {
+      "path": "BOP_COMMON_INPUT_TRANSPORT_V1_VALIDATION_RECEIPT.json",
+      "git_blob_sha1": "51a3ad192546c5f8c0b2ff7329e17f02a16b83e1"
+    },
+    "trace": {
+      "path": "research/BOP_COMMON_INPUT_V1_WORLD_COUNT_AUDIT_SOURCE.json",
+      "git_blob_sha1": "9ae82023ad2130e14e5171880035eec751ad9250"
+    }
+  },
+  "frozen_biological_endpoint": {
+    "source_doi": "10.5281/zenodo.10055071",
+    "source_version": "Zenodo v3",
+    "study_id": 1278021460,
+    "eligible_groups": 30,
+    "species_count": 4,
+    "eligible_events": 154655,
+    "positive_group_gains": 27,
+    "nonpositive_group_gains": 3,
+    "positive_multiclass_brier_groups": 30,
+    "mean_group_gain_nats_event": 0.5709102207418053,
+    "comparator": "fold_training_pooled_altitude_state_marginal",
+    "terminal": "empirical_state_prediction_mixed",
+    "rank_for_real_future_bird": "UNAVAILABLE_FROM_HISTORICAL_CROSSFITS"
+  },
+  "synthetic_fixed_model": {
+    "worlds": 128,
+    "validation_groups_each_condition": 40960,
+    "target_coverage": 0.8994384765625,
+    "shifted_coverage": 0.0680908203125,
+    "first_successful_workflow_run": 40265218136,
+    "trained_and_scored_real_birds": 0,
+    "claim": "known_truth_method_not_empirical_coverage"
+  },
+  "synthetic_managed_predictor": {
+    "worlds": 64,
+    "validation_groups_each_condition": 10240,
+    "target_coverage": 0.89150390625,
+    "shifted_coverage": 0.1287109375,
+    "first_workflow_run": 40268692658,
+    "model_family": "deterministic_stratum_by_binary_context_categorical_not_historical_RF",
+    "real_birds_scored": 0
+  },
+  "same_study_source_gate": {
+    "old_metadata_individual_ids": 35,
+    "updated_metadata_individual_ids": 45,
+    "novel_ID_candidates": 10,
+    "maximum_within_one_species": 6,
+    "required_per_stratum_calibration_plus_untouched": 10,
+    "terminal": "NO_WITHIN_STRATUM_NEW_GROUP_RANK_SUPPORT",
+    "gps_outcomes_read": false
+  },
+  "independent_dryad_source_gate": {
+    "source_doi": "10.5061/dryad.n8pk0p398",
+    "whole_dataset_published_animals": 280,
+    "Data_1a_documented_animals": 271,
+    "whole_dataset_four_bop_taxa": 217,
+    "missing_original_RF_predictor": [
+      "external-temperature"
+    ],
+    "coarse_coordinate_precision_degrees": 0.1,
+    "original_RF_compatibility": "ORIGINAL_RF_PREDICTOR_INCOMPATIBLE",
+    "candidate": "NOT_ADMITTED",
+    "matched_independent_animal_roster": false,
+    "gps_outcomes_read": false
+  },
+  "synthetic_common_input_transport": {
+    "worlds": 24,
+    "source_training_individuals_per_stratum": 20,
+    "target_calibration_individuals_per_stratum": 39,
+    "target_validation_individuals_per_stratum": 30,
+    "validation_individuals_per_scenario": 2880,
+    "same_target_covered_individuals": 2599,
+    "shifted_validation_covered_individuals": 757,
+    "same_target_coverage": 0.9024305555555555,
+    "shifted_coverage": 0.26284722222222223,
+    "first_workflow_run": 40281982238,
+    "independent_monte_carlo_worlds": 24,
+    "within_world_shared_model_and_calibrator_individuals": 120,
+    "post_result_world_level_t95_same": [
+      0.8861397358721402,
+      0.9187213752389709
+    ],
+    "post_result_world_level_t95_shifted": [
+      0.23678206563727422,
+      0.28891237880717024
+    ],
+    "post_result_world_level_t95_paired_difference": [
+      0.6151763817583467,
+      0.6639902849083199
+    ],
+    "post_result_precision_is_not_new_confirmatory_test": true,
+    "sources_proven_biologically_independent": false
+  },
+  "software_integration": {
+    "canonical_animal_identity_metadata_only": true,
+    "source_training_stratum_reconciled_to_fitted_source": true,
+    "pre_calibration_and_pre_validation_replay": true,
+    "public_crosswalk_omitted": true,
+    "synthetic_only": true,
+    "dedicated_identity_gate_python_versions": [
+      "3.10",
+      "3.12",
+      "3.13"
+    ],
+    "dedicated_integration_automated_tests_each_version": 68,
+    "latest_merged_integration_commit": "b2e77482ccbf55117e57f99c1f6514757ac3f040"
+  },
+  "novelty_and_claim_guardrails": [
+    "standard_order_statistic_rank_coverage_is_not_new_theorem",
+    "training_source_to_frozen_predictor_and_stratum_comparator_are_not_original_BOP_RF",
+    "historical_crossfitted_bop_gains_cannot_be_reused_as_frozen_deployment_calibration",
+    "cross_source_id_labels_are_not_proof_of_real_individual_nonoverlap",
+    "nominal_coverage_not_positive_predictive_gain",
+    "target_source_exchangeability_is_a_scientific_assumption",
+    "no_publication_claim_of_real_Dryad_external_validation",
+    "no_causal_inference_of_sun_time_temperature_or_altitude",
+    "manuscript_not_submission_ready_without_substantive_cross_dataset_empirical_demonstration_or_clear_methodological_distinctiveness"
+  ]
+}
