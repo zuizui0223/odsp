@@ -7,6 +7,9 @@ on:
       - "research/BOP_TWO_MARSH_REFERENCE_ONLY_V2_POSTHEADER_CONTRACT.json"
       - "scripts/bop_two_marsh_reference_only_preflight.py"
       - "tests/test_bop_two_marsh_reference_only_preflight.py"
+      - "tests/test_bop_two_marsh_first_source_receipt.py"
+      - "scripts/verify_bop_two_marsh_first_source_result.py"
+      - "BOP_TWO_MARSH_REFERENCE_ONLY_V1_V2_FIRST_RECEIPT.json"
       - "docs/bop_two_marsh_reference_only_preflight_v1_v2.md"
       - ".github/workflows/bop-two-marsh-reference-only-v1.yml"
   workflow_dispatch:
@@ -29,7 +32,7 @@ jobs:
       - name: Install
         run: python -m pip install -e '.[dev]'
       - name: Test no-GPS source schema, MD5 integrity and real tag reuse semantics
-        run: python -m pytest tests/test_bop_two_marsh_reference_only_preflight.py
+        run: python -m pytest tests/test_bop_two_marsh_reference_only_preflight.py tests/test_bop_two_marsh_first_source_receipt.py tests/test_bop_method_spine_v1.py
 
   official-reference-source-only-first:
     needs: offline-frozen-source-safety
@@ -42,6 +45,8 @@ jobs:
           python-version: "3.12"
       - name: Access ONLY two checksum-pinned small provider reference CSVs (no GPS)
         run: python scripts/bop_two_marsh_reference_only_preflight.py --out "$RUNNER_TEMP/bop-two-marsh-source-only-first.json"
+      - name: Verify provider MD5s and entire first-source outcome against archived first-run JSON SHA
+        run: python scripts/verify_bop_two_marsh_first_source_result.py --result "$RUNNER_TEMP/bop-two-marsh-source-only-first.json"
       - name: Preserve first outcome even on source-access or schema failure
         if: always()
         uses: actions/upload-artifact@v4
