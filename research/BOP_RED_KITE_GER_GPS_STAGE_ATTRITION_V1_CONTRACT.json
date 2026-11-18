@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-redkite-german-gps-fixed-stage-attrition-v1",
+  "frozen_date": "2026-11-18",
+  "role": "POST_FIRST_GPS_ELIGIBILITY_FROZEN_DIAGNOSTIC_NO_BREEDING_OUTCOMES",
+  "inherited_GPS_first_receipt": "BOP_RED_KITE_GER_GPS_ELIGIBILITY_V1_FIRST_RECEIPT.json",
+  "inherited_metadata_first_receipt": "BOP_RED_KITE_RAW_GROUP_PREFIX_ONLY_V1_FIRST_RECEIPT.json",
+  "source_zenodo_doi": "10.5281/zenodo.13736049",
+  "authorized_source_files": [
+    {
+      "file": "GER_indseasondata.csv",
+      "bytes": 6456,
+      "md5": "bdf5445971195ca8cc27760d242b1563",
+      "projection": [
+        "year_id",
+        "bird_id"
+      ],
+      "sex_age_nest_columns_not_parsed": true
+    },
+    {
+      "file": "GER_trackingdata.csv",
+      "bytes": 53471439,
+      "md5": "ec5dd057fc6d704a09f15bbbffe00129",
+      "projection": [
+        "year_id",
+        "bird_id",
+        "timestamp",
+        "long_wgs",
+        "lat_wgs"
+      ],
+      "exact_coords_kept_only_in_runner_memory": true
+    }
+  ],
+  "predeclared_stages": [
+    "S0_all_GER_metadata_seasons",
+    "S1_any_valid_GPS_event_matching_exact_year_bird_pair",
+    "S2_at_least_one_GPS_event_lat_gt_50_lon_gt_9",
+    "S3_at_least_one_GPS_event_UTC_ordinal_DOY_74_through_191",
+    "S4_gt_800_valid_GPS_event_rows_after_S3"
+  ],
+  "method": {
+    "group": "unique_metadata_year_id_mapped_to_exact_metadata_bird_id",
+    "stages_cumulative": true,
+    "stratum": "German_source_raw_metadata_without_population_labels",
+    "day_definition": "UTC_ordinal_DOY_74_through_191",
+    "geo_condition": "latitude_strictly_greater_50_and_longitude_strictly_greater_9",
+    "fixes_minimum": "strictly_more_than_800_events_before_any_new_hourly_thinning",
+    "no_tuning_to_PAPER_COUNTS": true,
+    "expected_original_GPS_v1_primary_S4_seasons": 99,
+    "expected_original_GPS_v1_primary_S4_birds": 49,
+    "count_stage_attrition_as_difference_between_S0_S1_S2_S3_S4": true,
+    "raw_geo_missing_or_invalid_GPS_lines_skip_without_logging_values": true,
+    "double_check_original_source_file_MD5": true,
+    "no_raw_ID_or_ID_hash_or_lat_lon_or_timestamp_in_output": true
+  },
+  "interpretation": {
+    "source_original_GER_metadata_159_63": true,
+    "published_initial_GER_163_65_unmatched": true,
+    "published_GPS_eligible_99_63_unmatched": true,
+    "source_GPS_primary_99_49_already_verified": true,
+    "no_German_population_crosswalk_in_source_headers": true,
+    "no_breeding_label_access": true,
+    "original_nesttool_track_preprocessing_not_fully_reconstructed": true,
+    "source_stage_result_not_independent_prediction_evidence": true,
+    "scientific_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "old_BOP_terminal": "empirical_state_prediction_mixed"
+  }
+}
