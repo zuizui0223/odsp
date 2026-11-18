@@ -120,7 +120,7 @@ def test_wrong_source_MD5_or_historical_git_blob_fails():
     z,script,ref,c=setup_fixture()
     changed=deepcopy(c)
     changed["authorized_downloads"][0]["provider_md5"]="0"*32
-    with pytest.raises(ValueError,match="MD5"):
+    with pytest.raises(ValueError,match="unmodified official archive CODE data"):
         summarize(z,script,ref,changed)
     changed=deepcopy(c)
     changed["reference_source"]["git_blob_sha1"]="0"*40
