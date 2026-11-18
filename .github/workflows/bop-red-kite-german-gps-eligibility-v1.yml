@@ -1,0 +1,46 @@
+name: bop-red-kite-german-gps-eligibility-v1
+on:
+  pull_request:
+    paths:
+      - "research/BOP_RED_KITE_GER_GPS_ELIGIBILITY_V1_CONTRACT.json"
+      - "scripts/bop_red_kite_german_gps_eligibility_v1.py"
+      - "tests/test_bop_red_kite_german_gps_eligibility_v1.py"
+      - "docs/bop_red_kite_german_gps_eligibility_v1.md"
+      - ".github/workflows/bop-red-kite-german-gps-eligibility-v1.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  gps-safety-and-branch-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install -e '.[dev]'
+      - run: python -m pytest tests/test_bop_red_kite_german_gps_eligibility_v1.py
+  official-german-gps-eligibility-first:
+    needs: gps-safety-and-branch-tests
+    if: ${{ needs.gps-safety-and-branch-tests.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Stream official checksum-fixed German GPS and output aggregate-only twelve-arm table
+        run: python scripts/bop_red_kite_german_gps_eligibility_v1.py --out "$RUNNER_TEMP/bop-redkite-german-gps-eligibility-first.json"
+      - name: Preserve original aggregate-only output or source HOLD
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bop-red-kite-german-gps-eligibility-first
+          path: ${{ runner.temp }}/bop-redkite-german-gps-eligibility-first.json
+          retention-days: 90
+          if-no-files-found: warn
