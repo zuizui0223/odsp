@@ -18,6 +18,11 @@ import math
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 from urllib.request import Request, urlopen
+import sys
+
+REPO_ROOT=Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0,str(REPO_ROOT))
 
 from scripts.bop_red_kite_raw_group_prefix_only_v1 import (
     _load_contract as load_metadata_contract,
