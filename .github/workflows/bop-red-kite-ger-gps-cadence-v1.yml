@@ -1,0 +1,53 @@
+name: bop-red-kite-ger-gps-cadence-v1
+on:
+  pull_request:
+    paths:
+      - 'research/BOP_RED_KITE_GER_GPS_CADENCE_V1_CONTRACT.json'
+      - 'scripts/bop_red_kite_ger_gps_cadence_v1.py'
+      - 'tests/test_bop_red_kite_ger_gps_cadence_v1.py'
+      - 'docs/bop_red_kite_ger_gps_cadence_v1.md'
+      - 'BOP_RED_KITE_GER_GPS_CADENCE_V1_FIRST_RECEIPT.json'
+      - 'scripts/verify_bop_red_kite_ger_gps_cadence_first_v1.py'
+      - 'tests/test_bop_red_kite_ger_gps_cadence_first_v1.py'
+      - '.github/workflows/bop-red-kite-ger-gps-cadence-v1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-cadence-offline-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install -e '.[dev]'
+      - run: python -m pytest tests/test_bop_red_kite_ger_gps_cadence_v1.py tests/test_bop_red_kite_ger_gps_cadence_first_v1.py
+      - name: Verify locked original first source interval counts without fetching new GPS
+        run: python scripts/verify_bop_red_kite_ger_gps_cadence_first_v1.py
+  original-source-timestamp-cadence-first:
+    needs: source-cadence-offline-tests
+    if: ${{ needs.source-cadence-offline-tests.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stream checksum-verified source GPS and emit only fixed-cohort interval counts
+        run: python scripts/bop_red_kite_ger_gps_cadence_v1.py --out "$RUNNER_TEMP/bop-redkite-ger-gps-cadence-first.json"
+      - name: Require byte identity with original provider source cadence JSON
+        run: python scripts/verify_bop_red_kite_ger_gps_cadence_first_v1.py --result "$RUNNER_TEMP/bop-redkite-ger-gps-cadence-first.json"
+      - name: Preserve aggregate-only first result or source access HOLD
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bop-red-kite-ger-gps-cadence-first
+          path: ${{ runner.temp }}/bop-redkite-ger-gps-cadence-first.json
+          retention-days: 90
+          if-no-files-found: warn

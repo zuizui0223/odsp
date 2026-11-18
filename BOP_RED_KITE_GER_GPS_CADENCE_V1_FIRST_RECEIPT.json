@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-red-kite-GER-official-source-GPS-cadence-first-v1",
+  "role": "ORIGINAL_FROZEN_SOURCE_TIMESTAMP_GAP_COUNTS_ONLY_NO_LABELS",
+  "preaccess_contract_commit": "903a85501371e6d8294cf0cb29125046da0eeb07",
+  "first_actions": {
+    "run_id": 44290699238,
+    "source_job_id": 134755815277,
+    "source_branch_head_sha": "16f39546b79f90c4d89931c000699c9b1c9ef38a",
+    "artifact_id": 14421093958,
+    "artifact_name": "bop-red-kite-ger-gps-cadence-first",
+    "artifact_zip_bytes": 1265,
+    "artifact_zip_sha256": "558af84440cb0fb792814c5d4eeb6394fc768cce5732fa7da63060c2556913fb",
+    "official_JSON_filename": "bop-redkite-ger-gps-cadence-first.json",
+    "official_JSON_bytes": 2922,
+    "official_JSON_sha256": "77b375496f01a010487c13b8277a89373a60f41e72b24913634aea0db6381167",
+    "contract_sha256": "18b743e0e1661172deeb90a9c8b69907c1b6864b08e64f82dd0db74913037de2",
+    "source_job_conclusion": "success",
+    "python_offline_tests": [
+      "3.10",
+      "3.12",
+      "3.13"
+    ]
+  },
+  "source_funnel": {
+    "original_GPS_physical_lines": 500778,
+    "malformed_GPS_rows": 1,
+    "year_ids_outside_pinned_metadata": 2524,
+    "year_ids_with_wrong_bird_strings": 0,
+    "linked_geo_season_GPS_events": 236989,
+    "official_GPS_and_metadata_MD5_verified": true
+  },
+  "cohorts": [
+    {
+      "cohort": "all_linked_geo_season_years",
+      "seasons": 159,
+      "birds": 63,
+      "events": 236989,
+      "positive_gaps": 236830,
+      "zero": 0,
+      "short55_seasons": 109,
+      "p_under55": 0.463619,
+      "p_under60": 0.613985,
+      "p_55to65": 0.370629,
+      "quantiles_minutes": {
+        "q10": 30,
+        "q50": 59.6,
+        "q90": 179.85
+      },
+      "bins": {
+        "0to5m": 85,
+        "5to15m": 201,
+        "15to30m": 925,
+        "30to45m": 103681,
+        "45to55m": 4907,
+        "55to65m": 87776,
+        "65to75m": 1842,
+        "75to120m": 6281,
+        "120mplus": 31132
+      }
+    },
+    {
+      "cohort": "source_primary_gt800_eligible_years",
+      "seasons": 99,
+      "birds": 49,
+      "events": 210420,
+      "positive_gaps": 210321,
+      "zero": 0,
+      "short55_seasons": 67,
+      "p_under55": 0.487398,
+      "p_under60": 0.64955,
+      "p_55to65": 0.392557,
+      "quantiles_minutes": {
+        "q10": 30,
+        "q50": 59.03,
+        "q90": 95
+      },
+      "bins": {
+        "0to5m": 74,
+        "5to15m": 186,
+        "15to30m": 867,
+        "30to45m": 96527,
+        "45to55m": 4856,
+        "55to65m": 82563,
+        "65to75m": 1470,
+        "75to120m": 4764,
+        "120mplus": 19014
+      }
+    }
+  ],
+  "interpretation": {
+    "greater_than_zero_subhourly_gaps_in_all_and_eligible_cohorts": true,
+    "archive_not_strict_one_measurement_each_60_minutes": true,
+    "source_99_seasons_49_bird_ID_strings_not_published_99_63": true,
+    "publication_input_GPS_downsampling_algorithm_identified": false,
+    "no_complete_original_external_replication": true,
+    "original_163_seasons_65_birds_not_reproduced": true,
+    "group_independence_authenticated": false,
+    "no_real_GPS_coordinate_or_timestamp_or_birdID_exported": true,
+    "no_nesting_or_success_labels_accessed": true,
+    "no_new_probability_or_individual_gain_scored": true,
+    "original_BOP_terminal": "empirical_state_prediction_mixed",
+    "real_red_kite_prediction_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER"
+  }
+}

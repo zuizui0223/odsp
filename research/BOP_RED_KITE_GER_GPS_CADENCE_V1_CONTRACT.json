@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-redkite-original-GER-GPS-cadence-frozen-v1",
+  "frozen_date": "2026-11-18",
+  "role": "BEFORE_NEXT_GER_GPS_TIMESTAMP_ACCESS_SOURCE_INTERVAL_DISTRIBUTION_ONLY",
+  "source_zenodo_doi": "10.5281/zenodo.13736049",
+  "already_frozen_upstream": [
+    "BOP_RED_KITE_RAW_GROUP_PREFIX_ONLY_V1_FIRST_RECEIPT.json",
+    "BOP_RED_KITE_GER_GPS_ELIGIBILITY_V1_FIRST_RECEIPT.json",
+    "BOP_RED_KITE_GER_GPS_STAGE_ATTRITION_V1_FIRST_RECEIPT.json",
+    "BOP_RED_KITE_2024_PACKAGE_CODE_V1_FIRST_RECEIPT.json"
+  ],
+  "source_files": [
+    {
+      "name": "GER_indseasondata.csv",
+      "size": 6456,
+      "md5": "bdf5445971195ca8cc27760d242b1563",
+      "allowed_fields": [
+        "year_id",
+        "bird_id"
+      ],
+      "parse_other_fields": false
+    },
+    {
+      "name": "GER_trackingdata.csv",
+      "size": 53471439,
+      "md5": "ec5dd057fc6d704a09f15bbbffe00129",
+      "allowed_fields": [
+        "year_id",
+        "bird_id",
+        "timestamp",
+        "long_wgs",
+        "lat_wgs"
+      ],
+      "parse_other_fields": false
+    }
+  ],
+  "predeclared_source_screen": {
+    "require_exact_metadata_year_to_bird_mapping": true,
+    "require_original_meta_159_year_ids_63_bird_ID_strings": true,
+    "require_original_500778_source_GPS_rows_and_full_MD5": true,
+    "require_geo_lon_strict_greater": 9,
+    "require_geo_lat_strict_greater": 50,
+    "require_UTC_DOY_start_inclusive": 74,
+    "require_UTC_DOY_end_inclusive": 191,
+    "only_positive_timestamp_deltas_within_same_year_id": true,
+    "zero_time_duplicates_counted_separately": true,
+    "time_gap_bins_seconds": [
+      {
+        "id": "0to5m",
+        "min_inclusive": 0,
+        "max_exclusive": 300
+      },
+      {
+        "id": "5to15m",
+        "min_inclusive": 300,
+        "max_exclusive": 900
+      },
+      {
+        "id": "15to30m",
+        "min_inclusive": 900,
+        "max_exclusive": 1800
+      },
+      {
+        "id": "30to45m",
+        "min_inclusive": 1800,
+        "max_exclusive": 2700
+      },
+      {
+        "id": "45to55m",
+        "min_inclusive": 2700,
+        "max_exclusive": 3300
+      },
+      {
+        "id": "55to65m",
+        "min_inclusive": 3300,
+        "max_exclusive": 3900
+      },
+      {
+        "id": "65to75m",
+        "min_inclusive": 3900,
+        "max_exclusive": 4500
+      },
+      {
+        "id": "75to120m",
+        "min_inclusive": 4500,
+        "max_exclusive": 7200
+      },
+      {
+        "id": "120mplus",
+        "min_inclusive": 7200,
+        "max_exclusive": null
+      }
+    ],
+    "cohorts": [
+      {
+        "id": "all_linked_geo_season_years",
+        "min_fix_count": 1
+      },
+      {
+        "id": "source_primary_gt800_eligible_years",
+        "min_fix_count": 801
+      }
+    ],
+    "quantile_definition": "nearest_rank_ceil_nq_for_q_0.10_0.50_0.90_on_all_strictly_positive_consecutive_gaps",
+    "outputs": [
+      "source_full_MD5_verified",
+      "valid_source_event_count",
+      "linked_geographic_season_events",
+      "number_of_year_ID_strings_in_each_fixed_cohort",
+      "distinct_bird_ID_strings_in_each_fixed_cohort",
+      "counts_by_fixed_interval_bins_per_cohort",
+      "duplicate_zero_delta_count",
+      "positive_delta_count",
+      "fraction_positive_gaps_less_than_3300_seconds",
+      "fraction_positive_gaps_less_than_3600_seconds",
+      "fraction_positive_gaps_3300_through_3899_seconds",
+      "number_of_season_ID_strings_with_any_positive_gap_below_3300",
+      "nearest_rank_q10_q50_q90_minutes_rounded_2dp"
+    ],
+    "prohibit": [
+      "print_or_export_raw_year_ID_or_bird_ID_or_their_hash",
+      "print_or_export_exact_timestamp_or_lat_lon",
+      "parse_HR_nest_success_or_other_breeding_labels",
+      "run_R_models_or_reclassify_original_BOP",
+      "modify_original_12_arm_or_first_stage_receipts",
+      "select_or_tune_interval_cohorts_after_result"
+    ]
+  },
+  "biological_interpretation": {
+    "if_subhourly_intervals_observed": "ARCHIVED_GER_SOURCE_NOT_ALREADY_STRICTLY_ONE_PER_HOUR",
+    "if_no_subhourly_intervals_observed": "NO_SUBHOURLY_GAPS_DETECTED_DOES_NOT_IDENTIFY_ORIGINAL_DOWNSAMPLER",
+    "original_downsampling_algorithm_not_proven": true,
+    "even_99_source_eligible_seasons_only_49_bird_ID_strings": true,
+    "original_paper_99_seasons_63_birds_remains_unreproduced": true,
+    "true_original_GER_163_seasons_65_birds_unreproduced": true,
+    "code_only_parity_R_data_prep_exact": true,
+    "source_only_terminal": "SOURCE_GPS_CADENCE_OBSERVED_ONLY",
+    "red_kite_biological_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "BOP_historical_terminal": "empirical_state_prediction_mixed",
+    "Dryad_direct_original_RF": "NOT_ADMITTED"
+  }
+}
