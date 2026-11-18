@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-red-kite-frozen-2024-package-code-only-v1",
+  "frozen_date": "2026-11-18",
+  "scientific_role": "BEFORE_FIRST_ZENODO_PACKAGE_BYTES_READ_COMPARE_EXACT_ARCHIVED_R_CODE_TO_DATED_GITHUB_SOURCE",
+  "source_record_id": 13736049,
+  "source_zenodo_doi": "10.5281/zenodo.13736049",
+  "inherited_original_manifest": "BOP_RED_KITE_SOURCE_INVENTORY_V1_FIRST_RECEIPT.json",
+  "authorized_downloads": [
+    {
+      "name": "NestTool-1.0.0.zip",
+      "size_bytes": 6578763,
+      "provider_md5": "b172b87191f00f221e9d0151c61d65a6",
+      "url": "https://zenodo.org/records/13736049/files/NestTool-1.0.0.zip?download=1",
+      "role": "READ_ONLY_ARCHIVE_SOURCE_CODE"
+    },
+    {
+      "name": "NestTool_archived_full_analysis.r",
+      "size_bytes": 26930,
+      "provider_md5": "f3878bd76bd851d0ea048950ee84e8f9",
+      "url": "https://zenodo.org/records/13736049/files/NestTool_archived_full_analysis.r?download=1",
+      "role": "READ_ONLY_TOP_LEVEL_ANALYSIS_CODE"
+    }
+  ],
+  "reference_source": {
+    "repository": "Vogelwarte/NestTool",
+    "source_commit": "8fdf3884b5f6079afdffdc5c563c9050766670a4",
+    "commit_date_UTC": "2024-08-28T15:53:41Z",
+    "file": "R/data_prep.R",
+    "git_blob_sha1": "3fa42eddbfb852d5dbc29364281bffef8410563e",
+    "url": "https://raw.githubusercontent.com/Vogelwarte/NestTool/8fdf3884b5f6079afdffdc5c563c9050766670a4/R/data_prep.R",
+    "source_timestamp_comparable_to_archived_2024_code_not_identical_assumption": true
+  },
+  "strict_access": {
+    "no_CSV_or_GPS_file_downloads": true,
+    "no_model_or_RData_RDS_binary_member_extraction": true,
+    "read_zip_member_names_and_integrity_metadata": true,
+    "inspect_source_members_only_R_files": true,
+    "required_unique_normalized_member": "R/data_prep.R",
+    "allow_archive_directory_prefix": true,
+    "max_zip_bytes": 6578763,
+    "max_zip_entries": 1000,
+    "max_single_R_source_member_uncompressed_bytes": 1048576,
+    "max_all_R_source_members_uncompressed_bytes": 4194304,
+    "max_reference_R_source_bytes": 1048576,
+    "max_archive_script_bytes": 26930,
+    "do_not_write_raw_ZIP_or_raw_R_script_to_GitHub": true,
+    "print_or_upload_only_code_digests_file_paths_and_bounded_structural_signals": true,
+    "no_breeding_status_or_real_bird_IDs_read": true,
+    "no_code_execution_or_model_loading": true,
+    "do_not_allow_archive_member_traversal": true
+  },
+  "predeclared_output": {
+    "confirm_file_size_and_whole_file_MD5": true,
+    "confirm_git_reference_blob_sha1": true,
+    "compare_extracted_archived_R_data_prep_bytes_with_historical_git_bytes": true,
+    "compare_normalized_EOL_R_data_prep_bytes_separately": true,
+    "compare_git_blob_SHA1_and_SHA256_of_extracted_archived_source": true,
+    "record_archive_R_source_member_count_and_aggregate_text_size": true,
+    "report_safe_R_member_paths_with_filter_terms_only": true,
+    "analyze_predeclared_static_patterns": [
+      "number_of_fixes > minlocs",
+      "number_of_fixes >= minlocs",
+      "group_by(year_id)",
+      "filter(year_day %in%",
+      "floor_date(",
+      "round_date(",
+      "thin",
+      "subsampl",
+      "60 min",
+      "60min",
+      "3600",
+      "length(unique(GERseasondata$bird_id))",
+      "GERseasondata %>% filter(year_id %in% unique(GER_data_input$summary$year_id))"
+    ],
+    "report_per_file_pattern_presence_and_at_most_8_line_numbers": true,
+    "no_raw_source_code_lines_or_individual_values_in_receipts": true
+  },
+  "first_result_allowed_statuses": [
+    "PACKAGE_CODE_EXACT_GIT_MATCH",
+    "PACKAGE_CODE_EOL_ONLY_DIFFERENCE",
+    "PACKAGE_CODE_DIFFERENCE",
+    "SOURCE_PACKAGE_CODE_HOLD"
+  ],
+  "no_claim_promotion": {
+    "paper_German_original_163_seasons_65_birds_unverified": true,
+    "paper_German_eligible_99_seasons_63_birds_unverified": true,
+    "frozen_provider_German_after_threshold_99_seasons_49_ID_strings": true,
+    "pre_archive_GPS_hourly_thinning_origin_unverified": true,
+    "different_package_code_cannot_establish_original_author_executed_version": true,
+    "matching_package_code_not_proof_of_author_runtime_execution": true,
+    "BOP_historical_terminal": "empirical_state_prediction_mixed",
+    "BOP_Dryad": "NOT_ADMITTED",
+    "red_kite_biological_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER"
+  }
+}

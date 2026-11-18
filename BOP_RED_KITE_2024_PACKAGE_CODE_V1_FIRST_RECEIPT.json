@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-red-kite-first-official-2024-code-ZIP-parity-v1",
+  "role": "FIRST_OFFICIAL_SOURCE_CODE_ONLY_RESULT_AFTER_FROZEN_CONTRACT_NO_GPS",
+  "original_frozen_contract_commit": "be5623ac3680e89d2023d576003e6a28982a789d",
+  "first_actions": {
+    "workflow_run_id": 44288291609,
+    "original_source_job_id": 134746762799,
+    "original_head_sha": "1c4859c77687842bfabf3df47d26ad92249c84cb",
+    "artifact_id": 14420740820,
+    "artifact_name": "bop-red-kite-2024-package-code-first",
+    "original_artifact_ZIP_size_bytes": 1375,
+    "original_artifact_ZIP_sha256": "b9aa6ae7ef7b687adbc368405b630963ecfccfda07b4f16a144efd65208e2fe9",
+    "original_JSON_filename": "bop-redkite-archive-code-first.json",
+    "original_JSON_size_bytes": 2665,
+    "original_JSON_sha256": "bb5a0a9251c4396b71caa239046b48de7996b03807ebad9f9677f473604775f9",
+    "frozen_contract_sha256": "61150a97df8a1b07b05837341350ffbc5f81b9bf77043c5747bfa763048aadfa",
+    "first_source_job_conclusion": "success",
+    "synthetic_python_matrix_success": [
+      "3.10",
+      "3.12",
+      "3.13"
+    ]
+  },
+  "original_archived_provider": {
+    "zenodo_record_id": 13736049,
+    "code_ZIP_file": "NestTool-1.0.0.zip",
+    "code_ZIP_size_bytes": 6578763,
+    "code_ZIP_provider_MD5_verified": true,
+    "code_ZIP_sha256": "ce9737f120aaf039d8252525a9a96d869c3975030f5bf3960c8d86615455bdc9",
+    "archived_script_file": "NestTool_archived_full_analysis.r",
+    "archived_script_provider_MD5_verified": true,
+    "archived_script_sha256": "fad4f86f8c5ad401ba305e0090654edfeef5ec058e3e1e32898b308b71f02e5d",
+    "R_source_member_count": 13,
+    "total_R_source_uncompressed_bytes": 146094
+  },
+  "code_parity": {
+    "compared_path": "NestTool-1.0.0/R/data_prep.R",
+    "historical_reference": "Vogelwarte/NestTool@8fdf3884b5f6079afdffdc5c563c9050766670a4:R/data_prep.R",
+    "historical_reference_git_blob_sha1": "3fa42eddbfb852d5dbc29364281bffef8410563e",
+    "zipped_R_data_prep_git_blob_sha1": "3fa42eddbfb852d5dbc29364281bffef8410563e",
+    "both_R_data_prep_sha256": "d398cddb6bc6b2ef7453618ac20a3e57e654777db35114a06a35683911e532cd",
+    "exact_byte_equal": true,
+    "only_EOL_difference": false,
+    "historical_ZIP_R_data_prep_strict_gt_800_line": 163,
+    "historical_ZIP_R_data_prep_ordinal_DOY_filter_line": 108,
+    "archived_script_unfiltered_count_expression_line": 501,
+    "prior_source_count_audit_line_486_needs_correction": true,
+    "all_13_R_file_parity_checked": false,
+    "upstream_60min_resampling_code_found": false,
+    "grep_thin_hits_may_match_English_within_not_evidence_of_thinning": true
+  },
+  "scientific_limit": {
+    "prior_frozen_German_source_original": "159 season-ID strings / 63 bird-ID strings",
+    "prior_frozen_German_source_after_primary_GPS": "99 season-ID strings / 49 bird-ID strings",
+    "paper_original": "163 seasons / 65 birds",
+    "paper_eligible": "99 seasons / 63 birds",
+    "code_parity_does_not_prove_paper_bird_roster": true,
+    "package_source_match_does_not_prove_2024_execution_environment": true,
+    "author_counting_error_not_confirmed": true,
+    "historic_BOP_terminal": "empirical_state_prediction_mixed",
+    "red_kite_biological_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "no_GPS_CSV_or_breeding_labels_accessed_in_this_route": true,
+    "no_new_biological_model_or_calibration": true
+  }
+}
