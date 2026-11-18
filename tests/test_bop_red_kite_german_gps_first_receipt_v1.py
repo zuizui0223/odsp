@@ -62,7 +62,6 @@ def test_fake_rerun_bytes_cannot_pass_original_actions_digest():
 
 def test_only_aggregate_counters_no_gps_positions_in_first_receipt():
     receipt,c=_objects()
-    assert receipt["source_biology_limits"] if False else True
     a=receipt["observed_source"]
     assert all(isinstance(x[0],str) and isinstance(x[1],int) and isinstance(x[2],int)
                for x in a["all_12_fixed_arms"])
