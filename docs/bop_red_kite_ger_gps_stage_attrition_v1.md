@@ -26,3 +26,19 @@ python scripts/bop_red_kite_ger_gps_stage_attrition_v1.py --out /tmp/german-attr
 ```
 
 The fixed-format CI first runs offline tests for Python 3.10/3.12/3.13, then performs a single full-source read and archives a **counts-only** output or fail-closed source HOLD. Historical BOP `empirical_state_prediction_mixed` is unchanged.
+
+## First official independent source-stage audit
+
+The first frozen stage-funnel calculation [Actions run 44260229713](https://github.com/zuizui0223/odsp/actions/runs/44260229713), after Python 3.10/3.12/3.13 synthetic tests, **succeeded**. Original artifact ID `14407028545`; ZIP SHA256 `3e5699905f1eb82a2eaf24c8c5e6c1b6acac261c1892fd7dc20cefc53df69841`; original JSON 2,203 bytes SHA256 `2acd0ea576398b0de7a9181b2943679adc9c7e802aa011556c8ed996d2920539`. The first result is locked by `BOP_RED_KITE_GER_GPS_STAGE_ATTRITION_V1_FIRST_RECEIPT.json` and its independent verifier.
+
+| Stage | Distinct season IDs | Distinct bird ID strings | Lost seasons | Lost birds |
+|---|---:|---:|---:|---:|
+| S0 — source metadata | **159** | **63** | — | — |
+| S1 — exactly matched GPS year/bird IDs | 159 | 63 | 0 | 0 |
+| S2 — at least one GPS point within strict German geo bounds | 159 | 63 | 0 | 0 |
+| S3 — at least one GPS point in frozen breeding season | 159 | 63 | 0 | 0 |
+| **S4 — strictly >800 locations after S3** | **99** | **49** | **60** | **14** |
+
+Data quality and exact source-link notes: original German GPS had 500,778 physical rows; one incomplete/malformed row, 2,524 rows with year IDs not in the frozen metadata, **zero** rows with a mapped year ID but different bird ID, and 498,253 valid, correctly joined GPS rows. Both original Zenodo file MD5s were verified. These results isolate the **fixed-GPS-coverage threshold** as the stage where 60 source seasons and 14 bird strings disappear. They do not establish the original publication's biological sample selection pathway.
+
+The publication's 99 GPS-eligible seasons across 63 birds remain **not reproduced**, despite the numerical match in eligible seasons under one already frozen source processing rule. The 163/65 initial sample also differs from the published source CSV's 159/63. Without the exact pre-archive raw-data preparation and paper-specific sample roster, the substantive cause of this discrepancy is unresolved. No real prediction gain or future-bird conformal claim is allowed.
