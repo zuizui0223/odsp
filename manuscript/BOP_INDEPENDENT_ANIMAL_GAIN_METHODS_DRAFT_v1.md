@@ -150,6 +150,19 @@ The authors' original 29 August 2024 [archived full-analysis script](https://zen
 
 Thus even when the **season total of 99 matches**, the independent group sample is not admitted as **63**. In this source-only analysis **49 remains a count of bird-ID strings**, not a certified canonical-animal set with exchangeable population membership. No target-source calibration, ecological predictive advantage or future-animal lower-bound claim follows. The frozen evidence and its explicit uncertainty are recorded in `research/BOP_RED_KITE_2024_PAPER_SOURCE_COUNT_AUDIT_V1.json` and `docs/bop_red_kite_2024_paper_source_count_audit_v1.md`. The original BOP mixed verdict remains unchanged.
 
+
+### 3.6 Season-held-out prediction is not necessarily bird-held-out prediction
+
+A separate historical-code and **aggregate-only mathematical** audit examined the 2024 NestTool training functions (Oppel et al., 2025; archived package DOI 10.5281/zenodo.13736049). Dated near-publication R sources for each of the three binary reproductive classifiers construct the training set by sampling `unique(...$year_id)`, not unique biological `bird_id`. Thus a bird followed in multiple years can contribute one season to training and another to internal testing. The paper reports **697 Swiss bird-seasons from 258 birds (up to seven seasons per bird)** and an internal split of **488 training / 209 test seasons**, approximately 70/30. We checked code-only archive source parity separately so that a currently hosted GitHub function is not silently substituted for the originally deposited package.
+
+Even without opening the original individual identities, this provides a sharp **expectation-only** calculation. For a bird present in (k) seasons, the probability that at least one season enters both roles under a uniformly random 488-of-697 season split is
+[
+P_{mathrm{both}}(k)=1-prod_{j=0}^{k-1}rac{488-j}{697-j}-prod_{j=0}^{k-1}rac{209-j}{697-j}.
+]
+Among all possible integer bird-season histograms with 258 birds, 697 season rows and (1leq kleq7), the expected number of birds represented in *both* roles is bounded sharply by **67.463–146.540**. The minimum is achieved with 184 one-season birds, one two-season bird and 73 seven-season birds; the maximum with 77 two-season and 181 three-season birds. Strict discrete concavity of (P_{mathrm{both}}(k)) proves these extrema. These are **bounds on expectation over random season-row splits**, not a lower bound on the realized number of overlapped birds in the paper's unknown random split, and not a test of accuracy inflation.
+
+This is precisely the estimand distinction motivating ODSP: season-level internal accuracy, previously unseen biological-bird accuracy, and transfer to a geographically different population require different samples and cannot be substituted for one another. The training code's potential within-bird overlap concerns the **Swiss internal** evaluation; it does **not** by itself invalidate the separately published Swiss-to-Germany external accuracy. The nesting-success model has a smaller conditional Swiss subset, so the 697-row numerical bounds do not apply to that response. Neither actual original random split nor canonical animal identities, new models or outcome scores were inspected. See `docs/bop_nesttool_2024_yearid_animal_overlap_v1.md` and `research/BOP_NESTTOOL_2024_YEARID_SPLIT_ANIMAL_OVERLAP_V1_CONTRACT.json`.
+
 ## 4 | Discussion
 
 The principal result is a practical separation of four claims often compressed into one phrase, *generalization*: (i) within-dataset held-out predictive gain, (ii) a population-stratified finite-sample lower prediction bound on **one future animal's** score gain, (iii) reproducibility of the exact predictor-to-probability calculation, and (iv) real-world eligibility of the future animals and their source records. No one of these proves the others.
