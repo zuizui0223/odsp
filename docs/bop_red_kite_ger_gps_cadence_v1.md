@@ -29,3 +29,32 @@ python -m pytest tests/test_bop_red_kite_ger_gps_cadence_v1.py
 ```
 
 After Python 3.10/3.12/3.13 synthetic success, a dedicated GitHub Actions job reads the exact provider CSVs and emits only the fixed interval aggregate or source HOLD.
+
+## First real provider-result: source CSV is *not* strictly hourly
+
+The [first official GitHub Actions run #44290699238](https://github.com/zuizui0223/odsp/actions/runs/44290699238) succeeded after all Python 3.10/3.12/3.13 synthetic safety tests. Original provider MD5s matched, and the output consisted solely of source-wide timing histograms. Original source job `134755815277`; artifact ID `14421093958`; ZIP SHA256 `558af84440cb0fb792814c5d4eeb6394fc768cce5732fa7da63060c2556913fb` (1,265 bytes); JSON SHA256 `77b375496f01a010487c13b8277a89373a60f41e72b24913634aea0db6381167` (2,922 bytes). Both are pinned by the **original-first-result receipt** `BOP_RED_KITE_GER_GPS_CADENCE_V1_FIRST_RECEIPT.json`.
+
+| Fixed source cohort | Linked seasons | Distinct bird-ID strings | Source GPS events | Strictly positive within-season consecutive gaps | Gaps <55 min | Gaps <60 min | Gaps 55–65 min | Seasons with any gap <55 min |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| All source-linked GPS seasons | 159 | 63 | 236,989 | 236,830 | **46.3619%** | 61.3985% | 37.0629% | 109 |
+| Frozen primary GPS-eligible cohort (>800 event rows) | 99 | 49 | 210,420 | 210,321 | **48.7398%** | 64.9550% | 39.2557% | 67 |
+
+The eligible-cohort median gap is **59.03 min** (nearest-rank q10=30.00 min; q90=95.00 min). The full source-linked cohort median is 59.60 min (q10=30.00, q90=179.85). These are *pooled consecutive gap distributions* and not per-bird independent effect estimates.
+
+| Gap bin (minutes) | All 159 seasons | Eligible 99 seasons |
+|---|---:|---:|
+| 0–5 | 85 | 74 |
+| 5–15 | 201 | 186 |
+| 15–30 | 925 | 867 |
+| 30–45 | 103,681 | **96,527** |
+| 45–55 | 4,907 | 4,856 |
+| 55–65 | 87,776 | **82,563** |
+| 65–75 | 1,842 | 1,470 |
+| 75–120 | 6,281 | 4,764 |
+| ≥120 | 31,132 | 19,014 |
+
+**Interpretation:** the exact archived German GPS source **unambiguously contains a large number of consecutive within-season location intervals shorter than one hour**. Therefore the public `GER_trackingdata.csv` is *not itself* a fully one-observation-per-hour-standardized stream. It is consistent with a mixed logger cadence or source preselection; the mechanism cannot be inferred from these timing counts alone.
+
+Under already-frozen alternative eligibility rules, the raw-event threshold gave 99 seasons/49 bird strings, one-per-UTC-hour gave 90/46 and rolling ≥3,600 s gave 83/44. Therefore **a source-event threshold that happens to reproduce 99 seasons does not independently validate the article's described 60-minute processing or its eligible 63-bird group count**.
+
+**Important guardrail:** absence or presence of short intervals in a published source cannot establish whether the authors trained models on that exact same unthinned stream, when thinning occurred or which historical algorithm was used. We have not accessed the original nest/HR/success labels or performed any animal-level score gain. The paper's 163/65 starting population, reported 99/63 eligible population, exact German site/population crosswalk and authentic independent-animal roster remain unreconciled. Scientific terminal remains HOLD.
