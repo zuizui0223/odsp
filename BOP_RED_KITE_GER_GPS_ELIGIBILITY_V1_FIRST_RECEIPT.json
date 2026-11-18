@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-redkite-german-original-gps-eligibility-first-v1",
+  "first_contract_commit_before_GPS": "6520f133694a78991f0fcc28c323b3d98a3f31d3",
+  "first_actions": {
+    "run_id": 44258858756,
+    "official_source_job_id": 134647223699,
+    "original_branch_head": "ada575be835269d7300ecaa8b7582bf06fcb05db",
+    "artifact_id": 14407162400,
+    "artifact_name": "bop-red-kite-german-gps-eligibility-first",
+    "artifact_zip_sha256": "c9aa95cf66a0f6c24200d8de4555abe5d9164b844be43bf9685b678ac73d953a",
+    "original_json_bytes": 5143,
+    "original_json_sha256": "ecc07e3e522c4687745b184e9304d319fba72baad659b99ff218acd9e10761b2",
+    "frozen_contract_sha256": "a00822d4e62c0dd9af449b6f656ae9e3e3deb7d865e6945629cdaeefa3eca5b0",
+    "official_source_conclusion": "success",
+    "synthetic_python_versions_success": [
+      "3.10",
+      "3.12",
+      "3.13"
+    ]
+  },
+  "observed_source": {
+    "GPS_physical_record_lines": 500778,
+    "malformed_or_missing_fields": 1,
+    "GPS_matched_metadata_lines": 498253,
+    "GPS_unlinked_metadata_lines": 2524,
+    "linked_GPS_geo_bounds_rejected_lines": 79051,
+    "ordinal_GPS_season_lines": 236989,
+    "calendar_GPS_season_lines": 237254,
+    "GPS_year_ID_multiple_bird_strings": 0,
+    "GPS_original_Zenodo_md5_verified": true,
+    "GER_metadata_original_Zenodo_md5_verified": true,
+    "GER_original_metadata_seasons": 159,
+    "GER_original_metadata_birds": 63,
+    "arm_columns": [
+      "name",
+      "eligible_seasons",
+      "distinct_bird_ID_strings"
+    ],
+    "all_12_fixed_arms": [
+      [
+        "fixed_2023_DOY_ordinal__observed_source_events__strict_gt_800",
+        99,
+        49
+      ],
+      [
+        "fixed_2023_DOY_ordinal__observed_source_events__inclusive_ge_800",
+        99,
+        49
+      ],
+      [
+        "fixed_2023_DOY_ordinal__unique_utc_hour_bin__strict_gt_800",
+        90,
+        46
+      ],
+      [
+        "fixed_2023_DOY_ordinal__unique_utc_hour_bin__inclusive_ge_800",
+        90,
+        46
+      ],
+      [
+        "fixed_2023_DOY_ordinal__rolling_3600_seconds__strict_gt_800",
+        83,
+        44
+      ],
+      [
+        "fixed_2023_DOY_ordinal__rolling_3600_seconds__inclusive_ge_800",
+        83,
+        44
+      ],
+      [
+        "actual_calendar_month_day__observed_source_events__strict_gt_800",
+        99,
+        49
+      ],
+      [
+        "actual_calendar_month_day__observed_source_events__inclusive_ge_800",
+        99,
+        49
+      ],
+      [
+        "actual_calendar_month_day__unique_utc_hour_bin__strict_gt_800",
+        90,
+        46
+      ],
+      [
+        "actual_calendar_month_day__unique_utc_hour_bin__inclusive_ge_800",
+        90,
+        46
+      ],
+      [
+        "actual_calendar_month_day__rolling_3600_seconds__strict_gt_800",
+        83,
+        44
+      ],
+      [
+        "actual_calendar_month_day__rolling_3600_seconds__inclusive_ge_800",
+        83,
+        44
+      ]
+    ]
+  },
+  "claim_ceiling": {
+    "published_GER_original_163_65_not_reproduced": true,
+    "published_GER_eligible_99_63_not_reproduced": true,
+    "some_99_season_arithmetic_matches_but_49_not_63_birds": true,
+    "all_12_arms_nominal_match_both_99_and_63": false,
+    "no_breeding_labels_accessed": true,
+    "no_location_or_event_time_values_persisted": true,
+    "no_new_model_probabilities_scored": true,
+    "biological_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "original_BOP_terminal": "empirical_state_prediction_mixed",
+    "original_Dryad": "NOT_ADMITTED"
+  }
+}
