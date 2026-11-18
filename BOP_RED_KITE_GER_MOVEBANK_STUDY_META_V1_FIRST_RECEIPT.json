@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-red-kite-Movebank-GER-first-anonymous-study-metadata-access-hold-v1",
+  "first_preaccess_contract_commit": "69836d5888a36f5a21a1f604c6ef2528400cc69d",
+  "original_actions": {
+    "workflow_run_id": 44299216766,
+    "source_job_id": 134785441531,
+    "original_source_branch_head_sha": "fc12108beae9640cb5e84c7f29461d2cfc8b095d",
+    "source_job_conclusion": "failure",
+    "failure_reason_class": "HTTPError",
+    "artifact_id": 14425263270,
+    "artifact_name": "bop-red-kite-ger-movebank-study-meta-first",
+    "first_actions_artifact_ZIP_sha256": "f23338f33b326c40dc214706e0fdc7830f5b725b2b014bcf0ef9a40e583caa7b",
+    "original_JSON_filename": "bop-redkite-movebank-study-meta-first.json",
+    "original_JSON_bytes": 665,
+    "original_JSON_sha256": "bb8814a3265cc9a0676c5e1006e20da6c92f8682b71a695652cb7fbeb855b309",
+    "preaccess_contract_commit_preceded_first_request": true,
+    "offline_python_safety_versions_success": [
+      "3.10",
+      "3.12",
+      "3.13"
+    ]
+  },
+  "observed_first_source_result": {
+    "status": "STUDY_METADATA_ACCESS_HOLD",
+    "error_type": "HTTPError",
+    "source_role": "ANONYMOUS_LIVE_STUDY_SUMMARY_ONLY",
+    "provider_record_id": 294443150,
+    "actual_HTTP_status_not_recorded": true,
+    "no_study_row_parsed": true,
+    "no_provider_current_individual_count_verified": true,
+    "original_2024_163_65_roster_verified": false,
+    "published_99_63_eligible_birds_verified": false,
+    "archived_GER_99_49_source_result_unchanged": true,
+    "no_individual_tag_deployment_or_event_records_opened": true,
+    "no_reproductive_labels_opened": true
+  },
+  "scientific_limits": {
+    "no_GPS_or_reference_data_accessed_in_this_route": true,
+    "HTTPError_does_not_establish_permission_denial_vs_other_server_error": true,
+    "one_study_live_summary_not_complete_two_German_population_2024_roster": true,
+    "no_second_url_retry_or_credentials_in_followup_CI": true,
+    "current_Movebank_count_unavailable": true,
+    "no_new_independent_bird_groups_admitted": true,
+    "exact_prearchive_60min_GPS_processing_still_unknown": true,
+    "historical_BOP_terminal": "empirical_state_prediction_mixed",
+    "original_Dryad": "NOT_ADMITTED",
+    "redkite_biological_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER"
+  },
+  "first_preaccess_contract_git_blob_sha1": "b2577b084c63ffd3839f25f9ff4c0912b3a10af1",
+  "first_original_source_output": {
+    "archived_GER_99_season_49_bird_ID_result_unchanged": true,
+    "current_not_historical_2024": true,
+    "entire_GER_163_65_original_paper_roster_verified": false,
+    "error_type": "HTTPError",
+    "historical_99_63_eligible_birds_verified": false,
+    "historical_BOP_terminal": "empirical_state_prediction_mixed",
+    "individual_tag_deployment_or_event_rows_accessed": false,
+    "nesting_or_success_labels_accessed": false,
+    "provider_record_id": 294443150,
+    "redkite_prediction_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "schema_version": 1,
+    "source_role": "ANONYMOUS_LIVE_STUDY_SUMMARY_ONLY",
+    "status": "STUDY_METADATA_ACCESS_HOLD"
+  }
+}
