@@ -29,3 +29,19 @@ python -m pytest tests/test_bop_red_kite_ger_movebank_public_study_meta_v1.py
 ```
 
 Official GitHub Actions job is gated on Python 3.10/3.12/3.13 safety tests and emits a safe aggregate/permission-status artifact even when source access is unavailable.
+
+## First official anonymous-source result: HTTP ACCESS HOLD
+
+The original first [GitHub Actions run 44299216766](https://github.com/zuizui0223/odsp/actions/runs/44299216766) executed the one narrowly whitelisted study-summary GET **after** all three Python 3.10/3.12/3.13 offline tests passed. The provider request raised a Python **`HTTPError`**, so the source job correctly reported **failure** and its aggregate-only source result had `status = STUDY_METADATA_ACCESS_HOLD`.
+
+The first output did **not record the HTTP status code**. Consequently **it is not established whether this was a permission denial, a rate limit, temporary provider error or another HTTP-level issue**. We must not claim that a Movebank owner refused permission, nor infer any current provider individual count. No study row, animal, tag, deployment, GPS event or reproductive outcome was parsed or exported.
+
+The immutable original failure artifact is ID `14425263270` (`bop-red-kite-ger-movebank-study-meta-first`). ZIP SHA256 `f23338f33b326c40dc214706e0fdc7830f5b725b2b014bcf0ef9a40e583caa7b`, original `bop-redkite-movebank-study-meta-first.json` **665 bytes**, SHA256 `bb8814a3265cc9a0676c5e1006e20da6c92f8682b71a695652cb7fbeb855b309`.
+
+The exact original result plus its first-run source/contract identity and scientific ceiling are preserved in `BOP_RED_KITE_GER_MOVEBANK_STUDY_META_V1_FIRST_RECEIPT.json`. An **offline** verifier (`scripts/verify_bop_red_kite_ger_movebank_meta_first_v1.py`) reconstructs the original 665-byte JSON digest, verifies the pinned first GitHub Actions artifact and the preaccess contract Git blob, and rejects the promotion of an HTTP failure into a real 2024 source roster.
+
+**Important correction to workflow:** The initial CI source job intentionally exited non-zero on HTTPError. After archiving this first result, the GitHub Actions workflow was changed to **offline-only**: further PR or manual runs check the saved original result and failure/claim boundaries without any new provider HTTP request. This is not evidence that the original provider read succeeded; it prevents repeated automatic access and preserves source transparency.
+
+### Terminal decision
+
+`STUDY_METADATA_ACCESS_HOLD` — no published-2024 source identity admission, no German 163/65 recovery, no reconciliation of 99/63 versus archived 99/49, and no new red-kite model calibration or score gain. Future investigation would require a separately versioned historical provider roster, explicit permission and an independently justified cohort definition, not a reclassification of this unsuccessful route.
