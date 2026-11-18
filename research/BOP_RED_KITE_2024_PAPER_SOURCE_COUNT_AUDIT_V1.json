@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "audit_id": "bop-red-kite-2024-publication-source-count-provenance-v1",
+  "role": "POSTPUBLICATION_CODE_PROVENANCE_AND_SOURCE_COUNT_RECONCILIATION_NO_NEW_DATA_ACCESS",
+  "audit_date": "2026-11-18",
+  "references": {
+    "paper": {
+      "doi": "10.1111/jav.03246",
+      "title": "Extracting reproductive parameters from GPS tracking data for a nesting raptor in Europe",
+      "published_first": "2024-10-17",
+      "reported_original_GER_bird_years": 163,
+      "reported_original_GER_birds": 65,
+      "reported_eligible_GER_bird_years": 99,
+      "reported_eligible_GER_birds": 63,
+      "threshold_wording": "at least 800 GPS locations per season"
+    },
+    "zenodo": {
+      "doi": "10.5281/zenodo.13736049",
+      "record_id": 13736049,
+      "release_version": "v1",
+      "released": "2024-09-24",
+      "archive_cutoff": "2024-08-29",
+      "archive_script_file": "NestTool_archived_full_analysis.r",
+      "archive_script_provider_md5": "f3878bd76bd851d0ea048950ee84e8f9",
+      "archive_script_url": "https://zenodo.org/records/13736049/files/NestTool_archived_full_analysis.r?download=1"
+    },
+    "archive_script_evidence": {
+      "direct_GER_fread_lines": [
+        295,
+        296
+      ],
+      "direct_GER_data_prep_lines": [
+        299,
+        315
+      ],
+      "unfiltered_global_GER_bird_count_line": 486,
+      "filtered_GER_supplement_age_sex_lines": [
+        487,
+        494
+      ],
+      "unfiltered_R_expression": "length(unique(GERseasondata$bird_id))",
+      "filtered_R_expression": "GERseasondata %>% filter(year_id %in% unique(GER_data_input$summary$year_id))",
+      "explicit_GER_resampling_call_in_archived_top_level_script_observed": false,
+      "explicit_resampling_elsewhere_upstream_unverified": true
+    },
+    "contemporary_code": {
+      "github_repo": "Vogelwarte/NestTool",
+      "commit": "8fdf3884b5f6079afdffdc5c563c9050766670a4",
+      "commit_date_utc": "2024-08-28T15:53:41Z",
+      "path": "R/data_prep.R",
+      "blob_sha": "3fa42eddbfb852d5dbc29364281bffef8410563e",
+      "dated_source_url": "https://github.com/Vogelwarte/NestTool/blob/8fdf3884b5f6079afdffdc5c563c9050766670a4/R/data_prep.R",
+      "geographical_filter_lines": [
+        94,
+        102
+      ],
+      "ordinal_doy_filter_line": 108,
+      "group_count_and_eligibility_lines": [
+        161,
+        163
+      ],
+      "exact_counting_operator": "number_of_fixes > minlocs",
+      "minlocs_argument_in_archived_analysis": 800,
+      "direct_2024_GitHub_to_Zenodo_binary_package_SHA_parity_verified": false
+    }
+  },
+  "frozen_internal_evidence": {
+    "identity_first_receipt": "BOP_RED_KITE_RAW_GROUP_PREFIX_ONLY_V1_FIRST_RECEIPT.json",
+    "source_GPS_first_receipt": "BOP_RED_KITE_GER_GPS_ELIGIBILITY_V1_FIRST_RECEIPT.json",
+    "stage_first_receipt": "BOP_RED_KITE_GER_GPS_STAGE_ATTRITION_V1_FIRST_RECEIPT.json",
+    "source_raw_seasons": 159,
+    "source_raw_bird_ID_strings": 63,
+    "GPScut_first_prespecified_rule": "fixed_2023_DOY_ordinal__observed_source_events__strict_gt_800",
+    "source_GPS_eligible_seasons": 99,
+    "source_GPS_eligible_bird_ID_strings": 49,
+    "threshold_excluded_seasons": 60,
+    "threshold_excluded_bird_strings": 14,
+    "source_GPS_and_metadata_MDs_match": true,
+    "rerun_of_original_receipts_verified": true,
+    "label_column_values_not_read": true,
+    "no_exact_GPS_or_bird_ID_exported": true
+  },
+  "source_to_paper_discrepancies": {
+    "original_season_difference_report_minus_archive": 4,
+    "original_bird_difference_report_minus_archive": 2,
+    "eligible_season_difference_report_minus_archive": 0,
+    "eligible_bird_difference_report_minus_archive": 14,
+    "key_claim": "source_original_has_63_birds_but_source_after_predeclared_GPS_threshold_has_only_49_birds",
+    "unfiltered_expression_yields_archive_63": true,
+    "paper_63_may_be_unfiltered_count": "PLAUSIBLE_NOT_PROVEN",
+    "paper_99_seasons_may_come_from_same_archive": "NUMERIC_MATCH_ONLY_NOT_PROOF",
+    "paper_eligible_63_birds_reproduced": false
+  },
+  "additional_unresolved": {
+    "exact_provider_Zenodo_2024_package_source_binary_match": false,
+    "exact_original_upstream_GPS_60_min_resampling_recipe_unknown": true,
+    "published_preselection_163_65_to_archive_159_63_source_stage_unknown": true,
+    "two_German_populations_identity_crosswalk_unknown": true,
+    "appendix_s1_sex_age_sample_count_independently_checked": false,
+    "no_new_empirical_probability_gain": true
+  },
+  "statistical_claim_ceiling": {
+    "animal_not_year_or_fix_is_independent_unit": true,
+    "archival_source_group_counts_may_not_equal_authentic_population": true,
+    "already_published_German_predictive_evaluation_cannot_be_called_new_external_discovery": true,
+    "BOP_historical_terminal": "empirical_state_prediction_mixed",
+    "BOP_original_Dryad": "NOT_ADMITTED",
+    "red_kite_real_group_rank": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "source_audit_terminal": "CODE_COUNT_PATH_DISCREPANCY_IDENTIFIED_AUTHOR_CAUSE_UNCONFIRMED"
+  }
+}
