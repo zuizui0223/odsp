@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-redkite-official-key-prefix-only-first-v1",
+  "first_freeze_contract_commit": "99f32569bf7b8ee17056f1b9a4c7c90dd82e1694",
+  "first_actions": {
+    "workflow_run_id": 44257226379,
+    "source_job_id": 134641896994,
+    "source_run_head_sha": "3a9feb059d865e29aac4e20a543e4dd443c37b0a",
+    "source_workflow": "bop-red-kite-raw-group-prefix-only-v1",
+    "first_source_artifact_id": 14406462430,
+    "first_source_artifact_name": "bop-red-kite-raw-group-prefix-first",
+    "original_artifact_zip_sha256": "bf5b9b1bdf29acbbdfcd3ab17709c11a4307df6b7146fba5b0d8705c22e6d9da",
+    "original_source_json_bytes": 2161,
+    "original_source_json_sha256": "efc41dacf264777d06343a283fc620a6575d2879874e1530ed00f749840e3e1e",
+    "source_job_conclusion": "success",
+    "test_matrix_python": [
+      "3.10",
+      "3.12",
+      "3.13"
+    ]
+  },
+  "source_biology_limits": {
+    "unfiltered_GER_metadata_birds": 63,
+    "unfiltered_GER_metadata_seasons": 159,
+    "unfiltered_SUI_metadata_birds": 553,
+    "unfiltered_SUI_metadata_seasons": 2866,
+    "published_initial_GER_65_birds_163_seasons_not_reconstructed": true,
+    "published_GER_eligible_63_birds_99_seasons_not_reconstructed": true,
+    "published_SUI_eligible_258_birds_697_seasons_not_reconstructed": true,
+    "source_CSV_MD5_both_match": true,
+    "original_BOP_status_unchanged": true,
+    "no_breeding_labels_parsed": true,
+    "no_GPS_accessed": true,
+    "no_future_animal_gain_scored": true,
+    "source_only_status": "SOURCE_RAW_YEAR_ID_GROUP_COUNTS_ONLY",
+    "biological_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER"
+  },
+  "original_source_output": {
+    "GER_GPS_800fix_season_filter_reproduced": false,
+    "GER_raw_roster_not_GPS_eligible_99_season_63_bird_roster": true,
+    "GPS_events_opened": false,
+    "animal_identity_crosswalk_authenticated": false,
+    "biological_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "breeding_response_suffix_values_parsed": false,
+    "original_BOP_Dryad": "NOT_ADMITTED",
+    "original_BOP_empirical_terminal": "empirical_state_prediction_mixed",
+    "preaccess_contract_sha256": "468f74f1118fda786d6bbcca5acfa77a323a30a97f56bd9befafe8731617d6e1",
+    "real_model_probabilities_scored": false,
+    "schema_version": 1,
+    "source_pair_bird_ID_exact_string_overlap": 0,
+    "source_pair_lexical_overlap_not_canonical_identity_proof": true,
+    "source_pair_year_ID_exact_string_overlap": 0,
+    "source_populations_verified_from_source": false,
+    "source_role": "FULL_CSV_BYTES_FOR_MD5_PREFIX_KEYS_ONLY_SUFFIX_NOT_PARSED",
+    "sources": [
+      {
+        "distinct_bird_ID_strings": 63,
+        "distinct_year_ID_strings": 159,
+        "duplicate_year_ID_lines": 0,
+        "max_season_records_per_bird": 7,
+        "number_of_birds_with_multiple_season_records": 46,
+        "physical_record_lines": 159,
+        "season_records_per_bird_histogram": {
+          "1": 17,
+          "2": 23,
+          "3": 7,
+          "4": 10,
+          "5": 3,
+          "6": 1,
+          "7": 2
+        },
+        "source": "GER_indseasondata.csv",
+        "source_bytes": 6456,
+        "source_full_file_md5_verified": true,
+        "year_ID_to_multiple_bird_IDs": 0
+      },
+      {
+        "distinct_bird_ID_strings": 553,
+        "distinct_year_ID_strings": 2866,
+        "duplicate_year_ID_lines": 0,
+        "max_season_records_per_bird": 7,
+        "number_of_birds_with_multiple_season_records": 515,
+        "physical_record_lines": 2866,
+        "season_records_per_bird_histogram": {
+          "1": 38,
+          "2": 46,
+          "3": 51,
+          "4": 20,
+          "5": 63,
+          "6": 157,
+          "7": 178
+        },
+        "source": "SUI_indseasondata.csv",
+        "source_bytes": 117327,
+        "source_full_file_md5_verified": true,
+        "year_ID_to_multiple_bird_IDs": 0
+      }
+    ],
+    "status": "SOURCE_RAW_YEAR_ID_GROUP_COUNTS_ONLY"
+  }
+}
