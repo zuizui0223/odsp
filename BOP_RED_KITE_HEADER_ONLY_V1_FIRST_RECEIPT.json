@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-red-kite-official-four-headers-only-first-v1",
+  "role": "AFTER_FROZEN_FIRST_LINE_SCHEMA_ACCESS_NO_SOURCE_ROW_VALUES_SCORING",
+  "source_contract": {
+    "path": "research/BOP_RED_KITE_HEADER_ONLY_V1_CONTRACT.json",
+    "preaccess_freeze_commit": "81cb2bc6816a4622d4d97a8328f4c967d04ec792",
+    "inherited_metadata_first_artifact": 12792739938
+  },
+  "first_actions": {
+    "run_id": 40637728704,
+    "artifact_id": 12793992320,
+    "artifact_name": "bop-red-kite-header-only-first",
+    "original_zip_sha256": "16fc6c53011c1a0aa7062ee979881ea9fa1e47868341749709bc6521aa165985",
+    "original_header_JSON_sha256": "132265f5e7e251dbb4b41626849dd97c80210c873bc21bfa75b989018bd7f90d",
+    "original_header_JSON_bytes": 4001,
+    "first_run_status": "success"
+  },
+  "verified_first_header": {
+    "GER_indseasondata": {
+      "filename": "GER_indseasondata.csv",
+      "column_names": [
+        "year_id",
+        "bird_id",
+        "sex",
+        "age_cy",
+        "HR",
+        "nest",
+        "success"
+      ],
+      "header_byte_length": 44,
+      "header_sha256": "0ec3259d237fe1180dc9875d6e0f3d6582f550a960113cbcb57a5cd79f8b8879"
+    },
+    "SUI_indseasondata": {
+      "filename": "SUI_indseasondata.csv",
+      "column_names": [
+        "bird_id",
+        "year",
+        "year_id",
+        "sex",
+        "age_cy",
+        "nest_id",
+        "home_range_id",
+        "success",
+        "nest",
+        "HR"
+      ],
+      "header_byte_length": 71,
+      "header_sha256": "77a2b8708c6fdd9cdff3024f132e93a3b6acad97413e105e4d3b392c9977946d"
+    },
+    "GER_trackingdata": {
+      "filename": "GER_trackingdata.csv",
+      "column_names": [
+        "year_id",
+        "bird_id",
+        "timestamp",
+        "long_wgs",
+        "lat_wgs",
+        "long_eea",
+        "lat_eea"
+      ],
+      "header_byte_length": 61,
+      "header_sha256": "dc3717b7362b44f3fa04c1cde2706e9942b9646330d6e1b55abfed3e216fde35"
+    },
+    "SUI_trackingdata": {
+      "filename": "SUI_trackingdata.csv",
+      "column_names": [
+        "event_id",
+        "bird_id",
+        "year_id",
+        "timestamp",
+        "year",
+        "month",
+        "day",
+        "long_wgs",
+        "lat_wgs",
+        "long_eea",
+        "lat_eea",
+        "external_temperature"
+      ],
+      "header_byte_length": 106,
+      "header_sha256": "c24696a17af50270029440606054e67518ac0cd3ee0a41cd9000a96ef98e8bee"
+    }
+  },
+  "positive_structure": {
+    "all_four_have_bird_id": true,
+    "all_four_have_year_id": true,
+    "both_outcome_role_headers_have_nest": true,
+    "both_outcome_role_headers_have_success": true,
+    "GPS_common_columns": [
+      "bird_id",
+      "year_id",
+      "timestamp",
+      "long_wgs",
+      "lat_wgs",
+      "long_eea",
+      "lat_eea"
+    ],
+    "source_only_temperature_in_Switzerland": true,
+    "common_original_BOP_RF_temperature_missing_in_German_source": true,
+    "structural_header_status": "SOURCE_HEADERS_RECORDED_NO_FULL_DATA_ACCESS"
+  },
+  "critical_limits": {
+    "range_request_returned_HTTP_206_for_all_files": true,
+    "entire_source_file_content_MD5_rechecked": false,
+    "official_full_source_MD5s_are_metadata_only": true,
+    "no_individual_year_values_parsed": true,
+    "no_GPS_event_values_parsed": true,
+    "real_individual_ID_keys_compared": false,
+    "source_biological_sample_count_verified": false,
+    "nest_model_frozen": false,
+    "real_group_prediction_scored": false,
+    "scientific_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "historical_BOP_empirical_terminal": "empirical_state_prediction_mixed",
+    "original_BOP_RF_direct_Dryad_transfer": "NOT_ADMITTED"
+  }
+}

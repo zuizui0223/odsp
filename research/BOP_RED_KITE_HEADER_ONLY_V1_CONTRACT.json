@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-red-kite-sealed-header-only-source-schema-v1",
+  "frozen_date": "2026-10-28",
+  "scientific_role": "BEFORE_CSV_HEADER_ACCESS_SCHEMA_DISCOVERY_NO_ROW_VALUES_PARSED_OR_OUTCOME_ANALYSIS",
+  "upstream": {
+    "zenodo_source_inventory_contract": "research/BOP_RED_KITE_SOURCE_INVENTORY_V1_CONTRACT.json",
+    "zenodo_source_inventory_first_receipt": "BOP_RED_KITE_SOURCE_INVENTORY_V1_FIRST_RECEIPT.json",
+    "official_zenodo_record_id": 13736049,
+    "source_doi": "10.5281/zenodo.13736049",
+    "file_manifest_MD5s_only_not_data_content_verified": true
+  },
+  "authorized_header_requests": [
+    {
+      "key": "GER_indseasondata.csv",
+      "url": "https://zenodo.org/records/13736049/files/GER_indseasondata.csv?download=1",
+      "source_manifest_md5": "bdf5445971195ca8cc27760d242b1563",
+      "purpose": "GER_YEAR_LEVEL_RESPONSE_SCHEMA_FIELDS_ONLY"
+    },
+    {
+      "key": "SUI_indseasondata.csv",
+      "url": "https://zenodo.org/records/13736049/files/SUI_indseasondata.csv?download=1",
+      "source_manifest_md5": "91394907a2d036e3dbacf5cd4f70475b",
+      "purpose": "SUI_YEAR_LEVEL_RESPONSE_SCHEMA_FIELDS_ONLY"
+    },
+    {
+      "key": "GER_trackingdata.csv",
+      "url": "https://zenodo.org/records/13736049/files/GER_trackingdata.csv?download=1",
+      "source_manifest_md5": "ec5dd057fc6d704a09f15bbbffe00129",
+      "purpose": "GER_GPS_HEADER_ONLY_NO_EVENT_VALUES"
+    },
+    {
+      "key": "SUI_trackingdata.csv",
+      "url": "https://zenodo.org/records/13736049/files/SUI_trackingdata.csv?download=1",
+      "source_manifest_md5": "f654300e9a77b8dc41221f44d468ea2c",
+      "purpose": "SUI_GPS_HEADER_ONLY_NO_EVENT_VALUES"
+    }
+  ],
+  "technical_access": {
+    "read_only_first_complete_line_from_each_CSV": true,
+    "send_HTTP_Range": "bytes=0-4095",
+    "max_header_bytes_per_file": 4096,
+    "only_allowed_redirect_hosts": [
+      "zenodo.org",
+      "www.zenodo.org"
+    ],
+    "no_second_line_or_row_parsing": true,
+    "do_not_record_provider_event_or_individual_values": true,
+    "no_complete_content_MD5_reattestation": true,
+    "no_biological_sample_count_from_records": true,
+    "never_read_NestTool_individual_season_data_rows": true,
+    "never_read_GPS_event_rows": true,
+    "no_external_response_scoring": true
+  },
+  "provisional_schema_signals": {
+    "sequence_link_key": "year_id",
+    "candidate_animal_field_aliases": [
+      "id",
+      "bird_id",
+      "birdid",
+      "individual_id",
+      "animal_id",
+      "individual",
+      "animal",
+      "bird",
+      "individual_local_identifier"
+    ],
+    "candidate_season_outcome_fields": [
+      "HR",
+      "nest",
+      "success",
+      "nest_id",
+      "breeding_success"
+    ],
+    "target_role": "BINARY_NESTING_STATE_NOT_ALTITUDE",
+    "minimum_prospective_German_independent_calibration_entities": 9,
+    "minimum_separate_German_test_entities": 1,
+    "published_German_individual_seasons_99_not_animal_independence_proof": true,
+    "published_German_eligible_animals_63_not_source_roster_verification": true
+  },
+  "predeclared_interpretation": {
+    "field_header_read_status": "SOURCE_HEADERS_VERIFIED_NO_ROW_ACCESS",
+    "no_animal_key_in_headers": "HOLD_NO_CANDIDATE_BIOLOGICAL_ENTITY_IDENTIFIER",
+    "no_year_id_in_source_headers": "HOLD_NO_STABLE_SEASON_LINK_KEY",
+    "published_animal_count_not_formal_admission": true,
+    "publication_already_used_German_external_outcomes": true,
+    "biological_terminal_always": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "historical_BOP_terminal": "empirical_state_prediction_mixed",
+    "historical_BOP_original_RF_Dryad": "NOT_ADMITTED",
+    "no_original_BOP_altitude_state_RF_validation": true
+  }
+}
