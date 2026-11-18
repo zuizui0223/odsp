@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "audit_id": "bop-red-kite-published-aggregate-baseline-v1",
+  "status": "POSTPUBLICATION_DESCRIPTIVE_ARITHMETIC_ONLY",
+  "source": {
+    "paper_doi": "10.1111/jav.03246",
+    "first_published": "2024-10-17",
+    "zenodo_doi": "10.5281/zenodo.13736049",
+    "dataset_manifest_receipt": "BOP_RED_KITE_SOURCE_INVENTORY_V1_FIRST_RECEIPT.json",
+    "headers_only_receipt": "BOP_RED_KITE_HEADER_ONLY_V1_FIRST_RECEIPT.json",
+    "source_of_values": "Oppel et al., Journal of Avian Biology (2025), published Results: Transferring models to populations in Germany"
+  },
+  "reported_german": {
+    "eligible_individual_seasons": 99,
+    "eligible_birds": 63,
+    "distinct_populations": 2,
+    "home_range_yes_seasons": 98,
+    "nest_attempt_yes_seasons": 89,
+    "nest_success_yes_among_attempts": 55
+  },
+  "published_accuracy_pct": {
+    "home_range": 96,
+    "nest_attempt": 84.8,
+    "nest_success": 84.7
+  },
+  "interpretation": {
+    "reference": "Retrospective majority-class accuracy computed from published German labels: post-hoc oracle, NOT a deployable training-only comparator",
+    "home_and_nest": "The 99-season published totals allow descriptive contrasts, not individual probability/log-score gain or independent inference",
+    "success": "55 successes among 89 published attempts; exact denominator of the model's reported 84.7% success accuracy has not been reconciled to source-level eligible examples; gap is illustrative, not paired",
+    "biological_replication_unit": "bird_id, not individual seasons, GPS rows or transmitters; repeated years for a bird stay in one partition",
+    "scientific_claim_limit": "No new German external validation, probability model or ODSP group-level gain follows from this audit",
+    "original_bop_altitude_rf": "NOT_VALIDATED_ON_RED_KITE_NESTING",
+    "original_bop_legacy_terminal": "empirical_state_prediction_mixed",
+    "red_kite_schema_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "new_data_access": "NONE"
+  },
+  "future_analysis_prerequisites": [
+    "Verify canonical animal and two-population rosters without reading individual outcome rows",
+    "Freeze one binary target and its conditional sample before examining source responses",
+    "Freeze fitted model/reference provenance and disjoint adaptation/calibration/validation bird roles",
+    "Score each held-out bird once with individual-mean log-score gain, and check target exchangeability",
+    "Treat previously published German model outcomes as postpublication comparison, never undiscovered biology"
+  ]
+}
