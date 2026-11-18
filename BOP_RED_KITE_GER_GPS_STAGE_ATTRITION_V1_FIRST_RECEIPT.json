@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-redkite-GER-five-stage-eligibility-first-v1",
+  "pre_result_frozen_contract_commit": "fbb244938950fe5c3c0fdfc73c24429c0c44e087",
+  "first_official": {
+    "run_id": 44260229713,
+    "source_job_id": 134651672448,
+    "artifact_id": 14407028545,
+    "head_sha": "dde578585213574f61c463b172705199ccc38c98",
+    "zip_sha256": "3e5699905f1eb82a2eaf24c8c5e6c1b6acac261c1892fd7dc20cefc53df69841",
+    "json_sha256": "2acd0ea576398b0de7a9181b2943679adc9c7e802aa011556c8ed996d2920539",
+    "json_bytes": 2203,
+    "frozen_contract_sha256": "372cabae75a4eec2dbacc80148e1cabfca95aacfd1177bc676b437ee128aa957",
+    "source_status": "success",
+    "python_test_versions": [
+      "3.10",
+      "3.12",
+      "3.13"
+    ]
+  },
+  "observed_first": {
+    "raw_provider_GPS_lines": 500778,
+    "missing_or_invalid": 1,
+    "unlinked_year_id_rows": 2524,
+    "metadata_year_bird_mismatch_rows": 0,
+    "valid_linked_event_rows": 498253,
+    "stages": [
+      [
+        "S0_all_GER_metadata_seasons",
+        159,
+        63,
+        0,
+        0
+      ],
+      [
+        "S1_any_valid_GPS_event_matching_exact_year_bird_pair",
+        159,
+        63,
+        0,
+        0
+      ],
+      [
+        "S2_at_least_one_GPS_event_lat_gt_50_lon_gt_9",
+        159,
+        63,
+        0,
+        0
+      ],
+      [
+        "S3_at_least_one_GPS_event_UTC_ordinal_DOY_74_through_191",
+        159,
+        63,
+        0,
+        0
+      ],
+      [
+        "S4_gt_800_valid_GPS_event_rows_after_S3",
+        99,
+        49,
+        60,
+        14
+      ]
+    ],
+    "stage_columns": [
+      "stage",
+      "seasons",
+      "bird_ID_strings",
+      "seasons_lost",
+      "bird_ID_strings_lost"
+    ],
+    "full_provider_MD5s_verified": true,
+    "first_GPS_99_49_reconfirmed": true
+  },
+  "scientific_limits": {
+    "published_163_65_raw_not_reproduced": true,
+    "published_99_63_eligible_not_reproduced": true,
+    "exact_cause_of_publication_sample_count_mismatch_unresolved": true,
+    "stage_loss_60_seasons_14_birds_reproducible_under_declared_filter": true,
+    "no_raw_or_hashed_bird_year_ID_exported": true,
+    "no_gps_positions_timestamps_exported": true,
+    "no_nest_HR_success_values_accessed": true,
+    "no_real_prediction_gain": true,
+    "biological_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "original_BOP_terminal": "empirical_state_prediction_mixed"
+  }
+}
