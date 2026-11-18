@@ -6,6 +6,9 @@ on:
       - 'scripts/bop_red_kite_2024_package_code_only_v1.py'
       - 'tests/test_bop_red_kite_2024_package_code_only_v1.py'
       - 'docs/bop_red_kite_2024_package_code_only_v1.md'
+      - 'BOP_RED_KITE_2024_PACKAGE_CODE_V1_FIRST_RECEIPT.json'
+      - 'scripts/verify_bop_red_kite_2024_package_code_first_v1.py'
+      - 'tests/test_bop_red_kite_2024_package_code_first_v1.py'
       - '.github/workflows/bop-red-kite-2024-package-code-only-v1.yml'
   workflow_dispatch:
 permissions:
@@ -24,7 +27,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install -e '.[dev]'
       - name: Validate archive ZIP member safety and exact Git blob comparison without external reads
-        run: python -m pytest tests/test_bop_red_kite_2024_package_code_only_v1.py
+        run: python -m pytest tests/test_bop_red_kite_2024_package_code_only_v1.py tests/test_bop_red_kite_2024_package_code_first_v1.py
+      - name: Check original provider package code fingerprint without touching provider
+        run: python scripts/verify_bop_red_kite_2024_package_code_first_v1.py
   original-code-source-first:
     needs: code-only-offline-safety
     if: ${{ needs.code-only-offline-safety.result == 'success' }}
@@ -37,6 +42,8 @@ jobs:
           python-version: '3.12'
       - name: Read only original archived CODE ZIP and R script, compare historical GitHub R source
         run: python scripts/bop_red_kite_2024_package_code_only_v1.py --out "$RUNNER_TEMP/bop-redkite-archive-code-first.json"
+      - name: Verify actual provider rerun JSON exactly matches first immutable Actions output
+        run: python scripts/verify_bop_red_kite_2024_package_code_first_v1.py --result "$RUNNER_TEMP/bop-redkite-archive-code-first.json"
       - name: Archive bounded code fingerprints or source HOLD, never raw code or GPS
         if: always()
         uses: actions/upload-artifact@v4
