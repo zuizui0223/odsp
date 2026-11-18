@@ -145,8 +145,11 @@ def run()->dict:
     },method="GET")
     with urlopen(req,timeout=30) as r:
         url=urlparse(r.geturl())
-        if url.scheme!="https" or url.hostname not in ("www.movebank.org","movebank.org","www.movebank.mpg.de","movebank.mpg.de"):
-            raise ValueError("public study metadata redirected to unrecognized provider")
+        if (url.scheme!="https"
+            or url.hostname not in ("www.movebank.org","movebank.org","www.movebank.mpg.de","movebank.mpg.de")
+            or url.path!="/movebank/service/direct-read"
+            or url.query!="entity_type=study&study_id=294443150"):
+            raise ValueError("public study metadata redirected away from exact frozen study-summary endpoint")
         raw=r.read(source["max_response_bytes"]+1)
         if len(raw)>source["max_response_bytes"]:
             raise ValueError("study metadata exceeds frozen limit")
