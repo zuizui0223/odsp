@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-nesttool-2024-training-yearid-split-expected-animal-overlap-v1",
+  "frozen_date": "2026-11-18",
+  "role": "BEFORE_2024_ZENODO_ARCHIVED_THREE_TRAINER_SOURCE_PARITY_AND_AGGREGATE_ONLY_MATH",
+  "archived_package": {
+    "record_id": 13736049,
+    "doi": "10.5281/zenodo.13736049",
+    "filename": "NestTool-1.0.0.zip",
+    "exact_bytes": 6578763,
+    "provider_md5": "b172b87191f00f221e9d0151c61d65a6",
+    "download_url": "https://zenodo.org/records/13736049/files/NestTool-1.0.0.zip?download=1",
+    "original_code_zip_sha256": "ce9737f120aaf039d8252525a9a96d869c3975030f5bf3960c8d86615455bdc9",
+    "existing_code_only_first_receipt": "BOP_RED_KITE_2024_PACKAGE_CODE_V1_FIRST_RECEIPT.json"
+  },
+  "historic_git": {
+    "repository": "Vogelwarte/NestTool",
+    "commit": "8fdf3884b5f6079afdffdc5c563c9050766670a4",
+    "created_UTC": "2024-08-28T15:53:41Z",
+    "three_paths": [
+      {
+        "path": "R/train_home_range_detection.R",
+        "sha1": "47c7b5f6dbcfb53c2df8a014a65fe59cf8a258dd",
+        "split_input": "trackingsummary",
+        "random_sample_name": "milvus_id_train"
+      },
+      {
+        "path": "R/train_nest_detection.R",
+        "sha1": "c028e728e0fdf646c3bf6f46e10b3ae6b8f55bcd",
+        "split_input": "trackingsummary",
+        "random_sample_name": "milvus_id_train"
+      },
+      {
+        "path": "R/train_nest_success.R",
+        "sha1": "c657973023308201cc11c2fa0c8830fd6655ec5b",
+        "split_input": "nestingsummary",
+        "random_sample_name": "training_ids"
+      }
+    ]
+  },
+  "article_aggregate": {
+    "doi": "10.1111/jav.03246",
+    "first_published": "2024-10-17",
+    "Swiss_eligible_seasons": 697,
+    "Swiss_eligible_bird_count": 258,
+    "max_seasons_per_bird": 7,
+    "training_seasons": 488,
+    "validation_seasons": 209,
+    "author_default_train_frac": 0.7,
+    "training_dataset_for_HR_nest_only": true,
+    "success_outcome_conditional_subset_not_the_same_697": true,
+    "full_eligible_season_by_bird_frequency_not_opened": true
+  },
+  "estimand": {
+    "name": "expected_number_of_distinct_bird_ids_present_in_both_train_and_test_under_uniform_fixed_count_random_season_split",
+    "independent_unit": "biological_bird_not_year_id",
+    "split_mechanism": "exactly_488_of_697_unique_year_id_rows_uniformly_sampled_without_replacement;_remaining_209_test",
+    "prob_all_train": "falling(488,k)/falling(697,k)",
+    "prob_all_test": "falling(209,k)/falling(697,k)",
+    "prob_both": "1-prob_all_train-prob_all_test",
+    "feasible_histograms": "sum(h_k)=258,sum(k*h_k)=697,integer_h_nonnegative,k_in_1_to_7",
+    "prove_min_and_max_by_decreasing_marginal_mixed_probability": true,
+    "expected_overlap_bound_not_realized_leakage": true,
+    "no_accuracy_inflation_claim": true,
+    "no_claim_actual_paper_random_seed": true,
+    "no_new_real_model_training": true
+  },
+  "safety": {
+    "no_Zenodo_GPS_or_indseason_CSV": true,
+    "no_nested_binary_model_or_RDS_RData_extraction": true,
+    "download_only_pinned_code_ZIP_and_three_public_GitHub_R_sources": true,
+    "verify_zip_provider_md5_and_sha256": true,
+    "verify_historical_GitHub_blobs": true,
+    "source_member_max_uncompressed_bytes": 1048576,
+    "only_published_code_pattern_labels_line_numbers_and_hashes": true,
+    "no_raw_code_or_animal_keys_in_output": true,
+    "no_BOP_status_change": true
+  },
+  "terminals": {
+    "code_exact": "ARCHIVED_THREE_TRAINERS_YEARID_SPLIT_SOURCE_MATCH",
+    "code_mismatch": "DATED_GIT_YEARID_SPLIT_NOT_ZIP_VERIFIED",
+    "math": "CONDITIONAL_EXPECTED_GROUP_OVERLAP_BOUNDS_NOT_REALIZED_LEAKAGE",
+    "historical_BOP": "empirical_state_prediction_mixed",
+    "redkite": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "new_Swiss_validation": "NOT_SCORED"
+  }
+}
