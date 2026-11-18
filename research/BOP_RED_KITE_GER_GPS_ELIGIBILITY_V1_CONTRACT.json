@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-redkite-german-gps-eligibility-12-fixed-rules-v1",
+  "frozen_date": "2026-11-18",
+  "purpose": "A_SOURCE_ONLY_QUALITY_ELIGIBILITY_DIAGNOSTIC_BEFORE_READ_OF_GERMAN_GPS_COORDINATES_AND_TIMESTAMPS",
+  "upstream_first_source_key_receipt": "BOP_RED_KITE_RAW_GROUP_PREFIX_ONLY_V1_FIRST_RECEIPT.json",
+  "upstream_first_csv_header_receipt": "BOP_RED_KITE_HEADER_ONLY_V1_FIRST_RECEIPT.json",
+  "input_sources": [
+    {
+      "filename": "GER_trackingdata.csv",
+      "zenodo_record": 13736049,
+      "bytes": 53471439,
+      "md5": "ec5dd057fc6d704a09f15bbbffe00129",
+      "allowed_columns": [
+        "year_id",
+        "bird_id",
+        "timestamp",
+        "long_wgs",
+        "lat_wgs",
+        "long_eea",
+        "lat_eea"
+      ],
+      "usage": "READ_GPS_IN_PROCESS_AND_AGGREGATE_ONLY"
+    },
+    {
+      "filename": "GER_indseasondata.csv",
+      "zenodo_record": 13736049,
+      "bytes": 6456,
+      "md5": "bdf5445971195ca8cc27760d242b1563",
+      "allowed_prefix_columns": [
+        "year_id",
+        "bird_id"
+      ],
+      "usage": "REUSE_FROZEN_RESPONSE_SUFFIX_BLIND_ID_YEAR_PROJECTION"
+    }
+  ],
+  "relevant_code_context": {
+    "github_data_prep_file": "https://github.com/Vogelwarte/NestTool/blob/main/R/data_prep.R",
+    "github_data_prep_blob_sha": "6374114f56374022b36e122bf058b02d53fdcd20",
+    "github_validation_file": "https://github.com/Vogelwarte/NestTool/blob/main/NestTool_ExternalValidation.r",
+    "github_validation_blob_sha": "0bbd3b94c447a7308d5b079a494c58164859e6cc",
+    "later_git_main_not_verified_as_exact_2024_zenodo_archived_code": true,
+    "paper_doi": "10.1111/jav.03246",
+    "paper_article_reports_2010_to_2023_German_data": true
+  },
+  "frozen_filters": {
+    "lat_wgs_strict_gt": 50,
+    "long_wgs_strict_gt": 9,
+    "ordinal_utc_DOY_inclusive": [
+      74,
+      191
+    ],
+    "calendar_utc_month_day_inclusive": [
+      "03-15",
+      "07-10"
+    ],
+    "time_reference": "UTC",
+    "counting_window": "one bird_id/year_id; independently count each original provider event before thinning",
+    "thinning_arms": [
+      "observed_source_events",
+      "unique_utc_hour_bin",
+      "rolling_3600_seconds"
+    ],
+    "date_arms": [
+      "fixed_2023_DOY_ordinal",
+      "actual_calendar_month_day"
+    ],
+    "minimum_location_arms": [
+      "strict_gt_800",
+      "inclusive_ge_800"
+    ],
+    "primary_a_priori": "fixed_2023_DOY_ordinal__observed_source_events__strict_gt_800",
+    "all_12_arm_results_reported_even_if_no_match": true,
+    "no_selecting_an_arm_posthoc_to_reproduce_99_63": true,
+    "raw_german_metadata_bird_id_count_expected": 63,
+    "raw_german_metadata_year_id_count_expected": 159,
+    "linked_season_only": true
+  },
+  "outputs_permitted": [
+    "original_source_bytes",
+    "full_source_md5_ok",
+    "input_gps_records_count",
+    "malformed_or_missing_gps_count",
+    "geography_rejected_count",
+    "calendar_or_ordinal_season_kept_count",
+    "linked_to_source_metadata_count",
+    "unmatched_metadata_year_count",
+    "year_bird_inconsistent_count",
+    "12_arm_name__eligible_seasons_and_unique_bird_strings_only",
+    "no_id_strings_no_coordinates_no_timestamps",
+    "preaccess_contract_sha256"
+  ],
+  "interpretation": {
+    "published_original_German_seasons": 163,
+    "published_original_German_birds": 65,
+    "published_GPS_eligible_seasons": 99,
+    "published_GPS_eligible_birds": 63,
+    "source_meta_159_63_not_fully_equivalent_to_paper_input": true,
+    "source_traces_may_already_be_thinned_60min_before_archiving": true,
+    "location_threshold_paper_at_least_800_vs_later_R_code_strictly_gt_800": true,
+    "no_unique_original_hourly_thinning_spec_identified": true,
+    "complete_original_NestTool_model_not_run": true,
+    "no_reproductive_labels_accessed_or_parsed": true,
+    "no_per_bird_ids_or_year_ids_emitted": true,
+    "no_exact_GPS_positions_or_time_printed": true,
+    "no_cross_source_real_animal_identity_admission": true,
+    "paper_German_outcomes_already_published": true,
+    "scientific_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "original_BOP_terminal": "empirical_state_prediction_mixed",
+    "original_Dryad_status": "NOT_ADMITTED"
+  }
+}
