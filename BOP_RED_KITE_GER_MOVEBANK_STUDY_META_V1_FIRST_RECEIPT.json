@@ -46,5 +46,21 @@
     "historical_BOP_terminal": "empirical_state_prediction_mixed",
     "original_Dryad": "NOT_ADMITTED",
     "redkite_biological_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER"
+  },
+  "first_preaccess_contract_git_blob_sha1": "b2577b084c63ffd3839f25f9ff4c0912b3a10af1",
+  "first_original_source_output": {
+    "archived_GER_99_season_49_bird_ID_result_unchanged": true,
+    "current_not_historical_2024": true,
+    "entire_GER_163_65_original_paper_roster_verified": false,
+    "error_type": "HTTPError",
+    "historical_99_63_eligible_birds_verified": false,
+    "historical_BOP_terminal": "empirical_state_prediction_mixed",
+    "individual_tag_deployment_or_event_rows_accessed": false,
+    "nesting_or_success_labels_accessed": false,
+    "provider_record_id": 294443150,
+    "redkite_prediction_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "schema_version": 1,
+    "source_role": "ANONYMOUS_LIVE_STUDY_SUMMARY_ONLY",
+    "status": "STUDY_METADATA_ACCESS_HOLD"
   }
 }
