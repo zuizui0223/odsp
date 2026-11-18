@@ -149,6 +149,11 @@ This strengthens the methodological provenance example in the
 [working BOP manuscript](manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md),
 not the evidence for generalization of the historical BOP random forest.
 
+
+## BOP red-kite source-population count audit
+
+A [postpublication, source-count and original-code reconciliation](docs/bop_red_kite_2024_paper_source_count_audit_v1.md) checked Oppel et al. (2025) red-kite German nesting-state source data **without opening breeding labels or scoring a new model**. The published paper describes 163 original seasons/65 birds and 99 eligible seasons/63 birds. Frozen provider-file checks instead yielded **159 distinct season IDs / 63 bird strings** in the original metadata and **99 eligible seasons / 49 bird strings** after the predeclared, strictly >800-GPS-fix threshold. Both 2024 authors' archived analysis code and contemporary `data_prep` code were inspected: the archived script includes an *unfiltered* German bird count that would equal **63**, but it is **not proved** that this caused the paper's eligible-bird statement; the pre-archive cohort and exact ZIP/source identity are not yet reconciled. No claims of a new German external prediction result or exchangeability are made; [the immutable machine-readable audit](research/BOP_RED_KITE_2024_PAPER_SOURCE_COUNT_AUDIT_V1.json) preserves the original BOP mixed verdict.
+
 ## BOP method integration and independent animal admission
 
 ODSP's five linked BOP methodology PRs [#274](https://github.com/zuizui0223/odsp/pull/274)–[#278](https://github.com/zuizui0223/odsp/pull/278) were **merged into main**. Their methods-paper evidence and explicit stopping conditions are collected in [the BOP methodology spine](docs/bop_method_spine_v1.md). They separate historical held-out individual prediction gain, future-group lower prediction bounds, exact trained-model-to-forecast replay, biological source admission and synthetic cross-source input transport.
