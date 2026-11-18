@@ -83,7 +83,7 @@ def verify(receipt:dict,contract:dict,*,raw:bytes|None=None)->dict:
             new["status"]!="PACKAGE_CODE_EXACT_GIT_MATCH"
             or new["zip_R_data_prep_digest"]["git_blob_sha1"]!=code["historical_reference_git_blob_sha1"]
             or new["archived_top_level_script"]["pattern_line_numbers"]["length(unique(GERseasondata$bird_id))"]!=[501]
-            or new["zip_R_data_prep_static_patterns"]["number_of_fixes > minlocs"]!=[163]
+            or new["zip_data_prep_static_patterns"]["number_of_fixes > minlocs"]!=[163]
             or new["no_GPS_or_reproductive_labels_accessed"] is not True
             or new["original_GER_99_63_eligible_animal_roster_reconstructed"] is not False
         ):
