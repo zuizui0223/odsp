@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-red-kite-Movebank-DE-study-public-metadata-v1",
+  "preaccess_freeze_date": "2026-11-18",
+  "biological_role": "AFTER_ARCHIVED_GPS_CADENCE_SOURCE_CHECK_STUDY_METADATA_ONLY_CURRENT_NOT_2024",
+  "paper": {
+    "doi": "10.1111/jav.03246",
+    "german_original_seasons": 163,
+    "german_original_birds": 65,
+    "reported_german_eligible_seasons": 99,
+    "reported_german_eligible_birds": 63,
+    "Movebank_study_ids_as_published": [
+      230545451,
+      1356790386,
+      294443150
+    ],
+    "german_named_public_study": "Red Kites (Milvus milvus) in Saxony-Anhalt"
+  },
+  "narrow_source": {
+    "study_id": 294443150,
+    "url": "https://www.movebank.org/movebank/service/direct-read?entity_type=study&study_id=294443150",
+    "method": "GET",
+    "account_authentication": "NONE",
+    "source_kind": "LIVE_STUDY_SUMMARY_ONLY_NOT_HISTORICAL_REPO_SNAPSHOT",
+    "max_response_bytes": 65536,
+    "response_format": "CSV_OR_PLAINTEXT_HOLD",
+    "whitelist_fields": [
+      "id",
+      "name",
+      "number_of_individuals",
+      "number_of_deployments",
+      "number_of_tags",
+      "number_of_deployed_locations",
+      "timestamp_first_deployed_location",
+      "timestamp_last_deployed_location",
+      "i_can_see_data",
+      "i_have_download_access",
+      "there_are_data_which_i_cannot_see",
+      "license_type",
+      "study_permission"
+    ]
+  },
+  "safety": {
+    "no_individual_reference_data": true,
+    "no_tag_deployment_csv": true,
+    "no_GPS_or_other_event_data": true,
+    "no_nest_HR_success_labels": true,
+    "no_identifying_animal_or_tag_keys": true,
+    "no_credentials_or_cookies_or_login": true,
+    "no_accepting_licence_or_terms_on_behalf_of_user": true,
+    "no_request_if_permission_requires_acceptance": true,
+    "raw_response_and_contact_person_not_exported": true,
+    "never_infer_historic_2024_count_from_2026_live_metadata": true,
+    "no_source_substitution_or_extra_source_hunting_after_response": true
+  },
+  "decisions": {
+    "HTTP_or_permission_denied": "STUDY_METADATA_ACCESS_HOLD",
+    "valid_study_summary_accessible": "CURRENT_MOVEBANK_STUDY_METADATA_ONLY",
+    "schema_missing_or_mismatched_study_id": "STUDY_METADATA_SCHEMA_OR_ID_HOLD",
+    "observed_study_individuals_may_include_more_years_than_paper": true,
+    "only_one_of_multiple_paper_source_studies_checked": true,
+    "even_matching_65_birds_cannot_prove_paper_163_bird_years": true,
+    "never_reclassify_fixed_source_99_49_as_99_63": true,
+    "historical_BOP_terminal": "empirical_state_prediction_mixed",
+    "redkite_prediction_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER"
+  },
+  "next_if_metadata_available": "Only if owner permission and an immutable historical 2024 roster snapshot can be established should a separately predeclared crosswalk consider real bird-year counts; do not access animal GPS/outcomes here.",
+  "next_if_metadata_blocked": "Stop at permissions and published Zenodo proof ceiling; do not infer unavailable records or request credentials in CI."
+}
