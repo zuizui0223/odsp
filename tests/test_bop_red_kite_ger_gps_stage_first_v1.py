@@ -34,9 +34,9 @@ def test_false_promotion_or_source_tampering_rejected(path,value):
     r,c=_objects()
     v=deepcopy(r)
     node=v
-    for k in path[:-2]:
+    for k in path[:-1]:
         node=node[k]
-    node[path[-2]]=value
+    node[path[-1]]=value
     with pytest.raises((ValueError,TypeError)):
         verify(v,c)
 
