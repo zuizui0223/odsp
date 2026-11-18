@@ -1,0 +1,46 @@
+name: bop-red-kite-german-source-attrition-v1
+on:
+  pull_request:
+    paths:
+      - "research/BOP_RED_KITE_GER_GPS_STAGE_ATTRITION_V1_CONTRACT.json"
+      - "scripts/bop_red_kite_ger_gps_stage_attrition_v1.py"
+      - "tests/test_bop_red_kite_ger_gps_stage_attrition_v1.py"
+      - "docs/bop_red_kite_ger_gps_stage_attrition_v1.md"
+      - ".github/workflows/bop-red-kite-german-source-attrition-v1.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fixed-source-stage-offline:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install -e '.[dev]'
+      - run: python -m pytest tests/test_bop_red_kite_ger_gps_stage_attrition_v1.py
+  official-source-stage-first:
+    needs: fixed-source-stage-offline
+    if: ${{ needs.fixed-source-stage-offline.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Recount source year/bird pairs across frozen German GPS attrition stages
+        run: python scripts/bop_red_kite_ger_gps_stage_attrition_v1.py --out "$RUNNER_TEMP/redkite-german-stage-first.json"
+      - name: Preserve original aggregate-only first stage outcome or HOLD
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bop-red-kite-german-stage-first
+          path: ${{ runner.temp }}/redkite-german-stage-first.json
+          retention-days: 90
+          if-no-files-found: warn
