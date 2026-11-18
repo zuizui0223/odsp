@@ -40,3 +40,18 @@ Official source run (only in the dedicated CI source job following successful sy
 ```bash
 python scripts/bop_red_kite_raw_group_prefix_only_v1.py --out /tmp/red-kite-raw-group-aggregate.json
 ```
+
+## First official source-only result (18 November 2026)
+
+Source job [#44257226379](https://github.com/zuizui0223/odsp/actions/runs/44257226379) succeeded after the original committed preaccess contract `99f32569bf7b8ee17056f1b9a4c7c90dd82e1694` and Python 3.10/3.12/3.13 synthetic tests. The exact first aggregate-only artifact is ID `14406462430`; original ZIP SHA256 `bf5b9b1bdf29acbbdfcd3ab17709c11a4307df6b7146fba5b0d8705c22e6d9da`; JSON SHA256 `efc41dacf264777d06343a283fc620a6575d2879874e1530ed00f749840e3e1e` (2,161 bytes). The official first result is pinned in `BOP_RED_KITE_RAW_GROUP_PREFIX_ONLY_V1_FIRST_RECEIPT.json` and rechecked offline by `scripts/verify_bop_red_kite_raw_group_first_v1.py`.
+
+| Provider metadata file | Physical lines | Distinct `bird_id` | Distinct `year_id` | Birds with ≥2 records | Largest history |
+|---|---:|---:|---:|---:|---:|
+| Germany | **159** | **63** | 159 | 46 | 7 |
+| Switzerland | **2,866** | **553** | 2,866 | 515 | 7 |
+
+Both provider file bytes matched the **original published full-file MD5** values, and no duplicated `year_id` values were found. The exact string overlap across German/Swiss `bird_id` and `year_id` sets was zero for both; this is **not authenticated biological non-overlap**.
+
+**Source-versus-paper warning:** German original source metadata has **159/63**, while the paper describes **163/65 before GPS eligibility** and **99/63 after GPS eligibility**. Swiss source metadata has **2,866/553**, while the paper reports **697/258 eligible**. This is an important **documented unresolved sample-frame discrepancy**, not an error to hide by post hoc filtering. It may reflect published file preparation or screening, but the cause has not been demonstrated here. **No 99-season, 63-bird GPS-eligible roster is admitted yet.**
+
+At the publication aggregate stage, the project still has no source-audited animal-level gain, no independent 90% group-rank calibration and no claim of a new source biological discovery. The next valid action is a separately predeclared German GPS quality/season eligibility preflight, *not* opening `nest` or `success` values.
