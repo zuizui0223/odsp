@@ -186,8 +186,11 @@ def run()->dict:
         "original_provider_GER_metadata_and_GPS_MD5_verified":True,
         "source_event_funnel":counts,
         "fixed_interval_cohorts":cohorts,
-        "archived_GER_source_strictly_one_fix_per_hour":all(
-            z["season_ID_strings_with_any_under_55min_gap"]==0 for z in cohorts),
+        "archived_GER_source_has_shorter_than_55min_intervals":any(
+            z["season_ID_strings_with_any_under_55min_gap"]>0 for z in cohorts),
+        "archived_GER_source_has_shorter_than_60min_intervals":any(
+            z["share_positive_gaps_under_60min"]>0 for z in cohorts),
+        "original_hourly_downsampling_algorithm_proven":False,
         "original_60min_downsampling_method_identified":False,
         "no_exact_timestamps_positions_or_IDs_exported":True,
         "no_breeding_label_values_accessed":True,
