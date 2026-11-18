@@ -6,6 +6,9 @@ on:
       - "scripts/bop_red_kite_raw_group_prefix_only_v1.py"
       - "tests/test_bop_red_kite_raw_group_prefix_only_v1.py"
       - "docs/bop_red_kite_raw_group_prefix_only_v1.md"
+      - "scripts/verify_bop_red_kite_raw_group_first_v1.py"
+      - "tests/test_bop_red_kite_raw_group_first_receipt_v1.py"
+      - "BOP_RED_KITE_RAW_GROUP_PREFIX_ONLY_V1_FIRST_RECEIPT.json"
       - ".github/workflows/bop-red-kite-raw-group-prefix-only-v1.yml"
   workflow_dispatch:
 permissions:
@@ -23,7 +26,8 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install -e '.[dev]'
-      - run: python -m pytest tests/test_bop_red_kite_raw_group_prefix_only_v1.py
+      - run: python -m pytest tests/test_bop_red_kite_raw_group_prefix_only_v1.py tests/test_bop_red_kite_raw_group_first_receipt_v1.py
+      - run: python scripts/verify_bop_red_kite_raw_group_first_v1.py
   official-source-key-projection:
     needs: offline-source-boundary-tests
     if: ${{ needs.offline-source-boundary-tests.result == 'success' }}
@@ -36,6 +40,8 @@ jobs:
           python-version: "3.12"
       - name: Project only first key fields of exact two published source CSVs
         run: python scripts/bop_red_kite_raw_group_prefix_only_v1.py --out "$RUNNER_TEMP/bop-red-kite-raw-group-prefix-first.json"
+      - name: Verify complete source-only output equals immutable first Actions JSON
+        run: python scripts/verify_bop_red_kite_raw_group_first_v1.py --result "$RUNNER_TEMP/bop-red-kite-raw-group-prefix-first.json"
       - name: Archive aggregate-only receipt even on data access HOLD
         if: always()
         uses: actions/upload-artifact@v4
