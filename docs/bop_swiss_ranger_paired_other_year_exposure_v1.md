@@ -37,3 +37,38 @@ Python 3.10/3.12/3.13 tests first check that the original published source-group
 One first GitHub Actions source job downloads the single pinned RDS into private runner storage, checks its **size and Git blob SHA1**, runs the earlier **outcome-blind** 697/258 schema gate, and only then runs the frozen R ranger models reading HR/nest values. Raw RDS, animal IDs, individual predictor/outcome rows and per-season probability outputs are not saved or uploaded. Only source-wide safe aggregate JSON and explicit source HOLD are eligible artifacts. After the first provider-result, subsequent CI should become **offline-only**, preserving the original artifact SHA256.
 
 Original ODSP BOP terminal: `empirical_state_prediction_mixed`. New red-kite external/outcome-group state remains `HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER`. No Swiss→Germany transfer is performed here.
+
+## First original R source result — fully paired, matched test rows
+
+The first attempt at [Actions run 44474985036](https://github.com/zuizui0223/odsp/actions/runs/44474985036) successfully completed all three Python safety lanes, but the **source-free synthetic R gate rejected a function call**: `ranger::predict` is not publicly exported by the ranger package. This failure occurred **before any RDS download or biological-label read**. Replaced that call with the supported `stats::predict` S3 dispatcher without changing source, split, seed, target, feature or RF hyperparameter rules.
+
+The **first successful actual source** was [GitHub Actions run #44476326291](https://github.com/zuizui0223/odsp/actions/runs/44476326291), source job `135398733458`. Synthetic Python 3.10/3.12/3.13 gates and the R source-free synthetic test all succeeded before the first real RDS read. The Git-bloc-verified, outcome-blind schema gate confirmed 697 season rows / 258 bird-ID strings and the 66/51/62/56/20/2/1 source histogram; the fixed HR and nest `ranger` analyses then succeeded on **64 original model panels** (16 seeds × two target outcomes × two training exposures). The source ZIP artifact is ID `14506357960`, archive length **5,644 bytes**, SHA256 `5baf70031cabeb1d97dbf563e658a721f0fb6b6a4090482c48f5590993c02731`; its safe schema JSON was 572 bytes SHA256 `f6d267261433655512cb131b7d935f78a51c4d0d1e29fa9d74b606bf67b310fc`, and its **aggregate-only** result JSON was 57,153 bytes SHA256 `4e705cb469e53812cd53b375636f43e3696f17cbbf977c7f8c068b31d17dfcff`.
+
+### Results from the same held-out test rows, 16 fixed seeds
+
+All model pairs had **488 season rows for training, 50 identical test season rows**, with 438 training rows shared. The bird-disjoint arm had **0 shared test bird IDs** and the exposure arm exactly **50 shared IDs** (the other season of each test bird). Test labels and samples are **identical between each pair**.
+
+| Response, mean over 16 paired seed panels | Bird-disjoint unrelated-bird training | Test-bird other-year exposed training | Exposed minus disjoint |
+|---|---:|---:|---:|
+| Home range: accuracy | **97.00%** | **97.00%** | 0 percentage points |
+| Home range: Brier (lower better) | **0.028638** | 0.029346 | +0.000709 |
+| Home range: log loss (lower better) | **0.121264** | 0.143140 | **+0.021876** |
+| Home range: AUC | **0.988142** | 0.982926 | −0.005216 |
+| Home range: gain vs training marginal | **+0.588366** | +0.560545 | −0.027821 |
+| Nesting: accuracy | **94.75%** | **94.75%** | 0 percentage points |
+| Nesting: Brier | 0.031082 | **0.031009** | −0.000073 |
+| Nesting: log loss | 0.100935 | **0.100025** | −0.000909 |
+| Nesting: AUC | **0.994950** | 0.994688 | −0.000262 |
+| Nesting: gain vs training marginal | **+0.553231** | +0.547666 | −0.005565 |
+
+On the **same test rows**, inclusion of a test bird's other season in training did **not** improve accuracy for either outcome in any of the 16 pairs. Home-range log loss was **worse in 14/16** exposed training panels (paired mean +0.021876; paired median +0.010722), while nesting log loss was higher in **7/16** panels (mean −0.000909). Such repeated source resamplings are correlated, so the 14/16 count is descriptive rather than a valid independent-binomial significance test.
+
+**Interpretation:** An original-code-family `ranger` sensitivity test now controls the test sample exactly. It is not supported that familiarity with the *same* source bird's other year necessarily explains the strong home-range or nesting predictions. This is **not proof that individual identity can never contribute**: the control changes 50 training feature/response rows, `ranger` settings differ from the authors' tuned 2024 model, and the test set includes only two-year birds in one previously studied Swiss dataset.
+
+### Durability and no-repeat source access
+
+The first successful source-safe artifact, exact ZIP/member SHA256s, 4 response/mode mean-score summaries and **all 32 per-seed paired score differences** are preserved in `BOP_SWISS_RANGER_PAIRED_OTHER_YEAR_EXPOSURE_V1_FIRST_RECEIPT.json`. An offline verifier (`scripts/verify_bop_swiss_ranger_paired_first_v1.py`) checks the source contract Git blob, first Actions artifact digests, source/ranger restrictions, all 16 precommitted seeds, every paired-sign/difference mean and the explicit scientific STOP. It can additionally check the exact first ZIP bytes if provided, without changing the original receipt.
+
+After the first actual source run, the dedicated Actions workflow was changed to **offline-only** Python tests; subsequent runs do **not** download or reopen the published source RDS/HR/nest labels, and the original RDS/volatile input files were never uploaded.
+
+Original BOP verdict `empirical_state_prediction_mixed`, Dryad `NOT_ADMITTED` and the independent future-population red-kite prediction `HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER` remain unchanged.
