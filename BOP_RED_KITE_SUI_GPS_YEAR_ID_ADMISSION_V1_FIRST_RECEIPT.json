@@ -1,0 +1,339 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-redkite-SUI-first-official-12-arm-source-eligibility-and-expected-overlap-v1",
+  "evidence_role": "OUTCOME_BLIND_SOURCE_BIRD_YEAR_MULTIPLICITY_AND_EXPECTED_CROSS_ROLE_REUSE",
+  "original_preaccess_contract_commit": "4826226d4f3ac6d1f3af74191b0e6ebf53fb027f",
+  "first_actions": {
+    "run_id": 44456757144,
+    "source_job_id": 135336383906,
+    "original_branch_head": "59e11769cfc9051de212e8d7dc1936219080e694",
+    "conclusion": "success",
+    "artifact_id": 14498950985,
+    "artifact_name": "bop-red-kite-sui-source-first",
+    "original_artifact_ZIP_bytes": 1464,
+    "original_artifact_ZIP_sha256": "5db9468c76f294ed2f6f339fb2bb5d1bb56109fc7a17be529161fefe7a63bdeb",
+    "original_JSON_filename": "bop-red-kite-sui-source-first.json",
+    "original_JSON_bytes": 10573,
+    "original_JSON_sha256": "c1fc25a81d2285d0751e4e8b9ef5c85dda0d4e9252a56a464373c3b4dff18a5a",
+    "frozen_contract_sha256": "52ca9198aa3b6a7f5282186e437c99340f28b03c55ac01c7ef17dbe2d6f01993",
+    "synthetic_Python_3_10_3_12_3_13_success": true
+  },
+  "summary": {
+    "source_original_GPS_rows": 2395531,
+    "all_SUI_source_year_ID_strings": 2866,
+    "all_SUI_source_bird_ID_strings": 553,
+    "source_GPS_date_eligible_before_fix_screen": 967,
+    "primary_frozen_arm": "fixed_2023_DOY_ordinal__unique_UTC_hour_bin__strict_gt_800",
+    "primary_eligible_year_ID_strings": 697,
+    "primary_eligible_bird_ID_strings": 258,
+    "primary_source_multiplicity": {
+      "1": 66,
+      "2": 51,
+      "3": 62,
+      "4": 56,
+      "5": 20,
+      "6": 2,
+      "7": 1
+    },
+    "primary_bird_ID_strings_with_two_or_more_years": 192,
+    "expected_bird_ID_strings_both_roles_under_hypothetical_uniform_488_209_year_split": 121.992374,
+    "source_selection_arms_total": 12,
+    "selection_arms_matching_published_697_and_258_numeric_counts": 8
+  },
+  "claim_limits": {
+    "provider_full_GPS_and_metadata_MD5_rechecked": true,
+    "source_multiplicity_computed_from_exact_original_2024_source": true,
+    "original_2024_split_bird_memberships_and_random_seed_unobserved": true,
+    "expected_overlap_not_actual_observed_overlap": true,
+    "numeric_697_258_match_not_identity_crosswalk": true,
+    "no_HR_nest_success_values_decoded": true,
+    "no_event_level_GPS_or_identifying_IDs_exported": true,
+    "no_model_retraining_or_accuracy_inflation_measured": true,
+    "nesting_success_subset_not_reconstructed": true,
+    "paper_rejected_336_vs_source_filtered_270_not_reconciled": true,
+    "original_BOP_terminal": "empirical_state_prediction_mixed",
+    "redkite_biological_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER"
+  },
+  "original_source_output": {
+    "BOP_historical_terminal": "empirical_state_prediction_mixed",
+    "GPS_source_aggregate": {
+      "GPS_rows_from_unlisted_year_ID": 0,
+      "GPS_rows_outside_strict_geobounds": 390753,
+      "GPS_rows_with_exact_metadata_year_bird_match": 2395531,
+      "GPS_rows_with_inconsistent_bird_ID": 0,
+      "inseason_GPS_event_rows_by_date_arm": {
+        "actual_calendar_month_day": 1140949,
+        "fixed_2023_DOY_ordinal": 1138761
+      },
+      "linked_GPS_seasons_having_any_inseason_record_by_date_arm": {
+        "actual_calendar_month_day": 967,
+        "fixed_2023_DOY_ordinal": 967
+      },
+      "malformed_GPS_rows": 0,
+      "source_GPS_physical_rows": 2395531
+    },
+    "Swiss_source_unfiltered_metadata_bird_ID_strings": 553,
+    "Swiss_source_unfiltered_metadata_year_ID_strings": 2866,
+    "actual_forecast_probabilities_scored": false,
+    "no_label_or_GPS_source_individual_record_emitted": true,
+    "no_posthoc_selection_of_matching_697_258": true,
+    "original_GPS_and_metadata_full_provider_MD5_verified": true,
+    "original_actual_2024_training_random_seed_observed": false,
+    "paper_2024_training_roster_authenticated": false,
+    "preaccess_contract_sha256": "52ca9198aa3b6a7f5282186e437c99340f28b03c55ac01c7ef17dbe2d6f01993",
+    "primary_arm_published_before_source": "fixed_2023_DOY_ordinal__unique_UTC_hour_bin__strict_gt_800",
+    "redkite_biological_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "schema_version": 1,
+    "status": "SUI_SOURCE_12_ARM_QUALITY_COUNTS_ONLY",
+    "twelve_fixed_eligibility_arms": [
+      {
+        "arm": "fixed_2023_DOY_ordinal__observed_source_events__strict_gt_800",
+        "bird_seasons_per_bird_histogram": {
+          "1": 66,
+          "2": 51,
+          "3": 62,
+          "4": 56,
+          "5": 20,
+          "6": 2,
+          "7": 1
+        },
+        "birds_with_multiple_eligible_seasons": 192,
+        "distinct_bird_ID_strings": 258,
+        "eligible_year_ID_strings": 697,
+        "expected_bird_ID_strings_in_both_split_roles": 121.992374,
+        "hypothetical_uniform_year_split_test_seasons": 209,
+        "hypothetical_uniform_year_split_training_seasons": 488,
+        "matches_both_published_697_seasons_258_birds_numerically": true,
+        "max_seasons_per_bird": 7,
+        "published_2024_real_split_and_bird_authentication_not_verified": true
+      },
+      {
+        "arm": "fixed_2023_DOY_ordinal__observed_source_events__inclusive_ge_800",
+        "bird_seasons_per_bird_histogram": {
+          "1": 66,
+          "2": 51,
+          "3": 62,
+          "4": 56,
+          "5": 20,
+          "6": 2,
+          "7": 1
+        },
+        "birds_with_multiple_eligible_seasons": 192,
+        "distinct_bird_ID_strings": 258,
+        "eligible_year_ID_strings": 697,
+        "expected_bird_ID_strings_in_both_split_roles": 121.992374,
+        "hypothetical_uniform_year_split_test_seasons": 209,
+        "hypothetical_uniform_year_split_training_seasons": 488,
+        "matches_both_published_697_seasons_258_birds_numerically": true,
+        "max_seasons_per_bird": 7,
+        "published_2024_real_split_and_bird_authentication_not_verified": true
+      },
+      {
+        "arm": "fixed_2023_DOY_ordinal__unique_UTC_hour_bin__strict_gt_800",
+        "bird_seasons_per_bird_histogram": {
+          "1": 66,
+          "2": 51,
+          "3": 62,
+          "4": 56,
+          "5": 20,
+          "6": 2,
+          "7": 1
+        },
+        "birds_with_multiple_eligible_seasons": 192,
+        "distinct_bird_ID_strings": 258,
+        "eligible_year_ID_strings": 697,
+        "expected_bird_ID_strings_in_both_split_roles": 121.992374,
+        "hypothetical_uniform_year_split_test_seasons": 209,
+        "hypothetical_uniform_year_split_training_seasons": 488,
+        "matches_both_published_697_seasons_258_birds_numerically": true,
+        "max_seasons_per_bird": 7,
+        "published_2024_real_split_and_bird_authentication_not_verified": true
+      },
+      {
+        "arm": "fixed_2023_DOY_ordinal__unique_UTC_hour_bin__inclusive_ge_800",
+        "bird_seasons_per_bird_histogram": {
+          "1": 66,
+          "2": 51,
+          "3": 62,
+          "4": 56,
+          "5": 20,
+          "6": 2,
+          "7": 1
+        },
+        "birds_with_multiple_eligible_seasons": 192,
+        "distinct_bird_ID_strings": 258,
+        "eligible_year_ID_strings": 697,
+        "expected_bird_ID_strings_in_both_split_roles": 121.992374,
+        "hypothetical_uniform_year_split_test_seasons": 209,
+        "hypothetical_uniform_year_split_training_seasons": 488,
+        "matches_both_published_697_seasons_258_birds_numerically": true,
+        "max_seasons_per_bird": 7,
+        "published_2024_real_split_and_bird_authentication_not_verified": true
+      },
+      {
+        "arm": "fixed_2023_DOY_ordinal__rolling_3600_seconds__strict_gt_800",
+        "bird_seasons_per_bird_histogram": {
+          "1": 68,
+          "2": 57,
+          "3": 60,
+          "4": 49,
+          "5": 10,
+          "6": 2
+        },
+        "birds_with_multiple_eligible_seasons": 178,
+        "distinct_bird_ID_strings": 246,
+        "eligible_year_ID_strings": 620,
+        "expected_bird_ID_strings_in_both_split_roles": 108.809115,
+        "hypothetical_uniform_year_split_test_seasons": 186,
+        "hypothetical_uniform_year_split_training_seasons": 434,
+        "matches_both_published_697_seasons_258_birds_numerically": false,
+        "max_seasons_per_bird": 6,
+        "published_2024_real_split_and_bird_authentication_not_verified": true
+      },
+      {
+        "arm": "fixed_2023_DOY_ordinal__rolling_3600_seconds__inclusive_ge_800",
+        "bird_seasons_per_bird_histogram": {
+          "1": 68,
+          "2": 56,
+          "3": 61,
+          "4": 49,
+          "5": 10,
+          "6": 2
+        },
+        "birds_with_multiple_eligible_seasons": 178,
+        "distinct_bird_ID_strings": 246,
+        "eligible_year_ID_strings": 621,
+        "expected_bird_ID_strings_in_both_split_roles": 108.925472,
+        "hypothetical_uniform_year_split_test_seasons": 186,
+        "hypothetical_uniform_year_split_training_seasons": 435,
+        "matches_both_published_697_seasons_258_birds_numerically": false,
+        "max_seasons_per_bird": 6,
+        "published_2024_real_split_and_bird_authentication_not_verified": true
+      },
+      {
+        "arm": "actual_calendar_month_day__observed_source_events__strict_gt_800",
+        "bird_seasons_per_bird_histogram": {
+          "1": 66,
+          "2": 51,
+          "3": 62,
+          "4": 56,
+          "5": 20,
+          "6": 2,
+          "7": 1
+        },
+        "birds_with_multiple_eligible_seasons": 192,
+        "distinct_bird_ID_strings": 258,
+        "eligible_year_ID_strings": 697,
+        "expected_bird_ID_strings_in_both_split_roles": 121.992374,
+        "hypothetical_uniform_year_split_test_seasons": 209,
+        "hypothetical_uniform_year_split_training_seasons": 488,
+        "matches_both_published_697_seasons_258_birds_numerically": true,
+        "max_seasons_per_bird": 7,
+        "published_2024_real_split_and_bird_authentication_not_verified": true
+      },
+      {
+        "arm": "actual_calendar_month_day__observed_source_events__inclusive_ge_800",
+        "bird_seasons_per_bird_histogram": {
+          "1": 66,
+          "2": 51,
+          "3": 62,
+          "4": 56,
+          "5": 20,
+          "6": 2,
+          "7": 1
+        },
+        "birds_with_multiple_eligible_seasons": 192,
+        "distinct_bird_ID_strings": 258,
+        "eligible_year_ID_strings": 697,
+        "expected_bird_ID_strings_in_both_split_roles": 121.992374,
+        "hypothetical_uniform_year_split_test_seasons": 209,
+        "hypothetical_uniform_year_split_training_seasons": 488,
+        "matches_both_published_697_seasons_258_birds_numerically": true,
+        "max_seasons_per_bird": 7,
+        "published_2024_real_split_and_bird_authentication_not_verified": true
+      },
+      {
+        "arm": "actual_calendar_month_day__unique_UTC_hour_bin__strict_gt_800",
+        "bird_seasons_per_bird_histogram": {
+          "1": 66,
+          "2": 51,
+          "3": 62,
+          "4": 56,
+          "5": 20,
+          "6": 2,
+          "7": 1
+        },
+        "birds_with_multiple_eligible_seasons": 192,
+        "distinct_bird_ID_strings": 258,
+        "eligible_year_ID_strings": 697,
+        "expected_bird_ID_strings_in_both_split_roles": 121.992374,
+        "hypothetical_uniform_year_split_test_seasons": 209,
+        "hypothetical_uniform_year_split_training_seasons": 488,
+        "matches_both_published_697_seasons_258_birds_numerically": true,
+        "max_seasons_per_bird": 7,
+        "published_2024_real_split_and_bird_authentication_not_verified": true
+      },
+      {
+        "arm": "actual_calendar_month_day__unique_UTC_hour_bin__inclusive_ge_800",
+        "bird_seasons_per_bird_histogram": {
+          "1": 66,
+          "2": 51,
+          "3": 62,
+          "4": 56,
+          "5": 20,
+          "6": 2,
+          "7": 1
+        },
+        "birds_with_multiple_eligible_seasons": 192,
+        "distinct_bird_ID_strings": 258,
+        "eligible_year_ID_strings": 697,
+        "expected_bird_ID_strings_in_both_split_roles": 121.992374,
+        "hypothetical_uniform_year_split_test_seasons": 209,
+        "hypothetical_uniform_year_split_training_seasons": 488,
+        "matches_both_published_697_seasons_258_birds_numerically": true,
+        "max_seasons_per_bird": 7,
+        "published_2024_real_split_and_bird_authentication_not_verified": true
+      },
+      {
+        "arm": "actual_calendar_month_day__rolling_3600_seconds__strict_gt_800",
+        "bird_seasons_per_bird_histogram": {
+          "1": 66,
+          "2": 59,
+          "3": 60,
+          "4": 49,
+          "5": 10,
+          "6": 2
+        },
+        "birds_with_multiple_eligible_seasons": 180,
+        "distinct_bird_ID_strings": 246,
+        "eligible_year_ID_strings": 622,
+        "expected_bird_ID_strings_in_both_split_roles": 109.77505,
+        "hypothetical_uniform_year_split_test_seasons": 187,
+        "hypothetical_uniform_year_split_training_seasons": 435,
+        "matches_both_published_697_seasons_258_birds_numerically": false,
+        "max_seasons_per_bird": 6,
+        "published_2024_real_split_and_bird_authentication_not_verified": true
+      },
+      {
+        "arm": "actual_calendar_month_day__rolling_3600_seconds__inclusive_ge_800",
+        "bird_seasons_per_bird_histogram": {
+          "1": 66,
+          "2": 58,
+          "3": 61,
+          "4": 49,
+          "5": 10,
+          "6": 2
+        },
+        "birds_with_multiple_eligible_seasons": 180,
+        "distinct_bird_ID_strings": 246,
+        "eligible_year_ID_strings": 623,
+        "expected_bird_ID_strings_in_both_split_roles": 109.891308,
+        "hypothetical_uniform_year_split_test_seasons": 187,
+        "hypothetical_uniform_year_split_training_seasons": 436,
+        "matches_both_published_697_seasons_258_birds_numerically": false,
+        "max_seasons_per_bird": 6,
+        "published_2024_real_split_and_bird_authentication_not_verified": true
+      }
+    ]
+  }
+}

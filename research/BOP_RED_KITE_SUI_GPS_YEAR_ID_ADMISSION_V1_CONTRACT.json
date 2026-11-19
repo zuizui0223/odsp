@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-redkite-SUI-source-year-bird-GPS-eligibility-v1",
+  "frozen_date": "2026-11-19",
+  "purpose": "PROSPECTIVELY_FIXED_SWISS_GPS_QUALITY_SCREEN_AND_REAL_SOURCE_BIRD_SEASON_HISTOGRAM_WITHOUT_REPRODUCTIVE_RESPONSES",
+  "source_zenodo_doi": "10.5281/zenodo.13736049",
+  "original_first_source_inventory": "BOP_RED_KITE_SOURCE_INVENTORY_V1_FIRST_RECEIPT.json",
+  "original_first_source_headers": "BOP_RED_KITE_HEADER_ONLY_V1_FIRST_RECEIPT.json",
+  "original_first_raw_group_receipt": "BOP_RED_KITE_RAW_GROUP_PREFIX_ONLY_V1_FIRST_RECEIPT.json",
+  "pinned_source_files": [
+    {
+      "key": "SUI_indseasondata.csv",
+      "bytes": 117327,
+      "md5": "91394907a2d036e3dbacf5cd4f70475b",
+      "whitelisted_prefix_columns": [
+        "bird_id",
+        "year",
+        "year_id"
+      ],
+      "no_HR_nest_success_values_decoded": true
+    },
+    {
+      "key": "SUI_trackingdata.csv",
+      "bytes": 266416454,
+      "md5": "f654300e9a77b8dc41221f44d468ea2c",
+      "known_header": [
+        "event_id",
+        "bird_id",
+        "year_id",
+        "timestamp",
+        "year",
+        "month",
+        "day",
+        "long_wgs",
+        "lat_wgs",
+        "long_eea",
+        "lat_eea",
+        "external_temperature"
+      ],
+      "whitelisted_columns": [
+        "bird_id",
+        "year_id",
+        "timestamp",
+        "long_wgs",
+        "lat_wgs"
+      ]
+    }
+  ],
+  "read_protocol": {
+    "official_zenodo_v1_two_files_only": true,
+    "full_source_byte_stream_for_MD5_and_bounded_row_validation": true,
+    "source_body_bytes_necessarily_contain_coordinates_and_indseason_response_columns": true,
+    "metadata_outcome_columns_never_parsed_or_printed": true,
+    "GPS_no_outcome_columns_opened": true,
+    "source_time_space_values_transient_runner_memory_only": true,
+    "no_persisted_source_CSVs_or_individual_year_rosters": true,
+    "no_raw_or_hashed_animal_ID_or_year_ID_or_coordinates_or_timestamps_in_artifacts": true,
+    "no_credentials_or_Movebank_access": true,
+    "no_inference_from_other_files_or_live_study_counts": true,
+    "original_md5_and_header_sha256_required": true,
+    "maximum_GPS_physical_row_bytes": 16384,
+    "maximum_source_size_bytes": 266416454,
+    "unparseable_GPS_fields_counted_not_displayed": true,
+    "year_ID_mapped_to_exact_bird_ID_required_for_eligibility": true
+  },
+  "paper_population_claims": {
+    "original_2024_Swiss_tracked_birds": 324,
+    "published_Swiss_eligible_seasons": 697,
+    "published_Swiss_eligible_birds": 258,
+    "published_training_seasons": 488,
+    "published_validation_seasons": 209,
+    "published_discarded_insufficient_GPS_seasons": 336,
+    "published_max_years_per_bird": 7,
+    "published_60min_input_pretreatment_not_reproduced": true,
+    "frozen_Zenodo_metadata_seasons": 2866,
+    "frozen_Zenodo_metadata_bird_ID_strings": 553
+  },
+  "predeclared_eligibility": {
+    "strict_longitude_gt": 4,
+    "strict_latitude_gt": 45,
+    "UTC_fixed_2023_DOY_inclusive": [
+      70,
+      175
+    ],
+    "UTC_actual_calendar_month_day_inclusive": [
+      "03-11",
+      "06-24"
+    ],
+    "date_arms": [
+      "fixed_2023_DOY_ordinal",
+      "actual_calendar_month_day"
+    ],
+    "sampling_arms": [
+      "observed_source_events",
+      "unique_UTC_hour_bin",
+      "rolling_3600_seconds"
+    ],
+    "minimum_location_arms": [
+      "strict_gt_800",
+      "inclusive_ge_800"
+    ],
+    "one_per_UTC_hour_definition": "floor_UTC_timestamp_to_3600s_integer_hour_bin",
+    "rolling_3600s_definition": "sort_per_year_id_and_greedily_select_next_at_least_3600s_after_previous_selection",
+    "primary_descriptive_arm": "fixed_2023_DOY_ordinal__unique_UTC_hour_bin__strict_gt_800",
+    "all_twelve_arms_reported_regardless_of_matching_article_counts": true,
+    "cannot_select_matching_arm_after_results": true,
+    "each_year_id_must_map_to_one_bird_ID_string": true,
+    "source_geographic_season_event_count_by_date_arm": true,
+    "only_unique_year_IDs_for_season_counts": true,
+    "source_histogram_bins_1_through_7_plus_gt7": true,
+    "source_histogram_per_arm_from_verified_year_ID_to_bird_ID_mapping": true,
+    "expected_cross_split_bird_reuse_is_statistical_expectation_not_observed_original_split": true,
+    "assumed_train_fraction": 0.7,
+    "train_size_for_source_arm": "round_to_even_python_0.7_times_eligible_year_count; cross-check article_488_only_when_N_697",
+    "use_actual_published_train_488_when_article_count_697": true
+  },
+  "per_arm_output": [
+    "arm_name",
+    "eligible_year_ID_count",
+    "eligible_bird_ID_count",
+    "bird_seasons_per_bird_histogram",
+    "multiseason_bird_count",
+    "max_seasons_per_bird",
+    "hypothetical_random_year_split_train_n",
+    "hypothetical_test_n",
+    "expected_distinct_birds_in_both_hypothetical_train_test_roles",
+    "numeric_match_to_published_697_258_both",
+    "known_published_697_258_not_an_admitted_historic_model_roster"
+  ],
+  "scientific_limits": {
+    "even_numeric_697_258_match_does_not_prove_original_2024_training_roster": true,
+    "prearchived_hourly_downsampling_recipe_unverified": true,
+    "canonical_bird_ID_authentication_not_proven_by_exact_string_count": true,
+    "potential_same_bird_across_years_still_distinct_season_units": true,
+    "no_actual_original_random_seed_or_split_membership": true,
+    "no_model_accuracy_or_bias_recomputed": true,
+    "nest_success_has_smaller_conditional_training_subset": true,
+    "status_on_source_failure": "HOLD_SWISS_SOURCE_GPS_OR_IDENTITY",
+    "status_on_provider_verified": "SUI_SOURCE_12_ARM_QUALITY_COUNTS_ONLY",
+    "BOP_historical_terminal": "empirical_state_prediction_mixed",
+    "redkite_external_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "Dryad_direct_original_RF": "NOT_ADMITTED"
+  }
+}
