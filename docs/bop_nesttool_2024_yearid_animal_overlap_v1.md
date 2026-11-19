@@ -55,3 +55,21 @@ python scripts/bop_nesttool_2024_yearid_animal_overlap_v1.py --out /tmp/nesttool
 ```
 
 Source-code ZIP verification runs once after Python 3.10/3.12/3.13 offline tests in a dedicated Actions job. CI outputs only historical byte digests, split-pattern line numbers and the conditional expected-overlap bounds; it never exports actual animal IDs or data.
+
+## Official first source-code and mathematical-result verification
+
+The first dedicated code-only source job in [GitHub Actions run #44307730106](https://github.com/zuizui0223/odsp/actions/runs/44307730106) succeeded, after Python 3.10/3.12/3.13 known-truth tests passed. The source job ID was `134819982555`; the source artifact ID was `14429691808` (`bop-nesttool-yearid-animal-overlap-first`), with exact ZIP SHA256 `48c7a408f08f7a9a5aa7d85ff6347617cb738c0e16db0641ee6c45d3c7d07fee` (1,577 bytes) and original JSON SHA256 `f2617e20b3a16b089a365ed8257e3011d56b013933294d0c480b5ef919b38f60` (4,657 bytes). The input-contract SHA256 was `fe7332979ba7320968c19a60752ac1592fd5b760c2c03ee3708e3ce6321bcbde`.
+
+**All three archived trainer files matched the pinned 28 August 2024 GitHub R sources byte-for-byte.** The original Git blob SHA1 values and split lines were independently checked:
+
+| Archived 2024 trainer | Git blob SHA1 | Unique season IDs | Randomly select season IDs | Train/test filters |
+|---|---|---:|---:|---|
+| `R/train_home_range_detection.R` | `47c7b5f6dbcfb53c2df8a014a65fe59cf8a258dd` | 69 | 70 | 73/75 |
+| `R/train_nest_detection.R` | `c028e728e0fdf646c3bf6f46e10b3ae6b8f55bcd` | 69 | 70 | 73/75 |
+| `R/train_nest_success.R` | `c657973023308201cc11c2fa0c8830fd6655ec5b` | 95 | 96 | 99/101 |
+
+Thus it is **not merely a contemporary-code inference**: the exact official 2024 archived training functions sample **`year_id`**, not **`bird_id`**, for their internal training/test set. This establishes a potentially shared biological animal across the two season-held-out roles. It does **not** prove that the authors' saved 2024 random draw actually contained any particular number of repeated birds.
+
+The original code-only first result independently computes **67.462949–146.540230 expected shared bird IDs** over all feasible 1–7-year repetition histograms for 258 birds / 697 seasons and uniformly sampled 488/209 season rows. The original source's counts and byte fingerprints are preserved in `BOP_NESTTOOL_2024_YEARID_ANIMAL_OVERLAP_V1_FIRST_RECEIPT.json`, and `scripts/verify_bop_nesttool_2024_yearid_overlap_first_v1.py` detects changes to code identity, sharp bounds or biological claim limits. In particular, the original model's nest-success training subset and all published Germany outcomes were **not** opened or re-estimated.
+
+**Access control after the successful first source:** the dedicated Actions workflow has been switched to **offline-only** checks. This preserves the originally successful ZIP-source evidence without repeated downloads. No model RData/RDS, source GPS, breeding labels or individual names were accessed here.
