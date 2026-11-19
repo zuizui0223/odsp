@@ -3,19 +3,27 @@ on:
   pull_request:
     paths:
       - 'research/BOP_NESTTOOL_SWISS_BIRD_HELDOUT_REFIT_V1_CONTRACT.json'
+      - 'BOP_NESTTOOL_SWISS_BIRD_HELDOUT_REFIT_V1_FIRST_RECEIPT.json'
       - 'scripts/bop_nesttool_swiss_prepared_schema_v1.R'
       - 'scripts/bop_nesttool_swiss_export_refit_v1.R'
       - 'scripts/bop_nesttool_swiss_birdheldout_refit_v1.py'
+      - 'scripts/verify_bop_nesttool_swiss_birdheldout_refit_first_v1.py'
       - 'tests/test_bop_nesttool_swiss_birdheldout_refit_v1.py'
+      - 'tests/test_bop_nesttool_swiss_birdheldout_first_receipt_v1.py'
       - 'docs/bop_nesttool_swiss_birdheldout_refit_v1.md'
+      - 'manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md'
+      - 'README.md'
       - '.github/workflows/bop-nesttool-swiss-birdheldout-refit-v1.yml'
   workflow_dispatch:
 permissions:
   contents: read
+# Original prepared RDS source schema and HR/nest model first result were
+# collected exactly once in run 44462371738. All future CI is OFFLINE ONLY.
+# No subsequent workflow step may redownload a public RDS or access labels.
 jobs:
-  synthetic-refit-and-source-safety:
+  source-and-first-result-offline-regression:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 16
     strategy:
       fail-fast: false
       matrix:
@@ -25,74 +33,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install model test dependencies
+      - name: Install synthetic RF test dependencies only
         run: python -m pip install 'pytest>=8,<10' 'numpy>=1.24,<3' 'pandas>=2,<3' 'scikit-learn>=1.4,<2'
-      - name: Check frozen source and exact bird-heldout 488/209 season-row split on synthetic known truth
-        run: python -m pytest tests/test_bop_nesttool_swiss_birdheldout_refit_v1.py
-  first-source-schema-without-outcome-access:
-    needs: synthetic-refit-and-source-safety
-    if: ${{ needs.synthetic-refit-and-source-safety.result == 'success' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v4
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: '4.4'
-      - name: Install only schema JSON serializer
-        run: Rscript -e 'install.packages("jsonlite", repos="https://cloud.r-project.org")'
-      - name: Verify exact 2024 prepublication prepared RDS Git blob and structure before label access
-        shell: bash
-        run: |
-          set -euo pipefail
-          umask 077
-          f="$RUNNER_TEMP/nesttool_original_2024_prepared.rds"
-          curl --fail --location --silent --show-error --max-time 180 --retry 2 --output "$f" 'https://raw.githubusercontent.com/Vogelwarte/NestTool/8fdf3884b5f6079afdffdc5c563c9050766670a4/input_data_prepared.rds'
-          test "$(stat -c%s "$f")" = '53709803'
-          test "$(git hash-object "$f")" = 'fab942c0df8d6f77dc1db2bd2e2717681b9a3632'
-          Rscript scripts/bop_nesttool_swiss_prepared_schema_v1.R "$f" "$RUNNER_TEMP/bop-swiss-prepared-source-schema-first.json"
-          rm -f "$f"
-      - name: Archive ONLY source-level schema counts and gate status
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: bop-swiss-prepared-schema-first
-          path: ${{ runner.temp }}/bop-swiss-prepared-source-schema-first.json
-          retention-days: 90
-          if-no-files-found: warn
-  first-frozen-bird-versus-year-model-refit:
-    needs: first-source-schema-without-outcome-access
-    if: ${{ needs.first-source-schema-without-outcome-access.result == 'success' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 24
-    steps:
-      - uses: actions/checkout@v4
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: '4.4'
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Install fixed-family RF implementation
-        run: python -m pip install 'numpy>=1.24,<3' 'pandas>=2,<3' 'scikit-learn>=1.4,<2'
-      - name: Export ONLY the predeclared HR/nest plus 34 source features locally, compare model metrics
-        shell: bash
-        run: |
-          set -euo pipefail
-          umask 077
-          f="$RUNNER_TEMP/nesttool_original_2024_prepared.rds"
-          x="$RUNNER_TEMP/nesttool_private_HR_nest_features.csv"
-          trap 'rm -f "$f" "$x"' EXIT
-          curl --fail --location --silent --show-error --max-time 180 --retry 2 --output "$f" 'https://raw.githubusercontent.com/Vogelwarte/NestTool/8fdf3884b5f6079afdffdc5c563c9050766670a4/input_data_prepared.rds'
-          test "$(stat -c%s "$f")" = '53709803'
-          test "$(git hash-object "$f")" = 'fab942c0df8d6f77dc1db2bd2e2717681b9a3632'
-          Rscript scripts/bop_nesttool_swiss_export_refit_v1.R "$f" "$x"
-          python scripts/bop_nesttool_swiss_birdheldout_refit_v1.py --table "$x" --out "$RUNNER_TEMP/bop-swiss-bird-heldout-comparison-first.json"
-      - name: Archive aggregate-only refit metrics or source HOLD, never rows or RDS
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: bop-swiss-year-vs-bird-refit-first
-          path: ${{ runner.temp }}/bop-swiss-bird-heldout-comparison-first.json
-          retention-days: 90
-          if-no-files-found: warn
+      - name: Synthetic known-truth bird-group split, train-only imputation and first-result tamper tests
+        run: python -m pytest tests/test_bop_nesttool_swiss_birdheldout_refit_v1.py tests/test_bop_nesttool_swiss_birdheldout_first_receipt_v1.py
+      - name: Recompute all 32 original aggregate panel metrics and verify immutable ZIP/JSON SHA256
+        run: python scripts/verify_bop_nesttool_swiss_birdheldout_refit_first_v1.py
