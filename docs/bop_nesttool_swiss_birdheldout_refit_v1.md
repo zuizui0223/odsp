@@ -30,3 +30,37 @@ The primary scientific comparison is the **sensitivity to the training/test biol
 First run synthetic tests under Python 3.10/3.12/3.13. Then download the exact dated public prepared RDS into an ephemeral runner directory, verify **size and Git blob**, and inspect only ID/feature **schema** using R `readRDS`. Only after the schema job passes does the model job download the same pinned RDS into its own ephemeral runner, export only allowed inputs and perform the frozen matched-size RF evaluation. If source is unavailable, labels are differently encoded, class support is insufficient, or the required predictors are missing, **HOLD**, not altered model conditions. Persist only schema and aggregate result JSON, never private CSV or raw RDS.
 
 Original Swiss source-level eligible 697/258 numeric matching does not by itself authenticate every individual in the journal authors' saved 2024 random split. This study therefore addresses the group-splitting **design sensitivity**, not new transfer guarantees.
+
+## First official result: the source gate passed and bird-disjoint accuracy remained high
+
+The first [GitHub Actions run #44462371738](https://github.com/zuizui0223/odsp/actions/runs/44462371738) completed **successfully**. All synthetic RF safety tests passed on Python 3.10, 3.12 and 3.13. The **outcome-blind** schema job (`135352277285`) verified the original 53,709,803-byte prepared RDS and Git blob SHA1, **697 unique year IDs, 258 bird-ID strings, the entire source multiplicity histogram 66/51/62/56/20/2/1, and all 34 original predictors**. Only after that success did the frozen model job (`135352626472`) read the two predeclared label variables (`HR`,`nest`), with no success outcomes.
+
+Original first source-schema artifact ID `14499344988`, ZIP SHA256 `3cdca6d81a94d5a21268e1419b12fb9e6568c99136e35ae0e4123ddaa7dbd9f0`, schema JSON 572 bytes SHA256 `f6d267261433655512cb131b7d935f78a51c4d0d1e29fa9d74b606bf67b310fc`. Original first model artifact ID `14500588048`, ZIP SHA256 `e89369281ff48136b8f367e1b65601fa03f3f42cc6cee6c3a489e972d6d10083`, aggregate-only result JSON 25,955 bytes SHA256 `94f33235c21bdfcb0fb65dcb12a9d8ddc1f3bccc38ae4f172a6a2e05f4fe8ff2`. The frozen contract SHA256 is `f14ed4ee792681ec5bcd7a4fe65c627680af6910fd8d10fa63da73f28ff98c28`. The first results and all 32 per-seed **aggregate-only** test records are pinned in `BOP_NESTTOOL_SWISS_BIRD_HELDOUT_REFIT_V1_FIRST_RECEIPT.json`.
+
+### Outcome-blind, matched-size source design versus actual model scores
+
+Each of the **8 frozen seeds** used **488 training season rows and 209 test rows** in each split mode for both HR and nest. Unlike the season-held-out design, the bird-ID-disjoint mode had **exactly zero** bird-ID strings in common between train and test; the season-held-out mode shared **mean 120.375 IDs** (range 115–128). These are the **realized overlaps in these eight new simulated splits**, **not** the authors' original 2024 random assignment. For comparison, the previously source-derived theoretical expectation across random season partitions was **121.992374**.
+
+| Response and eight-seed mean | Randomly held-out seasons (`year_id`) | Completely held-out source bird IDs (`bird_id`) |
+|---|---:|---:|
+| **Home range:** test accuracy | **0.968301** | **0.962320** |
+| Home range: test Brier (lower is better) | **0.029506** | 0.030738 |
+| Home range: test ROC AUC | 0.986449 | **0.988877** |
+| Home range: test mean log-score gain vs train prevalence | 0.546518 | **0.573996** |
+| **Nesting:** test accuracy | **0.947368** | 0.940192 |
+| Nesting: test Brier | **0.046422** | 0.048585 |
+| Nesting: test ROC AUC | 0.978683 | **0.979726** |
+| Nesting: test mean log-score gain vs train prevalence | **0.523484** | 0.516542 |
+| Actual shared source bird-ID strings | Mean **120.375** | **0** |
+
+**Positive empirical result for a defined narrow estimand:** In these newly refitted, same-study, fixed-family RF models, previously unseen source bird IDs were predicted with **high accuracy and positive log-score gain over the training-marginal reference**, even after enforcing complete bird-ID separation. The fold-wise test-set composition differs between protocols, so the small mean-score differences are descriptive and do not establish any causal accuracy inflation of the published original NestTool, nor equality of future deployed population predictive performance. *The score does not come from a formally independent country/study or a historically untouched holdout.*
+
+### Why this changes the conclusion — and what it cannot change
+
+The byte-audited 2024 original trainer functions did use season-level train/test splitting, so the group-independence concern is real. However, **the straightforward hypothesis that its high internal accuracy must collapse when bird IDs are separated is not supported by this new fixed-model source comparison**. Source identity and code provenance were controlled, both protocols used the same source features and equal test season counts, and the grouped test had zero source bird-ID overlap.
+
+The model is an **explicitly new scikit-learn 500-tree forest**, not the authors' originally tuned R `ranger` forest, and the eight replicated random partitions share the same source birds; no independent-study p-value or 90%-coverage certificate is calculated. This cannot be used as a corrected estimate of the authors' exact accuracy, and **does not resolve the Swiss→Germany 99/63 vs archived-source 99/49 denominator issue**. The third nest-success predictor was not assessed. The ODSP original BOP terminal remains `empirical_state_prediction_mixed`, and real red-kite new-group transfer stays `HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER`.
+
+### Post-result integrity and access closure
+
+The first model result's SHA256 and the frozen source-schema checksum were recorded *before* modifying the workflow to **offline-only regression**. Future PR workflow runs execute synthetic known-truth splits and verify every metric from the immutable original JSON; they **do not redownload the prepared RDS or reopen source HR/nest labels**. The private runner-local source CSV and source RDS were deleted and never uploaded.
