@@ -1,0 +1,979 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-nesttool-Swiss-prepared-2024-year-vs-bird-holdout-first-v1",
+  "role": "FIRST_OFFICIAL_SAME_SOURCE_RF_MODEL_DESIGN_SENSITIVITY_NOT_ORIGINAL_NESTTOOL_REPLICATION",
+  "pre_outcome_contract_first_commit": "ed22ef9722f3440db5f44c0201204b4849ec06a2",
+  "pre_outcome_contract_corrected_code_citation_commit": "e2fd57ea054eef2ab4280baeb2c5c54f4517d1c9",
+  "actions": {
+    "run_id": 44462371738,
+    "first_head_sha": "903c17931c6da54f108652bd0b8bfbd5e09ee625",
+    "python_safety_success_3_10_3_12_3_13": true,
+    "source_schema_job_id": 135352277285,
+    "source_schema_job_status": "success",
+    "model_job_id": 135352626472,
+    "model_job_status": "success",
+    "first_schema_artifact_id": 14499344988,
+    "first_schema_artifact_zip_sha256": "3cdca6d81a94d5a21268e1419b12fb9e6568c99136e35ae0e4123ddaa7dbd9f0",
+    "first_schema_json_bytes": 572,
+    "first_schema_json_sha256": "f6d267261433655512cb131b7d935f78a51c4d0d1e29fa9d74b606bf67b310fc",
+    "first_model_artifact_id": 14500588048,
+    "first_model_artifact_zip_sha256": "e89369281ff48136b8f367e1b65601fa03f3f42cc6cee6c3a489e972d6d10083",
+    "first_model_json_bytes": 25955,
+    "first_model_json_sha256": "94f33235c21bdfcb0fb65dcb12a9d8ddc1f3bccc38ae4f172a6a2e05f4fe8ff2",
+    "frozen_contract_sha256": "f14ed4ee792681ec5bcd7a4fe65c627680af6910fd8d10fa63da73f28ff98c28"
+  },
+  "first_schema_result": {
+    "status": "PREPARED_SOURCE_SCHEMA_AND_697_258_HISTOGRAM_PASS",
+    "summary_seasons": 697,
+    "distinct_year_ID_strings": 697,
+    "distinct_bird_ID_strings": 258,
+    "source_file_bytes": 53709803,
+    "source_git_blob_sha1": "fab942c0df8d6f77dc1db2bd2e2717681b9a3632",
+    "histogram_1_to_7": [
+      66,
+      51,
+      62,
+      56,
+      20,
+      2,
+      1
+    ],
+    "predictor_names_present_count": 34,
+    "outcome_label_values_inspected": false,
+    "model_fit_run": false,
+    "original_2024_training_roster_certified": false
+  },
+  "frozen_first_source_and_model_result": {
+    "BOP_original_terminal": "empirical_state_prediction_mixed",
+    "eight_precommitted_seeds": [
+      20261119,
+      20261120,
+      20261121,
+      20261122,
+      20261123,
+      20261124,
+      20261125,
+      20261126
+    ],
+    "frozen_contract_sha256": "f14ed4ee792681ec5bcd7a4fe65c627680af6910fd8d10fa63da73f28ff98c28",
+    "mode_by_target_summary": [
+      {
+        "frozen_eight_seeds_reported": 8,
+        "split_mode": "year_id",
+        "summary": {
+          "overlapping_bird_ids": {
+            "max": 128,
+            "mean": 120.375,
+            "median": 121,
+            "min": 115
+          },
+          "test_accuracy": {
+            "max": 0.995215,
+            "mean": 0.968301,
+            "median": 0.966507,
+            "min": 0.952153
+          },
+          "test_balanced_accuracy": {
+            "max": 0.994949,
+            "mean": 0.967617,
+            "median": 0.96594,
+            "min": 0.950694
+          },
+          "test_brier": {
+            "max": 0.044173,
+            "mean": 0.029506,
+            "median": 0.029501,
+            "min": 0.011093
+          },
+          "test_log_loss": {
+            "max": 0.318482,
+            "mean": 0.147198,
+            "median": 0.124576,
+            "min": 0.057695
+          },
+          "test_mean_log_score_gain_vs_training_prevalence": {
+            "max": 0.63446,
+            "mean": 0.546518,
+            "median": 0.571095,
+            "min": 0.374262
+          },
+          "test_n": {
+            "max": 209,
+            "mean": 209,
+            "median": 209,
+            "min": 209
+          },
+          "test_positive_fraction": {
+            "max": 0.564593,
+            "mean": 0.523923,
+            "median": 0.5311,
+            "min": 0.483254
+          },
+          "test_roc_auc": {
+            "max": 0.999725,
+            "mean": 0.986449,
+            "median": 0.989556,
+            "min": 0.96346
+          },
+          "test_unique_bird_ids": {
+            "max": 152,
+            "mean": 146.25,
+            "median": 146.5,
+            "min": 140
+          },
+          "train_n": {
+            "max": 488,
+            "mean": 488,
+            "median": 488,
+            "min": 488
+          },
+          "train_unique_bird_ids": {
+            "max": 240,
+            "mean": 232.125,
+            "median": 231.5,
+            "min": 227
+          }
+        },
+        "target": "HR"
+      },
+      {
+        "frozen_eight_seeds_reported": 8,
+        "split_mode": "bird_id",
+        "summary": {
+          "overlapping_bird_ids": {
+            "max": 0,
+            "mean": 0,
+            "median": 0,
+            "min": 0
+          },
+          "test_accuracy": {
+            "max": 0.971292,
+            "mean": 0.96232,
+            "median": 0.964114,
+            "min": 0.947368
+          },
+          "test_balanced_accuracy": {
+            "max": 0.97118,
+            "mean": 0.961732,
+            "median": 0.963448,
+            "min": 0.946766
+          },
+          "test_brier": {
+            "max": 0.039767,
+            "mean": 0.030738,
+            "median": 0.029777,
+            "min": 0.02351
+          },
+          "test_log_loss": {
+            "max": 0.155231,
+            "mean": 0.120868,
+            "median": 0.12121,
+            "min": 0.088424
+          },
+          "test_mean_log_score_gain_vs_training_prevalence": {
+            "max": 0.603658,
+            "mean": 0.573996,
+            "median": 0.571867,
+            "min": 0.540939
+          },
+          "test_n": {
+            "max": 209,
+            "mean": 209,
+            "median": 209,
+            "min": 209
+          },
+          "test_positive_fraction": {
+            "max": 0.569378,
+            "mean": 0.516746,
+            "median": 0.519138,
+            "min": 0.45933
+          },
+          "test_roc_auc": {
+            "max": 0.994392,
+            "mean": 0.988877,
+            "median": 0.989318,
+            "min": 0.984149
+          },
+          "test_unique_bird_ids": {
+            "max": 82,
+            "mean": 76.625,
+            "median": 76,
+            "min": 72
+          },
+          "train_n": {
+            "max": 488,
+            "mean": 488,
+            "median": 488,
+            "min": 488
+          },
+          "train_unique_bird_ids": {
+            "max": 186,
+            "mean": 181.375,
+            "median": 182,
+            "min": 176
+          }
+        },
+        "target": "HR"
+      },
+      {
+        "frozen_eight_seeds_reported": 8,
+        "split_mode": "year_id",
+        "summary": {
+          "overlapping_bird_ids": {
+            "max": 128,
+            "mean": 120.375,
+            "median": 121,
+            "min": 115
+          },
+          "test_accuracy": {
+            "max": 0.971292,
+            "mean": 0.947368,
+            "median": 0.952153,
+            "min": 0.91866
+          },
+          "test_balanced_accuracy": {
+            "max": 0.97619,
+            "mean": 0.949907,
+            "median": 0.954955,
+            "min": 0.921053
+          },
+          "test_brier": {
+            "max": 0.05588,
+            "mean": 0.046422,
+            "median": 0.048769,
+            "min": 0.032024
+          },
+          "test_log_loss": {
+            "max": 0.196867,
+            "mean": 0.166339,
+            "median": 0.171766,
+            "min": 0.118411
+          },
+          "test_mean_log_score_gain_vs_training_prevalence": {
+            "max": 0.558056,
+            "mean": 0.523484,
+            "median": 0.523609,
+            "min": 0.483817
+          },
+          "test_n": {
+            "max": 209,
+            "mean": 209,
+            "median": 209,
+            "min": 209
+          },
+          "test_positive_fraction": {
+            "max": 0.497608,
+            "mean": 0.439593,
+            "median": 0.437799,
+            "min": 0.392344
+          },
+          "test_roc_auc": {
+            "max": 0.99541,
+            "mean": 0.978683,
+            "median": 0.97748,
+            "min": 0.969572
+          },
+          "test_unique_bird_ids": {
+            "max": 152,
+            "mean": 146.25,
+            "median": 146.5,
+            "min": 140
+          },
+          "train_n": {
+            "max": 488,
+            "mean": 488,
+            "median": 488,
+            "min": 488
+          },
+          "train_unique_bird_ids": {
+            "max": 240,
+            "mean": 232.125,
+            "median": 231.5,
+            "min": 227
+          }
+        },
+        "target": "nest"
+      },
+      {
+        "frozen_eight_seeds_reported": 8,
+        "split_mode": "bird_id",
+        "summary": {
+          "overlapping_bird_ids": {
+            "max": 0,
+            "mean": 0,
+            "median": 0,
+            "min": 0
+          },
+          "test_accuracy": {
+            "max": 0.976077,
+            "mean": 0.940192,
+            "median": 0.937799,
+            "min": 0.899522
+          },
+          "test_balanced_accuracy": {
+            "max": 0.976099,
+            "mean": 0.940835,
+            "median": 0.941693,
+            "min": 0.894745
+          },
+          "test_brier": {
+            "max": 0.067789,
+            "mean": 0.048585,
+            "median": 0.049355,
+            "min": 0.03303
+          },
+          "test_log_loss": {
+            "max": 0.222952,
+            "mean": 0.169995,
+            "median": 0.168901,
+            "min": 0.125395
+          },
+          "test_mean_log_score_gain_vs_training_prevalence": {
+            "max": 0.589957,
+            "mean": 0.516542,
+            "median": 0.512595,
+            "min": 0.447889
+          },
+          "test_n": {
+            "max": 209,
+            "mean": 209,
+            "median": 209,
+            "min": 209
+          },
+          "test_positive_fraction": {
+            "max": 0.497608,
+            "mean": 0.424641,
+            "median": 0.416268,
+            "min": 0.354067
+          },
+          "test_roc_auc": {
+            "max": 0.989515,
+            "mean": 0.979726,
+            "median": 0.979464,
+            "min": 0.964965
+          },
+          "test_unique_bird_ids": {
+            "max": 82,
+            "mean": 76.625,
+            "median": 76,
+            "min": 72
+          },
+          "train_n": {
+            "max": 488,
+            "mean": 488,
+            "median": 488,
+            "min": 488
+          },
+          "train_unique_bird_ids": {
+            "max": 186,
+            "mean": 181.375,
+            "median": 182,
+            "min": 176
+          }
+        },
+        "target": "nest"
+      }
+    ],
+    "model": "scikit_learn_500_tree_RF_5_mtry_refit_NOT_exact_2024_ranger",
+    "model_metrics_per_seed_aggregate_only": [
+      {
+        "overlapping_bird_ids": 122,
+        "seed": 20261119,
+        "split_mode": "year_id",
+        "target": "HR",
+        "test_accuracy": 0.952153,
+        "test_balanced_accuracy": 0.950694,
+        "test_brier": 0.044173,
+        "test_log_loss": 0.318482,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.374262,
+        "test_n": 209,
+        "test_positive_fraction": 0.550239,
+        "test_roc_auc": 0.96346,
+        "test_unique_bird_ids": 140,
+        "train_n": 488,
+        "train_unique_bird_ids": 240
+      },
+      {
+        "overlapping_bird_ids": 0,
+        "seed": 20261119,
+        "split_mode": "bird_id",
+        "target": "HR",
+        "test_accuracy": 0.961722,
+        "test_balanced_accuracy": 0.961722,
+        "test_brier": 0.03328,
+        "test_log_loss": 0.140521,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.554072,
+        "test_n": 209,
+        "test_positive_fraction": 0.497608,
+        "test_roc_auc": 0.984249,
+        "test_unique_bird_ids": 79,
+        "train_n": 488,
+        "train_unique_bird_ids": 179
+      },
+      {
+        "overlapping_bird_ids": 115,
+        "seed": 20261120,
+        "split_mode": "year_id",
+        "target": "HR",
+        "test_accuracy": 0.966507,
+        "test_balanced_accuracy": 0.967272,
+        "test_brier": 0.029717,
+        "test_log_loss": 0.107978,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.589124,
+        "test_n": 209,
+        "test_positive_fraction": 0.483254,
+        "test_roc_auc": 0.993674,
+        "test_unique_bird_ids": 142,
+        "train_n": 488,
+        "train_unique_bird_ids": 231
+      },
+      {
+        "overlapping_bird_ids": 0,
+        "seed": 20261120,
+        "split_mode": "bird_id",
+        "target": "HR",
+        "test_accuracy": 0.952153,
+        "test_balanced_accuracy": 0.949123,
+        "test_brier": 0.036793,
+        "test_log_loss": 0.123324,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.569112,
+        "test_n": 209,
+        "test_positive_fraction": 0.545455,
+        "test_roc_auc": 0.991597,
+        "test_unique_bird_ids": 72,
+        "train_n": 488,
+        "train_unique_bird_ids": 186
+      },
+      {
+        "overlapping_bird_ids": 121,
+        "seed": 20261121,
+        "split_mode": "year_id",
+        "target": "HR",
+        "test_accuracy": 0.976077,
+        "test_balanced_accuracy": 0.976278,
+        "test_brier": 0.029021,
+        "test_log_loss": 0.165966,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.529368,
+        "test_n": 209,
+        "test_positive_fraction": 0.492823,
+        "test_roc_auc": 0.985437,
+        "test_unique_bird_ids": 152,
+        "train_n": 488,
+        "train_unique_bird_ids": 227
+      },
+      {
+        "overlapping_bird_ids": 0,
+        "seed": 20261121,
+        "split_mode": "bird_id",
+        "target": "HR",
+        "test_accuracy": 0.971292,
+        "test_balanced_accuracy": 0.971149,
+        "test_brier": 0.025502,
+        "test_log_loss": 0.119096,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.574303,
+        "test_n": 209,
+        "test_positive_fraction": 0.507177,
+        "test_roc_auc": 0.98704,
+        "test_unique_bird_ids": 75,
+        "train_n": 488,
+        "train_unique_bird_ids": 183
+      },
+      {
+        "overlapping_bird_ids": 128,
+        "seed": 20261122,
+        "split_mode": "year_id",
+        "target": "HR",
+        "test_accuracy": 0.995215,
+        "test_balanced_accuracy": 0.994949,
+        "test_brier": 0.011093,
+        "test_log_loss": 0.057695,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.63446,
+        "test_n": 209,
+        "test_positive_fraction": 0.526316,
+        "test_roc_auc": 0.999725,
+        "test_unique_bird_ids": 150,
+        "train_n": 488,
+        "train_unique_bird_ids": 236
+      },
+      {
+        "overlapping_bird_ids": 0,
+        "seed": 20261122,
+        "split_mode": "bird_id",
+        "target": "HR",
+        "test_accuracy": 0.947368,
+        "test_balanced_accuracy": 0.946766,
+        "test_brier": 0.039767,
+        "test_log_loss": 0.155231,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.540939,
+        "test_n": 209,
+        "test_positive_fraction": 0.488038,
+        "test_roc_auc": 0.984149,
+        "test_unique_bird_ids": 82,
+        "train_n": 488,
+        "train_unique_bird_ids": 176
+      },
+      {
+        "overlapping_bird_ids": 116,
+        "seed": 20261123,
+        "split_mode": "year_id",
+        "target": "HR",
+        "test_accuracy": 0.971292,
+        "test_balanced_accuracy": 0.970453,
+        "test_brier": 0.019091,
+        "test_log_loss": 0.074608,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.617497,
+        "test_n": 209,
+        "test_positive_fraction": 0.535885,
+        "test_roc_auc": 0.995352,
+        "test_unique_bird_ids": 146,
+        "train_n": 488,
+        "train_unique_bird_ids": 228
+      },
+      {
+        "overlapping_bird_ids": 0,
+        "seed": 20261123,
+        "split_mode": "bird_id",
+        "target": "HR",
+        "test_accuracy": 0.961722,
+        "test_balanced_accuracy": 0.960684,
+        "test_brier": 0.031672,
+        "test_log_loss": 0.133769,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.569431,
+        "test_n": 209,
+        "test_positive_fraction": 0.45933,
+        "test_roc_auc": 0.984375,
+        "test_unique_bird_ids": 79,
+        "train_n": 488,
+        "train_unique_bird_ids": 179
+      },
+      {
+        "overlapping_bird_ids": 121,
+        "seed": 20261124,
+        "split_mode": "year_id",
+        "target": "HR",
+        "test_accuracy": 0.961722,
+        "test_balanced_accuracy": 0.959816,
+        "test_brier": 0.036026,
+        "test_log_loss": 0.141173,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.553067,
+        "test_n": 209,
+        "test_positive_fraction": 0.564593,
+        "test_roc_auc": 0.983423,
+        "test_unique_bird_ids": 147,
+        "train_n": 488,
+        "train_unique_bird_ids": 232
+      },
+      {
+        "overlapping_bird_ids": 0,
+        "seed": 20261124,
+        "split_mode": "bird_id",
+        "target": "HR",
+        "test_accuracy": 0.966507,
+        "test_balanced_accuracy": 0.965173,
+        "test_brier": 0.027501,
+        "test_log_loss": 0.098516,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.596413,
+        "test_n": 209,
+        "test_positive_fraction": 0.569378,
+        "test_roc_auc": 0.992624,
+        "test_unique_bird_ids": 77,
+        "train_n": 488,
+        "train_unique_bird_ids": 181
+      },
+      {
+        "overlapping_bird_ids": 121,
+        "seed": 20261125,
+        "split_mode": "year_id",
+        "target": "HR",
+        "test_accuracy": 0.956938,
+        "test_balanced_accuracy": 0.956868,
+        "test_brier": 0.029285,
+        "test_log_loss": 0.102397,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.591552,
+        "test_n": 209,
+        "test_positive_fraction": 0.502392,
+        "test_roc_auc": 0.995284,
+        "test_unique_bird_ids": 149,
+        "train_n": 488,
+        "train_unique_bird_ids": 230
+      },
+      {
+        "overlapping_bird_ids": 0,
+        "seed": 20261125,
+        "split_mode": "bird_id",
+        "target": "HR",
+        "test_accuracy": 0.966507,
+        "test_balanced_accuracy": 0.96806,
+        "test_brier": 0.027882,
+        "test_log_loss": 0.108066,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.584039,
+        "test_n": 209,
+        "test_positive_fraction": 0.535885,
+        "test_roc_auc": 0.99259,
+        "test_unique_bird_ids": 74,
+        "train_n": 488,
+        "train_unique_bird_ids": 184
+      },
+      {
+        "overlapping_bird_ids": 119,
+        "seed": 20261126,
+        "split_mode": "year_id",
+        "target": "HR",
+        "test_accuracy": 0.966507,
+        "test_balanced_accuracy": 0.964608,
+        "test_brier": 0.037643,
+        "test_log_loss": 0.209288,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.482817,
+        "test_n": 209,
+        "test_positive_fraction": 0.535885,
+        "test_roc_auc": 0.975239,
+        "test_unique_bird_ids": 144,
+        "train_n": 488,
+        "train_unique_bird_ids": 233
+      },
+      {
+        "overlapping_bird_ids": 0,
+        "seed": 20261126,
+        "split_mode": "bird_id",
+        "target": "HR",
+        "test_accuracy": 0.971292,
+        "test_balanced_accuracy": 0.97118,
+        "test_brier": 0.02351,
+        "test_log_loss": 0.088424,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.603658,
+        "test_n": 209,
+        "test_positive_fraction": 0.5311,
+        "test_roc_auc": 0.994392,
+        "test_unique_bird_ids": 75,
+        "train_n": 488,
+        "train_unique_bird_ids": 183
+      },
+      {
+        "overlapping_bird_ids": 122,
+        "seed": 20261119,
+        "split_mode": "year_id",
+        "target": "nest",
+        "test_accuracy": 0.91866,
+        "test_balanced_accuracy": 0.921053,
+        "test_brier": 0.054299,
+        "test_log_loss": 0.196518,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.496214,
+        "test_n": 209,
+        "test_positive_fraction": 0.454545,
+        "test_roc_auc": 0.971653,
+        "test_unique_bird_ids": 140,
+        "train_n": 488,
+        "train_unique_bird_ids": 240
+      },
+      {
+        "overlapping_bird_ids": 0,
+        "seed": 20261119,
+        "split_mode": "bird_id",
+        "target": "nest",
+        "test_accuracy": 0.923445,
+        "test_balanced_accuracy": 0.922117,
+        "test_brier": 0.056584,
+        "test_log_loss": 0.199262,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.47574,
+        "test_n": 209,
+        "test_positive_fraction": 0.397129,
+        "test_roc_auc": 0.970358,
+        "test_unique_bird_ids": 79,
+        "train_n": 488,
+        "train_unique_bird_ids": 179
+      },
+      {
+        "overlapping_bird_ids": 115,
+        "seed": 20261120,
+        "split_mode": "year_id",
+        "target": "nest",
+        "test_accuracy": 0.961722,
+        "test_balanced_accuracy": 0.964042,
+        "test_brier": 0.038244,
+        "test_log_loss": 0.140169,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.536815,
+        "test_n": 209,
+        "test_positive_fraction": 0.406699,
+        "test_roc_auc": 0.984488,
+        "test_unique_bird_ids": 142,
+        "train_n": 488,
+        "train_unique_bird_ids": 231
+      },
+      {
+        "overlapping_bird_ids": 0,
+        "seed": 20261120,
+        "split_mode": "bird_id",
+        "target": "nest",
+        "test_accuracy": 0.976077,
+        "test_balanced_accuracy": 0.976099,
+        "test_brier": 0.035642,
+        "test_log_loss": 0.141311,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.574041,
+        "test_n": 209,
+        "test_positive_fraction": 0.497608,
+        "test_roc_auc": 0.989515,
+        "test_unique_bird_ids": 72,
+        "train_n": 488,
+        "train_unique_bird_ids": 186
+      },
+      {
+        "overlapping_bird_ids": 121,
+        "seed": 20261121,
+        "split_mode": "year_id",
+        "target": "nest",
+        "test_accuracy": 0.937799,
+        "test_balanced_accuracy": 0.942337,
+        "test_brier": 0.052811,
+        "test_log_loss": 0.180968,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.493188,
+        "test_n": 209,
+        "test_positive_fraction": 0.392344,
+        "test_roc_auc": 0.975466,
+        "test_unique_bird_ids": 152,
+        "train_n": 488,
+        "train_unique_bird_ids": 227
+      },
+      {
+        "overlapping_bird_ids": 0,
+        "seed": 20261121,
+        "split_mode": "bird_id",
+        "target": "nest",
+        "test_accuracy": 0.942584,
+        "test_balanced_accuracy": 0.945873,
+        "test_brier": 0.047106,
+        "test_log_loss": 0.170011,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.509343,
+        "test_n": 209,
+        "test_positive_fraction": 0.416268,
+        "test_roc_auc": 0.978849,
+        "test_unique_bird_ids": 75,
+        "train_n": 488,
+        "train_unique_bird_ids": 183
+      },
+      {
+        "overlapping_bird_ids": 128,
+        "seed": 20261122,
+        "split_mode": "year_id",
+        "target": "nest",
+        "test_accuracy": 0.947368,
+        "test_balanced_accuracy": 0.952996,
+        "test_brier": 0.052983,
+        "test_log_loss": 0.196867,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.483817,
+        "test_n": 209,
+        "test_positive_fraction": 0.421053,
+        "test_roc_auc": 0.969572,
+        "test_unique_bird_ids": 150,
+        "train_n": 488,
+        "train_unique_bird_ids": 236
+      },
+      {
+        "overlapping_bird_ids": 0,
+        "seed": 20261122,
+        "split_mode": "bird_id",
+        "target": "nest",
+        "test_accuracy": 0.937799,
+        "test_balanced_accuracy": 0.937886,
+        "test_brier": 0.04982,
+        "test_log_loss": 0.171901,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.501505,
+        "test_n": 209,
+        "test_positive_fraction": 0.38756,
+        "test_roc_auc": 0.979842,
+        "test_unique_bird_ids": 82,
+        "train_n": 488,
+        "train_unique_bird_ids": 176
+      },
+      {
+        "overlapping_bird_ids": 116,
+        "seed": 20261123,
+        "split_mode": "year_id",
+        "target": "nest",
+        "test_accuracy": 0.956938,
+        "test_balanced_accuracy": 0.957477,
+        "test_brier": 0.040408,
+        "test_log_loss": 0.146242,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.558056,
+        "test_n": 209,
+        "test_positive_fraction": 0.478469,
+        "test_roc_auc": 0.979495,
+        "test_unique_bird_ids": 146,
+        "train_n": 488,
+        "train_unique_bird_ids": 228
+      },
+      {
+        "overlapping_bird_ids": 0,
+        "seed": 20261123,
+        "split_mode": "bird_id",
+        "target": "nest",
+        "test_accuracy": 0.899522,
+        "test_balanced_accuracy": 0.894745,
+        "test_brier": 0.067789,
+        "test_log_loss": 0.222952,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.447889,
+        "test_n": 209,
+        "test_positive_fraction": 0.354067,
+        "test_roc_auc": 0.964965,
+        "test_unique_bird_ids": 79,
+        "train_n": 488,
+        "train_unique_bird_ids": 179
+      },
+      {
+        "overlapping_bird_ids": 121,
+        "seed": 20261124,
+        "split_mode": "year_id",
+        "target": "nest",
+        "test_accuracy": 0.956938,
+        "test_balanced_accuracy": 0.956914,
+        "test_brier": 0.044727,
+        "test_log_loss": 0.162564,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.552789,
+        "test_n": 209,
+        "test_positive_fraction": 0.497608,
+        "test_roc_auc": 0.980266,
+        "test_unique_bird_ids": 147,
+        "train_n": 488,
+        "train_unique_bird_ids": 232
+      },
+      {
+        "overlapping_bird_ids": 0,
+        "seed": 20261124,
+        "split_mode": "bird_id",
+        "target": "nest",
+        "test_accuracy": 0.966507,
+        "test_balanced_accuracy": 0.966575,
+        "test_brier": 0.03303,
+        "test_log_loss": 0.125395,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.589957,
+        "test_n": 209,
+        "test_positive_fraction": 0.497608,
+        "test_roc_auc": 0.989377,
+        "test_unique_bird_ids": 77,
+        "train_n": 488,
+        "train_unique_bird_ids": 181
+      },
+      {
+        "overlapping_bird_ids": 121,
+        "seed": 20261125,
+        "split_mode": "year_id",
+        "target": "nest",
+        "test_accuracy": 0.971292,
+        "test_balanced_accuracy": 0.97619,
+        "test_brier": 0.032024,
+        "test_log_loss": 0.118411,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.556591,
+        "test_n": 209,
+        "test_positive_fraction": 0.397129,
+        "test_roc_auc": 0.99541,
+        "test_unique_bird_ids": 149,
+        "train_n": 488,
+        "train_unique_bird_ids": 230
+      },
+      {
+        "overlapping_bird_ids": 0,
+        "seed": 20261125,
+        "split_mode": "bird_id",
+        "target": "nest",
+        "test_accuracy": 0.937799,
+        "test_balanced_accuracy": 0.943424,
+        "test_brier": 0.04892,
+        "test_log_loss": 0.161339,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.518015,
+        "test_n": 209,
+        "test_positive_fraction": 0.416268,
+        "test_roc_auc": 0.985821,
+        "test_unique_bird_ids": 74,
+        "train_n": 488,
+        "train_unique_bird_ids": 184
+      },
+      {
+        "overlapping_bird_ids": 119,
+        "seed": 20261126,
+        "split_mode": "year_id",
+        "target": "nest",
+        "test_accuracy": 0.92823,
+        "test_balanced_accuracy": 0.92825,
+        "test_brier": 0.05588,
+        "test_log_loss": 0.18897,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.510403,
+        "test_n": 209,
+        "test_positive_fraction": 0.4689,
+        "test_roc_auc": 0.973111,
+        "test_unique_bird_ids": 144,
+        "train_n": 488,
+        "train_unique_bird_ids": 233
+      },
+      {
+        "overlapping_bird_ids": 0,
+        "seed": 20261126,
+        "split_mode": "bird_id",
+        "target": "nest",
+        "test_accuracy": 0.937799,
+        "test_balanced_accuracy": 0.939963,
+        "test_brier": 0.049791,
+        "test_log_loss": 0.16779,
+        "test_mean_log_score_gain_vs_training_prevalence": 0.515847,
+        "test_n": 209,
+        "test_positive_fraction": 0.430622,
+        "test_roc_auc": 0.979085,
+        "test_unique_bird_ids": 75,
+        "train_n": 488,
+        "train_unique_bird_ids": 183
+      }
+    ],
+    "no_event_data_or_real_bird_or_year_IDs_exported": true,
+    "no_formal_claim_about_original_accuracy_inflation_or_future_group_coverage": true,
+    "not_original_2024_random_split_or_model": true,
+    "outcomes_used": [
+      "HR",
+      "nest"
+    ],
+    "package_versions": {
+      "numpy": "2.5.5",
+      "pandas": "2.3.3",
+      "scikit_learn": "1.9.1"
+    },
+    "redkite_external_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "schema_version": 1,
+    "source_histogram": {
+      "1": 66,
+      "2": 51,
+      "3": 62,
+      "4": 56,
+      "5": 20,
+      "6": 2,
+      "7": 1
+    },
+    "source_prepublication_RDS_Git_blob_SHA1_verified_by_CI": true,
+    "status": "SWISS_SAME_SOURCE_BIRD_DISJOINT_RF_REFIT_COMPARISON",
+    "success_outcome_not_read": true,
+    "verified_RDS_schema_697_seasons_258_bird_ID_strings": true,
+    "year_minus_bird_split_descriptive_differences": [
+      {
+        "descriptive_mean_year_minus_bird_brier": -0.001232,
+        "descriptive_mean_year_minus_bird_log_score_gain": -0.027478,
+        "not_an_inferential_p_value_or_independent_study_replication": true,
+        "target": "HR"
+      },
+      {
+        "descriptive_mean_year_minus_bird_brier": -0.002163,
+        "descriptive_mean_year_minus_bird_log_score_gain": 0.006942,
+        "not_an_inferential_p_value_or_independent_study_replication": true,
+        "target": "nest"
+      }
+    ]
+  },
+  "scientific_limit": {
+    "source_is_prepublication_2024_prepared_GitHub_RDS_not_2024_Zenodo_CSV": true,
+    "experimental_RF_is_sklearn_not_original_tuned_ranger": true,
+    "source_individual_ID_strings_not_canonical_identity_crosswalk": true,
+    "original_2024_RF_training_test_random_assignment_not_recovered": true,
+    "repeated_eight_splits_not_independent_studies": true,
+    "no_formal_adjustment_to_original_paper_accuracy": true,
+    "no_new_Swiss_German_transfer_validation": true,
+    "test_source_matched_488_train_209_test_year_ID_rows_for_both_modes": true,
+    "group_split_zero_bird_ID_overlap_in_all_eight_seeds": true,
+    "original_BOP_status": "empirical_state_prediction_mixed",
+    "redkite_real_external_gain_status": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER"
+  }
+}
