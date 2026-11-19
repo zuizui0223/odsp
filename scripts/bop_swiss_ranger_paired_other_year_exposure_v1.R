@@ -251,7 +251,7 @@ fit_one <- function(dat,labels,training,test,target,seed) {
     num.threads=1L,
     seed=as.integer(seed+if (target=="nest") 10000L else 0L)
   )
-  p<-ranger::predict(fit,data=cov$test,num.threads=1L)$predictions[,"yes"]
+  p<-stats::predict(fit,data=cov$test,num.threads=1L)$predictions[,"yes"]
   evaluate_metrics(positives[test],p,positives[training])
 }
 
