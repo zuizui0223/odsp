@@ -5,9 +5,15 @@ No real biological source or label is read by the tests.
 from __future__ import annotations
 from collections import Counter
 import json
-import numpy as np
-import pandas as pd
 import pytest
+
+# The general ODSP scientific/governance CI intentionally has no pandas/numpy/
+# scikit-learn dependencies. These optional RF tests are mandatory in the
+# dedicated bird-heldout workflow (which installs all three), while the
+# dependency-light core/governance lanes should skip them at collection.
+np=pytest.importorskip("numpy",reason="optional RF evaluation requires numpy")
+pd=pytest.importorskip("pandas",reason="optional RF evaluation requires pandas")
+pytest.importorskip("sklearn",reason="optional RF evaluation requires scikit-learn")
 
 from scripts.bop_nesttool_swiss_birdheldout_refit_v1 import (
     CONTRACT,FEATURES,HIST_EXPECT,SEEDS,TARGETS,load_frozen,
