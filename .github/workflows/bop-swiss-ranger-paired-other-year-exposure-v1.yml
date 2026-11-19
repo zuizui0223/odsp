@@ -1,0 +1,64 @@
+name: bop-swiss-ranger-paired-other-year-exposure-v1
+on:
+  pull_request:
+    paths:
+      - 'research/BOP_SWISS_RANGER_PAIRED_OTHER_YEAR_EXPOSURE_V1_CONTRACT.json'
+      - 'scripts/bop_swiss_ranger_paired_other_year_exposure_v1.R'
+      - 'tests/test_bop_swiss_ranger_paired_other_year_exposure_v1.py'
+      - 'docs/bop_swiss_ranger_paired_other_year_exposure_v1.md'
+      - '.github/workflows/bop-swiss-ranger-paired-other-year-exposure-v1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frozen-paired-design-known-truth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10','3.12','3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install -e '.[dev]'
+      - name: Verify pre-outcome freeze and 16 feasible same-test 50-bird panels
+        run: python -m pytest tests/test_bop_swiss_ranger_paired_other_year_exposure_v1.py
+  first-source-ranger-same-test:
+    needs: frozen-paired-design-known-truth
+    if: ${{ needs.frozen-paired-design-known-truth.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 27
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.4'
+      - name: Install ranger probability RF and schema serializer
+        run: Rscript -e 'install.packages(c("jsonlite","ranger"),repos="https://cloud.r-project.org")'
+      - name: Test actual frozen ranger paired same-test splitter and two synthetic models BEFORE source
+        run: Rscript scripts/bop_swiss_ranger_paired_other_year_exposure_v1.R --self-test
+      - name: Verify original 2024 RDS Git hash, run outcome-blind source gate, then frozen 64 ranger model panels
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          f="$RUNNER_TEMP/nesttool_2024_prepared_ephemeral.rds"
+          trap 'rm -f "$f"' EXIT
+          curl --fail --location --silent --show-error --max-time 180 --retry 2 --output "$f" 'https://raw.githubusercontent.com/Vogelwarte/NestTool/8fdf3884b5f6079afdffdc5c563c9050766670a4/input_data_prepared.rds'
+          test "$(stat -c%s "$f")" = '53709803'
+          test "$(git hash-object "$f")" = 'fab942c0df8d6f77dc1db2bd2e2717681b9a3632'
+          Rscript scripts/bop_nesttool_swiss_prepared_schema_v1.R "$f" "$RUNNER_TEMP/bop-ranger-paired-schema-first.json"
+          Rscript scripts/bop_swiss_ranger_paired_other_year_exposure_v1.R "$f" "$RUNNER_TEMP/bop-ranger-paired-model-first.json"
+      - name: Preserve ONLY source-schema and aggregate-model first results or HOLD
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bop-swiss-ranger-paired-first
+          path: |
+            ${{ runner.temp }}/bop-ranger-paired-schema-first.json
+            ${{ runner.temp }}/bop-ranger-paired-model-first.json
+          retention-days: 90
+          if-no-files-found: warn
