@@ -38,7 +38,10 @@ check_contract <- function() {
   require_true(identical(c$freeze_date,"2026-11-19"))
   require_true(a$byte_length==53709803L &&
     identical(a$git_blob_sha1,"fab942c0df8d6f77dc1db2bd2e2717681b9a3632"))
-  require_true(identical(s$exact_h_1_to_7,hist_frozen) &&
+  frozen_hist<-vapply(names(hist_frozen),function(key)
+    as.integer(s$exact_h_1_to_7[[key]]),integer(1))
+  names(frozen_hist)<-names(hist_frozen)
+  require_true(identical(frozen_hist,hist_frozen) &&
     identical(as.character(s$exact_34_predictors),predictors))
   require_true(identical(as.character(s$allowed_response_columns),names(labels_allowed)))
   require_true(s$required_HR_nest_known_binary_labels_for_all_697_seasons &&
