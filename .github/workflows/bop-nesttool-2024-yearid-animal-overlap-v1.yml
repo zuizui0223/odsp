@@ -1,0 +1,36 @@
+name: bop-nesttool-2024-yearid-animal-overlap-v1
+on:
+  pull_request:
+    paths:
+      - 'research/BOP_NESTTOOL_2024_YEARID_SPLIT_ANIMAL_OVERLAP_V1_CONTRACT.json'
+      - 'BOP_NESTTOOL_2024_YEARID_ANIMAL_OVERLAP_V1_FIRST_RECEIPT.json'
+      - 'scripts/bop_nesttool_2024_yearid_animal_overlap_v1.py'
+      - 'scripts/verify_bop_nesttool_2024_yearid_overlap_first_v1.py'
+      - 'tests/test_bop_nesttool_2024_yearid_animal_overlap_v1.py'
+      - 'tests/test_bop_nesttool_2024_yearid_overlap_first_receipt_v1.py'
+      - 'docs/bop_nesttool_2024_yearid_animal_overlap_v1.md'
+      - 'manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md'
+      - '.github/workflows/bop-nesttool-2024-yearid-animal-overlap-v1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+# Original archived code-only source was verified once in run 44307730106.
+# That original success and artifact digests are permanently recorded.
+# Subsequent workflow runs are offline-only and do not recontact providers.
+jobs:
+  original-source-and-math-offline-regression:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10','3.12','3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install -e '.[dev]'
+      - name: Recompute expected bird-overlap bounds and synthetic 2024 training split safety
+        run: python -m pytest tests/test_bop_nesttool_2024_yearid_animal_overlap_v1.py tests/test_bop_nesttool_2024_yearid_overlap_first_receipt_v1.py
+      - name: Check frozen actual archive ZIP and original Actions result receipt without HTTP
+        run: python scripts/verify_bop_nesttool_2024_yearid_overlap_first_v1.py

@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-nesttool-2024-three-trainer-source-and-yearid-overlap-first-v1",
+  "role": "ORIGINAL_ARCHIVED_CODE_ONLY_ID_SPLIT_AND_AGGREGATE_MATHEMATICAL_EXPECTATION",
+  "contract_frozen_before_source": "3b50495405731eec92f925654740cb13906b316a",
+  "first_actions": {
+    "run_id": 44307730106,
+    "source_job_id": 134819982555,
+    "first_branch_head": "3f90fa6721d17706fd06ef449105faf4a0c8ae69",
+    "source_job_conclusion": "success",
+    "artifact_id": 14429691808,
+    "artifact_name": "bop-nesttool-yearid-animal-overlap-first",
+    "original_artifact_zip_bytes": 1577,
+    "original_artifact_zip_sha256": "48c7a408f08f7a9a5aa7d85ff6347617cb738c0e16db0641ee6c45d3c7d07fee",
+    "original_json_filename": "bop-nesttool-yearid-overlap-first.json",
+    "original_json_bytes": 4657,
+    "original_json_sha256": "f2617e20b3a16b089a365ed8257e3011d56b013933294d0c480b5ef919b38f60",
+    "contract_sha256": "fe7332979ba7320968c19a60752ac1592fd5b760c2c03ee3708e3ce6321bcbde",
+    "offline_python_matrix_success": [
+      "3.10",
+      "3.12",
+      "3.13"
+    ]
+  },
+  "original_zip": {
+    "zenodo_record": 13736049,
+    "code_zip_name": "NestTool-1.0.0.zip",
+    "provider_MD5_and_SHA256_verified": true,
+    "original_zip_sha256": "ce9737f120aaf039d8252525a9a96d869c3975030f5bf3960c8d86615455bdc9",
+    "historical_github_commit": "8fdf3884b5f6079afdffdc5c563c9050766670a4",
+    "exact_three_r_source_byte_match": true,
+    "trainer_split_source": [
+      {
+        "path": "R/train_home_range_detection.R",
+        "git_blob_sha1": "47c7b5f6dbcfb53c2df8a014a65fe59cf8a258dd",
+        "unique_year_id_line": 69,
+        "random_sample_line": 70,
+        "train_filter_line": 73,
+        "test_filter_line": 75
+      },
+      {
+        "path": "R/train_nest_detection.R",
+        "git_blob_sha1": "c028e728e0fdf646c3bf6f46e10b3ae6b8f55bcd",
+        "unique_year_id_line": 69,
+        "random_sample_line": 70,
+        "train_filter_line": 73,
+        "test_filter_line": 75
+      },
+      {
+        "path": "R/train_nest_success.R",
+        "git_blob_sha1": "c657973023308201cc11c2fa0c8830fd6655ec5b",
+        "unique_year_id_line": 95,
+        "random_sample_line": 96,
+        "train_filter_line": 99,
+        "test_filter_line": 101
+      }
+    ]
+  },
+  "math": {
+    "sample_season_rows": 697,
+    "published_bird_count": 258,
+    "max_seasons_per_bird": 7,
+    "training_season_rows": 488,
+    "validation_season_rows": 209,
+    "original_random_split_grouping": "year_id",
+    "biological_grouping_required_for_new_birds": "bird_id",
+    "conditional_minimum_expected_birds_in_both_roles": 67.462949,
+    "conditional_maximum_expected_birds_in_both_roles": 146.54023,
+    "minimizer_histogram": {
+      "1": 184,
+      "2": 1,
+      "7": 73
+    },
+    "maximizer_histogram": {
+      "2": 77,
+      "3": 181
+    },
+    "discrete_concavity_and_extreme_histograms_verified": true,
+    "bounds_are_expectations_only": true,
+    "unknown_original_realized_train_test_overlap": true,
+    "no_accuracy_inflation_or_independent_group_prediction_inferred": true
+  },
+  "claim_limits": {
+    "actual_2024_data_split_random_seed_or_bird_roster_read": false,
+    "individual_tracking_rows_opened": false,
+    "reproductive_outcome_values_opened": false,
+    "model_probabilities_calculated": false,
+    "Swiss_to_Germany_external_validation_not_reassessed": true,
+    "nest_success_smaller_conditioned_training_sample_not_scored": true,
+    "original_BOP_terminal": "empirical_state_prediction_mixed",
+    "redkite_real_gain_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "method_claim": "SEASON_LEVEL_SPLIT_CAN_REUSE_BIRDS_ACROSS_TRAIN_AND_TEST"
+  }
+}
