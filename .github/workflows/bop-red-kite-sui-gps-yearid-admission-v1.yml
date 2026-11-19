@@ -3,15 +3,22 @@ on:
   pull_request:
     paths:
       - 'research/BOP_RED_KITE_SUI_GPS_YEAR_ID_ADMISSION_V1_CONTRACT.json'
+      - 'BOP_RED_KITE_SUI_GPS_YEAR_ID_ADMISSION_V1_FIRST_RECEIPT.json'
       - 'scripts/bop_red_kite_sui_gps_year_id_admission_v1.py'
+      - 'scripts/verify_bop_red_kite_sui_gps_year_id_first_v1.py'
       - 'tests/test_bop_red_kite_sui_gps_year_id_admission_v1.py'
+      - 'tests/test_bop_red_kite_sui_gps_year_id_first_v1.py'
       - 'docs/bop_red_kite_sui_gps_year_id_admission_v1.md'
+      - 'manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md'
+      - 'README.md'
       - '.github/workflows/bop-red-kite-sui-gps-yearid-admission-v1.yml'
   workflow_dispatch:
 permissions:
   contents: read
+# Original first Swiss source and exact MD5 were verified in run 44456757144.
+# Subsequent workflow executions MUST NOT reread 266 MB provider GPS or labels.
 jobs:
-  synthetic-source-eligibility-tests:
+  immutable-source-and-histogram-offline-tests:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -23,25 +30,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install -e '.[dev]'
-      - name: Validate Swiss source key privacy, leap-year seasons, 12-arm expected reuse
-        run: python -m pytest tests/test_bop_red_kite_sui_gps_year_id_admission_v1.py
-  official-swiss-source-first:
-    needs: synthetic-source-eligibility-tests
-    if: ${{ needs.synthetic-source-eligibility-tests.result == 'success' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 22
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Stream only official checksum-fixed Swiss source and export twelve aggregate histograms
-        run: python scripts/bop_red_kite_sui_gps_year_id_admission_v1.py --out "$RUNNER_TEMP/bop-red-kite-sui-source-first.json"
-      - name: Preserve exact first source aggregate or explicit HOLD without raw GPS
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: bop-red-kite-sui-source-first
-          path: ${{ runner.temp }}/bop-red-kite-sui-source-first.json
-          retention-days: 90
-          if-no-files-found: warn
+      - name: Synthetic Swiss geo/date/hourly/ID tests and tamper protection of real 697/258 cohort
+        run: python -m pytest tests/test_bop_red_kite_sui_gps_year_id_admission_v1.py tests/test_bop_red_kite_sui_gps_year_id_first_v1.py
+      - name: Offline verify original ZIP/JSON hashes, 12 arm histograms and 121.992 expectation
+        run: python scripts/verify_bop_red_kite_sui_gps_year_id_first_v1.py
