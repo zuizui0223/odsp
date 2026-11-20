@@ -1,0 +1,39 @@
+name: bop-swiss-temporal-bird-purge-v1
+on:
+  pull_request:
+    paths:
+      - 'research/BOP_SWISS_TEMPORAL_BIRD_PURGE_V1_CONTRACT.json'
+      - 'BOP_SWISS_TEMPORAL_BIRD_PURGE_V1_FIRST_RECEIPT.json'
+      - 'scripts/bop_swiss_temporal_bird_purge_schema_v1.R'
+      - 'scripts/bop_swiss_temporal_bird_purge_ranger_v1.R'
+      - 'scripts/verify_bop_swiss_temporal_bird_purge_first_v1.py'
+      - 'tests/test_bop_swiss_temporal_bird_purge_v1.py'
+      - 'tests/test_bop_swiss_temporal_bird_purge_first_v1.py'
+      - 'docs/bop_swiss_temporal_bird_purge_v1.md'
+      - 'manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md'
+      - 'README.md'
+      - '.github/workflows/bop-swiss-temporal-bird-purge-v1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+# First original source-only schema and ranger 96 model read succeeded
+# in Actions 44746545177, job 136323453061, artifact 14633317139.
+# From now on the workflow MUST NEVER recontact RDS provider or read labels.
+jobs:
+  frozen-original-forward-bird-purge-offline-verification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10','3.12','3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install -e '.[dev]'
+      - name: Test global calendar-forward animal-ID disjointness and original 96-model tamper guards without RDS
+        run: python -m pytest tests/test_bop_swiss_temporal_bird_purge_v1.py tests/test_bop_swiss_temporal_bird_purge_first_v1.py
+      - name: Validate original official first ZIP/member digests, all twelve model cells and inferential STOP offline
+        run: python scripts/verify_bop_swiss_temporal_bird_purge_first_v1.py
