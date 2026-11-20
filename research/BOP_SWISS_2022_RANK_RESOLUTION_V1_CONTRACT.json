@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-swiss-2022-auc-small-negative-exact-rank-reference-v1",
+  "freeze_date": "2026-11-20",
+  "scientific_question": "How informative is the 2022 below-half AUC when exactly four negatives and 28 positives were tested, and do raw accuracies exceed a trivial same-cohort majority class benchmark?",
+  "source": {
+    "original_first_run": 44746545177,
+    "original_first_artifact_id": 14633317139,
+    "immutable_source_receipt_path": "BOP_SWISS_TEMPORAL_BIRD_PURGE_V1_FIRST_RECEIPT.json",
+    "original_GitHub_source_prepared_RDS_recontact_forbidden": true,
+    "no_HR_nest_labels_or_individual_predictions_reopen": true,
+    "no_other_data_or_external_source": true,
+    "original_source_receipt_expected_git_blob_SHA1": "82c328cc5bd5b88afa2faf8f0121d607af1a4e72",
+    "checked_2022_cutoff_purged_test_n": 32,
+    "checked_2022_cutoff_test_distinct_bird_ID_strings": 32,
+    "checked_2022_both_outcomes_positives": 28,
+    "checked_2022_both_outcomes_negatives": 4
+  },
+  "rank_reference": {
+    "choose_4_negative_score_rank_positions_from_32_without_replacement": true,
+    "all_rank_positions_equally_likely_under_tie_free_random_ordering": true,
+    "n_combinations": 35960,
+    "pair_count": 112,
+    "AUC_U_denominator": 112,
+    "rank_comparisons_share_same_four_negatives_not_independent_pairs": true,
+    "report_two_sided_central_90_and_95_percent_rank_ranges": true,
+    "report_one_sided_lower_tail_random_rank_reference_for_each_of_four_2022_mean_AUCs": true,
+    "this_is_not_an_exact_p_value_for_8_seed_average_or_actual_tied_RF_scores": true,
+    "one_negative_moving_from_lowest_to_highest_score_rank_can_shift_AUC_up_to": 0.25,
+    "per_seed_AUCs_are_not_independent_source_sets": true,
+    "no_model_score_or_label_shuffling_in_this_route": true,
+    "no_significance_or_regime_shift_claim": true
+  },
+  "predeclared_screens": {
+    "all_2022_modes_targets": [
+      [
+        "HR",
+        "full_forward"
+      ],
+      [
+        "HR",
+        "bird_purged_forward"
+      ],
+      [
+        "nest",
+        "full_forward"
+      ],
+      [
+        "nest",
+        "bird_purged_forward"
+      ]
+    ],
+    "all_fixed_cutoffs": [
+      2020,
+      2021,
+      2022
+    ],
+    "use_only_pinned_test_prevalence_and_original_average_accuracy": true,
+    "naive_majority_class_accuracy_equals_max_of_test_prevalence_and_complement": true,
+    "diagnostic_majority_baseline_uses_test_labels_not_deployable_estimator": true,
+    "report_excess_accuracy_vs_majority_for_each_of_twelve_fixed_model_cells": true,
+    "Brier_and_log_gain_against_training_prevalence_remain_from_original_first_receipt": true,
+    "source_rank_ties_not_observed_here": true,
+    "no_after_the_fact_forest_seed_or_cutoff_selection": true
+  },
+  "scientific_limits": {
+    "sample_selection_and_prior_HR_nest_study_inspection_already_done": true,
+    "this_is_exploratory_source_free_conditional_reference_not_confirmatory_trial": true,
+    "original_2022_negative_class_only_four": true,
+    "cannot_test_rank_reversal_mechanism_from_aggregate_outputs": true,
+    "no_independent_studies_or_direct_2024_NestTool_accuracy_reproduction": true,
+    "no_external_future_animal_coverage": true,
+    "original_BOP_terminal": "empirical_state_prediction_mixed",
+    "external_redkite_terminal": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "original_Dryad": "NOT_ADMITTED"
+  }
+}
