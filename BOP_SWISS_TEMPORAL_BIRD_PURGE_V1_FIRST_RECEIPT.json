@@ -314,5 +314,54 @@
     "original_BOP": "empirical_state_prediction_mixed",
     "redkite_external": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
     "Dryad": "NOT_ADMITTED"
+  },
+  "source_gate": {
+    "original_697_seasons_258_bird_ID_strings_verified": true,
+    "original_2016_to_2022_source_years_verified": true,
+    "no_source_HR_nest_values_accessed_during_source_gate": true,
+    "all_train_years_precede_all_test_years_for_all_cutoffs": true,
+    "zero_bird_ID_overlap_purged_arm_all_cutoffs": true,
+    "same_test_rows_in_both_train_arms_each_cutoff": true,
+    "cutoffs_all_predeclared": [
+      2020,
+      2021,
+      2022
+    ],
+    "primary_cutoff": 2021,
+    "row_counts_by_cutoff": [
+      {
+        "cutoff": 2020,
+        "full_train_rows": 405,
+        "purged_train_rows": 98,
+        "test_rows": 292,
+        "full_train_birds": 220,
+        "purged_train_birds": 64,
+        "test_birds": 194,
+        "full_train_test_overlap_birds": 156,
+        "purged_train_test_overlap_birds": 0
+      },
+      {
+        "cutoff": 2021,
+        "full_train_rows": 580,
+        "purged_train_rows": 396,
+        "test_rows": 117,
+        "full_train_birds": 240,
+        "purged_train_birds": 166,
+        "test_birds": 92,
+        "full_train_test_overlap_birds": 74,
+        "purged_train_test_overlap_birds": 0
+      },
+      {
+        "cutoff": 2022,
+        "full_train_rows": 665,
+        "purged_train_rows": 555,
+        "test_rows": 32,
+        "full_train_birds": 258,
+        "purged_train_birds": 226,
+        "test_birds": 32,
+        "full_train_test_overlap_birds": 32,
+        "purged_train_test_overlap_birds": 0
+      }
+    ]
   }
 }
