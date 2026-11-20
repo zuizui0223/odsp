@@ -1,0 +1,318 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-swiss-temporal-bird-purge-original-first-v1",
+  "role": "FROZEN_RETROSPECTIVE_SAME_SOURCE_GLOBAL_CHRONOLOGY_BIRD_DISJOINT_SOURCE_RESULT",
+  "original_provenance": {
+    "pre_source_method_contract_commit": "8579e6d0260b1fc89f3047e6c6836a1542846cbe",
+    "frozen_contract_git_blob": "e98664de442a7432f25b82d4004c108691fe6242",
+    "original_2024_prepared_RDS_git_blob_sha1": "fab942c0df8d6f77dc1db2bd2e2717681b9a3632",
+    "original_source_bytes": 53709803,
+    "original_source_outcomes_previously_opened_in_PRS": [
+      295,
+      296,
+      297
+    ],
+    "source_IDs_697_seasons_258_birds_and_years_2016_to_2022_verified": true
+  },
+  "first_actions": {
+    "run_id": 44746545177,
+    "source_job_id": 136323453061,
+    "source_run_branch_head_sha": "c69df9e0e3f81c19b11c5955bd6bbf1684272e36",
+    "source_job_conclusion": "success",
+    "python_synthetic_3_10_3_12_3_13_success": true,
+    "R_source_free_synthetic_success": true,
+    "artifact_id": 14633317139,
+    "artifact_name": "bop-swiss-temporal-bird-purge-first",
+    "original_zip_bytes": 8041,
+    "original_zip_sha256": "04df9081e71d497c2e8c394e0fd79bfbb72524eb765dd019fdd4dc1f08be04ff",
+    "original_artifact_members": [
+      {
+        "path": "bop-swiss-forward-original-schema-first.json",
+        "bytes": 572,
+        "sha256": "f6d267261433655512cb131b7d935f78a51c4d0d1e29fa9d74b606bf67b310fc"
+      },
+      {
+        "path": "bop-swiss-forward-chronology-cohort-first.json",
+        "bytes": 2116,
+        "sha256": "3153b930d19738585c0d6b1f7eb2869e7e5d6ba856e28f0253321ff662911aa4"
+      },
+      {
+        "path": "bop-swiss-forward-bird-purge-ranger-first.json",
+        "bytes": 84103,
+        "sha256": "7f566d36f1d01596289c89b1c29b04b4d07ff9e8f1762c081808e7a3271b10db"
+      }
+    ]
+  },
+  "cohort_by_fixed_cutoff": [
+    {
+      "cutoff": 2020,
+      "full_train_rows": 405,
+      "purged_train_rows": 98,
+      "test_rows": 292,
+      "full_train_birds": 220,
+      "purged_train_birds": 64,
+      "test_birds": 194,
+      "full_train_test_overlap_birds": 156,
+      "purged_train_test_overlap_birds": 0
+    },
+    {
+      "cutoff": 2021,
+      "full_train_rows": 580,
+      "purged_train_rows": 396,
+      "test_rows": 117,
+      "full_train_birds": 240,
+      "purged_train_birds": 166,
+      "test_birds": 92,
+      "full_train_test_overlap_birds": 74,
+      "purged_train_test_overlap_birds": 0
+    },
+    {
+      "cutoff": 2022,
+      "full_train_rows": 665,
+      "purged_train_rows": 555,
+      "test_rows": 32,
+      "full_train_birds": 258,
+      "purged_train_birds": 226,
+      "test_birds": 32,
+      "full_train_test_overlap_birds": 32,
+      "purged_train_test_overlap_birds": 0
+    }
+  ],
+  "first_models": {
+    "status": "RETROSPECTIVE_SWISS_CALENDAR_FORWARD_BIRD_PURGED_SOURCE_REFIT",
+    "original_R_version": "R version 4.4.3 (2025-02-28)",
+    "original_ranger_version": "0.18.0",
+    "model_is_fixed_ranger_500trees_mtry5_node10_not_2024_tuned": true,
+    "predeclared_cutoffs": [
+      2020,
+      2021,
+      2022
+    ],
+    "primary_cutoff": 2021,
+    "target_names": [
+      "HR",
+      "nest"
+    ],
+    "model_modes": [
+      "full_forward",
+      "bird_purged_forward"
+    ],
+    "frozen_model_seeds": [
+      20261221,
+      20261222,
+      20261223,
+      20261224,
+      20261225,
+      20261226,
+      20261227,
+      20261228
+    ],
+    "original_models_scored": 96,
+    "held_panels": 0,
+    "metric_columns": [
+      "cutoff",
+      "target",
+      "mode",
+      "accuracy_mean",
+      "brier_mean",
+      "logloss_mean",
+      "gain_over_training_prevalence_mean",
+      "auc_mean",
+      "auc_min",
+      "auc_max",
+      "test_positive_fraction",
+      "train_positive_fraction"
+    ],
+    "all_twelve_cell_means": [
+      [
+        2020,
+        "HR",
+        "full_forward",
+        0.947346,
+        0.037978,
+        0.250886,
+        0.504099,
+        0.967915,
+        0.966099,
+        0.97082,
+        0.650685,
+        0.419753
+      ],
+      [
+        2020,
+        "HR",
+        "bird_purged_forward",
+        0.95762,
+        0.036055,
+        0.204032,
+        0.662324,
+        0.96678,
+        0.963442,
+        0.97015,
+        0.650685,
+        0.326531
+      ],
+      [
+        2020,
+        "nest",
+        "full_forward",
+        0.88399,
+        0.090544,
+        0.359115,
+        0.368822,
+        0.944024,
+        0.941265,
+        0.945886,
+        0.5,
+        0.37037
+      ],
+      [
+        2020,
+        "nest",
+        "bird_purged_forward",
+        0.878853,
+        0.085944,
+        0.276368,
+        0.553932,
+        0.949099,
+        0.94802,
+        0.950647,
+        0.5,
+        0.255102
+      ],
+      [
+        2021,
+        "HR",
+        "full_forward",
+        0.940171,
+        0.054092,
+        0.430515,
+        0.266383,
+        0.934495,
+        0.930861,
+        0.937461,
+        0.632479,
+        0.493103
+      ],
+      [
+        2021,
+        "HR",
+        "bird_purged_forward",
+        0.941239,
+        0.053654,
+        0.432852,
+        0.267306,
+        0.933179,
+        0.931647,
+        0.937461,
+        0.632479,
+        0.487374
+      ],
+      [
+        2021,
+        "nest",
+        "full_forward",
+        0.846154,
+        0.117124,
+        0.475423,
+        0.244245,
+        0.891192,
+        0.888173,
+        0.893443,
+        0.521368,
+        0.405172
+      ],
+      [
+        2021,
+        "nest",
+        "bird_purged_forward",
+        0.833333,
+        0.129345,
+        0.498379,
+        0.22566,
+        0.881147,
+        0.879098,
+        0.88466,
+        0.521368,
+        0.396465
+      ],
+      [
+        2022,
+        "HR",
+        "full_forward",
+        0.875,
+        0.128858,
+        1.278376,
+        -0.5841,
+        0.415736,
+        0.366071,
+        0.491071,
+        0.875,
+        0.499248
+      ],
+      [
+        2022,
+        "HR",
+        "bird_purged_forward",
+        0.875,
+        0.127684,
+        1.391647,
+        -0.609657,
+        0.373884,
+        0.357143,
+        0.397321,
+        0.875,
+        0.445045
+      ],
+      [
+        2022,
+        "nest",
+        "full_forward",
+        0.789062,
+        0.172999,
+        0.691297,
+        0.168385,
+        0.320312,
+        0.285714,
+        0.366071,
+        0.875,
+        0.403008
+      ],
+      [
+        2022,
+        "nest",
+        "bird_purged_forward",
+        0.75,
+        0.197332,
+        0.797262,
+        0.184597,
+        0.313616,
+        0.285714,
+        0.366071,
+        0.875,
+        0.345946
+      ]
+    ],
+    "source_2022_test_HR_positives": 28,
+    "source_2022_test_HR_negatives": 4,
+    "source_2022_test_nest_positives": 28,
+    "source_2022_test_nest_negatives": 4
+  },
+  "scientific_ceiling": {
+    "global_training_calendar_year_before_all_test_years": true,
+    "bird_purged_train_test_bird_ID_overlap_zero_at_all_cutoffs": true,
+    "identical_test_rows_purged_and_full_train_per_cutoff": true,
+    "train_N_differs_between_two_modes_not_pure_causal_identity_effect": true,
+    "cutoffs_2020_2021_2022_required_no_cherry_pick": true,
+    "source_HR_nest_outcomes_previously_accessed_not_untouched_validation": true,
+    "same_8_model_seeds_and_test_rows_not_8_independent_populations": true,
+    "small_2022_sample_with_only_4_negatives_no_mechanism_established": true,
+    "no_original_2024_tuned_ranger_reproduction": true,
+    "no_independent_German_or_future_population_external_validation": true,
+    "no_individual_projections_GPS_bird_IDs_or_success_outcomes_exported": true,
+    "no_one_sided_unseen_group_rank_coverage_admitted": true,
+    "original_BOP": "empirical_state_prediction_mixed",
+    "redkite_external": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "Dryad": "NOT_ADMITTED"
+  }
+}
