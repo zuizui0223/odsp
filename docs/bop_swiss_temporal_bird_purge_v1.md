@@ -43,3 +43,48 @@ Historical ODSP `empirical_state_prediction_mixed`, original Dryad `NOT_ADMITTED
 5. Fit only the 3×2×2×8 frozen forests subject to fixed class-support rules, then archive aggregate-only JSON; delete the ephemeral RDS.
 
 After one real source run, freeze its first artifact digests and switch the workflow to **offline-only** verification, preserving the source gate and all panel outcomes without repeated RDS access.
+
+## First actual official source result: all 96 prespecified forests scored
+
+The original [GitHub Actions run 44746545177](https://github.com/zuizui0223/odsp/actions/runs/44746545177) completed successfully. Python 3.10/3.12/3.13 synthetic source-group tests and R synthetic ranger tests passed before any new RDS read. The source job `136323453061` verified the exact 2024 RDS Git blob SHA1, prior **697 seasons / 258 bird ID strings / 34 predictors** source gate, and the new **outcome-blind calendar-forward bird-purging gate**. Only then were HR/nest values reread to fit all **96 model panels**. There were **zero** class-support or sample-size holds.
+
+The first original aggregate artifact is ID `14633317139` (`bop-swiss-temporal-bird-purge-first`), ZIP **8,041 bytes**, SHA256 `04df9081e71d497c2e8c394e0fd79bfbb72524eb765dd019fdd4dc1f08be04ff`. Its three safe aggregate-only JSON files are:
+
+| Artifact member | Bytes | SHA256 |
+|---|---:|---|
+| `bop-swiss-forward-original-schema-first.json` | 572 | `f6d267261433655512cb131b7d935f78a51c4d0d1e29fa9d74b606bf67b310fc` |
+| `bop-swiss-forward-chronology-cohort-first.json` | 2,116 | `3153b930d19738585c0d6b1f7eb2869e7e5d6ba856e28f0253321ff662911aa4` |
+| `bop-swiss-forward-bird-purge-ranger-first.json` | 84,103 | `7f566d36f1d01596289c89b1c29b04b4d07ff9e8f1762c081808e7a3271b10db` |
+
+### Actual source temporal group eligibility
+
+| Fixed cutoff | All older training seasons / birds | Older + bird-purged training seasons / birds | Later testing seasons / birds | Repeated test birds in older unpurged training | Repeated test birds after purge |
+|---|---:|---:|---:|---:|---:|
+| 2020 | 405 / 220 | **98 / 64** | **292 / 194** | 156 | **0** |
+| **2021 primary** | 580 / 240 | **396 / 166** | **117 / 92** | 74 | **0** |
+| 2022 | 665 / 258 | **555 / 226** | **32 / 32** | 32 | **0** |
+
+All old-source training rows precede *every* test year under all cutoffs. Both training modes face identical future-year test rows, but the purged training set is smaller. Thus this is a valid source-key grouped/temporal **within-Swiss retrospective validation**, but the difference between the models is **not** solely the effect of shared biological bird IDs.
+
+### First original outcome metrics, fixed eight forest RNG seeds
+
+| Cutoff, outcome | Older all-bird AUC | Older bird-purged AUC | Bird-purged test accuracy | Bird-purged Brier ↓ | Bird-purged log-score gain vs training prevalence |
+|---|---:|---:|---:|---:|---:|
+| 2020 home range | 0.967915 | **0.966780** | 0.957620 | 0.036055 | **+0.662324** |
+| 2020 nesting | 0.944024 | **0.949099** | 0.878853 | 0.085944 | **+0.553932** |
+| **2021 home range** | 0.934495 | **0.933179** | 0.941239 | 0.053654 | **+0.267306** |
+| **2021 nesting** | 0.891192 | **0.881147** | 0.833333 | 0.129345 | **+0.225660** |
+| 2022 home range | 0.415736 | 0.373884 | 0.875000 | 0.127684 | **−0.609657** |
+| 2022 nesting | 0.320312 | 0.313616 | 0.750000 | 0.197332 | +0.184597 |
+
+**Positive but bounded conclusion:** The 2020 and predeclared primary 2021 calendar-forward, bird-ID-disjoint source models retain substantial discrimination and positive log-score gain above a training-only prevalence baseline. They are not evidence of *external country-level transfer* because the original source's outcomes were previously examined in PRs #295–#297.
+
+**Important 2022 exception:** The two 2022 test responses each have **28 positives and only four negatives among 32 season rows**. Consequently **accuracy can remain apparently high while ROC AUC falls below 0.5** and the HR probability scores fall below the training-prevalence log-score baseline. This is a predeclared outcome/period sensitivity and cannot be removed by picking a more favorable cutoff after seeing results. The low AUC is consistently below 0.5 over eight different RF randomness seeds, but these seeds reuse the same *four negatives*, not independent data. It is **not yet evidence of an ecological regime shift**, a changing spatial mechanism, or a year-specific causal effect; test composition, sample-size uncertainty and covariate shift remain possible explanations.
+
+Across all 2020/2021/2022 cuts, target prevalence in the future test was HR 0.650685 / 0.632479 / **0.875000** and nest 0.500000 / 0.521368 / **0.875000**. Thus class composition demonstrably changes; neither raw accuracy nor AUC should be interpreted without the outcome denominator.
+
+### Source permanence and inference STOP
+
+First official run IDs and complete ZIP/member SHA256, all twelve fixed outcome/model mean scores, both cohort group-count arms, and the 2022 negative-class caveat are preserved in `BOP_SWISS_TEMPORAL_BIRD_PURGE_V1_FIRST_RECEIPT.json`. `scripts/verify_bop_swiss_temporal_bird_purge_first_v1.py` verifies the original run provenance and every fixed summary **offline**, or the complete 96 panel original first result if the artifact ZIP is supplied. Post-first CI has been switched to offline-only tests and **never redownloads the RDS or reopens HR/nest labels**.
+
+Scientific terminal limits: BOP `empirical_state_prediction_mixed`; real external red-kite `HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER`; historical Dryad `NOT_ADMITTED`. No one-sided rank coverage for unseen future animals has been certified.
