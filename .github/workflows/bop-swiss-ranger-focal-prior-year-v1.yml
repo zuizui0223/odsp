@@ -1,0 +1,40 @@
+name: bop-swiss-ranger-focal-prior-year-v1
+on:
+  pull_request:
+    paths:
+      - 'research/BOP_SWISS_RANGER_FOCAL_PRIOR_YEAR_V1_CONTRACT.json'
+      - 'BOP_SWISS_RANGER_FOCAL_PRIOR_YEAR_V1_FIRST_RECEIPT.json'
+      - 'scripts/bop_swiss_ranger_focal_prior_year_v1.R'
+      - 'scripts/bop_swiss_ranger_focal_prior_year_schema_v1.R'
+      - 'scripts/verify_bop_swiss_ranger_focal_prior_year_first_v1.py'
+      - 'tests/test_bop_swiss_ranger_focal_prior_year_v1.py'
+      - 'tests/test_bop_swiss_ranger_focal_prior_year_first_v1.py'
+      - 'docs/bop_swiss_ranger_focal_prior_year_v1.md'
+      - 'manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md'
+      - 'README.md'
+      - '.github/workflows/bop-swiss-ranger-focal-prior-year-v1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+# One original 2024 Swiss prepared-RDS source and outcome gate was completed
+# in Actions 44516904222, original source job 135539346693.
+# All later runs must be OFFLINE ONLY, no more historical label/source reads.
+jobs:
+  first-chronology-source-and-result-offline-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10','3.12','3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install only source-independent method audit dependencies
+        run: python -m pip install -e '.[dev]'
+      - name: Known-truth chronology and immutable original source/result proof
+        run: python -m pytest tests/test_bop_swiss_ranger_focal_prior_year_v1.py tests/test_bop_swiss_ranger_focal_prior_year_first_v1.py
+      - name: Verify original source/action SHA256, 16 paired seed changes and claim ceilings without HTTP/RDS
+        run: python scripts/verify_bop_swiss_ranger_focal_prior_year_first_v1.py

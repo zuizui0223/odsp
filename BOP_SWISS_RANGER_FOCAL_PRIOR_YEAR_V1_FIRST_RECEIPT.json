@@ -1,0 +1,406 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-swiss-focal-prior-year-ranger-first-v1",
+  "role": "ONE_TIME_ORIGINAL_SOURCE_CHRONOLOGY_GATE_AND_AGGREGATE_64_RANGER_FITS_NOT_NEW_EXTERNAL_GROUP",
+  "frozen_before_reread": {
+    "contract_commit": "4b3d8d486207f6488701bdc71f662f089b3f0b8f",
+    "freeze_date": "2026-11-19",
+    "source_path": "Vogelwarte/NestTool@8fdf3884b5f6079afdffdc5c563c9050766670a4:input_data_prepared.rds",
+    "source_git_blob_sha1": "fab942c0df8d6f77dc1db2bd2e2717681b9a3632",
+    "source_size_bytes": 53709803,
+    "prior_label_access_precedes_this_study": true
+  },
+  "first_actions": {
+    "run_id": 44516904222,
+    "source_job_id": 135539346693,
+    "source_head_sha": "b8e9fcf5c3b524b1d811fbae29d0f90f3bd57d22",
+    "source_job_conclusion": "success",
+    "python_safety_matrix": [
+      "3.10",
+      "3.12",
+      "3.13"
+    ],
+    "R_source_free_synthetic_success": true,
+    "artifact_id": 14527975243,
+    "artifact_name": "bop-swiss-focal-prior-year-first",
+    "original_artifact_ZIP_bytes": 6126,
+    "original_artifact_ZIP_sha256": "23f6128024bc6476c56a90d2acef2a08f49e48de321257449197c3d2b703dbb6",
+    "members": [
+      {
+        "path": "bop-swiss-focal-prior-original-schema-first.json",
+        "bytes": 572,
+        "sha256": "f6d267261433655512cb131b7d935f78a51c4d0d1e29fa9d74b606bf67b310fc"
+      },
+      {
+        "path": "bop-swiss-focal-prior-chronology-schema-first.json",
+        "bytes": 534,
+        "sha256": "ab71147ff04fc08ad1fa450743e87d65bf9b326488f9f5fe499a08b135913c35"
+      },
+      {
+        "path": "bop-swiss-focal-prior-model-first.json",
+        "bytes": 57460,
+        "sha256": "e73d5613b46d246cfbadd7a73dcb931052f9d908480f67bfde91ec51fc017812"
+      }
+    ]
+  },
+  "chronology_gate": {
+    "status": "FOCAL_CHRONOLOGY_SCHEMA_51_TWO_SEASON_BIRDS_PASS",
+    "source_year_range": [
+      2016,
+      2022
+    ],
+    "n_year_id_strings": 697,
+    "n_bird_id_strings": 258,
+    "n_two_season_ids_with_distinct_years": 51,
+    "outcome_values_inspected_before_gate": false
+  },
+  "model": {
+    "status": "PAIRED_CHRONOLOGICAL_PRIOR_YEAR_RANGER_SOURCE_REFIT",
+    "R_version": "R version 4.4.3 (2025-02-28)",
+    "ranger_version": "0.18.0",
+    "original_family_fixed_n_trees": 500,
+    "mtry": 5,
+    "min_node_size": 10,
+    "original_tuned_2024_ranger_not_reproduced": true,
+    "predeclared_seeds": [
+      20261201,
+      20261202,
+      20261203,
+      20261204,
+      20261205,
+      20261206,
+      20261207,
+      20261208,
+      20261209,
+      20261210,
+      20261211,
+      20261212,
+      20261213,
+      20261214,
+      20261215,
+      20261216
+    ],
+    "outcomes": [
+      "HR",
+      "nest"
+    ],
+    "n_models": 64,
+    "n_pairs": 32,
+    "test_seasons_each_mode": 50,
+    "train_seasons_each_mode": 488,
+    "common_training_seasons": 438,
+    "group_safe_bird_overlap": 0,
+    "prior_focal_bird_exposed_overlap": 50,
+    "test_rows_identical_within_seed": true,
+    "all_focal_exposed_train_years_strictly_earlier_than_test_years": true,
+    "only_focal_bird_chronology_not_entire_training_years": true,
+    "mean_metrics_by_target_and_mode": [
+      {
+        "target": "HR",
+        "mode": "disjoint_other_birds",
+        "accuracy": 0.9425,
+        "auc": 0.99119,
+        "log_loss": 0.176148,
+        "brier": 0.049911,
+        "gain": 0.517839
+      },
+      {
+        "target": "HR",
+        "mode": "same_bird_other_year_exposure",
+        "accuracy": 0.9425,
+        "auc": 0.987786,
+        "log_loss": 0.181905,
+        "brier": 0.049604,
+        "gain": 0.511061
+      },
+      {
+        "target": "nest",
+        "mode": "disjoint_other_birds",
+        "accuracy": 0.9025,
+        "auc": 0.982432,
+        "log_loss": 0.170291,
+        "brier": 0.056638,
+        "gain": 0.496797
+      },
+      {
+        "target": "nest",
+        "mode": "same_bird_other_year_exposure",
+        "accuracy": 0.90375,
+        "auc": 0.981986,
+        "log_loss": 0.170662,
+        "brier": 0.056964,
+        "gain": 0.489112
+      }
+    ],
+    "paired_effects_exposed_minus_safe": [
+      {
+        "target": "HR",
+        "accuracy": 0,
+        "log_loss": 0.005757,
+        "brier": -0.000307,
+        "gain": -0.006778,
+        "log_loss_worse_for_exposure_in_16_seeds": 12
+      },
+      {
+        "target": "nest",
+        "accuracy": 0.00125,
+        "log_loss": 0.000371,
+        "brier": 0.000326,
+        "gain": -0.007685,
+        "log_loss_worse_for_exposure_in_16_seeds": 9
+      }
+    ],
+    "paired_seed_delta_fields": [
+      "seed",
+      "test_log_loss",
+      "brier",
+      "accuracy",
+      "gain"
+    ],
+    "paired_seed_deltas": {
+      "HR": [
+        [
+          20261201,
+          0.009067,
+          0.001158,
+          0,
+          -0.009668
+        ],
+        [
+          20261202,
+          0.007783,
+          -0.000334,
+          0,
+          -0.009129
+        ],
+        [
+          20261203,
+          -0.00008,
+          -0.002859,
+          0,
+          -0.000686
+        ],
+        [
+          20261204,
+          -0.006597,
+          -0.003472,
+          0,
+          0.006216
+        ],
+        [
+          20261205,
+          0.019225,
+          0.001034,
+          0,
+          -0.021346
+        ],
+        [
+          20261206,
+          -0.008008,
+          -0.002441,
+          0,
+          0.006756
+        ],
+        [
+          20261207,
+          0.012777,
+          0.002025,
+          0,
+          -0.014699
+        ],
+        [
+          20261208,
+          0.003412,
+          0.000283,
+          0,
+          -0.007083
+        ],
+        [
+          20261209,
+          0.004107,
+          -0.000523,
+          0,
+          -0.004708
+        ],
+        [
+          20261210,
+          -0.012907,
+          -0.002146,
+          0,
+          0.014266
+        ],
+        [
+          20261211,
+          0.009464,
+          -0.001843,
+          0,
+          -0.010336
+        ],
+        [
+          20261212,
+          0.00581,
+          -0.001187,
+          0,
+          -0.005746
+        ],
+        [
+          20261213,
+          0.001336,
+          -0.000941,
+          0,
+          0.000229
+        ],
+        [
+          20261214,
+          0.016197,
+          0.00374,
+          0,
+          -0.018495
+        ],
+        [
+          20261215,
+          0.025166,
+          0.002104,
+          0,
+          -0.027465
+        ],
+        [
+          20261216,
+          0.005356,
+          0.000495,
+          0,
+          -0.006558
+        ]
+      ],
+      "nest": [
+        [
+          20261201,
+          0.002449,
+          0.000289,
+          0,
+          -0.009897
+        ],
+        [
+          20261202,
+          0.006219,
+          0.0029,
+          0,
+          -0.014093
+        ],
+        [
+          20261203,
+          -0.003411,
+          -0.001458,
+          0,
+          -0.004123
+        ],
+        [
+          20261204,
+          0.004773,
+          0.002154,
+          0,
+          -0.012051
+        ],
+        [
+          20261205,
+          0.002498,
+          0.001349,
+          0,
+          -0.010355
+        ],
+        [
+          20261206,
+          0.000159,
+          0.00042,
+          0,
+          -0.007617
+        ],
+        [
+          20261207,
+          0.006205,
+          0.002376,
+          0.02,
+          -0.013068
+        ],
+        [
+          20261208,
+          0.003639,
+          0.001963,
+          0,
+          -0.010737
+        ],
+        [
+          20261209,
+          -0.009267,
+          -0.003614,
+          0,
+          0.002895
+        ],
+        [
+          20261210,
+          -0.0107,
+          -0.003599,
+          0,
+          0.001297
+        ],
+        [
+          20261211,
+          -0.00119,
+          -0.00057,
+          0,
+          -0.005207
+        ],
+        [
+          20261212,
+          -0.007218,
+          -0.003612,
+          0,
+          0.000843
+        ],
+        [
+          20261213,
+          0.013082,
+          0.00567,
+          0,
+          -0.01797
+        ],
+        [
+          20261214,
+          -0.005721,
+          -0.001976,
+          0,
+          -0.002971
+        ],
+        [
+          20261215,
+          -0.000906,
+          -0.000189,
+          0,
+          -0.007846
+        ],
+        [
+          20261216,
+          0.005319,
+          0.003108,
+          0,
+          -0.012054
+        ]
+      ]
+    }
+  },
+  "claim_ceiling": {
+    "source_rds_and_outcome_columns_already_inspected_in_previous_PRS": true,
+    "no_untouched_external_validation": true,
+    "only_focal_test_bird_prior_year_chronology_not_global_forward_holdout": true,
+    "per_bird_ID_not_canonical_cross_study_identity": true,
+    "training_50_row_replacement_changes_label_and_feature_distribution": true,
+    "no_pure_causal_identity_conclusion": true,
+    "no_16_independent_ecological_studies_or_significance_test": true,
+    "not_original_tuned_ranger_reproduction": true,
+    "success_response_not_opened": true,
+    "individual_IDs_and_per_row_predictions_not_exported": true,
+    "original_BOP": "empirical_state_prediction_mixed",
+    "redkite_new_group": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "dryad": "NOT_ADMITTED"
+  }
+}
