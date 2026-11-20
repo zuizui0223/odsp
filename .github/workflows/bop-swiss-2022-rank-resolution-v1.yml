@@ -3,8 +3,11 @@ on:
   pull_request:
     paths:
       - 'research/BOP_SWISS_2022_RANK_RESOLUTION_V1_CONTRACT.json'
+      - 'BOP_SWISS_2022_RANK_RESOLUTION_V1_FIRST_RECEIPT.json'
       - 'scripts/bop_swiss_2022_rank_resolution_v1.py'
+      - 'scripts/verify_bop_swiss_2022_rank_resolution_first_v1.py'
       - 'tests/test_bop_swiss_2022_rank_resolution_v1.py'
+      - 'tests/test_bop_swiss_2022_rank_resolution_first_v1.py'
       - 'docs/bop_swiss_2022_rank_resolution_v1.md'
       - 'manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md'
       - 'README.md'
@@ -12,12 +15,12 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
-# Source-free deterministic diagnostic ONLY; no R, RDS, GitHub provider read,
-# re-fit, source labels, model probabilities or biological ID access.
+# Source-free original first result in Actions 44752203435, artifact 14636041683.
+# Later CI must not request any original Swiss RDS, HR/nest labels or scores.
 jobs:
-  exact-finite-AUC-reference-and-original-claim-ceiling:
+  original-exact-rank-and-majority-source-free-regression:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 9
     strategy:
       fail-fast: false
       matrix:
@@ -27,17 +30,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install only source-free tests
-        run: python -m pip install 'pytest>=8,<10'
-      - name: Test all 35960 tie-free rank permutations, 12 fixed source cutoff benchmarks, and no external promotion
-        run: python -m pytest tests/test_bop_swiss_2022_rank_resolution_v1.py
-      - name: Recompute exact 28/4 finite rank reference from original locked #298 aggregate only
-        run: python scripts/bop_swiss_2022_rank_resolution_v1.py --out "$RUNNER_TEMP/bop-swiss-2022-rank-reference-v1.json"
-      - name: Preserve source-free deterministic diagnostic only
-        if: success() && matrix.python-version == '3.12'
-        uses: actions/upload-artifact@v4
-        with:
-          name: bop-swiss-2022-rank-reference-first
-          path: ${{ runner.temp }}/bop-swiss-2022-rank-reference-v1.json
-          retention-days: 90
-          if-no-files-found: error
+      - run: python -m pip install 'pytest>=8,<10'
+      - name: Verify original 35960 exact rank configurations, all 12 source panels and tamper rejection
+        run: python -m pytest tests/test_bop_swiss_2022_rank_resolution_v1.py tests/test_bop_swiss_2022_rank_resolution_first_v1.py
+      - name: Reproduce locked first source-free result and artifact evidence without original source access
+        run: python scripts/verify_bop_swiss_2022_rank_resolution_first_v1.py
