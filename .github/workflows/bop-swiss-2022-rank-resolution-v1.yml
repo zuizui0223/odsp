@@ -1,0 +1,41 @@
+name: bop-swiss-2022-rank-resolution-v1
+on:
+  pull_request:
+    paths:
+      - 'research/BOP_SWISS_2022_RANK_RESOLUTION_V1_CONTRACT.json'
+      - 'scripts/bop_swiss_2022_rank_resolution_v1.py'
+      - 'tests/test_bop_swiss_2022_rank_resolution_v1.py'
+      - 'docs/bop_swiss_2022_rank_resolution_v1.md'
+      - 'manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md'
+      - 'README.md'
+      - '.github/workflows/bop-swiss-2022-rank-resolution-v1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+# Source-free deterministic diagnostic ONLY; no R, RDS, GitHub provider read,
+# re-fit, source labels, model probabilities or biological ID access.
+jobs:
+  exact-finite-AUC-reference-and-original-claim-ceiling:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10','3.12','3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Test all 35960 tie-free rank permutations, 12 fixed source cutoff benchmarks, and no external promotion
+        run: python -m unittest discover -s tests -p 'test_bop_swiss_2022_rank_resolution_v1.py'
+      - name: Recompute exact 28/4 finite rank reference from original locked #298 aggregate only
+        run: python scripts/bop_swiss_2022_rank_resolution_v1.py --out "$RUNNER_TEMP/bop-swiss-2022-rank-reference-v1.json"
+      - name: Preserve source-free deterministic diagnostic only
+        if: success() && matrix.python-version == '3.12'
+        uses: actions/upload-artifact@v4
+        with:
+          name: bop-swiss-2022-rank-reference-first
+          path: ${{ runner.temp }}/bop-swiss-2022-rank-reference-v1.json
+          retention-days: 90
+          if-no-files-found: error
