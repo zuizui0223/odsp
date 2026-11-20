@@ -1,0 +1,37 @@
+name: bop-swiss-2022-rank-resolution-v1
+on:
+  pull_request:
+    paths:
+      - 'research/BOP_SWISS_2022_RANK_RESOLUTION_V1_CONTRACT.json'
+      - 'BOP_SWISS_2022_RANK_RESOLUTION_V1_FIRST_RECEIPT.json'
+      - 'scripts/bop_swiss_2022_rank_resolution_v1.py'
+      - 'scripts/verify_bop_swiss_2022_rank_resolution_first_v1.py'
+      - 'tests/test_bop_swiss_2022_rank_resolution_v1.py'
+      - 'tests/test_bop_swiss_2022_rank_resolution_first_v1.py'
+      - 'docs/bop_swiss_2022_rank_resolution_v1.md'
+      - 'manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md'
+      - 'README.md'
+      - '.github/workflows/bop-swiss-2022-rank-resolution-v1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+# Source-free original first result in Actions 44752203435, artifact 14636041683.
+# Later CI must not request any original Swiss RDS, HR/nest labels or scores.
+jobs:
+  original-exact-rank-and-majority-source-free-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10','3.12','3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install 'pytest>=8,<10'
+      - name: Verify original 35960 exact rank configurations, all 12 source panels and tamper rejection
+        run: python -m pytest tests/test_bop_swiss_2022_rank_resolution_v1.py tests/test_bop_swiss_2022_rank_resolution_first_v1.py
+      - name: Reproduce locked first source-free result and artifact evidence without original source access
+        run: python scripts/verify_bop_swiss_2022_rank_resolution_first_v1.py
