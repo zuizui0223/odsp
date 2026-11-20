@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bop-swiss-2022-four-negative-exact-rank-reference-first-v1",
+  "role": "FIRST_SOURCE_FREE_DETERMINISTIC_FINITE_RANK_DIAGNOSTIC_NOT_NEW_BIOLOGICAL_DATA",
+  "contract_freeze_commit": "9e335670c28f49f3fc5f52d9495d159daa263916",
+  "frozen_contract_git_blob_sha1": "4074cbb68edd598079ce7a9170325392e0a23760",
+  "original_source_unchanged": {
+    "prior_first_run_id": 44746545177,
+    "prior_first_artifact_id": 14633317139,
+    "original_receipt_git_blob_sha1": "82c328cc5bd5b88afa2faf8f0121d607af1a4e72",
+    "no_2024_prepared_RDS_or_raw_HR_nest_labels_read": true,
+    "no_individual_predictions_or_IDs_read": true
+  },
+  "first_actions": {
+    "run_id": 44752203435,
+    "source_free_python_3_10_3_12_3_13_succeeded": true,
+    "first_job_artifact_id": 14636041683,
+    "first_artifact_name": "bop-swiss-2022-rank-reference-first",
+    "first_zip_bytes": 1717,
+    "first_zip_sha256": "64b11cf6a5bdb04be4283e54ac4e6cbcd1929feaae41bfd4e434ffc63744f86f",
+    "first_json_filename": "bop-swiss-2022-rank-reference-v1.json",
+    "first_json_bytes": 8950,
+    "first_json_sha256": "9f228db64e2c08fe466c72c145b74721a943dfc355ff41138759d6aabade6378"
+  },
+  "fixed_reference": {
+    "positive_2022_test_bird_seasons": 28,
+    "negative_2022_test_bird_seasons": 4,
+    "positive_negative_rank_pairs": 112,
+    "exact_tie_free_label_placements": 35960,
+    "one_negative_max_AUC_shift": 0.25,
+    "exact_tie_free_random_rank_central_90": [
+      0.241071429,
+      0.758928571
+    ],
+    "exact_tie_free_random_rank_central_95": [
+      0.196428571,
+      0.803571429
+    ],
+    "four_original_auc_and_lower_reference": [
+      [
+        "HR",
+        "full_forward",
+        0.415736,
+        0.300778643
+      ],
+      [
+        "HR",
+        "bird_purged_forward",
+        0.373884,
+        0.211818687
+      ],
+      [
+        "nest",
+        "full_forward",
+        0.320312,
+        0.126863181
+      ],
+      [
+        "nest",
+        "bird_purged_forward",
+        0.313616,
+        0.126863181
+      ]
+    ],
+    "all_twelve_original_accuracy_vs_test_majority_oracle": [
+      [
+        2020,
+        "HR",
+        "full_forward",
+        0.947346,
+        0.650685,
+        0.296661
+      ],
+      [
+        2020,
+        "HR",
+        "bird_purged_forward",
+        0.95762,
+        0.650685,
+        0.306935
+      ],
+      [
+        2020,
+        "nest",
+        "full_forward",
+        0.88399,
+        0.5,
+        0.38399
+      ],
+      [
+        2020,
+        "nest",
+        "bird_purged_forward",
+        0.878853,
+        0.5,
+        0.378853
+      ],
+      [
+        2021,
+        "HR",
+        "full_forward",
+        0.940171,
+        0.632479,
+        0.307692
+      ],
+      [
+        2021,
+        "HR",
+        "bird_purged_forward",
+        0.941239,
+        0.632479,
+        0.30876
+      ],
+      [
+        2021,
+        "nest",
+        "full_forward",
+        0.846154,
+        0.521368,
+        0.324786
+      ],
+      [
+        2021,
+        "nest",
+        "bird_purged_forward",
+        0.833333,
+        0.521368,
+        0.311965
+      ],
+      [
+        2022,
+        "HR",
+        "full_forward",
+        0.875,
+        0.875,
+        0
+      ],
+      [
+        2022,
+        "HR",
+        "bird_purged_forward",
+        0.875,
+        0.875,
+        0
+      ],
+      [
+        2022,
+        "nest",
+        "full_forward",
+        0.789062,
+        0.875,
+        -0.085938
+      ],
+      [
+        2022,
+        "nest",
+        "bird_purged_forward",
+        0.75,
+        0.875,
+        -0.125
+      ]
+    ]
+  },
+  "scientific_limits": {
+    "not_exact_8_seed_mean_auc_significance_test": true,
+    "actual_RF_probs_may_have_ties": true,
+    "repeated_8_forest_seeds_same_32_birds": true,
+    "diagnostic_oracle_majority_uses_test_prevalence_not_valid_forecast_baseline": true,
+    "original_training_only_prevalence_log_score_reference_unchanged": true,
+    "four_negative_2022_cohort_no_ecological_regime_shift_inference": true,
+    "all_2020_2021_2022_cutoffs_preserved_no_posthoc_selection": true,
+    "no_new_independent_outcome_labels_or_source_model_fits": true,
+    "original_BOP": "empirical_state_prediction_mixed",
+    "redkite_external": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "original_Dryad": "NOT_ADMITTED"
+  }
+}
