@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-swiss-temporal-forward-bird-purged-ranger-v1",
+  "freeze_date": "2026-11-20",
+  "role": "EXPLORATORY_SAME_SWISS_SOURCE_RETROSPECTIVE_GLOBAL_TIME_AND_BIRD_DISJOINT_EVALUATION",
+  "previous_completed": {
+    "focal_prior_year_PR": 297,
+    "first_receipt": "BOP_SWISS_RANGER_FOCAL_PRIOR_YEAR_V1_FIRST_RECEIPT.json",
+    "original_outcome_labels_already_opened_prior_PRS": [
+      295,
+      296,
+      297
+    ],
+    "not_first_outcome_exposure": true
+  },
+  "source": {
+    "repository": "Vogelwarte/NestTool",
+    "git_commit": "8fdf3884b5f6079afdffdc5c563c9050766670a4",
+    "path": "input_data_prepared.rds",
+    "size_bytes": 53709803,
+    "git_blob_sha1": "fab942c0df8d6f77dc1db2bd2e2717681b9a3632",
+    "exact_url": "https://raw.githubusercontent.com/Vogelwarte/NestTool/8fdf3884b5f6079afdffdc5c563c9050766670a4/input_data_prepared.rds",
+    "source_schema_verified_earlier": true,
+    "no_new_source_files_or_labels": true,
+    "source_code_family": "scripts/bop_swiss_ranger_focal_prior_year_v1.R"
+  },
+  "gate": {
+    "rows": 697,
+    "unique_year_id_strings": 697,
+    "unique_bird_id_strings": 258,
+    "source_multiseason_histogram": {
+      "1": 66,
+      "2": 51,
+      "3": 62,
+      "4": 56,
+      "5": 20,
+      "6": 2,
+      "7": 1
+    },
+    "all_year_id_must_prefix_calendar_year": true,
+    "source_year_column_when_present_must_equal_year_id_prefix": true,
+    "minimum_year": 2016,
+    "maximum_year": 2022,
+    "exact_predictor_count": 34,
+    "label_column_names": [
+      "HR",
+      "nest"
+    ],
+    "outcome_value_unread_until_source_gate_passed": true,
+    "no_nesting_success_values": true,
+    "no_raw_animal_ids_or_years_or_outcome_rows_in_output": true
+  },
+  "design": {
+    "cutoffs": [
+      2020,
+      2021,
+      2022
+    ],
+    "primary_cutoff": 2021,
+    "all_cutoffs_reported_even_if_infeasible": true,
+    "no_cutoff_or_year_selected_by_performance": true,
+    "future_test": "every source season whose calendar_year>=cutoff",
+    "full_forward_train": "every source season whose calendar_year<cutoff",
+    "bird_purged_forward_train": "source seasons with calendar_year<cutoff AND bird_ID_not_in_any_postcutoff_test_record",
+    "identical_postcutoff_test_rows_both_models": true,
+    "full_forward_train_test_season_row_disjoint": true,
+    "purged_forward_bird_id_disjoint": true,
+    "all_training_rows_strictly_earlier_than_all_test_rows": true,
+    "purged_training_may_have_fewer_seasons_than_full_forward": true,
+    "difference_between_modes_conflates_animal_purging_and_sample_size": true,
+    "output_raw_and_purged_train_year_counts_and_unique_bird_counts_only": true,
+    "no_temporal_bird_keys_dumps": true,
+    "minimum_train_seasons": 60,
+    "minimum_test_seasons": 20,
+    "minimum_train_bird_id_strings": 20,
+    "minimum_test_bird_id_strings": 10,
+    "minimum_each_class_train": 5,
+    "minimum_each_class_test": 3,
+    "predeclared_HOLD_per_cutoff_target_if_infeasible": true
+  },
+  "model": {
+    "source": "R_ranger",
+    "same_family_not_exact_original_tuned_2024_model": true,
+    "n_trees": 500,
+    "mtry": 5,
+    "min_node_size": 10,
+    "split_rule": "gini",
+    "probability": true,
+    "original_34_features_from_frozen_prior_script": true,
+    "train_only_predictor_imputation": true,
+    "no_hyperparameter_tuning_using_test_labels": true,
+    "only_targets": [
+      "HR",
+      "nest"
+    ],
+    "no_success_model": true,
+    "random_model_seeds": [
+      20261221,
+      20261222,
+      20261223,
+      20261224,
+      20261225,
+      20261226,
+      20261227,
+      20261228
+    ],
+    "different_cutoff_model_seed_offset": 10000,
+    "different_target_model_seed_offset": 20000,
+    "modes": [
+      "full_forward",
+      "bird_purged_forward"
+    ],
+    "max_total_models": 96,
+    "scores": [
+      "test_accuracy",
+      "test_balanced_accuracy",
+      "test_auc",
+      "test_log_loss",
+      "test_brier",
+      "test_mean_log_score_gain_vs_train_prevalence"
+    ],
+    "compare_to_training_prevalence_baseline_only": true,
+    "all_original_realized_test_row_sets_same_across_model_seeds_per_cutoff": true,
+    "descriptive_model_seed_variability_not_independent_validation": true,
+    "report_per_seed_aggregate_scores_only": true,
+    "primary_claim_requires_bird_purged_primary_cutoff_result": true
+  },
+  "safety": {
+    "source_only_official_pinned_RDS": true,
+    "source_full_size_and_git_blob_must_match_before_readRDS": true,
+    "original_untrusted_RDS_and_outcome_bytes_only_ephemeral_runner": true,
+    "run_synthetic_split_and_R_fit_before_source": true,
+    "source_year_schema_gate_outcome_blind": true,
+    "no_GPS_or_per_year_animal_data_exported": true,
+    "no_2024_original_test_split_or_exact_tuned_ranger_claim": true,
+    "no_one_sided_unseen_future_individual_conformal_certificate": true,
+    "no_original_BOP_terminal_reclassification": true,
+    "after_first_result_record_first_artifact_digests_and_stop_recontact": true
+  },
+  "terminals": {
+    "source_pass": "RETROSPECTIVE_SWISS_CALENDAR_FORWARD_BIRD_PURGED_SOURCE_REFIT",
+    "source_hold": "HOLD_SOURCE_YEAR_BIRD_FORWARD_ADMISSION_OR_CLASS_SUPPORT",
+    "original_BOP": "empirical_state_prediction_mixed",
+    "external_redkite": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "original_Dryad": "NOT_ADMITTED"
+  }
+}
