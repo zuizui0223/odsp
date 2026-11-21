@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-swiss-fixed-aggregate-proper-score-discordance-v1",
+  "freeze_date": "2026-11-20",
+  "question": "Under the already frozen Swiss temporal bird-disjoint 2020/2021/2022 x HR/nest x two-mode retrospective evaluation, do training-prevalence-relative Brier and log-score gains agree in sign? What can be concluded without individual prediction reaccess?",
+  "source": {
+    "original_first_receipt_path": "BOP_SWISS_TEMPORAL_BIRD_PURGE_V1_FIRST_RECEIPT.json",
+    "expected_source_receipt_git_blob_sha1": "82c328cc5bd5b88afa2faf8f0121d607af1a4e72",
+    "original_first_actions_run": 44746545177,
+    "original_first_artifact_id": 14633317139,
+    "inherited_2022_rank_receipt_path": "BOP_SWISS_2022_RANK_RESOLUTION_V1_FIRST_RECEIPT.json",
+    "expected_rank_receipt_git_blob_sha1": "9896eb070a208b06b7d763b5a6e806a797e0fb37",
+    "no_original_prepared_RDS_or_GPS_access": true,
+    "no_source_HR_or_nest_labels_reaccess": true,
+    "no_animal_ID_or_individual_probabilities": true,
+    "no_forest_refit_or_hyperparameter_selection": true
+  },
+  "analysis": {
+    "all_fixed_cutoffs": [
+      2020,
+      2021,
+      2022
+    ],
+    "all_fixed_targets": [
+      "HR",
+      "nest"
+    ],
+    "all_fixed_training_modes": [
+      "full_forward",
+      "bird_purged_forward"
+    ],
+    "n_required_aggregate_cells": 12,
+    "metric_definition": "For binary y, reference q=train positive fraction; Brier_ref=pi_test*(1-q)^2+(1-pi_test)*q^2. Relative Brier gain=Brier_ref-Brier_model. Log gain from original receipt equals logloss_ref-logloss_model, with logloss_ref=-(pi_test*log(q)+(1-pi_test)*log(1-q)).",
+    "compare_binary_signs_for_each_cell": true,
+    "use_training_only_reference_probability_q": true,
+    "test_label_aggregate_prevalence_only_for_offline_scoring": true,
+    "require_input_finite_fraction_strictly_between_0_and_1": true,
+    "source_metrics_rounded_six_decimal_places": true,
+    "max_log_identity_disagreement_due_to_rounding": 0.00001,
+    "report_2022_HR_both_modes_even_if_other_cells_match": true,
+    "report_all_cells_no_posthoc_subsetting": true,
+    "preknown_anomaly_is_exploratory_not_confirmatory": true
+  },
+  "claims": {
+    "point_estimates_only": true,
+    "proper_scores_can_disagree_without_arithmetic_error": true,
+    "no_calibration_or_probability_tail_mechanism_identified_from_aggregate_means": true,
+    "no_per_seed_or_between_year_independent_replication_claim": true,
+    "no_model_comparison_causal_effect_of_individual_overlap": true,
+    "no_ecological_2022_regime_shift_claim": true,
+    "no_future_animal_exchangeability_or_coverage_certificate": true,
+    "historical_BOP": "empirical_state_prediction_mixed",
+    "redkite_external": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "original_Dryad": "NOT_ADMITTED"
+  }
+}

@@ -1,0 +1,37 @@
+name: bop-swiss-proper-score-discordance-v1
+on:
+  pull_request:
+    paths:
+      - 'research/BOP_SWISS_PROPER_SCORE_DISCORDANCE_V1_CONTRACT.json'
+      - 'scripts/bop_swiss_proper_score_discordance_v1.py'
+      - 'tests/test_bop_swiss_proper_score_discordance_v1.py'
+      - 'BOP_SWISS_TEMPORAL_BIRD_PURGE_V1_FIRST_RECEIPT.json'
+      - 'BOP_SWISS_2022_RANK_RESOLUTION_V1_FIRST_RECEIPT.json'
+      - '.github/workflows/bop-swiss-proper-score-discordance-v1.yml'
+      - 'docs/bop_swiss_proper_score_discordance_v1.md'
+      - 'manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md'
+      - 'README.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+# Strictly OFFLINE: no checkout of provider biological sources, no RDS, no R, no models.
+jobs:
+  offline-proper-score-reconciliation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install 'pytest>=8,<10'
+      - name: Verify original SHA-locked 12 source panels and tamper rejection
+        run: python -m pytest -q tests/test_bop_swiss_proper_score_discordance_v1.py
+      - name: Recompute 12 frozen source-free proper-score comparisons
+        run: |
+          python scripts/bop_swiss_proper_score_discordance_v1.py --out /tmp/bop-swiss-proper-score-discordance.json
+          python -c "import json; r=json.load(open('/tmp/bop-swiss-proper-score-discordance.json')); assert r['n_frozen_cells']==12 and r['n_opposite_sign_cells']==2"
