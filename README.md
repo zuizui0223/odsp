@@ -182,6 +182,8 @@ The [source-free exact-rank sensitivity](docs/bop_swiss_2022_rank_resolution_v1.
 
 A new [twelve-cell training-prevalence proper-score audit](docs/bop_swiss_proper_score_discordance_v1.md) reconstructs the Brier error of the *same training-only class-prevalence reference* used in the original Swiss 96-forest forward-year source evaluation. This is an **offline, post-result calculation** using only hash-locked original aggregate receipts (no source RDS, labels, per-bird IDs/probabilities, GPS or model refits). Across **all 12 fixed cutoff × target × mode cells**, model Brier error beats its training-only reference. However, in **2022 home-range**, the Brier gain is **+0.121707** for full-forward training and **+0.166552** for bird-purged-forward training, while the corresponding **log-score gains are negative (−0.584100 and −0.609657)**. The prespecified primary 2021 HR and nest panels remain positive under both scoring rules. The original test-majority 87.5% benchmark is a distinct non-deployable oracle and was **not used as the Brier or log reference**.
 
+Exploratory arithmetic identified the 2022 HR discrepancy before the diagnostic contract was frozen; the contract fixed the full twelve-cell implementation and formal replay, not a first-look confirmatory test.
+
 The scores are both proper but have different sensitivities to wrong predicted probabilities; only the *aggregate sign discrepancy*, not an extreme-tail mechanism, is identifiable here. No new independent animals or ecological 2022 shift have been established, and the previously frozen BOP mixed result / real red-kite external HOLD remain unchanged.
 
 ## BOP method integration and independent animal admission

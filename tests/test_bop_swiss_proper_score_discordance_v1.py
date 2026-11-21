@@ -4,6 +4,8 @@ from __future__ import annotations
 from copy import deepcopy
 import json
 import math
+from pathlib import Path
+import sys
 import pytest
 
 from scripts import bop_swiss_proper_score_discordance_v1 as m
@@ -13,7 +15,7 @@ def original():
     return m.load_locked()
 
 
-def test_original_pre_frozen_diagnostic_all_twelve():
+def test_original_frozen_replay_all_twelve():
     c, s, r = original()
     out = m.analyze(c, s, r)
     assert out["n_source_models"] == 96
@@ -94,3 +96,51 @@ def test_claim_promotions_or_test_prevalence_drift_stop():
     bad["first_models"]["all_twelve_cell_means"][1][10] += 0.01
     with pytest.raises(ValueError, match="TEST_MAJORITY_ORACLE_INCONSISTENT"):
         m.analyze(c, bad, r)
+
+
+@pytest.mark.parametrize("locked_name", ["CONTRACT", "SOURCE", "RANK"])
+@pytest.mark.parametrize("alias", ["direct", "relative", "symlink", "hardlink"])
+def test_cli_rejects_overwriting_locked_inputs(monkeypatch, tmp_path, locked_name, alias):
+    # Exercise the real reader, analysis and CLI only against disposable copies.
+    copies = {}
+    for name in ("CONTRACT", "SOURCE", "RANK"):
+        original_path = getattr(m, name)
+        copied = tmp_path / original_path.name
+        copied.write_bytes(original_path.read_bytes())
+        copies[name] = copied
+        monkeypatch.setattr(m, name, copied)
+    before = {name: path.read_bytes() for name, path in copies.items()}
+    target = copies[locked_name]
+    output = target
+    if alias == "relative":
+        monkeypatch.chdir(tmp_path)
+        output = Path(target.name)
+    elif alias == "symlink":
+        output = tmp_path / "output-symlink.json"
+        output.symlink_to(target)
+    elif alias == "hardlink":
+        output = tmp_path / "output-hardlink.json"
+        output.hardlink_to(target)
+    monkeypatch.setattr(sys, "argv", ["audit", "--out", str(output)])
+
+    with pytest.raises(ValueError, match="cannot overwrite immutable"):
+        m.main()
+
+    assert {name: path.read_bytes() for name, path in copies.items()} == before
+
+
+@pytest.mark.parametrize("destination", ["file", "stdout"])
+def test_cli_emits_report_without_changing_locked_inputs(monkeypatch, tmp_path, capsys, destination):
+    locked = (m.CONTRACT, m.SOURCE, m.RANK)
+    before = [path.read_bytes() for path in locked]
+    output = tmp_path / "report.json"
+    argv = ["audit", "--out", str(output)] if destination == "file" else ["audit"]
+    monkeypatch.setattr(sys, "argv", argv)
+
+    m.main()
+
+    text = output.read_text(encoding="utf-8") if destination == "file" else capsys.readouterr().out
+    report = json.loads(text)
+    assert report["n_frozen_cells"] == 12
+    assert report["n_opposite_sign_cells"] == 2
+    assert [path.read_bytes() for path in locked] == before

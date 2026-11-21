@@ -26,7 +26,7 @@ def git_blob_sha1(raw: bytes) -> str:
 
 
 def load_locked() -> tuple[dict, dict, dict]:
-    """Fail closed if any earlier result or the before-analysis contract changes."""
+    """Fail closed if prior receipts or the frozen exploratory replay contract change."""
     paths = (CONTRACT, SOURCE, RANK)
     expected = (CONTRACT_BLOB, SOURCE_BLOB, RANK_BLOB)
     raw = [p.read_bytes() for p in paths]
@@ -191,6 +191,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", type=Path, help="Optional source-free aggregate-only JSON output")
     args = parser.parse_args()
+    if args.out:
+        output = args.out.resolve()
+        if any(output == path.resolve() or (output.exists() and output.samefile(path))
+               for path in (CONTRACT, SOURCE, RANK)):
+            raise ValueError("cannot overwrite immutable contract or source receipts")
     report = analyze(*load_locked())
     report_text = json.dumps(report, sort_keys=True, indent=2, ensure_ascii=False) + "\n"
     if args.out:
