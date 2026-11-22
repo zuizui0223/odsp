@@ -1,0 +1,36 @@
+name: ODSP Gomes v3 detected-stratum heldout scoring
+on:
+  push:
+    branches:
+      - prospective/vertical-species-identifiability-20261122
+    paths:
+      - 'odsp/detected_vertical_transfer.py'
+      - 'scripts/gomes_zenodo_detected_height_v3.py'
+      - 'tests/test_detected_vertical_transfer_v3.py'
+      - '.github/workflows/gomes-zenodo-detected-v3.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  score_gomes_detected_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Unit tests on synthetic support BEFORE original outcomes
+        run: |
+          python -m pip install -e '.[dev]'
+          python -m unittest -v tests.test_detected_vertical_transfer_v3
+      - name: Reverify pinned source and score registered original recording rows
+        run: python -m scripts.gomes_zenodo_detected_height_v3
+      - name: Preserve aggregate model scores without original rows
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gomes-zenodo-detected-v3-night-heldout
+          path: results/gomes_zenodo_detected_height_v3.json
+          if-no-files-found: warn
+          retention-days: 45
