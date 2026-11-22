@@ -98,43 +98,76 @@ def score_tower_transfer(cells) -> dict:
     days=sorted({r.day for r in rows},key=lambda x:int(x) if x.isdecimal() else x)
     if len(days)!=9:
         raise ValueError("source support changed: 9 independent DAY groups required")
+
+    # The primary whole-tower target is independent of day×tower completeness.
     direct=[]
-    tower_day=[]
     for tower in TOWERS:
-        other=[r for r in rows if r.tower!=tower]
+        train=[r for r in rows if r.tower!=tower]
         target=[r for r in rows if r.tower==tower]
-        info=_score_records(other,target)
-        direct.append({"tower":tower,**info})
-        for day in days:
-            train=[r for r in rows if r.tower!=tower and r.day!=day]
-            held=[r for r in rows if r.tower==tower and r.day==day]
-            if not held:
-                raise ValueError("missing tower×day observation grid")
-            # The underlying target day and all of its heldout physical tower
-            # are removed from training, including source zeros.
-            if not all(r.tower!=tower and r.day!=day for r in train):
-                raise AssertionError("source leakage")
-            tower_day.append({"tower":tower,"fold_day":day,**_score_records(train,held)})
+        direct.append({"tower":tower,**_score_records(train,target)})
 
     def report_average(items,field):
         return mean(r[field] for r in items)
 
-    def sanitized(item, include_day=False):
-        out={k:v for k,v in item.items() if k not in ("tower","fold_day")}
-        if include_day:
-            out["day_fold"] = days.index(item["fold_day"])+1
-        return out
+    primary = {
+        "by_tower":direct,
+        "equal_tower_mean_B0_nats_per_count":report_average(direct,"B0_hour_only_score_nats_per_count"),
+        "equal_tower_mean_B1_nats_per_count":report_average(direct,"B1_hour_plus_acoustic_label_score_nats_per_count"),
+        "equal_tower_mean_delta_nats_per_count":report_average(direct,"delta_B1_minus_B0_nats_per_count"),
+        "positive_tower_folds":sum(x["delta_B1_minus_B0_nats_per_count"]>0 for x in direct),
+    }
 
-    by_tower_day=[]
-    for tower in TOWERS:
-        vals=[x for x in tower_day if x["tower"]==tower]
-        by_tower_day.append({
-            "tower":tower,
-            "n_heldout_day_folds":len(vals),
-            "equal_day_delta_nats_per_count":report_average(vals,"delta_B1_minus_B0_nats_per_count"),
-            "positive_day_folds":sum(x["delta_B1_minus_B0_nats_per_count"]>0 for x in vals),
-            "per_day_aggregate":[sanitized(x,include_day=True) for x in vals],
-        })
+    tower_day_total=Counter()
+    for r in rows:
+        tower_day_total[(r.tower,r.day)]+=r.number
+    missing=[(tower,day) for tower in TOWERS for day in days
+             if tower_day_total[(tower,day)]<=0]
+    # The frozen secondary protocol mandates STOP if even one target
+    # tower×DAY cell has no observed positive pass. Do not silently drop
+    # missing folds or relax the 18-fold design post-outcome.
+    if missing:
+        secondary={
+            "status":"structural_stop_missing_or_zero_tower_day_count",
+            "secondary_scientific_scores_opened":False,
+            "required_tower_day_cells":len(TOWERS)*len(days),
+            "missing_or_zero_tower_day_cells":len(missing),
+            "eligible_positive_tower_day_cells":len(TOWERS)*len(days)-len(missing),
+            "no_support_filling_or_new_split":True,
+        }
+    else:
+        tower_day=[]
+        for tower in TOWERS:
+            for day in days:
+                train=[r for r in rows if r.tower!=tower and r.day!=day]
+                held=[r for r in rows if r.tower==tower and r.day==day]
+                if not all(r.tower!=tower and r.day!=day for r in train):
+                    raise AssertionError("source leakage")
+                tower_day.append({"tower":tower,"fold_day":day,**_score_records(train,held)})
+
+        def sanitized(item):
+            return {**{k:v for k,v in item.items() if k not in ("tower","fold_day")},
+                    "day_fold":days.index(item["fold_day"])+1}
+        by_tower_day=[]
+        for tower in TOWERS:
+            vals=[x for x in tower_day if x["tower"]==tower]
+            by_tower_day.append({
+                "tower":tower,
+                "n_heldout_day_folds":len(vals),
+                "equal_day_delta_nats_per_count":report_average(vals,"delta_B1_minus_B0_nats_per_count"),
+                "positive_day_folds":sum(x["delta_B1_minus_B0_nats_per_count"]>0 for x in vals),
+                "per_day_aggregate":[sanitized(x) for x in vals],
+            })
+        secondary={
+            "status":"source_supported_two_tower_night_folds",
+            "by_tower":by_tower_day,
+            "equal_tower_then_day_delta_nats_per_count":mean(
+                v["equal_day_delta_nats_per_count"] for v in by_tower_day
+            ),
+            "positive_tower_day_folds":sum(x["delta_B1_minus_B0_nats_per_count"]>0 for x in tower_day),
+            "n_tower_day_folds":len(tower_day),
+            "tower_day_folds_are_not_independent_geographies":True,
+        }
+
     return {
         "source": "Gomes et al. 2020 Zenodo v1",
         "model_level":"observed bat acoustic passes and original sampled microphone position",
@@ -143,18 +176,6 @@ def score_tower_transfer(cells) -> dict:
         "cross_geography_generalization_claim":False,
         "unmeasured_species_stratum_detection_bias":True,
         "original_count_weighted_n":sum(r.number for r in rows),
-        "leave_one_tower_out": {
-            "by_tower":direct,
-            "equal_tower_mean_B0_nats_per_count":report_average(direct,"B0_hour_only_score_nats_per_count"),
-            "equal_tower_mean_B1_nats_per_count":report_average(direct,"B1_hour_plus_acoustic_label_score_nats_per_count"),
-            "equal_tower_mean_delta_nats_per_count":report_average(direct,"delta_B1_minus_B0_nats_per_count"),
-            "positive_tower_folds":sum(x["delta_B1_minus_B0_nats_per_count"]>0 for x in direct),
-        },
-        "leave_both_tower_and_night_out":{
-            "by_tower":by_tower_day,
-            "equal_tower_then_day_delta_nats_per_count":mean(v["equal_day_delta_nats_per_count"] for v in by_tower_day),
-            "positive_tower_day_folds":sum(x["delta_B1_minus_B0_nats_per_count"]>0 for x in tower_day),
-            "n_tower_day_folds":len(tower_day),
-            "tower_day_folds_are_not_independent_geographies":True,
-        },
+        "leave_one_tower_out":primary,
+        "leave_both_tower_and_night_out":secondary,
     }
