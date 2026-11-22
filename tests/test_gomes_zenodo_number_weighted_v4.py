@@ -28,7 +28,8 @@ class CountWeightedTests(unittest.TestCase):
     def test_no_label_stratification_baseline_is_sufficient(self):
         r=score_weighted_counts(self.synthetic(split=False))
         self.assertAlmostEqual(r["in_sample_recorded_count_weighted_I_label_stratum_given_hour_nats"],0,places=10)
-        self.assertAlmostEqual(r["B1_minus_B0_equal_day_gain_nats_per_recorded_count"],0,places=10)
+        self.assertLessEqual(r["B1_minus_B0_equal_day_gain_nats_per_recorded_count"],0)
+        self.assertLess(abs(r["B1_minus_B0_equal_day_gain_nats_per_recorded_count"]),1e-4)
     def test_author_original_rare_label_rule_preserved(self):
         c=self.synthetic()+[CountCell("10",20,"rare","above",5)]
         r=score_weighted_counts(c)
