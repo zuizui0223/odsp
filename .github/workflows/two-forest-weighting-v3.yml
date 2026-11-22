@@ -20,6 +20,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install ODSP package dependencies
+        run: python -m pip install -e '.[dev]'
       - name: Six known-truth tests (no original biological counts)
         run: python -m unittest -v tests.test_recorded_layer_weighting_v3
       - name: Independently re-fetch both original forest datasets
