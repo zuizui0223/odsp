@@ -67,7 +67,7 @@ def select_version(data):
         if parsed.scheme!="https" or parsed.netloc!="datadryad.org":
             raise ValueError("published version links must stay on Dryad")
         import re
-        match=re.fullmatch(r"/api/v2/versions/(\\d+)",parsed.path)
+        match=re.fullmatch(r"/api/v2/versions/([0-9]+)",parsed.path)
         if not match:
             raise ValueError("invalid publisher version self-link")
         return int(match.group(1))
