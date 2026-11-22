@@ -79,3 +79,13 @@ Verify downstream reuse of the exact original calibration hash.
 Run existing identity/managed/conditional content tests, core CI and
 independent read-only review before merging. Any PR/CI result is a methods
 verification only, never a biological cross-source validation.
+
+## Review clarification before merge
+
+The reserved validation helper from the existing identity transport returns
+FrozenGainValidation: this is a **rank lower-bound coverage diagnostic**, not
+an independent population-content binomial validation. The new wrapper is
+named validate_identity_checked_rank_after_content and the documentation
+must preserve this difference. The frozen single-stratum content decision
+is unaffected by any later rank-validation outcome. This change corrects a
+claim-label ambiguity without changing the preaccess design or old results.

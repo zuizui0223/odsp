@@ -213,12 +213,16 @@ def assess_identity_checked_gain_content(
     return result
 
 
-def validate_identity_checked_gain_content(
+def validate_identity_checked_rank_after_content(
     binding: FrozenIdentityCheckedGainContent,
     assessment: IdentityCheckedGainContentAssessment,
     validation_states_by_native_row: Mapping[str, str],
 ) -> FrozenGainValidation:
-    """Validate unchanged calibration on reserved synthetic test animals only."""
+    """Score the unchanged rank lower-bound diagnostic on untouched animals.
+
+    This is NOT an independent binomial test of population positive content,
+    or confirmation of the content assessment on the target population.
+    """
     if not isinstance(binding, FrozenIdentityCheckedGainContent):
         raise ValueError("frozen identity/content binding required")
     binding.assert_replayed()

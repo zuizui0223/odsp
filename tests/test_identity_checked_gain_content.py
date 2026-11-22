@@ -14,7 +14,7 @@ from odsp.identity_checked_transport import freeze_identity_checked_transport
 from odsp.identity_checked_gain_content import (
     assess_identity_checked_gain_content,
     freeze_identity_checked_gain_content,
-    validate_identity_checked_gain_content,
+    validate_identity_checked_rank_after_content,
 )
 
 IID = "iid_group_gains_within_prespecified_stratum"
@@ -135,7 +135,7 @@ def test_real_managed_fit_to_canonical_identity_to_content_then_untouched_negati
     assert result.content.calibration.calibration_sha256 == result.as_public_dict()["calibration_sha256"]
     assert "CANONICAL_SYNTHETIC" not in json.dumps(result.as_public_dict())
     assert "identity_fingerprint_sha256" not in result.as_public_dict()
-    outcome = validate_identity_checked_gain_content(binding, result, val)
+    outcome = validate_identity_checked_rank_after_content(binding, result, val)
     assert outcome.validation_group_count == 1
     assert outcome.strata[0].positive_validation_group_count == 0
     assert result.content.supported is True  # validation cannot retune the content test
@@ -270,7 +270,7 @@ def test_result_cannot_be_used_with_other_content_binding():
         gain_threshold=0.01,
     )
     with pytest.raises(ValueError, match="another identity binding"):
-        validate_identity_checked_gain_content(other, result, val)
+        validate_identity_checked_rank_after_content(other, result, val)
 
 
 def test_forged_content_event_count_or_tail_fails_before_validation_labels():
@@ -282,7 +282,7 @@ def test_forged_content_event_count_or_tail_fails_before_validation_labels():
     ))
     poison = PoisonedValues(val)
     with pytest.raises(ValueError, match="exact content decision"):
-        validate_identity_checked_gain_content(binding, forged, poison)
+        validate_identity_checked_rank_after_content(binding, forged, poison)
     assert poison.reads == 0
 
 
@@ -292,5 +292,5 @@ def test_wrong_validation_role_stops_without_reading_any_test_label():
     result = assess_identity_checked_gain_content(binding, cal)
     poison = PoisonedValues([*val, "cal_0_0"])
     with pytest.raises(ValueError, match="only exact frozen Dryad role"):
-        validate_identity_checked_gain_content(binding, result, poison)
+        validate_identity_checked_rank_after_content(binding, result, poison)
     assert poison.reads == 0

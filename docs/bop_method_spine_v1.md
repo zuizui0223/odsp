@@ -72,7 +72,10 @@ PR #303 introduced the exact-content estimator separately from marginal
 prediction coverage. A further [identity-checked content integration]
 (bop_identity_checked_gain_content_v1.md) binds that estimator to the
 already established synthetic source-trained model and canonical-animal
-crosswalk before reading any calibration response. It deliberately forbids
+crosswalk before reading any calibration response. The reserved validation path checks
+only the existing **rank-prediction** bound, not the calibration population
+fraction: it is a different estimand and not a second exact-content test.
+It deliberately forbids
 multistratum outcome rosters because the underlying legacy calibrator scores
 the complete calibration role: a one-stratum decision must not incidentally
 open an unrelated species' labels.

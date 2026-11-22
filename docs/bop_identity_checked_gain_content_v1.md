@@ -23,7 +23,7 @@ The additive adapter in odsp/identity_checked_gain_content.py makes these
        -> exact role-specific canonical animal crosswalk
        -> single-target-stratum content count preflight (no outcomes)
        -> calibration-only exact content assessment
-       -> previously untouched validation under the same calibration
+       -> separate untouched rank-coverage diagnostic (not content confirmation)
 
 ## API and use
 
@@ -34,7 +34,7 @@ passed freeze_identity_checked_transport:
 from odsp.identity_checked_gain_content import (
     freeze_identity_checked_gain_content,
     assess_identity_checked_gain_content,
-    validate_identity_checked_gain_content,
+    validate_identity_checked_rank_after_content,
 )
 
 binding = freeze_identity_checked_gain_content(
@@ -52,7 +52,7 @@ assessment = assess_identity_checked_gain_content(
     binding, calibration_states_by_native_row,
 )
 print(assessment.as_public_dict())
-validation = validate_identity_checked_gain_content(
+rank_validation = validate_identity_checked_rank_after_content(
     binding, assessment, validation_states_by_native_row,
 )
 ~~~
@@ -66,8 +66,12 @@ The adapter accepts **native, unprefixed Dryad row IDs** at assessment and
 validation. It checks the exact calibration role key set before reading
 a single value. It then snapshots each allowed calibration label once,
 prefixes it with the frozen Dryad namespace, and delegates scoring to
-the unchanged PR #303 procedure. Validation uses the returned original
-FrozenGainCalibration without changing the content hypothesis or threshold.
+the unchanged PR #303 procedure. The untouched validation API uses the returned original
+FrozenGainCalibration, but computes the **pre-existing rank-prediction
+coverage diagnostic**, NOT a second population-content test. An individual
+negative gain after a positive content decision is allowed. The population
+fraction claim is tested on the declared calibration animals only and
+requires its own externally justified IID sampling design.
 
 The new integration deliberately requires exactly one target stratum across
 the entire calibration and validation rosters. The underlying scorer needs
@@ -93,7 +97,7 @@ calibration gain at or below threshold, 46 total are required.
   reading any values; preserves a single calibration snapshot.
 - Uses the established exact binomial p-value and finite weighted-mean
   threshold guard, then repeats provenance and result-integrity checks before
-  untouched validation.
+  the distinct untouched *rank-bound* validation diagnostic.
 - Exports aggregate counts, hashes, source/identity replay flags and explicit
   non-admission/assumption flags, never animal keys or row-level outcomes.
 

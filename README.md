@@ -233,7 +233,7 @@ adjust for repeated testing or relabel historical BOP/Swiss outcomes.
 The [identity-checked content bridge](docs/bop_identity_checked_gain_content_v1.md)
 now composes source-trained model/forecast replay, canonical biological-animal
 identity admission, one-stratum exact-content count preflight, calibration-only
-binomial inference and untouched validation in execution order. It checks a
+binomial inference and a separate untouched rank-bound diagnostic in order. It checks a
 9-versus-29-animal design gap *before labels*, prevents opening nonselected
 strata or extra validation-role labels, and preserves the existing scorer.
 This is **synthetic-only method integration**, not a real Dryad new-animal
