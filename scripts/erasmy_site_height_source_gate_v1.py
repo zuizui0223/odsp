@@ -51,15 +51,37 @@ def embedded_list(value, preferred):
 
 def select_version(data):
     a=embedded_list(data,("stash:versions","versions"))
-    active=[v for v in a if isinstance(v,dict) and isinstance(v.get("id"),int)]
-    if len(active)==0:
-        raise ValueError("published dataset has no usable publisher version ID")
-    # Latest by official version number, else file/server numeric ID; stop on tie.
-    values=[(int(v.get("versionNumber",v["id"])),v["id"]) for v in active]
-    version=max(values)
-    if sum(v==version for v in values)!=1:
-        raise ValueError("version numbering ambiguous")
-    return version[1]
+    # Official Dryad HAL version responses often omit a literal "id";
+    # canonical version IDs are then encoded in _links.self.href.
+    # This is a technical metadata grammar correction made after a
+    # pre-response STOP, not a source-outcome or modelling change.
+    def version_id(v):
+        if isinstance(v.get("id"),int):
+            return v["id"]
+        h=(v.get("_links") or {}).get("self")
+        href=h.get("href") if isinstance(h,dict) else None
+        if not isinstance(href,str):
+            return None
+        from urllib.parse import urlparse
+        parsed=urlparse(urljoin(HOST,href))
+        if parsed.scheme!="https" or parsed.netloc!="datadryad.org":
+            raise ValueError("published version links must stay on Dryad")
+        import re
+        match=re.fullmatch(r"/api/v2/versions/(\\d+)",parsed.path)
+        if not match:
+            raise ValueError("invalid publisher version self-link")
+        return int(match.group(1))
+    active=[(v,version_id(v)) for v in a if isinstance(v,dict)]
+    active=[(v,id_) for v,id_ in active if id_ is not None]
+    if not active:
+        raise ValueError("published dataset has no usable publisher version self-link")
+    # Latest by the publisher versionNumber, with official version ID only
+    # as an unambiguous tie breaker for genuinely numbered versions.
+    versions=[(int(v.get("versionNumber",id_)),id_) for v,id_ in active]
+    maximum=max(versions)
+    if sum(pair==maximum for pair in versions)!=1:
+        raise ValueError("publisher version numbering ambiguous")
+    return maximum[1]
 
 def list_file_metadata(value):
     a=embedded_list(value,("stash:files","files"))
