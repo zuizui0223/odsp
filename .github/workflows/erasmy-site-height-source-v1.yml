@@ -1,0 +1,33 @@
+name: ODSP Erasmy independent site-height source-only gate
+on:
+  push:
+    branches:
+      - prospective/erasmy-height-site-source-gate-20261123
+    paths:
+      - 'scripts/erasmy_site_height_source_gate_v1.py'
+      - 'tests/test_erasmy_site_height_source_gate_v1.py'
+      - '.github/workflows/erasmy-site-height-source-v1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  official_dryad_original_source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Known-truth source metadata/header tests
+        run: python -m unittest -v tests.test_erasmy_site_height_source_gate_v1
+      - name: One source-only publisher REST inspection (no activity outcomes)
+        run: python -m scripts.erasmy_site_height_source_gate_v1
+      - name: Archive PASS/STOP even if public dataset access denied
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: erasmy-16-subplots-3height-source-v1
+          path: results/erasmy_site_height_source_gate_v1.json
+          retention-days: 40
+          if-no-files-found: error
