@@ -1,5 +1,6 @@
 """Known predictions qualify aggregate-only deterministic error bounds."""
 from decimal import Decimal, localcontext
+from fractions import Fraction
 import json
 import math
 from pathlib import Path
@@ -92,8 +93,7 @@ def test_invalid_or_unidentifiable_metrics_stop(accuracy, loss, n, kwargs):
         m.binary_error_bounds(accuracy, loss, n, **kwargs)
 
 
-@pytest.mark.parametrize("shift", range(6))
-def test_bounds_enclose_real_errors_after_two_stage_rounding(shift):
+def test_bounds_enclose_real_errors_after_two_stage_rounding():
     # Deterministic synthetic seed-record arrays, including both labels and ties.
     probabilities = [1e-6, 0.0001, 0.01, 0.1, 0.5, 0.8, 0.99, 1 - 1e-6]
     all_errors = []
@@ -102,7 +102,7 @@ def test_bounds_enclose_real_errors_after_two_stage_rounding(shift):
         correct, losses = [], []
         for index in range(8):
             y = index % 2
-            p = probabilities[(index + seed + shift) % len(probabilities)]
+            p = probabilities[(index + seed) % len(probabilities)]
             z = p if y else 1 - p
             is_correct = (p >= 0.5) == bool(y)
             correct.append(is_correct)
@@ -120,6 +120,60 @@ def test_bounds_enclose_real_errors_after_two_stage_rounding(shift):
     assert math.exp(-actual_error_loss) <= float(result["error_geometric_mean_true_probability_upper_bound"])
     assert min(all_errors) <= float(result["at_least_one_error_true_probability_upper_bound"])
     assert result["min_predictions_below_threshold"] <= sum(z < 0.01 for z in all_errors)
+
+
+@pytest.mark.parametrize("correct_per_seed,expected_accuracy,error_sign", [
+    ((2, 2, 3, 3, 3, 3, 3, 7), "0.464285", -1),
+    ((4, 4, 4, 4, 4, 5, 6, 6), "0.660715", 1),
+], ids=["accuracy-rounded-down", "accuracy-rounded-up"])
+def test_accuracy_rounding_recovers_counts_beyond_one_half_unit(
+    correct_per_seed, expected_accuracy, error_sign,
+):
+    # Unlike the eight-record permutation fixture, sevenths are not exactly
+    # representable at six decimals. These counts force BOTH rounding stages
+    # to matter, without any accuracy value landing on a rounding midpoint.
+    labels = (0, 1, 0, 1, 0, 1, 0)
+    raw_correct_wrong = ((0, 0.5), (0.5, 0), (0.1, 1), (1, 0.001),
+                         (0.4, 0.99), (0.9, 0.01), (0.01, 1))
+    seed_accuracy, seed_loss, all_errors, all_true_probabilities = [], [], [], []
+    for seed, expected_correct in enumerate(correct_per_seed):
+        correct, losses = [], []
+        for index, (y, choices) in enumerate(zip(labels, raw_correct_wrong)):
+            raw_p = choices[0 if (index - seed) % 7 < expected_correct else 1]
+            p = min(1 - 1e-6, max(1e-6, raw_p))
+            z = p if y else 1 - p
+            is_correct = (p >= 0.5) == bool(y)
+            correct.append(is_correct)
+            losses.append(-math.log(z))
+            all_true_probabilities.append(z)
+            if not is_correct:
+                all_errors.append(z)
+        assert sum(correct) == expected_correct
+        seed_accuracy.append(round(sum(correct) / 7, 6))
+        seed_loss.append(round(sum(losses) / 7, 6))
+    accuracy = round(sum(seed_accuracy) / 8, 6)
+    loss = round(sum(seed_loss) / 8, 6)
+    assert accuracy == float(expected_accuracy)
+    # The exact count oracle is independent of the bounds implementation.
+    residual = Fraction(str(accuracy)) - Fraction(sum(correct_per_seed), 56)
+    assert residual == error_sign * Fraction(1, 1_400_000)
+
+    result = m.binary_error_bounds(accuracy, loss, 56)
+    assert result["n_correct"] == sum(correct_per_seed)
+    assert result["n_errors"] == len(all_errors)
+    with localcontext() as context:
+        context.prec = 80
+        actual_loss = sum(-Decimal.from_float(z).ln() for z in all_true_probabilities) / 56
+        actual_error_loss = sum(-Decimal.from_float(z).ln() for z in all_errors) / len(all_errors)
+        assert Decimal(result["log_loss_interval"][0]) <= actual_loss <= Decimal(result["log_loss_interval"][1])
+        assert Decimal(result["error_mean_log_loss_lower_bound"]) <= actual_error_loss
+        assert (-actual_error_loss).exp() <= Decimal(result["error_geometric_mean_true_probability_upper_bound"])
+        assert Decimal.from_float(min(all_errors)) <= Decimal(result["at_least_one_error_true_probability_upper_bound"])
+    assert 0 < result["min_predictions_below_threshold"] <= sum(z < 0.01 for z in all_errors)
+    # Omitting the per-seed half-unit allowance loses the true integer count
+    # in either direction, even with the same 1e-12 numerical slack.
+    with pytest.raises(ValueError, match="unique integer_correct_count"):
+        m.binary_error_bounds(accuracy, loss, 56, rounding_radius="0.000000500001")
 
 
 def test_pinned_twelve_cell_replay_reports_prediction_not_bird_counts():
