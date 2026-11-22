@@ -75,8 +75,8 @@ the source receipt's twelve means and fixed cohort/seed counts.
       values in the report. No new source inputs or performance metric choices.
 - [x] Add matrix CI running both diagnostic suites and replaying all twelve
       cells. Check output/inputs, without fetching biological source data.
-- [ ] Obtain independent whole-branch review; fix substantive issues and verify.
-- [ ] Create the PR, wait for current-head common and dedicated CI, and integrate
+- [x] Obtain independent whole-branch review; fix substantive issues and verify.
+- [x] Create the PR, wait for current-head common and dedicated CI, and integrate
       the reviewed tree. Verify the merged tree matches the tested tree.
 
 ## Execution record
@@ -102,3 +102,15 @@ the source receipt's twelve means and fixed cohort/seed counts.
 - Task 2 report, full twelve-cell table, README/manuscript section 3.14 and
   Python matrix workflow are implemented. PR CI and integration are tracked
   by the associated pull request's current head and merged state.
+- Task 2 integration completed in [PR #301](https://github.com/zuizui0223/odsp/pull/301):
+  reviewed head `29bee5a6702c0ed53de23f143c8508c0da7ef8e2` passed all 18 workflows
+  and 50 checks. Merge `bc79b62ed983d94f5de6d92368e244b7c206ff42` has the same
+  tree as that tested head.
+- Follow-up qualification closes the review's duplicate-permutation minor:
+  retain one eight-record case and add two seven-record x eight-model cases
+  with opposite accuracy-rounding residuals of 1/1,400,000. Both require the
+  per-model rounding allowance to recover their known integer counts.
+  All 93 current focused cases pass (73 bound/replay, 20 proper-score).
+  An isolated negative control reducing the default radius to 0.000000500001
+  makes both new cases fail at count recovery, as intended. No production
+  code or pinned inputs changed; the twelve-cell replay remains byte-identical.

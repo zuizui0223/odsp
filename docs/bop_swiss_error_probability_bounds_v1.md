@@ -173,3 +173,29 @@ and all-wrong cases, impossible metrics, integer-count ambiguity, two-stage
 rounding, extreme numerical scales, input drift and protected outputs. The
 dedicated workflow runs both diagnostic suites and the twelve-cell replay
 under Python 3.10, 3.12 and 3.13 without biological source downloads.
+
+### Qualification of both accuracy-rounding stages
+
+A follow-up to [PR #301](https://github.com/zuizui0223/odsp/pull/301) replaces
+six equivalent seed permutations with one representative and adds two distinct
+seven-record x eight-model synthetic cases. Both use the source scorer's
+clipping, class threshold and per-model-then-pooled six-decimal rounding.
+
+| Correct predictions per model | Exact pooled accuracy | Recorded accuracy | Recorded minus exact |
+|---|---:|---:|---:|
+| 2, 2, 3, 3, 3, 3, 3, 7 | 26/56 | 0.464285 | -1/1,400,000 |
+| 4, 4, 4, 4, 4, 5, 6, 6 | 37/56 | 0.660715 | +1/1,400,000 |
+
+Each discrepancy exceeds a single six-decimal half-unit. The configured
+two-stage allowance recovers the exact counts; an allowance of 0.000000500001
+(one half-unit plus the same numerical slack) rejects both. Accuracy rounding
+avoids midpoint ties, and the arrays include both labels at the classification
+tie and probabilities clipped at both endpoints. An independent 80-digit
+calculation from the known synthetic probabilities checks the log-loss interval,
+conditional error bounds and nonzero severe-error count bounds.
+
+The focused suite has 93 cases: 73 bound/replay cases and 20 prior proper-score
+cases. Five duplicate permutations were removed and two substantive cases were
+added. The production implementation and pinned inputs are unchanged; the full
+twelve-cell replay is byte-for-byte identical to its pre-change output. This
+qualifies the existing rounding envelope without adding biological evidence.
