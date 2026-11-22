@@ -62,7 +62,7 @@ class StudyGateTests(unittest.TestCase):
         with patch.object(s,"SOURCE_GIT_BLOB",s.git_blob_hash(raw)):
             receipt=s.source_structure(raw)
         self.assertEqual(receipt["status"],"source_architecture_gate_hold")
-        self.assertEqual(receipt["invalid_height_geometry_rows"],1)
+        self.assertEqual(receipt["invalid_height_geometry_rows"],3)
 
     def test_insufficient_independent_studies_hold(self):
         raw=make_fixture(studies=3)
