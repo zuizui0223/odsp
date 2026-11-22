@@ -1,0 +1,8 @@
+# Gomes source schema v2 categorical-semantics preflight (before activity counts)
+Date 2026-11-22. Original source v1 Zenodo DOI 10.5281/zenodo.4019867 `Bats.csv`, original MD5 2bc125dd0021d23c0efa0cb80828c632, SHA256 4a3b84e7175c29110bb6220f5cdf5889152897501b371fad3e2d9a74523773c9, 901156 bytes; v1 MD5/header gate 7854 rows/19 fields PASS, [CI run #45029391725](https://github.com/zuizui0223/odsp/actions/runs/45029391725).
+
+The original header is `(blank), DAY, HOUR, X, COLOR, POS, Bat, Number, Date, Time, S.Az, S.Alt, M.Az, M.Alt, Phase, M.SD, S.Illm, M.Illm, T.Illm`. **Numerical observations/Number, solar/lunar regressors and all measured outcomes remain unopened**.
+
+For v2, inspect ONLY nonresponse key text strings `DAY,HOUR,X,COLOR,POS,Bat,Date,Time` (and original unlabeled index presence), calculate distinct value sets/counts and characterize structural replication. Read *no* `Number` fields or astronomy fields. Freeze this before schema values are revealed. No species-stratum effect sign or event count is authorized. A v2 outcome will determine whether an independently defined `site` key exists in data and whether `POS` truly identifies above/below canopy before a validation model can be predeclared. Field glossary may need author's original R script.
+
+If no site key or site×height repeated paired support, **STOP independent-site claim**; leave-one-day-out can be descriptive single-study transfer but not geographical generality. No two methods or independent detector q calibration is supplied by this archive simply because two detector positions are given. A new empirical state likelihood must be defined before accessing `Number`.
