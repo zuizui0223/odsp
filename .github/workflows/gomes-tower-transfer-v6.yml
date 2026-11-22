@@ -1,0 +1,36 @@
+name: ODSP Gomes v6 two-tower local transfer (post-outcome)
+on:
+  push:
+    branches:
+      - prospective/vertical-species-identifiability-20261122
+    paths:
+      - 'odsp/gomes_tower_transfer_v6.py'
+      - 'scripts/gomes_tower_transfer_v6.py'
+      - 'tests/test_gomes_tower_transfer_v6.py'
+      - '.github/workflows/gomes-tower-transfer-v6.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source_verified_two_towers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install package
+        run: python -m pip install -e '.[dev]'
+      - name: Source-free tests with opposite-tower failure controls
+        run: python -m unittest -v tests.test_gomes_tower_transfer_v6
+      - name: Original verified two-tower heldout scores
+        run: python -m scripts.gomes_tower_transfer_v6
+      - name: Save unkeyed results (two towers not external regions)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gomes-tower-transfer-v6
+          path: results/gomes_tower_transfer_v6.json
+          if-no-files-found: warn
+          retention-days: 45

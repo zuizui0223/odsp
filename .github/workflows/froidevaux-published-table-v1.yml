@@ -1,0 +1,33 @@
+name: ODSP Froidevaux published temperate forest stratum source
+on:
+  push:
+    branches:
+      - prospective/vertical-species-identifiability-20261122
+    paths:
+      - 'scripts/froidevaux2014_original_vertical_table_v1.py'
+      - 'tests/test_froidevaux2014_original_vertical_table_v1.py'
+      - '.github/workflows/froidevaux-published-table-v1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_publication_table:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Known-truth source-free parser and information tests
+        run: python -m unittest -v tests.test_froidevaux2014_original_vertical_table_v1
+      - name: Original Europe PMC source and 16-label table integrity
+        run: python -m scripts.froidevaux2014_original_vertical_table_v1
+      - name: Preserve source receipt even when remote original XML unavailable
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: froidevaux2014-vertical-table-source-v1
+          path: results/froidevaux_2014_original_stratum_table_v1.json
+          if-no-files-found: error
+          retention-days: 60

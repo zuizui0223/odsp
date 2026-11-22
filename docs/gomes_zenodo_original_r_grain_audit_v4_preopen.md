@@ -1,0 +1,9 @@
+# Gomes v3 endpoint validity audit: source row grain correction (2026-11-22)
+
+The first frozen v3 **row-weighted** detector-stratum scoring completed [CI #45029823495](https://github.com/zuizui0223/odsp/actions/runs/45029823495), with 7854 rows, 21 Bat labels, 9 nights, `I(Bat;POS|HOUR)` exactly 0, and `Γ_min` 1.0. Its tiny night-score Δ +0.0001617 nats/row has a descriptive 95% interval containing zero. **These are mechanically valid scores over the recorded source rows but should NOT be promoted to a bat activity result.** The dataset layout may be a full data-grid of Bat×hour×position with actual activity stored in the untouched numeric `Number` field. Prior paper showed height preferences, so reading row-grid frequency as biological passes is scientifically questionable.
+
+**No original source `Number` values have been accessed by any v1/v2/v3 script.** We now audit the independent authors' original open R script `Hourly_Models.R` from **the same Zenodo record v1** before defining a materially correct abundance/activity estimand. Published MD5 `376bfc130acad070aa7045f6c816cd09`. Extract only authors' data-reading, named-variable and response transformation lines; never read original `Bats.csv:Number` values in this step.
+
+If `Number` is the actual count/activity response and `Bat` is acoustic-class label, freeze a NEW, explicit response-count-weighted endpoint before inspecting numeric counts. Any such analysis is a **schema-corrected new estimand**, NOT a retrofit of a previously favorable v3 score, and its result must be reported in parallel with v3's non-ecological row-weighted outcome without overwriting it.
+
+Source usage remains *recorded acoustic activity conditioned on detector stratum* with unknown detection and unverified independent site IDs. No biological 3D SDM or detector-corrected latent `I(S;Z|X)` is authorized.

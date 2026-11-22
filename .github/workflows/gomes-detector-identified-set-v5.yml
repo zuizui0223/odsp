@@ -1,0 +1,36 @@
+name: ODSP Gomes v5 post-outcome detector identified-set sensitivity
+on:
+  push:
+    branches:
+      - prospective/vertical-species-identifiability-20261122
+    paths:
+      - 'odsp/detector_partial_identification_v5.py'
+      - 'tests/test_detector_partial_identification_v5.py'
+      - 'scripts/gomes_detector_identified_set_v5.py'
+      - '.github/workflows/gomes-detector-identified-set-v5.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  analytical_detector_bounds:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install local package and pytest
+        run: python -m pip install -e '.[dev]'
+      - name: Synthetic exact-bound tests
+        run: python -m unittest -v tests.test_detector_partial_identification_v5
+      - name: Explicitly post-outcome source q-bounds and nine-night variability
+        run: python -m scripts.gomes_detector_identified_set_v5
+      - name: Archive aggregate unkeyed mathematical sensitivity
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gomes-detector-identified-set-v5
+          path: results/gomes_detector_identified_set_v5.json
+          retention-days: 45
+          if-no-files-found: warn
