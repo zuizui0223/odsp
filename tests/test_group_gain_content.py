@@ -364,6 +364,31 @@ def test_only_complete_calibration_outcomes_are_accepted(role_change):
         assess(freeze(plan), plan, outcomes)
 
 
+@pytest.mark.parametrize("role_change", ["extra_validation", "validation_only", "missing"])
+def test_role_mismatch_is_rejected_before_any_label_value_is_opened(role_change):
+    plan, outcomes = forecast_plan(29)
+    keys = set(outcomes)
+    if role_change == "extra_validation":
+        keys.add("target:val")
+    elif role_change == "validation_only":
+        keys = {"target:val"}
+    else:
+        keys.remove("target:cal:0:0")
+
+    class UnopenedWrongRole(Mapping):
+        def __iter__(self):
+            return iter(keys)
+
+        def __len__(self):
+            return len(keys)
+
+        def __getitem__(self, key):
+            raise AssertionError("a role-mismatched label value was opened")
+
+    with pytest.raises(ValueError, match="outcome row IDs must match exactly"):
+        assess(freeze(plan), plan, UnopenedWrongRole())
+
+
 def test_nonfinite_scoring_arithmetic_cannot_be_counted_as_positive():
     original, outcomes = forecast_plan(29)
     rows = []

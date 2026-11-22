@@ -114,3 +114,10 @@ create `docs/bop_group_gain_content_v1.md` and
   passes use one label snapshot. Existing calibration/rank code is unchanged.
   The 120-case suite passes (60 new plus 60 legacy). Revised-head review and
   CI remain required; this does not claim exact transcendental logarithms.
+- Follow-up review caught a label-role regression introduced by eager snapshot
+  construction: an accidental extra validation key could be read before
+  rejection. Three poisoned lazy-mapping cases first failed, then passed after
+  moving exact row-ID validation before all value access. The correct-role
+  snapshot still reads each label once. All 123 focused cases now pass (63 new
+  plus 60 legacy); final reviewed-head CI and integration evidence follow in
+  the PR record.

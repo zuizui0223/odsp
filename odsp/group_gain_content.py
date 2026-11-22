@@ -263,8 +263,12 @@ def assess_group_gain_content(
         raise ValueError("insufficient calibration groups for the declared content/confidence claim")
     if not isinstance(calibration_outcomes, Mapping):
         raise ValueError("calibration outcomes must be a mapping")
+    expected_ids = tuple(row.row_id for row in forecast_plan.calibration_rows)
+    if set(calibration_outcomes) != set(expected_ids):
+        raise ValueError("outcome row IDs must match exactly this frozen role; no missing/extra rows")
     # Score and verify the same label snapshot, without rereading caller data.
-    scored_outcomes = dict(calibration_outcomes)
+    # Check role membership first: a lazy mapping can otherwise open held-out labels.
+    scored_outcomes = {row_id: calibration_outcomes[row_id] for row_id in expected_ids}
     calibration = calibrate_fixed_group_gain(
         forecast_plan, scored_outcomes,
         model_artifact=model_artifact, reference_artifact=reference_artifact,

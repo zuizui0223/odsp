@@ -101,7 +101,9 @@ remain unchanged.
    reserves validation support and records count feasibility without labels.
 3. Call assess_group_gain_content with **complete calibration-role outcomes
    only**. It verifies the policy, repeats the immutable-plan checks, stops
-   before label access if the count cannot support the claim, then calls the
+   before label access if the count cannot support the claim, and compares
+   all row IDs with the frozen calibration role before retrieving any label
+   values. It then snapshots only those calibration labels and calls the
    existing calibrate_fixed_group_gain scorer. Before counting successes it
    checks that weighted-aggregation roundoff has not changed any selected
    group's fixed-threshold classification.
@@ -196,7 +198,7 @@ The design and implementation plan were committed before implementation at
 count cutoffs were already known analytically; this was not a prospective
 biological experiment or a tuned simulation benchmark.
 
-The focused suite contains 60 new cases and 60 existing rank/fixed/managed
+The focused suite contains 63 new cases and 60 existing rank/fixed/managed
 protocol cases. It covers the counterexample, exact count and probability
 boundaries, every failure count in a known six-trial distribution, strict ties,
 stratum isolation, event replication, frozen-policy/forecast/artifact changes,
@@ -209,8 +211,9 @@ expansion and SciPy's one-sided binomtest. An isolated negative control
 replaced only the exact decision with binary-float arithmetic; the rational
 boundary test then failed as intended. Independent review additionally exposed
 ordinary-weight and subnormal-weight threshold errors. Four new regressions
-failed before the aggregation guard; with that guard and three companion
-checks, a fresh normal run passed all 120 cases.
+failed before the aggregation guard. Three additional poisoned lazy-mapping
+cases verified that role mismatches are rejected before any label value is
+read. A fresh normal run passed all 123 cases.
 
 ~~~bash
 python -m pytest -q tests/test_group_gain_content.py \
