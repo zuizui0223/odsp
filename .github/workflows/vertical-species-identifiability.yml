@@ -1,0 +1,35 @@
+name: ODSP species-height detection-identifiability witness
+on:
+  push:
+    branches:
+      - prospective/vertical-species-identifiability-20261122
+    paths:
+      - 'odsp/vertical_species_identification.py'
+      - 'tests/test_vertical_species_identification.py'
+      - 'docs/vertical_species_observation_identifiability_v1.md'
+      - '.github/workflows/vertical-species-identifiability.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source_free_identifiability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install ODSP and test dependencies
+        run: python -m pip install -e '.[dev]'
+      - name: Test exact counterexample and explicit site weights
+        run: python -m pytest -v tests/test_vertical_species_identification.py
+      - name: Generate reproducible synthetic-only receipt
+        run: python -m odsp.vertical_species_identification
+      - name: Archive synthetic-only proof
+        uses: actions/upload-artifact@v4
+        with:
+          name: odsp-vertical-species-identifiability-source-free
+          path: results/vertical_species_identifiability_sourcefree_v1.json
+          retention-days: 30
+          if-no-files-found: error
