@@ -73,7 +73,7 @@ whole independently sampled animal**, not the altitude state of
 one new GPS record inside that animal. We do not propose or certify a
 hierarchical row-level prediction set or a novel rank theorem.
 
-1. If \(L_\alpha>0\) and the assumptions hold, then \(\Pr(G_{\mathrm{new}}>0\mid\mathcal F)\ge 1-\alpha\) for **one** future animal in that stratum. If \(L_\alpha\le0\), coverage of the lower bound does **not** establish positive gain.
+1. For a **prespecified** threshold \(t\), the valid implication is \(\Pr(L_\alpha>t,\ G_{\mathrm{new}}\le t\mid\mathcal F)\le k/(n+1)\le\alpha\), because this joint event is contained in \(G_{\mathrm{new}}<L_\alpha\). It controls error jointly over calibration and one future score. **Observing** \(L_\alpha>0\) does not establish \(\Pr(G_{\mathrm{new}}>0\mid\mathcal F)\ge1-\alpha\), nor the corresponding probability conditional on that observed positive limit. If \(L_\alpha\le0\), coverage likewise does not establish positive gain.
 2. There is **no guarantee that all** future individuals improve, no confidence interval for average population gain, no mean effect-size significance test and no biological causal claim.
 3. Source-trained \(q_{\mathcal F}\) may perform badly on a target-source population yet the rank coverage remains valid **if calibration and future scores are still exchangeable within that target population**. Calibrating on target-source groups is not the same as showing that the predictor itself transfers well.
 4. If calibration target and later validation target have different gain distributions, the rank conclusion may fail. Counterexample: all nine calibration gains equal \(+1\) and the new gain always equals \(-1\). Then \(k=1\), \(L_\alpha=+1\) and coverage is zero.
@@ -81,6 +81,56 @@ hierarchical row-level prediction set or a novel rank theorem.
 6. The same threshold applied to **many** validation animals yields marginal one-at-a-time coverage under assumptions, but its empirical fraction is correlated via the common trained model and calibration threshold. Reporting a binomial \(n=\) total animals interval as though independent across *retrained worlds* is pseudoreplicated precision.
 
 These limitations are consistent with the general conformal literature and established distribution-shift caveats (Tibshirani et al. 2019; Barber et al. 2023; Gibbs et al. 2025).
+
+### 3.1 Correction: a positive realized rank is not a population-content certificate
+
+The previous version of item 1 incorrectly removed the random calibration
+event from a joint probability. The rank lemma and all existing rank outputs
+are unchanged; this is a correction to their interpretation.
+
+For an exact counterexample, let all calibration and future gains be IID:
+gain +1 with probability 0.8 and gain -1 with probability 0.2. With n=9 and
+alpha=0.1, the rank lower bound is positive precisely when all nine calibration
+gains are positive. That occurs with probability \(0.8^9=0.134217728\).
+Even after observing it, the next independent animal's positive-gain
+probability remains 0.8. The joint false-positive prediction event has
+probability \(0.8^9(0.2)=0.0268435456\), consistent with the marginal bound.
+This illustrates the distinction discussed by Angelopoulos & Bates, section
+3.2: realized-calibration coverage varies even when average coverage is valid.
+
+### 3.2 A separate fixed-threshold population-content test
+
+To ask whether at least fraction c of a specified population has gain strictly
+above a fixed t, use a separate one-sided exact binomial test. Declare c, t,
+confidence error delta, stratum and sample size before outcomes, with no
+outcome-driven stopping. Require IID animal-level gain indicators for the
+fixed upstream predictor/reference; exchangeability alone is insufficient.
+For x gains <=t among n animals, the null-boundary tail is
+
+\[
+p_{\mathrm{bin}}=\sum_{j=0}^{x}{n\choose j}(1-c)^j c^{n-j}.
+\]
+
+The null is \(\Pr(G>t\mid\mathcal F)\le c\), including equality. Support is
+issued only when \(p_{\mathrm{bin}}\le\delta\). For each fixed null population,
+the repeated-sampling probability of issuing support is at most delta.
+This is not a posterior probability after support is observed, a prediction
+interval, or a confidence interval for mean gain. No simultaneous or repeated
+stratum-selection claim is made.
+
+For c=0.9 and delta=0.05, even the best possible sample must have at least
+29 animals, all with gain above t; 28 cannot suffice. If one animal has gain
+<=t, the first supporting sample size is 46. These are population-content
+counts, distinct from the nine animals needed for a finite nominal-90% rank
+limit. The surrounding protocol separately reserves validation animals.
+
+The [exact-content implementation](bop_group_gain_content_v1.md) binds this
+policy to existing frozen forecasts, stops before label access when the count
+cannot support it, and reuses unchanged calibration scores in later validation.
+The IID assumption concerns the declared target sampling process conditional
+on upstream training/model information. It is not automatically conditional
+on a realized animal-covariate or forecast roster; file hashes cannot prove it.
+Historical cross-fitted BOP gains are not admitted to this new test.
 
 ## 4. Source/model/identity proof obligations
 
@@ -119,6 +169,7 @@ The post-result descriptive world-level Monte Carlo audit of the 24-world common
 - An external-study claim would require a *new, pre-outcome frozen* source, documented independent calibration/test animal roster, comparable altitude/state and predictor fields, and explicit score-exchangeability argument. **No new biological or methods benchmark is opened in this technical note.**
 
 ## References for the statistical context (not claims of novel conformal theory)
+- Clopper, C. J. & Pearson, E. S. (1934). The use of confidence or fiducial limits illustrated in the case of the binomial. Biometrika 26, 404–413. See also the official [SciPy exact-binomial reference](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.binomtest.html) and [Clopper–Pearson documentation](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats._result_classes.BinomTestResult.proportion_ci.html).
 - Dunn, R., Wasserman, L. & Ramdas, A. (2023). *Distribution-Free Prediction Sets for Two-Layer Hierarchical Models*. Journal of the American Statistical Association 118, 2491–2502. https://doi.org/10.1080/01621459.2022.2060112
 
 - Angelopoulos, A. N. & Bates, S. (2023). *Conformal Prediction: A Gentle Introduction*. Foundations and Trends in Machine Learning. https://doi.org/10.1561/2200000101

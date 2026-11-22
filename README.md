@@ -211,6 +211,23 @@ The new common-input transport example achieved nominal-90% group-bound coverage
 
 For a real external study, **matching software group IDs is insufficient**: the same bird can appear under different provider names or multiple deployments. The [outcome-blind canonical animal identity gate](docs/bop_group_identity_admission_v1.md) checks externally mapped animal identity keys, immutable training/calibration/test group rosters and nonvacuous **within-species** rank support without opening test outcomes. A passed count is not a certification of independence or exchangeability. The historical BOP terminal stays **mixed**, the 2026 within-species new-animal route remains closed, and Dryad remains **NOT_ADMITTED** for direct historic RF external testing.
 
+### BOP: marginal rank coverage and positive population content are separate
+
+The [individual-gain theory note](docs/bop_individual_gain_inference_theory_v1.md)
+now corrects an interpretation error: observing a positive nominal-90% rank
+lower limit does not establish that 90% of a target population has positive
+gain. Rank coverage averages over the calibration sample and a future animal.
+
+A separate [fixed-threshold exact binomial API](docs/bop_group_gain_content_v1.md)
+now freezes one stratum, threshold, target fraction, confidence and group count
+before outcomes. Under IID animal-level gain indicators, 90% positive content
+at 95% confidence first becomes supportable with **29 all-positive calibration
+animals**; one nonpositive animal requires at least **46 total**. This differs
+from the **nine** animals required for a finite nominal-90% rank limit.
+The API checks count feasibility before labels and reuses the existing
+calibration for reserved validation. It does not infer independence from IDs,
+adjust for repeated testing or relabel historical BOP/Swiss outcomes.
+
 ## Niche thickness
 
 `odsp.niche_geometry` provides model-agnostic information-theoretic metrics on any non-negative support distribution.

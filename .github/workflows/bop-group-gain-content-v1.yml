@@ -1,0 +1,44 @@
+name: bop-group-gain-content-v1
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/bop-group-gain-content-v1.yml'
+      - 'odsp/group_gain_content.py'
+      - 'odsp/new_group_gain_envelope.py'
+      - 'odsp/fixed_group_gain_protocol.py'
+      - 'odsp/managed_group_forecast_v1.py'
+      - 'tests/test_group_gain_content.py'
+      - 'tests/test_new_group_gain_envelope.py'
+      - 'tests/test_fixed_group_gain_protocol.py'
+      - 'tests/test_managed_group_forecast_v1.py'
+      - 'docs/bop_group_gain_content_v1.md'
+      - 'docs/bop_individual_gain_inference_theory_v1.md'
+      - 'docs/bop_method_spine_v1.md'
+      - 'manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md'
+      - 'README.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-content-and-existing-protocols:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install -e . 'pytest>=8,<10'
+      - name: Test exact content, marginal rank and unchanged calibration protocols
+        run: >-
+          python -m pytest -o addopts='' -q
+          tests/test_group_gain_content.py
+          tests/test_new_group_gain_envelope.py
+          tests/test_fixed_group_gain_protocol.py
+          tests/test_managed_group_forecast_v1.py

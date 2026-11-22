@@ -43,6 +43,29 @@ Inspect:
 `scripts/audit_bop_common_input_world_uncertainty_v1.py`,
 `tests/test_bop_common_input_world_uncertainty_v1.py`.
 
+## Distinguishing marginal rank coverage from positive population content
+
+The technical note's earlier claim that an observed positive rank limit
+establishes at least 90% population positivity was incorrect. The corrected
+statement controls the joint event of a positive limit and a nonpositive next
+gain; it does not condition on observing a positive limit. Existing rank code,
+coverage receipts and historical terminal decisions remain unchanged.
+
+The [separate exact-content route](bop_group_gain_content_v1.md) fixes one
+target stratum, gain threshold, positive fraction, confidence and sample size
+before opening calibration labels. It requires IID gain indicators, a stronger
+assumption than exchangeability alone. For 90% positive content at 95%
+confidence, the best-case count is 29 all-positive calibration animals; with
+one nonpositive animal it is 46. The nine-animal gate remains the correct
+necessary count for a finite nominal-90% rank limit, and is not repurposed.
+
+The new API performs a count-only preflight, obtains actual group gains through
+the unchanged fixed-forecast calibration, and retains that calibration for
+reserved validation. No study pooling, post hoc threshold search, sequential
+stopping, simultaneous-stratum guarantee or historical cross-fit promotion
+is licensed. A fixed forecast roster and distinct IDs still do not verify
+biological IID sampling.
+
 ## Canonical-animal identity and rank-count admission preflight
 
 The merged cross-source adapter prevents software ID collisions with
