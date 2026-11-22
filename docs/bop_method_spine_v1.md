@@ -66,6 +66,25 @@ stopping, simultaneous-stratum guarantee or historical cross-fit promotion
 is licensed. A fixed forecast roster and distinct IDs still do not verify
 biological IID sampling.
 
+## The synthetic canonical-animal-to-content bridge
+
+PR #303 introduced the exact-content estimator separately from marginal
+prediction coverage. A further [identity-checked content integration]
+(bop_identity_checked_gain_content_v1.md) binds that estimator to the
+already established synthetic source-trained model and canonical-animal
+crosswalk before reading any calibration response. The reserved validation path checks
+only the existing **rank-prediction** bound, not the calibration population
+fraction: it is a different estimand and not a second exact-content test.
+It deliberately forbids
+multistratum outcome rosters because the underlying legacy calibrator scores
+the complete calibration role: a one-stratum decision must not incidentally
+open an unrelated species' labels.
+
+Its output is still only methodological. Replay of independent-looking
+animal IDs, model bytes, source rows and predictions cannot establish IID
+sampling, ecological effect universality or real Dryad eligibility. No old
+rank, BOP/Swiss receipt or biological terminal is changed.
+
 ## Canonical-animal identity and rank-count admission preflight
 
 The merged cross-source adapter prevents software ID collisions with
