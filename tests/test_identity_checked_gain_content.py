@@ -127,12 +127,14 @@ def test_real_managed_fit_to_canonical_identity_to_content_then_untouched_negati
     assert public["biological_iid_sampling_proven_by_software"] is False
     assert public["real_Dryad_external_candidate_admitted"] is False
     assert "CANONICAL_SYNTHETIC" not in json.dumps(public)
+    assert "identity_fingerprint_sha256" not in public  # private crosswalk hash
 
     result = assess_identity_checked_gain_content(binding, cal)
     assert result.content.supported is True
     assert result.content.nonpositive_group_count == 0
     assert result.content.calibration.calibration_sha256 == result.as_public_dict()["calibration_sha256"]
     assert "CANONICAL_SYNTHETIC" not in json.dumps(result.as_public_dict())
+    assert "identity_fingerprint_sha256" not in result.as_public_dict()
     outcome = validate_identity_checked_gain_content(binding, result, val)
     assert outcome.validation_group_count == 1
     assert outcome.strata[0].positive_validation_group_count == 0

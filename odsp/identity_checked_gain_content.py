@@ -81,7 +81,6 @@ class FrozenIdentityCheckedGainContent:
             "integration": "synthetic_source_to_artifact_to_forecast_to_identity_to_exact_content",
             "identity_crosswalk_replayed": True,
             "managed_model_and_forecasts_replayed": True,
-            "identity_fingerprint_sha256": self.identity_fingerprint_sha256,
             "biological_iid_sampling_proven_by_software": False,
             "original_BOP_RF_replayed": False,
             "real_Dryad_external_candidate_admitted": False,
@@ -140,7 +139,6 @@ class IdentityCheckedGainContentAssessment:
         return {
             **self.content.as_public_dict(),
             "integration": "synthetic_canonical_identity_and_managed_forecast_replayed",
-            "identity_fingerprint_sha256": self.binding.identity_fingerprint_sha256,
             "real_cross_source_animal_gain_result": False,
             "identity_and_iid_sampling_verified_by_software": False,
         }
