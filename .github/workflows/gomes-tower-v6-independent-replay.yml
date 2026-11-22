@@ -1,0 +1,30 @@
+name: ODSP independent replay of Gomes v6 two tower scores
+on:
+  push:
+    branches:
+      - prospective/vertical-species-identifiability-20261122
+    paths:
+      - 'scripts/verify_gomes_tower_v6_independent.py'
+      - '.github/workflows/gomes-tower-v6-independent-replay.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independently_verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Original-source fresh read, independent 2-fold log score, compare 8 quantities
+        run: python -m scripts.verify_gomes_tower_v6_independent
+      - name: Archive aggregate independent arithmetic receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gomes-v6-independent-source-replay
+          path: results/gomes_tower_v6_independent_replay.json
+          retention-days: 45
+          if-no-files-found: warn
