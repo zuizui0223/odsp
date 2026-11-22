@@ -1,0 +1,33 @@
+name: ODSP Yoh bat vertical source preflight v1
+on:
+  push:
+    branches:
+      - prospective/vertical-species-identifiability-20261122
+    paths:
+      - 'scripts/yoh_amazon_vertical_source_preflight_v1.py'
+      - 'tests/test_yoh_amazon_vertical_source_preflight_v1.py'
+      - '.github/workflows/yoh-bat-source-preflight-v1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  yoh_source_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Synthetic source-blind tests
+        run: python -m unittest -v tests.test_yoh_amazon_vertical_source_preflight_v1
+      - name: Inspect published source structure only (never bat-pass values)
+        run: python -m scripts.yoh_amazon_vertical_source_preflight_v1
+      - name: Archive source/hash/structure receipt even on admission STOP
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: yoh-amazon-source-preflight-v1
+          path: results/yoh_amazon_vertical_source_preflight_v1.json
+          if-no-files-found: error
+          retention-days: 30
