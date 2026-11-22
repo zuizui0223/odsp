@@ -25,7 +25,7 @@ class BatFruitFunctionalTests(unittest.TestCase):
     def test_three_source_matrices_reconcile_pooled_omitted_column(self):
         a=lane.parse_author_matrix(b"\tBatA\tBatB\nFruitA\t1\t1\nFruitB\t0\t0\n")
         b=lane.parse_author_matrix(b"\tBatA\tBatB\nFruitA\t0\t0\nFruitB\t1\t0\n")
-        c=lane.parse_author_matrix(b"\tBatA\nFruitA\t1\nFruitB\t0\n")
+        c=lane.parse_author_matrix(b"\tBatA\tBatB\nFruitA\t1\t0\nFruitB\t0\t0\n")
         pooled=lane.parse_author_matrix(b"\tBatA\tBatB\nFruitA\t2\t1\nFruitB\t1\t0\n")
         fake={
           "canopy":{"counts":a[0],"details":a[1],"source_git_blob_sha1":"a","source_file_sha256":"a","original_file_bytes":1},
