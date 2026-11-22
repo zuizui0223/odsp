@@ -13,6 +13,13 @@ class ErasmySourceAdmissionTests(unittest.TestCase):
         ]}}
         self.assertEqual(select_version(src),19)
 
+    def test_dryad_published_hal_versions_without_id(self):
+        src={"_embedded":{"stash:versions":[
+          {"versionNumber":1,"_links":{"self":{"href":"/api/v2/versions/26724"}}},
+          {"versionNumber":2,"_links":{"self":{"href":"/api/v2/versions/26725"}}}
+        ]}}
+        self.assertEqual(select_version(src),26725)
+
     def test_only_expected_original_files_allowed(self):
         files=[
             {"path":"dir/species_act.csv","size":33690,
