@@ -1,0 +1,47 @@
+name: bop-identity-checked-gain-content-v1
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/bop-identity-checked-gain-content-v1.yml'
+      - 'odsp/identity_checked_gain_content.py'
+      - 'odsp/identity_checked_transport.py'
+      - 'odsp/group_gain_content.py'
+      - 'odsp/group_identity_gate.py'
+      - 'odsp/common_input_transport.py'
+      - 'odsp/managed_group_forecast_v1.py'
+      - 'odsp/fixed_group_gain_protocol.py'
+      - 'tests/test_identity_checked_gain_content.py'
+      - 'tests/test_identity_checked_transport.py'
+      - 'tests/test_group_gain_content.py'
+      - 'tests/test_group_identity_gate.py'
+      - 'tests/test_managed_group_forecast_v1.py'
+      - 'docs/bop_identity_checked_gain_content_v1.md'
+      - 'README.md'
+      - 'docs/bop_method_spine_v1.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-content-identity-source-chain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: \${{ matrix.python-version }}
+      - run: python -m pip install -e . 'pytest>=8,<10'
+      - name: Verify known-truth identity/content and existing protocols
+        run: >-
+          python -m pytest -o addopts='' -q
+          tests/test_identity_checked_gain_content.py
+          tests/test_identity_checked_transport.py
+          tests/test_group_gain_content.py
+          tests/test_group_identity_gate.py
+          tests/test_managed_group_forecast_v1.py

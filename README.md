@@ -228,6 +228,18 @@ The API checks count feasibility before labels and reuses the existing
 calibration for reserved validation. It does not infer independence from IDs,
 adjust for repeated testing or relabel historical BOP/Swiss outcomes.
 
+### Canonical-identity-checked positive-content integration (synthetic only)
+
+The [identity-checked content bridge](docs/bop_identity_checked_gain_content_v1.md)
+now composes source-trained model/forecast replay, canonical biological-animal
+identity admission, one-stratum exact-content count preflight, calibration-only
+binomial inference and untouched validation in execution order. It checks a
+9-versus-29-animal design gap *before labels*, prevents opening nonselected
+strata or extra validation-role labels, and preserves the existing scorer.
+This is **synthetic-only method integration**, not a real Dryad new-animal
+validation or evidence that animal gains are IID. The historical BOP mixed
+terminal and independent-source HOLD/NOT_ADMITTED decisions are unchanged.
+
 ## Niche thickness
 
 `odsp.niche_geometry` provides model-agnostic information-theoretic metrics on any non-negative support distribution.
