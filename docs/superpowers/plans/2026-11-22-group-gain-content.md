@@ -45,16 +45,16 @@ existing NumPy-backed package, pytest; no new runtime dependencies.
 **Produces:** `FrozenGroupGainContentPlan`, `GroupGainContentAssessment`,
 `freeze_group_gain_content_plan(...)`, `assess_group_gain_content(...)`.
 
-- [ ] Write tests first: nine positive gains can have a positive rank bound but
+- [x] Write tests first: nine positive gains can have a positive rank bound but
       fail the content count gate; 28 all-positive fail / 29 pass at .9/.95;
       45 with one nonpositive fail / 46 pass; equality with threshold fails.
-- [ ] Run tests and observe the missing implementation failure.
-- [ ] Implement validated policy freezing, exact rational tail evaluation,
+- [x] Run tests and observe the missing implementation failure.
+- [x] Implement validated policy freezing, exact rational tail evaluation,
       conservative display and calibration-only evaluation with legacy reuse.
-- [ ] Add exact-boundary, stratum, poisoned-outcome count-HOLD, malformed input,
+- [x] Add exact-boundary, stratum, poisoned-outcome count-HOLD, malformed input,
       changed policy/plan/artifact and wrong-role cases; verify real behavior.
-- [ ] Run new tests plus existing rank, fixed-protocol and managed-forecast tests.
-- [ ] Review code and commit the verified additive implementation.
+- [x] Run new tests plus existing rank, fixed-protocol and managed-forecast tests.
+- [x] Review code and commit the verified additive implementation.
 
 ## Task 2: Correct interpretation and integrate
 
@@ -86,3 +86,16 @@ create `docs/bop_group_gain_content_v1.md` and
   isolation supplies history; no source biological records are materialized.
 - The user has instructed autonomous execution, including routine review/merge;
   design choices are recorded here without another permission round.
+
+- Task 1 complete: new tests first stopped for the absent module. The additive
+  implementation and 53 new cases now pass alongside 60 legacy cases (113).
+  Exact binomial recurrence matched direct combinatorial expansion and SciPy
+  one-sided binomtest on 816 cases. Replacing only the decision with binary
+  float arithmetic made the strict rational-boundary test fail; a fresh
+  unmodified process passed all 113 cases.
+- The overflow rejection test initially required a particular error message;
+  the upstream calibrator already rejects nonfinite scores while hashing.
+  The test now checks rejection itself, not wording. No production workaround
+  or legacy scoring modification was needed.
+- Pre-flight interface: Task 2 documents the actual policy/assessment methods
+  implemented by Task 1; calibration output is the unchanged legacy type.
