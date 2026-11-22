@@ -51,6 +51,15 @@ class GomesTowerTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,"structure/total mismatch"):
                 adapter.parse_source_towers(raw)
 
+    def test_missing_tower_day_stops_only_secondary_not_primary(self):
+        rows=[r for r in fixtures() if not (r.tower=="red" and r.day=="10")]
+        result=score_tower_transfer(rows)
+        self.assertEqual(result["leave_one_tower_out"]["positive_tower_folds"],2)
+        extra=result["leave_both_tower_and_night_out"]
+        self.assertEqual(extra["status"],"structural_stop_missing_or_zero_tower_day_count")
+        self.assertEqual(extra["missing_or_zero_tower_day_cells"],1)
+        self.assertFalse(extra["secondary_scientific_scores_opened"])
+
     def test_no_artificial_new_tower(self):
         rows=[r._replace(tower="bad") if r.tower=="red" else r for r in fixtures()]
         with self.assertRaisesRegex(ValueError,"two source-authenticated towers"):
