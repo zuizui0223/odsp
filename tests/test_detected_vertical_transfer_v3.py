@@ -35,7 +35,7 @@ class DetectedVerticalTests(unittest.TestCase):
     def test_threshold_matches_two_world_observation_witness(self):
         counts={"A":{"above":9,"below":1},"B":{"above":1,"below":9}}
         self.assertAlmostEqual(minimum_detector_ratio_to_erase_partition(counts,alpha=0),9)
-        self.assertGreater(minimum_detector_ratio_to_erase_partition(counts,alpha=.5),7)
+        self.assertAlmostEqual(minimum_detector_ratio_to_erase_partition(counts,alpha=.5),19/3)
     def test_stops_unseen_hour(self):
         src=[Record("a",20,"S","above"),Record("b",21,"S","below")]
         with self.assertRaisesRegex(ValueError,"hour"):
