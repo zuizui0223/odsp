@@ -57,6 +57,25 @@ class StudyGateTests(unittest.TestCase):
         self.assertEqual(receipt["site_metric_units_ge3_heights"],15)
         self.assertFalse(receipt["original_biodiversity_numeric_values_inspected"])
 
+    def test_v1_1_missing_optional_strata_text_does_not_block_numeric_heights(self):
+        raw=make_fixture().replace(b"ground",b"NA").replace(b"mid",b"NA").replace(b"canopy",b"NA")
+        with patch.object(s,"SOURCE_GIT_BLOB",s.git_blob_hash(raw)):
+            receipt=s.source_structure(raw)
+        self.assertEqual(receipt["status"],"source_structure_admitted_numerical_biodiversity_sealed")
+        self.assertEqual(receipt["optional_textual_strata_category_blank_rows"],45)
+        self.assertEqual(receipt["invalid_height_geometry_rows"],0)
+        self.assertEqual(receipt["required_blank_key_counts"],{})
+
+    def test_duplicate_numeric_heights_reported_without_biological_response(self):
+        raw=make_fixture()
+        # one of three heights from the first synthetic site duplicated
+        # only a synthetically generated source design, not an outcome.
+        raw=raw.replace(b",0.5,0.5,0.5,",b",0,0.5,0.5,",1)
+        with patch.object(s,"SOURCE_GIT_BLOB",s.git_blob_hash(raw)):
+            receipt=s.source_structure(raw)
+        self.assertGreaterEqual(receipt["site_metric_units_with_repeated_numeric_height"],1)
+        self.assertGreaterEqual(receipt["redundant_site_metric_height_rows"],1)
+
     def test_missing_geometry_enters_hold_not_biological_null(self):
         raw=make_fixture(bad=True)
         with patch.object(s,"SOURCE_GIT_BLOB",s.git_blob_hash(raw)):
