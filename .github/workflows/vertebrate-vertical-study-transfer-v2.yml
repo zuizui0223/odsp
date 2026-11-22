@@ -1,0 +1,36 @@
+name: ODSP vertebrate 62-study heldout vertical-profile v2
+on:
+  push:
+    branches:
+      - prospective/vertebrate-vertical-study-transfer-20261123
+    paths:
+      - 'odsp/vertebrate_vertical_study_transfer_v2.py'
+      - 'scripts/vertebrate_vertical_study_transfer_v2.py'
+      - 'tests/test_vertebrate_vertical_study_transfer_v2.py'
+      - '.github/workflows/vertebrate-vertical-study-transfer-v2.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  prospectively_fixed_study_cv:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install scientific package
+        run: python -m pip install -e '.[dev]'
+      - name: Run eight known-truth tests before original biodiversity values
+        run: python -m unittest -v tests.test_vertebrate_vertical_study_transfer_v2
+      - name: Authenticate published corrected source and score unseen original studies
+        run: python -m scripts.vertebrate_vertical_study_transfer_v2
+      - name: Archive full structured source/heldout gains or strict STOP receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertebrate-vertical-62study-heldout-v2
+          path: results/vertebrate_vertical_study_transfer_v2.json
+          retention-days: 60
+          if-no-files-found: warn
