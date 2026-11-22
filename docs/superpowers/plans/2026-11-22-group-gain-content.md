@@ -68,11 +68,11 @@ create `docs/bop_group_gain_content_v1.md` and
 **Produces:** Correct joint-event interpretation, counterexample, operational
 9-versus-29 distinction, API example and scoped automated validation.
 
-- [ ] Replace the invalid implication with the joint-event bound and explicit
+- [x] Replace the invalid implication with the joint-event bound and explicit
       calibration-selection caveat; retain the original correct rank lemma.
-- [ ] Document IID/fixed-sample requirements, strict threshold, one-stratum
+- [x] Document IID/fixed-sample requirements, strict threshold, one-stratum
       scope, frequentist interpretation and unchanged biological conclusions.
-- [ ] Add matrix CI for the new API and its existing upstream protocols.
+- [x] Add matrix CI for the new API and its existing upstream protocols.
 - [ ] Obtain independent whole-change review and resolve substantive findings.
 - [ ] Require current-head dedicated/common CI, merge, and verify tree identity.
 
@@ -99,3 +99,9 @@ create `docs/bop_group_gain_content_v1.md` and
   or legacy scoring modification was needed.
 - Pre-flight interface: Task 2 documents the actual policy/assessment methods
   implemented by Task 1; calibration output is the unchanged legacy type.
+- Task 2 documentation and CI are implemented. The complete synthetic example
+  executes successfully, including a positive content decision followed by a
+  negative reserved validation gain. A fresh focused run passes 113 cases;
+  byte comparison confirms the existing rank, fixed-forecast, managed-forecast
+  and package-initialization modules are unchanged. The PR integration record
+  will retain independent review, exact-head CI and post-merge tree evidence.
