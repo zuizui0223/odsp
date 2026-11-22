@@ -105,3 +105,12 @@ create `docs/bop_group_gain_content_v1.md` and
   byte comparison confirms the existing rank, fixed-forecast, managed-forecast
   and package-initialization modules are unchanged. The PR integration record
   will retain independent review, exact-head CI and post-merge tree evidence.
+- Independent whole-branch review found finite weighted-mean rounding could
+  change a strict threshold event, including ordinary weight 0.01 and the
+  smallest positive binary float. Four regressions reproduced false support
+  before the fix. The new API now verifies each selected group's threshold
+  classification by exact accumulation of the frozen binary weights and
+  per-row binary log deltas; disagreement stops assessment. Both scoring
+  passes use one label snapshot. Existing calibration/rank code is unchanged.
+  The 120-case suite passes (60 new plus 60 legacy). Revised-head review and
+  CI remain required; this does not claim exact transcendental logarithms.

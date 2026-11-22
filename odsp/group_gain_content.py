@@ -58,6 +58,37 @@ def _binomial_lower_tail(n: int, x: int, positive_fraction: Fraction) -> Fractio
     return total
 
 
+def _check_weighted_threshold_classification(
+    plan: FrozenGroupForecastPlan,
+    calibration: FrozenGainCalibration,
+    outcomes: Mapping[str, str],
+    *,
+    stratum: str,
+    threshold: float,
+) -> None:
+    """Reject aggregation roundoff that changes the fixed-threshold event.
+
+    Exact sums use the frozen binary weights and the same binary per-row log
+    deltas as the legacy scorer. This does not make transcendental logarithms
+    exact or replace the inherited calibration values.
+    """
+    lookup = {label: i for i, label in enumerate(plan.classes)}
+    target = Fraction.from_float(threshold)
+    margins: dict[str, Fraction] = {}
+    for row in plan.calibration_rows:
+        if row.stratum != stratum:
+            continue
+        i = lookup[outcomes[row.row_id]]
+        delta = math.log(row.conditional[i]) - math.log(row.reference[i])
+        margin = Fraction.from_float(row.weight) * (Fraction.from_float(delta) - target)
+        margins[row.group_id] = margins.get(row.group_id, Fraction(0)) + margin
+    for gain in calibration.gains:
+        if gain.stratum == stratum and (
+            (gain.weighted_mean_gain > threshold) != (margins[gain.group_id] > 0)
+        ):
+            raise ValueError("weighted gain threshold classification changes under exact accumulation")
+
+
 @dataclass(frozen=True)
 class FrozenGroupGainContentPlan:
     forecast_plan_sha256: str
@@ -83,6 +114,7 @@ class FrozenGroupGainContentPlan:
             "validation_group_count": self.validation_group_count,
             "method": "fixed_threshold_one_sided_exact_binomial",
             "nonpositive_event": "group_gain_less_than_or_equal_to_threshold",
+            "threshold_roundoff_check": "exact_weighted_binary_row_log_gains_agree_with_legacy_classification",
             "sample_size_policy": "fixed_before_outcomes_no_optional_stopping",
         }
 
@@ -229,13 +261,21 @@ def assess_group_gain_content(
         raise ValueError("content policy disagrees with frozen forecast counts or settings")
     if not content_plan.count_allows_support:
         raise ValueError("insufficient calibration groups for the declared content/confidence claim")
+    if not isinstance(calibration_outcomes, Mapping):
+        raise ValueError("calibration outcomes must be a mapping")
+    # Score and verify the same label snapshot, without rereading caller data.
+    scored_outcomes = dict(calibration_outcomes)
     calibration = calibrate_fixed_group_gain(
-        forecast_plan, calibration_outcomes,
+        forecast_plan, scored_outcomes,
         model_artifact=model_artifact, reference_artifact=reference_artifact,
     )
     gains = [r.weighted_mean_gain for r in calibration.gains if r.stratum == content_plan.stratum]
     if len(gains) != content_plan.calibration_group_count or any(not math.isfinite(g) for g in gains):
         raise ValueError("calibration requires the declared count of finite group gains")
+    _check_weighted_threshold_classification(
+        forecast_plan, calibration, scored_outcomes,
+        stratum=content_plan.stratum, threshold=content_plan.gain_threshold,
+    )
     failures = sum(g <= content_plan.gain_threshold for g in gains)
     tail = _binomial_lower_tail(len(gains), failures, content_plan.minimum_positive_fraction)
     return GroupGainContentAssessment(content_plan, calibration, failures, tail)

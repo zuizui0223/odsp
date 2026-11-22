@@ -102,7 +102,9 @@ remain unchanged.
 3. Call assess_group_gain_content with **complete calibration-role outcomes
    only**. It verifies the policy, repeats the immutable-plan checks, stops
    before label access if the count cannot support the claim, then calls the
-   existing calibrate_fixed_group_gain scorer.
+   existing calibrate_fixed_group_gain scorer. Before counting successes it
+   checks that weighted-aggregation roundoff has not changed any selected
+   group's fixed-threshold classification.
 4. Use the returned calibration unchanged in validate_fixed_group_gain for
    the separately reserved validation outcomes.
 
@@ -111,6 +113,29 @@ bound for the p-value and explicit scientific limits. Individual identities,
 forecasts and labels are excluded from public summaries. Internal exact
 fractions determine decisions; display rounding cannot turn a failure into
 support.
+
+### Weighted-aggregation roundoff gate
+
+The inherited scorer uses floating products and division for weighted means.
+Even a finite result can cross a strict threshold because of rounding. For
+example, a single-row animal with gain log(0.75)-log(0.5) and weight 0.01
+can round just above that same frozen threshold. With weight 5e-324 and gain
+log(0.75)-log(0.375), the inherited mean can become 1.0 instead of about 0.693.
+
+The content API therefore also computes the sign of sum(w_i * (d_i - t))
+exactly, treating each frozen binary weight, per-row binary log delta d_i and
+binary threshold as a rational number. Positive weights make this sign
+equivalent to the weighted-mean threshold event. If it disagrees with the
+legacy classification for any selected animal, assessment stops with an
+error and issues no support decision. Both passes use the same snapshot of
+calibration labels. The existing calibration object and historical scoring
+code remain unchanged.
+
+This guard addresses aggregation rounding, not exact transcendental
+logarithms or every possible numerical error in the inherited score. A
+finite legacy mean may still differ numerically while giving the same
+threshold classification. Do not retune weights or thresholds after outcomes
+to evade a stopped assessment.
 
 ### Small synthetic fixed-forecast example
 
@@ -171,17 +196,21 @@ The design and implementation plan were committed before implementation at
 count cutoffs were already known analytically; this was not a prospective
 biological experiment or a tuned simulation benchmark.
 
-The focused suite contains 53 new cases and 60 existing rank/fixed/managed
+The focused suite contains 60 new cases and 60 existing rank/fixed/managed
 protocol cases. It covers the counterexample, exact count and probability
 boundaries, every failure count in a known six-trial distribution, strict ties,
 stratum isolation, event replication, frozen-policy/forecast/artifact changes,
 wrong outcome roles, count-HOLD before any label read, nonfinite arithmetic
-rejection, public-summary privacy and legacy validation reuse.
+rejection, finite weighted-aggregation roundoff, a single calibration-label
+snapshot, public-summary privacy and legacy validation reuse.
 
 An independent check compared 816 exact tails with direct combinatorial
 expansion and SciPy's one-sided binomtest. An isolated negative control
 replaced only the exact decision with binary-float arithmetic; the rational
-boundary test then failed as intended. A fresh normal run passed all 113 cases.
+boundary test then failed as intended. Independent review additionally exposed
+ordinary-weight and subnormal-weight threshold errors. Four new regressions
+failed before the aggregation guard; with that guard and three companion
+checks, a fresh normal run passed all 120 cases.
 
 ~~~bash
 python -m pytest -q tests/test_group_gain_content.py \

@@ -23,7 +23,8 @@ REFERENCE = b"synthetic fixed reference"
 IID = "iid_group_gains_within_prespecified_stratum"
 
 
-def forecast_plan(n, *, other=0, tie_first=False, repeats=1):
+def forecast_plan(n, *, other=0, tie_first=False, repeats=1,
+                  weight=1.0, reference_probability=0.5):
     calibration, validation, outcomes = [], [], {}
     for stratum, count in (("target", n), ("other", other)):
         if not count:
@@ -35,7 +36,8 @@ def forecast_plan(n, *, other=0, tie_first=False, repeats=1):
                     "row_id": row_id, "group_id": f"{stratum}-cal-{index}",
                     "stratum": stratum,
                     "conditional": [0.5, 0.5] if tie_first and index == 0 else [0.75, 0.25],
-                    "reference": [0.5, 0.5],
+                    "reference": [reference_probability, 1 - reference_probability],
+                    "weight": weight,
                 })
                 outcomes[row_id] = "a"
         validation.append({
@@ -154,6 +156,64 @@ def test_threshold_is_frozen_and_changes_the_actual_scored_event():
     assert result.nonpositive_group_count == 29
     assert result.exact_p_value == 1
     assert result.supported is False
+
+
+@pytest.mark.parametrize("repeats", [1, 4])
+@pytest.mark.parametrize("weight,reference_probability,threshold", [
+    (0.01, 0.5, math.log(0.75) - math.log(0.5)),
+    (5e-324, 0.375, 0.8),
+])
+def test_finite_weight_roundoff_cannot_turn_threshold_failure_into_support(
+    repeats, weight, reference_probability, threshold,
+):
+    plan, outcomes = forecast_plan(
+        29, repeats=repeats, weight=weight,
+        reference_probability=reference_probability,
+    )
+    # Identical within-animal deltas have the same mean at every positive
+    # weight. The inherited float products nevertheless move above t.
+    row_gain = math.log(0.75) - math.log(reference_probability)
+    assert row_gain <= threshold
+    calibration = calibrate_fixed_group_gain(
+        plan, outcomes, model_artifact=MODEL, reference_artifact=REFERENCE,
+    )
+    assert all(g.weighted_mean_gain > threshold for g in calibration.gains)
+    with pytest.raises(ValueError, match="weighted gain threshold classification"):
+        assess(freeze(plan, gain_threshold=threshold), plan, outcomes)
+
+
+@pytest.mark.parametrize("weight,reference_probability", [(0.01, 0.5), (5e-324, 0.375)])
+def test_weight_scale_is_admitted_when_the_threshold_decision_is_unambiguous(
+    weight, reference_probability,
+):
+    plan, outcomes = forecast_plan(29, weight=weight, reference_probability=reference_probability)
+    result = assess(freeze(plan), plan, outcomes)
+    assert result.nonpositive_group_count == 0
+    assert result.supported is True
+    assert result.calibration == calibrate_fixed_group_gain(
+        plan, outcomes, model_artifact=MODEL, reference_artifact=REFERENCE,
+    )
+
+
+def test_calibration_outcomes_are_consumed_once_for_scoring_and_threshold_guard():
+    plan, outcomes = forecast_plan(29)
+    seen = set()
+
+    class SingleReadOutcomes(Mapping):
+        def __iter__(self):
+            return iter(outcomes)
+
+        def __len__(self):
+            return len(outcomes)
+
+        def __getitem__(self, key):
+            assert key not in seen, "calibration label was reread"
+            seen.add(key)
+            return outcomes[key]
+
+    result = assess(freeze(plan), plan, SingleReadOutcomes())
+    assert result.supported is True
+    assert seen == set(outcomes)
 
 
 @pytest.mark.parametrize("confidence,supported", [
