@@ -71,9 +71,9 @@ the source receipt's twelve means and fixed cohort/seed counts.
 **Consumes:** Task 1's successful all-twelve report; exact protected source blobs.
 **Produces:** the twelve-cell table, derivation and documented evidence limits.
 
-- [ ] Run the module to a temporary aggregate-only JSON and use its actual
+- [x] Run the module to a temporary aggregate-only JSON and use its actual
       values in the report. No new source inputs or performance metric choices.
-- [ ] Add matrix CI running both diagnostic suites and replaying all twelve
+- [x] Add matrix CI running both diagnostic suites and replaying all twelve
       cells. Check output/inputs, without fetching biological source data.
 - [ ] Obtain independent whole-branch review; fix substantive issues and verify.
 - [ ] Create the PR, wait for current-head common and dedicated CI, and integrate
@@ -94,3 +94,11 @@ the source receipt's twelve means and fixed cohort/seed counts.
   28 arithmetic cases then passed. The additional replay/CLI cases failed for
   absent behavior; after implementation all 75 new plus 20 prior cases passed.
   Actual twelve-cell replay completed without source access.
+
+- Numerical review found a generic tiny-floor feasibility false rejection.
+  A regression first failed; rounding the complement upward repaired it.
+  The final local diagnostic suites pass 96 cases (76 new, 20 prior).
+  Frozen source results did not change.
+- Task 2 report, full twelve-cell table, README/manuscript section 3.14 and
+  Python matrix workflow are implemented. PR CI and integration are tracked
+  by the associated pull request's current head and merged state.

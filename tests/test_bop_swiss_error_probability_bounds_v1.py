@@ -45,6 +45,17 @@ def test_all_wrong_mean_log_loss_is_identified_up_to_rounding():
     assert math.sqrt(0.02) <= float(result["error_geometric_mean_true_probability_upper_bound"]) < math.sqrt(0.02) + 2e-12
 
 
+def test_tiny_clip_floor_does_not_reject_feasible_all_correct_loss():
+    with localcontext() as context:
+        context.prec = 350
+        epsilon = Decimal("1e-100") + Decimal("7e-141")
+        loss = epsilon + Decimal("1e-150")
+        assert loss > -(Decimal(1) - epsilon).ln()
+    result = m.binary_error_bounds(1, loss, 1, rounding_radius=0, clip_floor=epsilon)
+    assert result["n_errors"] == 0
+    assert result["error_mean_log_loss_lower_bound"] is None
+
+
 @pytest.mark.parametrize("last_two,minimum", [
     (("0.01", "0.000001"), 1),
     (("0.000001", "0.000001"), 2),

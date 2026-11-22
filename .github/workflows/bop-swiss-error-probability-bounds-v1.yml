@@ -1,0 +1,47 @@
+name: bop-swiss-error-probability-bounds-v1
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/bop-swiss-error-probability-bounds-v1.yml'
+      - 'scripts/bop_swiss_error_probability_bounds_v1.py'
+      - 'tests/test_bop_swiss_error_probability_bounds_v1.py'
+      - 'research/BOP_SWISS_ERROR_PROBABILITY_BOUNDS_V1_CONTRACT.json'
+      - 'scripts/bop_swiss_proper_score_discordance_v1.py'
+      - 'tests/test_bop_swiss_proper_score_discordance_v1.py'
+      - 'research/BOP_SWISS_PROPER_SCORE_DISCORDANCE_V1_CONTRACT.json'
+      - 'research/BOP_SWISS_TEMPORAL_BIRD_PURGE_V1_CONTRACT.json'
+      - 'scripts/bop_swiss_ranger_focal_prior_year_v1.R'
+      - 'scripts/bop_swiss_temporal_bird_purge_ranger_v1.R'
+      - 'BOP_SWISS_TEMPORAL_BIRD_PURGE_V1_FIRST_RECEIPT.json'
+      - 'BOP_SWISS_2022_RANK_RESOLUTION_V1_FIRST_RECEIPT.json'
+      - 'docs/bop_swiss_error_probability_bounds_v1.md'
+      - 'README.md'
+      - 'manuscript/BOP_INDEPENDENT_ANIMAL_GAIN_METHODS_DRAFT_v1.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  known-truth-and-pinned-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install 'pytest>=8,<10'
+      - name: Test known probabilities, rounding, counts and immutable inputs
+        run: >-
+          python -m pytest -q
+          tests/test_bop_swiss_error_probability_bounds_v1.py
+          tests/test_bop_swiss_proper_score_discordance_v1.py
+      - name: Replay all twelve aggregate cells without biological source access
+        run: |
+          python -m scripts.bop_swiss_error_probability_bounds_v1 --out /tmp/bop-swiss-error-bounds.json
+          python -c "import json; r=json.load(open('/tmp/bop-swiss-error-bounds.json')); assert r['n_cells']==12; assert r['errors_are_not_independent_animals']"

@@ -52,6 +52,16 @@ All 12 model panels improve the Brier error relative to their own **training-onl
 
 This numerical disagreement is not contradictory mathematics: both Brier and logarithmic scores are proper, but logarithmic loss strongly penalizes very small probabilities assigned to observed outcomes. However, **we cannot conclude from cell-averaged scores alone that a particular extreme-probability failure caused the result**, nor can we locate the four negative birds, measure per-bird variability, estimate calibration curves, reconstruct the per-record score distribution or infer a mechanistic 2022 distribution shift. Within each cutoff, the same test rows underlie the eight seeds and both training modes; the 12 cells are not independent replicates. The purged arm establishes disjointness only of source bird-ID strings, without external canonical animal identity resolution. The post-result contrast is exploratory and contains no newly untouched source outcomes.
 
+## Subsequent aggregate error bound
+
+A [separate deterministic bound](bop_swiss_error_probability_bounds_v1.md)
+uses the same rounded accuracy/log-loss means and the original scorer's
+clipping rule to constrain the geometric mean true-class probability among
+errors and a minimum severe-error count. The inability to identify particular
+erroneous records or a calibration mechanism does not prevent those aggregate
+existence bounds. The original score comparisons and input receipts above are
+unchanged.
+
 ## What this changes in the method
 
 A high AUC, high accuracy, or positive Brier improvement is **not sufficient** for the ODSP scientific claim that a state-resolved predictor improves a future animal's assigned-outcome probability under the prespecified log-score estimand. A model may pass the Brier skill check and fail the more tail-sensitive log-score check. We therefore retain **signed, reference-aligned log-score gain** as the separate primary estimand for BOP independent-animal methodology, while reporting Brier and AUC as complementary diagnostics **without cherry-picking the preferred outcome metric after inspection**.

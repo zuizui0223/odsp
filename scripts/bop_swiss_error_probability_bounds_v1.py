@@ -90,7 +90,11 @@ def binary_error_bounds(
         log_epsilon, log_tau = epsilon.ln(), tau.ln()
         cap_high = -log_epsilon.next_minus()
         threshold_low, threshold_high = -log_tau.next_plus(), -log_tau.next_minus()
-        log_complement = (Decimal(1) - epsilon).ln()
+        # An upper complement gives a lower minimum loss, even when a tiny
+        # epsilon has more fractional digits than the working precision.
+        context.rounding = ROUND_CEILING
+        complement_high = Decimal(1) - epsilon
+        log_complement = complement_high.ln()
         minimum_low = -log_complement.next_plus()
 
         context.rounding = ROUND_FLOOR
