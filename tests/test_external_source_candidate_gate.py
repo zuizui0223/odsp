@@ -30,6 +30,7 @@ def example(count=30):
         "altitude_state_semantics": "compatible_gps_msl",
         "cross_source_identity": "external_crosswalk_attested",
         "source_access": "public_reuse_confirmed",
+        "dataset_file_manifest": "versioned_download_files_listed",
     }
 
 
@@ -174,6 +175,7 @@ def test_metadata_freeze_has_no_biological_data_or_id_values_in_public_output():
     "unexpected", "hidden_outcomes", "missing_fields", "boolean_count",
     "negative_count", "floating_count", "insecure_url", "credential_url",
     "invalid_permission", "invalid_height", "wrong_field", "empty_evidence",
+    "no_versioned_files",
 ])
 def test_schema_or_unverified_metadata_is_never_silently_accepted(mutation):
     raw = example()
@@ -201,6 +203,8 @@ def test_schema_or_unverified_metadata_is_never_silently_accepted(mutation):
         raw["field_evidence"]["outcome"] = "present"
     elif mutation == "empty_evidence":
         raw["publisher_evidence_urls"] = []
+    elif mutation == "no_versioned_files":
+        raw["dataset_file_manifest"] = "fake"
     with pytest.raises(ValueError):
         freeze_candidate_source(raw)
 
@@ -226,3 +230,14 @@ def test_unknown_routes_aims_and_bop_species_rejected(route, aim, stratum):
     with pytest.raises(ValueError):
         screen_candidate_source(freeze_candidate_source(example()),
                                 route=route, aim=aim, target_stratum=stratum)
+
+
+@pytest.mark.parametrize("value,status", [
+    ("unknown", "HOLD_METADATA_OR_PERMISSION"),
+    ("publication_only", "KNOWN_INCOMPATIBLE"),
+])
+def test_paper_abstract_does_not_count_as_a_versioned_source_dataset(value,status):
+    raw=example()
+    raw["dataset_file_manifest"]=value
+    result=screen(raw)
+    assert result.status==status
