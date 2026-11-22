@@ -1,0 +1,29 @@
+name: ODSP Gomes original R response grain v4 source audit
+on:
+  push:
+    branches:
+      - prospective/vertical-species-identifiability-20261122
+    paths:
+      - 'scripts/gomes_author_r_response_semantics_v4.py'
+      - '.github/workflows/gomes-zenodo-author-r-v4.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  author_source_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check original published author model code, not bat counts
+        run: python -m scripts.gomes_author_r_response_semantics_v4
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gomes-author-code-semantics-v4
+          path: results/gomes_author_r_response_semantics_v4.json
+          if-no-files-found: error
+          retention-days: 30
