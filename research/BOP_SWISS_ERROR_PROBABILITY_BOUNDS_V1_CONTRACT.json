@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "contract_id": "bop-swiss-aggregate-error-probability-bounds-v1",
+  "specification_date": "2026-11-22",
+  "role": "EXPLORATORY_DETERMINISTIC_IMPLICATION_OF_ALREADY_INSPECTED_AGGREGATES",
+  "chronology": {
+    "anomaly_and_candidate_bounds_known_before_this_specification": true,
+    "specification_precedes_implementation_not_first_look": true,
+    "no_confirmatory_or_untouched_validation_claim": true
+  },
+  "base_main": "13b884f5cfb94beef36e8e5c5b031559e81b8b4b",
+  "input_git_blob_sha1": {
+    "BOP_SWISS_TEMPORAL_BIRD_PURGE_V1_FIRST_RECEIPT.json": "82c328cc5bd5b88afa2faf8f0121d607af1a4e72",
+    "BOP_SWISS_2022_RANK_RESOLUTION_V1_FIRST_RECEIPT.json": "9896eb070a208b06b7d763b5a6e806a797e0fb37",
+    "research/BOP_SWISS_PROPER_SCORE_DISCORDANCE_V1_CONTRACT.json": "0b89080c589faed62c599d7d6877fd5bf639bf12",
+    "scripts/bop_swiss_proper_score_discordance_v1.py": "cf538348c8bcd89762dddc5f38f1347391abf866",
+    "research/BOP_SWISS_TEMPORAL_BIRD_PURGE_V1_CONTRACT.json": "e98664de442a7432f25b82d4004c108691fe6242",
+    "scripts/bop_swiss_ranger_focal_prior_year_v1.R": "f80b1d3d40b0203506b16cbfa783c4096c9f23a8",
+    "scripts/bop_swiss_temporal_bird_purge_ranger_v1.R": "66a9b0652e0e3005a7a167635b73cf9f011899b9"
+  },
+  "analysis": {
+    "cutoffs": [
+      2020,
+      2021,
+      2022
+    ],
+    "targets": [
+      "HR",
+      "nest"
+    ],
+    "modes": [
+      "full_forward",
+      "bird_purged_forward"
+    ],
+    "n_cells": 12,
+    "seeds": [
+      20261221,
+      20261222,
+      20261223,
+      20261224,
+      20261225,
+      20261226,
+      20261227,
+      20261228
+    ],
+    "test_rows_by_cutoff": {
+      "2020": 292,
+      "2021": 117,
+      "2022": 32
+    },
+    "test_source_bird_ID_strings_by_cutoff": {
+      "2020": 194,
+      "2021": 92,
+      "2022": 32
+    },
+    "metric_rounding_stages": 2,
+    "decimal_places_per_stage": 6,
+    "numerical_slack": "0.000000000001",
+    "rounding_radius": "0.000001000001",
+    "source_nominal_probability_clip": "0.000001",
+    "conservative_true_class_probability_floor": "0.000000999999",
+    "probability_threshold": "0.01",
+    "threshold_selection_post_result_not_confirmatory": true,
+    "weighting": "equal test-season rows within each of eight equally weighted models",
+    "unit": "model-seed x source-season prediction; not independent animals",
+    "require_unique_integer_correct_count": true,
+    "emit_all_cells": true,
+    "conditional_error_loss_lower": "max(ln(2),(N*L_lower-K*ln(2))/(N-K))",
+    "error_geometric_mean_probability_upper": "exp(-conditional_error_loss_lower)",
+    "strict_threshold_count_lower": "max(0,ceil((N*L_lower-K*ln(2)-(N-K)*(-ln(tau)))/(-ln(epsilon)+ln(tau))))",
+    "outward_decimal_arithmetic_and_serialization": true
+  },
+  "access": {
+    "aggregate_and_code_bytes_only": true,
+    "no_R_execution": true,
+    "no_source_RDS_GPS_or_individual_records": true,
+    "no_model_refit": true
+  },
+  "claims": {
+    "not_a_new_general_scoring_rule_theorem": true,
+    "existence_and_model_record_count_only": true,
+    "no_error_identity_or_per_seed_guarantee": true,
+    "no_calibration_or_ecological_mechanism_identified": true,
+    "no_future_animal_coverage_or_population_p_value": true,
+    "original_BOP": "empirical_state_prediction_mixed",
+    "redkite_external": "HOLD_NO_FROZEN_NEW_NEST_STATE_MODEL_OR_IDENTITY_ROSTER",
+    "original_Dryad": "NOT_ADMITTED"
+  }
+}
