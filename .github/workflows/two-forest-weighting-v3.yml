@@ -1,0 +1,34 @@
+name: ODSP two forest reference weighting original source audit
+on:
+  push:
+    branches:
+      - prospective/vertical-species-identifiability-20261122
+    paths:
+      - 'odsp/recorded_layer_weighting_v3.py'
+      - 'scripts/two_forest_weighting_dependency_v3.py'
+      - 'tests/test_recorded_layer_weighting_v3.py'
+      - '.github/workflows/two-forest-weighting-v3.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  cross_source_descriptive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Six known-truth tests (no original biological counts)
+        run: python -m unittest -v tests.test_recorded_layer_weighting_v3
+      - name: Independently re-fetch both original forest datasets
+        run: python -m scripts.two_forest_weighting_dependency_v3
+      - name: Archive source verified descriptive calculations only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: two-forest-weighting-source-verified-v3
+          path: results/two_forest_weighting_dependency_v3.json
+          if-no-files-found: error
+          retention-days: 60
