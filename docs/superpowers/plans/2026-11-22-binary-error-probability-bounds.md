@@ -51,16 +51,16 @@ the source receipt's twelve means and fixed cohort/seed counts.
 **Produces:** `binary_error_bounds(...) -> dict`, `replay() -> dict`,
 `protected_paths() -> tuple[Path, ...]`, and the module CLI.
 
-- [ ] Commit this design, plan and the exploratory replay contract before code.
-- [ ] Write synthetic tests first. For A=.5 and L=ln(4), N=2, the error
+- [x] Commit this design, plan and the exploratory replay contract before code.
+- [x] Write synthetic tests first. For A=.5 and L=ln(4), N=2, the error
       probability upper bound must enclose .125; for the low-loss tie example
       (.8,.5), it must enclose .5. All-correct must return null bounds.
-- [ ] Run the new tests and observe a missing-implementation failure.
-- [ ] Implement the checked Decimal inequalities and uniquely recovered counts.
-- [ ] Add the all-twelve replay, source/claim drift, known-array, impossible-
+- [x] Run the new tests and observe a missing-implementation failure.
+- [x] Implement the checked Decimal inequalities and uniquely recovered counts.
+- [x] Add the all-twelve replay, source/claim drift, known-array, impossible-
       input, protected-output and normal-output tests; observe missing behavior
       failures before implementing those parts.
-- [ ] Run new and previous proper-score suites; require all cases to pass.
+- [x] Run new and previous proper-score suites; require all cases to pass.
 
 ## Task 2: Reproducible result and integration
 
@@ -89,3 +89,8 @@ the source receipt's twelve means and fixed cohort/seed counts.
   branch isolation supplies the repository history without fetching biological
   source data. Implementation and final review proceed without a new permission
   round under the user's standing action-first instruction.
+
+- Task 1 complete: mathematical tests first failed for the absent implementation;
+  28 arithmetic cases then passed. The additional replay/CLI cases failed for
+  absent behavior; after implementation all 75 new plus 20 prior cases passed.
+  Actual twelve-cell replay completed without source access.
