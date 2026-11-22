@@ -100,9 +100,18 @@ def source_structure(raw):
               if len(v)>=4]
     all_qualified_studies={study for key,v in taxa_metric_studies.items()
                            if len(v)>=4 for study in v}
+    # v1.1: categorical strata_category is optional.
+    # The quantitative height geometry is mean_strata_height_p.
+    required_blank={key:blank_keys[key] for key in
+                    ("link","study_id","taxa","biodiversity_metric")
+                    if blank_keys[key]>0}
+    units_with_duplicate_numeric_heights=sum(
+        unit["rows"]>len(unit["heights"]) for unit in units.values())
+    redundant_height_rows=sum(
+        max(0,unit["rows"]-len(unit["heights"])) for unit in units.values())
     accepted=(len({r["taxa"] for r in eligible})>=3
               and len(all_qualified_studies)>=15
-              and not blank_keys
+              and not required_blank
               and invalid_height_geometry==0)
     return {
         "status":"source_structure_admitted_numerical_biodiversity_sealed" if accepted else "source_architecture_gate_hold",
@@ -122,6 +131,12 @@ def source_structure(raw):
         "taxon_endpoint_eligible_study_cohorts":eligible,
         "all_cohort_qualified_distinct_studies":len(all_qualified_studies),
         "structural_blank_key_counts":dict(blank_keys),
+        "required_blank_key_counts":required_blank,
+        "optional_textual_strata_category_blank_rows":blank_keys["strata_category"],
+        "numeric_height_is_authoritative_not_strata_category_text":True,
+        "site_metric_units_with_repeated_numeric_height":units_with_duplicate_numeric_heights,
+        "redundant_site_metric_height_rows":redundant_height_rows,
+        "v1_first_result_preserved_as_structural_hold":True,
         "invalid_height_geometry_rows":invalid_height_geometry,
         "original_biodiversity_numeric_values_inspected":False,
         "no_species_id_or_independent_biological_detection_calibration":True,
