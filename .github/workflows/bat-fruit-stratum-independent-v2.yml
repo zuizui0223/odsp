@@ -1,0 +1,32 @@
+name: ODSP independent replay bat fruit 3-strata conditional information
+on:
+  push:
+    branches:
+      - prospective/bat-fruit-three-stratum-functional-20261123
+    paths:
+      - 'scripts/verify_bat_fruit_stratum_v2_independent.py'
+      - '.github/workflows/bat-fruit-stratum-independent-v2.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  separate_entropy_and_null:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install numpy for independent source tensor
+        run: python -m pip install 'numpy>=1.24,<3'
+      - name: Independent original Git source, tensor entropy and fixed-margin nulls
+        run: python -m scripts.verify_bat_fruit_stratum_v2_independent
+      - name: Save only aggregate verifier outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bat-fruit-stratum-v2-independent
+          path: results/bat_fruit_stratum_v2_independent_replay.json
+          retention-days: 60
+          if-no-files-found: warn
