@@ -184,7 +184,13 @@ A new [twelve-cell training-prevalence proper-score audit](docs/bop_swiss_proper
 
 Exploratory arithmetic identified the 2022 HR discrepancy before the diagnostic contract was frozen; the contract fixed the full twelve-cell implementation and formal replay, not a first-look confirmatory test.
 
-The scores are both proper but have different sensitivities to wrong predicted probabilities; only the *aggregate sign discrepancy*, not an extreme-tail mechanism, is identifiable here. No new independent animals or ecological 2022 shift have been established, and the previously frozen BOP mixed result / real red-kite external HOLD remain unchanged.
+The scores are both proper but have different sensitivities to wrong predicted probabilities; these means do not identify a particular erroneous bird or calibration mechanism. No new independent animals or ecological 2022 shift have been established, and the previously frozen BOP mixed result / real red-kite external HOLD remain unchanged.
+
+### Aggregate bounds identify necessarily severe prediction errors
+
+A [rounding-aware error-probability audit](docs/bop_swiss_error_probability_bounds_v1.md) now extracts deterministic bounds from the same twelve fixed aggregate panels. In 2022 HR, each training mode has **32 errors among 256 model-record predictions** (eight models on the same 32 seasons). The geometric mean clipped probability assigned to the true class among errors is at most **0.004632** for full-forward training and **0.001872** for bird-purged training; at least one error in each panel lies below its corresponding upper bound. Using the known probability clip, at least **3** and **6** model-record predictions, respectively, assigned the true class **less than 1% probability**.
+
+These are conservative deterministic bounds under the recorded score semantics and rounding envelope, not observed individual prediction values, independent bird counts, or statistical confidence limits. The 3/6 lower bounds do not order the unknown actual severe-error counts. All twelve cells are retained, including the original primary 2021 results. Individual error identities, ecological causes and future-animal coverage remain unidentified; the earlier BOP mixed / external HOLD dispositions are unchanged.
 
 ## BOP method integration and independent animal admission
 
