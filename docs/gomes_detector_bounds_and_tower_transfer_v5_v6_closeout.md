@@ -55,3 +55,16 @@ The separate predeclared **tower+DAY** (18 tower×nine DAY combinations) endpoin
 A second *independent* forest/site network with co-located and repeated above/below acoustic surveys and source-specific detector calibration (or linked repeated histories) is needed to measure geographically transferable biological vertical partition. Alternatively, retain the narrower aim: prediction of the **recorded detector layer** and test transfer at >=3 independently held out forest sites with proper effort and class uncertainty. Do not refit previous outcomes or post-hoc choose an apparently favorable class subset.
 
 All old ODSP N2/SDMR, batter JAE and esdm E5 results stay intact, main is untouched and PR remains Draft.
+
+## Independent arithmetic replay (separate source parser and probability engine)
+
+The original two-tower v6 results were **independently recomputed**, without importing the production v6 source adapter or ODSP scorer. The separate verification script `scripts/verify_gomes_tower_v6_independent.py` downloads and hash-verifies the same original author's CSV, uses `csv.DictReader` and its own raw `Number` integer parsing, constructs training-only hour/class cell counts and computes target log probabilities directly. It checks eight original numbers (per tower N, B0, B1, Δ) against the archived first successful v6 receipt to absolute tolerance 1e−10.
+
+[GitHub Actions run #45031566764](https://github.com/zuizui0223/odsp/actions/runs/45031566764), artifact **14757434846** `gomes-v6-independent-source-replay`, completed successfully: **8/8 exact checks passed; max absolute discrepancy = 0.0**. The original v6 synthetic 6 tests and this independent replay validate scoring implementation, *not* organism-height or calibrated q.
+
+## Published-data source priority for a future independent site test
+
+- **Yoh et al. (2022) Amazon BDFFP**, Dryad DOI `10.5061/dryad.0vt4b8h2d`: two forest areas, four transects, 164 sampling locations, simultaneous canopy/understory recorders and source-declared species/sonotypes. Best declared future design for independent **forest-site** holdout but original 2024 Dryad ZIP access returned HTTP401 in an outcome-blind CI. Do not claim this source is admitted, assume unseen zeros, or silently substitute the older source version.
+- **Froidevaux et al. (2014) Switzerland**, DOI `10.1002/ece3.1296`: 32 forest plots in eight 1-km² sampling cells, 16 bat species, paired ground/canopy/felt-gap observations and repeated nights; authors report 145,433 call sequences. This is a **published design** only at present, not a verified available species×site×height raw-event table. Need exact source-release and row-grain admission before an independent fit.
+- **Gomes 2020** verified two-tower source: 2 physical stations only, both local positive heldout results. Retain as source-local observed detector-class prototype, not global generalization or true flight-z niche.
+- Independent paired acoustic or device sensitivity calibration from other hardware/habitats is **not** a transferable source-specific bound `q_{s,tower,stratum}` without frequency/beam/vegetation/recorder conditioning. The article's generic 8–30 m detection ranges alone do not calibrate the needed q.
