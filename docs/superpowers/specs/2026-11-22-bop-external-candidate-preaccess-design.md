@@ -46,7 +46,6 @@ Each CandidateMetadata contains:
   unknown) as an EXTERNAL assertion, never machine certified;
 - permission to fetch/use (confirmed_open, requires_consent, unknown);
 - source definition compatibility (verified_same_state, incompatible, unknown);
-- a versioned downloadable dataset file manifest (yes, publication-only, unknown).
 - a route-specific predictor availability declaration with a separate
   "external_temperature" requirement for the historic RF.
 

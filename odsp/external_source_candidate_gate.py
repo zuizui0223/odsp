@@ -25,7 +25,6 @@ _SCHEMA = frozenset((
     "candidate_id", "source_url", "source_version",
     "publisher_evidence_urls", "species_animal_count_upper_bounds",
     "field_evidence", "longitude_precision", "altitude_state_semantics",
-    "dataset_file_manifest",
     "cross_source_identity", "source_access",
 ))
 _FIELD_STATES = frozenset(("present", "absent", "unknown"))
@@ -33,7 +32,6 @@ _PRECISION = frozenset(("native", "rounded_0p1_degree", "absent", "unknown"))
 _HEIGHT = frozenset(("compatible_gps_msl", "different_outcome", "unknown"))
 _IDENTITY = frozenset(("external_crosswalk_attested", "known_overlap", "unknown"))
 _ACCESS = frozenset(("public_reuse_confirmed", "permission_required", "unknown"))
-_DATASET_MANIFEST = frozenset(("versioned_download_files_listed", "publication_only", "unknown"))
 _ROUTES = frozenset(("historic_rf_direct", "new_reduced_common_input"))
 _AIMS = frozenset(("new_animal_rank", "positive_population_content"))
 
@@ -70,7 +68,6 @@ class FrozenCandidateSource:
     altitude_state_semantics: str
     cross_source_identity: str
     source_access: str
-    dataset_file_manifest: str
     sha256: str
 
     def canonical(self) -> dict[str, object]:
@@ -86,7 +83,6 @@ class FrozenCandidateSource:
             "altitude_state_semantics": self.altitude_state_semantics,
             "cross_source_identity": self.cross_source_identity,
             "source_access": self.source_access,
-            "dataset_file_manifest": self.dataset_file_manifest,
             "stage": "publisher_metadata_only_no_animal_data",
         }
 
@@ -129,7 +125,6 @@ def freeze_candidate_source(metadata: Mapping[str, object]) -> FrozenCandidateSo
         ("altitude_state_semantics", metadata["altitude_state_semantics"], _HEIGHT),
         ("cross_source_identity", metadata["cross_source_identity"], _IDENTITY),
         ("source_access", metadata["source_access"], _ACCESS),
-        ("dataset_file_manifest", metadata["dataset_file_manifest"], _DATASET_MANIFEST),
     ):
         if not isinstance(value, str) or value not in allowed:
             raise ValueError(f"invalid {name} declaration")
@@ -144,7 +139,6 @@ def freeze_candidate_source(metadata: Mapping[str, object]) -> FrozenCandidateSo
         altitude_state_semantics=metadata["altitude_state_semantics"],
         cross_source_identity=metadata["cross_source_identity"],
         source_access=metadata["source_access"],
-        dataset_file_manifest=metadata["dataset_file_manifest"],
         sha256="",
     )
     object.__setattr__(frozen, "sha256", _hash(frozen.canonical()))
@@ -236,10 +230,6 @@ def screen_candidate_source(
         hard.append("TRAINING_TARGET_ANIMAL_IDENTITY_OVERLAP")
     elif candidate.cross_source_identity == "unknown":
         hold.append("INDEPENDENT_CANONICAL_CROSSWALK_UNVERIFIED")
-    if candidate.dataset_file_manifest == "publication_only":
-        hard.append("NO_PUBLISHED_VERSIONED_DATASET_FILES")
-    elif candidate.dataset_file_manifest == "unknown":
-        hold.append("VERSIONED_DATASET_FILE_MANIFEST_UNKNOWN")
     if candidate.source_access != "public_reuse_confirmed":
         hold.append("SOURCE_ACCESS_OR_REUSE_PERMISSION_UNVERIFIED")
     status = (

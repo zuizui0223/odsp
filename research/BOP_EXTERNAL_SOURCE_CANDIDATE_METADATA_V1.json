@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "evidence_role": "public_publisher_metadata_after_exploration_not_biological_source_admission",
+  "snapshot_date": "2026-11-22",
+  "calibrated_goal": "29 independent target-stratum calibration animals plus at least one distinct reserved validation animal",
+  "label_or_gps_data_opened": false,
+  "candidates": [
+    {
+      "target_stratum": "Circus pygargus",
+      "candidate": {
+        "candidate_id": "dryad_schlaich_2017",
+        "source_url": "https://datadryad.org/dataset/doi:10.5061/dryad.84jk0",
+        "source_version": "2017-05-25",
+        "publisher_evidence_urls": [
+          "https://datadryad.org/dataset/doi:10.5061/dryad.84jk0"
+        ],
+        "species_animal_count_upper_bounds": {
+          "Circus pygargus": 29
+        },
+        "field_evidence": {
+          "species": "present",
+          "timestamp_utc": "present",
+          "longitude": "present",
+          "altitude_msl": "absent",
+          "external_temperature": "absent"
+        },
+        "longitude_precision": "unknown",
+        "altitude_state_semantics": "unknown",
+        "cross_source_identity": "unknown",
+        "source_access": "public_reuse_confirmed",
+        "dataset_file_manifest": "versioned_download_files_listed"
+      },
+      "publisher_note": "29 birds; published tracking file schema lists season/date_time/lat/lon/speed but no altitude; 29 cannot supply both 29 calibration and one untouched validation animal.",
+      "expected_reduced_content": "KNOWN_INCOMPATIBLE",
+      "expected_historic_rank": "KNOWN_INCOMPATIBLE"
+    },
+    {
+      "target_stratum": "Circus pygargus",
+      "candidate": {
+        "candidate_id": "dryad_schaub_2026",
+        "source_url": "https://datadryad.org/dataset/doi:10.5061/dryad.n8pk0p398",
+        "source_version": "2026-08-17",
+        "publisher_evidence_urls": [
+          "https://datadryad.org/dataset/doi:10.5061/dryad.n8pk0p398"
+        ],
+        "species_animal_count_upper_bounds": {
+          "Circus pygargus": 101,
+          "Circus cyaneus": 54,
+          "Circus aeruginosus": 31,
+          "Buteo buteo": 31,
+          "Milvus milvus": 61,
+          "Circaetus gallicus": 2
+        },
+        "field_evidence": {
+          "species": "present",
+          "timestamp_utc": "present",
+          "longitude": "present",
+          "altitude_msl": "present",
+          "external_temperature": "absent"
+        },
+        "longitude_precision": "rounded_0p1_degree",
+        "altitude_state_semantics": "compatible_gps_msl",
+        "cross_source_identity": "unknown",
+        "source_access": "public_reuse_confirmed",
+        "dataset_file_manifest": "versioned_download_files_listed"
+      },
+      "publisher_note": "Counts refer to all tagged birds, not to admitted Data_1a birds. Original BOP RF temperature absent and coordinates rounded; any reduced learner requires new independent canonical ID crosswalk and actual eligible roster.",
+      "expected_reduced_content": "HOLD_METADATA_OR_PERMISSION",
+      "expected_historic_rank": "KNOWN_INCOMPATIBLE"
+    },
+    {
+      "target_stratum": "Circus aeruginosus",
+      "candidate": {
+        "candidate_id": "mh_waterland_zenodo_v7",
+        "source_url": "https://zenodo.org/records/10053583",
+        "source_version": "v7; 2023-10-23",
+        "publisher_evidence_urls": [
+          "https://zenodo.org/records/10053583"
+        ],
+        "species_animal_count_upper_bounds": {
+          "Circus aeruginosus": 7
+        },
+        "field_evidence": {
+          "species": "present",
+          "timestamp_utc": "unknown",
+          "longitude": "unknown",
+          "altitude_msl": "unknown",
+          "external_temperature": "unknown"
+        },
+        "longitude_precision": "unknown",
+        "altitude_state_semantics": "unknown",
+        "cross_source_identity": "unknown",
+        "source_access": "unknown",
+        "dataset_file_manifest": "versioned_download_files_listed"
+      },
+      "publisher_note": "7 birds in this original published study; no pooling across studies. GPS data and reference rows are in a versioned Zenodo archive.",
+      "expected_reduced_content": "KNOWN_INCOMPATIBLE",
+      "expected_historic_rank": "KNOWN_INCOMPATIBLE"
+    },
+    {
+      "target_stratum": "Circus aeruginosus",
+      "candidate": {
+        "candidate_id": "h_groningen_zenodo_v5",
+        "source_url": "https://zenodo.org/records/6574736",
+        "source_version": "v5; 2022-05-23",
+        "publisher_evidence_urls": [
+          "https://zenodo.org/records/6574736"
+        ],
+        "species_animal_count_upper_bounds": {
+          "Circus aeruginosus": 4
+        },
+        "field_evidence": {
+          "species": "present",
+          "timestamp_utc": "unknown",
+          "longitude": "unknown",
+          "altitude_msl": "unknown",
+          "external_temperature": "unknown"
+        },
+        "longitude_precision": "unknown",
+        "altitude_state_semantics": "unknown",
+        "cross_source_identity": "unknown",
+        "source_access": "unknown",
+        "dataset_file_manifest": "versioned_download_files_listed"
+      },
+      "publisher_note": "4 marsh harriers in the published version; a newer version exists and is not silently substituted.",
+      "expected_reduced_content": "KNOWN_INCOMPATIBLE",
+      "expected_historic_rank": "KNOWN_INCOMPATIBLE"
+    },
+    {
+      "target_stratum": "Circus aeruginosus",
+      "candidate": {
+        "candidate_id": "mh_antwerpen_zenodo_v6",
+        "source_url": "https://zenodo.org/records/10054153",
+        "source_version": "v6; 2023-10-30",
+        "publisher_evidence_urls": [
+          "https://zenodo.org/records/10054153"
+        ],
+        "species_animal_count_upper_bounds": {
+          "Circus aeruginosus": 3,
+          "Buteo buteo": 1
+        },
+        "field_evidence": {
+          "species": "present",
+          "timestamp_utc": "unknown",
+          "longitude": "unknown",
+          "altitude_msl": "unknown",
+          "external_temperature": "unknown"
+        },
+        "longitude_precision": "unknown",
+        "altitude_state_semantics": "unknown",
+        "cross_source_identity": "unknown",
+        "source_access": "unknown",
+        "dataset_file_manifest": "versioned_download_files_listed"
+      },
+      "publisher_note": "3 marsh harriers plus 1 buzzard; the counts are not interchangeable. A newer version exists and was not opened.",
+      "expected_reduced_content": "KNOWN_INCOMPATIBLE",
+      "expected_historic_rank": "KNOWN_INCOMPATIBLE"
+    },
+    {
+      "target_stratum": "Circus pygargus",
+      "candidate": {
+        "candidate_id": "swiss_nesttool_2024",
+        "source_url": "https://zenodo.org/records/13736049",
+        "source_version": "2024-08-29 original code/data",
+        "publisher_evidence_urls": [
+          "https://zenodo.org/records/13736049"
+        ],
+        "species_animal_count_upper_bounds": {
+          "Milvus milvus": 258
+        },
+        "field_evidence": {
+          "species": "present",
+          "timestamp_utc": "present",
+          "longitude": "present",
+          "altitude_msl": "unknown",
+          "external_temperature": "unknown"
+        },
+        "longitude_precision": "unknown",
+        "altitude_state_semantics": "unknown",
+        "cross_source_identity": "unknown",
+        "source_access": "public_reuse_confirmed",
+        "dataset_file_manifest": "versioned_download_files_listed"
+      },
+      "publisher_note": "258 Swiss red kites, not an original BOP target species. Original HR/nest outcomes already explored in ODSP, so not an untouched altitude-state external target.",
+      "expected_reduced_content": "KNOWN_INCOMPATIBLE",
+      "expected_historic_rank": "KNOWN_INCOMPATIBLE"
+    },
+    {
+      "target_stratum": "Circus pygargus",
+      "candidate": {
+        "candidate_id": "german_movebank_294443150",
+        "source_url": "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study294443150",
+        "source_version": "study-id 294443150 as cited in 2024 article",
+        "publisher_evidence_urls": [
+          "https://www.vogelwarte.ch/en/publications/extracting-reproductive-parameters-from-gps-tracking-data-for-a-nesting-raptor-in-europe/"
+        ],
+        "species_animal_count_upper_bounds": {
+          "Milvus milvus": null
+        },
+        "field_evidence": {
+          "species": "present",
+          "timestamp_utc": "unknown",
+          "longitude": "unknown",
+          "altitude_msl": "unknown",
+          "external_temperature": "unknown"
+        },
+        "longitude_precision": "unknown",
+        "altitude_state_semantics": "unknown",
+        "cross_source_identity": "unknown",
+        "source_access": "unknown",
+        "dataset_file_manifest": "unknown"
+      },
+      "publisher_note": "Study is cited for red kite, not BOP species; ODSP #292 first unauthenticated official metadata request failed with HTTPError, and permission/status code was not resolved. No individual records accessed.",
+      "expected_reduced_content": "KNOWN_INCOMPATIBLE",
+      "expected_historic_rank": "KNOWN_INCOMPATIBLE"
+    }
+  ]
+}
