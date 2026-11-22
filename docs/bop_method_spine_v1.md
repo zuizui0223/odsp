@@ -105,6 +105,31 @@ admission, evidence of score exchangeability or new biological result
 is possible. The BOP v2026 and Dryad closed/not-admitted gates remain
 unchanged.
 
+## External candidates: before opening GPS or calibration labels
+
+A [publisher-metadata candidate gate](bop_external_candidate_preaccess_v1.md)
+now precedes even the source/model/identity workflow. The initial source
+search is expressly retrospective metadata exploration, not prospective
+outcome analysis. It records seven versioned or cited candidate sources and
+14 route-specific decisions without opening any animal-level data:
+
+- Historical BOP RF requires its external-temperature predictor, not
+  merely coordinate- or altitude-compatible data.
+- The **different** reduced common-input learner still requires a
+  single species' >=29 eligible calibration animals plus >=1 distinct
+  reserved validation animal for a 90%-positive-content attempt; published
+  total tag counts are only upper bounds.
+- Known missing altitude, underpowered species counts and absent BOP target
+  species are hard rejects. Unknown independent canonical crosswalks and
+  source permissions remain HOLD, never inferred from study names.
+- Even the most favorable metadata state only authorizes a *new frozen
+  source-only audit*, never label access, actual source admission or IID.
+
+At present, only the 2026 Dryad dataset is an unresolved reduced-input
+candidate on the publisher-level species-count/field screen; historical
+RF use is barred by missing temperature and rounded coordinates. No old
+empirical result or source admission is changed by this register.
+
 ## Existing source/interpretation evidence is immutable
 
 Original scientific receipts:

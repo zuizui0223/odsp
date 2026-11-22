@@ -240,6 +240,18 @@ This is **synthetic-only method integration**, not a real Dryad new-animal
 validation or evidence that animal gains are IID. The historical BOP mixed
 terminal and independent-source HOLD/NOT_ADMITTED decisions are unchanged.
 
+### External data candidate screening before access
+
+A [seven-source publisher-metadata audit](docs/bop_external_candidate_preaccess_v1.md)
+now screens the **original BOP random forest** and a **different reduced
+common-input** learner separately, before any external GPS or altitude outcome
+access. The new pure-Python gate distinguishes explicit schema/count
+incompatibility, unknown identity/permission HOLD and metadata-only
+potential. None of seven reviewed public candidate versions is admitted to
+new empirical independent-animal testing. The Dryad 2026 reduced-input route
+remains HOLD pending source verification and biological identity reconciliation.
+The historical mixed BOP and Dryad NOT_ADMITTED endpoints remain immutable.
+
 ## Niche thickness
 
 `odsp.niche_geometry` provides model-agnostic information-theoretic metrics on any non-negative support distribution.
