@@ -7,7 +7,7 @@ from unittest.mock import patch
 from scripts import vertebrate_vertical_study_source_v1 as s
 
 
-def make_fixture(studies=5,metric="richness",bad=False):
+def make_fixture(studies=5,metric="richness",bad=False,no_strata_text=False):
     columns=list(s.STRUCT_COLUMNS)+list(s.SEALED_RESPONSE_COLUMNS)
     out=io.StringIO(newline="")
     w=csv.DictWriter(out,fieldnames=columns)
@@ -35,6 +35,8 @@ def make_fixture(studies=5,metric="richness",bad=False):
                 # Sealed original biological outcome is not numerical,
                 # demonstrating source audit does NOT parse it.
                 row["corrected_biodiversity_metric_value"]="DO_NOT_READ"
+                if no_strata_text:
+                    row["strata_category"]="NA"
                 if bad and n==0 and z=="mid":
                     row["mean_strata_height_p"]="NA"
                 w.writerow(row)
@@ -58,7 +60,7 @@ class StudyGateTests(unittest.TestCase):
         self.assertFalse(receipt["original_biodiversity_numeric_values_inspected"])
 
     def test_v1_1_missing_optional_strata_text_does_not_block_numeric_heights(self):
-        raw=make_fixture().replace(b"ground",b"NA").replace(b"mid",b"NA").replace(b"canopy",b"NA")
+        raw=make_fixture(no_strata_text=True)
         with patch.object(s,"SOURCE_GIT_BLOB",s.git_blob_hash(raw)):
             receipt=s.source_structure(raw)
         self.assertEqual(receipt["status"],"source_structure_admitted_numerical_biodiversity_sealed")
