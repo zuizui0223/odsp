@@ -226,3 +226,58 @@ def test_unknown_routes_aims_and_bop_species_rejected(route, aim, stratum):
     with pytest.raises(ValueError):
         screen_candidate_source(freeze_candidate_source(example()),
                                 route=route, aim=aim, target_stratum=stratum)
+
+
+def test_publisher_level_source_snapshot_never_promotes_a_candidate_to_admitted():
+    """All seven known candidates are screened without reading any source tracks."""
+    from pathlib import Path
+    manifest_path = Path(__file__).resolve().parents[1] / (
+        "research/BOP_EXTERNAL_SOURCE_CANDIDATE_METADATA_V1.json"
+    )
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert manifest["schema_version"] == 1
+    assert manifest["label_or_gps_data_opened"] is False
+    assert len(manifest["candidates"]) == 7
+    observed = {}
+    for entry in manifest["candidates"]:
+        candidate = freeze_candidate_source(entry["candidate"])
+        species = entry["target_stratum"]
+        positive = screen_candidate_source(
+            candidate, route="new_reduced_common_input",
+            aim="positive_population_content", target_stratum=species,
+        )
+        historic = screen_candidate_source(
+            candidate, route="historic_rf_direct",
+            aim="new_animal_rank", target_stratum=species,
+        )
+        assert positive.status == entry["expected_reduced_content"]
+        assert historic.status == entry["expected_historic_rank"]
+        assert not positive.as_public_dict()["real_biological_source_admitted"]
+        assert not historic.as_public_dict()["real_biological_source_admitted"]
+        observed[candidate.candidate_id] = (positive, historic)
+    assert observed["dryad_schlaich_2017"][0].status == "KNOWN_INCOMPATIBLE"
+    assert "PUBLISHER_ANIMAL_COUNT_UPPER_BOUND_BELOW_REQUIRED_ROSTER" in (
+        observed["dryad_schlaich_2017"][0].known_blockers
+    )
+    assert "PUBLISHED_REQUIRED_FIELD_ABSENT:altitude_msl" in (
+        observed["dryad_schlaich_2017"][0].known_blockers
+    )
+    assert observed["dryad_schaub_2026"][0].status == "HOLD_METADATA_OR_PERMISSION"
+    assert "INDEPENDENT_CANONICAL_CROSSWALK_UNVERIFIED" in (
+        observed["dryad_schaub_2026"][0].unresolved_holds
+    )
+    assert "PUBLISHED_REQUIRED_FIELD_ABSENT:external_temperature" in (
+        observed["dryad_schaub_2026"][1].known_blockers
+    )
+    assert "HISTORIC_RF_LONGITUDE_PRECISION_NOT_RETAINED" in (
+        observed["dryad_schaub_2026"][1].known_blockers
+    )
+    for source in ("mh_waterland_zenodo_v7", "h_groningen_zenodo_v5",
+                   "mh_antwerpen_zenodo_v6"):
+        assert "PUBLISHER_ANIMAL_COUNT_UPPER_BOUND_BELOW_REQUIRED_ROSTER" in (
+            observed[source][0].known_blockers
+        )
+    for source in ("swiss_nesttool_2024", "german_movebank_294443150"):
+        assert "TARGET_SPECIES_NOT_IN_PUBLISHER_ROSTER" in (
+            observed[source][0].known_blockers
+        )
