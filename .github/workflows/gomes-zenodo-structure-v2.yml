@@ -1,0 +1,30 @@
+name: ODSP Gomes v2 categorical-only structure
+on:
+  push:
+    branches:
+      - prospective/vertical-species-identifiability-20261122
+    paths:
+      - 'scripts/gomes_zenodo_structure_v2.py'
+      - 'tests/test_gomes_zenodo_structure_v2.py'
+      - '.github/workflows/gomes-zenodo-structure-v2.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  categorical_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m unittest -v tests.test_gomes_zenodo_structure_v2
+      - run: python -m scripts.gomes_zenodo_structure_v2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gomes-zenodo-structure-v2
+          path: results/gomes_zenodo_structure_v2.json
+          if-no-files-found: error
+          retention-days: 30
