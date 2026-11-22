@@ -1,0 +1,39 @@
+name: bop-external-source-candidate-preaccess-v1
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/bop-external-source-candidate-preaccess-v1.yml'
+      - 'odsp/external_source_candidate_gate.py'
+      - 'tests/test_external_source_candidate_gate.py'
+      - 'research/BOP_EXTERNAL_SOURCE_CANDIDATE_METADATA_V1.json'
+      - 'scripts/audit_bop_external_candidate_snapshot_v1.py'
+      - 'docs/bop_external_candidate_preaccess_v1.md'
+      - 'docs/bop_method_spine_v1.md'
+      - 'README.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  public-metadata-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install -e . 'pytest>=8,<10'
+      - name: Test metadata-only source screening and existing identity/content gates
+        run: >-
+          python -m pytest -o addopts='' -q
+          tests/test_external_source_candidate_gate.py
+          tests/test_group_identity_gate.py
+          tests/test_group_gain_content.py
+      - name: Recompute seven published candidate decisions without network or GPS
+        run: python scripts/audit_bop_external_candidate_snapshot_v1.py > /dev/null
