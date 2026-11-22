@@ -1,0 +1,33 @@
+name: ODSP Froidevaux official PMC OAI fulltext v2
+on:
+  push:
+    branches:
+      - prospective/vertical-species-identifiability-20261122
+    paths:
+      - 'scripts/froidevaux2014_pmc_oai_table_v2.py'
+      - 'tests/test_froidevaux2014_pmc_oai_table_v2.py'
+      - '.github/workflows/froidevaux-pmc-oai-v2.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pmc_original_jats:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Synthetic OAI source identity, namespace and error tests
+        run: python -m unittest -v tests.test_froidevaux2014_pmc_oai_table_v2
+      - name: Official PMC fulltext XML then strict published Table 1 checks
+        run: python -m scripts.froidevaux2014_pmc_oai_table_v2
+      - name: Archive exact source or fail-closed receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: froidevaux2014-pmc-oai-v2
+          path: results/froidevaux2014_pmc_oai_table_v2.json
+          if-no-files-found: error
+          retention-days: 60
