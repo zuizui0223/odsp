@@ -75,6 +75,44 @@ class NectarBatPlantV2Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"duplicate"):
             m.validate([duplicate]+src[1:])
 
+    def test_source_only_nine_plants_have_25_layers_tenth_singleton_excluded(self):
+        # Purely synthetic source of same frozen *structural* size as the
+        # original: 180 Camera rows, 40 Nectar rows, 10 source nectars.
+        # Nine plants have >=2 bat-deployed layers (7×3+2×2=25), while
+        # plant 10 has only 1 camera-deployed layer and is not analyzable.
+        heights=("Low","Middle","High")
+        cam=[]
+        nectar=[]
+        for i in range(1,11):
+            zcam=heights if i<=7 else heights[:2] if i<=9 else heights[:1]
+            for z in zcam:
+                cam.append({"ML_ID":f"ML{i:02}","Taxa":"Bat",
+                    "Stratum":z,"Hours":"24","Inflorescences":"2",
+                    "Abundance":"3"})
+            for z in (heights if i<=7 or i==10 else heights[:2]):
+                nectar.append({"ML_ID":str(i),"Stratum":z,
+                               "Year":"2018","Nect_quant_mean":"1.5"})
+        self.assertEqual(len(nectar),28)
+        self.assertEqual(len(cam),26)
+        for i in range(11,30):
+            cam.append({"ML_ID":f"ML{i:02}","Taxa":"Bat",
+                "Stratum":"Low","Hours":"24","Inflorescences":"2",
+                "Abundance":"0"})
+        for i in range(135):
+            cam.append({"ML_ID":"ML01","Taxa":"Bird",
+                        "Stratum":"Middle","Hours":"24",
+                        "Inflorescences":"2","Abundance":"0"})
+        for i in range(12):
+            nectar.append({"ML_ID":"1","Stratum":"Low","Year":"2019",
+                           "Nect_quant_mean":"1.5"})
+        self.assertEqual(len(cam),180)
+        self.assertEqual(len(nectar),40)
+        profiles=a.get_qualified_original_plant_profiles(cam,nectar)
+        self.assertEqual(len(profiles),9)
+        self.assertEqual(sum(len(p.layers) for p in profiles),25)
+        self.assertEqual({len(p.layers) for p in profiles},{2,3})
+        self.assertNotIn("10",{p.identity for p in profiles})
+
     def test_original_adapter_validates_counts_without_rounding(self):
         self.assertEqual(a.parse_integer("0"),0)
         self.assertEqual(a.parse_integer("12.0"),12)
