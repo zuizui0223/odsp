@@ -1,6 +1,6 @@
 import io
 import unittest
-from zipfile import ZipFile
+from zipfile import ZipFile, BadZipFile
 from scripts import nectarivore_zenodo_vertical_resource_source_v1 as s
 
 def toy_workbook():
@@ -39,7 +39,7 @@ class OriginalWorkbookSourceTests(unittest.TestCase):
         self.assertFalse(report["biological_numeric_response_opened"])
 
     def test_wrong_format_fails(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(BadZipFile):
             s.original_workbook_structure(b"not-an-xlsx")
 
 if __name__=="__main__":
