@@ -1,0 +1,33 @@
+name: ODSP nectarivore plant-stratum and effort source-only gate v1.1
+on:
+  push:
+    branches:
+      - prospective/nectarivore-vertical-resource-source-gate-20261123
+    paths:
+      - 'scripts/nectarivore_zenodo_source_v1_1_pairs.py'
+      - 'tests/test_nectarivore_zenodo_source_v1_1_pairs.py'
+      - '.github/workflows/nectarivore-source-pairs-v1_1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_plant_pairing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Known truth paired stratum and effort tests
+        run: python -m unittest -v tests.test_nectarivore_zenodo_source_v1_1_pairs
+      - name: Three authentic Zenodo source workbooks cross-key audit
+        run: python -m scripts.nectarivore_zenodo_source_v1_1_pairs
+      - name: Preserve source-only ID strata and effort response-sealed receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nectarivore-source-v1_1-plant-stratum-effort
+          path: results/nectarivore_zenodo_source_v1_1.json
+          if-no-files-found: error
+          retention-days: 60

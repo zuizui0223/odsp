@@ -1,0 +1,33 @@
+name: ODSP original nectarivore resources XLSX source-only gate
+on:
+  push:
+    branches:
+      - prospective/nectarivore-vertical-resource-source-gate-20261123
+    paths:
+      - 'scripts/nectarivore_zenodo_vertical_resource_source_v1.py'
+      - 'tests/test_nectarivore_zenodo_vertical_resource_source_v1.py'
+      - '.github/workflows/nectarivore-resource-source-v1.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original_zenodo_workbook_headers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Synthetic spreadsheet source parser no-numeric-access tests
+        run: python -m unittest -v tests.test_nectarivore_zenodo_vertical_resource_source_v1
+      - name: Verify three original author Zenodo workbooks and metadata only
+        run: python -m scripts.nectarivore_zenodo_vertical_resource_source_v1
+      - name: Preserve public source PASS or STOP receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-zenodo-nectarivore-resource-source-v1
+          path: results/nectarivore_zenodo_source_v1.json
+          if-no-files-found: error
+          retention-days: 60

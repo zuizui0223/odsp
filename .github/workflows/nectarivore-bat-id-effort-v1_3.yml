@@ -1,0 +1,33 @@
+name: ODSP documented Marcgravia plant ID and Bat-camera effort v1.3
+on:
+  push:
+    branches:
+      - prospective/nectarivore-vertical-resource-source-gate-20261123
+    paths:
+      - 'scripts/nectarivore_zenodo_author_id_bat_effort_v1_3.py'
+      - 'tests/test_nectarivore_zenodo_author_id_bat_effort_v1_3.py'
+      - '.github/workflows/nectarivore-bat-id-effort-v1_3.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source_only_bat_exposure_join:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Known truth canonical source keys and Bat exposure tests
+        run: python -m unittest -v tests.test_nectarivore_zenodo_author_id_bat_effort_v1_3
+      - name: Three source-original workbooks, canonical plant pairing and Bat effort only
+        run: python -m scripts.nectarivore_zenodo_author_id_bat_effort_v1_3
+      - name: Preserve source-admission PASS or HOLD without biological outcomes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nectarivore-author-Bat-ID-effort-v1_3
+          path: results/nectarivore_zenodo_author_ID_Bat_effort_v1_3.json
+          if-no-files-found: error
+          retention-days: 60
