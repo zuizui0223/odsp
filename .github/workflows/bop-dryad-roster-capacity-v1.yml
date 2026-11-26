@@ -1,0 +1,29 @@
+name: bop-dryad-roster-capacity-v1
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/bop-dryad-roster-capacity-v1.yml'
+      - 'scripts/audit_bop_dryad_roster_capacity_v1.py'
+      - 'tests/test_bop_dryad_roster_capacity_v1.py'
+      - 'docs/bop_dryad_roster_capacity_v1.md'
+      - 'research/BOP_DRYAD_EXTERNAL_SCHEMA_PREFLIGHT_V1_CONTRACT.json'
+      - 'research/BOP_V3_V2026_REFERENCE_ONLY_GATE_V1_FIRST_RESULT.json'
+      - 'BOP_DRYAD_FIRST_ARTIFACT_RECHECK_V3_RECEIPT.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-free-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install -e . 'pytest>=8,<10'
+      - run: python -m pytest -o addopts='' -q tests/test_bop_dryad_roster_capacity_v1.py
+      - run: python scripts/audit_bop_dryad_roster_capacity_v1.py
